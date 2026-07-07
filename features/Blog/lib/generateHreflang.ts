@@ -29,6 +29,7 @@ const BASE_URL = 'https://kanadojo.com';
 const LOCALE_TO_HREFLANG: Record<Locale, string> = {
   en: 'en',
   es: 'es',
+  vi: 'vi',
 };
 
 /**
