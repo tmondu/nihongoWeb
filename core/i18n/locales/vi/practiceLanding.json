@@ -1,0 +1,114 @@
+{
+  "hiragana": {
+    "title": "Luyện tập Hiragana",
+    "subtitle": "Học hiragana với các bài tập nhanh, tập trung và phản hồi tức thì.",
+    "ctaPrimary": "Bắt đầu luyện tập hiragana",
+    "ctaSecondary": "Mở dojo kana",
+    "sections": {
+      "what": {
+        "title": "Hiragana là gì?",
+        "body": "Hiragana là một trong ba hệ thống chữ viết tiếng Nhật. Nó được sử dụng cho các từ thuần Nhật, ngữ pháp và các trợ từ. Làm chủ hiragana là bước tiến lớn đầu tiên để đọc tiếng Nhật."
+      },
+      "how": {
+        "title": "Cách luyện tập hiragana hiệu quả",
+        "bullets": [
+          "Luyện tập trong các buổi ngắn hàng ngày (5–15 phút).",
+          "Kết hợp nhận diện (đọc) với ghi nhớ (gõ/trả lời).",
+          "Xem lại các lỗi sai ngay lập tức và lặp lại các ký tự còn yếu.",
+          "Tránh phụ thuộc vào romaji khi bạn đã biết những điều cơ bản."
+        ]
+      },
+      "why": {
+        "title": "Tại sao nên sử dụng KanaDojo để luyện tập hiragana?",
+        "bullets": [
+          "Các bài tập tương tác và chế độ chơi như trò chơi.",
+          "Theo dõi tiến trình để xem những gì bạn đã nắm vững.",
+          "Nhiều chế độ: luyện tập, blitz và gauntlet.",
+          "Hoạt động tuyệt vời trên máy tính và thiết bị di động."
+        ]
+      }
+    },
+    "links": {
+      "kana": "Kana",
+      "train": "Luyện tập",
+      "blitz": "Blitz",
+      "gauntlet": "Gauntlet",
+      "faq": "FAQ"
+    }
+  },
+  "katakana": {
+    "title": "Luyện tập Katakana",
+    "subtitle": "Thành thạo katakana với các bài tập nhanh, phản hồi rõ ràng và tiến bộ đều đặn.",
+    "ctaPrimary": "Bắt đầu luyện tập katakana",
+    "ctaSecondary": "Mở dojo kana",
+    "sections": {
+      "what": {
+        "title": "Katakana là gì?",
+        "body": "Katakana là một trong ba hệ thống chữ viết tiếng Nhật. Nó thường được sử dụng cho các từ mượn, tên nước ngoài, từ tượng thanh và để nhấn mạnh. Katakana trở nên thiết yếu ngay khi bạn bắt đầu đọc tiếng Nhật hiện đại."
+      },
+      "how": {
+        "title": "Cách luyện tập katakana hiệu quả",
+        "bullets": [
+          "Tập trung vào các cặp dễ gây nhầm lẫn (シ/ツ, ソ/ン, v.v.).",
+          "Luyện tập nhận diện và ghi nhớ—không chỉ đọc.",
+          "Xem lại lỗi sai và lặp lại các ký tự còn yếu cho đến khi nhất quán.",
+          "Kết hợp các nhóm kana cơ bản, dakuon và kết hợp theo thời gian."
+        ]
+      },
+      "why": {
+        "title": "Tại sao nên sử dụng KanaDojo để luyện tập katakana?",
+        "bullets": [
+          "Các bài tập tương tác và chế độ chơi như trò chơi.",
+          "Theo dõi tiến trình để nhắm vào những gì bạn bỏ lỡ.",
+          "Chế độ Blitz để xây dựng tốc độ.",
+          "Chế độ Gauntlet để đảm bảo bao phủ toàn bộ."
+        ]
+      }
+    },
+    "links": {
+      "kana": "Kana",
+      "train": "Luyện tập",
+      "blitz": "Blitz",
+      "gauntlet": "Gauntlet",
+      "faq": "FAQ"
+    }
+  },
+  "kanji": {
+    "title": "Luyện tập Kanji",
+    "subtitle": "Luyện tập kanji theo cấp độ JLPT với bài tập nhanh và theo dõi tiến trình.",
+    "ctaPrimary": "Bắt đầu luyện tập kanji",
+    "ctaSecondary": "Mở dojo kanji",
+    "sections": {
+      "what": {
+        "title": "Kanji là gì?",
+        "body": "Kanji là các ký tự chữ Hán được sử dụng trong tiếng Nhật để thể hiện ý nghĩa và khái niệm. Học kanji cần có thời gian, nhưng việc học theo cấp độ (như JLPT N5 → N1) giúp việc này trở nên dễ quản lý và đo lường hơn."
+      },
+      "how": {
+        "title": "Cách luyện tập kanji hiệu quả",
+        "bullets": [
+          "Học theo cấp độ và giữ cho lựa chọn của bạn có mục tiêu rõ ràng.",
+          "Ưu tiên nhận dạng trước, sau đó mở rộng sang cách đọc và cách dùng.",
+          "Xem lại các chữ kanji bị trả lời sai thường xuyên (theo kiểu lặp lại ngắt quãng).",
+          "Thỉnh thoảng sử dụng các bài tập có tính giờ để cải thiện tốc độ ghi nhớ."
+        ]
+      },
+      "why": {
+        "title": "Tại sao nên sử dụng KanaDojo để luyện tập kanji?",
+        "bullets": [
+          "Lựa chọn kanji được sắp xếp theo JLPT.",
+          "Nhiều chế độ cho các mục tiêu khác nhau.",
+          "Theo dõi tiến trình để bạn có thể tập trung vào những chữ kanji còn yếu.",
+          "Tuyệt vời cho việc luyện tập hàng ngày đều đặn."
+        ]
+      }
+    },
+    "links": {
+      "kanji": "Kanji",
+      "train": "Luyện tập",
+      "blitz": "Blitz",
+      "gauntlet": "Gauntlet",
+      "jlpt": "Hướng dẫn JLPT",
+      "faq": "FAQ"
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "title": "Trình dịch tiếng Nhật - Dịch tiếng Anh sang tiếng Nhật & tiếng Nhật sang tiếng Anh | KanaDojo",
+    "description": "Trình dịch tiếng Nhật trực tuyến miễn phí. Dịch tiếng Anh sang tiếng Nhật hoặc tiếng Nhật sang tiếng Anh ngay lập tức. Hỗ trợ phiên âm (romaji), lịch sử dịch và các bản dịch chính xác do Google Translate cung cấp."
+  },
+  "header": {
+    "title": "Trình dịch tiếng Nhật"
+  },
+  "languages": {
+    "english": "Tiếng Anh",
+    "japanese": "日本語",
+    "en": "EN",
+    "ja": "JA"
+  },
+  "input": {
+    "placeholder": {
+      "en": "Nhập văn bản cần dịch...",
+      "ja": "テキストを入力してください..."
+    },
+    "clearButton": "Xóa đầu vào",
+    "characterCount": "{count} / {max}",
+    "keyboardHint": "Nhấn Ctrl+Enter (⌘+Enter trên Mac) để dịch",
+    "characterLimitWarning": "Văn bản vượt quá độ dài tối đa {max} ký tự"
+  },
+  "output": {
+    "placeholder": {
+      "en": "Bản dịch sẽ hiển thị ở đây...",
+      "ja": "翻訳がここに表示されます..."
+    },
+    "copyButton": "Sao chép bản dịch",
+    "copied": "Đã sao chép!",
+    "copiedMessage": "Đã sao chép vào khay nhớ tạm!",
+    "romanization": "Phiên âm (Romaji)"
+  },
+  "actions": {
+    "translate": "Dịch",
+    "translating": "Đang dịch...",
+    "swapLanguages": "Đổi ngôn ngữ"
+  },
+  "history": {
+    "title": "Lịch sử",
+    "empty": "Chưa có lịch sử dịch",
+    "emptyHint": "Các bản dịch của bạn sẽ xuất hiện ở đây",
+    "clearAll": "Xóa tất cả",
+    "deleteEntry": "Xóa mục",
+    "clearDialog": {
+      "title": "Xóa lịch sử dịch?",
+      "description": "Hành động này sẽ xóa vĩnh viễn toàn bộ lịch sử dịch của bạn và không thể hoàn tác.",
+      "cancel": "Hủy",
+      "confirm": "Xóa tất cả"
+    },
+    "timeAgo": {
+      "justNow": "Vừa xong",
+      "minutesAgo": "{count} phút trước",
+      "hoursAgo": "{count} giờ trước",
+      "daysAgo": "{count} ngày trước"
+    }
+  },
+  "offline": {
+    "message": "Bạn đang ngoại tuyến. Dịch thuật không khả dụng cho đến khi bạn kết nối lại."
+  },
+  "errors": {
+    "networkError": "Không thể kết nối. Vui lòng kiểm tra kết nối internet của bạn.",
+    "rateLimit": "Quá nhiều yêu cầu. Vui lòng đợi một lát rồi thử lại.",
+    "invalidInput": "Vui lòng nhập văn bản hợp lệ để dịch.",
+    "emptyInput": "Vui lòng nhập văn bản để dịch",
+    "serverError": "Dịch vụ dịch thuật tạm thời không khả dụng.",
+    "authError": "Lỗi cấu hình dịch vụ dịch thuật.",
+    "unknownError": "Đã xảy ra lỗi trong quá trình dịch. Vui lòng thử lại."
+  },
+  "seo": {
+    "guideTitle": "Hướng dẫn dịch tiếng Nhật",
+    "howToUse": {
+      "title": "Cách sử dụng trình dịch tiếng Nhật",
+      "intro": "Trình dịch tiếng Nhật miễn phí của chúng tôi giúp bạn dễ dàng dịch văn bản giữa tiếng Anh và tiếng Nhật. Dưới đây là cách bắt đầu:",
+      "steps": {
+        "step1": "Nhập văn bản của bạn vào ô bên trái",
+        "step2": "Chọn ngôn ngữ nguồn (tiếng Anh hoặc tiếng Nhật)",
+        "step3": "Nhấp vào nút dịch hoặc nhấn Ctrl+Enter",
+        "step4": "Xem bản dịch của bạn kèm theo phiên âm (romaji) cho văn bản tiếng Nhật",
+        "step5": "Sao chép bản dịch hoặc lưu vào lịch sử của bạn"
+      },
+      "proTip": "Mẹo chuyên nghiệp: Sử dụng nút hoán đổi để nhanh chóng đảo ngược hướng dịch và dịch ngược lại kết quả."
+    },
+    "writingSystems": {
+      "title": "Về các hệ thống chữ viết tiếng Nhật",
+      "intro": "Tiếng Nhật sử dụng ba hệ thống chữ viết chính, thường được kết hợp trong cùng một văn bản:",
+      "hiragana": {
+        "name": "Hiragana (ひらがな)",
+        "description": "Bảng chữ cái ngữ âm được sử dụng cho các từ thuần Nhật, các yếu tố ngữ pháp và cách đọc furigana"
+      },
+      "katakana": {
+        "name": "Katakana (カタカナ)",
+        "description": "Bảng chữ cái ngữ âm chủ yếu được sử dụng cho các từ mượn nước ngoài, từ tượng thanh và để nhấn mạnh"
+      },
+      "kanji": {
+        "name": "Kanji (漢字)",
+        "description": "Ký tự chữ Hán được phỏng theo tiếng Nhật, đại diện cho ý nghĩa và khái niệm. Có hơn 2.000 chữ kanji được sử dụng thông dụng"
+      },
+      "outro": "Trình dịch của chúng tôi xử lý cả ba hệ thống chữ viết và cung cấp phiên âm (romaji) để giúp bạn đọc văn bản tiếng Nhật bằng chữ cái Latinh."
+    },
+    "faq": {
+      "title": "Câu hỏi thường gặp",
+      "isFree": {
+        "question": "Trình dịch tiếng Nhật này có miễn phí không?",
+        "answer": "Có! Trình dịch tiếng Nhật của chúng tôi hoàn toàn miễn phí và không yêu cầu đăng ký. Dịch bao nhiêu văn bản tùy thích."
+      },
+      "accuracy": {
+        "question": "Bản dịch chính xác đến mức nào?",
+        "answer": "Trình dịch của chúng tôi sử dụng Google Cloud Translation API, một trong những dịch vụ dịch máy chính xác nhất hiện nay. Mặc dù không có dịch máy nào là hoàn hảo, nó cung cấp các bản dịch chất lượng cao cho hầu hết các tình huống sử dụng hàng ngày."
+      },
+      "romanization": {
+        "question": "Phiên âm (romaji) là gì?",
+        "answer": "Phiên âm, hay romaji, là cách biểu diễn văn bản tiếng Nhật bằng bảng chữ cái Latinh. Nó giúp người không nói tiếng Nhật đọc và phát âm các từ tiếng Nhật. Trình dịch của chúng tôi tự động cung cấp phiên âm cho văn bản tiếng Nhật."
+      },
+      "historySaved": {
+        "question": "Lịch sử dịch của tôi có được lưu không?",
+        "answer": "Có, lịch sử dịch của bạn được lưu cục bộ trong trình duyệt của bạn. Điều này có nghĩa là các bản dịch của bạn ở chế độ riêng tư và chỉ có thể truy cập trên thiết bị của bạn. Bạn có thể xóa lịch sử bất cứ lúc nào."
+      },
+      "maxLength": {
+        "question": "Độ dài văn bản tối đa là bao nhiêu?",
+        "answer": "Bạn có thể dịch tối đa 5.000 ký tự mỗi lần. Đối với các văn bản dài hơn, chúng tôi khuyên bạn nên chia chúng thành các đoạn nhỏ hơn."
+      }
+    }
+  }
+}

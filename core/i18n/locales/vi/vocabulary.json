@@ -1,0 +1,71 @@
+{
+  "title": "Luyện từ vựng",
+  "description": "Mở rộng từ vựng tiếng Nhật của bạn",
+  "selection": {
+    "title": "Chọn từ vựng",
+    "byLevel": "Theo cấp độ JLPT",
+    "byCategory": "Theo danh mục",
+    "selectAll": "Chọn tất cả",
+    "deselectAll": "Bỏ chọn tất cả",
+    "levels": {
+      "n5": "JLPT N5",
+      "n4": "JLPT N4",
+      "n3": "JLPT N3",
+      "n2": "JLPT N2",
+      "n1": "JLPT N1"
+    },
+    "categories": {
+      "all": "Tất cả",
+      "nouns": "Danh từ",
+      "verbs": "Động từ",
+      "adjectives": "Tính từ",
+      "adverbs": "Phó từ",
+      "expressions": "Cụm từ biểu đạt"
+    }
+  },
+  "game": {
+    "title": "Trò chơi Từ vựng",
+    "start": "Bắt đầu trò chơi",
+    "pause": "Tạm dừng",
+    "resume": "Tiếp tục",
+    "finish": "Kết thúc",
+    "nextQuestion": "Câu tiếp theo",
+    "submit": "Gửi đáp án",
+    "score": "Điểm: {{points}}",
+    "timeLeft": "Thời gian còn lại: {{seconds}}s",
+    "streak": "Chuỗi: {{count}}",
+    "correct": "Đúng rồi!",
+    "incorrect": "Sai rồi",
+    "showAnswer": "Xem đáp án"
+  },
+  "modes": {
+    "pick": "Chế độ chọn",
+    "reversePick": "Chọn ngược",
+    "input": "Chế độ nhập",
+    "reverseInput": "Nhập ngược",
+    "description": {
+      "pick": "Xem từ, chọn nghĩa",
+      "reversePick": "Xem nghĩa, chọn từ",
+      "input": "Xem từ, gõ nghĩa",
+      "reverseInput": "Xem nghĩa, gõ từ"
+    }
+  },
+  "results": {
+    "title": "Kết quả",
+    "congratulations": "Chúc mừng!",
+    "correct": "Đúng: {{count}}",
+    "incorrect": "Sai: {{count}}",
+    "accuracy": "Độ chính xác: {{percentage}}%",
+    "timeSpent": "Thời gian học: {{time}}",
+    "playAgain": "Chơi lại",
+    "backToMenu": "Quay lại Menu"
+  },
+  "details": {
+    "word": "Từ vựng",
+    "reading": "Cách đọc",
+    "meaning": "Ý nghĩa",
+    "examples": "Câu ví dụ",
+    "type": "Loại từ",
+    "jlptLevel": "Cấp độ JLPT"
+  }
+}

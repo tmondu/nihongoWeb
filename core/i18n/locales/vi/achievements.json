@@ -1,0 +1,33 @@
+{
+  "title": "Thành tích",
+  "description": "Theo dõi tiến trình và nhận thành tích",
+  "unlocked": "Đã mở khóa",
+  "locked": "Chưa mở khóa",
+  "progress": "Tiến trình: {{current}}/{{total}}",
+  "earnedOn": "Đạt được vào {{date}}",
+  "categories": {
+    "all": "Tất cả",
+    "kana": "Kana",
+    "kanji": "Kanji",
+    "vocabulary": "Từ vựng",
+    "general": "Tổng quát",
+    "special": "Đặc biệt"
+  },
+  "rarity": {
+    "common": "Phổ thông",
+    "rare": "Hiếm",
+    "epic": "Huyền thoại",
+    "legendary": "Thần thoại"
+  },
+  "notifications": {
+    "achievementUnlocked": "Đã mở khóa thành tích!",
+    "congratulations": "Chúc mừng!",
+    "youEarned": "Bạn đã nhận được"
+  },
+  "stats": {
+    "totalAchievements": "Tổng thành tích",
+    "unlockedAchievements": "Đã mở khóa",
+    "completionRate": "Tỷ lệ hoàn thành",
+    "recentAchievements": "Thành tích gần đây"
+  }
+}

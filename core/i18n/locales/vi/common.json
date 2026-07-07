@@ -1,0 +1,67 @@
+{
+  "buttons": {
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "confirm": "Xác nhận",
+    "close": "Đóng",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "finish": "Hoàn thành",
+    "start": "Bắt đầu",
+    "pause": "Tạm dừng",
+    "resume": "Tiếp tục",
+    "reset": "Đặt lại",
+    "clear": "Xóa trắng",
+    "apply": "Áp dụng",
+    "done": "Xong",
+    "ok": "OK",
+    "yes": "Có",
+    "no": "Không"
+  },
+  "messages": {
+    "loading": "Đang tải...",
+    "saving": "Đang lưu...",
+    "success": "Thành công!",
+    "error": "Đã xảy ra lỗi",
+    "saved": "Đã lưu thành công",
+    "deleted": "Đã xóa thành công",
+    "updated": "Đã cập nhật thành công",
+    "noData": "Không có dữ liệu",
+    "tryAgain": "Vui lòng thử lại",
+    "confirmDelete": "Bạn có chắc muốn xóa mục này không?"
+  },
+  "validation": {
+    "required": "Trường này là bắt buộc",
+    "invalid": "Giá trị không hợp lệ",
+    "tooShort": "Quá ngắn",
+    "tooLong": "Quá dài",
+    "email": "Địa chỉ email không hợp lệ",
+    "number": "Phải là số"
+  },
+  "time": {
+    "seconds": "giây",
+    "minutes": "phút",
+    "hours": "giờ",
+    "days": "ngày",
+    "second": "giây",
+    "minute": "phút",
+    "hour": "giờ",
+    "day": "ngày"
+  },
+  "actions": {
+    "edit": "Chỉnh sửa",
+    "view": "Xem",
+    "download": "Tải xuống",
+    "upload": "Tải lên",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp xếp",
+    "refresh": "Làm mới",
+    "share": "Chia sẻ",
+    "copy": "Sao chép",
+    "paste": "Dán",
+    "backToTop": "Lên đầu trang"
+  }
+}

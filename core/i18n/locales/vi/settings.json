@@ -1,0 +1,58 @@
+{
+  "title": "Cài đặt",
+  "description": "Tùy chỉnh trải nghiệm học tập của bạn",
+  "general": {
+    "title": "Tổng quan",
+    "language": "Ngôn ngữ",
+    "theme": "Chủ đề",
+    "sound": "Hiệu ứng âm thanh",
+    "notifications": "Thông báo"
+  },
+  "appearance": {
+    "title": "Giao diện",
+    "colorTheme": "Chủ đề màu sắc",
+    "font": "Phông chữ tiếng Nhật",
+    "fontSize": "Cỡ chữ",
+    "darkMode": "Chế độ tối",
+    "customTheme": "Chủ đề tùy chỉnh"
+  },
+  "game": {
+    "title": "Cài đặt trò chơi",
+    "timeLimit": "Giới hạn thời gian",
+    "questionsPerSession": "Số câu hỏi mỗi phiên",
+    "difficulty": "Độ khó",
+    "autoNext": "Tự động chuyển câu tiếp theo",
+    "showHints": "Hiển thị gợi ý"
+  },
+  "audio": {
+    "title": "Âm thanh",
+    "soundEffects": "Hiệu ứng âm thanh",
+    "volume": "Âm lượng",
+    "clickSound": "Âm thanh nhấp chuột",
+    "correctSound": "Âm thanh đáp án đúng",
+    "incorrectSound": "Âm thanh đáp án sai"
+  },
+  "preferences": {
+    "title": "Tùy chọn",
+    "showRomaji": "Hiển thị Romaji",
+    "showFurigana": "Hiển thị Furigana",
+    "inputMethod": "Phương thức nhập",
+    "keyboardShortcuts": "Phím tắt bàn phím"
+  },
+  "data": {
+    "title": "Dữ liệu",
+    "exportData": "Xuất dữ liệu",
+    "importData": "Nhập dữ liệu",
+    "resetProgress": "Đặt lại tiến trình",
+    "clearCache": "Xóa bộ nhớ đệm",
+    "confirmReset": "Bạn có chắc chắn muốn đặt lại toàn bộ tiến trình không? Hành động này không thể hoàn tác."
+  },
+  "themes": {
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Hệ thống",
+    "custom": "Tùy chỉnh",
+    "presets": "Mẫu chủ đề",
+    "createCustom": "Tạo chủ đề tùy chỉnh"
+  }
+}

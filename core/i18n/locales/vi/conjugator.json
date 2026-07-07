@@ -1,0 +1,419 @@
+{
+  "meta": {
+    "title": "Trình chia động từ tiếng Nhật - Công cụ trực tuyến miễn phí | KanaDojo",
+    "titleWithVerb": "Chia động từ {verb} ({romaji}) - Mọi thể động từ tiếng Nhật | KanaDojo",
+    "description": "Trình chia động từ tiếng Nhật miễn phí với đầy đủ các thể chia động từ. Chia bất kỳ động từ tiếng Nhật nào ngay lập tức - động từ Godan, Ichidan, động từ bất quy tắc. Xem thể te, thể masu, thể khả năng, thể bị động, thể sai khiến và nhiều hơn nữa.",
+    "descriptionWithVerb": "Chia động từ đầy đủ cho {verb} ({romaji}). Xem tất cả các thể bao gồm thể te, thể masu, thể khả năng, thể bị động, thể sai khiến, và nhiều hơn nữa. Trình chia động từ tiếng Nhật miễn phí."
+  },
+  "header": {
+    "title": "Trình chia động từ tiếng Nhật",
+    "subtitle": "Chia bất kỳ động từ tiếng Nhật nào ngay lập tức. Xem tất cả các thể bao gồm thể te, thể masu, thể khả năng, thể bị động, thể sai khiến, và nhiều hơn nữa."
+  },
+  "input": {
+    "title": "Nhập động từ tiếng Nhật",
+    "hint": "Dạng từ điển (Ví dụ: 食べる, 行く, する)",
+    "placeholder": "日本語の動詞を入力...",
+    "conjugateButton": "Chia động từ",
+    "conjugating": "Đang chia...",
+    "clearButton": "Xóa ô nhập",
+    "keyboardHint": "Nhấn {enter} để chia động từ, {escape} để xóa ô nhập"
+  },
+  "results": {
+    "loading": "Đang chia động từ...",
+    "empty": {
+      "title": "Nhập một động từ để xem cách chia",
+      "hint": "Thử nhập các động từ như 食べる, 行く, hoặc する"
+    },
+    "statusMessage": "Đã chia xong động từ {verb}. Có {formCount} thể chia khả dụng trong {categoryCount} danh mục.",
+    "expandAll": "Mở rộng tất cả",
+    "collapseAll": "Thu gọn tất cả",
+    "copyAll": "Sao chép tất cả",
+    "copied": "Đã sao chép!",
+    "copiedMessage": "Đã sao chép tất cả các thể chia động từ vào khay nhớ tạm.",
+    "formCount": "{count} thể chia động từ trong {categories} danh mục"
+  },
+  "verbInfo": {
+    "type": "Loại động từ",
+    "stem": "Thân động từ",
+    "ending": "Đuôi động từ",
+    "compoundPrefix": "Động từ ghép với tiền tố:",
+    "conjugationRules": "Quy tắc chia động từ"
+  },
+  "verbTypes": {
+    "godan": {
+      "label": "Godan (Động từ nhóm 1 - 五段)",
+      "description": "Động từ Godan (còn gọi là động từ đuôi -u hay động từ nhóm I) được chia qua năm âm nguyên âm. Ký tự kana cuối cùng sẽ thay đổi tùy theo thể chia.",
+      "rules": [
+        "Thân động từ thay đổi dựa trên các hàng nguyên âm (a, i, u, e, o)",
+        "Thể te có các biến đổi âm dựa trên đuôi kết thúc (って, nde, いて, v.v.)",
+        "Thể phủ định sử dụng thân hàng nguyên âm 'a' + ない",
+        "Thể lịch sự (masu) sử dụng thân hàng nguyên âm 'i' + ます"
+      ]
+    },
+    "ichidan": {
+      "label": "Ichidan (Động từ nhóm 2 - 一段)",
+      "description": "Động từ Ichidan (còn gọi là động từ đuôi -ru hay động từ nhóm II) có quy tắc chia đơn giản hơn. Đuôi る được thay thế bằng hậu tố thích hợp.",
+      "rules": [
+        "Bỏ る và thêm hậu tố chia động từ phù hợp",
+        "Thể te: thân động từ + て",
+        "Thể phủ định: thân động từ + ない",
+        "Thể lịch sự (masu): thân động từ + ます",
+        "Thể khả năng có cả dạng truyền thống (-られる) và dạng thông tục (-れる)"
+      ]
+    },
+    "irregular": {
+      "label": "Bất quy tắc",
+      "description": "Động từ này có quy tắc chia bất quy tắc cần phải ghi nhớ.",
+      "rules": ["Quy tắc chia không tuân theo các quy chuẩn thông thường"]
+    },
+    "suru": {
+      "label": "Động từ する",
+      "description": "する (làm) là một trong hai động từ bất quy tắc chính trong tiếng Nhật. Nó có quy tắc chia duy nhất.",
+      "rules": [
+        "Thể te: して",
+        "Thể phủ định: しない",
+        "Thể lịch sự (masu): します",
+        "Thể khả năng: できる (được biểu thị bằng một động từ riêng biệt)",
+        "Thể bị động: される",
+        "Thể sai khiến: させる"
+      ]
+    },
+    "kuru": {
+      "label": "Động từ 来る (kuru)",
+      "description": "来る (đến) là một trong hai động từ bất quy tắc chính. Cách đọc Kanji thay đổi giữa く và こ tùy thuộc vào thể chia.",
+      "rules": [
+        "Thể te: 来て (きて)",
+        "Thể phủ định: 来ない (こない)",
+        "Thể lịch sự (masu): 来ます (きます)",
+        "Thể khả năng: 来られる (こられる)",
+        "Thể quá khứ: 来た (きた)"
+      ]
+    },
+    "aru": {
+      "label": "Động từ ある",
+      "description": "ある (có, dùng cho đồ vật, thực vật) có thể phủ định đặc biệt.",
+      "rules": [
+        "Thể phủ định: ない (không phải あらない)",
+        "Các thể khác tuân theo quy tắc chia Godan",
+        "Thể te: あって",
+        "Thể quá khứ: あった"
+      ]
+    },
+    "iku": {
+      "label": "Động từ 行く (iku)",
+      "description": "行く (đi) hầu hết tuân theo quy tắc chia thông thường nhưng có thể te bất quy tắc.",
+      "rules": [
+        "Thể te: 行って (không phải 行いて)",
+        "Thể quá khứ (ta): 行った (không phải 行いた)",
+        "Các thể khác tuân theo quy tắc chia Godan thông thường"
+      ]
+    },
+    "honorific": {
+      "label": "Kính ngữ",
+      "description": "Các động từ kính ngữ (くださる, なさる, いらっしゃる, おっしゃる, ござる) có thể lịch sự (masu) bất quy tắc.",
+      "rules": [
+        "Thể lịch sự sử dụng います thay vì ります",
+        "Ví dụ: くださる → くださいます (không phải くださります)",
+        "Các thể khác tuân theo quy tắc chia Godan"
+      ]
+    },
+    "unknown": {
+      "label": "Không xác định",
+      "description": "Không thể xác định loại động từ.",
+      "rules": []
+    }
+  },
+  "categories": {
+    "basic": {
+      "name": "Thể cơ bản",
+      "nameJa": "基本形"
+    },
+    "polite": {
+      "name": "Thể lịch sự (Lịch thiệp)",
+      "nameJa": "丁寧形"
+    },
+    "negative": {
+      "name": "Thể phủ định",
+      "nameJa": "否定形"
+    },
+    "past": {
+      "name": "Thể quá khứ",
+      "nameJa": "過去形"
+    },
+    "volitional": {
+      "name": "Thể ý chí (Rủ rê)",
+      "nameJa": "意向形"
+    },
+    "potential": {
+      "name": "Thể khả năng",
+      "nameJa": "可能形"
+    },
+    "passive": {
+      "name": "Thể bị động",
+      "nameJa": "受身形"
+    },
+    "causative": {
+      "name": "Thể sai khiến",
+      "nameJa": "使役形"
+    },
+    "causative-passive": {
+      "name": "Thể sai khiến bị động",
+      "nameJa": "使役受身形"
+    },
+    "imperative": {
+      "name": "Thể mệnh lệnh",
+      "nameJa": "命令形"
+    },
+    "conditional": {
+      "name": "Thể điều kiện",
+      "nameJa": "条件形"
+    },
+    "tai-form": {
+      "name": "Thể muốn (Mong muốn)",
+      "nameJa": "たい形"
+    },
+    "progressive": {
+      "name": "Thể tiếp diễn",
+      "nameJa": "進行形"
+    },
+    "honorific": {
+      "name": "Thể kính ngữ",
+      "nameJa": "敬語"
+    }
+  },
+  "forms": {
+    "polite": "Lịch sự",
+    "form": "thể",
+    "forms": "thể",
+    "reading": "Cách đọc",
+    "romaji": "Romaji",
+    "expand": "Mở rộng",
+    "collapse": "Thu gọn",
+    "copy": "Sao chép",
+    "copyForm": "Sao chép {form}: {kanji}"
+  },
+  "history": {
+    "title": "Động từ gần đây",
+    "empty": {
+      "title": "Chưa có lịch sử",
+      "hint": "Các động từ bạn đã chia sẽ xuất hiện ở đây"
+    },
+    "verbCount": "{count} động từ trong lịch sử",
+    "verbCountPlural": "{count} động từ trong lịch sử",
+    "clearButton": "Xóa lịch sử",
+    "clearDialog": {
+      "title": "Xóa lịch sử?",
+      "description": "Hành động này sẽ xóa vĩnh viễn toàn bộ lịch sử chia động từ của bạn và không thể hoàn tác.",
+      "cancel": "Hủy",
+      "confirm": "Xóa tất cả"
+    },
+    "removeEntry": "Xóa {verb} khỏi lịch sử",
+    "timeAgo": {
+      "now": "vừa xong",
+      "minutes": "{count} phút",
+      "hours": "{count} giờ",
+      "days": "{count} ngày"
+    }
+  },
+  "share": {
+    "button": "Chia sẻ",
+    "copied": "Đã sao chép!",
+    "error": "Lỗi sao chép",
+    "title": "Chia động từ {verb} - KanaDojo",
+    "text": "Hãy xem cách chia động từ {verb} ({romaji})"
+  },
+  "errors": {
+    "emptyInput": "Vui lòng nhập một động từ tiếng Nhật",
+    "invalidCharacters": "Vui lòng nhập động từ tiếng Nhật hợp lệ bằng hiragana, katakana hoặc kanji",
+    "unknownVerb": "Không nhận diện được động từ này. Vui lòng kiểm tra lại chính tả hoặc thử dùng thể từ điển gốc",
+    "ambiguousVerb": "Đầu vào có thể thuộc về nhiều động từ khác nhau. Vui lòng nhập chi tiết hơn",
+    "conjugationFailed": "Đã xảy ra lỗi không mong muốn"
+  },
+  "accessibility": {
+    "mainRegion": "Trình chia động từ tiếng Nhật",
+    "inputRegion": "Nhập chia động từ tiếng Nhật",
+    "resultsRegion": "Kết quả chia động từ",
+    "historyRegion": "Lịch sử chia động từ",
+    "historySidebar": "Thanh bên lịch sử chia động từ",
+    "categoryToggle": "{category} ({categoryJa}), {count} thể. Click để {action}",
+    "categoryTogglePlural": "{category} ({categoryJa}), {count} thể. Click để {action}",
+    "categoryForms": "{count} thể {category}",
+    "verbInfoRegion": "Thông tin động từ {verb}",
+    "classificationDetails": "Chi tiết phân loại động từ",
+    "rulesExplanation": "Giải thích quy tắc chia động từ",
+    "showRules": "Hiển thị quy tắc chia cho động từ {verbType}",
+    "hideRules": "Ẩn quy tắc chia cho động từ {verbType}",
+    "resultActions": "Hành động với kết quả chia động từ",
+    "keyboardShortcuts": "Phím tắt bàn phím: Nhấn Enter tại ô nhập để chia động từ. Nhấn Escape để xóa dữ liệu đã nhập. Dùng Tab để di chuyển giữa các phần tử."
+  },
+  "seo": {
+    "title": "Tìm hiểu về chia động từ tiếng Nhật",
+    "intro": "Chia động từ tiếng Nhật là một khía cạnh cơ bản của ngôn ngữ giúp người nói diễn đạt thời thì, tâm trạng, mức độ lịch sự và nhiều mối quan hệ ngữ pháp khác nhau. Không giống như tiếng Anh, các động từ tiếng Nhật chia dựa trên các quy luật được xác định theo phân loại của chúng, làm cho việc hiểu rõ các phân loại này là rất cần thiết.",
+    "verbIntro": "Động từ {verb} ({romaji}) được phân loại thuộc loại {verbType}. Việc hiểu cách chia của động từ này sẽ giúp bạn sử dụng chính xác trong nhiều ngữ cảnh khác nhau.",
+    "verbTypesTitle": "Các loại động từ tiếng Nhật",
+    "verbTypesGodan": {
+      "title": "Động từ Godan (Động từ nhóm I - 五段動詞)",
+      "description": "Còn gọi là động từ đuôi -u hay nhóm I. Những động từ này biến đổi qua năm âm nguyên âm (a, i, u, e, o). Ví dụ bao gồm: 書く (kaku - viết), 読む (yomu - đọc), và 話す (hanasu - nói)."
+    },
+    "verbTypesIchidan": {
+      "title": "Động từ Ichidan (Động từ nhóm II - 一段動詞)",
+      "description": "Còn gọi là động từ đuôi -ru hay nhóm II. Những động từ này kết thúc bằng đuôi -iru hoặc -eru, chia bằng cách bỏ る và thêm hậu tố phù hợp. Ví dụ bao gồm: 食べる (taberu - ăn) và 見る (miru - nhìn)."
+    },
+    "verbTypesIrregular": {
+      "title": "Động từ bất quy tắc (不規則動詞)",
+      "description": "Tiếng Nhật chỉ có hai động từ hoàn toàn bất quy tắc: する (suru - làm) và 来る (kuru - đến). Một số động từ khác như ある và 行く có sự bất quy tắc một phần."
+    },
+    "commonFormsTitle": "Các thể chia động từ phổ biến",
+    "commonForms": {
+      "teForm": {
+        "name": "Thể te (て形)",
+        "description": "Thể liên kết dùng để đưa ra yêu cầu, diễn tả hành động đang tiếp diễn và nối các câu. Rất quan trọng cho hội thoại hàng ngày.",
+        "example": "食べる → 食べて (tabete)"
+      },
+      "masuForm": {
+        "name": "Thể masu (ます形)",
+        "description": "Thể lịch sự dùng trong các tình huống trang trọng. Đây thường là thể đầu tiên được dạy cho người học tiếng Nhật.",
+        "example": "食べる → 食べます (tabemasu)"
+      },
+      "potentialForm": {
+        "name": "Thể khả năng (可能形)",
+        "description": "Thể hiện khả năng hoặc tính khả thi (có thể làm gì). Đối với động từ Ichidan, tồn tại cả dạng truyền thống (-rareru) và thông tục (-leru).",
+        "example": "食べる → 食べられる/食べれる (taberareru/tabereru)"
+      },
+      "passiveForm": {
+        "name": "Thể bị động (受身形)",
+        "description": "Chỉ ra chủ thể nhận một hành động tác động từ bên ngoài. Nó cũng có thể biểu thị cảm giác khó chịu hoặc bị ảnh hưởng trong tiếng Nhật.",
+        "example": "食べる → 食べられる (taberareru)"
+      },
+      "causativeForm": {
+        "name": "Thể sai khiến (使役形)",
+        "description": "Biểu thị việc bắt buộc hoặc cho phép ai đó làm điều gì. Quan trọng khi diễn tả sự cho phép hoặc cưỡng chế.",
+        "example": "食べる → 食べさせる (tabesaseru)"
+      }
+    },
+    "tipsTitle": "Lời khuyên khi học chia động từ tiếng Nhật",
+    "tips": [
+      {
+        "title": "Tìm hiểu loại động từ trước tiên:",
+        "content": "Trước khi ghi nhớ cách chia, hãy nắm rõ động từ đó thuộc nhóm Godan, Ichidan hay bất quy tắc. Điều này quyết định toàn bộ quy tắc chia sau đó."
+      },
+      {
+        "title": "Thành thạo thể te:",
+        "content": "Thể te là nền tảng cho nhiều cấu trúc ngữ pháp khác như thể tiếp diễn (-ている), yêu cầu lịch sự (-てください), và các động từ cho nhận."
+      },
+      {
+        "title": "Luyện tập với động từ thông dụng:",
+        "content": "Bắt đầu với các động từ thường dùng như する, 行く, 来る, 見る, 食べる, và 書く để xây dựng khả năng nhận biết mẫu quy tắc."
+      },
+      {
+        "title": "Học theo ngữ cảnh:",
+        "content": "Hãy học chia động từ đi kèm trong câu thay vì học từ đơn lẻ. Điều này giúp bạn hiểu thời điểm và cách sử dụng từng thể một cách tự nhiên."
+      },
+      {
+        "title": "Ôn tập thường xuyên:",
+        "content": "Quy tắc chia sẽ trở nên tự nhiên hơn với việc thực hành đều đặn. Hãy dùng công cụ tra cứu chia động từ này để xác nhận sự hiểu biết của bạn."
+      }
+    ],
+    "aboutTool": "Trình chia động từ tiếng Nhật của KanaDojo là một công cụ giáo dục miễn phí tạo ra tất cả các dạng chia cho bất kỳ động từ tiếng Nhật nào. Hỗ trợ động từ Godan, Ichidan và bất quy tắc bao gồm cả các động từ ghép. Trình chia động từ cung cấp phát âm romaji, phát hiện nhóm động từ tự động và độ bao phủ toàn bộ các thể để chuẩn bị cho JLPT và học tiếng Nhật."
+  },
+  "faq": {
+    "title": "Các câu hỏi thường gặp",
+    "expandAll": "Mở rộng tất cả",
+    "collapseAll": "Thu gọn tất cả",
+    "showMore": "Hiển thị thêm {count} câu hỏi",
+    "showLess": "Thu gọn",
+    "items": [
+      {
+        "question": "Trình chia động từ tiếng Nhật là gì?",
+        "answer": "Trình chia động từ tiếng Nhật là một công cụ chuyển đổi động từ tiếng Nhật từ thể từ điển gốc sang các cấu trúc ngữ pháp khác nhau như thể quá khứ, phủ định, khả năng, bị động, v.v. Trình chia động từ miễn phí của chúng tôi xử lý tất cả các nhóm động từ bao gồm Godan (u-verb), Ichidan (ru-verb), và động từ bất quy tắc như する và 来る."
+      },
+      {
+        "question": "Làm thế nào để tôi chia động từ tiếng Nhật?",
+        "answer": "Nhập bất kỳ động từ tiếng Nhật nào ở dạng từ điển (dạng kết thúc bằng -u) vào ô tìm kiếm. Công cụ sẽ tự động phát hiện nhóm động từ và tạo ra tất cả các thể chia bao gồm thể te, thể masu, thể khả năng, thể bị động, thể sai khiến, thể điều kiện, v.v."
+      },
+      {
+        "question": "Động từ Godan (u-verbs) là gì?",
+        "answer": "Động từ Godan, hay còn gọi là động từ đuôi -u hoặc nhóm I, là các động từ tiếng Nhật biến đổi đuôi qua 5 hàng nguyên âm (a, i, u, e, o). Chúng kết thúc bằng các tổ hợp phụ âm + u như -ku, -gu, -su, -tsu, -nu, -bu, -mu, -ru, hoặc chỉ -u. Ví dụ bao gồm 書く (kaku - viết), 読む (yomu - đọc), và 話す (hanasu - nói)."
+      },
+      {
+        "question": "Động từ Ichidan (ru-verbs) là gì?",
+        "answer": "Động từ Ichidan, hay còn gọi là động từ đuôi -ru hoặc nhóm II, là các động từ tiếng Nhật kết thúc bằng đuôi -iru hoặc -eru. Cách chia của chúng rất đơn giản là chỉ cần bỏ る ở đuôi và thêm hậu tố tương ứng vào. Ví dụ bao gồm 食べる (taberu - ăn), 見る (miru - nhìn), và 起きる (okiru - thức dậy)."
+      },
+      {
+        "question": "Động từ tiếng Nhật bất quy tắc là gì?",
+        "answer": "Tiếng Nhật chỉ có hai động từ hoàn toàn bất quy tắc là する (suru - làm) và 来る (kuru - đến). Ngoài ra, ある (aru - có) có thể phủ định bất quy tắc (ない thay vì あらない), và 行く (iku - đi) có thể te bất quy tắc (行って thay vì 行いて). Trình chia động từ của chúng tôi xử lý tất cả các trường hợp đặc biệt này một cách chính xác."
+      },
+      {
+        "question": "Thể te trong tiếng Nhật là gì?",
+        "answer": "Thể te (て形) là một thể động từ kết nối được sử dụng để đưa ra yêu cầu, diễn tả hành động đang tiếp diễn (te-iru), nối các câu và tạo động từ ghép. Đối với động từ Godan, thể te có sự biến đổi âm dựa trên đuôi của động từ. Đối với động từ Ichidan, bạn chỉ việc thay thế る bằng て."
+      },
+      {
+        "question": "Thể masu trong tiếng Nhật là gì?",
+        "answer": "Thể masu (ます形) là dạng lịch sự của động từ tiếng Nhật được dùng trong các tình huống giao tiếp lịch thiệp. Nó được tạo bằng cách thêm ます vào thân động từ (dạng liên kết). Đối với động từ Godan, chuyển đuôi -u thành đuôi -i rồi thêm ます. Đối với động từ Ichidan, bỏ る và thêm ます."
+      },
+      {
+        "question": "Thể khả năng trong tiếng Nhật là gì?",
+        "answer": "Thể khả năng diễn tả khả năng hoặc năng lực có thể làm điều gì đó (\"có thể làm\"). Đối với động từ Godan, đổi âm cuối -u thành -eru. Đối với động từ Ichidan, có hai dạng: dạng chuẩn kính ngữ (-rareru) và dạng thông tục ngắn gọn (-leru). Trình chia động từ hiển thị cả hai dạng này."
+      },
+      {
+        "question": "Thể bị động trong tiếng Nhật là gì?",
+        "answer": "Thể bị động (受身形) cho biết chủ thể phải chịu tác động hoặc nhận hành động từ đối tượng khác. Đối với động từ Godan, chuyển đuôi -u thành -areru. Đối với động từ Ichidan, bỏ る và thêm られる. Thể bị động cũng có thể diễn tả sự bất tiện hoặc chịu ảnh hưởng tiêu cực."
+      },
+      {
+        "question": "Thể sai khiến trong tiếng Nhật là gì?",
+        "answer": "Thể sai khiến (使役形) biểu thị việc bắt ai đó làm hoặc cho phép ai đó làm một việc gì. Đối với động từ Godan, đổi đuôi -u thành -aseru. Đối với động từ Ichidan, bỏ る và thêm させる. Thể này rất quan trọng khi diễn tả sự cho phép hay bắt buộc."
+      },
+      {
+        "question": "Trình chia động từ này có miễn phí không?",
+        "answer": "Có! Trình chia động từ tiếng Nhật của chúng tôi hoàn toàn miễn phí sử dụng và không yêu cầu đăng ký. Bạn có thể chia không giới hạn số lượng động từ và xem mọi thể chia mà không tốn chi phí nào."
+      },
+      {
+        "question": "Tôi có thể dùng trình chia động từ này để ôn thi JLPT không?",
+        "answer": "Hoàn toàn có thể! Hiểu rõ cách chia động từ là điều bắt buộc cho mọi cấp độ JLPT. Công cụ chia động từ của chúng tôi bao quát tất cả các thể xuất hiện trong đề thi JLPT, từ thể masu cơ bản (N5) đến thể sai khiến bị động phức tạp (N3-N1). Hãy dùng nó cùng với hệ thống Kanji và Từ vựng của chúng tôi để ôn tập JLPT toàn diện nhất."
+      },
+      {
+        "question": "Thể điều kiện trong tiếng Nhật là gì?",
+        "answer": "Tiếng Nhật có vài dạng thể điều kiện: dạng thể -ba (ば形) cho điều kiện giả định học thuật, dạng thể -tara (たら形) cho trình tự thời gian hoặc điều kiện sự kiện cụ thể, và thể -nara (なら形) cho điều kiện chủ đề. Trình chia của chúng tôi tạo đầy đủ cả ba dạng điều kiện này."
+      },
+      {
+        "question": "Thể ý chí trong tiếng Nhật là gì?",
+        "answer": "Thể ý chí (意向形) thể hiện ý định hoặc lời đề nghị rủ rê (\"hãy cùng làm\" hoặc \"tôi định làm\"). Thể ý chí dạng thường kết thúc bằng -ou/-you, trong khi dạng lịch sự sử dụng ましょう. Thường được sử dụng để đưa ra gợi ý hoặc thể hiện quyết tâm."
+      },
+      {
+        "question": "Động từ ghép hoạt động như thế nào trong tiếng Nhật?",
+        "answer": "Động từ ghép kết hợp một danh từ hoặc một thân động từ liên kết với する (làm) hoặc 来る (đến). Ví dụ bao gồm 勉強する (benkyou suru - học tập) và 持ってくる (motte kuru - mang đến). Trình chia động từ xử lý chính xác bằng cách giữ nguyên phần tiền tố và chỉ chia phần する hoặc 来る phía sau."
+      },
+      {
+        "question": "Thể tai trong tiếng Nhật là gì?",
+        "answer": "Thể tai (たい形) diễn tả mong muốn, muốn làm gì đó (\"muốn làm\"). Được hình thành bằng cách thêm たい vào thân động từ. Thể tai chia giống như tính từ đuôi -i, vì vậy nó có các dạng như たくない (không muốn), たかった (đã từng muốn) và たくなかった (đã từng không muốn)."
+      }
+    ]
+  },
+  "relatedFeatures": {
+    "title": "Tiếp tục học tiếng Nhật",
+    "subtitle": "Khám phá thêm các công cụ và tài nguyên để nâng cao hành trình học tiếng Nhật của bạn.",
+    "links": {
+      "kana": {
+        "title": "Luyện tập Kana",
+        "description": "Làm chủ Hiragana và Katakana với đào tạo tương tác"
+      },
+      "kanji": {
+        "title": "Học tập Kanji",
+        "description": "Học các ký tự Kanji được sắp xếp theo cấp độ JLPT"
+      },
+      "vocabulary": {
+        "title": "Luyện từ vựng",
+        "description": "Xây dựng vốn từ vựng với các từ tập trung theo JLPT"
+      },
+      "translate": {
+        "title": "Trình dịch tiếng Nhật",
+        "description": "Dịch giữa tiếng Anh và tiếng Nhật kèm romaji"
+      },
+      "academy": {
+        "title": "Học viện tiếng Nhật",
+        "description": "Các bài học có cấu trúc để học tiếng Nhật toàn diện"
+      }
+    },
+    "footer": "KanaDojo cung cấp một bộ công cụ học tiếng Nhật hoàn chỉnh. Từ việc nắm vững các kiến thức cơ bản với luyện tập Hiragana và Katakana, đến việc xây dựng từ vựng và hiểu chữ Kanji, nền tảng của chúng tôi luôn hỗ trợ người học ở mọi cấp độ. Sử dụng trình chia động từ cùng với các tài nguyên này để nghiên cứu tiếng Nhật một cách toàn diện."
+  }
+}

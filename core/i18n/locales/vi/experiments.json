@@ -1,0 +1,40 @@
+{
+  "title": "Thử nghiệm",
+  "description": "Khám phá các tính năng thử nghiệm và phương pháp học tập mới",
+  "zenMode": {
+    "title": "Chế độ Zen",
+    "description": "Chế độ tập trung tối giản để luyện tập không bị phân tâm"
+  },
+  "breathing": {
+    "title": "Bài tập thở",
+    "description": "Bài tập thở chánh niệm để cải thiện sự tập trung và giảm căng thẳng"
+  },
+  "ambient": {
+    "title": "Chế độ xung quanh",
+    "description": "Luyện tập với nền âm thanh nhẹ nhàng và êm dịu"
+  },
+  "constellation": {
+    "title": "Chòm sao Kana",
+    "description": "Kết nối các ngôi sao để tạo thành các ký tự kana"
+  },
+  "rain": {
+    "title": "Mưa Kana",
+    "description": "Bắt các ký tự kana rơi xuống trong trò chơi kiểu arcade"
+  },
+  "memory": {
+    "title": "Cung điện ký ức",
+    "description": "Sử dụng kỹ thuật ghi nhớ để nhớ các ký tự"
+  },
+  "sound": {
+    "title": "Vườn âm thanh",
+    "description": "Học qua các liên kết nghe nhìn"
+  },
+  "typing": {
+    "title": "Gõ phím nhanh",
+    "description": "Cải thiện tốc độ gõ phím với các ký tự tiếng Nhật"
+  },
+  "haiku": {
+    "title": "Haiku hằng ngày",
+    "description": "Học qua những vần thơ tiếng Nhật đẹp"
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "home": {
+    "title": "KanaDojo - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng trực tuyến",
+    "titleShort": "KanaDojo - Học tiếng Nhật trực tuyến",
+    "description": "Làm chủ tiếng Nhật cùng KanaDojo - một nền tảng học tập vui vẻ, thẩm mỹ, tối giản dành cho Hiragana, Katakana, Kanji và Từ vựng. Luyện tập với các trò chơi tương tác, theo dõi tiến trình và cá nhân hóa trải nghiệm của bạn với hơn 100 chủ đề.",
+    "descriptionShort": "Làm chủ tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng với các trò chơi tương tác, theo dõi tiến trình và tùy chỉnh tuyệt đẹp.",
+    "keywords": "học tiếng nhật, tự học tiếng nhật, học hiragana trực tuyến, học katakana miễn phí, học kana nhanh, học kanji miễn phí, từ vựng tiếng nhật, luyện tập hiragana, luyện tập katakana, ứng dụng luyện kanji, tiếng nhật cơ bản, hệ thống chữ viết tiếng nhật, luyện thi JLPT, công cụ học tiếng nhật, bài học tiếng nhật miễn phí, cách học hiragana, cách học katakana, cách học kanji, trò chơi tiếng nhật, bảng hiragana katakana, flashcard tiếng nhật, học tiếng nhật qua game"
+  },
+  "kana": {
+    "title": "Kana Dojo - Học tiếng Nhật Hiragana & Katakana theo cấp độ",
+    "titleShort": "Kana Dojo - Học Hiragana & Katakana",
+    "description": "Làm chủ Hiragana và Katakana với các trò chơi, câu đố và bài tập tương tác. Luyện tập các ký tự tiếng Nhật theo từng cấp độ với phản hồi tức thì và lộ trình học thân thiện cho người mới.",
+    "keywords": "học kana, bảng chữ cái kana, bảng kana tiếng nhật, hiragana và katakana, luyện hiragana trực tuyến, luyện katakana trực tuyến, bảng hiragana phát âm, bảng katakana phát âm, luyện bảng chữ cái tiếng nhật"
+  },
+  "learnHiragana": {
+    "title": "Học Hiragana - Bảng chữ cái Hiragana đầy đủ, Bài tập & Luyện tập | KanaDojo",
+    "titleShort": "Học Hiragana",
+    "description": "Học Hiragana nhanh chóng với các bài tập tương tác, thẻ kana chọn lọc và luyện tập có hướng dẫn. Thành thạo bảng hiragana đầy đủ, dakuon và yoon với phản hồi tức thì.",
+    "keywords": "học hiragana, bảng hiragana, bài tập hiragana, luyện hiragana, câu đố hiragana, flashcard hiragana, bảng chữ cái hiragana, hướng dẫn phát âm hiragana, hiragana cho người mới"
+  },
+  "learnKatakana": {
+    "title": "Học Katakana - Bảng chữ cái Katakana đầy đủ, Bài tập & Luyện tập | KanaDojo",
+    "titleShort": "Học Katakana",
+    "description": "Học Katakana nhanh chóng với các bài tập tương tác, thẻ kana chọn lọc và luyện tập có hướng dẫn. Thành thạo bảng katakana đầy đủ, dakuon, yoon và âm nước ngoài với phản hồi tức thì.",
+    "keywords": "học katakana, bảng katakana, luyện katakana, bài tập katakana, câu đố katakana, flashcard katakana, bảng chữ cái katakana, hướng dẫn phát âm katakana, katakana cho người mới"
+  },
+  "kanaBlitz": {
+    "title": "Kana Blitz - Kiểm tra tốc độ đọc Hiragana & Katakana của bạn",
+    "titleShort": "Kana Blitz - Thử thách tốc độ",
+    "description": "Kiểm tra tốc độ nhận diện kana tiếng Nhật của bạn với Kana Blitz. Thử thách bản thân với các bài tập tính giờ và theo dõi tiến trình của bạn.",
+    "keywords": "kiểm tra tốc độ kana, tốc độ hiragana, tốc độ katakana, luyện tập kana tiếng nhật, flashcard kana, câu đố kana tính giờ, nhận diện nhanh hiragana, nhận diện nhanh katakana"
+  },
+  "kanaGauntlet": {
+    "title": "Kana Gauntlet - Làm chủ mọi ký tự",
+    "titleShort": "Kana Gauntlet - Làm chủ mọi ký tự",
+    "description": "Làm chủ tất cả các ký tự Hiragana và Katakana với thử thách Kana Gauntlet. Luyện tập toàn diện cho toàn bộ hệ thống kana tiếng Nhật.",
+    "keywords": "làm chủ kana, làm chủ hiragana, làm chủ katakana, luyện tập kana toàn diện"
+  },
+  "kanji": {
+    "title": "Kanji Dojo - Học các ký tự Kanji tiếng Nhật theo cấp độ JLPT",
+    "titleShort": "Kanji Dojo - Học Kanji tiếng Nhật",
+    "description": "Học chữ Kanji tiếng Nhật được sắp xếp từ cấp độ JLPT N5 đến N1. Luyện tập âm đọc và ý nghĩa với các bài tập tương tác, chọn lựa bộ từ nhanh và theo dõi tiến trình.",
+    "keywords": "học kanji, chữ kanji tiếng nhật, luyện kanji trực tuyến, kanji jlpt, kanji n5, kanji n4, kanji n3, kanji n2, kanji n1, học kanji theo cấp độ, câu đố kanji, flashcard kanji, âm ôn âm huấn, onyomi kunyomi, ý nghĩa kanji"
+  },
+  "kanjiJlptN5": {
+    "title": "Danh sách và luyện tập Kanji JLPT N5 - Học chữ Kanji sơ cấp | KanaDojo",
+    "titleShort": "Luyện tập Kanji JLPT N5",
+    "description": "Học kanji JLPT N5 với các bài tập tương tác, cấp độ chia nhỏ và phản hồi tức thì. Xây dựng nền tảng vững chắc về nhận dạng chữ kanji sơ cấp.",
+    "keywords": "kanji jlpt n5, danh sách kanji n5, luyện kanji sơ cấp, học kanji n5, câu đố kanji n5, flashcard kanji n5, cách đọc kanji n5, ý nghĩa kanji n5"
+  },
+  "kanjiJlptN4": {
+    "title": "Danh sách và luyện tập Kanji JLPT N4 - Học chữ Kanji sơ trung cấp | KanaDojo",
+    "titleShort": "Luyện tập Kanji JLPT N4",
+    "description": "Luyện tập kanji JLPT N4 với các bài tập chia theo bộ, câu đố và theo dõi tiến trình. Cải thiện tốc độ ghi nhớ, âm đọc và ý nghĩa kanji.",
+    "keywords": "kanji jlpt n4, danh sách kanji n4, luyện kanji n4, học kanji n4, câu đố kanji n4, flashcard kanji n4"
+  },
+  "kanjiJlptN3": {
+    "title": "Danh sách và luyện tập Kanji JLPT N3 - Học chữ Kanji trung cấp | KanaDojo",
+    "titleShort": "Luyện tập Kanji JLPT N3",
+    "description": "Rèn luyện kanji JLPT N3 với việc lựa chọn bộ từ tập trung và các câu đố tương tác. Tăng cường khả năng nhận diện, âm đọc và sự sẵn sàng cho kỳ thi.",
+    "keywords": "kanji jlpt n3, danh sách kanji n3, luyện kanji n3, học kanji n3, câu đố kanji n3, flashcard kanji n3"
+  },
+  "kanjiJlptN2": {
+    "title": "Danh sách và luyện tập Kanji JLPT N2 - Học chữ Kanji trung thượng cấp | KanaDojo",
+    "titleShort": "Luyện tập Kanji JLPT N2",
+    "description": "Học kanji JLPT N2 với các bài tập nâng cao và luyện tập tương tác. Cải thiện độ chính xác và khả năng ghi nhớ cho quá trình ôn thi.",
+    "keywords": "kanji jlpt n2, danh sách kanji n2, luyện kanji n2, học kanji n2, câu đố kanji n2, flashcard kanji n2"
+  },
+  "kanjiJlptN1": {
+    "title": "Danh sách và luyện tập Kanji JLPT N1 - Làm chủ Kanji cao cấp | KanaDojo",
+    "titleShort": "Luyện tập Kanji JLPT N1",
+    "description": "Làm chủ kanji JLPT N1 với các bài rèn luyện chuyên sâu và luyện tập theo bộ. Chuẩn bị cho mức độ nhận diện kanji cao nhất.",
+    "keywords": "kanji jlpt n1, danh sách kanji n1, luyện kanji n1, học kanji n1, câu đố kanji n1, flashcard kanji n1"
+  },
+  "kanjiBlitz": {
+    "title": "Kanji Blitz - Kiểm tra tốc độ nhận dạng Kanji của bạn",
+    "titleShort": "Kanji Blitz - Thử thách tốc độ",
+    "description": "Kiểm tra tốc độ nhận dạng kanji tiếng Nhật của bạn với Kanji Blitz. Các bài tập tốc độ nhanh giúp nâng cao phản xạ kanji.",
+    "keywords": "tốc độ kanji, kiểm tra tốc độ kanji, flashcard kanji nhanh, câu đố kanji tính giờ, phản xạ kanji, ôn thi jlpt kanji"
+  },
+  "kanjiGauntlet": {
+    "title": "Kanji Gauntlet - Chinh phục mọi ký tự",
+    "titleShort": "Kanji Gauntlet - Chinh phục mọi ký tự",
+    "description": "Chinh phục toàn bộ các chữ Kanji với Kanji Gauntlet. Luyện tập toàn diện cho tất cả các cấp độ JLPT.",
+    "keywords": "làm chủ kanji, luyện tập kanji toàn diện, tất cả kanji jlpt"
+  },
+  "vocabulary": {
+    "title": "Vocabulary Dojo - Học từ vựng tiếng Nhật theo cấp độ JLPT",
+    "titleShort": "Vocabulary Dojo - Học từ vựng tiếng Nhật",
+    "description": "Tích lũy từ vựng tiếng Nhật theo cấp độ JLPT với các bài luyện tập theo bộ, câu đố và ôn tập nhanh. Luyện tập ý nghĩa, cách đọc và cách dùng từ N5 đến N1.",
+    "keywords": "học từ vựng tiếng nhật, từ vựng jlpt, từ vựng theo cấp độ, từ vựng jlpt n5, từ vựng jlpt n4, từ vựng jlpt n3, từ vựng jlpt n2, từ vựng jlpt n1, câu đố từ vựng tiếng nhật, ôn luyện từ vựng tiếng nhật"
+  },
+  "vocabularyJlptN5": {
+    "title": "Danh sách và luyện từ vựng JLPT N5 - Học từ tiếng Nhật sơ cấp | KanaDojo",
+    "titleShort": "Luyện tập Từ vựng JLPT N5",
+    "description": "Luyện tập từ vựng JLPT N5 với các bộ từ tương tác và luyện tập nhanh. Cải thiện khả năng nhận biết từ, ý nghĩa và cách đọc của người mới bắt đầu.",
+    "keywords": "từ vựng jlpt n5, danh sách từ n5, từ vựng sơ cấp tiếng nhật, học từ vựng n5, câu đố từ vựng n5"
+  },
+  "vocabularyJlptN4": {
+    "title": "Danh sách và luyện từ vựng JLPT N4 - Học từ tiếng Nhật sơ trung cấp | KanaDojo",
+    "titleShort": "Luyện tập Từ vựng JLPT N4",
+    "description": "Rèn luyện từ vựng JLPT N4 với các câu đố và bài tập theo bộ. Tăng tốc độ phản xạ từ vựng, sự tự tin trong cách đọc và tính chính xác về nghĩa.",
+    "keywords": "từ vựng jlpt n4, danh sách từ n4, luyện từ vựng n4, học từ vựng n4, câu đố từ vựng n4"
+  },
+  "vocabularyJlptN3": {
+    "title": "Danh sách và luyện từ vựng JLPT N3 - Học tiếng Nhật trung cấp | KanaDojo",
+    "titleShort": "Luyện tập Từ vựng JLPT N3",
+    "description": "Học từ vựng JLPT N3 với các bài rèn luyện chuyên sâu và chọn bộ từ nhanh. Xây dựng khả năng nhận diện và ghi nhớ từ vựng tiếng Nhật cấp độ trung cấp tốt hơn.",
+    "keywords": "từ vựng jlpt n3, danh sách từ n3, luyện từ vựng n3, học từ vựng n3, câu đố từ vựng n3"
+  },
+  "vocabularyJlptN2": {
+    "title": "Danh sách và luyện từ vựng JLPT N2 - Học tiếng Nhật trung thượng cấp | KanaDojo",
+    "titleShort": "Luyện tập Từ vựng JLPT N2",
+    "description": "Luyện tập từ vựng JLPT N2 với các bài tập tương tác nâng cao và xem lại bộ từ. Nâng cao phản xạ từ vựng và nhận diện cách dùng từ ở mức độ cao.",
+    "keywords": "từ vựng jlpt n2, danh sách từ n2, luyện từ vựng n2, học từ vựng n2, câu đố từ vựng n2"
+  },
+  "vocabularyJlptN1": {
+    "title": "Danh sách và luyện từ vựng JLPT N1 - Làm chủ từ vựng cao cấp | KanaDojo",
+    "titleShort": "Luyện tập Từ vựng JLPT N1",
+    "description": "Làm chủ từ vựng JLPT N1 với các bài tập chuyên sâu nâng cao, luyện tập theo bộ và quy trình ôn tập nhanh cho kỳ thi cấp độ cao nhất.",
+    "keywords": "từ vựng jlpt n1, danh sách từ n1, luyện từ vựng n1, học từ vựng n1, câu đố từ vựng n1"
+  },
+  "vocabularyBlitz": {
+    "title": "Vocabulary Blitz - Kiểm tra tốc độ từ vựng tiếng Nhật của bạn",
+    "titleShort": "Vocabulary Blitz - Thử thách tốc độ",
+    "description": "Kiểm tra tốc độ từ vựng tiếng Nhật của bạn với Vocabulary Blitz. Các bài tập nhận dạng từ có nhịp độ nhanh.",
+    "keywords": "tốc độ từ vựng, phản xạ từ vựng, luyện từ vựng nhanh, câu đố từ vựng tính giờ, từ vựng jlpt nhanh"
+  },
+  "vocabularyGauntlet": {
+    "title": "Vocabulary Gauntlet - Làm chủ mọi từ vựng",
+    "titleShort": "Vocabulary Gauntlet - Làm chủ mọi từ vựng",
+    "description": "Làm chủ toàn bộ từ vựng tiếng Nhật toàn diện với Vocabulary Gauntlet. Luyện tập tất cả các từ trong kỳ thi JLPT.",
+    "keywords": "làm chủ từ vựng, từ vựng tiếng nhật toàn diện, tất cả từ vựng jlpt"
+  },
+  "academy": {
+    "title": "Học viện - Các bài viết học tiếng Nhật | KanaDojo",
+    "titleShort": "Học viện - Bài viết học tiếng Nhật",
+    "description": "Đọc các bài hướng dẫn và bài viết toàn diện về học tiếng Nhật. Lời khuyên, mẹo và hiểu biết sâu sắc để làm chủ Hiragana, Katakana, Kanji và Từ vựng.",
+    "keywords": "hướng dẫn học tiếng nhật, mẹo tiếng nhật, bài viết học tiếng nhật, học hiragana, học katakana, học kanji"
+  },
+  "preferences": {
+    "title": "Tùy chọn - Cá nhân hóa trải nghiệm học tập của bạn",
+    "titleShort": "Tùy chọn - Thiết lập giao diện",
+    "description": "Cá nhân hóa trải nghiệm học tập KanaDojo của bạn. Chọn chủ đề, phông chữ và thiết lập cấu hình theo sở thích học tập của bạn.",
+    "keywords": "tùy chỉnh KanaDojo, cài đặt cá nhân, chủ đề màu sắc, phông chữ tiếng nhật"
+  },
+  "progress": {
+    "title": "Tiến trình - Theo dõi thống kê học tập tiếng Nhật của bạn",
+    "titleShort": "Tiến trình - Thống kê học tập",
+    "description": "Theo dõi tiến trình học tiếng Nhật của bạn. Xem số liệu thống kê chi tiết, thành tích đã mở khóa và các cột mốc học tập.",
+    "keywords": "tiến trình học tập, thống kê học tiếng nhật, số liệu tự học"
+  },
+  "privacy": {
+    "title": "Chính sách bảo mật - Bảo vệ dữ liệu tại KanaDojo",
+    "titleShort": "Chính sách bảo mật",
+    "description": "Tìm hiểu cách KanaDojo bảo vệ quyền riêng tư và xử lý dữ liệu của bạn. Cam kết của chúng tôi đối với bảo mật thông tin người dùng.",
+    "keywords": "chính sách bảo mật, bảo vệ dữ liệu, quyền riêng tư"
+  },
+  "terms": {
+    "title": "Điều khoản dịch vụ - Hướng dẫn sử dụng KanaDojo",
+    "titleShort": "Điều khoản dịch vụ",
+    "description": "Đọc Điều khoản dịch vụ của KanaDojo. Các hướng dẫn và quy định khi sử dụng nền tảng học tiếng Nhật của chúng tôi.",
+    "keywords": "điều khoản dịch vụ, quy định sử dụng, điều khoản quy định"
+  },
+  "security": {
+    "title": "Chính sách bảo mật hệ thống - Cách chúng tôi giữ an toàn cho KanaDojo",
+    "titleShort": "Bảo mật hệ thống",
+    "description": "Tìm hiểu về các biện pháp bảo mật của KanaDojo và cách chúng tôi bảo vệ nền tảng cũng như người dùng.",
+    "keywords": "chính sách bảo mật, an toàn hệ thống, bảo vệ dữ liệu"
+  },
+  "credits": {
+    "title": "Ghi công - Những người đóng góp & Hỗ trợ",
+    "titleShort": "Ghi công",
+    "description": "Gặp gỡ các nhà phát triển, nhà thiết kế và những người ủng hộ đã cùng xây dựng và phát triển KanaDojo.",
+    "keywords": "ghi công, người đóng góp, cộng đồng, nhà tài trợ"
+  },
+  "patchNotes": {
+    "title": "Nhật ký cập nhật - Các tính năng & Cải tiến mới nhất",
+    "titleShort": "Nhật ký cập nhật",
+    "description": "Cập nhật các tính năng, cải tiến và bản sửa lỗi mới nhất của KanaDojo. Xem lịch sử thay đổi và cập nhật ứng dụng.",
+    "keywords": "nhật ký cập nhật, thay đổi, tính năng mới, sửa lỗi"
+  },
+  "faq": {
+    "title": "Các câu hỏi thường gặp - Hỗ trợ & Trợ giúp KanaDojo",
+    "titleShort": "FAQ - Trợ giúp & Hỗ trợ",
+    "description": "FAQ KanaDojo: giải đáp rõ ràng về việc học Hiragana, Katakana, Kanji và từ vựng JLPT trực tuyến. Cách hoạt động của tiến trình lưu trữ, chế độ luyện tập và lộ trình học tối ưu.",
+    "keywords": "faq kanadojo, trợ giúp tiếng nhật, giải đáp học hiragana, giải đáp học katakana, lộ trình học tiếng nhật, lưu trữ tiến trình"
+  },
+  "experiments": {
+    "title": "Thử nghiệm - Khám phá các phương pháp học tập mới",
+    "titleShort": "Thử nghiệm",
+    "description": "Khám phá các tính năng thử nghiệm và các phương pháp học tập tiếng Nhật thay thế. Trải nghiệm những cách thức học tập mới lạ.",
+    "keywords": "thử nghiệm, học tập thay thế, phương pháp học mới"
+  },
+  "translate": {
+    "title": "Trình dịch Anh sang Nhật & Nhật sang Anh | KanaDojo",
+    "titleShort": "Dịch tiếng Nhật kèm Romaji",
+    "description": "Trình dịch tiếng Nhật trực tuyến miễn phí cho văn bản tiếng Anh sang Nhật và Nhật sang Anh. Hỗ trợ phiên âm Romaji cho Hiragana, Katakana và Kanji.",
+    "keywords": "dịch anh sang nhật, dịch nhật sang anh, trình dịch tiếng nhật miễn phí, dịch tiếng nhật có romaji, romaji tiếng nhật, phiên âm romaji"
+  },
+  "zen": {
+    "title": "Chế độ Zen - Luyện tập tiếng Nhật không bị phân tâm",
+    "titleShort": "Chế độ Zen",
+    "description": "Luyện tập tiếng Nhật trong một môi trường tối giản, không bị phân tâm. Tập trung hoàn toàn vào việc học của bạn với Chế độ Zen.",
+    "keywords": "chế độ zen, tập trung cao độ, học tập tối giản, không phân tâm"
+  },
+  "kanaTrain": {
+    "title": "Kana Training - Luyện tập Hiragana & Katakana",
+    "titleShort": "Luyện tập Kana",
+    "description": "Rèn luyện kỹ năng Hiragana và Katakana với các buổi tập có cấu trúc. Xây dựng phản xạ tự nhiên và cải thiện tốc độ nhận diện.",
+    "keywords": "luyện tập kana, thực hành hiragana, thực hành katakana, học tiếng nhật cơ bản"
+  },
+  "kanjiTrain": {
+    "title": "Kanji Training - Luyện tập Kanji tiếng Nhật",
+    "titleShort": "Luyện tập Kanji",
+    "description": "Rèn luyện nhận diện và viết Kanji với các buổi luyện tập có cấu trúc. Làm chủ các chữ Kanji tiếng Nhật một cách tiến bộ.",
+    "keywords": "luyện tập kanji, thực hành kanji, học kanji có cấu trúc"
+  },
+  "vocabularyTrain": {
+    "title": "Vocabulary Training - Luyện từ vựng tiếng Nhật",
+    "titleShort": "Luyện tập Từ vựng",
+    "description": "Rèn luyện vốn từ vựng tiếng Nhật của bạn với các buổi học có cấu trúc. Học và ghi nhớ từ mới một cách hiệu quả.",
+    "keywords": "luyện từ vựng, thực hành từ vựng, từ vựng jlpt có cấu trúc, ôn tập từ vựng"
+  },
+  "kanaSubset": {
+    "hiraganaBase": {
+      "title": "Ký tự Hiragana cơ bản (あ-わ) - Học Hiragana cơ bản | KanaDojo",
+      "titleShort": "Ký tự Hiragana cơ bản",
+      "description": "Làm chủ 46 ký tự Hiragana cơ bản (あいうえお, かきくけこ, さしすせそ, v.v.). Hướng dẫn tham khảo đầy đủ kèm phiên âm cho mọi ký tự cơ bản.",
+      "keywords": "hiragana cơ bản, bảng hiragana, あいうえお, tham khảo hiragana, học bảng chữ cái tiếng nhật"
+    },
+    "hiraganaDakuon": {
+      "title": "Hiragana Dakuon (が-ぽ) - Các ký tự Hiragana biến âm | KanaDojo",
+      "titleShort": "Ký tự Hiragana biến âm",
+      "description": "Học các ký tự Hiragana đục (Dakuon) và bán đục (Handakuon) voiced (がぎぐげご, ざじずぜぞ, だぢづdeど, ばびぶべぼ, ぱぴぷぺぽ). Hướng dẫn đầy đủ.",
+      "keywords": "hiragana dakuon, biến âm hiragana, tenten maru, がぎぐげご, ばびぶべぼ, ぱぴぷぺぽ"
+    },
+    "hiraganaYoon": {
+      "title": "Hiragana Yoon (きゃ-りょ) - Các ký tự ghép Hiragana | KanaDojo",
+      "titleShort": "Ký tự ghép Hiragana",
+      "description": "Làm chủ các âm ghép Hiragana (きゃきゅきょ, しゃしゅしょ, ちゃちゅちょ, v.v.). Học toàn bộ 33 âm ghép tiếng Nhật kèm phiên âm.",
+      "keywords": "hiragana yoon, âm ghép hiragana, chữ ghép hiragana, きゃきゅきょ, しゃしゅしょ, digraphs"
+    },
+    "katakanaBase": {
+      "title": "Ký tự Katakana cơ bản (ア-ワ) - Học Katakana cơ bản | KanaDojo",
+      "titleShort": "Ký tự Katakana cơ bản",
+      "description": "Làm chủ 46 ký tự Katakana cơ bản (アイウエオ, カキクケコ, サシスセソ, v.v.). Hướng dẫn tham khảo đầy đủ kèm phiên âm cho mọi ký tự cơ bản.",
+      "keywords": "katakana cơ bản, bảng katakana, アイウエオ, tham khảo katakana, chữ cứng tiếng nhật"
+    },
+    "katakanaDakuon": {
+      "title": "Katakana Dakuon (ガ-ポ) - Các ký tự Katakana biến âm | KanaDojo",
+      "titleShort": "Ký tự Katakana biến âm",
+      "description": "Học các ký tự Katakana đục (Dakuon) và bán đục (Handakuon) voiced (ガギグゲゴ, ザジズゼゾ, ダヂヅデド, バビブベボ, パピプペポ).",
+      "keywords": "katakana dakuon, biến âm katakana, ガギグゲゴ, バビブベボ, パピプペポ"
+    },
+    "katakanaYoon": {
+      "title": "Katakana Yoon (キャ-リョ) - Các ký tự ghép Katakana | KanaDojo",
+      "titleShort": "Ký tự ghép Katakana",
+      "description": "Làm chủ các âm ghép Katakana (キャキュキョ, シャシュショ, チャチュチョ, v.v.). Học toàn bộ 33 âm ghép tiếng Nhật kèm phiên âm.",
+      "keywords": "katakana yoon, âm ghép katakana, chữ ghép katakana, キャキュキョ, シャシュショ"
+    },
+    "katakanaForeign": {
+      "title": "Âm Katakana mở rộng (ファ-ウィ) - Katakana ngoại lai | KanaDojo",
+      "titleShort": "Âm Katakana ngoại lai",
+      "description": "Học các ký tự Katakana mở rộng để biểu thị từ mượn tiếng nước ngoài (ファ, フィ, ウィ, ウェ, v.v.). Làm chủ cách phát âm đặc biệt.",
+      "keywords": "katakana mở rộng, katakana ngoại lai, từ mượn katakana, ファフィ, ウィウェ, special katakana"
+    }
+  },
+  "hiraganaPractice": {
+    "title": "Luyện tập Hiragana - Học Hiragana nhanh | KanaDojo",
+    "titleShort": "Luyện tập Hiragana",
+    "description": "Thực hành Hiragana tiếng Nhật với các bài tập và trò chơi tương tác. Học bảng hiragana, cải thiện tốc độ và tự tin hơn với phản hồi tức thì.",
+    "keywords": "luyện tập hiragana, thực hành hiragana, học hiragana nhanh, câu đố hiragana"
+  },
+  "katakanaPractice": {
+    "title": "Luyện tập Katakana - Học Katakana nhanh | KanaDojo",
+    "titleShort": "Luyện tập Katakana",
+    "description": "Thực hành Katakana tiếng Nhật với các bài tập và trò chơi tương tác. Làm chủ katakana nhanh chóng với theo dõi tiến trình.",
+    "keywords": "luyện tập katakana, thực hành katakana, học katakana nhanh, câu đố katakana"
+  },
+  "kanjiPractice": {
+    "title": "Luyện tập Kanji - Học chữ Kanji theo cấp độ JLPT | KanaDojo",
+    "titleShort": "Luyện tập Kanji",
+    "description": "Thực hành Kanji tiếng Nhật theo cấp độ JLPT với các buổi rèn luyện tương tác. Cải thiện nhận diện, âm đọc và lưu trữ thông tin tốt hơn.",
+    "keywords": "luyện tập kanji, học kanji jlpt, luyện kanji theo cấp độ, câu đố chữ hán nhật"
+  }
+}

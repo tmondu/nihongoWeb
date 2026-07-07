@@ -1,0 +1,47 @@
+{
+  "title": "Thống kê",
+  "description": "Tiến trình học tập và thống kê của bạn",
+  "overview": {
+    "title": "Tổng quan",
+    "totalStudyTime": "Tổng thời gian học",
+    "questionsAnswered": "Số câu hỏi đã trả lời",
+    "accuracy": "Độ chính xác tổng quan",
+    "currentStreak": "Chuỗi hiện tại",
+    "longestStreak": "Chuỗi dài nhất"
+  },
+  "charts": {
+    "dailyActivity": "Hoạt động hàng ngày",
+    "accuracyOverTime": "Độ chính xác theo thời gian",
+    "progressByLevel": "Tiến trình theo cấp độ",
+    "timeByDojo": "Thời gian theo Dojo"
+  },
+  "kana": {
+    "title": "Thống kê Kana",
+    "mastered": "Đã thành thạo",
+    "learning": "Đang học",
+    "notStarted": "Chưa bắt đầu",
+    "hiraganaProgress": "Tiến trình Hiragana",
+    "katakanaProgress": "Tiến trình Katakana"
+  },
+  "kanji": {
+    "title": "Thống kê Kanji",
+    "mastered": "Đã thành thạo",
+    "learning": "Đang học",
+    "notStarted": "Chưa bắt đầu",
+    "byLevel": "Theo cấp độ JLPT"
+  },
+  "vocabulary": {
+    "title": "Thống kê Từ vựng",
+    "wordsLearned": "Số từ đã học",
+    "mastered": "Đã thành thạo",
+    "learning": "Đang học",
+    "byLevel": "Theo cấp độ JLPT"
+  },
+  "performance": {
+    "title": "Hiệu suất",
+    "bestAccuracy": "Độ chính xác cao nhất",
+    "fastestTime": "Thời gian nhanh nhất",
+    "longestSession": "Phiên học dài nhất",
+    "mostImproved": "Cải thiện nhiều nhất"
+  }
+}

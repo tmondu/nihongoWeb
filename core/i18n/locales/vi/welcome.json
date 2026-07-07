@@ -1,0 +1,67 @@
+{
+  "title": "Chào mừng đến với KanaDojo!",
+  "subtitle": "Hãy cá nhân hóa trải nghiệm học tập của bạn",
+  "steps": {
+    "welcome": {
+      "demoCta": "Trải nghiệm thử"
+    },
+    "behavior": {
+      "title": "Cấu hình hành vi",
+      "subtitle": "Thiết lập tùy chọn hiển thị và âm thanh của bạn",
+      "displayLanguage": {
+        "title": "Ngôn ngữ hiển thị",
+        "description": "Trong menu chọn ký tự, đối với cách đọc, hiển thị:",
+        "romaji": "Romaji, Bản dịch 🇺🇸",
+        "kana": "Kana, Kanji 🇯🇵"
+      },
+      "soundEffects": {
+        "title": "Hiệu ứng âm thanh",
+        "description": "Phát hiệu ứng âm thanh giao diện và phản hồi:",
+        "on": "Bật",
+        "off": "Tắt"
+      }
+    },
+    "themes": {
+      "title": "Chọn chủ đề của bạn",
+      "subtitle": "Chọn một chủ đề phù hợp với phong cách của bạn",
+      "randomTheme": "Chủ đề ngẫu nhiên",
+      "moreInfo": "Nhiều chủ đề hơn có sẵn trong",
+      "preferences": "Tùy chọn"
+    },
+    "fonts": {
+      "title": "Chọn phông chữ của bạn",
+      "subtitle": "Chọn phông chữ hoàn hảo cho các ký tự",
+      "randomFont": "Phông chữ ngẫu nhiên",
+      "default": "(mặc định)",
+      "moreInfo": "Nhiều phông chữ hơn có sẵn trong",
+      "preferences": "Tùy chọn"
+    },
+    "complete": {
+      "title": "Tất cả đã sẵn sàng!",
+      "subtitle": "KanaDojo của bạn hiện đã được cá nhân hóa",
+      "canChange": "Bạn luôn có thể thay đổi các cài đặt này sau trong Tùy chọn.",
+      "happyLearning": "Chúc bạn học tập vui vẻ!"
+    }
+  },
+  "features": {
+    "behavior": {
+      "title": "Cấu hình hành vi",
+      "description": "Thiết lập ngôn ngữ hiển thị và tùy chọn âm thanh"
+    },
+    "theme": {
+      "title": "Chọn chủ đề của bạn",
+      "description": "Chọn một chủ đề phù hợp với phong cách của bạn"
+    },
+    "font": {
+      "title": "Chọn phông chữ của bạn",
+      "description": "Chọn phông chữ hoàn hảo cho các ký tự của bạn"
+    }
+  },
+  "navigation": {
+    "previous": "Trước đó",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "getStarted": "Bắt đầu",
+    "finishSetup": "Hoàn tất thiết lập"
+  }
+}

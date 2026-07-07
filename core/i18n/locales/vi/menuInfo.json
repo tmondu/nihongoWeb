@@ -1,0 +1,34 @@
+{
+  "greeting": "Chào mừng đến KanaDojo!",
+  "description": "KanaDojo là nền tảng học tiếng Nhật tối giản, đẹp mắt, được cộng đồng tạo ra, lấy cảm hứng từ Duolingo và Monkeytype.",
+  "instructions": "Để bắt đầu, chọn một dojo bên dưới và bắt đầu luyện tập ngay!",
+  "kana": {
+    "header": "Chào mừng đến dojo kana (hiragana và katakana)!",
+    "content1": "Đây là nơi bạn có thể học và thực hành hai bảng chữ cái cốt lõi của tiếng Nhật - Hiragana và Katakana.",
+    "content2": "Để bắt đầu, chọn ít nhất 1 bộ ký tự, chọn hoặc thay đổi chế độ luyện tập, sau đó nhấn <b/> bên dưới và bắt đầu ngay!"
+  },
+  "kanji": {
+    "header": "Chào mừng đến dojo kanji!",
+    "content1": "Đây là nơi bạn có thể học và thực hành thành phần chính của hệ thống chữ viết tiếng Nhật - Hán tự (Kanji).",
+    "content2": "Để bắt đầu, chọn ít nhất 1 cấp độ, chọn chế độ luyện tập, sau đó nhấn <b/> bên dưới và bắt đầu luyện tập!",
+    "content3": "Mới: nhấp vào một chữ kanji để tìm hiểu thêm về nó trên <a/>"
+  },
+  "vocabulary": {
+    "header": "Chào mừng đến dojo từ vựng!",
+    "content1": "Đây là nơi bạn có thể học và thực hành các từ phổ biến nhất trong tiếng Nhật giao tiếp hàng ngày.",
+    "content2": "Để bắt đầu, chọn ít nhất 1 cấp độ, chọn chế độ luyện tập, sau đó nhấn <b/> bên dưới và bắt đầu luyện tập!",
+    "content3": "Mới: nhấp vào một từ để tìm hiểu thêm về nó trên <a/>"
+  },
+  "jlptMenu": {
+    "header": "Về các nhóm kanji/từ vựng JLPT",
+    "content": "Kỳ thi bao gồm năm cấp độ, với N1 là cấp độ cao nhất và N5 là thấp nhất. N1 bao gồm các ký tự kanji và từ vựng cho phép người dùng hiểu tiếng Nhật được sử dụng trong kinh doanh, học thuật và các môi trường cấp cao khác, N2 cho phép hiểu tiếng Nhật trong các tình huống hàng ngày và trong nhiều hoàn cảnh ở mức độ thành thạo, N3 đại diện cho từ vựng giúp hiểu tiếng Nhật hàng ngày ở mức độ trung cấp, N4 thể hiện khả năng hiểu một số tiếng Nhật thực tế cơ bản, và N5 là mức độ hiểu tiếng Nhật đơn giản cơ bản."
+  },
+  "groupMenu": {
+    "header": "Về Kỳ thi năng lực tiếng Nhật (JLPT)",
+    "content": "JLPT (Kỳ thi Năng lực Ngôn ngữ Tiếng Nhật) là một bài kiểm tra tiêu chuẩn hóa để đánh giá và chứng nhận trình độ tiếng Nhật cho người không phải bản xứ.<br/>Danh sách từ vựng JLPT phân loại các ký tự kanji và từ ngữ dựa trên tần suất xuất hiện của chúng trong Kỳ thi (JLPT). Bài thi có năm cấp độ, từ N5 (dễ nhất) đến N1 (khó nhất), mỗi cấp độ yêu cầu kiến thức về một tập hợp kanji cụ thể. N5 và N4 tập trung vào kanji và các từ vựng dùng trong đời sống hàng ngày, trong khi N3, N2 và N1 giới thiệu các ký tự và từ vựng phức tạp, chuyên ngành hơn. Ban đầu được thiết kế để luyện thi JLPT, những từ vựng này cũng được người học trên toàn thế giới sử dụng rộng rãi để học tiếng Nhật một cách hiệu quả và có hệ thống."
+  },
+  "wordClassMenu": {
+    "header": "Về các loại từ (Từ loại)",
+    "content": "Các loại từ phân loại từ ngữ dựa trên chức năng và ý nghĩa của chúng trong câu. Danh từ dùng để chỉ người, địa điểm, sự vật hoặc khái niệm - như \"chó\", \"thành phố\", \"hạnh phúc\", v.v. Tính từ mô tả hoặc bổ nghĩa cho danh từ, cung cấp chi tiết về những phẩm chất nhất định của danh từ - như \"vui vẻ\", \"đẹp\", \"cao\", \"xanh\". Động từ thể hiện hành động, trạng thái hoặc sự việc xảy ra - như \"chạy\", \"nghĩ\", \"tồn tại\". Và cuối cùng, trạng từ bổ nghĩa cho động từ, tính từ hoặc thậm chí cả các trạng từ khác, thường chỉ ra cách thức, thời gian hoặc mức độ - như \"nhanh chóng\", \"chậm chạp\", \"kém\", \"rất\", \"hôm qua\", v.v."
+  }
+}

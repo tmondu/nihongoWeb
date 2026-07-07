@@ -1,0 +1,34 @@
+{
+  "pageTitle": "Blog",
+  "pageDescription": "Khám phá bộ sưu tập bài viết học tiếng Nhật bao gồm Hiragana, Katakana, Kanji, từ vựng, ngữ pháp và văn hóa Nhật Bản.",
+  "metaTitle": "Blog - Bài viết học tiếng Nhật | KanaDojo",
+  "metaDescription": "Khám phá bộ sưu tập bài viết học tiếng Nhật bao gồm Hiragana, Katakana, Kanji, từ vựng, ngữ pháp và văn hóa Nhật Bản. Nội dung giáo dục miễn phí cho mọi trình độ.",
+  "categories": {
+    "all": "Tất cả",
+    "hiragana": "Hiragana",
+    "katakana": "Katakana",
+    "kanji": "Kanji",
+    "vocabulary": "Từ vựng",
+    "grammar": "Ngữ pháp",
+    "culture": "Văn hóa"
+  },
+  "filter": {
+    "label": "Lọc bài viết theo danh mục",
+    "noResults": "Không tìm thấy bài viết nào trong danh mục này."
+  },
+  "card": {
+    "readMore": "Đọc thêm về {title}"
+  },
+  "post": {
+    "by": "Bởi {author}",
+    "updated": "Cập nhật: {date}",
+    "readingTime": "{minutes} phút đọc",
+    "tableOfContents": "Trên trang này",
+    "relatedPosts": "Bài viết liên quan"
+  },
+  "difficulty": {
+    "beginner": "Người mới",
+    "intermediate": "Trung cấp",
+    "advanced": "Nâng cao"
+  }
+}

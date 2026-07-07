@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "title": "KanaDojo: Kana",
+    "description": "Dojo kana là nơi bạn có thể học và luyện tập hai bảng âm tiết cốt lõi của tiếng Nhật - Hiragana và Katakana."
+  },
+  "title": "Luyện tập Kana",
+  "description": "Thành thạo Hiragana và Katakana",
+  "selection": {
+    "title": "Chọn nhóm Kana",
+    "hiragana": "Hiragana",
+    "katakana": "Katakana",
+    "selectAll": "Chọn tất cả",
+    "deselectAll": "Bỏ chọn tất cả",
+    "groups": {
+      "basic": "Cơ bản",
+      "dakuon": "Dakuon",
+      "combo": "Kết hợp",
+      "yoon": "Yōon"
+    }
+  },
+  "game": {
+    "title": "Trò chơi Kana",
+    "start": "Bắt đầu",
+    "pause": "Tạm dừng",
+    "resume": "Tiếp tục",
+    "finish": "Kết thúc",
+    "nextQuestion": "Câu tiếp theo",
+    "submit": "Gửi đáp án",
+    "score": "Điểm: {{points}}",
+    "timeLeft": "Thời gian còn lại: {{seconds}}s",
+    "streak": "Chuỗi: {{count}}",
+    "correct": "Đúng rồi!",
+    "incorrect": "Sai rồi",
+    "tryAgain": "Thử lại"
+  },
+  "modes": {
+    "pick": "Chế độ chọn",
+    "reversePick": "Chọn ngược",
+    "input": "Chế độ nhập",
+    "reverseInput": "Nhập ngược",
+    "description": {
+      "pick": "Xem kana, chọn cách đọc",
+      "reversePick": "Xem cách đọc, chọn kana",
+      "input": "Xem kana, gõ cách đọc",
+      "reverseInput": "Xem cách đọc, gõ kana"
+    }
+  },
+  "results": {
+    "title": "Kết quả",
+    "congratulations": "Chúc mừng!",
+    "correct": "Đúng: {{count}}",
+    "incorrect": "Sai: {{count}}",
+    "accuracy": "Độ chính xác: {{percentage}}%",
+    "timeSpent": "Thời gian: {{time}}",
+    "playAgain": "Chơi lại",
+    "backToMenu": "Về menu"
+  },
+  "dictionary": {
+    "title": "Từ điển Kana",
+    "search": "Tìm kana...",
+    "character": "Ký tự",
+    "romaji": "Romaji",
+    "type": "Loại"
+  }
+}

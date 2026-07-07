@@ -1,0 +1,134 @@
+{
+  "kicker": "TRUNG TÂM HỖ TRỢ",
+  "title": "Câu hỏi thường gặp",
+  "subtitle": "Câu trả lời rõ ràng, thông tin chi tiết thực tế, và con đường nhanh nhất từ 'Tôi không đọc được tiếng Nhật' đến thành thạo kana, kanji và từ vựng.",
+  "links": {
+    "howToUse": "Cách sử dụng KanaDojo",
+    "glossary": "Từ điển tiếng Nhật",
+    "translator": "Dịch thuật Anh ↔ Nhật",
+    "academy": "Hướng dẫn học tập",
+    "privacy": "Chính sách bảo mật",
+    "terms": "Điều khoản dịch vụ"
+  },
+  "nav": {
+    "title": "Đi đến",
+    "backToTop": "Đầu trang",
+    "aria": "Điều hướng phần FAQ",
+    "note": "Mẹo: Dùng Từ điển nếu bạn thấy các thuật ngữ như 'dakuon', 'yoon', 'onyomi' hoặc 'kunyomi'."
+  },
+  "intro": {
+    "title": "Hướng dẫn nhanh",
+    "body": "KanaDojo là ứng dụng web học tiếng Nhật miễn phí để luyện tập Hiragana, Katakana, Kanji và từ vựng JLPT. Bạn không cần tạo tài khoản. Tiến trình được lưu cục bộ trong trình duyệt, và bạn có thể tùy chỉnh giao diện với các chủ đề và phông chữ."
+  },
+  "cta": {
+    "hiragana": "Bắt đầu luyện Hiragana",
+    "katakana": "Bắt đầu luyện Katakana",
+    "kanji": "Bắt đầu luyện Kanji"
+  },
+  "footer": {
+    "title": "Vẫn còn thắc mắc?",
+    "body": "Nếu có gì không ổn, thường là một trong hai nguyên nhân: bộ bài luyện sai (quá nhiều ký tự mới cùng lúc) hoặc sai chế độ (nhận biết vs ghi nhớ). Dùng các liên kết bên dưới để điều chỉnh trong chưa đầy một phút.",
+    "links": {
+      "kana": "Duyệt bộ Kana",
+      "progress": "Mở bảng tiến trình"
+    }
+  },
+  "sections": {
+    "gettingStarted": {
+      "title": "Bắt đầu",
+      "description": "KanaDojo là gì, cách hoạt động và bạn nên làm gì trước tiên.",
+      "q1": {
+        "question": "KanaDojo là gì?",
+        "answer": "KanaDojo là nền tảng học tiếng Nhật miễn phí để luyện tập Hiragana, Katakana, Kanji và từ vựng với bài tập nhanh và chế độ đào tạo như trò chơi. Được thiết kế để tự học, phản hồi nhanh và tiến bộ đều đặn."
+      },
+      "q2": {
+        "question": "KanaDojo có thực sự miễn phí không?",
+        "answer": "Có. KanaDojo hoàn toàn miễn phí, không yêu cầu tài khoản và không có nội dung luyện tập tính phí."
+      },
+      "q3": {
+        "question": "Tôi có cần tạo tài khoản không?",
+        "answer": "Không. Tùy chọn và thống kê học tập của bạn được lưu cục bộ trong trình duyệt. Nếu bạn xóa dữ liệu trang hoặc chuyển thiết bị/trình duyệt, tiến trình cục bộ sẽ không tự động theo."
+      }
+    },
+    "learningPath": {
+      "title": "Lộ trình học tập",
+      "description": "Thứ tự thực tế để học đọc tiếng Nhật cơ bản.",
+      "q1": {
+        "question": "Tôi nên học Hiragana hay Katakana trước?",
+        "answer": "Hầu hết người học bắt đầu với Hiragana, rồi chuyển sang Katakana. Khi bạn đọc kana thoải mái, hãy bắt đầu học Kanji và từ vựng sơ cấp cùng nhau để hiểu thực tế nhanh hơn."
+      },
+      "q2": {
+        "question": "Mất bao lâu để học Hiragana và Katakana?",
+        "answer": "Với luyện tập hàng ngày đều đặn, nhiều người học ghi nhớ mỗi bộ kana trong 1–2 tuần và đọc thoải mái trong vòng một tháng. Tốc độ và độ chính xác cải thiện với các buổi ngắn, thường xuyên."
+      },
+      "q3": {
+        "question": "Khi nào tôi nên bắt đầu học Kanji?",
+        "answer": "Sau khi bạn biết kana đủ để đọc các từ cơ bản (dù chậm), hãy bắt đầu Kanji—lý tưởng nhất là theo cấp độ JLPT (N5 → N4 → N3 → N2 → N1). Học Kanji cùng từ vựng giúp ghi nhớ tốt hơn."
+      }
+    },
+    "features": {
+      "title": "Tính năng & chế độ luyện tập",
+      "description": "Cách luyện tập hoạt động và chế độ nào phù hợp với mục tiêu của bạn.",
+      "q1": {
+        "question": "Các chế độ đào tạo là gì?",
+        "answer": "KanaDojo bao gồm chế độ nhận biết và ghi nhớ (chọn/chọn ngược, nhập/nhập ngược) cùng thử thách tốc độ như Blitz và kiểm tra thành thạo dài hơn như Gauntlet. Chuyển chế độ tùy thuộc vào việc bạn muốn độ chính xác, ghi nhớ hay tốc độ."
+      },
+      "q2": {
+        "question": "Chế độ nào tốt nhất cho người mới?",
+        "answer": "Bắt đầu với nhận biết (chế độ chọn) để xây dựng nhận dạng mẫu nhanh, sau đó thêm chế độ nhập để ghi nhớ. Với kana, xen kẽ nhận biết và gõ phím là kết hợp mạnh mẽ."
+      },
+      "q3": {
+        "question": "Tôi có thể tùy chỉnh chủ đề và phông chữ không?",
+        "answer": "Có. KanaDojo hỗ trợ tùy chỉnh rộng rãi (chủ đề, phông chữ và tùy chọn) để bạn có thể tìm giao diện phù hợp cho các buổi học dài."
+      }
+    },
+    "privacy": {
+      "title": "Quyền riêng tư & dữ liệu",
+      "description": "Những gì được lưu, lưu ở đâu và ý nghĩa với bạn.",
+      "q1": {
+        "question": "Tiến trình của tôi được lưu ở đâu?",
+        "answer": "Tiến trình của bạn được lưu cục bộ trong trình duyệt (trên thiết bị của bạn). Điều này giữ thống kê của bạn riêng tư và cho phép bạn bắt đầu ngay mà không cần đăng ký."
+      },
+      "q2": {
+        "question": "Tiến trình của tôi có đồng bộ trên các thiết bị không?",
+        "answer": "Không tự động. Vì tiến trình được lưu cục bộ, chuyển trình duyệt/thiết bị sẽ không mang theo tiến trình trừ khi bạn di chuyển dữ liệu thủ công."
+      },
+      "q3": {
+        "question": "KanaDojo có hoạt động ngoại tuyến không?",
+        "answer": "KanaDojo có thể hoạt động ngoại tuyến cho luyện tập cốt lõi khi tài nguyên đã được lưu vào bộ nhớ đệm, nhưng trải nghiệm tốt nhất là khi có kết nối internet—đặc biệt lần tải đầu tiên."
+      }
+    },
+    "jlpt": {
+      "title": "Chuẩn bị JLPT",
+      "description": "Cách KanaDojo phù hợp với kế hoạch học JLPT.",
+      "q1": {
+        "question": "KanaDojo có giúp ích cho JLPT không?",
+        "answer": "Có. KanaDojo tổ chức Kanji và từ vựng theo cấp độ JLPT (N5–N1), giúp bạn dễ dàng tập trung luyện tập cho cấp độ thi mục tiêu."
+      },
+      "q2": {
+        "question": "KanaDojo có đủ để thi đỗ JLPT không?",
+        "answer": "Đây là công cụ luyện tập mạnh mẽ cho nhận biết, ghi nhớ và tốc độ—nhưng JLPT cũng kiểm tra nghe, đọc hiểu và ngữ pháp trong ngữ cảnh. Kết hợp KanaDojo với tài liệu đọc/nghe theo cấp độ và tài nguyên ngữ pháp."
+      },
+      "q3": {
+        "question": "Tôi nên học gì cho JLPT N5 trước?",
+        "answer": "Bắt đầu với Hiragana + Katakana, sau đó là Kanji N5 và từ vựng cốt lõi. Các buổi học ngắn hàng ngày hiệu quả hơn học dồn—hướng đến sự nhất quán và ôn tập các mục yếu thường xuyên."
+      }
+    },
+    "troubleshooting": {
+      "title": "Xử lý sự cố",
+      "description": "Sửa các vấn đề phổ biến nhất kiểu 'tại sao tôi không tiến bộ?'",
+      "q1": {
+        "question": "Tôi cứ nhầm lẫn các ký tự tương tự. Tôi phải làm gì?",
+        "answer": "Giảm bộ đang luyện, tập nhận biết trước, sau đó thêm các buổi ghi nhớ ngắn. Với kana, luyện các cặp tối thiểu và tập trung vào các nét phân biệt (ví dụ: さ vs ち, シ vs ツ)."
+      },
+      "q2": {
+        "question": "Độ chính xác của tôi ổn nhưng tôi chậm.",
+        "answer": "Thêm luyện tập có tính giờ (Blitz) với bộ nhỏ. Tốc độ thường cải thiện sau khi độ chính xác trở nên ổn định."
+      },
+      "q3": {
+        "question": "Tiến trình của tôi có vẻ bị đặt lại. Tôi có mất tất cả không?",
+        "answer": "Tiến trình được lưu cục bộ. Xóa dữ liệu trình duyệt, dùng chế độ ẩn danh hoặc chuyển thiết bị/trình duyệt có thể khiến nó trông như bị đặt lại. Kiểm tra xem bạn đang dùng cùng hồ sơ trình duyệt và dữ liệu trang không bị tự động xóa."
+      }
+    }
+  }
+}

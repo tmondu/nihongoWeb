@@ -1,0 +1,33 @@
+{
+  "general": {
+    "unknownError": "Đã xảy ra lỗi không xác định",
+    "networkError": "Lỗi mạng. Vui lòng kiểm tra kết nối của bạn.",
+    "serverError": "Lỗi máy chủ. Vui lòng thử lại sau.",
+    "notFound": "Không tìm thấy",
+    "unauthorized": "Truy cập không được phép",
+    "forbidden": "Truy cập bị từ chối",
+    "timeout": "Hết thời gian yêu cầu"
+  },
+  "validation": {
+    "required": "Trường này là bắt buộc",
+    "invalidFormat": "Định dạng không hợp lệ",
+    "tooShort": "Đầu vào quá ngắn",
+    "tooLong": "Đầu vào quá dài",
+    "invalidEmail": "Địa chỉ email không hợp lệ",
+    "invalidNumber": "Phải là số",
+    "outOfRange": "Giá trị nằm ngoài phạm vi"
+  },
+  "game": {
+    "noSelection": "Vui lòng chọn ít nhất một mục để bắt đầu",
+    "loadFailed": "Không thể tải dữ liệu trò chơi",
+    "saveFailed": "Không thể lưu tiến trình",
+    "invalidAnswer": "Định dạng câu trả lời không hợp lệ"
+  },
+  "data": {
+    "loadFailed": "Không thể tải dữ liệu",
+    "saveFailed": "Không thể lưu dữ liệu",
+    "exportFailed": "Không thể xuất dữ liệu",
+    "importFailed": "Không thể nhập dữ liệu",
+    "invalidData": "Định dạng dữ liệu không hợp lệ"
+  }
+}

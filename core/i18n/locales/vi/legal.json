@@ -1,0 +1,33 @@
+{
+  "privacy": {
+    "title": "Chính sách bảo mật",
+    "subtitle": "Bảo vệ dữ liệu của bạn tại KanaDojo",
+    "lastUpdated": "Cập nhật lần cuối"
+  },
+  "terms": {
+    "title": "Điều khoản dịch vụ",
+    "subtitle": "Hướng dẫn sử dụng KanaDojo",
+    "lastUpdated": "Cập nhật lần cuối"
+  },
+  "security": {
+    "title": "Chính sách bảo mật hệ thống",
+    "subtitle": "Cách chúng tôi bảo vệ KanaDojo",
+    "lastUpdated": "Cập nhật lần cuối"
+  },
+  "credits": {
+    "title": "Ghi công",
+    "subtitle": "Những người đóng góp & Hỗ trợ",
+    "contributors": {
+      "title": "Người đóng góp",
+      "description": "Cảm ơn tất cả những người đóng góp tuyệt vời của chúng tôi"
+    },
+    "sponsors": {
+      "title": "Nhà tài trợ",
+      "description": "Lời cảm ơn đặc biệt đến các nhà tài trợ của chúng tôi"
+    },
+    "openSource": {
+      "title": "Mã nguồn mở",
+      "description": "Được xây dựng với những dự án mã nguồn mở tuyệt vời này"
+    }
+  }
+}

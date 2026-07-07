@@ -1,0 +1,34 @@
+{
+  "menu": {
+    "home": "Trang chủ",
+    "kana": "Kana",
+    "kanji": "Kanji",
+    "vocabulary": "Từ vựng",
+    "academy": "Học viện",
+    "achievements": "Thành tích",
+    "statistics": "Thống kê",
+    "progress": "Tiến trình",
+    "settings": "Cài đặt",
+    "preferences": "Tùy chọn",
+    "about": "Giới thiệu",
+    "help": "Trợ giúp",
+    "logout": "Đăng xuất",
+    "guides": "Hướng dẫn",
+    "resources": "Tài nguyên",
+    "tools": "Công cụ",
+    "translate": "Dịch thuật",
+    "conjugate": "Chia động từ",
+    "converter": "Chuyển đổi",
+    "experiments": "Thử nghiệm"
+  },
+  "breadcrumbs": {
+    "home": "Trang chủ",
+    "back": "Quay lại {{name}}"
+  },
+  "footer": {
+    "copyright": "© {{year}} KanaDojo. Bảo lưu mọi quyền.",
+    "privacy": "Chính sách bảo mật",
+    "terms": "Điều khoản dịch vụ",
+    "contact": "Liên hệ chúng tôi"
+  }
+}
