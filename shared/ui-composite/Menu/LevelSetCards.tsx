@@ -91,9 +91,7 @@ type LevelSetCardsProps<TLevel extends string, TItem> = {
   loadingText: string;
   activeSubunitRange: ActiveSubunitRange;
   collapseScopeKey: string;
-  initialCollections?: Partial<
-    Record<TLevel, LevelSetCardsCollection<TItem>>
-  >;
+  initialCollections?: Partial<Record<TLevel, LevelSetCardsCollection<TItem>>>;
 };
 
 const INITIAL_ROWS = 5;
@@ -340,6 +338,12 @@ const LevelSetCards = <TLevel extends string, TItem>({
   const { playClick } = useClick();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   const [collections, setCollections] = useState<
     Partial<Record<TLevel, LevelSetCardsCollection<TItem>>>
@@ -460,14 +464,17 @@ const LevelSetCards = <TLevel extends string, TItem>({
     if (sessionStorage.getItem(initializedKey) === 'true') return;
 
     const calculateMasteredRows = () => {
-      const masteredRows = allRows.reduce<number[]>((acc, rowSets, rowIndex) => {
-        const isRowMastered = rowSets.every(
-          set => Math.round(set.progress * 100) >= 100,
-        );
+      const masteredRows = allRows.reduce<number[]>(
+        (acc, rowSets, rowIndex) => {
+          const isRowMastered = rowSets.every(
+            set => Math.round(set.progress * 100) >= 100,
+          );
 
-        if (isRowMastered) acc.push(rowIndex);
-        return acc;
-      }, []);
+          if (isRowMastered) acc.push(rowIndex);
+          return acc;
+        },
+        [],
+      );
 
       if (masteredRows.length > 0) {
         setCollapsedRows(prev =>
@@ -494,12 +501,7 @@ const LevelSetCards = <TLevel extends string, TItem>({
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [
-    allRows,
-    collapseScopeKey,
-    selectedCollection,
-    setCollapsedRows,
-  ]);
+  }, [allRows, collapseScopeKey, selectedCollection, setCollapsedRows]);
 
   const handleToggleSet = (setName: string) => {
     const set = setsTemp.find(s => s.name === setName);
@@ -555,7 +557,7 @@ const LevelSetCards = <TLevel extends string, TItem>({
     }
   };
 
-  if (!selectedCollection) {
+  if (!mounted || !selectedCollection) {
     return (
       <div className={clsx('flex w-full flex-col gap-4')}>
         <div className='mx-4 rounded-xl border-2 border-(--border-color) bg-(--card-color) px-4 py-3'>

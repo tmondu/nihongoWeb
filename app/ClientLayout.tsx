@@ -111,10 +111,29 @@ export default function ClientLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    const isDev = process.env.NODE_ENV === 'development';
-    const isPreviewDeployment =
-      process.env.NODE_ENV === 'production' &&
-      process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production';
+    if (typeof window === 'undefined') return;
+
+    const isAuthRoute =
+      pathname.includes('/login') || pathname.includes('/register');
+    const cleanPath = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
+    const isPublicRoute = cleanPath === '/' || cleanPath === '/about';
+
+    if (!isAuthRoute && !isPublicRoute) {
+      const isLoggedIn = sessionStorage.getItem('is_logged_in');
+      if (!isLoggedIn) {
+        fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+          sessionStorage.clear();
+          window.location.href = '/login';
+        });
+      }
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    // const isDev = process.env.NODE_ENV === 'development';
+    // const isPreviewDeployment =
+    //   process.env.NODE_ENV === 'production' &&
+    //   process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production';
     const isTargetRoute = /\/(kana|kanji|vocabulary)(\/|$)/.test(pathname);
     const isPreferencesRoute = /\/preferences(\/|$)/.test(pathname);
     const isProgressRoute = /\/progress(\/|$)/.test(pathname);
@@ -131,6 +150,7 @@ export default function ClientLayout({
       if (typeof window !== 'undefined') {
         sessionStorage.setItem(donationLastPathKey, pathname);
       }
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsDonationModalOpen(false);
       return;
     }
@@ -341,4 +361,3 @@ export default function ClientLayout({
     </div>
   );
 }
-

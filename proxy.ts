@@ -7,6 +7,8 @@ import {
   isTranslatorPath,
 } from './shared/utils/translator-routing';
 
+import { verifyJwt } from './shared/utils/auth';
+
 // Create intl middleware once at module level (more efficient)
 const intlMiddleware = createMiddleware(routing);
 const translatorMiddleware = createMiddleware({
@@ -15,10 +17,10 @@ const translatorMiddleware = createMiddleware({
   alternateLinks: false,
 });
 
-export default function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Fast path - skip for paths that don't need locale handling
+  // Fast path - skip for paths that don't need locale handling or auth protection
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -30,6 +32,37 @@ export default function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // 1. Session verification
+  const token = request.cookies.get('auth_token')?.value;
+  let user = null;
+  if (token) {
+    user = await verifyJwt(token);
+  }
+
+  const canonicalPath = hasLocalePrefix(pathname)
+    ? getCanonicalNoPrefixPath(pathname)
+    : pathname;
+
+  const isAuthPage =
+    canonicalPath === '/login' || canonicalPath === '/register';
+  const isPublicPage = canonicalPath === '/' || canonicalPath === '/about';
+
+  // Redirect if not authenticated
+  if (!user && !isAuthPage && !isPublicPage) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/login';
+    // Preserve original path to redirect back after successful login
+    redirectUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  // Redirect if already authenticated and trying to access auth pages
+  if (user && isAuthPage) {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/';
+    return NextResponse.redirect(redirectUrl);
+  }
+
   if (hasLocalePrefix(pathname)) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = getCanonicalNoPrefixPath(pathname);
@@ -38,9 +71,10 @@ export default function proxy(request: NextRequest) {
 
   // Derive locale from cookie
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-  const locale = cookieLocale === 'es' || cookieLocale === 'en' || cookieLocale === 'vi'
-    ? cookieLocale
-    : 'vi';
+  const locale =
+    cookieLocale === 'es' || cookieLocale === 'en' || cookieLocale === 'vi'
+      ? cookieLocale
+      : 'vi';
 
   if (isTranslatorPath(pathname)) {
     const response = translatorMiddleware(request);
