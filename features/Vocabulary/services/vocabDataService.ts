@@ -1,7 +1,5 @@
 import type { IVocabObj, VocabLevel } from '@/entities/vocabulary';
-import {
-  useVocabCacheStore,
-} from '@/features/Vocabulary/store/useVocabCacheStore';
+import { useVocabCacheStore } from '@/features/Vocabulary/store/useVocabCacheStore';
 
 type RawVocabEntry = {
   jmdict_seq: string;
@@ -54,7 +52,7 @@ export const vocabDataService = {
     }
 
     // Create new request and store the promise to prevent duplicate fetches
-    pendingRequests[level] = fetch(`/data-vocab/${level}.json`)
+    pendingRequests[level] = fetch(`/api/vocab?level=${level}`)
       .then(res => res.json() as Promise<RawVocabEntry[]>)
       .then(data => {
         const words = data.map(toWordObj);

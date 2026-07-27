@@ -6,8 +6,8 @@ const PREFETCH_KEY = 'kanadojo_prefetch_v1';
 
 const PREFETCH_URLS = [
   '/data-kanji/decorations.json',
-  '/data-kanji/N5.json',
-  '/data-vocab/n5.json',
+  '/api/kanji?level=n5',
+  '/api/vocab?level=n5',
   '/api/facts',
 ];
 

@@ -1,7 +1,5 @@
 import type { IKanjiObj, KanjiLevel } from '@/entities/kanji';
-import {
-  useKanjiCacheStore,
-} from '@/features/Kanji/store/useKanjiCacheStore';
+import { useKanjiCacheStore } from '@/features/Kanji/store/useKanjiCacheStore';
 
 type RawKanjiEntry = {
   id: number;
@@ -42,7 +40,7 @@ export const kanjiDataService = {
     }
 
     // Create new request and store the promise to prevent duplicate fetches
-    pendingRequests[level] = fetch(`/data-kanji/${level.toUpperCase()}.json`)
+    pendingRequests[level] = fetch(`/api/kanji?level=${level}`)
       .then(res => res.json() as Promise<RawKanjiEntry[]>)
       .then(data => {
         const kanji = data.map(entry => ({ ...entry })) as IKanjiObj[];
