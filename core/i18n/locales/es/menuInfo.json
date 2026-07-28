@@ -1,5 +1,34 @@
 {
   "greeting": "¡Bienvenido a KanaDojo!",
   "description": "KanaDojo es una aplicación web gratuita y de código abierto diseñada para ayudarte a aprender hiragana, katakana, kanji y vocabulario japonés a través de práctica interactiva y gamificación.",
-  "instructions": "Para empezar, elige uno de los tres dojos en el menú superior, configura tu sesión de práctica, ¡y comienza a aprender!"
+  "instructions": "Para empezar, elige uno de los tres dojos en el menú superior, configura tu sesión de práctica, ¡y comienza a aprender!",
+  "kana": {
+    "header": "¡Bienvenido al dojo de kana (hiragana y katakana)!",
+    "content1": "Este es el lugar donde puedes aprender y practicar los dos silabarios principales del japonés: Hiragana y Katakana.",
+    "content2": "Para comenzar, selecciona al menos 1 juego de caracteres, selecciona o cambia el modo de entrenamiento, ¡luego presiona <b/> abajo y comienza a entrenar ahora!"
+  },
+  "kanji": {
+    "header": "¡Bienvenido al dojo de kanji!",
+    "content1": "Este es el lugar donde puedes aprender y practicar el componente principal del sistema de escritura japonés: los caracteres kanji.",
+    "content2": "Para comenzar, selecciona al menos 1 nivel, selecciona tu modo de entrenamiento, ¡luego presiona <b/> abajo y comienza a entrenar!",
+    "content3": "Nuevo: haz clic en un carácter kanji para obtener más información sobre él en <a/>"
+  },
+  "vocabulary": {
+    "header": "¡Bienvenido al dojo de vocabulario!",
+    "content1": "Este es el lugar donde puedes aprender y practicar las palabras más comunes utilizadas en el japonés del día a día.",
+    "content2": "Para comenzar, selecciona al menos 1 nivel, selecciona tu modo de entrenamiento, ¡luego presiona <b/> abajo y comienza a entrenar!",
+    "content3": "Nuevo: haz clic en una palabra para obtener más información sobre ella en <a/>"
+  },
+  "jlptMenu": {
+    "header": "Acerca de los grupos de kanji/vocabulario del JLPT",
+    "content": "El examen consta de cinco niveles, siendo N1 el nivel más alto y N5 el más bajo. N1 cubre caracteres kanji y vocabulario que permiten al usuario comprender el japonés utilizado en el ámbito empresarial, académico y otros entornos de alto nivel; N2 cubre caracteres kanji y vocabulario que permiten al usuario tener la capacidad de comprender el japonés utilizado en situaciones cotidianas y en una variedad de circunstancias con un grado de competencia; N3 representa el vocabulario que permite al usuario comprender el japonés utilizado en situaciones cotidianas hasta un grado intermedio; N4 representa la capacidad de comprender algunos aspectos básicos del japonés de la vida real; y N5 representa la capacidad de comprender algunos aspectos sencillos del japonés a un nivel básico."
+  },
+  "groupMenu": {
+    "header": "Acerca del Examen de Nivel de Idioma Japonés (JLPT)",
+    "content": "El JLPT (abreviatura de Japanese-Language Proficiency Test) es un examen estandarizado basado en criterios para evaluar y certificar la competencia en el idioma japonés para hablantes no nativos.<br/>Las listas de vocabulario del JLPT categorizan los caracteres kanji y las palabras según su aparición en el Examen de Nivel de Idioma Japonés (JLPT). El examen tiene cinco niveles, desde el N5 (más fácil) al N1 (más difícil), cada uno de los cuales requiere el conocimiento de un conjunto específico de kanji. El N5 y el N4 se centran en kanji básicos y palabras utilizadas en la vida cotidiana, mientras que el N3, el N2 y el N1 introducen caracteres y vocabulario más complejos y especializados. Diseñados originalmente para la preparación del JLPT, estos vocabularios también son ampliamente utilizados por estudiantes de todo el mundo para estudiar japonés de manera eficaz y sistemática."
+  },
+  "wordClassMenu": {
+    "header": "Acerca de los tipos de palabras",
+    "content": "Los tipos de palabras clasifican las palabras según su función y significado en una oración. Los sustantivos nombran personas, lugares, cosas o ideas, como \"perro\", \"ciudad\", \"felicidad\", etc. Los adjetivos describen o modifican a los sustantivos, proporcionando detalles sobre ciertas cualidades de los mismos, como \"feliz\", \"hermoso\", \"alto\", \"azul\". Los verbos expresan acciones, estados o sucesos, como \"correr\", \"pensar\", \"existir\". Y, por último, los adverbios modifican verbos, adjetivos o incluso otros adverbios, indicando a menudo el modo, el tiempo o el grado, como \"rápidamente\", \"lentamente\", \"mal\", \"muy\", \"ayer\", etc."
+  }
 }

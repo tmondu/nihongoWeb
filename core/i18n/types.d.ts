@@ -88,6 +88,13 @@ export interface NavigationTranslations {
     about: string;
     help: string;
     logout: string;
+    guides: string;
+    resources: string;
+    tools: string;
+    translate: string;
+    conjugate: string;
+    converter: string;
+    experiments: string;
   };
   breadcrumbs: {
     home: string;
@@ -485,6 +492,35 @@ export interface MenuInfoTranslations {
   greeting: string;
   description: string;
   instructions: string;
+  kana: {
+    header: string;
+    content1: string;
+    content2: string;
+  };
+  kanji: {
+    header: string;
+    content1: string;
+    content2: string;
+    content3: string;
+  };
+  vocabulary: {
+    header: string;
+    content1: string;
+    content2: string;
+    content3: string;
+  };
+  jlptMenu: {
+    header: string;
+    content: string;
+  };
+  groupMenu: {
+    header: string;
+    content: string;
+  };
+  wordClassMenu: {
+    header: string;
+    content: string;
+  };
 }
 
 export interface BlogTranslations {
