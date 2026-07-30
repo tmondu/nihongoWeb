@@ -16,6 +16,17 @@ const dbConfig = {
 
 const PUBLIC_DIR = path.join(process.cwd(), 'public');
 
+async function runInChunks<T>(
+  items: T[],
+  chunkSize: number,
+  fn: (item: T) => Promise<void>,
+) {
+  for (let i = 0; i < items.length; i += chunkSize) {
+    const chunk = items.slice(i, i + chunkSize);
+    await Promise.all(chunk.map(fn));
+  }
+}
+
 async function main() {
   console.log('Connecting to MySQL database with config:', {
     host: dbConfig.host,
@@ -24,12 +35,16 @@ async function main() {
     port: dbConfig.port,
   });
 
-  const connection = await mysql.createConnection(dbConfig);
-  console.log('Database connected successfully.');
+  // Use a connection pool to allow concurrent queries over multiple TCP sockets
+  const pool = mysql.createPool({
+    ...dbConfig,
+    connectionLimit: 30,
+  });
+  console.log('Database pool initialized successfully.');
 
   try {
     // 1. Create kanjis table
-    await connection.execute(`
+    await pool.execute(`
       CREATE TABLE IF NOT EXISTS \`kanjis\` (
         \`id\` INT AUTO_INCREMENT PRIMARY KEY,
         \`level\` VARCHAR(5) NOT NULL,
@@ -45,8 +60,8 @@ async function main() {
     `);
 
     // 2. Create vocabularies table
-    await connection.execute(`DROP TABLE IF EXISTS \`vocabularies\``);
-    await connection.execute(`
+    await pool.execute(`DROP TABLE IF EXISTS \`vocabularies\``);
+    await pool.execute(`
       CREATE TABLE \`vocabularies\` (
         \`id\` INT AUTO_INCREMENT PRIMARY KEY,
         \`level\` VARCHAR(5) NOT NULL,
@@ -104,9 +119,9 @@ async function main() {
       console.log(
         `Migrating ${kanjis.length} kanjis for level ${lvl.toUpperCase()}...`,
       );
-      for (const k of kanjis) {
+      await runInChunks(kanjis, 30, async k => {
         const isDec = decorationsSet.has(k.kanjiChar) ? 1 : 0;
-        await connection.execute(
+        await pool.execute(
           `INSERT INTO \`kanjis\` (\`level\`, \`original_id\`, \`kanji_char\`, \`onyomi\`, \`kunyomi\`, \`meanings\`, \`is_decoration\`)
            VALUES (?, ?, ?, ?, ?, ?, ?)
            ON DUPLICATE KEY UPDATE 
@@ -126,7 +141,7 @@ async function main() {
             isDec,
           ],
         );
-      }
+      });
     }
 
     // 5. Migrate Vocabulary
@@ -153,8 +168,8 @@ async function main() {
       console.log(
         `Migrating ${vocabs.length} vocabularies for level ${lvl.toUpperCase()}...`,
       );
-      for (const v of vocabs) {
-        await connection.execute(
+      await runInChunks(vocabs, 30, async v => {
+        await pool.execute(
           `INSERT INTO \`vocabularies\` (\`level\`, \`jmdict_seq\`, \`kana\`, \`kanji\`, \`waller_definition\`)
            VALUES (?, ?, ?, ?, ?)
            ON DUPLICATE KEY UPDATE 
@@ -164,7 +179,7 @@ async function main() {
              \`waller_definition\` = VALUES(\`waller_definition\`)`,
           [lvl, v.jmdict_seq, v.kana, v.kanji || null, v.waller_definition],
         );
-      }
+      });
     }
 
     console.log('Migration completed successfully!');
@@ -172,7 +187,7 @@ async function main() {
     console.error('Error during migration:', error);
     process.exit(1);
   } finally {
-    await connection.end();
+    await pool.end();
   }
 }
 
