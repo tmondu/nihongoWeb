@@ -26,4 +26,3 @@ const KanaDojoBanner = () => {
 };
 
 export default KanaDojoBanner;
-

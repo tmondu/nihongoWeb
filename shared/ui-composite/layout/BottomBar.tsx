@@ -1,19 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faDiscord,
-  faGithub,
-  faPatreon,
-} from '@fortawesome/free-brands-svg-icons';
-import {
-  Coffee,
-  Bug,
-  Palette,
-  GitBranch,
-  Type,
-  LucideIcon,
-} from 'lucide-react';
+import { faPatreon } from '@fortawesome/free-brands-svg-icons';
+import { Coffee, Palette, GitBranch, Type, LucideIcon } from 'lucide-react';
 import clsx from 'clsx';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import {
@@ -37,34 +26,7 @@ type SocialLink = {
   special?: string;
 };
 
-const socialLinks: SocialLink[] = [
-  {
-    icon: faDiscord,
-    url: 'https://discord.gg/CyvBNNrSmb',
-    type: 'fontawesome',
-  },
-  {
-    icon: faGithub,
-    url: 'https://github.com/lingdojo/kana-dojo',
-    type: 'fontawesome',
-  },
-  {
-    icon: Bug,
-    url: 'https://tally.so/r/2E4rB9',
-    type: 'lucide',
-  },
-  {
-    icon: Coffee,
-    url: 'https://ko-fi.com/kanadojo',
-    type: 'lucide',
-    special: 'donate',
-  },
-  // {
-  //   icon: faPatreon,
-  //   url: 'https://www.patreon.com/kanadojo',
-  //   type: 'fontawesome'
-  // }
-];
+const socialLinks: SocialLink[] = [];
 
 const MobileBottomBar = () => {
   const { playClick } = useClick();
@@ -77,7 +39,6 @@ const MobileBottomBar = () => {
   const [isPatchNotesOpen, setIsPatchNotesOpen] = useState(false);
   const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [isFontOpen, setIsFontOpen] = useState(false);
-  const [useBadgeStyle, setUseBadgeStyle] = useState(true);
   const handleClick = (url: string) => {
     playClick();
     window.open(url, '_blank', 'noopener');
@@ -150,7 +111,7 @@ const MobileBottomBar = () => {
                   onClick={() => handleClick(link.url)}
                   className={clsx(
                     isDonate && USE_BADGE_STYLE
-                      ? 'inline-flex h-8 w-8 items-center justify-center rounded-xl  text-(--background-color) border-b-4  bg-(--main-color) border-(--main-color-accent) transition-all duration-200 hover:cursor-pointer'
+                      ? 'inline-flex h-8 w-8 items-center justify-center rounded-xl border-b-4 border-(--main-color-accent) bg-(--main-color) text-(--background-color) transition-all duration-200 hover:cursor-pointer'
                       : 'flex items-center',
                   )}
                   aria-label={`Open ${link.special === 'donate' ? 'Ko-fi' : link.url}`}
@@ -163,7 +124,9 @@ const MobileBottomBar = () => {
                         baseIconClasses,
                         pulseClasses,
                         isPatreon && 'text-blue-500',
-                        isDonate && USE_BADGE_STYLE && '!text-(--background-color)',
+                        isDonate &&
+                          USE_BADGE_STYLE &&
+                          '!text-(--background-color)',
                       )}
                     />
                   ) : (
@@ -173,7 +136,9 @@ const MobileBottomBar = () => {
                         (!isDonate || !USE_BADGE_STYLE) && baseIconClasses,
                         (!isDonate || !USE_BADGE_STYLE) && pulseClasses,
                         isDonate && USE_BADGE_STYLE && 'fill-current',
-                        isDonate && !USE_BADGE_STYLE && 'fill-current text-red-500',
+                        isDonate &&
+                          !USE_BADGE_STYLE &&
+                          'fill-current text-red-500',
                       )}
                     />
                   )}
@@ -216,7 +181,7 @@ const MobileBottomBar = () => {
             <React.Fragment key={idx}>
               {content}
               {idx < infoItems.length - 1 && (
-                  <span className='text-sm text-(--main-color) select-none'>
+                <span className='text-sm text-(--main-color) select-none'>
                   ~
                 </span>
               )}
