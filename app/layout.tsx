@@ -15,6 +15,8 @@ import SessionPrefetch from '@/shared/ui-composite/Performance/SessionPrefetch';
 
 const googleVerificationToken = process.env.GOOGLE_VERIFICATION_TOKEN || '';
 const msVerificationToken = process.env.MS_VERIFICATION_TOKEN || '';
+const SITE_URL =
+  process.env.SITE_URL || 'https://nihongoweb-production.up.railway.app';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -28,7 +30,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://kanadojo.com'),
+  metadataBase: new URL(SITE_URL),
   manifest: '/manifest.json',
   title: {
     default:
@@ -73,7 +75,7 @@ export const metadata: Metadata = {
     'japanese study tool',
     'free japanese lessons',
   ],
-  authors: [{ name: 'LingDojo', url: 'https://kanadojo.com' }],
+  authors: [{ name: 'LingDojo', url: SITE_URL }],
   creator: 'LingDojo',
   publisher: 'LingDojo',
   formatDetection: {
@@ -85,7 +87,7 @@ export const metadata: Metadata = {
     title: 'KanaDojo - Learn Japanese Hiragana, Katakana, Kanji & Vocabulary',
     description:
       'Master Japanese with KanaDojo - an aesthetic, minimalist platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Interactive games, progress tracking, and 100+ themes.',
-    url: 'https://kanadojo.com',
+    url: SITE_URL,
     siteName: 'KanaDojo',
     type: 'website',
     locale: 'en_US',
@@ -99,7 +101,7 @@ export const metadata: Metadata = {
     creator: '@kanadojo',
   },
   alternates: {
-    canonical: 'https://kanadojo.com',
+    canonical: SITE_URL,
   },
   robots: {
     index: true,
@@ -214,4 +216,3 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     </html>
   );
 }
-
