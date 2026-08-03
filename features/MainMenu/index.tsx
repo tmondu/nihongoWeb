@@ -1,7 +1,7 @@
 'use client';
 import { Fragment, lazy, Suspense, useState, useEffect } from 'react';
 import { Link } from '@/core/i18n/routing';
-import KanaDojoBanner from './KanaDojoBanner';
+import PThamSSBanner from './PThamSSBanner';
 import Info from '@/shared/ui-composite/Menu/Info';
 import NightlyBanner from '@/shared/ui-composite/Modals/NightlyBanner';
 import {
@@ -81,7 +81,7 @@ const MainMenu = () => {
       href: '/kana',
     },
     {
-      name_en: 'Vocab',
+      name_en: 'Từ vựng',
       name_ja: '語',
       href: '/vocabulary',
     },
@@ -103,8 +103,8 @@ const MainMenu = () => {
     { name: 'privacy', href: '/privacy', icon: Cookie },
     { name: 'security', href: '/security', icon: FileLock2 },
     { name: 'patch notes', href: '/patch-notes', icon: FileDiff },
-    { name: 'credits', href: '/credits', icon: Sparkle },
-    { name: 'about', href: '/about', icon: CircleHelp },
+    //{ name: 'credits', href: '/credits', icon: Sparkle },
+    //{ name: 'about', href: '/about', icon: CircleHelp },
   ];
 
   const mobileLabelInset = 'pl-[max(30%,calc(50%-5.5rem))]';
@@ -172,7 +172,7 @@ const MainMenu = () => {
         )}
       >
         <div className='flex w-full flex-row items-center justify-between gap-2 px-1'>
-          <KanaDojoBanner />
+          <PThamSSBanner />
           <div className='flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
             <button
               type='button'
@@ -207,7 +207,7 @@ const MainMenu = () => {
               {theme === 'dark' ? <Moon size={32} /> : <Sun size={32} />}
             </button>
 
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
               icon={faDiscord}
               size='2x'
               className={clsx(
@@ -219,8 +219,8 @@ const MainMenu = () => {
               onClick={() => {
                 playClick();
                 window.open('https://discord.gg/CyvBNNrSmb', '_blank');
-              }}
-            />
+              }} */}
+            {/* />
             <FontAwesomeIcon
               icon={faGithub}
               size='2x'
@@ -248,7 +248,7 @@ const MainMenu = () => {
               )}
               aria-label='Report a bug'
             >
-              <Bug size={32}  />
+              <Bug size={32} />
             </button>
             <Heart
               size={32}
@@ -260,8 +260,8 @@ const MainMenu = () => {
               onClick={() => {
                 playClick();
                 window.open('https://ko-fi.com/kanadojo', '_blank');
-              }}
-            />
+              }} */}
+            {/* /> */}
           </div>
         </div>
         <Info />
@@ -277,60 +277,60 @@ const MainMenu = () => {
               ? 'flex flex-col md:flex-row'
               : 'bg-(--card-color) flex flex-col md:flex-row duration-250 transition-all ease-in-out'
           )}>
-          {links.map((link, i) => (
-            <Fragment key={i}>
-              <Link
-                href={link.href}
-                prefetch
-                className={clsx('group w-full', !USE_NEW_DESIGN && 'overflow-hidden')}
-              >
-                <button
-                  className={clsx(
-                    'flex h-full w-full text-2xl',
-                    'items-center gap-3',
-                    'justify-start md:justify-center',
-                    'py-8',
-                    mobileLabelInset,
-                    'md:pl-0',
-                    'group',
-                    'hover:cursor-pointer',
-                    USE_NEW_DESIGN
-                      ? 'hover:bg-(--border-color)'
-                      : 'border-(--border-color) md:border-b-4 md:hover:border-(--main-color)/80 hover:bg-(--border-color)',
-                    !USE_NEW_DESIGN && i === 0 && 'rounded-tl-2xl rounded-bl-2xl',
-                    !USE_NEW_DESIGN && i === links.length - 1 && 'rounded-tr-2xl rounded-br-2xl',
-                  )}
-                  onClick={() => playClick()}
+            {links.map((link, i) => (
+              <Fragment key={i}>
+                <Link
+                  href={link.href}
+                  prefetch
+                  className={clsx('group w-full', !USE_NEW_DESIGN && 'overflow-hidden')}
                 >
-                  <span
-                    lang='ja'
-                    className={characterTileClassName(
-                      i === 0
-                        ? '[animation-delay:0ms]'
-                        : i === 1
-                          ? '[animation-delay:800ms]'
-                          : '[animation-delay:1600ms]',
+                  <button
+                    className={clsx(
+                      'flex h-full w-full text-2xl',
+                      'items-center gap-3',
+                      'justify-start md:justify-center',
+                      'py-8',
+                      mobileLabelInset,
+                      'md:pl-0',
+                      'group',
+                      'hover:cursor-pointer',
+                      USE_NEW_DESIGN
+                        ? 'hover:bg-(--border-color)'
+                        : 'border-(--border-color) md:border-b-4 md:hover:border-(--main-color)/80 hover:bg-(--border-color)',
+                      !USE_NEW_DESIGN && i === 0 && 'rounded-tl-2xl rounded-bl-2xl',
+                      !USE_NEW_DESIGN && i === links.length - 1 && 'rounded-tr-2xl rounded-br-2xl',
                     )}
+                    onClick={() => playClick()}
                   >
-                    {link.name_ja}
-                  </span>
-                  <span lang='en' className='leading-none'>
-                    {link.name_en}
-                  </span>
-                </button>
-              </Link>
+                    <span
+                      lang='ja'
+                      className={characterTileClassName(
+                        i === 0
+                          ? '[animation-delay:0ms]'
+                          : i === 1
+                            ? '[animation-delay:800ms]'
+                            : '[animation-delay:1600ms]',
+                      )}
+                    >
+                      {link.name_ja}
+                    </span>
+                    <span lang='en' className='leading-none'>
+                      {link.name_en}
+                    </span>
+                  </button>
+                </Link>
 
-              {i < links.length - 1 && (
-                <div
-                  className={clsx(
-                    'md:h-auto md:w-0 md:border-l-1',
-                    'border-(--border-color)',
-                    'w-full border-t-1 border-(--border-color)',
-                  )}
-                />
-              )}
-            </Fragment>
-          ))}
+                {i < links.length - 1 && (
+                  <div
+                    className={clsx(
+                      'md:h-auto md:w-0 md:border-l-1',
+                      'border-(--border-color)',
+                      'w-full border-t-1 border-(--border-color)',
+                    )}
+                  />
+                )}
+              </Fragment>
+            ))}
           </div>
         </div>
       </div>

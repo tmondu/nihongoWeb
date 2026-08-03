@@ -3,7 +3,7 @@
   "title": "Câu hỏi thường gặp",
   "subtitle": "Câu trả lời rõ ràng, thông tin chi tiết thực tế, và con đường nhanh nhất từ 'Tôi không đọc được tiếng Nhật' đến thành thạo kana, kanji và từ vựng.",
   "links": {
-    "howToUse": "Cách sử dụng KanaDojo",
+    "howToUse": "Cách sử dụng PThamSS",
     "glossary": "Từ điển tiếng Nhật",
     "translator": "Dịch thuật Anh ↔ Nhật",
     "academy": "Hướng dẫn học tập",
@@ -11,14 +11,14 @@
     "terms": "Điều khoản dịch vụ"
   },
   "nav": {
-    "title": "Đi đến",
+    "title": "",
     "backToTop": "Đầu trang",
     "aria": "Điều hướng phần FAQ",
     "note": "Mẹo: Dùng Từ điển nếu bạn thấy các thuật ngữ như 'dakuon', 'yoon', 'onyomi' hoặc 'kunyomi'."
   },
   "intro": {
     "title": "Hướng dẫn nhanh",
-    "body": "KanaDojo là ứng dụng web học tiếng Nhật miễn phí để luyện tập Hiragana, Katakana, Kanji và từ vựng JLPT. Bạn không cần tạo tài khoản. Tiến trình được lưu cục bộ trong trình duyệt, và bạn có thể tùy chỉnh giao diện với các chủ đề và phông chữ."
+    "body": "PThamSS là ứng dụng web học tiếng Nhật miễn phí để luyện tập Hiragana, Katakana, Kanji và từ vựng JLPT. Bạn không cần tạo tài khoản. Tiến trình được lưu cục bộ trong trình duyệt, và bạn có thể tùy chỉnh giao diện với các chủ đề và phông chữ."
   },
   "cta": {
     "hiragana": "Bắt đầu luyện Hiragana",
@@ -36,14 +36,14 @@
   "sections": {
     "gettingStarted": {
       "title": "Bắt đầu",
-      "description": "KanaDojo là gì, cách hoạt động và bạn nên làm gì trước tiên.",
+      "description": "PThamSS là gì, cách hoạt động và bạn nên làm gì trước tiên.",
       "q1": {
-        "question": "KanaDojo là gì?",
-        "answer": "KanaDojo là nền tảng học tiếng Nhật miễn phí để luyện tập Hiragana, Katakana, Kanji và từ vựng với bài tập nhanh và chế độ đào tạo như trò chơi. Được thiết kế để tự học, phản hồi nhanh và tiến bộ đều đặn."
+        "question": "PThamSS là gì?",
+        "answer": "PThamSS là nền tảng học tiếng Nhật miễn phí để luyện tập Hiragana, Katakana, Kanji và từ vựng với bài tập nhanh và chế độ đào tạo như trò chơi. Được thiết kế để tự học, phản hồi nhanh và tiến bộ đều đặn."
       },
       "q2": {
-        "question": "KanaDojo có thực sự miễn phí không?",
-        "answer": "Có. KanaDojo hoàn toàn miễn phí, không yêu cầu tài khoản và không có nội dung luyện tập tính phí."
+        "question": "PThamSS có thực sự miễn phí không?",
+        "answer": "Có. PThamSS hoàn toàn miễn phí, không yêu cầu tài khoản và không có nội dung luyện tập tính phí."
       },
       "q3": {
         "question": "Tôi có cần tạo tài khoản không?",
@@ -71,7 +71,7 @@
       "description": "Cách luyện tập hoạt động và chế độ nào phù hợp với mục tiêu của bạn.",
       "q1": {
         "question": "Các chế độ đào tạo là gì?",
-        "answer": "KanaDojo bao gồm chế độ nhận biết và ghi nhớ (chọn/chọn ngược, nhập/nhập ngược) cùng thử thách tốc độ như Blitz và kiểm tra thành thạo dài hơn như Gauntlet. Chuyển chế độ tùy thuộc vào việc bạn muốn độ chính xác, ghi nhớ hay tốc độ."
+        "answer": "PThamSS bao gồm chế độ nhận biết và ghi nhớ (chọn/chọn ngược, nhập/nhập ngược) cùng thử thách tốc độ như Blitz và kiểm tra thành thạo dài hơn như Gauntlet. Chuyển chế độ tùy thuộc vào việc bạn muốn độ chính xác, ghi nhớ hay tốc độ."
       },
       "q2": {
         "question": "Chế độ nào tốt nhất cho người mới?",
@@ -79,7 +79,7 @@
       },
       "q3": {
         "question": "Tôi có thể tùy chỉnh chủ đề và phông chữ không?",
-        "answer": "Có. KanaDojo hỗ trợ tùy chỉnh rộng rãi (chủ đề, phông chữ và tùy chọn) để bạn có thể tìm giao diện phù hợp cho các buổi học dài."
+        "answer": "Có. PThamSS hỗ trợ tùy chỉnh rộng rãi (chủ đề, phông chữ và tùy chọn) để bạn có thể tìm giao diện phù hợp cho các buổi học dài."
       }
     },
     "privacy": {
@@ -94,20 +94,20 @@
         "answer": "Không tự động. Vì tiến trình được lưu cục bộ, chuyển trình duyệt/thiết bị sẽ không mang theo tiến trình trừ khi bạn di chuyển dữ liệu thủ công."
       },
       "q3": {
-        "question": "KanaDojo có hoạt động ngoại tuyến không?",
-        "answer": "KanaDojo có thể hoạt động ngoại tuyến cho luyện tập cốt lõi khi tài nguyên đã được lưu vào bộ nhớ đệm, nhưng trải nghiệm tốt nhất là khi có kết nối internet—đặc biệt lần tải đầu tiên."
+        "question": "PThamSS có hoạt động ngoại tuyến không?",
+        "answer": "PThamSS có thể hoạt động ngoại tuyến cho luyện tập cốt lõi khi tài nguyên đã được lưu vào bộ nhớ đệm, nhưng trải nghiệm tốt nhất là khi có kết nối internet—đặc biệt lần tải đầu tiên."
       }
     },
     "jlpt": {
       "title": "Chuẩn bị JLPT",
-      "description": "Cách KanaDojo phù hợp với kế hoạch học JLPT.",
+      "description": "Cách PThamSS phù hợp với kế hoạch học JLPT.",
       "q1": {
-        "question": "KanaDojo có giúp ích cho JLPT không?",
-        "answer": "Có. KanaDojo tổ chức Kanji và từ vựng theo cấp độ JLPT (N5–N1), giúp bạn dễ dàng tập trung luyện tập cho cấp độ thi mục tiêu."
+        "question": "PThamSS có giúp ích cho JLPT không?",
+        "answer": "Có. PThamSS tổ chức Kanji và từ vựng theo cấp độ JLPT (N5–N1), giúp bạn dễ dàng tập trung luyện tập cho cấp độ thi mục tiêu."
       },
       "q2": {
-        "question": "KanaDojo có đủ để thi đỗ JLPT không?",
-        "answer": "Đây là công cụ luyện tập mạnh mẽ cho nhận biết, ghi nhớ và tốc độ—nhưng JLPT cũng kiểm tra nghe, đọc hiểu và ngữ pháp trong ngữ cảnh. Kết hợp KanaDojo với tài liệu đọc/nghe theo cấp độ và tài nguyên ngữ pháp."
+        "question": "PThamSS có đủ để thi đỗ JLPT không?",
+        "answer": "Đây là công cụ luyện tập mạnh mẽ cho nhận biết, ghi nhớ và tốc độ—nhưng JLPT cũng kiểm tra nghe, đọc hiểu và ngữ pháp trong ngữ cảnh. Kết hợp PThamSS với tài liệu đọc/nghe theo cấp độ và tài nguyên ngữ pháp."
       },
       "q3": {
         "question": "Tôi nên học gì cho JLPT N5 trước?",

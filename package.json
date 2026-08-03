@@ -1,6 +1,6 @@
 {
-  "name": "kanadojo",
-  "version": "0.1.18",
+  "name": "PThamSS",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "prepare": "husky",

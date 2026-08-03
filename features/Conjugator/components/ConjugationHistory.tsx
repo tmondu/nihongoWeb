@@ -1,8 +1,7 @@
-'use client';
-
 import { useState } from 'react';
 import { Trash2, Clock, X, History } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
+import { useTranslations } from 'next-intl';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 import {
   AlertDialog,
@@ -43,6 +42,7 @@ export default function ConjugationHistory({
   onDelete,
   onClearAll,
 }: ConjugationHistoryProps) {
+  const t = useTranslations('conjugator');
   const [clearDialogOpen, setClearDialogOpen] = useState(false);
 
   // Empty state
@@ -51,13 +51,13 @@ export default function ConjugationHistory({
       <div
         className='flex flex-col items-start gap-4 py-6 text-left opacity-30'
         role='region'
-        aria-label='Conjugation history'
+        aria-label={t('accessibility.resultsRegion')}
       >
         <span className='text-[10px] font-bold tracking-widest uppercase'>
-          History Empty
+          {t('history.empty.title')}
         </span>
         <p className='text-sm font-medium'>
-          Your recent conjugations will appear here.
+          {t('history.empty.hint')}
         </p>
       </div>
     );
@@ -67,16 +67,16 @@ export default function ConjugationHistory({
     <div
       className='flex flex-col gap-10 transition-all duration-700'
       role='region'
-      aria-label='Conjugation history'
+      aria-label={t('accessibility.resultsRegion')}
     >
       {/* Header - Sidebar Style */}
       <div className='flex items-center justify-between'>
         <div className='flex flex-col gap-1'>
           <h3 className='text-[10px] font-bold tracking-widest text-(--main-color) uppercase'>
-            History
+            {t('history.title')}
           </h3>
           <p className='text-[10px] font-bold text-(--secondary-color)/40'>
-            {entries.length} recent entries
+            {t('history.verbCount', { count: entries.length })}
           </p>
         </div>
 
@@ -85,7 +85,7 @@ export default function ConjugationHistory({
           <AlertDialogTrigger asChild>
             <button
               className='flex h-8 w-8 items-center justify-center rounded-full text-(--secondary-color)/40 transition-colors hover:bg-red-500/10 hover:text-red-500'
-              aria-label='Clear history'
+              aria-label={t('history.clearButton')}
             >
               <Trash2 className='h-4 w-4' />
             </button>
@@ -98,11 +98,10 @@ export default function ConjugationHistory({
           >
             <AlertDialogHeader>
               <AlertDialogTitle className='text-3xl font-black tracking-tighter text-(--main-color)'>
-                Purge Archive?
+                {t('history.clearDialog.title')}
               </AlertDialogTitle>
               <AlertDialogDescription className='text-base leading-relaxed font-semibold text-(--secondary-color)/60'>
-                This will permanently delete all your linguistic transformation
-                records.
+                {t('history.clearDialog.description')}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className='flex-row gap-4 pt-6'>
@@ -113,7 +112,7 @@ export default function ConjugationHistory({
                 className='flex-1 border border-(--border-color)/50 text-xs font-black tracking-widest uppercase'
                 onClick={() => setClearDialogOpen(false)}
               >
-                Retain
+                {t('history.clearDialog.cancel')}
               </ActionButton>
               <ActionButton
                 colorScheme='main'
@@ -125,7 +124,7 @@ export default function ConjugationHistory({
                   setClearDialogOpen(false);
                 }}
               >
-                Purge All
+                {t('history.clearDialog.confirm')}
               </ActionButton>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -135,7 +134,7 @@ export default function ConjugationHistory({
       <div
         className='flex flex-col'
         role='list'
-        aria-label='Recent conjugated verbs'
+        aria-label={t('accessibility.resultsRegion')}
       >
         {entries.map(entry => (
           <HistoryRecord
@@ -162,7 +161,8 @@ function HistoryRecord({
   onSelect: (entry: HistoryEntry) => void;
   onDelete: (id: string) => void;
 }) {
-  const typeInfo = getVerbTypeInfo(entry.verbType);
+  const t = useTranslations('conjugator');
+  const typeInfo = getVerbTypeInfo(entry.verbType, t);
 
   return (
     <div
@@ -202,7 +202,7 @@ function HistoryRecord({
             onDelete(entry.id);
           }}
           className='flex h-8 w-8 items-center justify-center rounded-full text-red-500/30 transition-all hover:bg-red-500/10 hover:text-red-500'
-          aria-label={`Remove ${entry.verb}`}
+          aria-label={t('history.removeEntry', { verb: entry.verb })}
         >
           <X className='h-3 w-3' aria-hidden='true' />
         </button>
@@ -214,17 +214,17 @@ function HistoryRecord({
 /**
  * Format timestamp to relative time
  */
-function formatTimestamp(timestamp: number): string {
+function formatTimestamp(timestamp: number, t: (key: string, options?: any) => string): string {
   const now = Date.now();
   const diffMs = now - timestamp;
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'now';
-  if (diffMins < 60) return `${diffMins}m`;
-  if (diffHours < 24) return `${diffHours}h`;
-  if (diffDays < 7) return `${diffDays}d`;
+  if (diffMins < 1) return t('history.timeAgo.now');
+  if (diffMins < 60) return t('history.timeAgo.minutes', { count: diffMins });
+  if (diffHours < 24) return t('history.timeAgo.hours', { count: diffHours });
+  if (diffDays < 7) return t('history.timeAgo.days', { count: diffDays });
 
   return new Date(timestamp).toLocaleDateString();
 }
@@ -232,7 +232,7 @@ function formatTimestamp(timestamp: number): string {
 /**
  * Get display info for verb type
  */
-function getVerbTypeInfo(type: VerbType): {
+function getVerbTypeInfo(type: VerbType, t: (key: string) => string): {
   label: string;
   abbrev: string;
   bgClass: string;
@@ -241,21 +241,21 @@ function getVerbTypeInfo(type: VerbType): {
   switch (type) {
     case 'godan':
       return {
-        label: 'Godan (五段)',
+        label: t('verbTypes.godan.label'),
         abbrev: 'G',
         bgClass: 'bg-blue-500/20',
         textClass: 'text-blue-500',
       };
     case 'ichidan':
       return {
-        label: 'Ichidan (一段)',
+        label: t('verbTypes.ichidan.label'),
         abbrev: 'I',
         bgClass: 'bg-green-500/20',
         textClass: 'text-green-500',
       };
     case 'irregular':
       return {
-        label: 'Irregular',
+        label: t('verbTypes.irregular.label'),
         abbrev: '!',
         bgClass: 'bg-purple-500/20',
         textClass: 'text-purple-500',

@@ -1,8 +1,7 @@
-'use client';
-
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, BookOpen, Info } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
+import { useTranslations, useLocale } from 'next-intl';
 import type { VerbInfo, VerbType, IrregularType } from '../types';
 
 interface VerbInfoCardProps {
@@ -22,15 +21,17 @@ interface VerbInfoCardProps {
  * Requirements: 9.1, 9.2, 9.3, 10.2
  */
 export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
+  const t = useTranslations('conjugator');
+  const locale = useLocale();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const verbTypeInfo = getVerbTypeInfo(verb.type, verb.irregularType);
+  const verbTypeInfo = getVerbTypeInfo(verb.type, verb.irregularType, t);
 
   return (
     <div
       className='flex flex-col gap-6'
       role='region'
-      aria-label={`Verb information for ${verb.dictionaryForm}`}
+      aria-label={`${locale === 'vi' ? 'Thông tin động từ cho' : 'Verb information for'} ${verb.dictionaryForm}`}
     >
       {/* Main info header */}
       <div className='flex flex-col gap-8'>
@@ -38,7 +39,7 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-3'>
               <span className='text-[10px] font-bold tracking-widest text-(--secondary-color) uppercase opacity-50'>
-                Dictionary Entry
+                {locale === 'vi' ? 'Thể từ điển' : 'Dictionary Entry'}
               </span>
               <div className='h-[1px] w-8 bg-(--main-color)/10' />
             </div>
@@ -62,10 +63,10 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
 
           <div className='flex flex-col items-end gap-1 pb-2 text-right'>
             <span className='text-[10px] font-bold tracking-widest text-(--main-color) uppercase opacity-30'>
-              Status
+              {locale === 'vi' ? 'Trạng thái' : 'Status'}
             </span>
             <span className='text-xl font-bold tracking-tight text-(--main-color)/80'>
-              Verified Analysis
+              {locale === 'vi' ? 'Đã kiểm chứng' : 'Verified Analysis'}
             </span>
           </div>
         </div>
@@ -77,7 +78,7 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
         >
           <div className='flex flex-col gap-1'>
             <span className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
-              Type
+              {t('verbInfo.type')}
             </span>
             <span className={cn('text-xl font-bold', verbTypeInfo.colorClass)}>
               {verbTypeInfo.label}
@@ -88,7 +89,7 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
 
           <div className='flex flex-col gap-1'>
             <span className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
-              Stem
+              {t('verbInfo.stem')}
             </span>
             <span
               className='font-japanese text-xl font-bold text-(--main-color)'
@@ -102,7 +103,7 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
 
           <div className='flex flex-col gap-1'>
             <span className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
-              Ending
+              {t('verbInfo.ending')}
             </span>
             <span
               className='font-japanese text-xl font-bold text-(--main-color)'
@@ -119,7 +120,7 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
             <div className='flex h-2 w-2 rounded-full bg-(--main-color)' />
             <div className='flex items-baseline gap-4'>
               <span className='text-[10px] font-black tracking-widest text-(--main-color) uppercase opacity-40'>
-                Complex Morph Detected:
+                {locale === 'vi' ? 'Phát hiện dạng ghép:' : 'Complex Morph Detected:'}
               </span>
               <span
                 className='font-japanese text-xl font-black text-(--main-color) opacity-80'
@@ -137,7 +138,7 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col gap-2'>
             <h4 className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
-              Transformation Rules
+              {t('verbInfo.conjugationRules')}
             </h4>
             <p className='text-base font-medium text-(--secondary-color)/70'>
               {verbTypeInfo.description}
@@ -166,146 +167,41 @@ export default function VerbInfoCard({ verb }: VerbInfoCardProps) {
  */
 function getVerbTypeInfo(
   type: VerbType,
-  irregularType?: IrregularType,
+  irregularType: IrregularType | undefined,
+  t: any,
 ): {
   label: string;
   colorClass: string;
   description: string;
   rules: string[];
 } {
-  if (type === 'irregular' && irregularType) {
-    return getIrregularTypeInfo(irregularType);
+  const key = type === 'irregular' && irregularType ? irregularType : type;
+  const validKey = ['godan', 'ichidan', 'irregular', 'suru', 'kuru', 'aru', 'iku', 'honorific'].includes(key)
+    ? key
+    : 'unknown';
+
+  const label = t(`verbTypes.${validKey}.label`);
+  const description = t(`verbTypes.${validKey}.description`);
+  const rules = t.raw(`verbTypes.${validKey}.rules`) as string[];
+
+  let colorClass = 'text-blue-500';
+  if (validKey === 'ichidan') {
+    colorClass = 'text-green-500';
+  } else if (['irregular', 'suru', 'kuru'].includes(validKey)) {
+    colorClass = 'text-purple-500';
+  } else if (['aru', 'iku'].includes(validKey)) {
+    colorClass = 'text-orange-500';
+  } else if (validKey === 'honorific') {
+    colorClass = 'text-pink-500';
+  } else if (validKey === 'unknown') {
+    colorClass = 'text-(--secondary-color)';
   }
 
-  switch (type) {
-    case 'godan':
-      return {
-        label: 'Godan (五段)',
-        colorClass: 'text-blue-500',
-        description:
-          'Godan verbs (also called u-verbs or Group I verbs) conjugate across five vowel sounds. The final kana changes based on the conjugation form.',
-        rules: [
-          'The stem changes based on the vowel grade (a, i, u, e, o)',
-          'Te-form has sound changes based on the ending (って, んで, いて, etc.)',
-          'Negative form uses the a-grade stem + ない',
-          'Masu-form uses the i-grade stem + ます',
-        ],
-      };
-    case 'ichidan':
-      return {
-        label: 'Ichidan (一段)',
-        colorClass: 'text-green-500',
-        description:
-          'Ichidan verbs (also called ru-verbs or Group II verbs) have a simpler conjugation pattern. The る ending is replaced with the appropriate suffix.',
-        rules: [
-          'Remove る and add the conjugation suffix',
-          'Te-form: stem + て',
-          'Negative form: stem + ない',
-          'Masu-form: stem + ます',
-          'Potential form has both traditional (-られる) and colloquial (-れる) forms',
-        ],
-      };
-    case 'irregular':
-      return {
-        label: 'Irregular',
-        colorClass: 'text-purple-500',
-        description:
-          'This verb has irregular conjugation patterns that must be memorized.',
-        rules: ['Conjugation patterns do not follow standard rules'],
-      };
-    default:
-      return {
-        label: 'Unknown',
-        colorClass: 'text-(--secondary-color)',
-        description: 'Unable to determine verb type.',
-        rules: [],
-      };
-  }
-}
-
-/**
- * Get display information for specific irregular verb types
- */
-function getIrregularTypeInfo(irregularType: IrregularType): {
-  label: string;
-  colorClass: string;
-  description: string;
-  rules: string[];
-} {
-  switch (irregularType) {
-    case 'suru':
-      return {
-        label: 'する-verb',
-        colorClass: 'text-purple-500',
-        description:
-          'する (to do) is one of the two main irregular verbs in Japanese. It has unique conjugation patterns.',
-        rules: [
-          'Te-form: して',
-          'Negative: しない',
-          'Masu-form: します',
-          'Potential: できる (separate verb)',
-          'Passive: される',
-          'Causative: させる',
-        ],
-      };
-    case 'kuru':
-      return {
-        label: '来る-verb',
-        colorClass: 'text-purple-500',
-        description:
-          '来る (to come) is one of the two main irregular verbs. The reading changes between く and こ depending on the form.',
-        rules: [
-          'Te-form: 来て (きて)',
-          'Negative: 来ない (こない)',
-          'Masu-form: 来ます (きます)',
-          'Potential: 来られる (こられる)',
-          'Past: 来た (きた)',
-        ],
-      };
-    case 'aru':
-      return {
-        label: 'ある-verb',
-        colorClass: 'text-orange-500',
-        description:
-          'ある (to exist, for inanimate objects) has a unique negative form.',
-        rules: [
-          'Negative: ない (not あらない)',
-          'Other forms follow Godan patterns',
-          'Te-form: あって',
-          'Past: あった',
-        ],
-      };
-    case 'iku':
-      return {
-        label: '行く-verb',
-        colorClass: 'text-orange-500',
-        description:
-          '行く (to go) is mostly regular but has an irregular te-form.',
-        rules: [
-          'Te-form: 行って (not 行いて)',
-          'Ta-form: 行った (not 行いた)',
-          'Other forms follow regular Godan patterns',
-        ],
-      };
-    case 'honorific':
-      return {
-        label: 'Honorific',
-        colorClass: 'text-pink-500',
-        description:
-          'Honorific verbs (くださる, なさる, いらっしゃる, おっしゃる, ござる) have irregular masu-forms.',
-        rules: [
-          'Masu-form uses ます instead of ります',
-          'Example: くださる → くださいます (not くださります)',
-          'Other forms follow Godan patterns',
-        ],
-      };
-    default:
-      return {
-        label: 'Irregular',
-        colorClass: 'text-purple-500',
-        description: 'This verb has irregular conjugation patterns.',
-        rules: [],
-      };
-  }
+  return {
+    label,
+    colorClass,
+    description,
+    rules,
+  };
 }
 

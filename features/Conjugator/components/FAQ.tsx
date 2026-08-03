@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, Plus, Minus } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
+import { useTranslations, useLocale } from 'next-intl';
 import { CONJUGATOR_FAQ_ITEMS, type FAQItem } from '../lib/seo/structuredData';
 
 interface FAQProps {
@@ -16,9 +17,12 @@ interface FAQProps {
  * FAQ - Comprehensive FAQ section with pretty collapsible cards
  */
 export default function FAQ({
-  items = CONJUGATOR_FAQ_ITEMS,
+  items: propItems,
   initialDisplayCount = 10,
 }: FAQProps) {
+  const t = useTranslations('conjugator');
+  const locale = useLocale();
+  const items = propItems || (t.raw('faq.items') as FAQItem[]);
   const [expandedItems, setExpandedItems] = useState<Set<number>>(new Set());
   const [showAll, setShowAll] = useState(false);
 
@@ -56,13 +60,13 @@ export default function FAQ({
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-2 text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
             <div className='h-[1px] w-4 bg-(--main-color)' />
-            <span>Encyclopedia</span>
+            <span>{locale === 'vi' ? 'Hỏi đáp' : 'Encyclopedia'}</span>
           </div>
           <h2
             id='faq-heading'
             className='text-2xl font-bold tracking-tight text-(--main-color) sm:text-3xl'
           >
-            Frequently Asked Questions
+            {t('faq.title')}
           </h2>
         </div>
 
@@ -71,14 +75,14 @@ export default function FAQ({
             onClick={expandAll}
             className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase transition-colors hover:text-(--main-color)'
           >
-            Expand All
+            {t('faq.expandAll')}
           </button>
           <div className='h-3 w-[1px] bg-(--border-color)/20' />
           <button
             onClick={collapseAll}
             className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase transition-colors hover:text-(--main-color)'
           >
-            Collapse All
+            {t('faq.collapseAll')}
           </button>
         </div>
       </div>
@@ -106,8 +110,8 @@ export default function FAQ({
             className='rounded-full border border-(--main-color)/10 px-6 py-2 text-[10px] font-bold tracking-widest text-(--main-color) uppercase transition-colors hover:bg-(--main-color)/5'
           >
             {showAll
-              ? 'Show Fewer'
-              : `Reveal ${items.length - initialDisplayCount} More Questions`}
+              ? t('faq.showLess')
+              : t('faq.showMore', { count: items.length - initialDisplayCount })}
           </button>
         </div>
       )}

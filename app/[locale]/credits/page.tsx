@@ -115,158 +115,158 @@ export default function CreditsPage() {
     },
   ];
 
-  return (
-    <LegalLayout
-      icon={<Sparkle className='size-6' />}
-      title='Credits & Data Sources'
-      lastUpdated='April 8, 2026'
-    >
-      <p className='mb-8 text-lg text-(--secondary-color)'>
-        KanaDojo is built on trusted Japanese language data sources and
-        open-source technologies. We&apos;re grateful to the maintainers and
-        contributors who make these resources available.
-      </p>
+  // return (
+  //   <LegalLayout
+  //     icon={<Sparkle className='size-6' />}
+  //     title='Credits & Data Sources'
+  //     lastUpdated='April 8, 2026'
+  //   >
+  //     <p className='mb-8 text-lg text-(--secondary-color)'>
+  //       KanaDojo is built on trusted Japanese language data sources and
+  //       open-source technologies. We&apos;re grateful to the maintainers and
+  //       contributors who make these resources available.
+  //     </p>
 
-      <h2 className='mb-6 text-2xl font-semibold text-(--main-color)'>
-        Japanese Language Data Sources
-      </h2>
-      <div className='mb-12 space-y-6'>
-        {dataSources.map(source => (
-          <div key={source.name}>
-            <div className='mb-2 flex items-start justify-between'>
-              <h3 className='text-xl font-semibold text-(--main-color)'>
-                {source.name}
-              </h3>
-              <a
-                href={source.url}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='inline-flex items-center gap-1 text-sm text-(--main-color) hover:underline'
-                aria-label={`Visit ${source.name} website`}
-              >
-                Visit <ExternalLink className='h-4 w-4' />
-              </a>
-            </div>
-            <p className='mb-3 text-(--secondary-color)'>
-              {source.description}
-            </p>
-            <div className='text-sm text-(--secondary-color)/80'>
-              <strong>License:</strong> {source.license}
-            </div>
-            <hr className='mt-6 border-(--border-color) opacity-50' />
-          </div>
-        ))}
-      </div>
+  //     <h2 className='mb-6 text-2xl font-semibold text-(--main-color)'>
+  //       Japanese Language Data Sources
+  //     </h2>
+  //     <div className='mb-12 space-y-6'>
+  //       {dataSources.map(source => (
+  //         <div key={source.name}>
+  //           <div className='mb-2 flex items-start justify-between'>
+  //             <h3 className='text-xl font-semibold text-(--main-color)'>
+  //               {source.name}
+  //             </h3>
+  //             <a
+  //               href={source.url}
+  //               target='_blank'
+  //               rel='noopener noreferrer'
+  //               className='inline-flex items-center gap-1 text-sm text-(--main-color) hover:underline'
+  //               aria-label={`Visit ${source.name} website`}
+  //             >
+  //               Visit <ExternalLink className='h-4 w-4' />
+  //             </a>
+  //           </div>
+  //           <p className='mb-3 text-(--secondary-color)'>
+  //             {source.description}
+  //           </p>
+  //           <div className='text-sm text-(--secondary-color)/80'>
+  //             <strong>License:</strong> {source.license}
+  //           </div>
+  //           <hr className='mt-6 border-(--border-color) opacity-50' />
+  //         </div>
+  //       ))}
+  //     </div>
 
-      <h2 className='mb-6 text-2xl font-semibold text-(--main-color)'>
-        Technologies & Frameworks
-      </h2>
-      <div className='mb-12 space-y-4'>
-        {technologies.map(tech => (
-          <div key={tech.name}>
-            <h3 className='mb-2 font-semibold text-(--main-color)'>
-              {tech.name}
-            </h3>
-            <p className='mb-2 text-sm text-(--secondary-color)'>
-              {tech.description}
-            </p>
-            <a
-              href={tech.url}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='inline-flex items-center gap-1 text-sm text-(--main-color) hover:underline'
-            >
-              Learn more <ExternalLink className='h-3 w-3' />
-            </a>
-            <hr className='mt-4 border-(--border-color) opacity-50' />
-          </div>
-        ))}
-      </div>
+  //     <h2 className='mb-6 text-2xl font-semibold text-(--main-color)'>
+  //       Technologies & Frameworks
+  //     </h2>
+  //     <div className='mb-12 space-y-4'>
+  //       {technologies.map(tech => (
+  //         <div key={tech.name}>
+  //           <h3 className='mb-2 font-semibold text-(--main-color)'>
+  //             {tech.name}
+  //           </h3>
+  //           <p className='mb-2 text-sm text-(--secondary-color)'>
+  //             {tech.description}
+  //           </p>
+  //           <a
+  //             href={tech.url}
+  //             target='_blank'
+  //             rel='noopener noreferrer'
+  //             className='inline-flex items-center gap-1 text-sm text-(--main-color) hover:underline'
+  //           >
+  //             Learn more <ExternalLink className='h-3 w-3' />
+  //           </a>
+  //           <hr className='mt-4 border-(--border-color) opacity-50' />
+  //         </div>
+  //       ))}
+  //     </div>
 
-      <h2 className='mb-4 text-2xl font-semibold text-(--main-color)'>
-        Acknowledgments
-      </h2>
-      <div className='mb-12 space-y-4 text-(--secondary-color)'>
-        <p>
-          Special thanks to the{' '}
-          <a
-            href='https://www.edrdg.org/'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='text-(--main-color) hover:underline'
-          >
-            Electronic Dictionary Research and Development Group
-          </a>{' '}
-          (EDRDG) led by Jim Breen, whose decades of work creating and
-          maintaining Japanese language databases has enabled countless learning
-          tools and applications.
-        </p>
-        <p>
-          We also thank the broader open-source community for creating and
-          maintaining the libraries and tools that power modern web
-          applications. Without their contributions, projects like KanaDojo
-          wouldn&apos;t be possible.
-        </p>
-      </div>
+  //     <h2 className='mb-4 text-2xl font-semibold text-(--main-color)'>
+  //       Acknowledgments
+  //     </h2>
+  //     <div className='mb-12 space-y-4 text-(--secondary-color)'>
+  //       <p>
+  //         Special thanks to the{' '}
+  //         <a
+  //           href='https://www.edrdg.org/'
+  //           target='_blank'
+  //           rel='noopener noreferrer'
+  //           className='text-(--main-color) hover:underline'
+  //         >
+  //           Electronic Dictionary Research and Development Group
+  //         </a>{' '}
+  //         (EDRDG) led by Jim Breen, whose decades of work creating and
+  //         maintaining Japanese language databases has enabled countless learning
+  //         tools and applications.
+  //       </p>
+  //       <p>
+  //         We also thank the broader open-source community for creating and
+  //         maintaining the libraries and tools that power modern web
+  //         applications. Without their contributions, projects like KanaDojo
+  //         wouldn&apos;t be possible.
+  //       </p>
+  //     </div>
 
-      <h2 className='mb-4 text-2xl font-semibold text-(--main-color)'>
-        License & Attribution
-      </h2>
-      <div className='mb-12 space-y-4 text-(--secondary-color)'>
-        <p>
-          KanaDojo respects the licenses of all data sources and libraries used.
-          Where required by license terms, we provide proper attribution:
-        </p>
-        <ul className='list-disc space-y-2 pl-6'>
-          <li>
-            JMdict and KANJIDIC data are used under the Creative Commons
-            Attribution-ShareAlike 4.0 International License.
-          </li>
-          <li>
-            All open-source libraries are used in accordance with their
-            respective licenses (MIT, Apache 2.0, etc.).
-          </li>
-          <li>
-            KanaDojo&apos;s original code and content are created by the
-            development team and released under our own license terms.
-          </li>
-        </ul>
-        <p className='mt-4'>
-          If you have questions about our use of any data source or library,
-          please contact us through our{' '}
-          <Link href='/about' className='text-(--main-color) hover:underline'>
-            About page
-          </Link>
-          .
-        </p>
-      </div>
+  //     <h2 className='mb-4 text-2xl font-semibold text-(--main-color)'>
+  //       License & Attribution
+  //     </h2>
+  //     <div className='mb-12 space-y-4 text-(--secondary-color)'>
+  //       <p>
+  //         KanaDojo respects the licenses of all data sources and libraries used.
+  //         Where required by license terms, we provide proper attribution:
+  //       </p>
+  //       <ul className='list-disc space-y-2 pl-6'>
+  //         <li>
+  //           JMdict and KANJIDIC data are used under the Creative Commons
+  //           Attribution-ShareAlike 4.0 International License.
+  //         </li>
+  //         <li>
+  //           All open-source libraries are used in accordance with their
+  //           respective licenses (MIT, Apache 2.0, etc.).
+  //         </li>
+  //         <li>
+  //           KanaDojo&apos;s original code and content are created by the
+  //           development team and released under our own license terms.
+  //         </li>
+  //       </ul>
+  //       <p className='mt-4'>
+  //         If you have questions about our use of any data source or library,
+  //         please contact us through our{' '}
+  //         <Link href='/about' className='text-(--main-color) hover:underline'>
+  //           About page
+  //         </Link>
+  //         .
+  //       </p>
+  //     </div>
 
-      <div className='border-t border-(--border-color) pt-6'>
-        <h2 className='mb-4 text-lg font-semibold text-(--main-color)'>
-          Related Pages
-        </h2>
-        <div className='flex flex-wrap gap-3'>
-          <Link
-            href='/about'
-            className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
-          >
-            About KanaDojo
-          </Link>
-          <Link
-            href='/privacy'
-            className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            href='/terms'
-            className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
-          >
-            Terms of Service
-          </Link>
-        </div>
-      </div>
-    </LegalLayout>
-  );
+  //     <div className='border-t border-(--border-color) pt-6'>
+  //       <h2 className='mb-4 text-lg font-semibold text-(--main-color)'>
+  //         Related Pages
+  //       </h2>
+  //       <div className='flex flex-wrap gap-3'>
+  //         <Link
+  //           href='/about'
+  //           className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
+  //         >
+  //           About PThamSS
+  //         </Link>
+  //         <Link
+  //           href='/privacy'
+  //           className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
+  //         >
+  //           Privacy Policy
+  //         </Link>
+  //         <Link
+  //           href='/terms'
+  //           className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
+  //         >
+  //           Terms of Service
+  //         </Link>
+  //       </div>
+  //     </div>
+  //   </LegalLayout>
+  // );
 }
 

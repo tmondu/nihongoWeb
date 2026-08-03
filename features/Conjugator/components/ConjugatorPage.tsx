@@ -4,6 +4,7 @@ import { Suspense, useEffect, useRef, useCallback, useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Languages, Share2, Check } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
+import { useTranslations } from 'next-intl';
 
 import useConjugatorStore from '../store/useConjugatorStore';
 import ConjugatorInput from './ConjugatorInput';
@@ -19,6 +20,7 @@ interface ConjugatorPageProps {
  * ConjugatorPage - Main page component for the Japanese Verb Conjugator
  */
 function ConjugatorPageContent({ locale: _locale = 'en' }: ConjugatorPageProps) {
+  const t = useTranslations('conjugator');
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -90,21 +92,21 @@ function ConjugatorPageContent({ locale: _locale = 'en' }: ConjugatorPageProps) 
     <div
       className='mx-auto flex w-full max-w-7xl flex-col px-4 py-8 sm:px-10 sm:py-12'
       role='main'
-      aria-label='Japanese verb conjugator'
+      aria-label={t('accessibility.mainRegion')}
     >
       <header className='relative mb-8 flex flex-col items-start'>
         <div className='flex flex-col gap-4'>
           <div className='flex items-center gap-2 text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
             <Languages className='h-3 w-3' />
-            <span>Japanese Conjugator</span>
+            <span>{t('header.title')}</span>
           </div>
 
           <div className='flex flex-col gap-1'>
             <h1 className='text-3xl font-black tracking-tight text-(--main-color) sm:text-4xl'>
-              Japanese Verb Conjugator
+              {t('header.title')}
             </h1>
             <p className='max-w-xl text-base font-medium text-(--secondary-color)/70'>
-              Enter any Japanese verb to get all possible conjugation forms.
+              {t('header.subtitle')}
             </p>
           </div>
         </div>
@@ -119,11 +121,15 @@ function ConjugatorPageContent({ locale: _locale = 'en' }: ConjugatorPageProps) 
                   ? 'text-green-600'
                   : 'text-(--main-color)',
               )}
-              aria-label='Share results'
+              aria-label={t('share.button')}
             >
               <div className='h-1 w-1 rounded-full bg-current' />
               <span>
-                {shareButtonState === 'copied' ? 'Link Copied' : 'Share Result'}
+                {shareButtonState === 'copied'
+                  ? t('share.copied')
+                  : shareButtonState === 'error'
+                    ? t('share.error')
+                    : t('share.button')}
               </span>
               <Share2
                 className={cn(

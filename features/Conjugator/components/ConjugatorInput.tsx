@@ -4,6 +4,7 @@ import { useCallback, useRef, useEffect } from 'react';
 import { X, Keyboard, Search, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
+import { useTranslations } from 'next-intl';
 import type { ConjugationError } from '../types';
 
 interface ConjugatorInputProps {
@@ -38,6 +39,7 @@ export default function ConjugatorInput({
   isLoading,
   error,
 }: ConjugatorInputProps) {
+  const t = useTranslations('conjugator');
   const inputRef = useRef<HTMLInputElement>(null);
   const isDisabled = isLoading;
   const canConjugate = value.trim().length > 0 && !isLoading;
@@ -83,7 +85,7 @@ export default function ConjugatorInput({
     <div
       className='group relative flex w-full flex-col gap-8 transition-colors duration-500'
       role='search'
-      aria-label='Japanese verb conjugation input'
+      aria-label={t('accessibility.inputRegion')}
     >
       {/* Input Field - The Ghost Focal Point */}
       <div className='relative flex flex-col gap-8'>
@@ -95,7 +97,7 @@ export default function ConjugatorInput({
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             disabled={isDisabled}
-            placeholder='e.g. 食べる, 行く, する...'
+            placeholder={t('input.placeholder')}
             className={cn(
               'h-16 w-full bg-transparent p-0 text-3xl font-bold text-(--main-color) placeholder:text-(--secondary-color)/10 sm:h-20 sm:text-4xl',
               'font-japanese tracking-tight focus:outline-none',
@@ -130,7 +132,7 @@ export default function ConjugatorInput({
             <button
               onClick={handleClear}
               className='absolute right-0 flex h-20 w-20 items-center justify-center text-(--secondary-color) opacity-20 transition-all hover:text-(--main-color) hover:opacity-100'
-              aria-label='Clear input field'
+              aria-label={t('input.clearButton')}
             >
               <X className='h-10 w-10' aria-hidden='true' />
             </button>
@@ -145,7 +147,7 @@ export default function ConjugatorInput({
           )}
           id='verb-input-hint'
         >
-          {isLoading ? 'Processing...' : 'Enter a Japanese verb'}
+          {isLoading ? t('input.conjugating') : t('input.title')}
         </p>
 
         {/* Error Message - Pure Typography */}
@@ -157,7 +159,7 @@ export default function ConjugatorInput({
             aria-live='polite'
           >
             <div className='h-1.5 w-1.5 animate-pulse rounded-full bg-red-500' />
-            <span>{getErrorMessage(error)}</span>
+            <span>{getErrorMessage(error, t)}</span>
           </div>
         )}
       </div>
@@ -175,16 +177,16 @@ export default function ConjugatorInput({
             'shadow-(--main-color)/10 shadow-xl transition-colors',
             'disabled:opacity-20 disabled:grayscale',
           )}
-          aria-label={isLoading ? 'Conjugating...' : 'Conjugate'}
+          aria-label={isLoading ? t('input.conjugating') : t('input.conjugateButton')}
           aria-busy={isLoading}
         >
           {isLoading ? (
             <div className='flex items-center gap-3'>
               <Loader2 className='h-5 w-5 animate-spin' />
-              <span>Conjugating</span>
+              <span>{t('input.conjugating')}</span>
             </div>
           ) : (
-            'Conjugate'
+            t('input.conjugateButton')
           )}
         </ActionButton>
 
@@ -193,13 +195,13 @@ export default function ConjugatorInput({
           <div className='flex items-center gap-3'>
             <div className='h-1 w-1 rounded-full bg-(--secondary-color)' />
             <span className='text-[9px] font-black tracking-widest text-(--secondary-color) uppercase'>
-              Enter to synth
+              Enter: {t('input.conjugateButton')}
             </span>
           </div>
           <div className='flex items-center gap-3'>
             <div className='h-1 w-1 rounded-full bg-(--secondary-color)' />
             <span className='text-[9px] font-black tracking-widest text-(--secondary-color) uppercase'>
-              Esc to purge
+              Esc: {t('input.clearButton')}
             </span>
           </div>
         </div>
@@ -211,20 +213,20 @@ export default function ConjugatorInput({
 /**
  * Get user-friendly error message from error code
  */
-function getErrorMessage(error: ConjugationError): string {
+function getErrorMessage(error: ConjugationError, t: (key: string) => string): string {
   switch (error.code) {
     case 'EMPTY_INPUT':
-      return 'Please enter a Japanese verb';
+      return t('errors.emptyInput');
     case 'INVALID_CHARACTERS':
-      return 'Please enter a valid Japanese verb using hiragana, katakana, or kanji';
+      return t('errors.invalidCharacters');
     case 'UNKNOWN_VERB':
-      return 'This verb is not recognized. Please check the spelling or try the dictionary form';
+      return t('errors.unknownVerb');
     case 'AMBIGUOUS_VERB':
-      return 'This input could be multiple verbs. Please be more specific';
+      return t('errors.ambiguousVerb');
     case 'CONJUGATION_FAILED':
-      return error.message || 'An unexpected error occurred';
+      return t('errors.conjugationFailed');
     default:
-      return error.message || 'An error occurred';
+      return error.message || t('errors.conjugationFailed');
   }
 }
 

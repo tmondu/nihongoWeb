@@ -98,7 +98,8 @@ export default function translationGen(t: any) {
       ),
     },
 
-    jlptMenu: {
+    //jlptMenu: {
+    '/jlpt': {
       header: <span>{t('jlptMenu.header')}</span>,
       content: (
         <p className='text-lg text-(--secondary-color)'>

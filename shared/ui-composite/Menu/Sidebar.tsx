@@ -16,6 +16,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   type LucideIcon,
+  Heart,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -75,14 +76,14 @@ const mainNavItems: NavItem[] = [
 
 // Static sections that don't need lazy loading
 const staticSecondaryNavSections: NavSection[] = [
-  {
-    titleKey: 'academy',
-    items: [
-      { href: '/academy', labelKey: 'guides', icon: BookOpen },
-      { href: '/resources', labelKey: 'resources', icon: Library },
-    ],
-    collapsible: true,
-  },
+  // {
+  //   titleKey: 'academy',
+  //   items: [
+  //     { href: '/academy', labelKey: 'guides', icon: BookOpen },
+  //     { href: '/resources', labelKey: 'resources', icon: Library },
+  //   ],
+  //   collapsible: true,
+  // },
   {
     titleKey: 'tools',
     items: [
@@ -171,9 +172,9 @@ const NavLink = memo(
               'shrink-0',
               !isMain && 'h-4 w-4',
               (animateIconWhenInactive ?? item.animateWhenInactive) &&
-                !isActive &&
-                !(isDesktopCollapsed && isMain) &&
-                'motion-safe:animate-bounce',
+              !isActive &&
+              !(isDesktopCollapsed && isMain) &&
+              'motion-safe:animate-bounce',
               item.iconClassName,
               className,
             )}
@@ -246,8 +247,8 @@ const NavLink = memo(
             <span
               className={clsx(
                 !isActive &&
-                  !(isDesktopCollapsed && isMain) &&
-                  'lg:text-(--main-color)',
+                !(isDesktopCollapsed && isMain) &&
+                'lg:text-(--main-color)',
               )}
             >
               {renderIcon()}
@@ -358,47 +359,34 @@ const Sidebar = () => {
   const [loadedExperiments, setLoadedExperiments] = useState<Experiment[]>([]);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const isVisible = useScrollVisibility();
-  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(
-    () => {
-      if (typeof window === 'undefined') return false;
-      return (
-        sessionStorage.getItem(SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY) === 'true'
-      );
-    },
-  );
-  const [hasVisitedPreferences, setHasVisitedPreferences] = useState(() => {
-    if (typeof window === 'undefined') return false;
+  const [hasMounted, setHasMounted] = useState(false);
+  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(false);
+  const [hasVisitedPreferences, setHasVisitedPreferences] = useState(false);
+  const [isAcademyExpanded, setIsAcademyExpanded] = useState(false);
+  const [isToolsExpanded, setIsToolsExpanded] = useState(false);
+  const [isExperimentsExpanded, setIsExperimentsExpanded] = useState(false);
 
-    return (
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    setIsDesktopSidebarCollapsed(
+      sessionStorage.getItem(SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY) === 'true'
+    );
+    setHasVisitedPreferences(
       localStorage.getItem(SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY) === 'true'
     );
-  });
 
-  // Collapse state for all collapsible sections
-  const [isAcademyExpanded, setIsAcademyExpanded] = useState(() => {
-    if (typeof window === 'undefined') return false;
+    const storedAcademy = sessionStorage.getItem(`${SIDEBAR_SECTION_STORAGE_PREFIX}academy`);
+    if (storedAcademy !== null) setIsAcademyExpanded(storedAcademy === 'true');
 
-    const stored = sessionStorage.getItem(
-      `${SIDEBAR_SECTION_STORAGE_PREFIX}academy`,
-    );
-    return stored === null ? false : stored === 'true';
-  });
-  const [isToolsExpanded, setIsToolsExpanded] = useState(() => {
-    if (typeof window === 'undefined') return false;
+    const storedTools = sessionStorage.getItem(`${SIDEBAR_SECTION_STORAGE_PREFIX}tools`);
+    if (storedTools !== null) setIsToolsExpanded(storedTools === 'true');
 
-    const stored = sessionStorage.getItem(
-      `${SIDEBAR_SECTION_STORAGE_PREFIX}tools`,
-    );
-    return stored === null ? false : stored === 'true';
-  });
-  const [isExperimentsExpanded, setIsExperimentsExpanded] = useState(() => {
-    if (typeof window === 'undefined') return false;
+    const storedExperiments = sessionStorage.getItem(`${SIDEBAR_SECTION_STORAGE_PREFIX}experiments`);
+    if (storedExperiments !== null) setIsExperimentsExpanded(storedExperiments === 'true');
 
-    const stored = sessionStorage.getItem(
-      `${SIDEBAR_SECTION_STORAGE_PREFIX}experiments`,
-    );
-    return stored === null ? false : stored === 'true';
-  });
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     const EXPERIMENTS_ORDER_KEY = 'sidebar-experiments-order';
@@ -464,47 +452,47 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!hasMounted || typeof window === 'undefined') return;
 
     sessionStorage.setItem(
       `${SIDEBAR_SECTION_STORAGE_PREFIX}academy`,
       String(isAcademyExpanded),
     );
-  }, [isAcademyExpanded]);
+  }, [isAcademyExpanded, hasMounted]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!hasMounted || typeof window === 'undefined') return;
 
     sessionStorage.setItem(
       `${SIDEBAR_SECTION_STORAGE_PREFIX}tools`,
       String(isToolsExpanded),
     );
-  }, [isToolsExpanded]);
+  }, [isToolsExpanded, hasMounted]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!hasMounted || typeof window === 'undefined') return;
 
     sessionStorage.setItem(
       `${SIDEBAR_SECTION_STORAGE_PREFIX}experiments`,
       String(isExperimentsExpanded),
     );
-  }, [isExperimentsExpanded]);
+  }, [isExperimentsExpanded, hasMounted]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!hasMounted || typeof window === 'undefined') return;
     sessionStorage.setItem(
       SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY,
       String(isDesktopSidebarCollapsed),
     );
-  }, [isDesktopSidebarCollapsed]);
+  }, [isDesktopSidebarCollapsed, hasMounted]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!hasMounted || typeof window === 'undefined') return;
     if (pathWithoutLocale !== '/preferences' || hasVisitedPreferences) return;
 
     localStorage.setItem(SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY, 'true');
     setHasVisitedPreferences(true);
-  }, [hasVisitedPreferences, pathWithoutLocale]);
+  }, [hasVisitedPreferences, pathWithoutLocale, hasMounted]);
 
   useEffect(() => {
     if (pathWithoutLocale.startsWith('/experiments')) {
@@ -533,10 +521,10 @@ const Sidebar = () => {
         ...baseExperimentsSection.items,
         ...(isExperimentsExpanded
           ? loadedExperiments.map(exp => ({
-              href: exp.href,
-              labelKey: exp.name, // Will just render name directly since it's an experiment
-              icon: exp.icon || null,
-            }))
+            href: exp.href,
+            labelKey: exp.name, // Will just render name directly since it's an experiment
+            icon: exp.icon || null,
+          }))
           : []),
       ],
     },
@@ -611,7 +599,7 @@ const Sidebar = () => {
         isDesktopSidebarCollapsed ? 'lg:w-20' : 'lg:w-80',
         'lg:pb-4',
       )}
-      // style={{ scrollbarGutter: 'stable' }}
+    // style={{ scrollbarGutter: 'stable' }}
     >
       {/* Logo */}
       <motion.div
@@ -627,14 +615,16 @@ const Sidebar = () => {
         <h1 className='max-3xl:flex-col max-3xl:items-start flex items-center gap-1.5 pl-4 text-3xl'>
           {USE_AURORA_SIDEBAR_HEADING ? (
             <>
-              <AuroraText className='font-bold'>KanaDojo</AuroraText>
-              <AuroraText className='font-normal'>かな道場️</AuroraText>
+              <AuroraText className='font-bold'>PThamSS</AuroraText>
+              <AuroraText className='font-normal'>
+                <Heart className='inline-block size-9 fill-current ml-1 text-red-500' />
+              </AuroraText>
             </>
           ) : (
             <>
-              <span className='font-bold'>KanaDojo</span>
+              <span className='font-bold'> PThamSS</span>
               <span className='font-normal text-(--secondary-color)'>
-                かな道場️
+                <Heart className='inline-block size-9 fill-current ml-1 text-red-500' />
               </span>
             </>
           )}

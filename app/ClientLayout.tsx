@@ -166,16 +166,18 @@ export default function ClientLayout({
     //   return () => clearTimeout(timer);
     // }
 
-    const cameFromHome =
-      previousPathname === '/' ||
-      previousPathname === '/en' ||
-      previousPathname === '/ja';
+    // const cameFromHome =
+    //   previousPathname === '/' ||
+    //   previousPathname === '/en' ||
+    //   previousPathname === '/ja';
 
-    const shouldCycle =
-      (hasSeenWelcome && isTargetRoute && cameFromHome) ||
-      (hasSeenWelcome && (isPreferencesRoute || isProgressRoute));
+    // const shouldCycle =
+    //   (hasSeenWelcome && isTargetRoute && cameFromHome) ||
+    //   (hasSeenWelcome && (isPreferencesRoute || isProgressRoute));
 
-    if (shouldCycle) {
+    const isPageChange = previousPathname && previousPathname !== pathname;
+
+    if (hasSeenWelcome && isPageChange) {
       const nextCount =
         Number(
           typeof window !== 'undefined'
@@ -188,7 +190,8 @@ export default function ClientLayout({
         sessionStorage.setItem(donationLastPathKey, pathname);
       }
 
-      if (nextCount % 2 === 0) {
+      // Show donation modal every 50 page changes (e.g. 50, 100, 150...)
+      if (nextCount % 20 === 0) {
         const timer = setTimeout(() => {
           setIsDonationModalOpen(true);
         }, 500);

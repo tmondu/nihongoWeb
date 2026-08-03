@@ -11,27 +11,26 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'About KanaDojo | Japanese Learning Platform';
+  const title = 'About PThamSS | Japanese Learning Platform';
   const description =
-    'Learn about KanaDojo - a free, modern Japanese learning platform focused on making Hiragana, Katakana, Kanji, and vocabulary training effective and engaging.';
+    'Learn about PThamSS - a free, modern Japanese learning platform focused on making Hiragana, Katakana, Kanji, and vocabulary training effective and engaging.';
 
   return {
     title,
     description,
     keywords: [
-      'about kanadojo',
+      'about PThamSS',
       'japanese learning platform',
       'learn japanese online',
       'japanese education',
       'language learning tools',
     ],
     alternates: {
-      canonical: 'https://kanadojo.com/about',
+      canonical: '',
     },
     openGraph: {
       title,
       description,
-      url: 'https://kanadojo.com/about',
       type: 'website',
     },
     robots: {
@@ -45,7 +44,7 @@ export default function AboutPage() {
   return (
     <LegalLayout
       icon={<CircleHelp className='size-6' />}
-      title='About KanaDojo'
+      title='About PThamSS'
       lastUpdated='April 8, 2026'
     >
       <p className='mb-8 text-xl text-(--secondary-color)'>
@@ -116,7 +115,12 @@ export default function AboutPage() {
         Our Approach
       </h2>
       <div className='mb-12 space-y-4 text-(--secondary-color)'>
-        <div>
+        <div><Link
+          href='/faq'
+          className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
+        >
+          FAQ
+        </Link>
           <h3 className='mb-2 font-semibold text-(--main-color)'>
             Evidence-Based Learning
           </h3>
@@ -179,14 +183,14 @@ export default function AboutPage() {
           organized by test level
         </li>
       </ul>
-      <p className='mb-12'>
+      {/* <p className='mb-12'>
         <Link
           href='/credits'
           className='inline-flex items-center font-medium text-(--main-color) hover:underline'
         >
           View full credits and data sources →
         </Link>
-      </p>
+      </p> */}
 
       <h2 className='mb-6 text-2xl font-semibold text-(--main-color)'>
         Built With Modern Technology
@@ -231,12 +235,12 @@ export default function AboutPage() {
           Learn More
         </h2>
         <div className='flex flex-wrap gap-3'>
-          <Link
+          {/* <Link
             href='/credits'
             className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
           >
             Credits & Data Sources
-          </Link>
+          </Link> */}
           <Link
             href='/privacy'
             className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
@@ -249,12 +253,12 @@ export default function AboutPage() {
           >
             Terms of Service
           </Link>
-          <Link
+          {/* <Link
             href='/faq'
             className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
           >
             FAQ
-          </Link>
+          </Link> */}
         </div>
       </div>
     </LegalLayout>

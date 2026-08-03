@@ -13,6 +13,7 @@ import {
   Repeat,
   Package,
   type LucideIcon,
+  Heart,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { removeLocaleFromPath } from '@/shared/utils/pathUtils';
@@ -139,8 +140,10 @@ export default function TopBar() {
             onClick={() => playClick()}
             className='flex items-center gap-3 text-lg font-medium text-(--main-color) transition-opacity hover:opacity-80'
           >
-            <span className='text-3xl'>KanaDojo</span>
-            <span className='text-3xl text-(--secondary-color)'>かな道場</span>
+            <span className='text-3xl'>PThamSS</span>
+            <span className='font-normal text-(--secondary-color)'>
+              <Heart className='inline-block size-9 fill-current ml-1 text-red-500' />
+            </span>
           </Link>
 
           {/* Navigation Links */}
@@ -242,7 +245,7 @@ export default function TopBar() {
                 className={clsx(
                   'relative z-10 flex items-center justify-center rounded-2xl px-3 py-2 text-2xl transition-all duration-250',
                   active &&
-                    'motion-safe:animate-float [--float-distance:-3.5px]',
+                  'motion-safe:animate-float [--float-distance:-3.5px]',
                   active
                     ? 'text-(--background-color)'
                     : 'text-(--secondary-color)',

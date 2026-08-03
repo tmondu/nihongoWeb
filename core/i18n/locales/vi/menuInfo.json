@@ -1,23 +1,23 @@
 {
-  "greeting": "Chào mừng đến KanaDojo!",
-  "description": "KanaDojo là nền tảng học tiếng Nhật tối giản, đẹp mắt, được cộng đồng tạo ra, lấy cảm hứng từ Duolingo và Monkeytype.",
-  "instructions": "Để bắt đầu, chọn một dojo bên dưới và bắt đầu luyện tập ngay!",
+  "greeting": "Chào mừng đến PThamSS!",
+  "description": "PThamSS là nền tảng học tiếng Nhật tối giản, đẹp mắt, được cộng đồng tạo ra, lấy cảm hứng từ Duolingo và Monkeytype.",
+  "instructions": "Để bắt đầu, chọn một kiến thức bên dưới và bắt đầu luyện tập ngay!",
   "kana": {
-    "header": "Chào mừng đến dojo kana (hiragana và katakana)!",
+    "header": "Chào mừng đến PThamSS (hiragana và katakana)!",
     "content1": "Đây là nơi bạn có thể học và thực hành hai bảng chữ cái cốt lõi của tiếng Nhật - Hiragana và Katakana.",
-    "content2": "Để bắt đầu, chọn ít nhất 1 bộ ký tự, chọn hoặc thay đổi chế độ luyện tập, sau đó nhấn <b/> bên dưới và bắt đầu ngay!"
+    "content2": "Để bắt đầu, chọn ít nhất 1 bộ ký tự, chọn hoặc thay đổi chế độ luyện tập, sau đó nhấn bắt đầu bên dưới và bắt đầu ngay!"
   },
   "kanji": {
-    "header": "Chào mừng đến dojo kanji!",
+    "header": "Chào mừng đến PThamSS!",
     "content1": "Đây là nơi bạn có thể học và thực hành thành phần chính của hệ thống chữ viết tiếng Nhật - Hán tự (Kanji).",
-    "content2": "Để bắt đầu, chọn ít nhất 1 cấp độ, chọn chế độ luyện tập, sau đó nhấn <b/> bên dưới và bắt đầu luyện tập!",
-    "content3": "Mới: nhấp vào một chữ kanji để tìm hiểu thêm về nó trên <a/>"
+    "content2": "Để bắt đầu, chọn ít nhất 1 cấp độ, chọn chế độ luyện tập, sau đó nhấn bắt đầu bên dưới và bắt đầu luyện tập!",
+    "content3": "Mới: nhấp vào một chữ kanji để tìm hiểu thêm về nó"
   },
   "vocabulary": {
-    "header": "Chào mừng đến dojo từ vựng!",
+    "header": "Chào mừng đến PThamSS!",
     "content1": "Đây là nơi bạn có thể học và thực hành các từ phổ biến nhất trong tiếng Nhật giao tiếp hàng ngày.",
-    "content2": "Để bắt đầu, chọn ít nhất 1 cấp độ, chọn chế độ luyện tập, sau đó nhấn <b/> bên dưới và bắt đầu luyện tập!",
-    "content3": "Mới: nhấp vào một từ để tìm hiểu thêm về nó trên <a/>"
+    "content2": "Để bắt đầu, chọn ít nhất 1 cấp độ, chọn chế độ luyện tập, sau đó nhấn bắt đầu bên dưới và bắt đầu luyện tập!",
+    "content3": "Mới: nhấp vào một từ để tìm hiểu thêm về nó"
   },
   "jlptMenu": {
     "header": "Về các nhóm kanji/từ vựng JLPT",

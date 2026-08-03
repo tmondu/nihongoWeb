@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Copy, Check, Loader2 } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
+import { useTranslations } from 'next-intl';
 import type {
   ConjugationResult,
   ConjugationCategory as CategoryType,
@@ -29,6 +30,8 @@ export default function ConjugationResults({
   isLoading,
   onCopyForm,
 }: ConjugationResultsProps) {
+  const t = useTranslations('conjugator');
+  const tNav = useTranslations('navigation');
   const [statusMessage, setStatusMessage] = useState<string>('');
   const previousResultRef = useRef<ConjugationResult | null>(null);
 
@@ -45,24 +48,36 @@ export default function ConjugationResults({
     return grouped;
   }, [result]);
 
+  const categoryCount = useMemo(() => {
+    let count = 0;
+    for (const [, forms] of formsByCategory) {
+      if (forms.length > 0) count++;
+    }
+    return count;
+  }, [formsByCategory]);
+
   // Update status message when result changes for screen readers
   useEffect(() => {
     if (result && result !== previousResultRef.current) {
       setStatusMessage(
-        `Conjugation complete for ${result.verb.dictionaryForm}. ${result.forms.length} forms available.`,
+        t('results.statusMessage', {
+          verb: result.verb.dictionaryForm,
+          formCount: result.forms.length,
+          categoryCount,
+        })
       );
       previousResultRef.current = result;
     } else if (isLoading) {
-      setStatusMessage('Conjugating...');
+      setStatusMessage(t('results.loading'));
     }
-  }, [result, isLoading]);
+  }, [result, isLoading, categoryCount, t]);
 
   if (isLoading) {
     return (
       <div className='flex flex-col items-center justify-center py-20 text-center'>
         <Loader2 className='h-8 w-8 animate-spin text-(--main-color) opacity-20' />
         <p className='mt-4 text-xl font-bold tracking-tight text-(--main-color) opacity-40'>
-          Conjugating...
+          {t('results.loading')}
         </p>
       </div>
     );
@@ -72,7 +87,7 @@ export default function ConjugationResults({
     return (
       <div className='flex flex-col items-center justify-center py-24 text-center'>
         <p className='text-3xl font-black tracking-tight text-(--main-color) opacity-20 sm:text-4xl'>
-          Type a verb to start
+          {t('results.empty.title')}
         </p>
       </div>
     );
@@ -82,7 +97,7 @@ export default function ConjugationResults({
     <div
       className='flex flex-col gap-6'
       role='region'
-      aria-label='Conjugation results'
+      aria-label={t('accessibility.resultsRegion')}
     >
       <div
         className='sr-only'
@@ -97,10 +112,10 @@ export default function ConjugationResults({
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-2 text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
             <div className='h-[1px] w-4 bg-(--main-color)' />
-            <span>Analysis</span>
+            <span>{t('verbInfo.conjugationRules')}</span>
           </div>
           <h2 className='text-2xl font-bold tracking-tight text-(--main-color)'>
-            Conjugations
+            {tNav('menu.conjugate')}
           </h2>
         </div>
 
@@ -124,7 +139,7 @@ export default function ConjugationResults({
 
       <footer className='mt-8 border-t border-(--border-color)/10 py-12'>
         <p className='text-center text-xs font-bold text-(--secondary-color)/40'>
-          Generated {result.forms.length} forms for {result.verb.dictionaryForm}
+          {t('results.formCount', { count: result.forms.length, categories: categoryCount })}
         </p>
       </footer>
     </div>

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Trình chia động từ tiếng Nhật - Công cụ trực tuyến miễn phí | KanaDojo",
-    "titleWithVerb": "Chia động từ {verb} ({romaji}) - Mọi thể động từ tiếng Nhật | KanaDojo",
+    "title": "Trình chia động từ tiếng Nhật - Công cụ trực tuyến miễn phí | PThamSS",
+    "titleWithVerb": "Chia động từ {verb} ({romaji}) - Mọi thể động từ tiếng Nhật | PThamSS",
     "description": "Trình chia động từ tiếng Nhật miễn phí với đầy đủ các thể chia động từ. Chia bất kỳ động từ tiếng Nhật nào ngay lập tức - động từ Godan, Ichidan, động từ bất quy tắc. Xem thể te, thể masu, thể khả năng, thể bị động, thể sai khiến và nhiều hơn nữa.",
     "descriptionWithVerb": "Chia động từ đầy đủ cho {verb} ({romaji}). Xem tất cả các thể bao gồm thể te, thể masu, thể khả năng, thể bị động, thể sai khiến, và nhiều hơn nữa. Trình chia động từ tiếng Nhật miễn phí."
   },
@@ -64,7 +64,9 @@
     "irregular": {
       "label": "Bất quy tắc",
       "description": "Động từ này có quy tắc chia bất quy tắc cần phải ghi nhớ.",
-      "rules": ["Quy tắc chia không tuân theo các quy chuẩn thông thường"]
+      "rules": [
+        "Quy tắc chia không tuân theo các quy chuẩn thông thường"
+      ]
     },
     "suru": {
       "label": "Động từ する",
@@ -219,7 +221,7 @@
     "button": "Chia sẻ",
     "copied": "Đã sao chép!",
     "error": "Lỗi sao chép",
-    "title": "Chia động từ {verb} - KanaDojo",
+    "title": "Chia động từ {verb} - PThamSS",
     "text": "Hãy xem cách chia động từ {verb} ({romaji})"
   },
   "errors": {
@@ -314,7 +316,7 @@
         "content": "Quy tắc chia sẽ trở nên tự nhiên hơn với việc thực hành đều đặn. Hãy dùng công cụ tra cứu chia động từ này để xác nhận sự hiểu biết của bạn."
       }
     ],
-    "aboutTool": "Trình chia động từ tiếng Nhật của KanaDojo là một công cụ giáo dục miễn phí tạo ra tất cả các dạng chia cho bất kỳ động từ tiếng Nhật nào. Hỗ trợ động từ Godan, Ichidan và bất quy tắc bao gồm cả các động từ ghép. Trình chia động từ cung cấp phát âm romaji, phát hiện nhóm động từ tự động và độ bao phủ toàn bộ các thể để chuẩn bị cho JLPT và học tiếng Nhật."
+    "aboutTool": "Trình chia động từ tiếng Nhật của PThamSS là một công cụ giáo dục miễn phí tạo ra tất cả các dạng chia cho bất kỳ động từ tiếng Nhật nào. Hỗ trợ động từ Godan, Ichidan và bất quy tắc bao gồm cả các động từ ghép. Trình chia động từ cung cấp phát âm romaji, phát hiện nhóm động từ tự động và độ bao phủ toàn bộ các thể để chuẩn bị cho JLPT và học tiếng Nhật."
   },
   "faq": {
     "title": "Các câu hỏi thường gặp",
@@ -414,6 +416,6 @@
         "description": "Các bài học có cấu trúc để học tiếng Nhật toàn diện"
       }
     },
-    "footer": "KanaDojo cung cấp một bộ công cụ học tiếng Nhật hoàn chỉnh. Từ việc nắm vững các kiến thức cơ bản với luyện tập Hiragana và Katakana, đến việc xây dựng từ vựng và hiểu chữ Kanji, nền tảng của chúng tôi luôn hỗ trợ người học ở mọi cấp độ. Sử dụng trình chia động từ cùng với các tài nguyên này để nghiên cứu tiếng Nhật một cách toàn diện."
+    "footer": "PThamSS cung cấp một bộ công cụ học tiếng Nhật hoàn chỉnh. Từ việc nắm vững các kiến thức cơ bản với luyện tập Hiragana và Katakana, đến việc xây dựng từ vựng và hiểu chữ Kanji, nền tảng của chúng tôi luôn hỗ trợ người học ở mọi cấp độ. Sử dụng trình chia động từ cùng với các tài nguyên này để nghiên cứu tiếng Nhật một cách toàn diện."
   }
 }

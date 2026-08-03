@@ -13,7 +13,7 @@ The current README.md is 657 lines and contains extensive duplicate content that
 | Section                            | Lines | Issue                                                     |
 | ---------------------------------- | ----- | --------------------------------------------------------- |
 | Language translations list         | 20    | Keep (but simplify)                                       |
-| About KanaDojo                     | 90    | Too verbose, trim to essentials                           |
+| About PThamSS                      | 90    | Too verbose, trim to essentials                           |
 | Screenshots                        | 20    | Keep                                                      |
 | UI & Design Philosophy             | 30    | **DUPLICATE** - Already in `docs/UI_DESIGN.md`            |
 | Tech Stack                         | 40    | **DUPLICATE** - Already in `docs/ARCHITECTURE.md`         |

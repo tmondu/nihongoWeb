@@ -125,8 +125,8 @@ const MobileBottomBar = () => {
                         pulseClasses,
                         isPatreon && 'text-blue-500',
                         isDonate &&
-                          USE_BADGE_STYLE &&
-                          '!text-(--background-color)',
+                        USE_BADGE_STYLE &&
+                        '!text-(--background-color)',
                       )}
                     />
                   ) : (
@@ -137,8 +137,8 @@ const MobileBottomBar = () => {
                         (!isDonate || !USE_BADGE_STYLE) && pulseClasses,
                         isDonate && USE_BADGE_STYLE && 'fill-current',
                         isDonate &&
-                          !USE_BADGE_STYLE &&
-                          'fill-current text-red-500',
+                        !USE_BADGE_STYLE &&
+                        'fill-current text-red-500',
                       )}
                     />
                   )}
@@ -158,9 +158,9 @@ const MobileBottomBar = () => {
         <button
           type='button'
           className='hidden text-xs text-(--secondary-color) hover:cursor-pointer hover:text-(--main-color) lg:inline-block'
-          onClick={() => handleClick('https://ko-fi.com/kanadojo')}
+          onClick={() => handleClick('')}
         >
-          made with ❤️ by the community
+          ❤️
         </button>
         <span className='hidden text-sm text-(--main-color) select-none lg:inline-block'>
           ~

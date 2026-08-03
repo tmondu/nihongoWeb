@@ -1,6 +1,6 @@
 ---
 name: ❓ Question
-description: Ask a question about KanaDojo, how it works, or how to contribute
+description: Ask a question about PThamSS, how it works, or how to contribute
 labels: question
 ---
 
@@ -22,4 +22,4 @@ Link to any relevant documentation, issues, or external resources.
 
 ---
 
-**Note:** If you've found a bug, please report it using the [Bug Report](https://github.com/lingdojo/kanadojo/issues/new?template=bug_report.md) template instead.
+**Note:** If you've found a bug, please report it using the [Bug Report]() template instead.

@@ -28,6 +28,8 @@ import type {
   ConjugationForm,
 } from '../types';
 
+import { useTranslations, useLocale } from 'next-intl';
+
 interface ConjugationCategoryProps {
   /** Category identifier */
   category: CategoryType;
@@ -61,11 +63,24 @@ export default function ConjugationCategory({
   onToggle,
   onCopy,
 }: ConjugationCategoryProps) {
+  const t = useTranslations('conjugator');
+  const locale = useLocale();
   const categoryInfo = getCategoryInfo(category);
 
   if (forms.length === 0) {
     return null;
   }
+
+  // Get dynamic localized names
+  const categoryName = t(`categories.${category}.name`);
+  const categoryNameJa = t(`categories.${category}.nameJa`);
+
+  const categoryToggleLabel = t('accessibility.categoryToggle', {
+    category: categoryName,
+    categoryJa: categoryNameJa,
+    count: forms.length,
+    action: isExpanded ? t('forms.collapse') : t('forms.expand'),
+  });
 
   return (
     <div
@@ -75,7 +90,7 @@ export default function ConjugationCategory({
       {/* Category header - Pure Alignment */}
       <div
         className='flex items-center justify-between border-b border-(--border-color)/10 py-4'
-        aria-label={`${categoryInfo.name} (${categoryInfo.nameJa}), ${forms.length} forms.`}
+        aria-label={categoryToggleLabel}
       >
         <div className='flex items-center gap-4'>
           <div
@@ -86,10 +101,10 @@ export default function ConjugationCategory({
 
           <div className='flex items-center gap-4'>
             <h4 className='text-xl font-bold tracking-tight text-(--main-color)'>
-              {categoryInfo.name}
+              {categoryName}
             </h4>
             <span className='font-japanese text-xs font-bold text-(--main-color) opacity-20'>
-              {categoryInfo.nameJa}
+              {categoryNameJa}
             </span>
           </div>
         </div>
@@ -99,12 +114,12 @@ export default function ConjugationCategory({
         id={`category-${category}`}
         className='opacity-100'
         role='region'
-        aria-label={`${categoryInfo.name} conjugation forms`}
+        aria-label={t('accessibility.categoryForms', { count: forms.length, category: categoryName })}
       >
         <div
           className='flex flex-col'
           role='list'
-          aria-label={`${forms.length} ${categoryInfo.name.toLowerCase()} forms`}
+          aria-label={t('accessibility.categoryForms', { count: forms.length, category: categoryName })}
         >
           {forms.map((form, index) => (
             <FormRow key={form.id} form={form} onCopy={onCopy} index={index} />
@@ -127,6 +142,7 @@ function FormRow({
   onCopy: (form: ConjugationForm) => void;
   index: number;
 }) {
+  const t = useTranslations('conjugator');
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(() => {
@@ -174,7 +190,7 @@ function FormRow({
             <div className='flex items-center gap-2'>
               <div className='h-1.5 w-1.5 rounded-full bg-blue-500/40' />
               <span className='text-[9px] font-black tracking-[0.3em] text-blue-500/60 uppercase'>
-                Polite
+                {t('forms.polite')}
               </span>
             </div>
           )}
@@ -189,7 +205,7 @@ function FormRow({
           'text-(--secondary-color) opacity-0 group-hover:opacity-100 focus:opacity-100',
           copied && 'text-green-500 opacity-100',
         )}
-        aria-label={copied ? 'Copied' : 'Copy'}
+        aria-label={copied ? t('results.copied') : t('forms.copy')}
       >
         {copied ? (
           <Check className='h-6 w-6' aria-hidden='true' />
