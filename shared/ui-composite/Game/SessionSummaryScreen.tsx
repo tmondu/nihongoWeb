@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { useLocale } from 'next-intl';
 import {
-  CircleArrowLeft,
   ArrowLeft,
   RotateCcw,
   Timer,
@@ -12,7 +12,6 @@ import {
   Trophy,
   Activity,
   Flame,
-  Heart,
   CheckCircle2,
   XCircle,
 } from 'lucide-react';
@@ -83,6 +82,141 @@ const formatTime = (ms: number) => {
   return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
+const uiTranslations = {
+  vi: {
+    accuracy: 'độ chính xác',
+    timeSpent: 'thời gian',
+    menu: 'Menu',
+    perfectRun: 'Hoàn hảo',
+    attempts: (total: number, correct: number) => `Trong số ${total} lượt trả lời, bạn đã trả lời đúng ${correct} câu.`,
+    stars: 'Ngôi sao',
+    qMin: 'câu/phút',
+    lives: 'Lượt chơi',
+    reached: (count: number) => `đạt được (${count})`,
+    missed: (count: number) => `bỏ lỡ (${count})`,
+    difficultyLabel: 'độ khó',
+    newBest: 'kỷ lục cá nhân mới!',
+    best: (time: string) => `kỷ lục: ${time}`,
+
+    // Titles
+    sessionSummary: 'Tổng kết lượt chơi',
+    progressSaved: 'Tiến trình đã được lưu.',
+    sessionEnded: 'Lượt chơi kết thúc',
+    challengeComplete: 'Thử thách đã hoàn thành!',
+    blitzQuit: 'Bạn đã thoát lượt chơi chớp nhoáng sớm.',
+    blitzFinished: (duration: number) => `Thử thách ${duration < 60 ? `${duration} giây` : `${duration / 60} phút`} đã hoàn thành`,
+    victory: 'Chiến thắng!',
+    gameOver: 'Kết thúc lượt chơi',
+    gauntletQuit: (pct: number) => `Bạn đã kết thúc thử thách sớm ở mức ${pct}%.`,
+    gauntletCleared: 'Đã vượt qua thử thách.',
+    gauntletFailed: (pct: number) => `Bạn đã vượt qua được ${pct}% chặng đường thử thách`,
+
+    // Stat labels
+    bestStreak: 'chuỗi tốt nhất',
+    avgSpeed: 'tốc độ t.bình',
+    topSpeed: 'tốc độ cao nhất',
+    answersMin: 'số câu/phút',
+    correct: 'đúng',
+    wrong: 'sai',
+    avgQuestion: 't.bình/câu',
+    fastest: 'nhanh nhất',
+
+    // Buttons
+    newSession: 'Lượt chơi mới',
+    newMobile: 'mới',
+    tryAgain: 'Thử lại',
+    againMobile: 'lại',
+  },
+  en: {
+    accuracy: 'accuracy',
+    timeSpent: 'time spent',
+    menu: 'menu',
+    perfectRun: 'perfect run',
+    attempts: (total: number, correct: number) => `out of ${total} attempts, you answered ${correct} correctly.`,
+    stars: 'stars',
+    qMin: 'q/min',
+    lives: 'lives',
+    reached: (count: number) => `reached (${count})`,
+    missed: (count: number) => `missed (${count})`,
+    difficultyLabel: 'difficulty',
+    newBest: 'new personal best!',
+    best: (time: string) => `best: ${time}`,
+
+    // Titles
+    sessionSummary: 'session summary',
+    progressSaved: 'your progress is saved.',
+    sessionEnded: 'session ended',
+    challengeComplete: 'challenge complete!',
+    blitzQuit: 'you quit this blitz session early.',
+    blitzFinished: (duration: number) => `${duration < 60 ? `${duration} seconds` : `${duration / 60} minute${duration > 60 ? 's' : ''}`} challenge finished`,
+    victory: 'victory!',
+    gameOver: 'game over',
+    gauntletQuit: (pct: number) => `you ended this run early at ${pct}%.`,
+    gauntletCleared: 'gauntlet cleared.',
+    gauntletFailed: (pct: number) => `you got ${pct}% through the gauntlet`,
+
+    // Stat labels
+    bestStreak: 'best streak',
+    avgSpeed: 'avg. speed',
+    topSpeed: 'top speed',
+    answersMin: 'answers/min',
+    correct: 'correct',
+    wrong: 'wrong',
+    avgQuestion: 'avg/question',
+    fastest: 'fastest',
+
+    // Buttons
+    newSession: 'new session',
+    newMobile: 'new',
+    tryAgain: 'try again',
+    againMobile: 'again',
+  },
+  es: {
+    accuracy: 'precisión',
+    timeSpent: 'tiempo',
+    menu: 'menu',
+    perfectRun: 'ronda perfecta',
+    attempts: (total: number, correct: number) => `de ${total} intentos, respondiste ${correct} correctamente.`,
+    stars: 'estrellas',
+    qMin: 'p/min',
+    lives: 'vidas',
+    reached: (count: number) => `alcanzados (${count})`,
+    missed: (count: number) => `fallados (${count})`,
+    difficultyLabel: 'dificultad',
+    newBest: '¡nueva marca personal!',
+    best: (time: string) => `mejor: ${time}`,
+
+    // Titles
+    sessionSummary: 'Resumen de sesión',
+    progressSaved: 'Tu progreso ha sido guardado.',
+    sessionEnded: 'Sesión terminada',
+    challengeComplete: '¡desafío completo!',
+    blitzQuit: 'terminaste esta sesión blitz antes de tiempo.',
+    blitzFinished: (duration: number) => `desafío de ${duration < 60 ? `${duration} segundos` : `${duration / 60} minuto${duration > 60 ? 's' : ''}`} finalizado`,
+    victory: '¡victoria!',
+    gameOver: 'fin de la partida',
+    gauntletQuit: (pct: number) => `terminaste este desafío antes de tiempo al ${pct}%.`,
+    gauntletCleared: 'desafío superado.',
+    gauntletFailed: (pct: number) => `llegaste al ${pct}% del desafío`,
+
+    // Stat labels
+    bestStreak: 'mejor racha',
+    avgSpeed: 'vel. promedio',
+    topSpeed: 'vel. máxima',
+    answersMin: 'respuestas/min',
+    correct: 'correctas',
+    wrong: 'incorrectas',
+    avgQuestion: 'prom/pregunta',
+    fastest: 'más rápido',
+
+    // Buttons
+    newSession: 'nueva sesión',
+    newMobile: 'nueva',
+    tryAgain: 'intentar de nuevo',
+    againMobile: 'otra vez',
+  },
+};
+
 export default function SessionSummaryScreen(props: SessionSummaryProps) {
   if (props.mode === 'blitz') return <BlitzSummary {...props} />;
   if (props.mode === 'gauntlet') return <GauntletSummary {...props} />;
@@ -90,8 +224,8 @@ export default function SessionSummaryScreen(props: SessionSummaryProps) {
 }
 
 function ClassicSummary({
-  title = 'session summary',
-  subtitle = 'your progress is saved.',
+  title,
+  subtitle,
   correct,
   wrong,
   bestStreak,
@@ -101,6 +235,12 @@ function ClassicSummary({
   onBackToSelection,
   onNewSession,
 }: ClassicSessionSummaryProps) {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
+
+  const displayTitle = title || t.sessionSummary;
+  const displaySubtitle = subtitle || t.progressSaved;
+
   const { playClick } = useClick();
   const total = correct + wrong;
   const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
@@ -143,28 +283,28 @@ function ClassicSummary({
 
   return (
     <SummaryLayout
-      title={title}
-      subtitle={subtitle}
+      title={displayTitle}
+      subtitle={displaySubtitle}
       total={total}
       correct={correct}
       accuracy={accuracy}
-      heroValue={accuracy === 100 ? 'perfect run' : `${correct} / ${total}`}
-      heroDescription={`out of ${total} attempts, you answered ${correct} correctly.`}
+      heroValue={accuracy === 100 ? t.perfectRun : `${correct} / ${total}`}
+      heroDescription={t.attempts(total, correct)}
       timeValue={timeFormatted}
-      topRightLabel='stars'
+      topRightLabel={t.stars}
       topRightValue={`+${stars}`}
-      firstStatLabel='best streak'
+      firstStatLabel={t.bestStreak}
       firstStatValue={bestStreak}
-      secondStatLabel='avg. speed'
+      secondStatLabel={t.avgSpeed}
       secondStatValue={`${avgResponseTime.toFixed(1)}s`}
-      thirdStatLabel='top speed'
+      thirdStatLabel={t.topSpeed}
       thirdStatValue={`${fastestResponse.toFixed(2)}s`}
-      fourthStatLabel='answers/min'
+      fourthStatLabel={t.answersMin}
       fourthStatValue={apm}
       onBackToSelection={onBackToSelection}
       onNewSession={onNewSession}
-      primaryAction='new session'
-      mobilePrimaryAction='new'
+      primaryAction={t.newSession}
+      mobilePrimaryAction={t.newMobile}
     />
   );
 }
@@ -178,6 +318,9 @@ function BlitzSummary({
   onBackToSelection,
   onNewSession,
 }: BlitzSessionSummaryProps) {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
+
   const total = stats.correct + stats.wrong;
   const accuracy = total > 0 ? Math.round((stats.correct / total) * 100) : 0;
   const qpm = total > 0 ? ((total / challengeDuration) * 60).toFixed(1) : '0';
@@ -186,32 +329,32 @@ function BlitzSummary({
 
   return (
     <SummaryLayout
-      title={endedReason === 'manual_quit' ? 'session ended' : 'challenge complete!'}
+      title={endedReason === 'manual_quit' ? t.sessionEnded : t.challengeComplete}
       subtitle={
         endedReason === 'manual_quit'
-          ? 'you quit this blitz session early.'
-          : `${challengeDuration < 60 ? `${challengeDuration} seconds` : `${challengeDuration / 60} minute${challengeDuration > 60 ? 's' : ''}`} challenge finished`
+          ? t.blitzQuit
+          : t.blitzFinished(challengeDuration)
       }
       total={total}
       correct={stats.correct}
       accuracy={accuracy}
       heroValue={`${stats.correct} / ${total}`}
-      heroDescription={`out of ${total} attempts, you answered ${stats.correct} correctly.`}
+      heroDescription={t.attempts(total, stats.correct)}
       timeValue={formatTime(challengeDuration * 1000)}
-      topRightLabel='q/min'
+      topRightLabel={t.qMin}
       topRightValue={qpm}
-      firstStatLabel='best streak'
+      firstStatLabel={t.bestStreak}
       firstStatValue={stats.bestStreak}
-      secondStatLabel='correct'
+      secondStatLabel={t.correct}
       secondStatValue={stats.correct}
-      thirdStatLabel='wrong'
+      thirdStatLabel={t.wrong}
       thirdStatValue={stats.wrong}
-      fourthStatLabel='answers/min'
+      fourthStatLabel={t.answersMin}
       fourthStatValue={qpm}
       onBackToSelection={onBackToSelection}
       onNewSession={onNewSession}
-      primaryAction='try again'
-      mobilePrimaryAction='again'
+      primaryAction={t.tryAgain}
+      mobilePrimaryAction={t.againMobile}
       extraContent={
         showGoalTimers && goals.length > 0 ? (
           <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6'>
@@ -223,7 +366,7 @@ function BlitzSummary({
                   <CheckCircle2 className='h-5 w-5 fill-current' />
                 </span>
                 <span className='text-xs leading-none font-bold tracking-widest text-(--secondary-color) uppercase opacity-60'>
-                  reached ({reached.length})
+                  {t.reached(reached.length)}
                 </span>
               </div>
               <div className='space-y-2'>
@@ -242,7 +385,7 @@ function BlitzSummary({
                   <XCircle className='h-5 w-5 fill-current' />
                 </span>
                 <span className='text-xs leading-none font-bold tracking-widest text-(--secondary-color) uppercase opacity-60'>
-                  missed ({missed.length})
+                  {t.missed(missed.length)}
                 </span>
               </div>
               <div className='space-y-2'>
@@ -268,7 +411,9 @@ function GauntletSummary({
   onBackToSelection,
   onNewSession,
 }: GauntletSessionSummaryProps) {
-  const { playClick } = useClick();
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
+
   const [previousBest, setPreviousBest] = useState<number | null>(null);
   const total = stats.correctAnswers + stats.wrongAnswers;
   const accuracy = total > 0 ? Math.round((stats.correctAnswers / total) * 100) : 0;
@@ -291,36 +436,38 @@ function GauntletSummary({
     void loadBest();
   }, [dojoType, isNewBest, stats]);
 
+  const progressPct = Math.round((stats.questionsCompleted / stats.totalQuestions) * 100);
+
   return (
     <SummaryLayout
-      title={endedReason === 'completed' ? 'victory!' : endedReason === 'manual_quit' ? 'session ended' : 'game over'}
+      title={endedReason === 'completed' ? t.victory : endedReason === 'manual_quit' ? t.sessionEnded : t.gameOver}
       subtitle={
         endedReason === 'manual_quit'
-          ? `you ended this run early at ${Math.round((stats.questionsCompleted / stats.totalQuestions) * 100)}%.`
+          ? t.gauntletQuit(progressPct)
           : endedReason === 'completed'
-            ? 'gauntlet cleared.'
-            : `you got ${Math.round((stats.questionsCompleted / stats.totalQuestions) * 100)}% through the gauntlet`
+            ? t.gauntletCleared
+            : t.gauntletFailed(progressPct)
       }
       total={total}
       correct={stats.correctAnswers}
       accuracy={accuracy}
       heroValue={`${stats.correctAnswers} / ${total}`}
-      heroDescription={`out of ${total} attempts, you answered ${stats.correctAnswers} correctly.`}
+      heroDescription={t.attempts(total, stats.correctAnswers)}
       timeValue={formatGauntletTime(stats.totalTimeMs)}
-      topRightLabel='lives'
+      topRightLabel={t.lives}
       topRightValue={`${stats.livesRemaining}/${stats.startingLives}`}
-      firstStatLabel='best streak'
+      firstStatLabel={t.bestStreak}
       firstStatValue={stats.bestStreak}
-      secondStatLabel='avg/question'
+      secondStatLabel={t.avgQuestion}
       secondStatValue={formatGauntletTime(stats.averageTimePerQuestionMs)}
-      thirdStatLabel='fastest'
+      thirdStatLabel={t.fastest}
       thirdStatValue={formatGauntletTime(stats.fastestAnswerMs)}
-      fourthStatLabel='accuracy'
+      fourthStatLabel={t.accuracy}
       fourthStatValue={`${accuracy}%`}
       onBackToSelection={onBackToSelection}
       onNewSession={onNewSession}
-      primaryAction='try again'
-      mobilePrimaryAction='again'
+      primaryAction={t.tryAgain}
+      mobilePrimaryAction={t.againMobile}
       extraContent={
         <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6'>
           <div className='flex flex-col rounded-[2rem] border-2 border-(--secondary-color)/10 bg-(--background-color) p-5 sm:p-6'>
@@ -331,15 +478,15 @@ function GauntletSummary({
                 <Flame className='h-5 w-5 fill-current' />
               </span>
               <span className='text-xs leading-none font-bold tracking-widest text-(--secondary-color) uppercase opacity-60'>
-                difficulty
+                {t.difficultyLabel}
               </span>
             </div>
             <div className='text-xl font-black tracking-tighter text-(--main-color) sm:text-2xl'>
               {DIFFICULTY_CONFIG[stats.difficulty].label} • {stats.gameMode}
             </div>
             {(isNewBest || previousBest) && (
-              <p className='mt-2 text-sm text-(--secondary-color) lowercase opacity-60'>
-                {isNewBest ? 'new personal best!' : `best: ${formatGauntletTime(previousBest!)}`}
+              <p className='mt-2 text-sm text-(--secondary-color) opacity-60'>
+                {isNewBest ? t.newBest : t.best(formatGauntletTime(previousBest!))}
               </p>
             )}
           </div>
@@ -400,14 +547,16 @@ function SummaryLayout({
   mobilePrimaryAction,
   extraContent,
 }: SummaryLayoutProps) {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const { playClick } = useClick();
 
   return (
     <div className='fixed inset-0 z-50 flex h-full w-full flex-col overflow-x-hidden overflow-y-auto bg-(--background-color)'>
       <div className='mx-auto flex w-full max-w-7xl flex-col px-4 py-8 pb-24 sm:px-8 sm:py-12 sm:pb-32 lg:px-12 lg:py-16 lg:pb-40'>
         <div className='mb-8 flex flex-col items-center gap-1 text-center select-none sm:mb-12 sm:items-start sm:text-left lg:mb-16'>
-          <h1 className='text-3xl font-black tracking-tighter text-(--main-color) lowercase sm:text-5xl lg:text-6xl'>{title}</h1>
-          <p className='text-base font-medium tracking-tight text-(--secondary-color) lowercase opacity-60 sm:text-xl'>{subtitle}</p>
+          <h1 className='text-3xl font-black tracking-tighter text-(--main-color) sm:text-5xl lg:text-6xl'>{title}</h1>
+          <p className='text-base font-medium tracking-tight text-(--secondary-color) opacity-60 sm:text-xl'>{subtitle}</p>
         </div>
 
         <div className='mb-8 flex flex-col gap-4 sm:mb-12 sm:gap-6 lg:mb-16'>
@@ -425,12 +574,12 @@ function SummaryLayout({
                   <span
                     className={`${sessionStatIconBadgeStyle.base} ${sessionStatIconBadgeStyle.selected}`}
                   >
-                  <Target className='h-5 w-5' />
+                    <Target className='h-5 w-5' />
                   </span>
-                  <span className='text-sm leading-none font-bold tracking-wider text-(--secondary-color) uppercase opacity-60'>accuracy</span>
+                  <span className='text-sm leading-none font-bold tracking-wider text-(--secondary-color) uppercase opacity-60'>{t.accuracy}</span>
                 </div>
                 <div className='text-3xl font-black tracking-tighter text-(--main-color) sm:text-5xl'>{heroValue}</div>
-                <p className='mt-2 text-sm text-(--secondary-color) lowercase opacity-60 sm:text-base'>{heroDescription}</p>
+                <p className='mt-2 text-sm text-(--secondary-color) opacity-60 sm:text-base'>{heroDescription}</p>
               </div>
             </div>
 
@@ -441,7 +590,7 @@ function SummaryLayout({
                 >
                   <Timer className='h-5 w-5' />
                 </span>
-                <span className='text-xs leading-none font-bold tracking-widest text-(--secondary-color) uppercase opacity-60'>time spent</span>
+                <span className='text-xs leading-none font-bold tracking-widest text-(--secondary-color) uppercase opacity-60'>{t.timeSpent}</span>
               </div>
               <div className='mt-4 text-4xl font-black tracking-tighter text-(--main-color) sm:text-5xl'>{timeValue}</div>
             </div>
@@ -470,13 +619,13 @@ function SummaryLayout({
         </div>
 
         <div className='sticky bottom-0 z-10 -mx-4 mt-auto flex w-auto items-center justify-center gap-3 border-t-2 border-(--border-color) bg-(--background-color) py-4 px-4 select-none sm:static sm:mx-0 sm:w-full sm:justify-start sm:gap-5 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0'>
-          <button onClick={() => { playClick(); onBackToSelection(); }} className='group flex h-14 flex-1 cursor-pointer items-center justify-center gap-3 rounded-xl bg-(--secondary-color) px-4 text-lg font-bold text-(--background-color) lowercase outline-hidden transition-all duration-150 sm:px-10 sm:text-xl md:flex-none'>
+          <button onClick={() => { playClick(); onBackToSelection(); }} className='group flex h-14 flex-1 cursor-pointer items-center justify-center gap-3 rounded-xl bg-(--secondary-color) px-4 text-lg font-bold text-(--background-color) outline-hidden transition-all duration-150 sm:px-10 sm:text-xl md:flex-none'>
             <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-(--background-color) bg-(--background-color) text-(--secondary-color)'>
               <ArrowLeft className='h-5 w-5 group-hover:animate-none sm:h-6 sm:w-6' strokeWidth={2.5} />
             </span>
-            <span className='leading-none'>menu</span>
+            <span className='leading-none'>{t.menu}</span>
           </button>
-          <button onClick={() => { playClick(); onNewSession(); }} className='group flex h-14 flex-1 cursor-pointer items-center justify-center gap-3 rounded-xl bg-(--main-color) px-4 text-lg font-bold text-(--background-color) lowercase outline-hidden transition-all duration-150 sm:px-12 sm:text-xl md:flex-none'>
+          <button onClick={() => { playClick(); onNewSession(); }} className='group flex h-14 flex-1 cursor-pointer items-center justify-center gap-3 rounded-xl bg-(--main-color) px-4 text-lg font-bold text-(--background-color) outline-hidden transition-all duration-150 sm:px-12 sm:text-xl md:flex-none'>
             <span className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-(--background-color) bg-(--background-color) text-(--main-color)'>
               <RotateCcw className='h-5 w-5 group-hover:animate-none sm:h-6 sm:w-6' strokeWidth={2.5} />
             </span>

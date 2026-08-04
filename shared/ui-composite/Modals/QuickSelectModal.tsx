@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 import { cn } from '@/shared/utils/utils';
+import { useLocale } from 'next-intl';
 
 type SetData = {
   name: string;
@@ -39,11 +40,53 @@ const springTransition = {
   mass: 1,
 } as const;
 
+const uiTranslations = {
+  vi: {
+    quickSelect: 'Chọn nhanh',
+    selectedLevels: (selected: number, total: number) => `đã chọn ${selected}/${total} mức`,
+    selectAll: 'Chọn tất cả',
+    clearAll: 'Xóa tất cả',
+    random: (count: number) => `Ngẫu nhiên ${count}`,
+    searchPlaceholder: 'Tìm kiếm mức...',
+    noLevelFound: 'Không tìm thấy mức.',
+    availableLevels: (start: string, end: string) => `Mức có sẵn: ${start} - ${end}`,
+    done: 'Hoàn tất',
+    level: 'Mức',
+  },
+  en: {
+    quickSelect: 'Quick Select',
+    selectedLevels: (selected: number, total: number) => `${selected} of ${total} levels selected`,
+    selectAll: 'Select All',
+    clearAll: 'Clear All',
+    random: (count: number) => `Random ${count}`,
+    searchPlaceholder: 'search for a level...',
+    noLevelFound: 'No level found.',
+    availableLevels: (start: string, end: string) => `Available levels: ${start} - ${end}`,
+    done: 'Done',
+    level: 'Level',
+  },
+  es: {
+    quickSelect: 'Selección rápida',
+    selectedLevels: (selected: number, total: number) => `${selected} de ${total} niveles seleccionados`,
+    selectAll: 'Seleccionar todo',
+    clearAll: 'Limpiar todo',
+    random: (count: number) => `Aleatorio ${count}`,
+    searchPlaceholder: 'buscar un nivel...',
+    noLevelFound: 'Nivel no encontrado.',
+    availableLevels: (start: string, end: string) => `Niveles disponibles: ${start} - ${end}`,
+    done: 'Aceptar',
+    level: 'Nivel',
+  },
+};
+
 const SetCard = memo(function SetCard({
   set,
   isSelected,
   onToggle,
 }: SetCardProps) {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
+
   return (
     <motion.div
       layout
@@ -71,7 +114,7 @@ const SetCard = memo(function SetCard({
           <Circle size={18} className='shrink-0 text-(--background-color)' />
         )}
         <span className='text-center text-xs font-medium sm:text-sm'>
-          {set.name.replace('Set ', 'Level ')}
+          {set.name.replace('Set ', t.level + ' ')}
         </span>
       </ActionButton>
     </motion.div>
@@ -90,6 +133,8 @@ const QuickSelectModal = ({
   unitName,
   scopeLabel,
 }: QuickSelectModalProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const { playClick } = useClick();
   const [searchLevel, setSearchLevel] = useState('');
 
@@ -175,7 +220,7 @@ const QuickSelectModal = ({
   const actionButtons = useMemo(
     () => [
       {
-        label: 'Select All',
+        label: t.selectAll,
         onClick: handleSelectAll,
         icon: CircleCheck,
         iconOnly: false,
@@ -183,7 +228,7 @@ const QuickSelectModal = ({
         borderColorScheme: 'main' as const,
       },
       {
-        label: 'Clear All',
+        label: t.clearAll,
         onClick: handleClearAll,
         icon: Trash2,
         iconOnly: true,
@@ -191,7 +236,7 @@ const QuickSelectModal = ({
         borderColorScheme: 'main' as const,
       },
       {
-        label: 'Random 3',
+        label: t.random(3),
         onClick: handleRandom3,
         icon: Dices,
         iconOnly: false,
@@ -199,7 +244,7 @@ const QuickSelectModal = ({
         borderColorScheme: 'secondary' as const,
       },
       {
-        label: 'Random 5',
+        label: t.random(5),
         onClick: handleRandom5,
         icon: Dices,
         iconOnly: false,
@@ -207,7 +252,7 @@ const QuickSelectModal = ({
         borderColorScheme: 'secondary' as const,
       },
       {
-        label: 'Random 10',
+        label: t.random(10),
         onClick: handleRandom10,
         icon: Dices,
         iconOnly: false,
@@ -221,6 +266,7 @@ const QuickSelectModal = ({
       handleRandom3,
       handleRandom5,
       handleRandom10,
+      t,
     ],
   );
 
@@ -238,11 +284,10 @@ const QuickSelectModal = ({
         <div className='flex shrink-0 items-center justify-between border-b border-(--border-color) p-4 sm:p-6'>
           <div>
             <h2 className='text-xl font-bold text-(--main-color) sm:text-2xl'>
-              Quick Select - {unitName.toUpperCase()}
+              {t.quickSelect} - {unitName.toUpperCase()}
             </h2>
             <p className='mt-1 text-xs text-(--secondary-color) sm:text-sm'>
-              {scopeLabel} · {selectedSets.length} of {sets.length} levels
-              selected
+              {scopeLabel} · {t.selectedLevels(selectedSets.length, sets.length)}
             </p>
           </div>
           <button
@@ -290,7 +335,7 @@ const QuickSelectModal = ({
             inputMode='numeric'
             pattern='[0-9]*'
             onChange={handleSearchChange}
-            placeholder='search for a level...'
+            placeholder={t.searchPlaceholder}
             className={clsx(
               'rounded-2xl border px-3 py-2 text-sm transition-all sm:px-4',
               'border-(--border-color) hover:bg-(--card-color)',
@@ -304,9 +349,10 @@ const QuickSelectModal = ({
           {filteredSets.length === 0 ? (
             <div className='flex h-full items-center justify-center'>
               <p className='text-sm text-(--secondary-color)'>
-                No level found. Available levels:{' '}
-                {sets[0]?.name.match(/\d+/)?.[0]} -{' '}
-                {sets[sets.length - 1]?.name.match(/\d+/)?.[0]}
+                {t.noLevelFound} {t.availableLevels(
+                  sets[0]?.name.match(/\d+/)?.[0] || '',
+                  sets[sets.length - 1]?.name.match(/\d+/)?.[0] || ''
+                )}
               </p>
             </div>
           ) : (
@@ -333,7 +379,7 @@ const QuickSelectModal = ({
             className='w-auto px-5 py-2.5 text-sm font-medium sm:px-6 sm:py-3 sm:text-base'
           >
             <CircleCheck size={24} />
-            Done
+            {t.done}
           </ActionButton>
         </div>
       </div>

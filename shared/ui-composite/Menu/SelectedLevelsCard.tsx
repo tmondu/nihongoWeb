@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { useLocale } from 'next-intl';
 
 interface SelectedLevelsCardProps {
   currentDojo: string;
@@ -32,6 +33,21 @@ const renderLabelWithSeparator = (label: string, useTildeSeparator: boolean) => 
   ));
 };
 
+const cardTranslations = {
+  vi: {
+    groups: 'Các nhóm đã chọn:',
+    levels: 'Các cấp độ đã chọn:',
+  },
+  en: {
+    groups: 'Selected Groups:',
+    levels: 'Selected Levels:',
+  },
+  es: {
+    groups: 'Grupos Seleccionados:',
+    levels: 'Niveles Seleccionados:',
+  },
+};
+
 export function SelectedLevelsCard({
   currentDojo,
   fullLabel,
@@ -40,6 +56,8 @@ export function SelectedLevelsCard({
 }: SelectedLevelsCardProps) {
   const isKana = currentDojo === 'kana';
   const label = fullLabel ?? compactLabel;
+  const locale = useLocale();
+  const t = cardTranslations[locale as 'vi' | 'en' | 'es'] || cardTranslations.en;
 
   return (
     <div className='rounded-xl bg-(--card-color) p-4 font-inherit'>
@@ -61,7 +79,7 @@ export function SelectedLevelsCard({
             </svg>
           </div>
           <span className='text-sm text-(--main-color)'>
-            {isKana ? 'Selected Groups:' : 'Selected Levels:'}
+            {isKana ? t.groups : t.levels}
           </span>
         </div>
         <span className='text-sm break-words text-(--secondary-color)'>

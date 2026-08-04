@@ -5,6 +5,7 @@ import useKanjiStore from '@/features/Kanji/store/useKanjiStore';
 import useVocabStore from '@/features/Vocabulary/store/useVocabStore';
 import { usePathname } from 'next/navigation';
 import { removeLocaleFromPath } from '@/shared/utils/pathUtils';
+import { useLocale } from 'next-intl';
 import {
   N5KanjiLength,
   N4KanjiLength,
@@ -84,11 +85,28 @@ type SubunitSelectorProps = {
   onSelect: (subunitId: string) => void;
 };
 
+const uiTranslations = {
+  vi: {
+    level: 'Mức',
+    levels: 'Mức',
+  },
+  en: {
+    level: 'Level',
+    levels: 'Levels',
+  },
+  es: {
+    level: 'Nivel',
+    levels: 'Niveles',
+  },
+};
+
 const SubunitSelector = ({
   subunits,
   selectedSubunitId,
   onSelect,
 }: SubunitSelectorProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   if (subunits.length <= 1) {
     return null;
   }
@@ -126,7 +144,7 @@ const SubunitSelector = ({
               )}
             >
               <span className='hidden sm:inline'>
-                Levels <span className='whitespace-nowrap'>{shortLabel}</span>
+                {t.levels} <span className='whitespace-nowrap'>{shortLabel}</span>
               </span>
               <span className='inline sm:hidden'>{shortLabel}</span>
             </ActionButton>
@@ -138,6 +156,22 @@ const SubunitSelector = ({
 };
 
 const UnitSelector = () => {
+  const locale = useLocale();
+
+  const getLocalizedUnitName = (displayName: string) => {
+    const num = displayName.match(/\d+/)?.[0];
+    if (!num) return displayName;
+    if (locale === 'vi') return `Bài ${num}`;
+    if (locale === 'es') return `Unidad ${num}`;
+    return displayName;
+  };
+
+  const getLocalizedSubtitle = (subtitle: string) => {
+    if (locale === 'vi') return subtitle.replace('Levels ', 'Mức ');
+    if (locale === 'es') return subtitle.replace('Levels ', 'Niveles ');
+    return subtitle;
+  };
+
   const { playClick } = useClick();
   const pathname = usePathname();
   const pathWithoutLocale = removeLocaleFromPath(pathname);
@@ -302,7 +336,7 @@ const UnitSelector = () => {
                 )}
               >
                 <div className='flex items-center gap-2'>
-                  <span className='text-xl'>{collection.displayName}</span>
+                  <span className='text-xl'>{getLocalizedUnitName(collection.displayName)}</span>
                   <span
                     className={clsx(
                       'rounded px-1.5 py-0.5 text-xs',
@@ -322,7 +356,7 @@ const UnitSelector = () => {
                       : 'text-(--background-color)/80',
                   )}
                 >
-                  {collection.subtitle}
+                  {getLocalizedSubtitle(collection.subtitle)}
                 </span>
               </ActionButton>
             );
@@ -376,7 +410,7 @@ const UnitSelector = () => {
                       )}
                     >
                       <div className='flex items-center gap-2'>
-                        <span className='text-xl'>{collection.displayName}</span>
+                        <span className='text-xl'>{getLocalizedUnitName(collection.displayName)}</span>
                         <span
                           className={clsx(
                             'rounded px-1.5 py-0.5 text-xs',
@@ -394,7 +428,7 @@ const UnitSelector = () => {
                             : 'text-(--secondary-color)/80',
                         )}
                       >
-                        {collection.subtitle}
+                        {getLocalizedSubtitle(collection.subtitle)}
                       </span>
                     </ActionButton>
                   </div>

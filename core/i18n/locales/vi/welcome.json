@@ -1,6 +1,6 @@
 {
-  "title": "Chào mừng đến với KanaDojo!",
-  "subtitle": "Hãy cá nhân hóa trải nghiệm học tập của bạn",
+  "title": "Chào mừng đến với PThamSS!",
+  "subtitle": "Hãy trải nghiệm niềm vui khi học nhé!",
   "steps": {
     "welcome": {
       "demoCta": "Trải nghiệm thử"
@@ -38,7 +38,7 @@
     },
     "complete": {
       "title": "Tất cả đã sẵn sàng!",
-      "subtitle": "KanaDojo của bạn hiện đã được cá nhân hóa",
+      "subtitle": "PThamSS của bạn hiện đã được cá nhân hóa",
       "canChange": "Bạn luôn có thể thay đổi các cài đặt này sau trong Tùy chọn.",
       "happyLearning": "Chúc bạn học tập vui vẻ!"
     }

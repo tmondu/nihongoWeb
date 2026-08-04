@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo } from 'react';
 import useVocabStore from '@/features/Vocabulary/store/useVocabStore';
+import { useLocale } from 'next-intl';
 import VocabSetDictionary from '@/features/Vocabulary/components/SetDictionary';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
 import {
@@ -56,6 +57,7 @@ const vocabCollectionNames: Record<VocabLevel, string> = {
 };
 
 const VocabCards = () => {
+  const locale = useLocale();
   const persistedVocabSelector = useMenuSelectorStore(
     state => state.collections.vocabulary,
   );
@@ -233,7 +235,13 @@ const VocabCards = () => {
       setCollapsedRows={setCollapsedRows}
       renderSetDictionary={items => <VocabSetDictionary words={items} />}
       getSetProgressSummary={getSetProgressSummary}
-      loadingText='Loading vocabulary sets...'
+      loadingText={
+        locale === 'vi'
+          ? 'Đang tải các nhóm từ vựng...'
+          : locale === 'es'
+            ? 'Cargando conjuntos de vocabulario...'
+            : 'Loading vocabulary sets...'
+      }
       activeSubunitRange={activeSubunitRange}
       collapseScopeKey={collapsedRowsKey}
       initialCollections={initialCollections}

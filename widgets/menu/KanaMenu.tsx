@@ -11,6 +11,7 @@ import { useClick } from '@/shared/hooks/generic/useAudio';
 import { KanaCards, useKanaContent, useKanaSelection } from '@/features/Kana';
 import KanaUnitSelector, { type KanaType } from '@/features/Kana/components/KanaCards/KanaUnitSelector';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
+import { useLocale } from 'next-intl';
 
 type KanaMenuFilter = 'all' | 'hiragana' | 'katakana';
 
@@ -29,9 +30,31 @@ const KANA_TYPE_LABELS: Record<KanaType, string> = {
   katakana: 'Katakana',
 };
 
-const SUBSET_LABELS: Record<KanaType, Record<string, string>> = {
-  hiragana: { base: 'Base', dakuon: 'Dakuon', yoon: 'Yoon' },
-  katakana: { base: 'Base', dakuon: 'Dakuon', yoon: 'Yoon', foreign: 'Foreign' },
+const uiTranslations = {
+  vi: {
+    selectLabel: (type: string, subset: string) => `Chọn ${type} ${subset}`,
+    selectAll: 'Chọn tất cả Kana',
+    subsets: {
+      hiragana: { base: 'Cơ bản', dakuon: 'Hữu thanh', yoon: 'Hợp biến' },
+      katakana: { base: 'Cơ bản', dakuon: 'Hữu thanh', yoon: 'Hợp biến', foreign: 'Ngoại lai' },
+    },
+  },
+  en: {
+    selectLabel: (type: string, subset: string) => `Select ${type} ${subset}`,
+    selectAll: 'Select All Kana',
+    subsets: {
+      hiragana: { base: 'Base', dakuon: 'Dakuon', yoon: 'Yoon' },
+      katakana: { base: 'Base', dakuon: 'Dakuon', yoon: 'Yoon', foreign: 'Foreign' },
+    },
+  },
+  es: {
+    selectLabel: (type: string, subset: string) => `Seleccionar ${type} ${subset}`,
+    selectAll: 'Seleccionar todo Kana',
+    subsets: {
+      hiragana: { base: 'Básico', dakuon: 'Dakuon', yoon: 'Yōon' },
+      katakana: { base: 'Básico', dakuon: 'Dakuon', yoon: 'Yōon', foreign: 'Extranjero' },
+    },
+  },
 };
 
 const KanaMenu = ({ filter = 'all' }: { filter?: KanaMenuFilter }) => {
@@ -56,9 +79,12 @@ const KanaMenu = ({ filter = 'all' }: { filter?: KanaMenuFilter }) => {
     ? persistedKanaSelection.selectedSubset
     : fallbackSelectedSubset;
 
+  const locale = useLocale();
+  const translations = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
+  const subsetObj = translations.subsets[filterOverride] as Record<string, string> | undefined;
+  const subsetLabel = subsetObj?.[selectedSubset] || selectedSubset;
   const kanaTypeLabel = KANA_TYPE_LABELS[filterOverride];
-  const subsetLabel = SUBSET_LABELS[filterOverride]?.[selectedSubset];
-  const selectAllLabel = `Select  ${kanaTypeLabel} ${subsetLabel}`;
+  const selectAllLabel = translations.selectLabel(kanaTypeLabel, subsetLabel);
 
   return (
     <>
@@ -128,7 +154,7 @@ const KanaMenu = ({ filter = 'all' }: { filter?: KanaMenuFilter }) => {
             borderRadius='3xl'
           >
             <MousePointer className={cn('fill-current')} />
-            {viewMode === 'full' ? selectAllLabel : 'Select All Kana'}
+            {viewMode === 'full' ? selectAllLabel : translations.selectAll}
           </ActionButton>
           <ActionButton
             onClick={() => {

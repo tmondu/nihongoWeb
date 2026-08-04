@@ -7,7 +7,7 @@ import useKanaStore from '@/features/Kana/store/useKanaStore';
 import { useStatsStore } from '@/features/Progress';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { KANA_ROW_MASTERY_TARGET } from '@/features/Progress/lib/setProgress';
-import { cardBorderStyles } from '@/shared/utils/styles';
+import { useLocale } from 'next-intl';
 
 interface KanaRowCardProps {
   kanaGroup: KanaGroup;
@@ -27,6 +27,7 @@ const renderSeparatedText = (items: string[], separatorClassName: string) =>
   ));
 
 const KanaRowCard = ({ kanaGroup, globalIndex }: KanaRowCardProps) => {
+  const locale = useLocale();
   const { playClick } = useClick();
   const addKanaGroupIndex = useKanaStore(state => state.addKanaGroupIndex);
   const kanaGroupIndices = useKanaStore(state => state.kanaGroupIndices);
@@ -49,7 +50,7 @@ const KanaRowCard = ({ kanaGroup, globalIndex }: KanaRowCardProps) => {
   const progressPercent = Math.round(progressFraction * 100);
 
   const firstKana = kanaGroup.kana[0] ?? '';
-  const rowLabel = `${firstKana}-group`;
+  const rowLabel = locale === 'vi' ? `Nhóm ${firstKana}` : `${firstKana}-group`;
 
   return (
     <div className={clsx(

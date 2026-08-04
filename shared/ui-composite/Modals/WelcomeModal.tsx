@@ -540,10 +540,10 @@ const WelcomeModal = () => {
 
                           const wallpaperStyles = wallpaper
                             ? getWallpaperStyles(
-                                wallpaper.url,
-                                false,
-                                wallpaper.urlWebp,
-                              )
+                              wallpaper.url,
+                              false,
+                              wallpaper.urlWebp,
+                            )
                             : {};
 
                           return (
@@ -893,14 +893,14 @@ const WelcomeModal = () => {
                 <div />
               )}
 
-                <button
-                  onClick={handleNext}
-                  className={clsx(
-                    'group flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 py-2 sm:px-8 sm:py-3',
-                    'text-sm font-medium text-(--main-color) sm:text-base',
-                    'transition-all duration-50 hover:bg-(--background-color) active:scale-98',
-                  )}
-                >
+              <button
+                onClick={handleNext}
+                className={clsx(
+                  'group flex cursor-pointer items-center justify-center gap-2 rounded-xl px-6 py-2 sm:px-8 sm:py-3',
+                  'text-sm font-medium text-(--main-color) sm:text-base',
+                  'transition-all duration-50 hover:bg-(--background-color) active:scale-98',
+                )}
+              >
                 <span>
                   {step === 'welcome'
                     ? t('navigation.getStarted')

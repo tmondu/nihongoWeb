@@ -3,6 +3,7 @@
 import clsx from 'clsx';
 import type React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useLocale } from 'next-intl';
 import {
   ChevronUp,
   Circle,
@@ -99,6 +100,30 @@ const ROWS_PER_LOAD = 5;
 const LEVEL_SET_SELECTED_FLOAT_CLASSES = '';
 // 'motion-safe:animate-float [--float-distance:-3px] delay-1000ms';
 
+const uiTranslations = {
+  vi: {
+    level: 'Mức',
+    levels: 'Mức',
+    quickSelect: 'Chọn nhanh',
+    scrollMore: (remaining: number) => `Cuộn để xem thêm (còn lại ${remaining} hàng)`,
+    loading: 'Đang tải...',
+  },
+  en: {
+    level: 'Level',
+    levels: 'Levels',
+    quickSelect: 'Quick Select',
+    scrollMore: (remaining: number) => `Scroll for more (${remaining} rows remaining)`,
+    loading: 'Loading...',
+  },
+  es: {
+    level: 'Nivel',
+    levels: 'Niveles',
+    quickSelect: 'Selección rápida',
+    scrollMore: (remaining: number) => `Desplázate para ver más (quedan ${remaining} filas)`,
+    loading: 'Cargando...',
+  },
+};
+
 type IdleWindow = Window & {
   requestIdleCallback?: (
     callback: IdleRequestCallback,
@@ -118,6 +143,8 @@ const VisibleRowsSection = <TItem,>({
   collapseScopeKey,
   selectedSets,
 }: VisibleRowsSectionProps<TItem>) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const { playClick } = useClick();
   const [visibleRowCount, setVisibleRowCount] = useState(INITIAL_ROWS);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -203,10 +230,10 @@ const VisibleRowsSection = <TItem,>({
                   size={28}
                 />
                 <span className='max-lg:hidden'>
-                  {isSingleLevel ? 'Level' : 'Levels'} {firstSetNumber}
+                  {isSingleLevel ? t.level : t.levels} {firstSetNumber}
                   {!isSingleLevel && `-${lastSetNumber}`}
                 </span>
-                <span className='lg:hidden'>Level {firstSetNumber}</span>
+                <span className='lg:hidden'>{t.level} {firstSetNumber}</span>
               </button>
             </h3>
 
@@ -235,8 +262,8 @@ const VisibleRowsSection = <TItem,>({
                       percent={progressPercent}
                       stars={
                         process.env.NODE_ENV === 'development' &&
-                        setTemp.levelNumber >= 1 &&
-                        setTemp.levelNumber <= 3
+                          setTemp.levelNumber >= 1 &&
+                          setTemp.levelNumber <= 3
                           ? setTemp.levelNumber
                           : setTemp.stars
                       }
@@ -274,7 +301,7 @@ const VisibleRowsSection = <TItem,>({
                       ) : (
                         <Circle className='mt-0.5 text-(--border-color) duration-250' />
                       )}
-                      {setTemp.name.replace('Set ', 'Level ')}
+                      {setTemp.name.replace('Set ', t.level + ' ')}
                     </button>
 
                     <div
@@ -307,7 +334,7 @@ const VisibleRowsSection = <TItem,>({
         )}
         {hasMoreRows && !isLoadingMore && (
           <span className='text-sm text-(--secondary-color)'>
-            Scroll for more ({totalRows - visibleRowCount} rows remaining)
+            {t.scrollMore(totalRows - visibleRowCount)}
           </span>
         )}
       </div>
@@ -335,6 +362,8 @@ const LevelSetCards = <TLevel extends string, TItem>({
   collapseScopeKey,
   initialCollections,
 }: LevelSetCardsProps<TLevel, TItem>) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const { playClick } = useClick();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -581,7 +610,7 @@ const LevelSetCards = <TLevel extends string, TItem>({
         borderColorScheme='main'
       >
         <MousePointer className={cn('fill-current')} />
-        Quick Select
+        {t.quickSelect}
       </ActionButton>
 
       <QuickSelectModal

@@ -23,6 +23,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
+import { useLocale } from 'next-intl';
 
 const random = new Random();
 
@@ -54,28 +55,55 @@ const SHOW_STATS_LINE = true;
 
 // Simple Kanji: 29 visually simple, high-frequency kanji with clear meanings and minimal strokes
 const DEMO_KANJI = [
-  { kanji: '一', meaning: 'one', reading: 'ichi' },
-  { kanji: '二', meaning: 'two', reading: 'ni' },
-  { kanji: '三', meaning: 'three', reading: 'san' },
-  { kanji: '大', meaning: 'big', reading: 'dai' },
-  { kanji: '小', meaning: 'small', reading: 'shō' },
-  { kanji: '山', meaning: 'mountain', reading: 'yama' },
-  { kanji: '川', meaning: 'river', reading: 'kawa' },
-  { kanji: '日', meaning: 'sun', reading: 'hi' },
-  { kanji: '月', meaning: 'moon', reading: 'tsuki' },
-  { kanji: '木', meaning: 'tree', reading: 'ki' },
-  { kanji: '口', meaning: 'mouth', reading: 'kuchi' },
-  { kanji: '人', meaning: 'person', reading: 'hito' },
-  { kanji: '五', meaning: 'five', reading: 'go' },
-  { kanji: '雨', meaning: 'rain', reading: 'ame' },
-  { kanji: '田', meaning: 'field', reading: 'ta' },
-  { kanji: '猫', meaning: 'cat', reading: 'neko' },
-  { kanji: '虫', meaning: 'insect', reading: 'mushi' },
-  { kanji: '火', meaning: 'fire', reading: 'hi' },
-  { kanji: '水', meaning: 'water', reading: 'mizu' },
-  { kanji: '子', meaning: 'child', reading: 'ko' },
-  { kanji: '女', meaning: 'woman', reading: 'onna' },
+  { kanji: '一', meaning: { en: 'one', vi: 'một', es: 'uno' }, reading: 'ichi' },
+  { kanji: '二', meaning: { en: 'two', vi: 'hai', es: 'dos' }, reading: 'ni' },
+  { kanji: '三', meaning: { en: 'three', vi: 'ba', es: 'tres' }, reading: 'san' },
+  { kanji: '大', meaning: { en: 'big', vi: 'lớn', es: 'grande' }, reading: 'dai' },
+  { kanji: '小', meaning: { en: 'small', vi: 'nhỏ', es: 'pequeño' }, reading: 'shō' },
+  { kanji: '山', meaning: { en: 'mountain', vi: 'núi', es: 'montaña' }, reading: 'yama' },
+  { kanji: '川', meaning: { en: 'river', vi: 'sông', es: 'río' }, reading: 'kawa' },
+  { kanji: '日', meaning: { en: 'sun', vi: 'mặt trời', es: 'sol' }, reading: 'hi' },
+  { kanji: '月', meaning: { en: 'moon', vi: 'mặt trăng', es: 'luna' }, reading: 'tsuki' },
+  { kanji: '木', meaning: { en: 'tree', vi: 'cây', es: 'árbol' }, reading: 'ki' },
+  { kanji: '口', meaning: { en: 'mouth', vi: 'miệng', es: 'boca' }, reading: 'kuchi' },
+  { kanji: '人', meaning: { en: 'person', vi: 'người', es: 'persona' }, reading: 'hito' },
+  { kanji: '五', meaning: { en: 'five', vi: 'năm', es: 'cinco' }, reading: 'go' },
+  { kanji: '雨', meaning: { en: 'rain', vi: 'mưa', es: 'lluvia' }, reading: 'ame' },
+  { kanji: '田', meaning: { en: 'field', vi: 'ruộng', es: 'campo' }, reading: 'ta' },
+  { kanji: '猫', meaning: { en: 'cat', vi: 'mèo', es: 'gato' }, reading: 'neko' },
+  { kanji: '虫', meaning: { en: 'insect', vi: 'côn trùng', es: 'insecto' }, reading: 'mushi' },
+  { kanji: '火', meaning: { en: 'fire', vi: 'lửa', es: 'fuego' }, reading: 'hi' },
+  { kanji: '水', meaning: { en: 'water', vi: 'nước', es: 'agua' }, reading: 'mizu' },
+  { kanji: '子', meaning: { en: 'child', vi: 'con', es: 'niño' }, reading: 'ko' },
+  { kanji: '女', meaning: { en: 'woman', vi: 'phụ nữ', es: 'mujer' }, reading: 'onna' },
 ];
+
+const uiTranslations = {
+  vi: {
+    demo: 'chơi thử',
+    correctTitle: 'Đúng rồi!',
+    wrongTitle: 'Sai rồi! Mời bạn chọn lại.',
+    check: 'Kiểm tra',
+    tryAgain: 'Thử lại',
+    next: 'Tiếp theo',
+  },
+  en: {
+    demo: 'demo',
+    correctTitle: 'Nicely done!',
+    wrongTitle: 'Incorrect! Please try again.',
+    check: 'Check',
+    tryAgain: 'Try again',
+    next: 'Next',
+  },
+  es: {
+    demo: 'demostración',
+    correctTitle: '¡Bien hecho!',
+    wrongTitle: '¡Incorrecto! Por favor, inténtalo de nuevo.',
+    check: 'Comprobar',
+    tryAgain: 'Intentar de nuevo',
+    next: 'Siguiente',
+  },
+};
 
 type QuestionType = 'kana' | 'kanji'; // | 'vocab' - vocab commented out for now
 
@@ -321,6 +349,9 @@ const DemoProgressBar = ({
 type BottomBarState = 'check' | 'correct' | 'wrong';
 
 const DemoGame = () => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
+
   const { setTheme, theme } = useThemePreferences();
   const hasMountedRef = useRef(false);
   const originalThemeRef = useRef<string | null>(null);
@@ -360,7 +391,7 @@ const DemoGame = () => {
   const questionTypes: QuestionType[] = ['kanji']; // 'kana' and 'vocab' commented out
 
   // Generate a question based on the current type
-  const generateQuestion = useCallback((type: QuestionType): Question => {
+  const generateQuestion = useCallback((_type: QuestionType): Question => {
     // KANA TEMPORARILY DISABLED
     // if (type === 'kana') {
     //   const correctIndex = random.integer(0, DEMO_KANA.length - 1);
@@ -381,14 +412,21 @@ const DemoGame = () => {
     while (wrongIndex === correctIndex) {
       wrongIndex = random.integer(0, DEMO_KANJI.length - 1);
     }
+
+    const correctItem = DEMO_KANJI[correctIndex];
+    const wrongItem = DEMO_KANJI[wrongIndex];
+
+    const correctMeaning = correctItem.meaning[locale as 'vi' | 'en' | 'es'] || correctItem.meaning.en;
+    const wrongMeaning = wrongItem.meaning[locale as 'vi' | 'en' | 'es'] || wrongItem.meaning.en;
+
     return {
       type: 'kanji',
-      display: DEMO_KANJI[correctIndex].kanji,
-      correctAnswer: DEMO_KANJI[correctIndex].meaning,
-      wrongAnswer: DEMO_KANJI[wrongIndex].meaning,
+      display: correctItem.kanji,
+      correctAnswer: correctMeaning,
+      wrongAnswer: wrongMeaning,
     };
     // }
-  }, []);
+  }, [locale]);
 
   // Get shuffled tiles (always 2: correct + wrong)
   const allTiles = useMemo(() => {
@@ -562,7 +600,7 @@ const DemoGame = () => {
             {SHOW_GAME_MODE_NAME && (
               <p className='flex w-1/2 items-center justify-start gap-1 text-lg sm:gap-2 sm:pl-1 md:text-xl'>
                 <MousePointerClick className='text-(--main-color)' />
-                <span className='text-(--secondary-color)'>demo</span>
+                <span className='text-(--secondary-color)'>{t.demo}</span>
               </p>
             )}
 
@@ -694,7 +732,25 @@ const DemoGame = () => {
                 : handleCheck
           }
           canCheck={canCheck}
-          feedbackContent={currentQuestion.correctAnswer}
+          feedbackTitle={
+            bottomBarState === 'correct'
+              ? t.correctTitle
+              : bottomBarState === 'wrong'
+                ? t.wrongTitle
+                : undefined
+          }
+          actionLabel={
+            bottomBarState === 'correct'
+              ? t.next
+              : bottomBarState === 'wrong'
+                ? t.tryAgain
+                : t.check
+          }
+          feedbackContent={
+            bottomBarState === 'correct'
+              ? currentQuestion.correctAnswer
+              : undefined
+          }
           buttonRef={buttonRef}
         />
 

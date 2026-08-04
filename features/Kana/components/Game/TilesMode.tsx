@@ -30,6 +30,7 @@ import {
 } from '@/shared/ui-composite/Game/TilesModeShared';
 import TilesModeGrid from '@/shared/ui-composite/Game/TilesModeGrid';
 import useClassicSessionStore from '@/shared/store/useClassicSessionStore';
+import { useLocale } from 'next-intl';
 
 const random = new Random();
 const adaptiveSelector = getGlobalAdaptiveSelector();
@@ -57,6 +58,30 @@ interface KanaTilesModeProps {
   onWrong?: () => void;
 }
 
+const uiTranslations = {
+  vi: {
+    correctTitle: 'Đúng rồi!',
+    wrongTitle: 'Sai rồi! Mời bạn chọn lại.',
+    check: 'Kiểm tra',
+    tryAgain: 'Thử lại',
+    next: 'Tiếp theo',
+  },
+  en: {
+    correctTitle: 'Nicely done!',
+    wrongTitle: 'Incorrect! Please try again.',
+    check: 'Check',
+    tryAgain: 'Try again',
+    next: 'Next',
+  },
+  es: {
+    correctTitle: '¡Bien hecho!',
+    wrongTitle: '¡Incorrecto! Por favor, inténtalo de nuevo.',
+    check: 'Comprobar',
+    tryAgain: 'Intentar de nuevo',
+    next: 'Siguiente',
+  },
+};
+
 const KanaTilesMode = ({
   isHidden,
   isReverse: externalIsReverse,
@@ -64,6 +89,8 @@ const KanaTilesMode = ({
   onCorrect: externalOnCorrect,
   onWrong: externalOnWrong,
 }: KanaTilesModeProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const logAttempt = useClassicSessionStore(state => state.logAttempt);
   const isWordLengthControlled = externalWordLength !== undefined;
   // Smart reverse mode - used when not controlled externally
@@ -539,7 +566,21 @@ const KanaTilesMode = ({
               : handleCheck
         }
         canCheck={canCheck}
-        feedbackContent={wordData.answerChars.join('')}
+        feedbackTitle={
+          bottomBarState === 'correct'
+            ? t.correctTitle
+            : bottomBarState === 'wrong'
+              ? t.wrongTitle
+              : undefined
+        }
+        actionLabel={
+          bottomBarState === 'correct'
+            ? t.next
+            : bottomBarState === 'wrong'
+              ? t.tryAgain
+              : t.check
+        }
+        feedbackContent={bottomBarState === 'correct' ? wordData.answerChars.join('') : undefined}
         buttonRef={buttonRef}
       />
 

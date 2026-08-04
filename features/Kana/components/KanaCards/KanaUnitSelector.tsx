@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 import { useClick } from '@/shared/hooks/generic/useAudio';
+import { useLocale } from 'next-intl';
 
 export type KanaType = 'hiragana' | 'katakana';
 
@@ -28,8 +29,31 @@ const SUBSET_OPTIONS: Record<KanaType, { id: string; label: string }[]> = {
   ],
 };
 
+const subsetTranslations: Record<string, Record<string, string>> = {
+  vi: {
+    base: 'Cơ bản',
+    dakuon: 'Hữu thanh',
+    yoon: 'Hợp biến',
+    foreign: 'Ngoại lai',
+  },
+  en: {
+    base: 'Base',
+    dakuon: 'Dakuon',
+    yoon: 'Yoon',
+    foreign: 'Foreign',
+  },
+  es: {
+    base: 'Básico',
+    dakuon: 'Dakuon',
+    yoon: 'Yōon',
+    foreign: 'Extranjero',
+  },
+};
+
 const KanaUnitSelector = ({ selected, onSelect, selectedSubset, onSubsetSelect }: KanaUnitSelectorProps) => {
   const { playClick } = useClick();
+  const locale = useLocale();
+  const t = subsetTranslations[locale as 'vi' | 'en' | 'es'] || subsetTranslations.en;
 
   const options: { type: KanaType; label: string; jpLabel: string }[] = [
     { type: 'hiragana', label: 'Hiragana', jpLabel: 'ひらがな' },
@@ -118,7 +142,7 @@ const KanaUnitSelector = ({ selected, onSelect, selectedSubset, onSubsetSelect }
                       : 'bg-transparent text-(--main-color) hover:bg-(--border-color)/50',
                   )}
                 >
-                  {subset.label}
+                  {t[subset.id] || subset.label}
                 </ActionButton>
               </div>
             );

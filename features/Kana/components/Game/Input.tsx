@@ -19,6 +19,7 @@ import { useAdaptiveTargetLength } from '@/shared/hooks/game/useAdaptiveTargetLe
 import { useThemePreferences } from '@/features/Preferences';
 import { cn } from '@/shared/utils/utils';
 import { shouldSuppressContinueKeyboardShortcut } from '@/shared/utils/game/continueShortcutGuard';
+import { useLocale } from 'next-intl';
 
 // Get the global adaptive selector for weighted character selection
 const adaptiveSelector = getGlobalAdaptiveSelector();
@@ -44,7 +45,33 @@ interface InputGameProps {
   isReverse?: boolean;
 }
 
+const uiTranslations = {
+  vi: {
+    correctTitle: 'Đúng rồi!',
+    wrongTitleInput: 'Sai rồi! Hãy gõ lại.',
+    check: 'Kiểm tra',
+    next: 'Tiếp theo',
+    placeholder: 'nhập câu trả lời của bạn...',
+  },
+  en: {
+    correctTitle: 'Nicely done!',
+    wrongTitleInput: 'Incorrect! Please try again.',
+    check: 'Check',
+    next: 'Next',
+    placeholder: 'type your answer...',
+  },
+  es: {
+    correctTitle: '¡Bien hecho!',
+    wrongTitleInput: '¡Incorrecto! Por favor, inténtalo de nuevo.',
+    check: 'Comprobar',
+    next: 'Siguiente',
+    placeholder: 'escribe tu respuesta...',
+  },
+};
+
 const InputGame = ({ isHidden, isReverse = false }: InputGameProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const logAttempt = useClassicSessionStore(state => state.logAttempt);
   const {
     score,
@@ -426,7 +453,7 @@ const InputGame = ({ isHidden, isReverse = false }: InputGameProps) => {
       <textarea
         ref={inputRef}
         value={inputValue}
-        placeholder='type your answer...'
+        placeholder={t.placeholder}
         disabled={showContinue}
         rows={4}
         className={clsx(
@@ -460,7 +487,19 @@ const InputGame = ({ isHidden, isReverse = false }: InputGameProps) => {
         state={bottomBarState}
         onAction={showContinue ? handleContinue : handleCheck}
         canCheck={canCheck}
-        feedbackContent={targetChar}
+        feedbackTitle={
+          bottomBarState === 'correct'
+            ? t.correctTitle
+            : bottomBarState === 'wrong'
+              ? t.wrongTitleInput
+              : undefined
+        }
+        actionLabel={
+          bottomBarState === 'correct'
+            ? t.next
+            : t.check
+        }
+        feedbackContent={bottomBarState === 'correct' ? targetChar : undefined}
         buttonRef={buttonRef}
         hideRetry
         clearWrongFeedbackSignal={clearWrongFeedbackSignal}

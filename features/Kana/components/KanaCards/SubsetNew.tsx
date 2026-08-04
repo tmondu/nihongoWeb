@@ -14,6 +14,7 @@ import { useClick } from '@/shared/hooks/generic/useAudio';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 import MasteryBar from '@/shared/ui/components/MasteryBar';
 import { cn } from '@/shared/utils/utils';
+import { useLocale } from 'next-intl';
 
 interface SubsetProps {
   sliceRange: number[];
@@ -22,6 +23,7 @@ interface SubsetProps {
 }
 
 const SubsetNew = ({ sliceRange, subgroup }: SubsetProps) => {
+  const locale = useLocale();
   const { playClick } = useClick();
 
   const kanaGroups = kana.slice(sliceRange[0], sliceRange[1]);
@@ -103,8 +105,12 @@ const SubsetNew = ({ sliceRange, subgroup }: SubsetProps) => {
         const firstKana = group.kana[0] ?? '';
         const isChallenge = group.groupName.startsWith('challenge.');
         const rowLabel = isChallenge
-          ? `${firstKana}-group (challenge)`
-          : `${firstKana}-group`;
+          ? locale === 'vi'
+            ? `Nhóm ${firstKana} (thử thách)`
+            : `${firstKana}-group (challenge)`
+          : locale === 'vi'
+            ? `Nhóm ${firstKana}`
+            : `${firstKana}-group`;
 
         return (
           <div

@@ -10,7 +10,6 @@ import {
   Keyboard,
   Play,
   ArrowLeft,
-  CheckCircle2,
   Zap,
   Swords,
   Shield,
@@ -20,6 +19,7 @@ import clsx from 'clsx';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { Link, useRouter } from '@/core/i18n/routing';
 import useGauntletSettingsStore from '@/shared/store/useGauntletSettingsStore';
+import { useLocale } from 'next-intl';
 import {
   DIFFICULTY_CONFIG,
   REPETITION_OPTIONS,
@@ -63,12 +63,137 @@ const gameModeIconStyle = {
     'border-(--secondary-color-accent) bg-(--secondary-color) text-(--background-color) opacity-85',
 } as const;
 
+const uiTranslations = {
+  vi: {
+    blitz: 'Chớp nhoáng',
+    gauntlet: 'Thử thách',
+    classic: 'Cổ điển',
+    dojos: {
+      kana: 'Kana',
+      kanji: 'Kanji',
+      vocabulary: 'Từ vựng',
+    },
+    descriptions: {
+      blitz: 'Luyện tập tốc độ, giới hạn thời gian',
+      gauntlet: 'Chinh phục mọi ký tự. Không có trợ giúp ngẫu nhiên.',
+      classic: 'Luyện tập theo cách cổ điển, không giới hạn',
+    },
+    duration: 'Thời gian:',
+    difficulty: 'Độ khó',
+    repetitions: 'Số lần lặp mỗi ký tự:',
+    difficulties: {
+      normal: {
+        label: 'Thường',
+        description: 'Thử thách nhưng vừa sức. Nhận lại lượt chơi khi trả lời đúng liên tiếp.',
+      },
+      hard: {
+        label: 'Khó',
+        description: 'Không hồi lượt chơi. Mỗi sai lầm sẽ khiến bạn gần thất bại hơn.',
+      },
+      'instant-death': {
+        label: 'Sinh tử',
+        description: 'Chỉ cần một lỗi sai là thua cuộc. Chỉ dành cho bậc thầy.',
+      },
+    },
+    pickTitle: 'Chọn',
+    pickDesc: 'Chọn đáp án đúng từ nhiều lựa chọn',
+    typeTitle: 'Gõ chữ',
+    typeDesc: 'Gõ trực tiếp đáp án đúng',
+    back: 'Quay lại',
+    startBlitz: 'Bắt đầu Blitz',
+    startGauntlet: 'Bắt đầu Thử thách',
+    go: 'Bắt đầu',
+  },
+  en: {
+    blitz: 'Blitz',
+    gauntlet: 'Gauntlet',
+    classic: 'Classic',
+    dojos: {
+      kana: 'Kana',
+      kanji: 'Kanji',
+      vocabulary: 'Vocabulary',
+    },
+    descriptions: {
+      blitz: 'Practice in a fast-paced, time-limited way',
+      gauntlet: 'Master every character. No random help.',
+      classic: 'Practice in a classic, endless way',
+    },
+    duration: 'Duration:',
+    difficulty: 'Difficulty',
+    repetitions: 'Repetitions per character:',
+    difficulties: {
+      normal: {
+        label: 'Normal',
+        description: 'Challenging but forgiving. Earn lives back through consistent correct answers.',
+      },
+      hard: {
+        label: 'Hard',
+        description: 'No second chances on lives. Every mistake brings you closer to defeat.',
+      },
+      'instant-death': {
+        label: 'YOLO',
+        description: "One strike and you're out. For true masters only.",
+      },
+    },
+    pickTitle: 'Pick',
+    pickDesc: 'Pick the correct answer from multiple options',
+    typeTitle: 'Type',
+    typeDesc: 'Type the correct answer',
+    back: 'Back',
+    startBlitz: 'Start Blitz',
+    startGauntlet: 'Start Gauntlet',
+    go: 'Go',
+  },
+  es: {
+    blitz: 'Blitz',
+    gauntlet: 'Desafío',
+    classic: 'Clásico',
+    dojos: {
+      kana: 'Kana',
+      kanji: 'Kanji',
+      vocabulary: 'Vocabulario',
+    },
+    descriptions: {
+      blitz: 'Práctica a ritmo rápido, con límite de tiempo',
+      gauntlet: 'Domina cada carácter. Sin ayuda aleatoria.',
+      classic: 'Práctica de forma clásica, sin fin',
+    },
+    duration: 'Duración:',
+    difficulty: 'Dificultad',
+    repetitions: 'Repeticiones por carácter:',
+    difficulties: {
+      normal: {
+        label: 'Normal',
+        description: 'Desafiante pero indulgente. Recupera vidas con respuestas correctas consecutivas.',
+      },
+      hard: {
+        label: 'Difícil',
+        description: 'Sin segundas oportunidades de vidas. Cada error te acerca a la derrota.',
+      },
+      'instant-death': {
+        label: 'YOLO',
+        description: 'Un solo fallo y estás fuera. Solo para verdaderos maestros.',
+      },
+    },
+    pickTitle: 'Elegir',
+    pickDesc: 'Elige la respuesta correcta entre varias opciones',
+    typeTitle: 'Escribir',
+    typeDesc: 'Escribe la respuesta correcta',
+    back: 'Volver',
+    startBlitz: 'Iniciar Blitz',
+    startGauntlet: 'Iniciar Desafío',
+    go: 'Ir',
+  },
+};
+
 const ModeSetupMenu = ({
   isOpen,
   onClose,
   currentDojo,
   mode = 'train',
 }: ModeSetupMenuProps) => {
+  const locale = useLocale();
+  const translations = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const { playClick } = useClick();
   const router = useRouter();
   const gauntletSettings = useGauntletSettingsStore();
@@ -218,24 +343,20 @@ const ModeSetupMenu = ({
   const gameModes: GameModeOption[] = [
     {
       id: 'Pick',
-      title: 'Pick',
-      description: 'Pick the correct answer from multiple options',
+      title: translations.pickTitle,
+      description: translations.pickDesc,
       icon: MousePointerClick,
     },
     {
       id: 'Type',
-      title: 'Type',
-      description: 'Type the correct answer',
+      title: translations.typeTitle,
+      description: translations.typeDesc,
       icon: Keyboard,
     },
   ];
 
   const dojoLabel =
-    currentDojo === 'kana'
-      ? 'Kana'
-      : currentDojo === 'kanji'
-        ? 'Kanji'
-        : 'Vocabulary';
+    translations.dojos[currentDojo as 'kana' | 'kanji' | 'vocabulary'] || currentDojo;
   const ModeIcon = mode === 'blitz' ? Zap : mode === 'gauntlet' ? Swords : Play;
 
   if (!isOpen) return null;
@@ -263,17 +384,17 @@ const ModeSetupMenu = ({
             <h1 className='text-2xl font-bold text-(--main-color)'>
               {dojoLabel}{' '}
               {mode === 'blitz'
-                ? 'Blitz'
+                ? translations.blitz
                 : mode === 'gauntlet'
-                  ? 'Gauntlet'
-                  : 'Classic'}
+                  ? translations.gauntlet
+                  : translations.classic}
             </h1>
             <p className='text-(--secondary-color)'>
               {mode === 'blitz'
-                ? 'Practice in a fast-paced, time-limited way'
+                ? translations.descriptions.blitz
                 : mode === 'gauntlet'
-                  ? 'Master every character. No random help.'
-                  : 'Practice in a classic, endless way'}
+                  ? translations.descriptions.gauntlet
+                  : translations.descriptions.classic}
             </p>
           </div>
 
@@ -298,7 +419,7 @@ const ModeSetupMenu = ({
           {mode === 'blitz' && (
             <div className='space-y-3 rounded-lg bg-(--card-color) p-4'>
               <p className='text-sm font-medium text-(--secondary-color)'>
-                Duration:
+                {translations.duration}
               </p>
               <div className='flex flex-wrap justify-center gap-2'>
                 {DURATION_OPTIONS.map(duration => (
@@ -332,7 +453,7 @@ const ModeSetupMenu = ({
           {mode === 'gauntlet' && (
             <>
               <div className='space-y-3'>
-                <h3 className='text-sm text-(--main-color)'>Difficulty</h3>
+                <h3 className='text-sm text-(--main-color)'>{translations.difficulty}</h3>
                 <div className='mx-auto w-full rounded-2xl border-1 border-(--border-color) bg-(--background-color) p-1 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-xl'>
                   <div
                     className={clsx(
@@ -347,7 +468,7 @@ const ModeSetupMenu = ({
                         GauntletDifficulty,
                         (typeof DIFFICULTY_CONFIG)[GauntletDifficulty],
                       ][]
-                    ).map(([key, config]) => {
+                    ).map(([key, _config]) => {
                       const isSelected = key === gauntletDifficulty;
                       return (
                         <div key={key} className='relative flex-1'>
@@ -384,7 +505,7 @@ const ModeSetupMenu = ({
                             )}
                           >
                             {difficultyIcons[key]}
-                            <span>{config.label}</span>
+                            <span>{translations.difficulties[key].label}</span>
                           </button>
                         </div>
                       );
@@ -392,7 +513,7 @@ const ModeSetupMenu = ({
                   </div>
                 </div>
                 <p className='text-center text-xs text-(--secondary-color)'>
-                  {DIFFICULTY_CONFIG[gauntletDifficulty].description}
+                  {translations.difficulties[gauntletDifficulty].description}
                 </p>
               </div>
 
@@ -407,7 +528,7 @@ const ModeSetupMenu = ({
 
               <div className='space-y-3 rounded-2xl bg-(--card-color) p-4'>
                 <p className='text-sm font-medium text-(--main-color)'>
-                  Repetitions per character:
+                  {translations.repetitions}
                 </p>
                 <div className='flex flex-wrap justify-center gap-2'>
                   {REPETITION_OPTIONS.map(rep => (
@@ -456,7 +577,7 @@ const ModeSetupMenu = ({
               }}
             >
               <ArrowLeft size={20} />
-              <span className='whitespace-nowrap'>Back</span>
+              <span className='whitespace-nowrap'>{translations.back}</span>
             </button>
 
             {/* Start Button */}
@@ -498,10 +619,10 @@ const ModeSetupMenu = ({
                 />
                 <span className='whitespace-nowrap'>
                   {mode === 'blitz'
-                    ? 'Start Blitz'
+                    ? translations.startBlitz
                     : mode === 'gauntlet'
-                      ? 'Start Gauntlet'
-                      : 'Go'}
+                      ? translations.startGauntlet
+                      : translations.go}
                 </span>
               </button>
             </Link>
