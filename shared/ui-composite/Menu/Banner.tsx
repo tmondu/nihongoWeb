@@ -13,6 +13,7 @@ const newBadgeClasses =
 
 const Banner = () => {
   const pathname = usePathname();
+  const t = useTranslations('navigation.menu');
   const pathWithoutLocale = removeLocaleFromPath(pathname);
   const isKanaRoute = pathWithoutLocale.startsWith('/kana');
   const isKanjiRoute = pathWithoutLocale.startsWith('/kanji');
@@ -25,16 +26,24 @@ const Banner = () => {
     return null;
   }
 
-  const t = useTranslations('navigation.menu');
-
-  const subheading = isKanaRoute
-    ? `${t('kana')} あ`
+  const text = isKanaRoute
+    ? t('kana')
     : isKanjiRoute
-      ? `${t('kanji')} 字`
+      ? t('kanji')
       : isVocabRoute
-        ? `${t('vocabulary')} 語`
+        ? t('vocabulary')
         : isPreferencesRoute
-          ? `${t('preferences')} ✨`
+          ? t('preferences')
+          : '';
+
+  const symbol = isKanaRoute
+    ? 'あ'
+    : isKanjiRoute
+      ? '字'
+      : isVocabRoute
+        ? '語'
+        : isPreferencesRoute
+          ? '✨'
           : '';
 
   return (
@@ -49,16 +58,16 @@ const Banner = () => {
       {USE_NEW_BADGE_DESIGN ? (
         <>
           <span className={newBadgeClasses}>
-            {isPreferencesRoute ? <Sparkles size={22} /> : subheading.split(' ')[1]}
+            {isPreferencesRoute ? <Sparkles size={22} /> : symbol}
           </span>
-          <span>{subheading.split(' ')[0]}</span>
+          <span>{text}</span>
         </>
       ) : (
         <>
           <span className='flex items-center justify-center text-(--secondary-color)'>
-            {isPreferencesRoute ? <Sparkles size={28} /> : subheading.split(' ')[1]}
+            {isPreferencesRoute ? <Sparkles size={28} /> : symbol}
           </span>
-          <span>{subheading.split(' ')[0]}</span>
+          <span>{text}</span>
         </>
       )}
     </h2>
@@ -66,4 +75,3 @@ const Banner = () => {
 };
 
 export default Banner;
-

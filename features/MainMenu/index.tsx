@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/set-state-in-effect */
 'use client';
 import { Fragment, lazy, Suspense, useState, useEffect } from 'react';
 import { Link } from '@/core/i18n/routing';
@@ -24,7 +25,9 @@ import { useThemePreferences } from '@/features/Preferences';
 import useDecorationsStore from '@/shared/store/useDecorationsStore';
 import { useMediaQuery } from 'react-responsive';
 
-const Decorations = lazy(() => import('@/shared/ui-composite/Decorations/Decorations'));
+const Decorations = lazy(
+  () => import('@/shared/ui-composite/Decorations/Decorations'),
+);
 
 const USE_NEW_DESIGN = false;
 
@@ -81,7 +84,7 @@ const MainMenu = () => {
       href: '/kana',
     },
     {
-      name_en: 'Từ vựng',
+      name_en: 'Vocabulary',
       name_ja: '語',
       href: '/vocabulary',
     },
@@ -182,7 +185,7 @@ const MainMenu = () => {
               }}
               className={clsx(
                 'inline-flex sm:hidden',
-                'duration-250 hover:cursor-pointer hover:scale-105',
+                'duration-250 hover:scale-105 hover:cursor-pointer',
                 'active:scale-100 active:duration-225',
                 'fill-current text-(--secondary-color) hover:text-(--main-color)',
               )}
@@ -265,24 +268,31 @@ const MainMenu = () => {
           </div>
         </div>
         <Info />
-        <div className={clsx(
-          'w-full rounded-2xl',
-          USE_NEW_DESIGN
-            ? 'border-4 border-(--border-color) bg-(--card-color) overflow-hidden'
-            : 'border-1 border-(--border-color) bg-(--background-color) p-1'
-        )}>
-          <div className={clsx(
-            'rounded-2xl w-full',
+        <div
+          className={clsx(
+            'w-full rounded-2xl',
             USE_NEW_DESIGN
-              ? 'flex flex-col md:flex-row'
-              : 'bg-(--card-color) flex flex-col md:flex-row duration-250 transition-all ease-in-out'
-          )}>
+              ? 'overflow-hidden border-4 border-(--border-color) bg-(--card-color)'
+              : 'border-1 border-(--border-color) bg-(--background-color) p-1',
+          )}
+        >
+          <div
+            className={clsx(
+              'w-full rounded-2xl',
+              USE_NEW_DESIGN
+                ? 'flex flex-col md:flex-row'
+                : 'flex flex-col bg-(--card-color) transition-all duration-250 ease-in-out md:flex-row',
+            )}
+          >
             {links.map((link, i) => (
               <Fragment key={i}>
                 <Link
                   href={link.href}
                   prefetch
-                  className={clsx('group w-full', !USE_NEW_DESIGN && 'overflow-hidden')}
+                  className={clsx(
+                    'group w-full',
+                    !USE_NEW_DESIGN && 'overflow-hidden',
+                  )}
                 >
                   <button
                     className={clsx(
@@ -296,9 +306,13 @@ const MainMenu = () => {
                       'hover:cursor-pointer',
                       USE_NEW_DESIGN
                         ? 'hover:bg-(--border-color)'
-                        : 'border-(--border-color) md:border-b-4 md:hover:border-(--main-color)/80 hover:bg-(--border-color)',
-                      !USE_NEW_DESIGN && i === 0 && 'rounded-tl-2xl rounded-bl-2xl',
-                      !USE_NEW_DESIGN && i === links.length - 1 && 'rounded-tr-2xl rounded-br-2xl',
+                        : 'border-(--border-color) hover:bg-(--border-color) md:border-b-4 md:hover:border-(--main-color)/80',
+                      !USE_NEW_DESIGN &&
+                        i === 0 &&
+                        'rounded-tl-2xl rounded-bl-2xl',
+                      !USE_NEW_DESIGN &&
+                        i === links.length - 1 &&
+                        'rounded-tr-2xl rounded-br-2xl',
                     )}
                     onClick={() => playClick()}
                   >
@@ -352,7 +366,8 @@ const MainMenu = () => {
               key={i}
               className={clsx(
                 'flex flex-row items-center gap-1 text-(--secondary-color) hover:cursor-pointer hover:text-(--main-color)',
-                (link.name === 'credits' || link.name === 'about') && 'hidden sm:flex',
+                (link.name === 'credits' || link.name === 'about') &&
+                  'hidden sm:flex',
               )}
               onClick={() => playClick()}
             >
@@ -383,4 +398,3 @@ const MainMenu = () => {
 };
 
 export default MainMenu;
-

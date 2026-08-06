@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Link, useRouter, usePathname } from '@/core/i18n/routing';
 import { useTranslations } from 'next-intl';
@@ -10,13 +11,13 @@ import {
   Languages,
   ChevronDown,
   ChevronRight,
-  Library,
   Repeat,
   Package,
   PanelLeftClose,
   PanelLeftOpen,
   type LucideIcon,
   Heart,
+  User,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -72,6 +73,11 @@ const mainNavItems: NavItem[] = [
     icon: Sparkles,
     animateWhenInactive: true,
   },
+  {
+    href: '/profile',
+    labelKey: 'profile',
+    icon: User,
+  },
 ];
 
 // Static sections that don't need lazy loading
@@ -123,6 +129,7 @@ type NavLinkProps = {
   isDesktopCollapsed?: boolean;
   /** Overrides whether the icon should bounce while inactive */
   animateIconWhenInactive?: boolean;
+  className?: string;
 };
 
 const NavLink = memo(
@@ -135,6 +142,7 @@ const NavLink = memo(
     useSlidingIndicator = false,
     isDesktopCollapsed = false,
     animateIconWhenInactive,
+    className,
   }: NavLinkProps) => {
     const Icon = item.icon;
     const isMain = variant === 'main';
@@ -172,9 +180,9 @@ const NavLink = memo(
               'shrink-0',
               !isMain && 'h-4 w-4',
               (animateIconWhenInactive ?? item.animateWhenInactive) &&
-              !isActive &&
-              !(isDesktopCollapsed && isMain) &&
-              'motion-safe:animate-bounce',
+                !isActive &&
+                !(isDesktopCollapsed && isMain) &&
+                'motion-safe:animate-bounce',
               item.iconClassName,
               className,
             )}
@@ -210,7 +218,7 @@ const NavLink = memo(
         : 'max-lg:pt-1 max-lg:pb-2.5 lg:pt-1.5 lg:pb-2.5';
 
       return (
-        <div className='relative lg:w-full'>
+        <div className={clsx('relative lg:w-full', className)}>
           {/* Sliding indicator - smooth spring animation */}
           {isActive && (
             <motion.div
@@ -247,8 +255,8 @@ const NavLink = memo(
             <span
               className={clsx(
                 !isActive &&
-                !(isDesktopCollapsed && isMain) &&
-                'lg:text-(--main-color)',
+                  !(isDesktopCollapsed && isMain) &&
+                  'lg:text-(--main-color)',
               )}
             >
               {renderIcon()}
@@ -275,6 +283,7 @@ const NavLink = memo(
           baseClasses,
           isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
           inactiveClasses,
+          className,
         )}
         onClick={onClick}
       >
@@ -360,7 +369,8 @@ const Sidebar = () => {
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const isVisible = useScrollVisibility();
   const [hasMounted, setHasMounted] = useState(false);
-  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] = useState(false);
+  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
+    useState(false);
   const [hasVisitedPreferences, setHasVisitedPreferences] = useState(false);
   const [isAcademyExpanded, setIsAcademyExpanded] = useState(false);
   const [isToolsExpanded, setIsToolsExpanded] = useState(false);
@@ -370,20 +380,27 @@ const Sidebar = () => {
     if (typeof window === 'undefined') return;
 
     setIsDesktopSidebarCollapsed(
-      sessionStorage.getItem(SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY) === 'true'
+      sessionStorage.getItem(SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY) === 'true',
     );
     setHasVisitedPreferences(
-      localStorage.getItem(SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY) === 'true'
+      localStorage.getItem(SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY) === 'true',
     );
 
-    const storedAcademy = sessionStorage.getItem(`${SIDEBAR_SECTION_STORAGE_PREFIX}academy`);
+    const storedAcademy = sessionStorage.getItem(
+      `${SIDEBAR_SECTION_STORAGE_PREFIX}academy`,
+    );
     if (storedAcademy !== null) setIsAcademyExpanded(storedAcademy === 'true');
 
-    const storedTools = sessionStorage.getItem(`${SIDEBAR_SECTION_STORAGE_PREFIX}tools`);
+    const storedTools = sessionStorage.getItem(
+      `${SIDEBAR_SECTION_STORAGE_PREFIX}tools`,
+    );
     if (storedTools !== null) setIsToolsExpanded(storedTools === 'true');
 
-    const storedExperiments = sessionStorage.getItem(`${SIDEBAR_SECTION_STORAGE_PREFIX}experiments`);
-    if (storedExperiments !== null) setIsExperimentsExpanded(storedExperiments === 'true');
+    const storedExperiments = sessionStorage.getItem(
+      `${SIDEBAR_SECTION_STORAGE_PREFIX}experiments`,
+    );
+    if (storedExperiments !== null)
+      setIsExperimentsExpanded(storedExperiments === 'true');
 
     setHasMounted(true);
   }, []);
@@ -521,10 +538,10 @@ const Sidebar = () => {
         ...baseExperimentsSection.items,
         ...(isExperimentsExpanded
           ? loadedExperiments.map(exp => ({
-            href: exp.href,
-            labelKey: exp.name, // Will just render name directly since it's an experiment
-            icon: exp.icon || null,
-          }))
+              href: exp.href,
+              labelKey: exp.name, // Will just render name directly since it's an experiment
+              icon: exp.icon || null,
+            }))
           : []),
       ],
     },
@@ -599,7 +616,7 @@ const Sidebar = () => {
         isDesktopSidebarCollapsed ? 'lg:w-20' : 'lg:w-80',
         'lg:pb-4',
       )}
-    // style={{ scrollbarGutter: 'stable' }}
+      // style={{ scrollbarGutter: 'stable' }}
     >
       {/* Logo */}
       <motion.div
@@ -617,14 +634,14 @@ const Sidebar = () => {
             <>
               <AuroraText className='font-bold'>PThamSS</AuroraText>
               <AuroraText className='font-normal'>
-                <Heart className='inline-block size-9 fill-current ml-1 text-red-500' />
+                <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
               </AuroraText>
             </>
           ) : (
             <>
               <span className='font-bold'> PThamSS</span>
               <span className='font-normal text-(--secondary-color)'>
-                <Heart className='inline-block size-9 fill-current ml-1 text-red-500' />
+                <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
               </span>
             </>
           )}
@@ -651,6 +668,7 @@ const Sidebar = () => {
             animateIconWhenInactive={
               !hasVisitedPreferences && item.href === '/preferences'
             }
+            className={item.href === '/profile' ? 'lg:hidden' : undefined}
           />
         ))}
       </div>
@@ -695,7 +713,10 @@ const Sidebar = () => {
                   <div className='flex w-full flex-col gap-0 max-lg:hidden'>
                     {section.items.map(item => {
                       // Experiments might not have translations, so we fallback to labelKey directly
-                      const itemLabel = section.titleKey === 'experiments' ? item.labelKey : t(item.labelKey as any);
+                      const itemLabel =
+                        section.titleKey === 'experiments'
+                          ? item.labelKey
+                          : t(item.labelKey as any);
                       return (
                         <NavLink
                           key={item.href}
@@ -713,6 +734,19 @@ const Sidebar = () => {
             </div>
           );
         })}
+
+      {/* Profile Item at the bottom of Sidebar for Desktop */}
+      <div className='mt-auto mb-16 hidden w-full shrink-0 lg:block'>
+        <NavLink
+          item={{ href: '/profile', labelKey: 'profile', icon: User }}
+          label={t('profile' as any)}
+          isActive={isActive('/profile')}
+          onClick={playClick}
+          variant='main'
+          useSlidingIndicator={true}
+          isDesktopCollapsed={isDesktopSidebarCollapsed}
+        />
+      </div>
 
       <button
         onClick={toggleDesktopSidebarCollapse}
