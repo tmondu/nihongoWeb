@@ -225,7 +225,7 @@ export default function RegisterPage() {
           <button
             type='submit'
             disabled={loading}
-            className='group to-indigo-650 relative flex w-full justify-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 px-4 py-3 text-sm font-bold text-white shadow-[0_4px_20px_0_rgba(59,130,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_25px_0_rgba(59,130,246,0.5)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50'
+            className='relative flex w-full justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-[0_4px_20px_0_rgba(59,130,246,0.3)] transition-colors duration-300 hover:bg-blue-500 disabled:pointer-events-none disabled:opacity-50'
           >
             {loading ? 'Đang đăng ký...' : 'Đăng ký tài khoản'}
           </button>
