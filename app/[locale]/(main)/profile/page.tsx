@@ -16,6 +16,16 @@ import {
 } from 'lucide-react';
 import { Button } from '@/shared/ui/components/button';
 import { Input } from '@/shared/ui/components/input';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/shared/ui/components/alert-dialog';
 
 interface UserProfile {
   id: number;
@@ -31,6 +41,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   // Email form
   const [email, setEmail] = useState('');
@@ -125,10 +136,11 @@ export default function ProfilePage() {
     }
   };
 
-  const handleLogout = async () => {
-    if (!confirm('Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?'))
-      return;
+  const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
 
+  const confirmLogout = async () => {
     try {
       setLoading(true);
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -311,6 +323,31 @@ export default function ProfilePage() {
           </form>
         </div>
       </div>
+
+      <AlertDialog open={showLogoutModal} onOpenChange={setShowLogoutModal}>
+        <AlertDialogContent className='rounded-3xl border-[#1a1a1f] bg-[#09090b] text-slate-100'>
+          <AlertDialogHeader>
+            <AlertDialogTitle className='text-2xl font-bold text-white'>
+              Đăng xuất khỏi tài khoản
+            </AlertDialogTitle>
+            <AlertDialogDescription className='text-base leading-relaxed text-slate-400'>
+              Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không? Mọi tiến
+              trình luyện tập chưa lưu sẽ bị hủy.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className='gap-3'>
+            <AlertDialogCancel className='cursor-pointer rounded-xl border-[#1a1a1f] bg-transparent px-6 text-slate-300 transition-colors duration-200 hover:bg-[#121215] hover:text-white'>
+              Hủy
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmLogout}
+              className='cursor-pointer rounded-xl bg-red-600 px-6 font-semibold text-white transition-colors duration-200 hover:bg-red-500'
+            >
+              Đăng xuất
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
