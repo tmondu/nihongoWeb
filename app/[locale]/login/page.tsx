@@ -86,12 +86,20 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label
-              htmlFor='password'
-              className='block text-xs font-semibold tracking-wider text-zinc-300 uppercase'
-            >
-              Mật khẩu
-            </label>
+            <div className='flex items-center justify-between'>
+              <label
+                htmlFor='password'
+                className='block text-xs font-semibold tracking-wider text-zinc-300 uppercase'
+              >
+                Mật khẩu
+              </label>
+              <Link
+                href='/forgot-password'
+                className='text-xs font-semibold text-blue-400 decoration-2 transition-colors duration-200 hover:text-blue-300 hover:underline'
+              >
+                Quên mật khẩu?
+              </Link>
+            </div>
             <input
               id='password'
               type='password'
