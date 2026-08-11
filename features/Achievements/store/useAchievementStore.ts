@@ -2092,7 +2092,7 @@ const useAchievementStore = create<AchievementState>()(
       },
     }),
     {
-      name: 'kanadojo-achievements',
+      name: 'pthamss-achievements',
       partialize: state => ({
         unlockedAchievements: state.unlockedAchievements,
         notifications: state.notifications,

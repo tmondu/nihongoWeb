@@ -32,13 +32,13 @@ interface SetProgressState {
   clearSetProgress: () => Promise<void>;
 }
 
-const STORAGE_KEY = 'kanadojo-set-progress-v1';
+const STORAGE_KEY = 'pthamss-set-progress-v1';
 
 function getStorageKey(): string {
   try {
     const userId = useSetProgressStore.getState()?.userId;
     if (userId) {
-      return `kanadojo-set-progress-v1-${userId}`;
+      return `pthamss-set-progress-v1-${userId}`;
     }
   } catch {
     // Fallback if store is not initialized yet
@@ -47,7 +47,7 @@ function getStorageKey(): string {
 }
 
 const setProgressStore = localforage.createInstance({
-  name: 'kanadojo',
+  name: 'pthamss',
   storeName: 'set_progress',
 });
 

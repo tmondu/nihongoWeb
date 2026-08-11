@@ -120,7 +120,7 @@ describe('useVisitStore', () => {
           async uniqueDates => {
             // Reset store and storage
             useVisitStore.setState({ visits: [], isLoaded: false });
-            delete mockStorage['kanadojo-visits'];
+            delete mockStorage['pthamss-visits'];
 
             // Record all dates
             useVisitStore.setState({ visits: [], isLoaded: true });
@@ -156,7 +156,7 @@ describe('useVisitStore', () => {
       const { default: useVisitStore } = await import('../store/useVisitStore');
 
       useVisitStore.setState({ visits: [], isLoaded: false });
-      delete mockStorage['kanadojo-visits'];
+      delete mockStorage['pthamss-visits'];
 
       await useVisitStore.getState().loadVisits();
 
@@ -168,7 +168,7 @@ describe('useVisitStore', () => {
       const { default: useVisitStore } = await import('../store/useVisitStore');
 
       // Set up storage with some invalid entries
-      mockStorage['kanadojo-visits'] = [
+      mockStorage['pthamss-visits'] = [
         '2024-01-15',
         'invalid',
         '2024-02-20',

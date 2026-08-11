@@ -110,7 +110,6 @@ interface IStatsState {
   showStats: boolean;
   toggleStats: () => void;
 
-
   // Timing
   correctAnswerTimes: number[];
   addCorrectAnswerTime: (time: number) => void;
@@ -278,7 +277,6 @@ const useStatsStore = create<IStatsState>()(
       showStats: false,
       toggleStats: () => set(s => ({ showStats: !s.showStats })),
 
-
       // Timing
       correctAnswerTimes: [],
       addCorrectAnswerTime: time =>
@@ -323,7 +321,9 @@ const useStatsStore = create<IStatsState>()(
           mastery[character] = {
             ...mastery[character],
             [field === 'correct' ? 'correct' : 'incorrect']:
-              mastery[character][field === 'correct' ? 'correct' : 'incorrect'] + 1,
+              mastery[character][
+                field === 'correct' ? 'correct' : 'incorrect'
+              ] + 1,
           };
 
           return {
@@ -488,8 +488,7 @@ const useStatsStore = create<IStatsState>()(
               ...s.allTimeStats,
               totalSessions: s.allTimeStats.totalSessions + 1,
               totalCorrect: s.allTimeStats.totalCorrect + s.numCorrectAnswers,
-              totalIncorrect:
-                s.allTimeStats.totalIncorrect + s.numWrongAnswers,
+              totalIncorrect: s.allTimeStats.totalIncorrect + s.numWrongAnswers,
               bestStreak: Math.max(s.allTimeStats.bestStreak, s.currentStreak),
               trainingDays,
             },
@@ -783,7 +782,7 @@ const useStatsStore = create<IStatsState>()(
         })),
     }),
     {
-      name: 'kanadojo-stats',
+      name: 'pthamss-stats',
       storage: createDebouncedStorage(),
       partialize: state => ({ allTimeStats: state.allTimeStats }),
       merge: (persistedState, currentState) => {

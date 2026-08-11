@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import localforage from 'localforage';
 import { formatDate } from '../lib/streakCalculations';
 
-const STORAGE_KEY = 'kanadojo-visits';
+const STORAGE_KEY = 'pthamss-visits';
 
 interface VisitState {
   visits: string[]; // Array of "YYYY-MM-DD" date strings
@@ -42,10 +42,10 @@ const useVisitStore = create<VisitState>()((set, get) => ({
           import('../../Achievements/store/useAchievementStore'),
         ]);
 
-        const statsKey = userId ? `kanadojo-stats-${userId}` : 'kanadojo-stats';
+        const statsKey = userId ? `pthamss-stats-${userId}` : 'pthamss-stats';
         const achievementsKey = userId
-          ? `kanadojo-achievements-${userId}`
-          : 'kanadojo-achievements';
+          ? `pthamss-achievements-${userId}`
+          : 'pthamss-achievements';
 
         statsModule.default.persist.setOptions({ name: statsKey });
         achievementModule.default.persist.setOptions({ name: achievementsKey });
@@ -59,7 +59,7 @@ const useVisitStore = create<VisitState>()((set, get) => ({
       }
     }
 
-    const storageKey = userId ? `kanadojo-visits-${userId}` : STORAGE_KEY;
+    const storageKey = userId ? `pthamss-visits-${userId}` : STORAGE_KEY;
 
     try {
       const storedVisits = await localforage.getItem<string[]>(storageKey);
@@ -91,7 +91,7 @@ const useVisitStore = create<VisitState>()((set, get) => ({
     const newVisits = [...visits, dateToRecord];
     set({ visits: newVisits });
 
-    const storageKey = userId ? `kanadojo-visits-${userId}` : STORAGE_KEY;
+    const storageKey = userId ? `pthamss-visits-${userId}` : STORAGE_KEY;
 
     try {
       await localforage.setItem(storageKey, newVisits);
