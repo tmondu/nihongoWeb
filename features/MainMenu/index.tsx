@@ -178,7 +178,7 @@ const MainMenu = () => {
           <div className='pointer-events-auto'>
             <PThamSSBanner />
           </div>
-          <div className='pointer-events-auto flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
+          <div className='pointer-events-none flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
             <button
               type='button'
               onClick={() => {
@@ -186,7 +186,7 @@ const MainMenu = () => {
                 window.open('https://tally.so/r/2E4rB9', '_blank', 'noopener');
               }}
               className={clsx(
-                'inline-flex sm:hidden',
+                'pointer-events-auto inline-flex sm:hidden',
                 'duration-250 hover:scale-105 hover:cursor-pointer',
                 'active:scale-100 active:duration-225',
                 'fill-current text-(--secondary-color) hover:text-(--main-color)',
@@ -202,7 +202,7 @@ const MainMenu = () => {
                 setTheme(theme === 'dark' ? 'light' : 'dark');
               }}
               className={clsx(
-                'hidden sm:inline-flex',
+                'pointer-events-auto hidden sm:inline-flex',
                 'duration-250 hover:cursor-pointer',
                 'active:scale-100 active:duration-225',
                 'text-(--secondary-color) hover:text-(--main-color)',
@@ -246,7 +246,7 @@ const MainMenu = () => {
                 window.open('https://tally.so/r/2E4rB9', '_blank', 'noopener');
               }}
               className={clsx(
-                'hidden sm:inline-flex',
+                'hidden sm:inline-flex pointer-events-auto',
                 'duration-250 hover:cursor-pointer hover:scale-105',
                 'active:scale-100 active:duration-225',
                 ' text-(--secondary-color) hover:text-(--main-color)',
