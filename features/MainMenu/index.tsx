@@ -169,12 +169,12 @@ const MainMenu = () => {
       <div
         className={clsx(
           '3xl:w-2/5 flex w-full flex-col items-center gap-4 px-4 pb-16 max-md:pt-4 sm:w-3/4 md:justify-center lg:w-1/2',
-          'z-50',
+          'pointer-events-none z-50',
           !isGlassMode && 'opacity-90',
           expandDecorations && 'hidden',
         )}
       >
-        <div className='flex w-full flex-row items-center justify-between gap-2 px-1'>
+        <div className='pointer-events-auto flex w-full flex-row items-center justify-between gap-2 px-1'>
           <PThamSSBanner />
           <div className='flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
             <button
@@ -267,10 +267,12 @@ const MainMenu = () => {
             {/* /> */}
           </div>
         </div>
-        <Info />
+        <div className='pointer-events-auto w-full'>
+          <Info />
+        </div>
         <div
           className={clsx(
-            'w-full rounded-2xl',
+            'pointer-events-auto w-full rounded-2xl',
             USE_NEW_DESIGN
               ? 'overflow-hidden border-4 border-(--border-color) bg-(--card-color)'
               : 'border-1 border-(--border-color) bg-(--background-color) p-1',
@@ -350,7 +352,7 @@ const MainMenu = () => {
       </div>
       <div
         className={clsx(
-          'fixed right-0 bottom-0 left-0 z-50 md:bottom-6',
+          'pointer-events-none fixed right-0 bottom-0 left-0 z-50 md:bottom-6',
           'justify-center gap-2 max-md:flex',
           'border-(--border-color) max-md:border-t-2',
           'px-2 py-2 sm:px-4',
@@ -358,7 +360,7 @@ const MainMenu = () => {
           expandDecorations && 'hidden',
         )}
       >
-        <div className='flex w-full items-center justify-evenly lg:w-2/5'>
+        <div className='pointer-events-auto flex w-full items-center justify-evenly lg:w-2/5'>
           {legalLinks.map((link, i) => (
             <Link
               href={link.href}
