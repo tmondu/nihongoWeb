@@ -4,16 +4,35 @@
     "description": "Traductor de japonés en línea gratuito. Traduce de inglés a japonés o de japonés a inglés al instante. Incluye romanización (romaji), historial de traducciones y traducciones precisas con Google Translate."
   },
   "header": {
-    "title": "Traductor de Japonés"
+    "title": "Traductor de Japonés",
+    "pageTitle": "Traductor de Japonés para Inglés/Vietnamita a Japonés y Japonés a Inglés/Vietnamita",
+    "subtitle": "Usa el traductor principal para traducciones rápidas en dos direcciones, y luego ve a las páginas dedicadas de Inglés a Japonés, Japonés a Inglés y soporte de romaji cuando necesites más contexto."
   },
   "languages": {
     "english": "Inglés",
     "japanese": "日本語",
+    "vietnamese": "Vietnamita",
     "en": "EN",
-    "ja": "JA"
+    "ja": "JA",
+    "vi": "VI"
+  },
+  "limits": {
+    "title": "Límites y privacidad",
+    "charLimit": "Hasta 5,000 caracteres por solicitud.",
+    "fairUse": "Se aplican límites de uso justo durante periodos de alta demanda.",
+    "localHistory": "El historial se almacena localmente en tu navegador."
+  },
+  "howToUseHub": {
+    "title": "Cómo usar esta página",
+    "intro": "Comienza con el traductor principal para comprobaciones rápidas, luego abre la página de intención que coincida exactamente con tu tarea.",
+    "bullet1": "Usa la página principal para consultas generales del traductor de japonés.",
+    "bullet2": "Usa las páginas secundarias para búsquedas específicas por dirección.",
+    "bullet3": "Verifica nombres importantes, jerga y frases matizadas."
   },
   "input": {
+    "from": "De",
     "placeholder": {
+      "vi": "Escribe el texto en vietnamita...",
       "en": "Escribe el texto a traducir...",
       "ja": "テキストを入力してください..."
     },
@@ -23,19 +42,23 @@
     "characterLimitWarning": "El texto excede la longitud máxima de {max} caracteres"
   },
   "output": {
+    "to": "A",
     "placeholder": {
+      "vi": "La traducción aparecerá aquí...",
       "en": "La traducción aparecerá aquí...",
       "ja": "翻訳がここに表示されます..."
     },
     "copyButton": "Copiar traducción",
     "copied": "¡Copiado!",
     "copiedMessage": "¡Copiado al portapapeles!",
-    "romanization": "Romanización (Romaji)"
+    "romanization": "Romanización (Romaji)",
+    "wordAnalysis": "Análisis palabra por palabra (pasa el cursor para detalles)"
   },
   "actions": {
     "translate": "Traducir",
     "translating": "Traduciendo...",
-    "swapLanguages": "Intercambiar idiomas"
+    "swapLanguages": "Intercambiar idiomas",
+    "listening": "Escuchando... Habla ahora"
   },
   "history": {
     "title": "Historial",
@@ -54,7 +77,21 @@
       "minutesAgo": "hace {count}m",
       "hoursAgo": "hace {count}h",
       "daysAgo": "hace {count}d"
-    }
+    },
+    "export": "Exportar",
+    "search": "Buscar traducciones...",
+    "allSources": "Todos los orígenes",
+    "allTargets": "Todos los destinos",
+    "allTime": "Todo el tiempo",
+    "today": "Hoy",
+    "week": "Esta semana",
+    "month": "Este mes",
+    "clearFilters": "Limpiar filtros",
+    "noMatches": "No se encontraron traducciones",
+    "adjustFilters": "Intenta ajustar tus filtros",
+    "source": "Origen",
+    "target": "Destino",
+    "date": "Fecha"
   },
   "offline": {
     "message": "Estás sin conexión. La traducción no está disponible hasta que te reconectes."
@@ -111,7 +148,7 @@
       },
       "romanization": {
         "question": "¿Qué es la romanización (romaji)?",
-        "answer": "La romanización, o romaji, es la representación del texto japonés usando el alfabeto latino. Ayuda a los hablantes no japoneses a leer y pronunciar palabras japonesas. Nuestro traductor proporciona automáticamente romanización para texto en japonés."
+        "answer": "La romanización, o romaji, es la representation del texto japonés usando el alfabeto latino. Ayuda a los hablantes no japoneses a leer y pronunciar palabras japonesas. Nuestro traductor proporciona automáticamente romanización para texto en japonés."
       },
       "historySaved": {
         "question": "¿Se guarda mi historial de traducciones?",
