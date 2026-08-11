@@ -47,7 +47,7 @@ export default function LoginPage() {
       <div className='w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950/50 p-8 shadow-2xl backdrop-blur-md'>
         <div className='mb-8 text-center'>
           <h1 className='bg-gradient-to-r from-rose-500 via-violet-500 to-indigo-500 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
-            KanaDojo
+            PThamSS
           </h1>
           <p className='mt-2 text-sm text-zinc-400'>
             Đăng nhập để tiếp tục học tập và bảo mật tài khoản
