@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get('redirect') || '/';
 
@@ -35,8 +34,7 @@ export default function LoginPage() {
       sessionStorage.removeItem('kanji-cache');
       sessionStorage.setItem('is_logged_in', 'true');
 
-      router.push(redirectPath);
-      router.refresh();
+      window.location.href = redirectPath;
     } catch (err) {
       setError((err as Error).message);
     } finally {

@@ -4,15 +4,21 @@ import { formatDate } from '../lib/streakCalculations';
 
 // Mock localforage
 const mockStorage: Record<string, unknown> = {};
-vi.mock('localforage', () => ({
-  default: {
+vi.mock('localforage', () => {
+  const mockStoreInstance = {
     getItem: vi.fn((key: string) => Promise.resolve(mockStorage[key] ?? null)),
     setItem: vi.fn((key: string, value: unknown) => {
       mockStorage[key] = value;
       return Promise.resolve(value);
     }),
-  },
-}));
+  };
+  return {
+    default: {
+      ...mockStoreInstance,
+      createInstance: vi.fn(() => mockStoreInstance),
+    },
+  };
+});
 
 // Helper to generate valid date strings (filter out invalid dates)
 const dateStringArb = fc
