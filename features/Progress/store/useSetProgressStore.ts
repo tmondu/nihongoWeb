@@ -13,11 +13,15 @@ export interface AllTimeSetProgress {
   version: 1;
   updatedAt: number;
   kanji: Record<string, { correct: number }>;
-  vocabulary: Record<string, { meaningCorrect: number; readingCorrect: number }>;
+  vocabulary: Record<
+    string,
+    { meaningCorrect: number; readingCorrect: number }
+  >;
 }
 
 interface SetProgressState {
   isHydrated: boolean;
+  userId: string | null;
   data: AllTimeSetProgress;
   hydrate: () => Promise<void>;
   recordKanjiProgress: (kanjiChar: string) => Promise<void>;
@@ -29,6 +33,18 @@ interface SetProgressState {
 }
 
 const STORAGE_KEY = 'kanadojo-set-progress-v1';
+
+function getStorageKey(): string {
+  try {
+    const userId = useSetProgressStore.getState()?.userId;
+    if (userId) {
+      return `kanadojo-set-progress-v1-${userId}`;
+    }
+  } catch {
+    // Fallback if store is not initialized yet
+  }
+  return STORAGE_KEY;
+}
 
 const setProgressStore = localforage.createInstance({
   name: 'kanadojo',
@@ -44,7 +60,8 @@ const createDefaultSetProgress = (): AllTimeSetProgress => ({
 
 async function loadPersistedSetProgress(): Promise<AllTimeSetProgress> {
   try {
-    const data = await setProgressStore.getItem<AllTimeSetProgress>(STORAGE_KEY);
+    const data =
+      await setProgressStore.getItem<AllTimeSetProgress>(getStorageKey());
     if (!data || data.version !== 1) {
       return createDefaultSetProgress();
     }
@@ -67,7 +84,7 @@ let persistTimeoutId: ReturnType<typeof setTimeout> | null = null;
 function debouncedPersist(data: AllTimeSetProgress): void {
   if (persistTimeoutId) clearTimeout(persistTimeoutId);
   persistTimeoutId = setTimeout(async () => {
-    await setProgressStore.setItem(STORAGE_KEY, data);
+    await setProgressStore.setItem(getStorageKey(), data);
     persistTimeoutId = null;
   }, PERSIST_DEBOUNCE_MS);
 }
@@ -77,13 +94,14 @@ async function persistSetProgressNow(data: AllTimeSetProgress): Promise<void> {
     clearTimeout(persistTimeoutId);
     persistTimeoutId = null;
   }
-  await setProgressStore.setItem(STORAGE_KEY, data);
+  await setProgressStore.setItem(getStorageKey(), data);
 }
 
 let hydrationPromise: Promise<void> | null = null;
 
 const useSetProgressStore = create<SetProgressState>((set, get) => ({
   isHydrated: false,
+  userId: null,
   data: createDefaultSetProgress(),
 
   hydrate: async () => {
@@ -91,6 +109,22 @@ const useSetProgressStore = create<SetProgressState>((set, get) => ({
     if (hydrationPromise) return hydrationPromise;
 
     hydrationPromise = (async () => {
+      let userId: string | null = null;
+      if (typeof window !== 'undefined') {
+        try {
+          const response = await fetch('/api/auth/me');
+          if (response.ok) {
+            const user = await response.json();
+            if (user && user.id) {
+              userId = String(user.id);
+            }
+          }
+        } catch {
+          // Fallback silently
+        }
+      }
+      set({ userId });
+
       const data = await loadPersistedSetProgress();
       set({ data, isHydrated: true });
       hydrationPromise = null;
@@ -110,10 +144,7 @@ const useSetProgressStore = create<SetProgressState>((set, get) => ({
 
     set(state => {
       const current = state.data.kanji[kanjiChar] ?? { correct: 0 };
-      const nextCorrect = Math.min(
-        current.correct + 1,
-        KANJI_SET_PROGRESS_CAP,
-      );
+      const nextCorrect = Math.min(current.correct + 1, KANJI_SET_PROGRESS_CAP);
 
       if (nextCorrect === current.correct) {
         nextData = state.data;
