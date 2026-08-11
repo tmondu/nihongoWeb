@@ -174,9 +174,11 @@ const MainMenu = () => {
           expandDecorations && 'hidden',
         )}
       >
-        <div className='pointer-events-auto flex w-full flex-row items-center justify-between gap-2 px-1'>
-          <PThamSSBanner />
-          <div className='flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
+        <div className='pointer-events-none flex w-full flex-row items-center justify-between gap-2 px-1'>
+          <div className='pointer-events-auto'>
+            <PThamSSBanner />
+          </div>
+          <div className='pointer-events-auto flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
             <button
               type='button'
               onClick={() => {
