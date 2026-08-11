@@ -1,13 +1,89 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+
+interface TurnstileWindow extends Window {
+  turnstile?: {
+    render: (
+      container: HTMLElement,
+      options: {
+        sitekey: string;
+        callback: (token: string) => void;
+        'expired-callback': () => void;
+        'error-callback': () => void;
+      },
+    ) => string;
+    remove: (widgetId: string) => void;
+  };
+}
+
+function TurnstileVerification({
+  onVerified,
+}: {
+  onVerified: (token: string) => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    if (!siteKey || !containerRef.current) {
+      return;
+    }
+
+    let widgetId: string | null = null;
+    const renderWidget = () => {
+      const turnstile = (window as TurnstileWindow).turnstile;
+      if (!turnstile || !containerRef.current || widgetId) {
+        return;
+      }
+
+      widgetId = turnstile.render(containerRef.current, {
+        sitekey: siteKey,
+        callback: onVerified,
+        'expired-callback': () => onVerified(''),
+        'error-callback': () => onVerified(''),
+      });
+    };
+
+    if ((window as TurnstileWindow).turnstile) {
+      renderWidget();
+    } else {
+      const existingScript = document.querySelector(
+        'script[src="https://challenges.cloudflare.com/turnstile/v0/api.js"]',
+      );
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+        script.async = true;
+        script.defer = true;
+        script.onload = renderWidget;
+        document.head.appendChild(script);
+      } else {
+        existingScript.addEventListener('load', renderWidget, { once: true });
+      }
+    }
+
+    return () => {
+      if (widgetId && (window as TurnstileWindow).turnstile) {
+        (window as TurnstileWindow).turnstile?.remove(widgetId);
+      }
+    };
+  }, [onVerified]);
+
+  return (
+    <div className='my-4 flex justify-center' aria-label='Human verification'>
+      <div ref={containerRef} />
+    </div>
+  );
+}
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,6 +101,11 @@ export default function RegisterPage() {
       return;
     }
 
+    if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) {
+      setError('Vui lòng hoàn thành xác thực bảo mật Turnstile.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -32,7 +113,7 @@ export default function RegisterPage() {
       const registerRes = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, turnstileToken }),
       });
 
       const registerData = await registerRes.json();
@@ -41,7 +122,8 @@ export default function RegisterPage() {
       }
 
       setSuccess(
-        'Đăng ký tài khoản thành công! Tài khoản đang chờ Admin phê duyệt. Hệ thống sẽ tự động chuyển về trang đăng nhập sau vài giây...',
+        registerData.message ||
+          'Đăng ký tài khoản thành công! Hệ thống sẽ tự động chuyển về trang đăng nhập sau vài giây...',
       );
 
       setTimeout(() => {
@@ -131,6 +213,8 @@ export default function RegisterPage() {
               placeholder='••••••••'
             />
           </div>
+
+          <TurnstileVerification onVerified={setTurnstileToken} />
 
           <button
             type='submit'
