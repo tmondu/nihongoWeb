@@ -139,7 +139,17 @@ export async function POST(request: NextRequest) {
     );
 
     // 6. Send reset password link
-    const origin = request.nextUrl.origin;
+    let origin = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL;
+    if (!origin) {
+      const forwardedHost = request.headers.get('x-forwarded-host');
+      const forwardedProto =
+        request.headers.get('x-forwarded-proto') || 'https';
+      if (forwardedHost) {
+        origin = `${forwardedProto}://${forwardedHost}`;
+      } else {
+        origin = request.nextUrl.origin;
+      }
+    }
     const resetLink = `${origin}/reset-password?token=${rawToken}`;
 
     const apiKey = process.env.RESEND_API_KEY;
