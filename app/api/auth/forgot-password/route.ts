@@ -152,7 +152,9 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({
-            from: 'PThamSS <no-reply@pthamss.com>',
+            from:
+              process.env.RESEND_FROM_EMAIL ||
+              'PThamSS <onboarding@resend.dev>',
             to: [email],
             subject: '[PThamSS] Đặt lại mật khẩu tài khoản của bạn',
             html: `
