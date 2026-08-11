@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, email, is_approved, is_admin, created_at FROM users WHERE id = ?',
+      'SELECT id, email, is_approved, is_admin, is_verified, created_at FROM users WHERE id = ?',
       [payload.userId as number],
     );
 

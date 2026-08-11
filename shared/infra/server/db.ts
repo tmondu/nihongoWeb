@@ -50,6 +50,25 @@ export function getDbPool(): mysql.Pool {
         // Ignore if column already exists
       }
 
+      try {
+        await pool.execute(
+          'ALTER TABLE `users` ADD COLUMN `is_verified` TINYINT(1) DEFAULT 0 AFTER `is_admin`',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`email_verification_codes\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`email\` VARCHAR(255) NOT NULL,
+          \`code\` VARCHAR(6) NOT NULL,
+          \`expires_at\` TIMESTAMP NOT NULL,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          INDEX \`idx_email_code\` (\`email\`, \`code\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
       // Seed default admin account
       const [existingAdmins] = await pool.execute<any[]>(
         'SELECT id FROM users WHERE email = ?',

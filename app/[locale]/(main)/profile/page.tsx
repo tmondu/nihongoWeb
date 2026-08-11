@@ -32,6 +32,7 @@ interface UserProfile {
   email: string;
   is_approved: number;
   is_admin: number;
+  is_verified?: number;
   created_at: string;
 }
 
@@ -42,6 +43,12 @@ export default function ProfilePage() {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [otpSuccess, setOtpSuccess] = useState('');
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   // Email form
   const [email, setEmail] = useState('');
@@ -74,6 +81,80 @@ export default function ProfilePage() {
       setError(err.message || 'Lỗi kết nối server.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStartVerification = async () => {
+    setShowVerifyModal(true);
+    setOtpError('');
+    setOtpSuccess('');
+    setOtp('');
+    setSendingOtp(true);
+    try {
+      const res = await fetch('/api/auth/verify-email/send', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Gửi OTP thất bại');
+      }
+      setOtpSuccess('Mã xác thực OTP đã được gửi đến email của bạn.');
+    } catch (err: any) {
+      setOtpError(err.message);
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const sendOtp = async () => {
+    setSendingOtp(true);
+    setOtpError('');
+    setOtpSuccess('');
+    try {
+      const res = await fetch('/api/auth/verify-email/send', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Gửi OTP thất bại');
+      }
+      setOtpSuccess('Mã xác thực OTP mới đã được gửi thành công.');
+    } catch (err: any) {
+      setOtpError(err.message);
+    } finally {
+      setSendingOtp(false);
+    }
+  };
+
+  const confirmOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otp.length !== 6) {
+      setOtpError('Mã xác thực phải gồm 6 chữ số.');
+      return;
+    }
+
+    setVerifyingOtp(true);
+    setOtpError('');
+    setOtpSuccess('');
+    try {
+      const res = await fetch('/api/auth/verify-email/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: otp }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Xác thực OTP thất bại');
+      }
+      setOtpSuccess('Xác thực email thành công!');
+      await fetchProfile();
+      setTimeout(() => {
+        setShowVerifyModal(false);
+      }, 1500);
+    } catch (err: any) {
+      setOtpError(err.message);
+    } finally {
+      setVerifyingOtp(false);
     }
   };
 
@@ -209,11 +290,20 @@ export default function ProfilePage() {
             </div>
 
             <div className='space-y-3.5 border-t border-[#1a1a1f] pt-4 text-xs text-slate-400'>
-              <div className='flex items-center gap-2'>
+              <div className='flex flex-wrap items-center gap-2'>
                 <Mail className='size-4 text-slate-500' />
-                <span className='truncate' title={user?.email}>
+                <span className='mr-1 truncate' title={user?.email}>
                   {user?.email}
                 </span>
+                {user?.is_verified === 1 ? (
+                  <span className='inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400'>
+                    <CheckCircle2 className='size-3' /> Đã xác thực
+                  </span>
+                ) : (
+                  <span className='inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400'>
+                    Chưa xác thực
+                  </span>
+                )}
               </div>
               <div className='flex items-center gap-2'>
                 <Calendar className='size-4 text-slate-500' />
@@ -233,12 +323,23 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <Button
-            onClick={handleLogout}
-            className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-500/20 bg-red-950/20 font-semibold text-red-400 transition-colors hover:bg-red-900/20'
-          >
-            <LogOut className='size-4' /> Đăng xuất tài khoản
-          </Button>
+          <div className='mt-6 space-y-3'>
+            {user && !user.is_verified && (
+              <Button
+                onClick={handleStartVerification}
+                className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-500/20 bg-blue-950/20 font-semibold text-blue-400 transition-colors hover:bg-blue-900/20'
+              >
+                Xác thực tài khoản
+              </Button>
+            )}
+
+            <Button
+              onClick={handleLogout}
+              className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-500/20 bg-red-950/20 font-semibold text-red-400 transition-colors hover:bg-red-900/20'
+            >
+              <LogOut className='size-4' /> Đăng xuất tài khoản
+            </Button>
+          </div>
         </div>
 
         {/* Update Form card */}
@@ -346,6 +447,77 @@ export default function ProfilePage() {
               Đăng xuất
             </AlertDialogAction>
           </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={showVerifyModal} onOpenChange={setShowVerifyModal}>
+        <AlertDialogContent className='max-w-md rounded-3xl border-[#1a1a1f] bg-[#09090b] text-slate-100'>
+          <AlertDialogHeader>
+            <AlertDialogTitle className='text-center text-2xl font-bold text-white'>
+              Xác thực Email
+            </AlertDialogTitle>
+            <AlertDialogDescription className='mt-1 text-center text-sm leading-relaxed text-slate-400'>
+              Mã xác thực OTP gồm 6 chữ số đã được gửi đến email{' '}
+              <span className='font-semibold text-blue-400'>{user?.email}</span>
+              .
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          {otpError && (
+            <div className='rounded-xl border border-red-500/20 bg-red-500/10 p-3.5 text-center text-xs text-red-400'>
+              {otpError}
+            </div>
+          )}
+
+          {otpSuccess && (
+            <div className='rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3.5 text-center text-xs text-emerald-400'>
+              {otpSuccess}
+            </div>
+          )}
+
+          <form onSubmit={confirmOtp} className='mt-2 space-y-6'>
+            <div className='space-y-2'>
+              <input
+                type='text'
+                maxLength={6}
+                required
+                value={otp}
+                onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
+                placeholder='Mã OTP...'
+                className='placeholder-zinc-650 block w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center font-mono text-2xl font-bold tracking-[0.5em] text-zinc-100 shadow-sm transition-all duration-300 focus:border-blue-500 focus:bg-white/[0.07] focus:ring-1 focus:ring-blue-500 focus:outline-none'
+              />
+            </div>
+
+            <div className='flex items-center justify-between text-xs text-slate-400'>
+              <span>Không nhận được mã?</span>
+              <button
+                type='button'
+                onClick={sendOtp}
+                disabled={sendingOtp}
+                className='font-semibold text-blue-400 transition-colors hover:text-blue-300 disabled:opacity-50'
+              >
+                {sendingOtp ? 'Đang gửi...' : 'Gửi lại mã'}
+              </button>
+            </div>
+
+            <AlertDialogFooter className='flex gap-3 pt-2 sm:flex-row'>
+              <AlertDialogCancel
+                type='button'
+                onClick={() => setShowVerifyModal(false)}
+                className='flex-1 cursor-pointer rounded-xl border border-[#1a1a1f] bg-transparent px-6 text-slate-300 transition-colors duration-205 hover:bg-[#121215] hover:text-white'
+              >
+                Hủy
+              </AlertDialogCancel>
+              <button
+                type='submit'
+                disabled={verifyingOtp || otp.length !== 6}
+                className='flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-6 font-semibold text-white transition-colors duration-200 hover:bg-blue-500 disabled:pointer-events-none disabled:opacity-50'
+              >
+                {verifyingOtp && <Loader2 className='size-4 animate-spin' />}
+                Xác nhận
+              </button>
+            </AlertDialogFooter>
+          </form>
         </AlertDialogContent>
       </AlertDialog>
     </div>
