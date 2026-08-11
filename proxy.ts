@@ -44,7 +44,10 @@ export default async function proxy(request: NextRequest) {
     : pathname;
 
   const isAuthPage =
-    canonicalPath === '/login' || canonicalPath === '/register';
+    canonicalPath === '/login' ||
+    canonicalPath === '/register' ||
+    canonicalPath === '/forgot-password' ||
+    canonicalPath === '/reset-password';
   const isPublicPage = canonicalPath === '/' || canonicalPath === '/about';
 
   // Redirect if not authenticated
