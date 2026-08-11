@@ -43,19 +43,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className='flex min-h-screen items-center justify-center bg-[#09090b] px-4 py-12 text-[#fafafa] selection:bg-rose-500 selection:text-white'>
-      <div className='w-full max-w-md rounded-2xl border border-zinc-800 bg-zinc-950/50 p-8 shadow-2xl backdrop-blur-md'>
+    <div className='relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030303] px-4 py-12 text-[#fafafa] selection:bg-rose-500 selection:text-white'>
+      {/* Liquid background blobs */}
+      <div className='pointer-events-none absolute top-1/4 left-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-rose-500/20 mix-blend-screen blur-[120px]' />
+      <div className='pointer-events-none absolute right-1/4 bottom-1/4 h-96 w-96 translate-x-1/2 translate-y-1/2 animate-pulse rounded-full bg-indigo-500/20 mix-blend-screen blur-[120px] [animation-delay:2s]' />
+      <div className='pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/10 mix-blend-screen blur-[150px]' />
+
+      {/* Glassmorphic Card Container */}
+      <div className='relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-xl transition-all duration-500 hover:border-white/20'>
         <div className='mb-8 text-center'>
-          <h1 className='bg-gradient-to-r from-rose-500 via-violet-500 to-indigo-500 bg-clip-text text-3xl font-extrabold tracking-tight text-transparent'>
+          <h1 className='bg-gradient-to-r from-rose-400 via-pink-500 to-indigo-400 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-[0_2px_8px_rgba(244,63,94,0.3)] filter'>
             PThamSS
           </h1>
-          <p className='mt-2 text-sm text-zinc-400'>
+          <p className='mt-3 text-xs font-semibold tracking-wide text-zinc-400 uppercase'>
             Đăng nhập để tiếp tục học tập và bảo mật tài khoản
           </p>
         </div>
 
         {error && (
-          <div className='mb-6 rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-400'>
+          <div className='mb-6 rounded-xl border border-red-500/20 bg-red-500/10 p-3.5 text-sm text-red-400 backdrop-blur-md'>
             {error}
           </div>
         )}
@@ -64,7 +70,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor='email'
-              className='block text-sm font-medium text-zinc-300'
+              className='block text-xs font-semibold tracking-wider text-zinc-300 uppercase'
             >
               Email
             </label>
@@ -74,7 +80,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className='mt-1 block w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 shadow-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 focus:outline-none'
+              className='mt-2 block w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 shadow-sm transition-all duration-300 focus:border-rose-500 focus:bg-white/[0.07] focus:ring-1 focus:ring-rose-500 focus:outline-none'
               placeholder='ten@viethoc.com'
             />
           </div>
@@ -82,7 +88,7 @@ export default function LoginPage() {
           <div>
             <label
               htmlFor='password'
-              className='block text-sm font-medium text-zinc-300'
+              className='block text-xs font-semibold tracking-wider text-zinc-300 uppercase'
             >
               Mật khẩu
             </label>
@@ -92,7 +98,7 @@ export default function LoginPage() {
               required
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className='mt-1 block w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 shadow-sm focus:border-rose-500 focus:ring-1 focus:ring-rose-500 focus:outline-none'
+              className='mt-2 block w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-zinc-100 placeholder-zinc-600 shadow-sm transition-all duration-300 focus:border-rose-500 focus:bg-white/[0.07] focus:ring-1 focus:ring-rose-500 focus:outline-none'
               placeholder='••••••••'
             />
           </div>
@@ -100,7 +106,7 @@ export default function LoginPage() {
           <button
             type='submit'
             disabled={loading}
-            className='flex w-full justify-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 disabled:opacity-50'
+            className='group relative flex w-full justify-center overflow-hidden rounded-xl bg-gradient-to-r from-rose-500 to-pink-600 px-4 py-3 text-sm font-bold text-white shadow-[0_4px_20px_0_rgba(244,63,94,0.3)] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_4px_25px_0_rgba(244,63,94,0.5)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50'
           >
             {loading ? 'Đang xác thực...' : 'Đăng nhập'}
           </button>
@@ -110,7 +116,7 @@ export default function LoginPage() {
           Chưa có tài khoản?{' '}
           <Link
             href={`/register?redirect=${encodeURIComponent(redirectPath)}`}
-            className='font-semibold text-rose-500 hover:text-rose-400'
+            className='font-bold text-rose-400 decoration-2 transition-colors duration-200 hover:text-rose-300 hover:underline'
           >
             Đăng ký ngay
           </Link>
