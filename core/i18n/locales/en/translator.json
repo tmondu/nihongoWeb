@@ -4,16 +4,35 @@
     "description": "Free online Japanese translator. Translate English to Japanese or Japanese to English instantly. Features romanization (romaji), translation history, and accurate translations powered by Google Translate."
   },
   "header": {
-    "title": "Japanese Translator"
+    "title": "Japanese Translator",
+    "pageTitle": "Japanese Translator for English/Vietnamese to Japanese and Japanese to English/Vietnamese",
+    "subtitle": "Use the main translator for quick two-way translation, then jump into dedicated pages for English to Japanese, Japanese to English, and romaji support when you need more context."
   },
   "languages": {
     "english": "English",
     "japanese": "日本語",
+    "vietnamese": "Vietnamese",
     "en": "EN",
-    "ja": "JA"
+    "ja": "JA",
+    "vi": "VI"
+  },
+  "limits": {
+    "title": "Limits and privacy",
+    "charLimit": "Up to 5,000 characters per request.",
+    "fairUse": "Fair-use limits apply during high demand.",
+    "localHistory": "History is stored locally in your browser."
+  },
+  "howToUseHub": {
+    "title": "How to use this hub",
+    "intro": "Start with the main translator for quick checks, then open the intent page that matches your exact task.",
+    "bullet1": "Use the hub for broad Japanese translator queries.",
+    "bullet2": "Use the child pages for direction-specific searches.",
+    "bullet3": "Cross-check important names, slang, and nuanced phrasing."
   },
   "input": {
+    "from": "From",
     "placeholder": {
+      "vi": "Nhập văn bản cần dịch...",
       "en": "Enter text to translate...",
       "ja": "テキストを入力してください..."
     },
@@ -23,19 +42,23 @@
     "characterLimitWarning": "Text exceeds maximum length of {max} characters"
   },
   "output": {
+    "to": "To",
     "placeholder": {
+      "vi": "Bản dịch sẽ hiển thị ở đây...",
       "en": "Translation will appear here...",
       "ja": "翻訳がここに表示されます..."
     },
     "copyButton": "Copy translation",
     "copied": "Copied!",
     "copiedMessage": "Copied to clipboard!",
-    "romanization": "Romanization (Romaji)"
+    "romanization": "Romanization (Romaji)",
+    "wordAnalysis": "Word-by-Word Analysis (hover for details)"
   },
   "actions": {
     "translate": "Translate",
     "translating": "Translating...",
-    "swapLanguages": "Swap languages"
+    "swapLanguages": "Swap languages",
+    "listening": "Listening... Speak now"
   },
   "history": {
     "title": "History",
@@ -54,7 +77,21 @@
       "minutesAgo": "{count}m ago",
       "hoursAgo": "{count}h ago",
       "daysAgo": "{count}d ago"
-    }
+    },
+    "export": "Export",
+    "search": "Search translations...",
+    "allSources": "All Sources",
+    "allTargets": "All Targets",
+    "allTime": "All Time",
+    "today": "Today",
+    "week": "This Week",
+    "month": "This Month",
+    "clearFilters": "Clear Filters",
+    "noMatches": "No matching translations",
+    "adjustFilters": "Try adjusting your filters",
+    "source": "Source",
+    "target": "Target",
+    "date": "Date"
   },
   "offline": {
     "message": "You are offline. Translation is unavailable until you reconnect."

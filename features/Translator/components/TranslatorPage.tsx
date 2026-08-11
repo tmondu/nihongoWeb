@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ArrowLeftRight, WifiOff, Languages, Sparkles } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
@@ -93,9 +94,12 @@ function TurnstileVerification({
   );
 }
 
-function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) {
+function TranslatorPageContent({
+  locale: _locale = 'en',
+}: TranslatorPageProps) {
   const searchParams = useSearchParams();
   const initializedFromUrl = useRef(false);
+  const t = useTranslations('translator');
 
   const {
     sourceText,
@@ -157,18 +161,21 @@ function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) 
     if (!isOffline && sourceText.trim().length > 0) translate();
   };
 
-  const handleVerified = useCallback((token: string) => {
-    setVerificationToken(token || null);
-    if (token && !isOffline && sourceText.trim().length > 0) {
-      translate();
-    }
-  }, [isOffline, setVerificationToken, sourceText, translate]);
+  const handleVerified = useCallback(
+    (token: string) => {
+      setVerificationToken(token || null);
+      if (token && !isOffline && sourceText.trim().length > 0) {
+        translate();
+      }
+    },
+    [isOffline, setVerificationToken, sourceText, translate],
+  );
 
   return (
     <div
       className='mx-auto flex w-full max-w-6xl flex-col gap-6'
       role='application'
-      aria-label='Japanese to English translator'
+      aria-label={t('header.title')}
     >
       {/* Header with SEO-optimized content */}
       <header
@@ -187,13 +194,10 @@ function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) 
         </div>
         <div>
           <h1 className='text-2xl font-bold text-(--main-color) sm:text-3xl'>
-            Japanese Translator for English to Japanese and Japanese to English
+            {t('header.pageTitle')}
           </h1>
           <p className='mt-1 text-sm text-(--secondary-color) sm:text-base'>
-            Use the main translator for quick two-way translation, then jump
-            into dedicated pages for <strong>English to Japanese</strong>,{' '}
-            <strong>Japanese to English</strong>, and{' '}
-            <strong>romaji support</strong> when you need more context.
+            {t('header.subtitle')}
           </p>
         </div>
       </header>
@@ -206,26 +210,25 @@ function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) 
       >
         <div>
           <h2 className='text-base font-semibold text-(--main-color)'>
-            Limits and privacy
+            {t('limits.title')}
           </h2>
           <ul className='mt-2 list-disc space-y-1 pl-5 text-sm text-(--secondary-color)'>
-            <li>Up to 5,000 characters per request.</li>
-            <li>Fair-use limits apply during high demand.</li>
-            <li>History is stored locally in your browser.</li>
+            <li>{t('limits.charLimit')}</li>
+            <li>{t('limits.fairUse')}</li>
+            <li>{t('limits.localHistory')}</li>
           </ul>
         </div>
         <div>
           <h2 className='text-base font-semibold text-(--main-color)'>
-            How to use this hub
+            {t('howToUseHub.title')}
           </h2>
           <p className='mt-2 text-sm text-(--secondary-color)'>
-            Start with the main translator for quick checks, then open the
-            intent page that matches your exact task.
+            {t('howToUseHub.intro')}
           </p>
           <ul className='mt-2 list-disc space-y-1 pl-5 text-sm text-(--secondary-color)'>
-            <li>Use the hub for broad Japanese translator queries.</li>
-            <li>Use the child pages for direction-specific searches.</li>
-            <li>Cross-check important names, slang, and nuanced phrasing.</li>
+            <li>{t('howToUseHub.bullet1')}</li>
+            <li>{t('howToUseHub.bullet2')}</li>
+            <li>{t('howToUseHub.bullet3')}</li>
           </ul>
         </div>
       </section>
@@ -239,9 +242,7 @@ function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) 
           role='alert'
         >
           <WifiOff className='h-5 w-5 flex-shrink-0' />
-          <span className='text-sm font-medium'>
-            You are offline. Translation is unavailable until you reconnect.
-          </span>
+          <span className='text-sm font-medium'>{t('offline.message')}</span>
         </div>
       )}
 
@@ -271,7 +272,7 @@ function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) 
               'flex rotate-90 items-center justify-center disabled:cursor-not-allowed disabled:opacity-50 lg:rotate-0',
               'focus-visible:ring-2 focus-visible:ring-(--main-color) focus-visible:ring-offset-2',
             )}
-            aria-label='Swap languages'
+            aria-label={t('actions.swapLanguages')}
           >
             <ArrowLeftRight className='h-5 w-5 text-(--main-color)' />
           </button>
@@ -299,7 +300,7 @@ function TranslatorPageContent({ locale: _locale = 'en' }: TranslatorPageProps) 
           )}
         >
           <Sparkles className='h-5 w-5' />
-          {isLoading ? 'Translating...' : 'Translate'}
+          {isLoading ? t('actions.translating') : t('actions.translate')}
         </ActionButton>
       </div>
 
@@ -327,4 +328,3 @@ export default function TranslatorPage(props: TranslatorPageProps) {
     </Suspense>
   );
 }
-

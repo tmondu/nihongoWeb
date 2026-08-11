@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Trash2,
   Clock,
@@ -51,7 +52,10 @@ interface TranslationHistoryProps {
 /**
  * Format timestamp to a readable date/time string
  */
-function formatTimestamp(timestamp: number): string {
+function formatTimestamp(
+  timestamp: number,
+  t: (key: string, values?: Record<string, string | number | Date>) => string,
+): string {
   const date = new Date(timestamp);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -59,10 +63,12 @@ function formatTimestamp(timestamp: number): string {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'Just now';
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffMins < 1) return t('history.timeAgo.justNow');
+  if (diffMins < 60)
+    return t('history.timeAgo.minutesAgo', { count: diffMins });
+  if (diffHours < 24)
+    return t('history.timeAgo.hoursAgo', { count: diffHours });
+  if (diffDays < 7) return t('history.timeAgo.daysAgo', { count: diffDays });
 
   return date.toLocaleDateString();
 }
@@ -81,6 +87,7 @@ export default function TranslationHistory({
   onDelete,
   onClearAll,
 }: TranslationHistoryProps) {
+  const t = useTranslations('translator');
   const [clearDialogOpen, setClearDialogOpen] = useState(false);
   const [filters, setFilters] = useState<HistoryFilters>(() =>
     getDefaultFilters(),
@@ -128,17 +135,12 @@ export default function TranslationHistory({
         )}
       >
         <div
-          className={cn(
-            'mb-4 rounded-full p-4',
-            'bg-(--secondary-color)/10',
-          )}
+          className={cn('mb-4 rounded-full p-4', 'bg-(--secondary-color)/10')}
         >
           <History className='h-10 w-10 opacity-50' />
         </div>
-        <p className='text-base font-medium'>No translation history yet</p>
-        <p className='mt-1 text-sm opacity-70'>
-          Your translations will appear here
-        </p>
+        <p className='text-base font-medium'>{t('history.empty')}</p>
+        <p className='mt-1 text-sm opacity-70'>{t('history.emptyHint')}</p>
       </div>
     );
   }
@@ -165,11 +167,9 @@ export default function TranslationHistory({
           </div>
           <div>
             <h3 className='text-base font-semibold text-(--main-color) sm:text-lg'>
-              Translation History
+              {t('history.title')}
             </h3>
-            <p className='text-xs text-(--secondary-color)'>
-              {filterSummary}
-            </p>
+            <p className='text-xs text-(--secondary-color)'>{filterSummary}</p>
           </div>
         </div>
         <div className='flex flex-wrap items-center gap-2'>
@@ -183,7 +183,7 @@ export default function TranslationHistory({
             disabled={entries.length === 0}
           >
             <Download className='h-4 w-4' />
-            Export
+            {t('history.export')}
           </ActionButton>
           <AlertDialog open={clearDialogOpen} onOpenChange={setClearDialogOpen}>
             <AlertDialogTrigger asChild>
@@ -196,7 +196,7 @@ export default function TranslationHistory({
                 disabled={entries.length === 0}
               >
                 <Trash2 className='h-4 w-4' />
-                Clear All
+                {t('history.clearAll')}
               </ActionButton>
             </AlertDialogTrigger>
             <AlertDialogContent
@@ -207,11 +207,10 @@ export default function TranslationHistory({
             >
               <AlertDialogHeader>
                 <AlertDialogTitle className='text-(--main-color)'>
-                  Clear Translation History?
+                  {t('history.clearDialog.title')}
                 </AlertDialogTitle>
                 <AlertDialogDescription className='text-(--secondary-color)'>
-                  This will permanently delete all your translation history.
-                  This action cannot be undone.
+                  {t('history.clearDialog.description')}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter className='flex-row gap-3'>
@@ -223,7 +222,7 @@ export default function TranslationHistory({
                   className='!w-auto px-6'
                   onClick={() => setClearDialogOpen(false)}
                 >
-                  Cancel
+                  {t('history.clearDialog.cancel')}
                 </ActionButton>
                 <ActionButton
                   colorScheme='secondary'
@@ -236,7 +235,7 @@ export default function TranslationHistory({
                     setClearDialogOpen(false);
                   }}
                 >
-                  Clear All
+                  {t('history.clearDialog.confirm')}
                 </ActionButton>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -250,7 +249,7 @@ export default function TranslationHistory({
         <div className='relative'>
           <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-(--secondary-color)' />
           <Input
-            placeholder='Search translations...'
+            placeholder={t('history.search')}
             value={filters.searchQuery}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               updateFilter('searchQuery', e.target.value)
@@ -283,7 +282,7 @@ export default function TranslationHistory({
             >
               <div className='flex items-center gap-2'>
                 <Filter className='h-3.5 w-3.5' />
-                <SelectValue placeholder='Source' />
+                <SelectValue placeholder={t('history.source')} />
               </div>
             </SelectTrigger>
             <SelectContent
@@ -292,9 +291,10 @@ export default function TranslationHistory({
                 'rounded-xl',
               )}
             >
-              <SelectItem value='all'>All Sources</SelectItem>
-              <SelectItem value='en'>🇺🇸 English</SelectItem>
-              <SelectItem value='ja'>🇯🇵 Japanese</SelectItem>
+              <SelectItem value='all'>{t('history.allSources')}</SelectItem>
+              <SelectItem value='vi'>🇻🇳 {t('languages.vietnamese')}</SelectItem>
+              <SelectItem value='en'>🇺🇸 {t('languages.english')}</SelectItem>
+              <SelectItem value='ja'>🇯🇵 {t('languages.japanese')}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -314,7 +314,7 @@ export default function TranslationHistory({
             >
               <div className='flex items-center gap-2'>
                 <Filter className='h-3.5 w-3.5' />
-                <SelectValue placeholder='Target' />
+                <SelectValue placeholder={t('history.target')} />
               </div>
             </SelectTrigger>
             <SelectContent
@@ -323,9 +323,10 @@ export default function TranslationHistory({
                 'rounded-xl',
               )}
             >
-              <SelectItem value='all'>All Targets</SelectItem>
-              <SelectItem value='en'>🇺🇸 English</SelectItem>
-              <SelectItem value='ja'>🇯🇵 Japanese</SelectItem>
+              <SelectItem value='all'>{t('history.allTargets')}</SelectItem>
+              <SelectItem value='vi'>🇻🇳 {t('languages.vietnamese')}</SelectItem>
+              <SelectItem value='en'>🇺🇸 {t('languages.english')}</SelectItem>
+              <SelectItem value='ja'>🇯🇵 {t('languages.japanese')}</SelectItem>
             </SelectContent>
           </Select>
 
@@ -345,7 +346,7 @@ export default function TranslationHistory({
             >
               <div className='flex items-center gap-2'>
                 <Clock className='h-3.5 w-3.5' />
-                <SelectValue placeholder='Date' />
+                <SelectValue placeholder={t('history.date')} />
               </div>
             </SelectTrigger>
             <SelectContent
@@ -354,10 +355,10 @@ export default function TranslationHistory({
                 'rounded-xl',
               )}
             >
-              <SelectItem value='all'>All Time</SelectItem>
-              <SelectItem value='today'>Today</SelectItem>
-              <SelectItem value='week'>This Week</SelectItem>
-              <SelectItem value='month'>This Month</SelectItem>
+              <SelectItem value='all'>{t('history.allTime')}</SelectItem>
+              <SelectItem value='today'>{t('history.today')}</SelectItem>
+              <SelectItem value='week'>{t('history.week')}</SelectItem>
+              <SelectItem value='month'>{t('history.month')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -375,7 +376,7 @@ export default function TranslationHistory({
             )}
           >
             <XCircle className='h-3.5 w-3.5' />
-            Clear Filters
+            {t('history.clearFilters')}
           </button>
         )}
       </div>
@@ -391,9 +392,9 @@ export default function TranslationHistory({
             )}
           >
             <Search className='mb-2 h-8 w-8 opacity-50' />
-            <p className='text-sm font-medium'>No matching translations</p>
+            <p className='text-sm font-medium'>{t('history.noMatches')}</p>
             <p className='mt-1 text-xs opacity-70'>
-              Try adjusting your filters
+              {t('history.adjustFilters')}
             </p>
           </div>
         ) : (
@@ -426,13 +427,21 @@ export default function TranslationHistory({
                       'border border-(--main-color)/20',
                     )}
                   >
-                    {entry.sourceLanguage === 'en' ? '🇺🇸 EN' : '🇯🇵 JA'}
+                    {entry.sourceLanguage === 'en'
+                      ? `🇺🇸 ${t('languages.en')}`
+                      : entry.sourceLanguage === 'vi'
+                        ? `🇻🇳 ${t('languages.vi')}`
+                        : `🇯🇵 ${t('languages.ja')}`}
                     <ArrowRight className='mx-1 inline h-3 w-3' />
-                    {entry.targetLanguage === 'en' ? '🇺🇸 EN' : '🇯🇵 JA'}
+                    {entry.targetLanguage === 'en'
+                      ? `🇺🇸 ${t('languages.en')}`
+                      : entry.targetLanguage === 'vi'
+                        ? `🇻🇳 ${t('languages.vi')}`
+                        : `🇯🇵 ${t('languages.ja')}`}
                   </span>
                   <span className='flex items-center gap-1 text-xs text-(--secondary-color)'>
                     <Clock className='h-3 w-3' />
-                    {formatTimestamp(entry.timestamp)}
+                    {formatTimestamp(entry.timestamp, t)}
                   </span>
                 </div>
                 <p className='truncate text-xs font-medium text-(--main-color) sm:text-sm'>
@@ -459,7 +468,7 @@ export default function TranslationHistory({
                   e.stopPropagation();
                   onDelete(entry.id);
                 }}
-                aria-label='Delete entry'
+                aria-label={t('history.deleteEntry')}
               >
                 <X className='h-4 w-4' />
               </ActionButton>
@@ -470,4 +479,3 @@ export default function TranslationHistory({
     </div>
   );
 }
-

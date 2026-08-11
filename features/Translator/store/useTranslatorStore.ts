@@ -16,7 +16,7 @@ import { detectLanguage } from '../lib/languageDetection';
 const useTranslatorStore = create<TranslatorState>()((set, get) => ({
   // Input state
   sourceText: '',
-  sourceLanguage: 'en' as Language,
+  sourceLanguage: 'vi' as Language,
   targetLanguage: 'ja' as Language,
 
   // Output state
@@ -26,7 +26,7 @@ const useTranslatorStore = create<TranslatorState>()((set, get) => ({
   // UI state
   isLoading: false,
   error: null,
-  isOffline: typeof navigator !== 'undefined' ? !navigator.onLine : false,
+  isOffline: typeof window !== 'undefined' ? !navigator.onLine : false,
   verificationRequired: false,
   verificationToken: null,
 
@@ -154,7 +154,7 @@ const useTranslatorStore = create<TranslatorState>()((set, get) => ({
           : null;
       const errorMessage = code
         ? getErrorMessage(code)
-          : 'Translation failed. Please try again.';
+        : 'Translation failed. Please try again.';
 
       set({
         isLoading: false,
@@ -237,15 +237,15 @@ const useTranslatorStore = create<TranslatorState>()((set, get) => ({
     const text = params.text || params.q;
     if (!text) return false;
 
-    const validLanguages = ['en', 'ja'];
+    const validLanguages = ['en', 'ja', 'vi'];
     const sourceLanguage = validLanguages.includes(params.from || '')
       ? (params.from as Language)
-      : 'en';
+      : 'vi';
     const targetLanguage = validLanguages.includes(params.to || '')
       ? (params.to as Language)
-      : sourceLanguage === 'en'
-        ? 'ja'
-        : 'en';
+      : sourceLanguage === 'ja'
+        ? 'vi'
+        : 'ja';
 
     set({
       sourceText: decodeURIComponent(text),

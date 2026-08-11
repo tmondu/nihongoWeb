@@ -7,8 +7,10 @@ import {
 } from '@/features/Translator/lib/seo';
 import { StructuredData } from '@/shared/ui-composite/SEO/StructuredData';
 
+import { routing } from '@/core/i18n/routing';
+
 export function generateStaticParams() {
-  return [{ locale: 'en' }];
+  return routing.locales.map(locale => ({ locale }));
 }
 
 export const revalidate = 3600;
@@ -58,22 +60,108 @@ const schemaFaqEntries: TranslatorFaqEntry[] = [
   },
 ];
 
-export async function generateMetadata(
-  _: TranslatePageProps,
-): Promise<Metadata> {
-  return buildTranslatorMetadata({
+export async function generateMetadata({
+  params,
+}: TranslatePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const isVi = locale === 'vi';
+
+  const localizedConfig = {
     ...metadataConfig,
-    faq: schemaFaqEntries,
+    title: isVi
+      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | KanaDojo'
+      : metadataConfig.title,
+    description: isVi
+      ? 'Trình dịch tiếng Nhật trực tuyến miễn phí cho tiếng Anh/Việt sang tiếng Nhật và ngược lại. Dịch nhanh chóng, hỗ trợ phiên âm romaji và hướng dẫn học tập.'
+      : metadataConfig.description,
+    schemaName: isVi
+      ? 'Trình dịch tiếng Nhật có Romaji'
+      : metadataConfig.schemaName,
+    breadcrumbName: isVi
+      ? 'Trình dịch tiếng Nhật'
+      : metadataConfig.breadcrumbName,
+  };
+
+  const localizedFaq = isVi
+    ? [
+        {
+          question: 'Trình dịch tiếng Nhật này có miễn phí không?',
+          answer:
+            'Có. Trình dịch này hoàn toàn miễn phí và không yêu cầu đăng ký tài khoản.',
+        },
+        {
+          question: 'Tôi có thể sử dụng trang này cho mục đích gì?',
+          answer:
+            'Sử dụng trình dịch chính để dịch nhanh hai chiều giữa tiếng Việt/Anh và tiếng Nhật.',
+        },
+        {
+          question: 'Độ dài văn bản tối đa cho mỗi lần dịch là bao nhiêu?',
+          answer: 'Bạn có thể dịch tối đa 5.000 ký tự cho mỗi yêu cầu.',
+        },
+        {
+          question: 'Có giới hạn lượt sử dụng không?',
+          answer:
+            'Có. Giới hạn sử dụng hợp lý được áp dụng khi lưu lượng truy cập cao để giữ dịch vụ ổn định.',
+        },
+      ]
+    : schemaFaqEntries;
+
+  return buildTranslatorMetadata({
+    ...localizedConfig,
+    faq: localizedFaq,
   });
 }
 
-export default async function TranslatePage(_: TranslatePageProps) {
+export default async function TranslatePage({ params }: TranslatePageProps) {
+  const { locale } = await params;
+  const isVi = locale === 'vi';
+
+  const localizedConfig = {
+    ...metadataConfig,
+    title: isVi
+      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | KanaDojo'
+      : metadataConfig.title,
+    description: isVi
+      ? 'Trình dịch tiếng Nhật trực tuyến miễn phí cho tiếng Anh/Việt sang tiếng Nhật và ngược lại. Dịch nhanh chóng, hỗ trợ phiên âm romaji và hướng dẫn học tập.'
+      : metadataConfig.description,
+    schemaName: isVi
+      ? 'Trình dịch tiếng Nhật có Romaji'
+      : metadataConfig.schemaName,
+    breadcrumbName: isVi
+      ? 'Trình dịch tiếng Nhật'
+      : metadataConfig.breadcrumbName,
+  };
+
+  const localizedFaq = isVi
+    ? [
+        {
+          question: 'Trình dịch tiếng Nhật này có miễn phí không?',
+          answer:
+            'Có. Trình dịch này hoàn toàn miễn phí và không yêu cầu đăng ký tài khoản.',
+        },
+        {
+          question: 'Tôi có thể sử dụng trang này cho mục đích gì?',
+          answer:
+            'Sử dụng trình dịch chính để dịch nhanh hai chiều giữa tiếng Việt/Anh và tiếng Nhật.',
+        },
+        {
+          question: 'Độ dài văn bản tối đa cho mỗi lần dịch là bao nhiêu?',
+          answer: 'Bạn có thể dịch tối đa 5.000 ký tự cho mỗi yêu cầu.',
+        },
+        {
+          question: 'Có giới hạn lượt sử dụng không?',
+          answer:
+            'Có. Giới hạn sử dụng hợp lý được áp dụng khi lưu lượng truy cập cao để giữ dịch vụ ổn định.',
+        },
+      ]
+    : schemaFaqEntries;
+
   return (
     <>
       <StructuredData
         data={buildTranslatorSchema({
-          ...metadataConfig,
-          faq: schemaFaqEntries,
+          ...localizedConfig,
+          faq: localizedFaq,
         })}
       />
       <main className='min-h-screen'>
@@ -88,7 +176,14 @@ export default async function TranslatePage(_: TranslatePageProps) {
           itemType='https://schema.org/SoftwareApplication'
           id='translator'
         >
-          <meta itemProp='name' content='KanaDojo Japanese Translator' />
+          <meta
+            itemProp='name'
+            content={
+              isVi
+                ? 'Trình dịch tiếng Nhật KanaDojo'
+                : 'KanaDojo Japanese Translator'
+            }
+          />
           <meta
             itemProp='applicationCategory'
             content='EducationalApplication'
@@ -96,9 +191,13 @@ export default async function TranslatePage(_: TranslatePageProps) {
           <meta itemProp='operatingSystem' content='Any' />
           <meta
             itemProp='description'
-            content='Translate English and Japanese text with romaji support and learner-focused context.'
+            content={
+              isVi
+                ? 'Dịch tiếng Anh, tiếng Việt và tiếng Nhật với hỗ trợ romaji.'
+                : 'Translate English and Japanese text with romaji support and learner-focused context.'
+            }
           />
-          <TranslatorPage locale='en' />
+          <TranslatorPage locale={locale} />
           <section
             className='mx-auto mt-8 w-full max-w-6xl rounded-2xl border border-(--border-color) bg-(--card-color) p-4 sm:p-6'
             aria-labelledby='translate-quick-faq'
@@ -107,10 +206,10 @@ export default async function TranslatePage(_: TranslatePageProps) {
               id='translate-quick-faq'
               className='text-xl font-semibold text-(--main-color)'
             >
-              Quick FAQ
+              {isVi ? 'Câu hỏi thường gặp' : 'Quick FAQ'}
             </h2>
             <div className='mt-4 space-y-4'>
-              {schemaFaqEntries.map(item => (
+              {localizedFaq.map(item => (
                 <div key={item.question}>
                   <h3 className='font-medium text-(--main-color)'>
                     {item.question}
@@ -127,4 +226,3 @@ export default async function TranslatePage(_: TranslatePageProps) {
     </>
   );
 }
-

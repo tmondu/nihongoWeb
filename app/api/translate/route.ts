@@ -20,9 +20,7 @@ const TRANSLATE_ANALYTICS_ENABLED = false;
 const trackTranslate: (
   event: string,
   properties?: Record<string, unknown>,
-) => void = TRANSLATE_ANALYTICS_ENABLED
-  ? captureServerEvent
-  : () => {};
+) => void = TRANSLATE_ANALYTICS_ENABLED ? captureServerEvent : () => {};
 
 // Simple in-memory cache for translations (reduces API calls)
 const translationCache = new Map<
@@ -81,8 +79,8 @@ function cleanupCache() {
 
 interface TranslationRequestBody {
   text: string;
-  sourceLanguage: 'en' | 'ja';
-  targetLanguage: 'en' | 'ja';
+  sourceLanguage: 'en' | 'ja' | 'vi';
+  targetLanguage: 'en' | 'ja' | 'vi';
   verificationToken?: string;
   requestContext?: 'manual' | 'url-prefill';
 }
@@ -255,8 +253,8 @@ async function translateWithAzure({
   targetLanguage,
 }: {
   text: string;
-  sourceLanguage: 'en' | 'ja';
-  targetLanguage: 'en' | 'ja';
+  sourceLanguage: 'en' | 'ja' | 'vi';
+  targetLanguage: 'en' | 'ja' | 'vi';
 }): Promise<TranslationProviderResult> {
   const apiKey = process.env.AZURE_TRANSLATOR_KEY;
   if (!apiKey) {
@@ -324,8 +322,8 @@ async function translateWithGoogle({
   targetLanguage,
 }: {
   text: string;
-  sourceLanguage: 'en' | 'ja';
-  targetLanguage: 'en' | 'ja';
+  sourceLanguage: 'en' | 'ja' | 'vi';
+  targetLanguage: 'en' | 'ja' | 'vi';
 }): Promise<TranslationProviderResult> {
   const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
   if (!apiKey) {
@@ -384,8 +382,8 @@ async function translateWithFallback({
   targetLanguage,
 }: {
   text: string;
-  sourceLanguage: 'en' | 'ja';
-  targetLanguage: 'en' | 'ja';
+  sourceLanguage: 'en' | 'ja' | 'vi';
+  targetLanguage: 'en' | 'ja' | 'vi';
 }): Promise<TranslationProviderResult> {
   try {
     return await translateWithAzure({ text, sourceLanguage, targetLanguage });
@@ -473,7 +471,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate languages
-    const validLanguages = ['en', 'ja'];
+    const validLanguages = ['en', 'ja', 'vi'];
     if (
       !validLanguages.includes(sourceLanguage) ||
       !validLanguages.includes(targetLanguage)

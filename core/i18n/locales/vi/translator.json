@@ -4,17 +4,36 @@
     "description": "Trình dịch tiếng Nhật trực tuyến miễn phí. Dịch tiếng Anh sang tiếng Nhật hoặc tiếng Nhật sang tiếng Anh ngay lập tức. Hỗ trợ phiên âm (romaji), lịch sử dịch và các bản dịch chính xác do Google Translate cung cấp."
   },
   "header": {
-    "title": "Trình dịch tiếng Nhật"
+    "title": "Trình dịch tiếng Nhật",
+    "pageTitle": "Trình dịch tiếng Nhật - Dịch tiếng Anh/Việt sang tiếng Nhật và ngược lại",
+    "subtitle": "Sử dụng trình dịch chính để dịch nhanh hai chiều, sau đó truy cập các trang chuyên biệt để dịch Anh sang Nhật, Nhật sang Anh và hỗ trợ phiên âm (romaji) khi bạn cần thêm ngữ cảnh."
   },
   "languages": {
     "english": "Tiếng Anh",
     "japanese": "日本語",
+    "vietnamese": "Tiếng Việt",
     "en": "EN",
-    "ja": "JA"
+    "ja": "JA",
+    "vi": "VI"
+  },
+  "limits": {
+    "title": "Giới hạn và quyền riêng tư",
+    "charLimit": "Tối đa 5.000 ký tự mỗi lần yêu cầu.",
+    "fairUse": "Áp dụng giới hạn sử dụng hợp lý khi nhu cầu cao.",
+    "localHistory": "Lịch sử dịch được lưu trữ cục bộ trong trình duyệt của bạn."
+  },
+  "howToUseHub": {
+    "title": "Cách sử dụng công cụ này",
+    "intro": "Bắt đầu với trình dịch chính để kiểm tra nhanh, sau đó mở trang phù hợp với tác vụ chính xác của bạn.",
+    "bullet1": "Sử dụng trung tâm cho các câu truy vấn dịch tiếng Nhật chung.",
+    "bullet2": "Sử dụng các trang con để tìm kiếm theo hướng dịch cụ thể.",
+    "bullet3": "Kiểm tra chéo các tên quan trọng, tiếng lóng và cách diễn đạt sắc thái."
   },
   "input": {
+    "from": "Từ",
     "placeholder": {
-      "en": "Nhập văn bản cần dịch...",
+      "vi": "Nhập văn bản cần dịch...",
+      "en": "Enter text to translate...",
       "ja": "テキストを入力してください..."
     },
     "clearButton": "Xóa đầu vào",
@@ -23,19 +42,23 @@
     "characterLimitWarning": "Văn bản vượt quá độ dài tối đa {max} ký tự"
   },
   "output": {
+    "to": "Sang",
     "placeholder": {
-      "en": "Bản dịch sẽ hiển thị ở đây...",
+      "vi": "Bản dịch sẽ hiển thị ở đây...",
+      "en": "Translation will appear here...",
       "ja": "翻訳がここに表示されます..."
     },
     "copyButton": "Sao chép bản dịch",
     "copied": "Đã sao chép!",
     "copiedMessage": "Đã sao chép vào khay nhớ tạm!",
-    "romanization": "Phiên âm (Romaji)"
+    "romanization": "Phiên âm (Romaji)",
+    "wordAnalysis": "Phân tích từng từ (rê chuột để xem chi tiết)"
   },
   "actions": {
     "translate": "Dịch",
     "translating": "Đang dịch...",
-    "swapLanguages": "Đổi ngôn ngữ"
+    "swapLanguages": "Đổi ngôn ngữ",
+    "listening": "Đang nghe... Hãy nói ngay"
   },
   "history": {
     "title": "Lịch sử",
@@ -54,7 +77,21 @@
       "minutesAgo": "{count} phút trước",
       "hoursAgo": "{count} giờ trước",
       "daysAgo": "{count} ngày trước"
-    }
+    },
+    "export": "Xuất file",
+    "search": "Tìm kiếm bản dịch...",
+    "allSources": "Tất cả nguồn",
+    "allTargets": "Tất cả đích",
+    "allTime": "Mọi lúc",
+    "today": "Hôm nay",
+    "week": "Tuần này",
+    "month": "Tháng này",
+    "clearFilters": "Xóa bộ lọc",
+    "noMatches": "Không tìm thấy bản dịch trùng khớp",
+    "adjustFilters": "Hãy thử điều chỉnh bộ lọc",
+    "source": "Nguồn",
+    "target": "Đích",
+    "date": "Thời gian"
   },
   "offline": {
     "message": "Bạn đang ngoại tuyến. Dịch thuật không khả dụng cho đến khi bạn kết nối lại."

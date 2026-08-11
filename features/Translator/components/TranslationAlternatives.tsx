@@ -9,10 +9,12 @@ import {
   type AnalyzedToken,
 } from '../services/textAnalysisAPI';
 
+import type { Language } from '../types';
+
 interface TranslationAlternativesProps {
   sourceText: string;
   mainTranslation: string;
-  sourceLanguage: 'en' | 'ja';
+  sourceLanguage: Language;
   className?: string;
 }
 
@@ -65,7 +67,7 @@ function generateLiteralTranslation(tokens: AnalyzedToken[]): string {
  */
 function getCommonAlternatives(
   sourceText: string,
-  sourceLanguage: 'en' | 'ja',
+  sourceLanguage: Language,
 ): Alternative[] {
   const alternatives: Alternative[] = [];
 
@@ -313,4 +315,3 @@ export default function TranslationAlternatives({
     </div>
   );
 }
-

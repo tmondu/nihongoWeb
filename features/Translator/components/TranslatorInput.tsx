@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { X, Keyboard, Mic, MicOff } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
@@ -45,6 +46,7 @@ export default function TranslatorInput({
   error,
   isOffline = false,
 }: TranslatorInputProps) {
+  const t = useTranslations('translator');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const characterCount = getCharacterCount(value);
   const isOverLimit = characterCount > MAX_CHARACTERS;
@@ -122,7 +124,7 @@ export default function TranslatorInput({
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2'>
           <span className='text-xs font-medium tracking-wider text-(--secondary-color) uppercase'>
-            From
+            {t('input.from')}
           </span>
           <Select
             value={sourceLanguage}
@@ -140,11 +142,14 @@ export default function TranslatorInput({
               <SelectValue />
             </SelectTrigger>
             <SelectContent className='border-(--border-color) bg-(--card-color)'>
+              <SelectItem value='vi' className='cursor-pointer'>
+                🇻🇳 {t('languages.vietnamese')}
+              </SelectItem>
               <SelectItem value='en' className='cursor-pointer'>
-                🇺🇸 English
+                🇺🇸 {t('languages.english')}
               </SelectItem>
               <SelectItem value='ja' className='cursor-pointer'>
-                🇯🇵 日本語
+                🇯🇵 {t('languages.japanese')}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -189,7 +194,7 @@ export default function TranslatorInput({
                 'h-9 !w-9 !min-w-9 !p-0',
                 'disabled:cursor-not-allowed disabled:opacity-50',
               )}
-              aria-label='Clear input'
+              aria-label={t('input.clearButton')}
             >
               <X className='h-4 w-4' />
             </ActionButton>
@@ -205,11 +210,7 @@ export default function TranslatorInput({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={isDisabled}
-          placeholder={
-            sourceLanguage === 'en'
-              ? 'Enter text to translate...'
-              : 'テキストを入力してください...'
-          }
+          placeholder={t(`input.placeholder.${sourceLanguage}`)}
           className={cn(
             'min-h-[180px] w-full resize-none rounded-xl p-3 sm:min-h-[220px] sm:p-4',
             'border border-(--border-color) bg-(--background-color)',
@@ -256,7 +257,7 @@ export default function TranslatorInput({
               style={{ animationDelay: '0.4s' }}
             />
           </div>
-          <span>Listening... Speak now</span>
+          <span>{t('actions.listening')}</span>
         </div>
       )}
 
@@ -286,27 +287,15 @@ export default function TranslatorInput({
           role='alert'
           aria-live='assertive'
         >
-          Text exceeds maximum length of {MAX_CHARACTERS.toLocaleString()}{' '}
-          characters
+          {t('input.characterLimitWarning', { max: MAX_CHARACTERS })}
         </div>
       )}
 
       {/* Keyboard shortcut hint - hidden on mobile */}
       <div className='hidden items-center gap-2 text-xs text-(--secondary-color) sm:flex'>
         <Keyboard className='h-3.5 w-3.5' />
-        <span>
-          Press{' '}
-          <kbd className='rounded bg-(--background-color) px-1.5 py-0.5 font-mono text-[10px]'>
-            Ctrl
-          </kbd>
-          +
-          <kbd className='rounded bg-(--background-color) px-1.5 py-0.5 font-mono text-[10px]'>
-            Enter
-          </kbd>{' '}
-          to translate
-        </span>
+        <span>{t('input.keyboardHint')}</span>
       </div>
     </div>
   );
 }
-

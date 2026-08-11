@@ -28,20 +28,22 @@ export function logError(
     message: error.message,
     stack: error.stack,
     componentStack: errorInfo?.componentStack ?? undefined,
-    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'N/A',
+    userAgent: typeof window !== 'undefined' ? navigator.userAgent : 'N/A',
     url: typeof window !== 'undefined' ? window.location.href : 'N/A',
-    locale: typeof navigator !== 'undefined' ? navigator.language : 'en',
+    locale: typeof window !== 'undefined' ? navigator.language : 'en',
     additionalInfo,
   };
 
   // Log to console in development
   if (process.env.NODE_ENV === 'development') {
+    /* eslint-disable no-console */
     console.group('🔴 Error Logged');
     console.error('Error:', error);
     console.error('Error Info:', errorInfo);
     console.error('Additional Info:', additionalInfo);
     console.error('Full Log:', errorLog);
     console.groupEnd();
+    /* eslint-enable no-console */
   }
 
   // Save to localStorage for debugging (keep last 10 errors)

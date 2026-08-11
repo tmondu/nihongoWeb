@@ -1,7 +1,7 @@
 /**
  * Language type for translation source and target
  */
-export type Language = 'en' | 'ja';
+export type Language = 'en' | 'ja' | 'vi';
 
 /**
  * Translation history entry stored in localforage
@@ -108,5 +108,5 @@ export interface TranslationRequest {
  * Helper function to get the opposite language
  */
 export function getOppositeLanguage(lang: Language): Language {
-  return lang === 'en' ? 'ja' : 'en';
+  return lang === 'ja' ? 'vi' : 'ja';
 }

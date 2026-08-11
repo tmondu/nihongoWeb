@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { routing } from '@/core/i18n/routing';
 
-const DEFAULT_BASE_URL = 'https://kanadojo.com';
+const DEFAULT_BASE_URL = 'https://www.pthamnihongo.site';
 
 interface GeneratePageMetadataOptions {
   locale?: string;
@@ -55,7 +55,10 @@ function getLanguageAlternates(baseUrl: string, pathname: string) {
   }
 
   const languages = Object.fromEntries(
-    routing.locales.map(locale => [locale, `${normalizedBaseUrl}/${locale}${path}`]),
+    routing.locales.map(locale => [
+      locale,
+      `${normalizedBaseUrl}/${locale}${path}`,
+    ]),
   );
 
   return {
@@ -140,7 +143,7 @@ export async function generatePageMetadata(
  * Generate default metadata with base SEO configuration
  */
 export const defaultMetadata: Metadata = {
-  metadataBase: new URL('https://kanadojo.com'),
+  metadataBase: new URL('https://www.pthamnihongo.site'),
   robots: {
     index: true,
     follow: true,

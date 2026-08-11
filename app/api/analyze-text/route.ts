@@ -69,7 +69,10 @@ function cleanupCache() {
 function resolveKuromojiDictPath(): string | undefined {
   try {
     const _require = createRequire(import.meta.url);
-    const kuromojiEntry = _require.resolve('kuromoji');
+    let kuromojiEntry = _require.resolve('kuromoji');
+    if (kuromojiEntry.startsWith('[project]')) {
+      kuromojiEntry = kuromojiEntry.replace('[project]', process.cwd());
+    }
     return kuromojiEntry.replace(/src(?!.*src).*/, 'dict/');
   } catch {
     try {

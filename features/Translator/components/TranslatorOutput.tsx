@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Copy,
   Check,
@@ -35,6 +36,7 @@ export default function TranslatorOutput({
   targetLanguage,
   isLoading,
 }: TranslatorOutputProps) {
+  const t = useTranslations('translator');
   const [copied, setCopied] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
 
@@ -106,7 +108,7 @@ export default function TranslatorOutput({
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-2'>
           <span className='text-xs font-medium tracking-wider text-(--secondary-color) uppercase'>
-            To
+            {t('output.to')}
           </span>
           <span
             className={cn(
@@ -115,7 +117,11 @@ export default function TranslatorOutput({
               'text-(--main-color)',
             )}
           >
-            {targetLanguage === 'en' ? '🇺🇸 English' : '🇯🇵 日本語'}
+            {targetLanguage === 'en'
+              ? `🇺🇸 ${t('languages.english')}`
+              : targetLanguage === 'vi'
+                ? `🇻🇳 ${t('languages.vietnamese')}`
+                : `🇯🇵 ${t('languages.japanese')}`}
           </span>
         </div>
 
@@ -221,7 +227,7 @@ export default function TranslatorOutput({
                   ? 'border-green-500 text-green-500'
                   : 'text-(--secondary-color) hover:text-(--main-color)',
               )}
-              aria-label={copied ? 'Copied!' : 'Copy translation'}
+              aria-label={copied ? t('output.copied') : t('output.copyButton')}
             >
               {copied ? (
                 <Check className='h-4 w-4' />
@@ -254,7 +260,7 @@ export default function TranslatorOutput({
               <Loader2 className='h-8 w-8 animate-spin text-(--main-color)' />
             </div>
             <span className='text-sm text-(--secondary-color)'>
-              Translating...
+              {t('actions.translating')}
             </span>
           </div>
         ) : translation ? (
@@ -282,7 +288,7 @@ export default function TranslatorOutput({
                 <div className='flex items-center gap-2'>
                   <Info className='h-4 w-4 text-(--secondary-color)' />
                   <span className='text-xs font-medium tracking-wider text-(--secondary-color) uppercase'>
-                    Word-by-Word Analysis (hover for details)
+                    {t('output.wordAnalysis')}
                   </span>
                 </div>
                 <WordByWordBreakdown
@@ -311,9 +317,7 @@ export default function TranslatorOutput({
               <FileText className='h-8 w-8 text-(--secondary-color)/50' />
             </div>
             <p className='text-center text-sm text-(--secondary-color)/60'>
-              {targetLanguage === 'en'
-                ? 'Translation will appear here...'
-                : '翻訳がここに表示されます...'}
+              {t(`output.placeholder.${targetLanguage}`)}
             </p>
           </div>
         )}
@@ -330,10 +334,9 @@ export default function TranslatorOutput({
           role='status'
         >
           <Check className='h-4 w-4' />
-          Copied to clipboard!
+          {t('output.copiedMessage')}
         </div>
       )}
     </div>
   );
 }
-

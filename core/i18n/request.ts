@@ -36,13 +36,13 @@ export default getRequestConfig(async ({ locale }) => {
   // Ensure locale is always defined and valid
   const validLocale =
     locale &&
-      routing.locales.includes(locale as (typeof routing.locales)[number])
+    routing.locales.includes(locale as (typeof routing.locales)[number])
       ? locale
       : routing.defaultLocale;
 
   // Check cache first (helps in dev with HMR)
   const cacheKey = validLocale;
-  if (messageCache.has(cacheKey)) {
+  if (process.env.NODE_ENV !== 'development' && messageCache.has(cacheKey)) {
     return {
       locale: validLocale,
       messages: messageCache.get(cacheKey)!,

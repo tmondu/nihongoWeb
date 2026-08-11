@@ -23,8 +23,16 @@ export function translateHistoryToCSV(entries: TranslationEntry[]): string {
     const date = new Date(entry.timestamp).toLocaleString();
     return [
       date,
-      entry.sourceLanguage === 'en' ? 'English' : 'Japanese',
-      entry.targetLanguage === 'en' ? 'English' : 'Japanese',
+      entry.sourceLanguage === 'en'
+        ? 'English'
+        : entry.sourceLanguage === 'vi'
+          ? 'Vietnamese'
+          : 'Japanese',
+      entry.targetLanguage === 'en'
+        ? 'English'
+        : entry.targetLanguage === 'vi'
+          ? 'Vietnamese'
+          : 'Japanese',
       escapeCSVField(entry.sourceText),
       escapeCSVField(entry.translatedText),
       entry.romanization ? escapeCSVField(entry.romanization) : '',
@@ -82,7 +90,7 @@ export function exportHistoryToCSV(entries: TranslationEntry[]): void {
 
   if (csv) {
     const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const filename = `kanadojo-translations-${timestamp}.csv`;
+    const filename = `pthamss -translations-${timestamp}.csv`;
     downloadCSV(csv, filename);
   }
 }

@@ -75,7 +75,7 @@ export function getErrorMessage(code: string): string {
  * Check if the browser is online
  */
 export function isOnline(): boolean {
-  if (typeof navigator === 'undefined') {
+  if (typeof window === 'undefined') {
     return true; // Assume online in SSR
   }
   return navigator.onLine;

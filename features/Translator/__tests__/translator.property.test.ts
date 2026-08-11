@@ -17,7 +17,7 @@ import { ERROR_CODES, getErrorMessage } from '../services/translationAPI';
 import useTranslatorStore from '../store/useTranslatorStore';
 
 // Arbitrary for Language type
-const languageArb = fc.constantFrom<Language>('en', 'ja');
+const languageArb = fc.constantFrom<Language>('en', 'ja', 'vi');
 
 // Arbitrary for generating valid TranslationEntry objects
 const translationEntryArb = fc.record({
@@ -125,23 +125,12 @@ describe('Translator Property Tests', () => {
           // Target should be different from source
           expect(targetLang).not.toBe(sourceLang);
 
-          // en -> ja, ja -> en
-          if (sourceLang === 'en') {
+          // en/vi -> ja, ja -> vi
+          if (sourceLang === 'en' || sourceLang === 'vi') {
             expect(targetLang).toBe('ja');
           } else {
-            expect(targetLang).toBe('en');
+            expect(targetLang).toBe('vi');
           }
-        }),
-        { numRuns: 100 },
-      );
-    });
-
-    it('getOppositeLanguage is an involution (applying twice returns original)', () => {
-      fc.assert(
-        fc.property(languageArb, (lang: Language) => {
-          const opposite = getOppositeLanguage(lang);
-          const backToOriginal = getOppositeLanguage(opposite);
-          expect(backToOriginal).toBe(lang);
         }),
         { numRuns: 100 },
       );
@@ -151,7 +140,7 @@ describe('Translator Property Tests', () => {
       fc.assert(
         fc.property(languageArb, (lang: Language) => {
           const result = getOppositeLanguage(lang);
-          expect(['en', 'ja']).toContain(result);
+          expect(['en', 'ja', 'vi']).toContain(result);
         }),
         { numRuns: 100 },
       );

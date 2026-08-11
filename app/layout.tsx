@@ -15,8 +15,7 @@ import SessionPrefetch from '@/shared/ui-composite/Performance/SessionPrefetch';
 
 const googleVerificationToken = process.env.GOOGLE_VERIFICATION_TOKEN || '';
 const msVerificationToken = process.env.MS_VERIFICATION_TOKEN || '';
-const SITE_URL =
-  process.env.SITE_URL || 'https://nihongoweb-production.up.railway.app';
+const SITE_URL = process.env.SITE_URL || 'https://www.pthamnihongo.site';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -34,11 +33,11 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   title: {
     default:
-      'KanaDojo - Learn Japanese Hiragana, Katakana, Kanji & Vocabulary Online',
-    template: '%s | KanaDojo',
+      'PTham - Learn Japanese Hiragana, Katakana, Kanji & Vocabulary Online',
+    template: '%s | PTham',
   },
   description:
-    'Master Japanese with KanaDojo - a fun, aesthetic platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Practice with interactive games, track progress, and customize your learning experience.',
+    'Master Japanese with PTham - a fun, aesthetic platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Practice with interactive games, track progress, and customize your learning experience.',
   icons: {
     icon: [
       { url: '/favicon.ico?v=2' },
@@ -84,21 +83,21 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'KanaDojo - Learn Japanese Hiragana, Katakana, Kanji & Vocabulary',
+    title: 'PTham - Learn Japanese Hiragana, Katakana, Kanji & Vocabulary',
     description:
-      'Master Japanese with KanaDojo - an aesthetic, minimalist platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Interactive games, progress tracking, and 100+ themes.',
+      'Master Japanese with PTham - an aesthetic, minimalist platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Interactive games, progress tracking, and 100+ themes.',
     url: SITE_URL,
-    siteName: 'KanaDojo',
+    siteName: 'PTham',
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['es_ES'],
   },
   twitter: {
     card: 'summary',
-    title: 'KanaDojo - Learn Japanese Online',
+    title: 'PTham - Learn Japanese Online',
     description:
       'Master Japanese Hiragana, Katakana, Kanji & Vocabulary with interactive games and beautiful themes.',
-    creator: '@kanadojo',
+    creator: '@ptham',
   },
   alternates: {
     canonical: SITE_URL,
