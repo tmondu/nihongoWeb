@@ -114,7 +114,10 @@ export default function ClientLayout({
     if (typeof window === 'undefined') return;
 
     const isAuthRoute =
-      pathname.includes('/login') || pathname.includes('/register');
+      pathname.includes('/login') ||
+      pathname.includes('/register') ||
+      pathname.includes('/forgot-password') ||
+      pathname.includes('/reset-password');
     const cleanPath = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
     const isPublicRoute = cleanPath === '/' || cleanPath === '/about';
 
@@ -134,9 +137,9 @@ export default function ClientLayout({
     // const isPreviewDeployment =
     //   process.env.NODE_ENV === 'production' &&
     //   process.env.NEXT_PUBLIC_VERCEL_ENV !== 'production';
-    const isTargetRoute = /\/(kana|kanji|vocabulary)(\/|$)/.test(pathname);
-    const isPreferencesRoute = /\/preferences(\/|$)/.test(pathname);
-    const isProgressRoute = /\/progress(\/|$)/.test(pathname);
+    const _isTargetRoute = /\/(kana|kanji|vocabulary)(\/|$)/.test(pathname);
+    const _isPreferencesRoute = /\/preferences(\/|$)/.test(pathname);
+    const _isProgressRoute = /\/progress(\/|$)/.test(pathname);
     const isBaseRoute =
       pathname === '/' || pathname === '/en' || pathname === '/ja';
     const donationLastPathKey = 'donation-modal-last-pathname';
