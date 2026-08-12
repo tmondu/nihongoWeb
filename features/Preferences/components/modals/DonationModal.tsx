@@ -7,6 +7,8 @@ import { useCallback } from 'react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { cn } from '@/shared/utils/utils';
 
+import { useParams } from 'next/navigation';
+
 interface DonationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -17,6 +19,8 @@ export default function DonationModal({
   onOpenChange,
 }: DonationModalProps) {
   const { playClick } = useClick();
+  const params = useParams();
+  const locale = typeof params?.locale === 'string' ? params.locale : 'en';
 
   const handleClose = useCallback(() => {
     playClick();
@@ -31,9 +35,9 @@ export default function DonationModal({
     } catch (e) {
       console.error(e);
     }
-    // Fallback: redirect to blank page
-    window.location.href = 'about:blank';
-  }, [playClick]);
+    // Fallback: redirect to sleep page
+    window.location.href = `/${locale}/sleep`;
+  }, [playClick, locale]);
 
   if (!open) return null;
 
