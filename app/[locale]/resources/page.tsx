@@ -29,7 +29,7 @@ export async function generateMetadata({
   const totalCount = resources.length;
 
   const title =
-    'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | KanaDojo';
+    'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | PThamSS';
   const description = `Discover ${totalCount}+ curated Japanese learning resources. Find the best apps, textbooks, YouTube channels, podcasts, games, and tools for learning Japanese at any level.`;
 
   return {
@@ -47,14 +47,14 @@ export async function generateMetadata({
       'japanese language resources',
     ],
     openGraph: {
-      title: 'Best Japanese Learning Resources | KanaDojo',
+      title: 'Best Japanese Learning Resources | PThamSS',
       description,
       url: 'https://www.pthamnihongo.site/resources',
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Best Japanese Learning Resources | KanaDojo',
+      title: 'Best Japanese Learning Resources | PThamSS',
       description,
     },
     alternates: {
@@ -132,7 +132,7 @@ export default async function ResourcesPage({
         teaches='Japanese Language — Hiragana, Katakana, Kanji, Vocabulary, Grammar'
         isAccessibleForFree={true}
         inLanguage={['en', 'ja']}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
 
       {/* Page Content */}

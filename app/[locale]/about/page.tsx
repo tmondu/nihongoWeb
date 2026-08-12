@@ -55,7 +55,7 @@ export default function AboutPage() {
         Our Mission
       </h2>
       <p className='mb-8 text-lg leading-relaxed text-(--secondary-color)'>
-        KanaDojo was created to make learning Japanese writing systems and
+        PThamSS was created to make learning Japanese writing systems and
         vocabulary accessible, effective, and free for everyone. We believe that
         mastering Hiragana, Katakana, and Kanji shouldn&apos;t be a frustrating
         experience, but an engaging journey supported by modern technology and
@@ -168,7 +168,7 @@ export default function AboutPage() {
         Trusted Data Sources
       </h2>
       <p className='mb-4 text-(--secondary-color)'>
-        KanaDojo is built on authoritative Japanese language data maintained by
+        PThamSS is built on authoritative Japanese language data maintained by
         experts:
       </p>
       <ul className='mb-4 list-disc space-y-2 pl-6 text-(--secondary-color)'>
@@ -197,7 +197,7 @@ export default function AboutPage() {
         Built With Modern Technology
       </h2>
       <p className='mb-4 text-(--secondary-color)'>
-        KanaDojo is built with production-grade web technologies to ensure fast
+        PThamSS is built with production-grade web technologies to ensure fast
         performance, reliability, and a great user experience:
       </p>
       <div className='mb-12 space-y-2 text-(--secondary-color)'>
@@ -219,7 +219,7 @@ export default function AboutPage() {
         Open Source
       </h2>
       <p className='mb-4 text-(--secondary-color)'>
-        KanaDojo is open source and available on GitHub. We welcome
+        PThamSS is open source and available on GitHub. We welcome
         contributions, feedback, and suggestions from the community.
       </p>
       <a

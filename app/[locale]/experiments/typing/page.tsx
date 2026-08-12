@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Speed Typing - Romaji Typing Practice | KanaDojo',
+  title: 'Speed Typing - Romaji Typing Practice | PThamSS',
   description: 'Test your typing speed with Japanese Romaji.',
 };
 

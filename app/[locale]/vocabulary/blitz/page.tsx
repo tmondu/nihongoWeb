@@ -49,7 +49,7 @@ export default function BlitzPage() {
         assesses='Vocabulary recognition speed and accuracy'
         timeRequired='PT5M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
       <VocabBlitz />
     </>

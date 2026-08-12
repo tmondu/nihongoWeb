@@ -3,7 +3,7 @@
   "title": "Foire aux questions",
   "subtitle": "Des réponses claires, des détails concrets et le chemin le plus rapide de « je ne sais pas lire le japonais » à une pratique confiante des kana, kanji et du vocabulaire.",
   "links": {
-    "howToUse": "Comment utiliser KanaDojo",
+    "howToUse": "Comment utiliser PThamSS",
     "glossary": "Glossaire japonais",
     "translator": "Traducteur anglais ↔ japonais",
     "academy": "Guides d'apprentissage",
@@ -18,7 +18,7 @@
   },
   "intro": {
     "title": "Orientation rapide",
-    "body": "KanaDojo est une application web gratuite d'apprentissage du japonais pour pratiquer les Hiragana, Katakana, Kanji et le vocabulaire JLPT. Vous n'avez pas besoin de compte. Votre progression est sauvegardée localement dans votre navigateur, et vous pouvez personnaliser l'expérience avec des thèmes et des polices."
+    "body": "PThamSS est une application web gratuite d'apprentissage du japonais pour pratiquer les Hiragana, Katakana, Kanji et le vocabulaire JLPT. Vous n'avez pas besoin de compte. Votre progression est sauvegardée localement dans votre navigateur, et vous pouvez personnaliser l'expérience avec des thèmes et des polices."
   },
   "cta": {
     "hiragana": "Commencer la pratique des Hiragana",
@@ -36,14 +36,14 @@
   "sections": {
     "gettingStarted": {
       "title": "Pour commencer",
-      "description": "Ce qu'est KanaDojo, comment ça fonctionne et ce que vous devriez faire en premier.",
+      "description": "Ce qu'est PThamSS, comment ça fonctionne et ce que vous devriez faire en premier.",
       "q1": {
-        "question": "Qu'est-ce que KanaDojo ?",
-        "answer": "KanaDojo est une plateforme gratuite d'apprentissage du japonais pour pratiquer les Hiragana, Katakana, Kanji et le vocabulaire avec des exercices rapides et des modes d'entraînement de type jeu. Elle est conçue pour l'auto-apprentissage, le retour rapide et une progression régulière."
+        "question": "Qu'est-ce que PThamSS ?",
+        "answer": "PThamSS est une plateforme gratuite d'apprentissage du japonais pour pratiquer les Hiragana, Katakana, Kanji et le vocabulaire avec des exercices rapides et des modes d'entraînement de type jeu. Elle est conçue pour l'auto-apprentissage, le retour rapide et une progression régulière."
       },
       "q2": {
-        "question": "KanaDojo est-il vraiment gratuit ?",
-        "answer": "Oui. KanaDojo est gratuit, sans compte obligatoire et sans contenu de pratique payant."
+        "question": "PThamSS est-il vraiment gratuit ?",
+        "answer": "Oui. PThamSS est gratuit, sans compte obligatoire et sans contenu de pratique payant."
       },
       "q3": {
         "question": "Dois-je créer un compte ?",
@@ -71,7 +71,7 @@
       "description": "Comment fonctionne la pratique et quel mode choisir selon votre objectif.",
       "q1": {
         "question": "Quels sont les modes d'entraînement ?",
-        "answer": "KanaDojo inclut des modes de reconnaissance et de rappel (choix/choix inversé, saisie/saisie inversée) ainsi que des défis de vitesse comme Blitz et des tests de maîtrise comme Gauntlet. Changez de mode selon que vous visez la précision, le rappel ou la vitesse."
+        "answer": "PThamSS inclut des modes de reconnaissance et de rappel (choix/choix inversé, saisie/saisie inversée) ainsi que des défis de vitesse comme Blitz et des tests de maîtrise comme Gauntlet. Changez de mode selon que vous visez la précision, le rappel ou la vitesse."
       },
       "q2": {
         "question": "Quel est le meilleur mode pour les débutants ?",
@@ -79,7 +79,7 @@
       },
       "q3": {
         "question": "Puis-je personnaliser les thèmes et les polices ?",
-        "answer": "Oui. KanaDojo offre une personnalisation étendue (thèmes, polices et préférences) pour trouver un look confortable pour vos longues sessions d'étude."
+        "answer": "Oui. PThamSS offre une personnalisation étendue (thèmes, polices et préférences) pour trouver un look confortable pour vos longues sessions d'étude."
       }
     },
     "privacy": {
@@ -94,20 +94,20 @@
         "answer": "Pas automatiquement. Comme la progression est stockée localement, changer de navigateur ou d'appareil ne transférera pas la progression sauf si vous déplacez manuellement les données."
       },
       "q3": {
-        "question": "KanaDojo fonctionne-t-il hors ligne ?",
-        "answer": "KanaDojo peut fonctionner hors ligne pour la pratique principale une fois les ressources en cache, mais la meilleure expérience est avec une connexion internet — surtout au premier chargement."
+        "question": "PThamSS fonctionne-t-il hors ligne ?",
+        "answer": "PThamSS peut fonctionner hors ligne pour la pratique principale une fois les ressources en cache, mais la meilleure expérience est avec une connexion internet — surtout au premier chargement."
       }
     },
     "jlpt": {
       "title": "Préparation JLPT",
-      "description": "Comment KanaDojo s'intègre dans un plan d'étude JLPT.",
+      "description": "Comment PThamSS s'intègre dans un plan d'étude JLPT.",
       "q1": {
-        "question": "KanaDojo aide-t-il pour le JLPT ?",
-        "answer": "Oui. KanaDojo organise les Kanji et le vocabulaire par niveau JLPT (N5 à N1), ce qui facilite la concentration de votre pratique pour un niveau d'examen ciblé."
+        "question": "PThamSS aide-t-il pour le JLPT ?",
+        "answer": "Oui. PThamSS organise les Kanji et le vocabulaire par niveau JLPT (N5 à N1), ce qui facilite la concentration de votre pratique pour un niveau d'examen ciblé."
       },
       "q2": {
-        "question": "KanaDojo suffit-il pour réussir le JLPT ?",
-        "answer": "C'est un excellent outil de pratique pour la reconnaissance, le rappel et la vitesse — mais le JLPT teste aussi la compréhension orale, la compréhension écrite et la grammaire en contexte. Complétez KanaDojo avec de la lecture/écoute graduée et une ressource de grammaire."
+        "question": "PThamSS suffit-il pour réussir le JLPT ?",
+        "answer": "C'est un excellent outil de pratique pour la reconnaissance, le rappel et la vitesse — mais le JLPT teste aussi la compréhension orale, la compréhension écrite et la grammaire en contexte. Complétez PThamSS avec de la lecture/écoute graduée et une ressource de grammaire."
       },
       "q3": {
         "question": "Que dois-je étudier en premier pour le JLPT N5 ?",

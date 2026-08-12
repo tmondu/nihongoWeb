@@ -85,7 +85,7 @@ export function generateImageSitemapEntry(
 }
 
 /**
- * Get all sitemap URLs for KanaDojo
+ * Get all sitemap URLs for PThamSS
  */
 export function getAllSitemapUrls(): string[] {
   return [

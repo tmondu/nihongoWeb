@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Pulse - Fast Reflex Game | KanaDojo',
+  title: 'Kana Pulse - Fast Reflex Game | PThamSS',
   description:
     'Test your reflexes - tap the pulsing kana before time runs out!',
 };

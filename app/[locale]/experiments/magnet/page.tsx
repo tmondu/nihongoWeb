@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Magnet - Attraction Physics | KanaDojo',
+  title: 'Kana Magnet - Attraction Physics | PThamSS',
   description: 'Watch kana attracted and repelled by your cursor!',
 };
 

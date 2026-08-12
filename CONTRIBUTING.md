@@ -1,8 +1,8 @@
-# 🥋 Contributing to KanaDojo
+# 🥋 Contributing to PThamSS
 
 > **Brand new to Git/GitHub?** Start with the [Beginner Contribution Guide](./docs/CONTRIBUTING-BEGINNERS.md) for a zero-to-PR walkthrough, then come back here for the standard workflow.
 
-Hey there! Thanks for checking out **KanaDojo** — we're genuinely glad you're here. Whether you're fixing a typo, adding new kanji, or building a brand-new feature, your time and effort matter a lot. This project exists to make learning Japanese beautiful and fun, and we’d love for you to be part of it.
+Hey there! Thanks for checking out **PThamSS** — we're genuinely glad you're here. Whether you're fixing a typo, adding new kanji, or building a brand-new feature, your time and effort matter a lot. This project exists to make learning Japanese beautiful and fun, and we’d love for you to be part of it.
 
 ---
 
@@ -48,7 +48,7 @@ git remote add upstream https://github.com/tmondu/nihongoWeb.git
 npm install && npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see KanaDojo running.
+Open [http://localhost:3000](http://localhost:3000) to see PThamSS running.
 
 ## 🔎 Before You Start
 
@@ -152,7 +152,7 @@ Quick rule: keep JSON keys and values wrapped in double quotes, and write embedd
 
 ## 🌐 Translating the App
 
-KanaDojo is available in English, Spanish, and Japanese — and we're always looking to add more languages! If you're interested in translating the app, see our [**Translation Guide**](./docs/TRANSLATION_GUIDE.md) for detailed instructions on:
+PThamSS is available in English, Spanish, and Japanese — and we're always looking to add more languages! If you're interested in translating the app, see our [**Translation Guide**](./docs/TRANSLATION_GUIDE.md) for detailed instructions on:
 
 - How translations are structured (namespace-based JSON files)
 - How to add a new language
@@ -208,7 +208,7 @@ That kind of detail makes it easier to prioritize.
 
 ## 🧠 Code of Conduct
 
-KanaDojo follows the spirit of the [Contributor Covenant](https://www.contributor-covenant.org/). In short: be kind, be respectful, and make space for everyone to learn.
+PThamSS follows the spirit of the [Contributor Covenant](https://www.contributor-covenant.org/). In short: be kind, be respectful, and make space for everyone to learn.
 
 If you ever feel uncomfortable or see behavior that crosses the line, reach out privately to the maintainers through GitHub.
 
@@ -238,6 +238,6 @@ Typical response time is within a few days. We’re doing this for the love of J
 
 ## ❤️ Thank You
 
-Seriously — thanks for taking the time to read this. Every contribution, big or small, keeps KanaDojo growing.
+Seriously — thanks for taking the time to read this. Every contribution, big or small, keeps PThamSS growing.
 
 がんばって! (Ganbatte — do your best!)

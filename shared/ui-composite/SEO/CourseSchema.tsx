@@ -17,7 +17,7 @@ export function generateCourseSchema(props: CourseSchemaProps) {
     name,
     description,
     url,
-    provider = 'KanaDojo',
+    provider = 'PThamSS',
     educationalLevel = 'Beginner to Advanced',
     skillLevel = 'All Levels',
     courseMode = 'online',

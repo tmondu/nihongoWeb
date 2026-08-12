@@ -45,7 +45,7 @@ export async function generateMetadata({
   const resources = getResourcesByCategory(categoryId);
   const resourceCount = resources.length;
 
-  const title = `Best ${category.name} for Learning Japanese - ${resourceCount}+ Resources | KanaDojo`;
+  const title = `Best ${category.name} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
   const description = `${category.description} Discover ${resourceCount}+ curated ${category.name.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
@@ -60,14 +60,14 @@ export async function generateMetadata({
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${category.name} for Learning Japanese | KanaDojo`,
+      title: `Best ${category.name} for Learning Japanese | PThamSS`,
       description,
       url: `https://www.pthamnihongo.site/resources/${categoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${category.name} for Learning Japanese | KanaDojo`,
+      title: `Best ${category.name} for Learning Japanese | PThamSS`,
       description,
     },
     alternates: {

@@ -17,7 +17,7 @@ interface PageProps {
 
 const metadataConfig = {
   pathname: '/translate/english-to-japanese',
-  title: 'English to Japanese Translator | with Romaji Support | KanaDojo',
+  title: 'English to Japanese Translator | with Romaji Support | PThamSS',
   description:
     'Translate English to Japanese online for free. Get Japanese output, romaji support, and practical guidance for travel phrases, messages, and study examples.',
   keywords: [

@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Japanese Verb Conjugator - Free Online Tool | KanaDojo",
-    "titleWithVerb": "{verb} ({romaji}) Conjugation - All Japanese Verb Forms | KanaDojo",
+    "title": "Japanese Verb Conjugator - Free Online Tool | PThamSS",
+    "titleWithVerb": "{verb} ({romaji}) Conjugation - All Japanese Verb Forms | PThamSS",
     "description": "Free Japanese verb conjugator with all conjugation forms. Conjugate any Japanese verb instantly - Godan, Ichidan, irregular verbs. Get te-form, masu-form, potential, passive, causative and more.",
     "descriptionWithVerb": "Complete conjugation of {verb} ({romaji}). See all forms including te-form, masu-form, potential, passive, causative, and more. Free Japanese verb conjugator."
   },
@@ -219,7 +219,7 @@
     "button": "Share",
     "copied": "Copied!",
     "error": "Failed to copy",
-    "title": "{verb} Conjugation - KanaDojo",
+    "title": "{verb} Conjugation - PThamSS",
     "text": "Check out the conjugation of {verb} ({romaji})"
   },
   "errors": {
@@ -314,7 +314,7 @@
         "content": "Conjugation patterns become automatic with consistent practice. Use tools like this conjugator to verify your understanding."
       }
     ],
-    "aboutTool": "KanaDojo's Japanese Verb Conjugator is a free educational tool that generates all conjugation forms for any Japanese verb. It supports Godan, Ichidan, and irregular verbs including compound verbs. The conjugator provides romaji pronunciation, verb type detection, and comprehensive form coverage for JLPT preparation and Japanese language learning."
+    "aboutTool": "PThamSS's Japanese Verb Conjugator is a free educational tool that generates all conjugation forms for any Japanese verb. It supports Godan, Ichidan, and irregular verbs including compound verbs. The conjugator provides romaji pronunciation, verb type detection, and comprehensive form coverage for JLPT preparation and Japanese language learning."
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -414,6 +414,6 @@
         "description": "Structured lessons for comprehensive Japanese learning"
       }
     },
-    "footer": "KanaDojo offers a complete suite of Japanese learning tools. From mastering the basics with Hiragana and Katakana practice, to building vocabulary and understanding Kanji, our platform supports learners at every level. Use the verb conjugator alongside these resources for comprehensive Japanese language study."
+    "footer": "PThamSS offers a complete suite of Japanese learning tools. From mastering the basics with Hiragana and Katakana practice, to building vocabulary and understanding Kanji, our platform supports learners at every level. Use the verb conjugator alongside these resources for comprehensive Japanese language study."
   }
 }

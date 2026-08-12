@@ -5,7 +5,7 @@
  */
 
 interface AltTextOptions {
-  /** Include the site name (KanaDojo) in alt text */
+  /** Include the site name (PThamSS) in alt text */
   includeSiteName?: boolean;
   /** Add context keywords for SEO */
   includeKeywords?: boolean;
@@ -31,7 +31,7 @@ export function generateKanaAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -67,7 +67,7 @@ export function generateKanjiAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -91,7 +91,7 @@ export function generateVocabularyAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -125,7 +125,7 @@ export function generateChartAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -144,7 +144,7 @@ export function generateScreenshotAltText(
   let alt = `${feature}: ${description}`;
 
   if (includeSiteName) {
-    alt += ' - KanaDojo Japanese learning platform';
+    alt += ' - PThamSS Japanese learning platform';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -166,7 +166,7 @@ export function generateThemeAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -189,7 +189,7 @@ export function generateBlogImageAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo Academy';
+    alt += ' | PThamSS Academy';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -208,7 +208,7 @@ export function generateAchievementAltText(
   let alt = `Achievement badge: ${achievementName} - ${description}`;
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);
@@ -266,7 +266,7 @@ export function generateInfographicAltText(
   }
 
   if (includeSiteName) {
-    alt += ' | KanaDojo';
+    alt += ' | PThamSS';
   }
 
   return truncateAlt(alt, options.maxLength);

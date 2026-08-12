@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title =
-    'Japanese-English Glossary - Essential Learning Terms | KanaDojo';
+    'Japanese-English Glossary - Essential Learning Terms | PThamSS';
   const description =
     'Comprehensive Japanese-English glossary of essential learning terms. Understand Hiragana, Katakana, Kanji, grammar, and Japanese language concepts with clear explanations.';
   const canonical = `https://www.pthamnihongo.site/${locale}/glossary`;

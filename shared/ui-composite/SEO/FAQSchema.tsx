@@ -60,48 +60,48 @@ export function FAQSchema({ faqs }: FAQSchemaProps) {
 }
 
 /**
- * Pre-built FAQ data for common KanaDojo questions
+ * Pre-built FAQ data for common PThamSS questions
  */
 export const commonKanaDOJOFAQs: FAQItem[] = [
   {
-    question: 'Is KanaDojo free to use?',
+    question: 'Is PThamSS free to use?',
     answer:
-      'Yes, KanaDojo is completely free to use. All features including Hiragana, Katakana, Kanji practice, vocabulary training, and the Japanese translator are available at no cost.',
+      'Yes, PThamSS is completely free to use. All features including Hiragana, Katakana, Kanji practice, vocabulary training, and the Japanese translator are available at no cost.',
   },
   {
     question: 'Do I need to create an account?',
     answer:
-      'No account is required to use KanaDojo. Your progress is saved locally in your browser, so you can start learning immediately without any signup process.',
+      'No account is required to use PThamSS. Your progress is saved locally in your browser, so you can start learning immediately without any signup process.',
   },
   {
-    question: 'What Japanese writing systems does KanaDojo teach?',
+    question: 'What Japanese writing systems does PThamSS teach?',
     answer:
-      'KanaDojo teaches all three Japanese writing systems: Hiragana (basic phonetic characters), Katakana (used for foreign words), and Kanji (Chinese characters organized by JLPT levels N5-N1).',
+      'PThamSS teaches all three Japanese writing systems: Hiragana (basic phonetic characters), Katakana (used for foreign words), and Kanji (Chinese characters organized by JLPT levels N5-N1).',
   },
   {
-    question: 'Can KanaDojo help me prepare for the JLPT?',
+    question: 'Can PThamSS help me prepare for the JLPT?',
     answer:
-      'Yes! KanaDojo organizes Kanji and vocabulary by JLPT levels (N5 through N1), making it an excellent tool for JLPT preparation. Practice the specific characters and words you need for your target level.',
+      'Yes! PThamSS organizes Kanji and vocabulary by JLPT levels (N5 through N1), making it an excellent tool for JLPT preparation. Practice the specific characters and words you need for your target level.',
   },
   {
     question: 'How does the progress tracking work?',
     answer:
-      'KanaDojo automatically tracks your learning progress, including accuracy rates, practice time, and mastered characters. All data is stored locally in your browser and remains private.',
+      'PThamSS automatically tracks your learning progress, including accuracy rates, practice time, and mastered characters. All data is stored locally in your browser and remains private.',
   },
   {
-    question: 'Does KanaDojo work offline?',
+    question: 'Does PThamSS work offline?',
     answer:
-      'KanaDojo works best with an internet connection, but core features like character practice are available offline once the page has loaded. Your progress is always saved locally.',
+      'PThamSS works best with an internet connection, but core features like character practice are available offline once the page has loaded. Your progress is always saved locally.',
   },
   {
     question: 'What is the Japanese translator feature?',
     answer:
-      'The KanaDojo translator converts between English and Japanese, providing translations in Hiragana, Katakana, and Kanji, along with Romaji pronunciation. It is free to use without any signup.',
+      'The PThamSS translator converts between English and Japanese, providing translations in Hiragana, Katakana, and Kanji, along with Romaji pronunciation. It is free to use without any signup.',
   },
   {
-    question: 'Can I customize the appearance of KanaDojo?',
+    question: 'Can I customize the appearance of PThamSS?',
     answer:
-      'Yes! KanaDojo offers 100+ themes and multiple font options to personalize your learning experience. Find the style that works best for you in the Preferences section.',
+      'Yes! PThamSS offers 100+ themes and multiple font options to personalize your learning experience. Find the style that works best for you in the Preferences section.',
   },
 ];
 
@@ -114,7 +114,7 @@ export const hiraganaFAQs: FAQItem[] = [
   {
     question: 'How long does it take to learn Hiragana?',
     answer:
-      'With consistent daily practice, most learners can memorize all 46 Hiragana characters in 1-2 weeks. KanaDojo provides interactive games and exercises to help you master Hiragana efficiently.',
+      'With consistent daily practice, most learners can memorize all 46 Hiragana characters in 1-2 weeks. PThamSS provides interactive games and exercises to help you master Hiragana efficiently.',
   },
   {
     question: 'Should I learn Hiragana or Katakana first?',

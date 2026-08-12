@@ -68,7 +68,7 @@ export default function DonationModal({
                   {/*
                   Thank
                   you for your kindness, your understanding, and for helping us
-                  keep KanaDojo welcoming and accessible for everyone who relies
+                  keep PThamSS welcoming and accessible for everyone who relies
                   on it.
  */}
                 </p>

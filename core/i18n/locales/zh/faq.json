@@ -1,18 +1,18 @@
 {
   "title": "常见问题",
-  "description": "查找关于使用 KanaDojo 的常见问题答案",
+  "description": "查找关于使用 PThamSS 的常见问题答案",
   "questions": {
-    "whatIsKanaDojo": {
-      "question": "什么是 KanaDojo？",
-      "answer": "KanaDojo 是一个免费在线平台，帮助您学习日语平假名、片假名、汉字和词汇。它提供互动游戏、进度追踪和可自定义的学习体验。"
+    "whatIsPThamSS": {
+      "question": "什么是 PThamSS？",
+      "answer": "PThamSS 是一个免费在线平台，帮助您学习日语平假名、片假名、汉字和词汇。它提供互动游戏、进度追踪和可自定义的学习体验。"
     },
     "howToStart": {
       "question": "如何开始学习？",
       "answer": "只需在首页选择一个道场（假名、汉字或词汇），选择您想练习的内容，然后开始游戏！无需创建账户。"
     },
     "isFree": {
-      "question": "KanaDojo 是免费的吗？",
-      "answer": "是的，KanaDojo 完全免费使用。无需付费或订阅。"
+      "question": "PThamSS 是免费的吗？",
+      "answer": "是的，PThamSS 完全免费使用。无需付费或订阅。"
     },
     "progressSaved": {
       "question": "我的进度会保存吗？",
@@ -28,7 +28,7 @@
     },
     "mobileSupport": {
       "question": "支持手机使用吗？",
-      "answer": "是的，KanaDojo 在桌面和移动设备上都能很好地运行。只需在手机浏览器中访问网站即可。"
+      "answer": "是的，PThamSS 在桌面和移动设备上都能很好地运行。只需在手机浏览器中访问网站即可。"
     },
     "resetProgress": {
       "question": "如何重置进度？",

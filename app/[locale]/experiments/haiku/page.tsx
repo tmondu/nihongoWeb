@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Haiku Garden - Daily Japanese Poetry | KanaDojo',
+  title: 'Haiku Garden - Daily Japanese Poetry | PThamSS',
   description:
     'Read and contemplate daily Haiku poems in Japanese and English.',
 };

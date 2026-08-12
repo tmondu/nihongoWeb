@@ -13,7 +13,7 @@ type Locale = (typeof SUPPORTED_LOCALES)[number];
 // Helper functions to generate metadata (mirrors the page implementations)
 function generateMainPageMetadata(locale: Locale, totalCount: number) {
   const title =
-    'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | KanaDojo';
+    'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | PThamSS';
   const description = `Discover ${totalCount}+ curated Japanese learning resources. Find the best apps, textbooks, YouTube channels, podcasts, games, and tools for learning Japanese at any level.`;
 
   return {
@@ -31,14 +31,14 @@ function generateMainPageMetadata(locale: Locale, totalCount: number) {
       'japanese language resources',
     ],
     openGraph: {
-      title: 'Best Japanese Learning Resources | KanaDojo',
+      title: 'Best Japanese Learning Resources | PThamSS',
       description,
       url: `https://www.pthamnihongo.site/${locale}/resources`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Best Japanese Learning Resources | KanaDojo',
+      title: 'Best Japanese Learning Resources | PThamSS',
       description,
     },
     alternates: {
@@ -58,7 +58,7 @@ function generateCategoryPageMetadata(
   categoryDescription: string,
   resourceCount: number,
 ) {
-  const title = `Best ${categoryName} for Learning Japanese - ${resourceCount}+ Resources | KanaDojo`;
+  const title = `Best ${categoryName} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
   const description = `${categoryDescription} Discover ${resourceCount}+ curated ${categoryName.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
@@ -73,14 +73,14 @@ function generateCategoryPageMetadata(
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${categoryName} for Learning Japanese | KanaDojo`,
+      title: `Best ${categoryName} for Learning Japanese | PThamSS`,
       description,
       url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${categoryName} for Learning Japanese | KanaDojo`,
+      title: `Best ${categoryName} for Learning Japanese | PThamSS`,
       description,
     },
     alternates: {
@@ -101,7 +101,7 @@ function generateSubcategoryPageMetadata(
   subcategoryDescription: string,
   resourceCount: number,
 ) {
-  const title = `Best ${subcategoryName} for Learning Japanese - ${resourceCount}+ Resources | KanaDojo`;
+  const title = `Best ${subcategoryName} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
   const description = `${subcategoryDescription} Discover ${resourceCount}+ curated ${subcategoryName.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
@@ -115,14 +115,14 @@ function generateSubcategoryPageMetadata(
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${subcategoryName} for Learning Japanese | KanaDojo`,
+      title: `Best ${subcategoryName} for Learning Japanese | PThamSS`,
       description,
       url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${subcategoryName} for Learning Japanese | KanaDojo`,
+      title: `Best ${subcategoryName} for Learning Japanese | PThamSS`,
       description,
     },
     alternates: {

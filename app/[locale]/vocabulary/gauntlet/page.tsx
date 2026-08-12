@@ -49,7 +49,7 @@ export default function GauntletPage() {
         assesses='Progressive vocabulary recognition and comprehension'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
       <VocabGauntlet />
     </>

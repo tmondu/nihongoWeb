@@ -17,7 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const title = 'JLPT N3 Vocabulary Guide - Intermediate Japanese | KanaDojo';
+  const title = 'JLPT N3 Vocabulary Guide - Intermediate Japanese | PThamSS';
   const description =
     'Complete JLPT N3 vocabulary and kanji guide for intermediate Japanese learners. Free interactive practice with ~370 kanji and 3,000+ vocabulary words. Master N3 efficiently!';
   const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n3`;
@@ -223,7 +223,7 @@ export default async function JLPTN3Page({
                 </h3>
                 <p>
                   With 3,000 words to learn, spaced repetition is essential.
-                  KanaDojo&apos;s training modes help reinforce memory.
+                  PThamSS&apos;s training modes help reinforce memory.
                 </p>
               </div>
             </div>
@@ -268,7 +268,7 @@ export default async function JLPTN3Page({
           {/* Practice Tools */}
           <section>
             <h2 className='mb-4 text-3xl font-semibold text-(--main-color)'>
-              Practice with KanaDojo
+              Practice with PThamSS
             </h2>
             <div className='grid gap-4 md:grid-cols-2'>
               <div className='rounded-lg border-2 border-(--border-color) p-4'>

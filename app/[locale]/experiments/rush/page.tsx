@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Flash Rush - Speed Identification | KanaDojo',
+  title: 'Flash Rush - Speed Identification | PThamSS',
   description:
     'Test your Japanese character recognition speed in this fast-paced game.',
 };

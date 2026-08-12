@@ -1,6 +1,6 @@
 ﻿# AI Assistant Guide
 
-This file provides comprehensive guidance for AI coding assistants (GitHub Copilot, Claude, Kiro, Cursor, and other AI models) when working with the KanaDojo codebase.
+This file provides comprehensive guidance for AI coding assistants (GitHub Copilot, Claude, Kiro, Cursor, and other AI models) when working with the PThamSS codebase.
 
 ---
 
@@ -20,7 +20,7 @@ This file provides comprehensive guidance for AI coding assistants (GitHub Copil
 
 ## Project Overview
 
-**KanaDojo** is a Japanese learning platform built with Next.js 15, React 19, and TypeScript. It provides gamified training for Hiragana, Katakana, Kanji, and Vocabulary.
+**PThamSS** is a Japanese learning platform built with Next.js 15, React 19, and TypeScript. It provides gamified training for Hiragana, Katakana, Kanji, and Vocabulary.
 
 | Aspect    | Technology                               |
 | --------- | ---------------------------------------- |
@@ -37,7 +37,7 @@ This file provides comprehensive guidance for AI coding assistants (GitHub Copil
 
 ## Architecture — feature-based (short)
 
-KanaDojo is organised by feature: app/, features/, shared/, core/. Keep business logic inside features and avoid cross-feature internal imports.
+PThamSS is organised by feature: app/, features/, shared/, core/. Keep business logic inside features and avoid cross-feature internal imports.
 
 ---
 

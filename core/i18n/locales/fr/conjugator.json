@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Conjugueur de verbes japonais - Outil gratuit en ligne | KanaDojo",
-    "titleWithVerb": "{verb} ({romaji}) Conjugaison - Toutes les formes verbales japonaises | KanaDojo",
+    "title": "Conjugueur de verbes japonais - Outil gratuit en ligne | PThamSS",
+    "titleWithVerb": "{verb} ({romaji}) Conjugaison - Toutes les formes verbales japonaises | PThamSS",
     "description": "Conjugueur de verbes japonais gratuit avec toutes les formes de conjugaison. Conjuguez n'importe quel verbe japonais instantanément - verbes Godan, Ichidan, irréguliers. Obtenez la forme te, forme masu, potentiel, passif, causatif et plus.",
     "descriptionWithVerb": "Conjugaison complète de {verb} ({romaji}). Voir toutes les formes y compris la forme te, forme masu, potentiel, passif, causatif et plus. Conjugueur de verbes japonais gratuit."
   },
@@ -219,7 +219,7 @@
     "button": "Partager",
     "copied": "Copié !",
     "error": "Échec de la copie",
-    "title": "Conjugaison de {verb} - KanaDojo",
+    "title": "Conjugaison de {verb} - PThamSS",
     "text": "Découvrez la conjugaison de {verb} ({romaji})"
   },
   "errors": {
@@ -314,7 +314,7 @@
         "content": "Les modèles de conjugaison deviennent automatiques avec une pratique régulière. Utilisez des outils comme ce conjugueur pour vérifier votre compréhension."
       }
     ],
-    "aboutTool": "Le conjugueur de verbes japonais de KanaDojo est un outil éducatif gratuit qui génère toutes les formes de conjugaison pour n'importe quel verbe japonais. Il prend en charge les verbes Godan, Ichidan et irréguliers, y compris les verbes composés. Le conjugueur fournit la prononciation en romaji, la détection du type de verbe et une couverture complète des formes pour la préparation au JLPT et l'apprentissage de la langue japonaise."
+    "aboutTool": "Le conjugueur de verbes japonais de PThamSS est un outil éducatif gratuit qui génère toutes les formes de conjugaison pour n'importe quel verbe japonais. Il prend en charge les verbes Godan, Ichidan et irréguliers, y compris les verbes composés. Le conjugueur fournit la prononciation en romaji, la détection du type de verbe et une couverture complète des formes pour la préparation au JLPT et l'apprentissage de la langue japonaise."
   },
   "faq": {
     "title": "Foire aux questions",
@@ -414,6 +414,6 @@
         "description": "Cours structurés pour un apprentissage complet du japonais"
       }
     },
-    "footer": "KanaDojo offre une suite complète d'outils d'apprentissage du japonais. De la maîtrise des bases avec la pratique des Hiragana et Katakana, à l'enrichissement du vocabulaire et la compréhension des Kanji, notre plateforme accompagne les apprenants à chaque niveau. Utilisez le conjugueur de verbes en complément de ces ressources pour une étude complète de la langue japonaise."
+    "footer": "PThamSS offre une suite complète d'outils d'apprentissage du japonais. De la maîtrise des bases avec la pratique des Hiragana et Katakana, à l'enrichissement du vocabulaire et la compréhension des Kanji, notre plateforme accompagne les apprenants à chaque niveau. Utilisez le conjugueur de verbes en complément de ces ressources pour une étude complète de la langue japonaise."
   }
 }

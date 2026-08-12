@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const title =
-    'JLPT N5 Study Guide - Complete Preparation Resource | KanaDojo';
+    'JLPT N5 Study Guide - Complete Preparation Resource | PThamSS';
   const description =
     'Complete JLPT N5 study guide with all essential Kanji, vocabulary, and study tips. Free interactive practice for JLPT N5 exam success. Start preparing today!';
   const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n5`;
@@ -263,7 +263,7 @@ export default async function JLPTN5Page({
                 </h3>
                 <ul className='list-disc space-y-1 pl-6'>
                   <li>Complete all 800 vocabulary words</li>
-                  <li>Review all Kanji with KanaDojo</li>
+                  <li>Review all Kanji with PThamSS</li>
                   <li>Take practice tests</li>
                   <li>Focus on weak areas</li>
                 </ul>
@@ -282,7 +282,7 @@ export default async function JLPTN5Page({
                   ✅ Do This:
                 </h3>
                 <ul className='list-disc space-y-1 pl-6'>
-                  <li>Practice daily with KanaDojo</li>
+                  <li>Practice daily with PThamSS</li>
                   <li>Learn kanji in context, not isolation</li>
                   <li>Review vocabulary regularly</li>
                   <li>Take timed practice tests</li>
@@ -312,7 +312,7 @@ export default async function JLPTN5Page({
             </h2>
             <p className='mb-6 text-lg'>
               Everything you need to pass JLPT N5 is available for free on
-              KanaDojo!
+              PThamSS!
             </p>
             <div className='flex flex-col gap-4 sm:flex-row sm:justify-center'>
               <Link

@@ -78,7 +78,7 @@ export function DojoRouteSchema({
     {
       '@type': 'SoftwareApplication',
       '@id': `${pageUrl}#software`,
-      name: `KanaDojo ${routeName} Practice`,
+      name: `PThamSS ${routeName} Practice`,
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Web',
       url: appRouteUrl,
@@ -110,7 +110,7 @@ export function DojoRouteSchema({
       provider: {
         '@type': 'Organization',
         '@id': `${BASE_URL}/#organization`,
-        name: 'KanaDojo',
+        name: 'PThamSS',
         url: BASE_URL,
       },
       ...(educationalAlignment

@@ -101,7 +101,7 @@ The conversion process follows a five-stage pipeline:
 
 ## Installation
 
-The Anki Converter is part of the KanaDojo project. No separate installation is required.
+The Anki Converter is part of the PThamSS project. No separate installation is required.
 
 **Dependencies:**
 
@@ -633,7 +633,7 @@ Contributions are welcome! Please follow the project's coding standards:
 
 ## License
 
-Part of the KanaDojo project. See main project LICENSE for details.
+Part of the PThamSS project. See main project LICENSE for details.
 
 ## Related Documentation
 

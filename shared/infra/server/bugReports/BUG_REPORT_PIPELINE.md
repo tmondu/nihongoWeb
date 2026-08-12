@@ -19,7 +19,7 @@ The Tally webhook is push-based. Tally sends a request immediately when a user s
 
 ### Supabase
 
-Create or select the KanaDojo Supabase project.
+Create or select the PThamSS Supabase project.
 
 The Supabase CLI is installed locally with Scoop. If a new shell does not find `supabase`, use the shim directly:
 

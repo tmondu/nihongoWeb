@@ -231,7 +231,7 @@ export function BlogPost({
             {/* Side Branding */}
             <div className='border-t border-dashed border-(--border-color) py-12 pl-8 select-none'>
               <div className='premium-serif origin-left translate-x-12 rotate-[-90deg] text-5xl font-black text-(--main-color) italic opacity-[0.05]'>
-                KanaDojo.
+                PThamSS.
               </div>
             </div>
           </div>

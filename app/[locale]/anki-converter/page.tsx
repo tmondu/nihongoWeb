@@ -24,7 +24,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const ogLocale = locale === 'es' ? 'es_ES' : 'en_US';
-  const title = 'Anki to JSON Converter | Free APKG Converter | KanaDojo';
+  const title = 'Anki to JSON Converter | Free APKG Converter | PThamSS';
   const description =
     'Convert Anki flashcard decks to JSON format instantly. Supports APKG, TSV, SQLite, and COLPKG files. Free, fast, and completely private - all processing happens in your browser.';
 
@@ -53,14 +53,14 @@ export async function generateMetadata({
       description,
       type: 'website',
       url: `${BASE_URL}/anki-converter`,
-      siteName: 'KanaDojo',
+      siteName: 'PThamSS',
       locale: ogLocale,
       /* images: [
         {
           url: `${BASE_URL}/api/og?title=${encodeURIComponent('Anki Deck to JSON Converter')}&description=${encodeURIComponent('Free, private, browser-based conversion')}`,
           width: 1200,
           height: 630,
-          alt: 'Anki Deck to JSON Converter - KanaDojo',
+          alt: 'Anki Deck to JSON Converter - PThamSS',
         },
       ], */
     },
@@ -178,12 +178,12 @@ const webApplicationSchema = {
   ],
   author: {
     '@type': 'Organization',
-    name: 'KanaDojo',
+    name: 'PThamSS',
     url: BASE_URL,
   },
   creator: {
     '@type': 'Organization',
-    name: 'KanaDojo',
+    name: 'PThamSS',
   },
   isAccessibleForFree: true,
   inLanguage: ['en', 'es'],
@@ -207,7 +207,7 @@ const softwareApplicationSchema = {
   softwareVersion: '1.0.0',
   author: {
     '@type': 'Organization',
-    name: 'KanaDojo',
+    name: 'PThamSS',
   },
 };
 
@@ -549,7 +549,7 @@ npm run anki:convert -- --help`}
               Related Japanese Learning Tools
             </h2>
             <p className='mb-4'>
-              Explore more free tools on KanaDojo to enhance your Japanese
+              Explore more free tools on PThamSS to enhance your Japanese
               learning:
             </p>
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>

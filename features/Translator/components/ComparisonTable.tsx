@@ -115,7 +115,7 @@ export default function ComparisonTable() {
       {/* Header */}
       <div className='border-b border-(--border-color) bg-gradient-to-r from-(--card-color) to-(--background-color) p-4 sm:p-6'>
         <h2 className='text-xl font-bold text-(--main-color) sm:text-2xl'>
-          KanaDojo vs Other Japanese Translators
+          PThamSS vs Other Japanese Translators
         </h2>
         <p className='mt-1 text-xs text-(--secondary-color) sm:text-sm'>
           Compare features to find the best Japanese translation tool for your
@@ -142,7 +142,7 @@ export default function ComparisonTable() {
                   'bg-(--main-color)/10 text-(--main-color)',
                 )}
               >
-                KanaDojo
+                PThamSS
               </th>
               <th className='px-3 py-3 text-center text-xs font-semibold text-(--secondary-color) sm:px-6 sm:text-sm'>
                 Google Translate
@@ -199,7 +199,7 @@ export default function ComparisonTable() {
           <strong className='text-(--main-color)'>
             When to use each:
           </strong>{' '}
-          <span className='font-medium'>KanaDojo</span> is best for Japanese
+          <span className='font-medium'>PThamSS</span> is best for Japanese
           learners who need romanization, history, and integrated learning
           tools. <span className='font-medium'>Google Translate</span> excels at
           multi-language support beyond Japanese.{' '}

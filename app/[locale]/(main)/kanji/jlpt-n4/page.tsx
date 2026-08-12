@@ -65,7 +65,7 @@ export default async function KanjiJlptN4Page({
         assesses='JLPT N4 kanji recall speed and accuracy'
         timeRequired='PT25M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',

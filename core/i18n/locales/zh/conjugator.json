@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "日语动词活用器 - 免费在线工具 | KanaDojo",
-    "titleWithVerb": "{verb}（{romaji}）活用 - 所有日语动词形式 | KanaDojo",
+    "title": "日语动词活用器 - 免费在线工具 | PThamSS",
+    "titleWithVerb": "{verb}（{romaji}）活用 - 所有日语动词形式 | PThamSS",
     "description": "免费日语动词活用器，支持所有活用形式。即时活用任何日语动词——五段动词、一段动词、不规则动词。获取て形、ます形、可能态、被动态、使役态等。",
     "descriptionWithVerb": "{verb}（{romaji}）的完整活用。查看所有形式，包括て形、ます形、可能态、被动态、使役态等。免费日语动词活用器。"
   },
@@ -209,7 +209,7 @@
     "button": "分享",
     "copied": "已复制！",
     "error": "复制失败",
-    "title": "{verb}活用 - KanaDojo",
+    "title": "{verb}活用 - PThamSS",
     "text": "查看{verb}（{romaji}）的活用形式"
   },
   "errors": {

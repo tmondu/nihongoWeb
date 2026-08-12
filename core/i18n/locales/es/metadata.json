@@ -1,8 +1,8 @@
 {
   "home": {
-    "title": "KanaDojo - Learn Japanese Hiragana, Katakana, Kanji \u0026 Vocabulary Online",
-    "titleShort": "KanaDojo - Learn Japanese Online",
-    "description": "Master Japanese with KanaDojo - a fun, aesthetic, minimalist platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Practice with interactive games, track progress, and customize your learning experience with 100+ themes.",
+    "title": "PThamSS - Learn Japanese Hiragana, Katakana, Kanji \u0026 Vocabulary Online",
+    "titleShort": "PThamSS - Learn Japanese Online",
+    "description": "Master Japanese with PThamSS - a fun, aesthetic, minimalist platform for learning Hiragana, Katakana, Kanji, and Vocabulary. Practice with interactive games, track progress, and customize your learning experience with 100+ themes.",
     "descriptionShort": "Master Japanese Hiragana, Katakana, Kanji \u0026 Vocabulary with interactive games, progress tracking, and beautiful customization options.",
     "keywords": "learn japanese, learn hiragana, learn katakana, learn kana, learn kanji, japanese vocabulary, hiragana practice, katakana practice, kanji practice, japanese learning app, japanese online lessons, japanese writing system, JLPT preparation, japanese language learning, kana dojo, japanese study tool, free japanese lessons"
   },
@@ -13,13 +13,13 @@
     "keywords": "hiragana, katakana, japanese kana, learn hiragana, learn katakana, kana practice, japanese alphabet"
   },
   "learnHiragana": {
-    "title": "Aprender Hiragana - Tabla Completa, Práctica y Ejercicios | KanaDojo",
+    "title": "Aprender Hiragana - Tabla Completa, Práctica y Ejercicios | PThamSS",
     "titleShort": "Aprender Hiragana",
     "description": "Aprende Hiragana rápido con ejercicios interactivos, tarjetas seleccionables y práctica guiada. Domina la tabla completa, dakuon y yoon con retroalimentación instantánea.",
     "keywords": "aprender hiragana, tabla hiragana, práctica hiragana, ejercicios hiragana, quiz hiragana, tarjetas hiragana, pronunciación hiragana, lectura hiragana, caracteres hiragana, hiragana dakuon, hiragana yoon, hiragana para principiantes"
   },
   "learnKatakana": {
-    "title": "Aprender Katakana - Tabla Completa, Práctica y Ejercicios | KanaDojo",
+    "title": "Aprender Katakana - Tabla Completa, Práctica y Ejercicios | PThamSS",
     "titleShort": "Aprender Katakana",
     "description": "Aprende Katakana rápido con ejercicios interactivos, tarjetas seleccionables y práctica guiada. Domina la tabla completa, dakuon, yoon y sonidos extranjeros con retroalimentación instantánea.",
     "keywords": "aprender katakana, tabla katakana, práctica katakana, ejercicios katakana, quiz katakana, tarjetas katakana, pronunciación katakana, lectura katakana, caracteres katakana, katakana dakuon, katakana yoon, katakana sonidos extranjeros"
@@ -43,31 +43,31 @@
     "keywords": "kanji, learn kanji, japanese kanji, JLPT kanji, kanji practice, kanji by level"
   },
   "kanjiJlptN5": {
-    "title": "JLPT N5 Kanji - Lista y Práctica | KanaDojo",
+    "title": "JLPT N5 Kanji - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N5 Kanji",
     "description": "Practica kanji JLPT N5 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n5 kanji, kanji n5, práctica kanji n5, lista kanji n5, aprender kanji n5"
   },
   "kanjiJlptN4": {
-    "title": "JLPT N4 Kanji - Lista y Práctica | KanaDojo",
+    "title": "JLPT N4 Kanji - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N4 Kanji",
     "description": "Practica kanji JLPT N4 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n4 kanji, kanji n4, práctica kanji n4, lista kanji n4, aprender kanji n4"
   },
   "kanjiJlptN3": {
-    "title": "JLPT N3 Kanji - Lista y Práctica | KanaDojo",
+    "title": "JLPT N3 Kanji - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N3 Kanji",
     "description": "Practica kanji JLPT N3 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n3 kanji, kanji n3, práctica kanji n3, lista kanji n3, aprender kanji n3"
   },
   "kanjiJlptN2": {
-    "title": "JLPT N2 Kanji - Lista y Práctica | KanaDojo",
+    "title": "JLPT N2 Kanji - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N2 Kanji",
     "description": "Practica kanji JLPT N2 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n2 kanji, kanji n2, práctica kanji n2, lista kanji n2, aprender kanji n2"
   },
   "kanjiJlptN1": {
-    "title": "JLPT N1 Kanji - Lista y Práctica | KanaDojo",
+    "title": "JLPT N1 Kanji - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N1 Kanji",
     "description": "Practica kanji JLPT N1 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n1 kanji, kanji n1, práctica kanji n1, lista kanji n1, aprender kanji n1"
@@ -91,31 +91,31 @@
     "keywords": "japanese vocabulary, learn japanese words, JLPT vocabulary, vocabulary practice"
   },
   "vocabularyJlptN5": {
-    "title": "JLPT N5 Vocabulario - Lista y Práctica | KanaDojo",
+    "title": "JLPT N5 Vocabulario - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N5 Vocabulario",
     "description": "Practica vocabulario JLPT N5 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n5 vocabulario, vocabulario n5, lista n5, práctica vocabulario n5, palabras japonesas n5"
   },
   "vocabularyJlptN4": {
-    "title": "JLPT N4 Vocabulario - Lista y Práctica | KanaDojo",
+    "title": "JLPT N4 Vocabulario - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N4 Vocabulario",
     "description": "Practica vocabulario JLPT N4 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n4 vocabulario, vocabulario n4, lista n4, práctica vocabulario n4, palabras japonesas n4"
   },
   "vocabularyJlptN3": {
-    "title": "JLPT N3 Vocabulario - Lista y Práctica | KanaDojo",
+    "title": "JLPT N3 Vocabulario - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N3 Vocabulario",
     "description": "Practica vocabulario JLPT N3 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n3 vocabulario, vocabulario n3, lista n3, práctica vocabulario n3, palabras japonesas n3"
   },
   "vocabularyJlptN2": {
-    "title": "JLPT N2 Vocabulario - Lista y Práctica | KanaDojo",
+    "title": "JLPT N2 Vocabulario - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N2 Vocabulario",
     "description": "Practica vocabulario JLPT N2 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n2 vocabulario, vocabulario n2, lista n2, práctica vocabulario n2, palabras japonesas n2"
   },
   "vocabularyJlptN1": {
-    "title": "JLPT N1 Vocabulario - Lista y Práctica | KanaDojo",
+    "title": "JLPT N1 Vocabulario - Lista y Práctica | PThamSS",
     "titleShort": "JLPT N1 Vocabulario",
     "description": "Practica vocabulario JLPT N1 con ejercicios interactivos, selección rápida y seguimiento de progreso.",
     "keywords": "jlpt n1 vocabulario, vocabulario n1, lista n1, práctica vocabulario n1, palabras japonesas n1"
@@ -133,16 +133,16 @@
     "keywords": "vocabulary mastery, comprehensive vocabulary, all JLPT words"
   },
   "academy": {
-    "title": "Academy - Japanese Learning Articles | KanaDojo",
+    "title": "Academy - Japanese Learning Articles | PThamSS",
     "titleShort": "Academy - Japanese Learning Articles",
     "description": "Read comprehensive guides and articles about learning Japanese. Tips, tricks, and insights for mastering Hiragana, Katakana, Kanji, and Vocabulary.",
     "keywords": "japanese learning guides, japanese tips, hiragana guide, katakana guide, kanji guide"
   },
   "preferences": {
     "title": "Preferences - Customize Your Learning Experience",
-    "titleShort": "Preferences - Customize KanaDojo",
-    "description": "Customize your KanaDojo learning experience. Choose themes, fonts, and configure your learning preferences.",
-    "keywords": "customize KanaDojo, learning preferences, themes, fonts"
+    "titleShort": "Preferences - Customize PThamSS",
+    "description": "Customize your PThamSS learning experience. Choose themes, fonts, and configure your learning preferences.",
+    "keywords": "customize PThamSS, learning preferences, themes, fonts"
   },
   "progress": {
     "title": "Progress - Track Your Japanese Learning Statistics",
@@ -151,15 +151,15 @@
     "keywords": "learning progress, japanese statistics, learning analytics"
   },
   "privacy": {
-    "title": "Privacy Policy - Your Data Protection at KanaDojo",
+    "title": "Privacy Policy - Your Data Protection at PThamSS",
     "titleShort": "Privacy Policy",
-    "description": "Learn how KanaDojo protects your privacy and handles your data. Our commitment to user privacy and data security.",
+    "description": "Learn how PThamSS protects your privacy and handles your data. Our commitment to user privacy and data security.",
     "keywords": "privacy policy, data protection, user privacy"
   },
   "terms": {
-    "title": "Terms of Service - KanaDojo Usage Guidelines",
+    "title": "Terms of Service - PThamSS Usage Guidelines",
     "titleShort": "Terms of Service",
-    "description": "Read the KanaDojo Terms of Service. Guidelines for using our Japanese learning platform.",
+    "description": "Read the PThamSS Terms of Service. Guidelines for using our Japanese learning platform.",
     "keywords": "terms of service, usage guidelines, terms and conditions"
   },
   "security": {
@@ -171,19 +171,19 @@
   "credits": {
     "title": "Credits - Contributors \u0026 Supporters",
     "titleShort": "Credits",
-    "description": "Meet the contributors and supporters who make KanaDojo possible. Our community of developers, designers, and supporters.",
+    "description": "Meet the contributors and supporters who make PThamSS possible. Our community of developers, designers, and supporters.",
     "keywords": "credits, contributors, supporters, community"
   },
   "patchNotes": {
     "title": "Patch Notes - Latest Updates \u0026 Features",
     "titleShort": "Patch Notes",
-    "description": "Stay updated with the latest KanaDojo features, improvements, and bug fixes. View our changelog and update history.",
+    "description": "Stay updated with the latest PThamSS features, improvements, and bug fixes. View our changelog and update history.",
     "keywords": "patch notes, updates, changelog, new features"
   },
   "faq": {
-    "title": "Preguntas Frecuentes - Ayuda y Soporte de KanaDojo",
+    "title": "Preguntas Frecuentes - Ayuda y Soporte de PThamSS",
     "titleShort": "FAQ - Ayuda y Soporte",
-    "description": "FAQ de KanaDojo: respuestas claras sobre cómo aprender Hiragana, Katakana, Kanji y vocabulario JLPT en línea. Descubre modos de práctica, seguimiento de progreso, privacidad/almacenamiento local y la mejor ruta de aprendizaje para principiantes.",
+    "description": "FAQ de PThamSS: respuestas claras sobre cómo aprender Hiragana, Katakana, Kanji y vocabulario JLPT en línea. Descubre modos de práctica, seguimiento de progreso, privacidad/almacenamiento local y la mejor ruta de aprendizaje para principiantes.",
     "keywords": "kanadojo preguntas frecuentes, faq aprendizaje japonés, aprender hiragana, aprender katakana, aprender kanji, práctica kana, práctica kanji, preparación jlpt, jlpt n5, vocabulario japonés, cómo aprender japonés en línea, ayuda app japonés, cómo usar kanadojo, práctica de escritura kana, reconocimiento vs recuerdo, seguimiento de progreso, progreso guardado en navegador, sin cuenta aprender japonés, web gratis japonés, solución de problemas japonés"
   },
   "experiments": {
@@ -193,7 +193,7 @@
     "keywords": "experiments, alternative learning, japanese practice methods"
   },
   "translate": {
-    "title": "Traductor de Ingles a Japones y de Japones a Ingles | KanaDojo",
+    "title": "Traductor de Ingles a Japones y de Japones a Ingles | PThamSS",
     "titleShort": "Traductor Japones con Romaji",
     "description": "Traductor japones online gratis para ingles a japones y japones a ingles. Incluye soporte de romaji para traducciones con hiragana, katakana y kanji.",
     "keywords": "traductor de ingles a japones, traductor de japones a ingles, traductor japones gratis, traductor japones online, traduccion ingles japones, traduccion japones ingles, traductor japones con romaji, traductor de texto japones, hiragana a ingles, katakana a ingles, kanji a ingles, traductor romaji, japones a romaji, traductor de anime japones, traductor de nombres japoneses"
@@ -224,62 +224,62 @@
   },
   "kanaSubset": {
     "hiraganaBase": {
-      "title": "Caracteres Hiragana Básicos (あ-わ) - Aprende Hiragana Básico | KanaDojo",
+      "title": "Caracteres Hiragana Básicos (あ-わ) - Aprende Hiragana Básico | PThamSS",
       "titleShort": "Caracteres Hiragana Básicos",
       "description": "Domina los 46 caracteres básicos de Hiragana (あいうえお, かきくけこ, さしすせそ, etc.). Guía de referencia completa con romanización para todo el hiragana fundamental japonés.",
       "keywords": "hiragana básico, hiragana base, tabla hiragana, あいうえお, referencia hiragana, aprender hiragana básico, alfabeto japonés hiragana, romanización hiragana"
     },
     "hiraganaDakuon": {
-      "title": "Hiragana Dakuon (が-ぽ) - Caracteres Hiragana Sonoros | KanaDojo",
+      "title": "Hiragana Dakuon (が-ぽ) - Caracteres Hiragana Sonoros | PThamSS",
       "titleShort": "Caracteres Hiragana Dakuon",
       "description": "Aprende los caracteres sonoros Dakuon y Handakuon de Hiragana (がぎぐげご, ざじずぜぞ, だぢづでど, ばびぶべぼ, ぱぴぷぺぽ). Domina los 25 hiragana sonoros con guía de pronunciación.",
       "keywords": "hiragana dakuon, hiragana sonoro, hiragana con dakuten, がぎぐげご, hiragana handakuon, ばびぶべぼ, ぱぴぷぺぽ, caracteres hiragana sonoros"
     },
     "hiraganaYoon": {
-      "title": "Hiragana Yoon (きゃ-りょ) - Caracteres Hiragana Combinados | KanaDojo",
+      "title": "Hiragana Yoon (きゃ-りょ) - Caracteres Hiragana Combinados | PThamSS",
       "titleShort": "Caracteres Hiragana Yoon",
       "description": "Domina los caracteres combinados Yoon de Hiragana (きゃきゅきょ, しゃしゅしょ, ちゃちゅちょ, etc.). Aprende los 33 sonidos combinados de hiragana con romanización.",
       "keywords": "hiragana yoon, hiragana combinado, combinaciones hiragana, きゃきゅきょ, しゃしゅしょ, ちゃちゅちょ, dígrafos hiragana, yoon hiragana"
     },
     "katakanaBase": {
-      "title": "Caracteres Katakana Básicos (ア-ワ) - Aprende Katakana Básico | KanaDojo",
+      "title": "Caracteres Katakana Básicos (ア-ワ) - Aprende Katakana Básico | PThamSS",
       "titleShort": "Caracteres Katakana Básicos",
       "description": "Domina los 46 caracteres básicos de Katakana (アイウエオ, カキクケコ, サシスセソ, etc.). Guía de referencia completa con romanización para todo el katakana fundamental japonés.",
       "keywords": "katakana básico, katakana base, tabla katakana, アイウエオ, referencia katakana, aprender katakana básico, alfabeto japonés katakana, romanización katakana"
     },
     "katakanaDakuon": {
-      "title": "Katakana Dakuon (ガ-ポ) - Caracteres Katakana Sonoros | KanaDojo",
+      "title": "Katakana Dakuon (ガ-ポ) - Caracteres Katakana Sonoros | PThamSS",
       "titleShort": "Caracteres Katakana Dakuon",
       "description": "Aprende los caracteres sonoros Dakuon y Handakuon de Katakana (ガギグゲゴ, ザジズゼゾ, ダヂヅデド, バビブベボ, パピプペポ). Domina los 25 katakana sonoros con guía de pronunciación.",
       "keywords": "katakana dakuon, katakana sonoro, katakana con dakuten, ガギグゲゴ, katakana handakuon, バビブベボ, パピプペポ, caracteres katakana sonoros"
     },
     "katakanaYoon": {
-      "title": "Katakana Yoon (キャ-リョ) - Caracteres Katakana Combinados | KanaDojo",
+      "title": "Katakana Yoon (キャ-リョ) - Caracteres Katakana Combinados | PThamSS",
       "titleShort": "Caracteres Katakana Yoon",
       "description": "Domina los caracteres combinados Yoon de Katakana (キャキュキョ, シャシュショ, チャチュチョ, etc.). Aprende los 33 sonidos combinados de katakana con romanización.",
       "keywords": "katakana yoon, katakana combinado, combinaciones katakana, キャキュキョ, シャシュショ, チャチュチョ, dígrafos katakana, yoon katakana"
     },
     "katakanaForeign": {
-      "title": "Sonidos Extranjeros Katakana (ファ-ウィ) - Katakana Extendido | KanaDojo",
+      "title": "Sonidos Extranjeros Katakana (ファ-ウィ) - Katakana Extendido | PThamSS",
       "titleShort": "Sonidos Extranjeros Katakana",
       "description": "Aprende los caracteres extendidos de Katakana para préstamos extranjeros (ファ, フィ, ウィ, ウェ, etc.). Domina las combinaciones especiales de katakana usadas en japonés moderno.",
       "keywords": "sonidos extranjeros katakana, katakana extendido, préstamos katakana, ファフィ, ウィウェ, katakana especial, katakana moderno, katakana palabras extranjeras"
     }
   },
   "hiraganaPractice": {
-    "title": "Práctica de Hiragana - Aprende Hiragana Rápido | KanaDojo",
+    "title": "Práctica de Hiragana - Aprende Hiragana Rápido | PThamSS",
     "titleShort": "Práctica de Hiragana",
     "description": "Practica Hiragana japonés con ejercicios y juegos interactivos. Aprende la tabla de hiragana, mejora tu velocidad de lectura y gana confianza con retroalimentación instantánea.",
     "keywords": "práctica de hiragana, practicar hiragana, aprender hiragana, tabla hiragana, ejercicios hiragana, quiz hiragana, juegos hiragana, hiragana japonés"
   },
   "katakanaPractice": {
-    "title": "Práctica de Katakana - Aprende Katakana Rápido | KanaDojo",
+    "title": "Práctica de Katakana - Aprende Katakana Rápido | PThamSS",
     "titleShort": "Práctica de Katakana",
     "description": "Practica Katakana japonés con ejercicios y juegos interactivos. Domina katakana rápidamente con retroalimentación instantánea y seguimiento de progreso.",
     "keywords": "práctica de katakana, practicar katakana, aprender katakana, tabla katakana, ejercicios katakana, quiz katakana, juegos katakana, katakana japonés"
   },
   "kanjiPractice": {
-    "title": "Práctica de Kanji - Aprende Kanji por Nivel JLPT | KanaDojo",
+    "title": "Práctica de Kanji - Aprende Kanji por Nivel JLPT | PThamSS",
     "titleShort": "Práctica de Kanji",
     "description": "Practica kanji japonés por nivel JLPT con entrenamiento interactivo. Mejora reconocimiento y retención con ejercicios rápidos y seguimiento de progreso.",
     "keywords": "práctica de kanji, practicar kanji, aprender kanji, kanji jlpt, kanji por nivel, ejercicios kanji, quiz kanji, kanji japonés"

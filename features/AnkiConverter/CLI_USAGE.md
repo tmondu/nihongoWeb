@@ -15,7 +15,7 @@ Complete guide for using the Anki Converter command-line tool.
 
 ## Installation
 
-The CLI tool is included with the KanaDojo project. No separate installation required.
+The CLI tool is included with the PThamSS project. No separate installation required.
 
 **Prerequisites:**
 

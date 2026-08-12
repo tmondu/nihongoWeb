@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Shadow - Guess the Silhouette | KanaDojo',
+  title: 'Kana Shadow - Guess the Silhouette | PThamSS',
   description: 'Can you identify the kana from its blurred silhouette?',
 };
 

@@ -14,7 +14,7 @@ Canonical: https://www.pthamnihongo.site/.well-known/security.txt
 Policy: https://www.pthamnihongo.site/security
 Acknowledgments: https://www.pthamnihongo.site/credits
 
-# Security Policy for KanaDojo
+# Security Policy for PThamSS
 # If you discover a security vulnerability, please report it responsibly.
 # See our security policy at https://www.pthamnihongo.site/security for details.`;
 

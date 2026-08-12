@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Nebula - Deep Space Exploration | KanaDojo',
+  title: 'Kana Nebula - Deep Space Exploration | PThamSS',
   description:
     'An immersive space flight experience through Japanese character star clusters.',
 };

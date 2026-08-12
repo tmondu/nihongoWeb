@@ -164,9 +164,9 @@ describe('SEO Meta Tag Generation Properties', () => {
         fc.property(fc.constantFrom(...ALL_VERB_INFOS), verb => {
           const meta = generateVerbMeta(verb);
 
-          // Title should follow format: "食べる (taberu) Conjugation - All Japanese Verb Forms | KanaDojo"
+          // Title should follow format: "食べる (taberu) Conjugation - All Japanese Verb Forms | PThamSS"
           expect(meta.title).toContain('Conjugation');
-          expect(meta.title).toContain('KanaDojo');
+          expect(meta.title).toContain('PThamSS');
           expect(meta.title).toContain('(');
           expect(meta.title).toContain(')');
         }),

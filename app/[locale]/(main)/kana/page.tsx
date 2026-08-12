@@ -41,7 +41,7 @@ export default async function KanaPage({
         ]}
       />
       <CourseSchema
-        name='Japanese Hiragana and Katakana Course for Beginners (KanaDojo)'
+        name='Japanese Hiragana and Katakana Course for Beginners (PThamSS)'
         description='Master Japanese Hiragana and Katakana syllabaries with interactive games, drills, and quizzes. Learn all 92 basic kana plus dakuon, yoon, and katakana foreign sounds with feedback and progress tracking.'
         url={`https://www.pthamnihongo.site/${locale}/kana`}
         educationalLevel='Beginner'
@@ -58,7 +58,7 @@ export default async function KanaPage({
         assesses='Kana recognition accuracy, recall speed, and reading fluency'
         timeRequired='PT30M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
       <DojoRouteSchema
         routeKey='kana'

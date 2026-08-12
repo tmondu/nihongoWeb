@@ -3,7 +3,7 @@
   "title": "Frequently Asked Questions",
   "subtitle": "Clear answers, real details, and the fastest path from ‘I can’t read Japanese’ to confident kana, kanji, and vocabulary practice.",
   "links": {
-    "howToUse": "How to use KanaDojo",
+    "howToUse": "How to use PThamSS",
     "glossary": "Japanese glossary",
     "translator": "English ↔ Japanese translator",
     "academy": "Learning guides",
@@ -18,7 +18,7 @@
   },
   "intro": {
     "title": "Quick orientation",
-    "body": "KanaDojo is a free Japanese learning web app for practicing Hiragana, Katakana, Kanji, and JLPT vocabulary. You don’t need an account. Your progress is saved locally in your browser, and you can customize the experience with themes and fonts."
+    "body": "PThamSS is a free Japanese learning web app for practicing Hiragana, Katakana, Kanji, and JLPT vocabulary. You don’t need an account. Your progress is saved locally in your browser, and you can customize the experience with themes and fonts."
   },
   "cta": {
     "hiragana": "Start Hiragana practice",
@@ -36,14 +36,14 @@
   "sections": {
     "gettingStarted": {
       "title": "Getting started",
-      "description": "What KanaDojo is, how it works, and what you should do first.",
+      "description": "What PThamSS is, how it works, and what you should do first.",
       "q1": {
-        "question": "What is KanaDojo?",
-        "answer": "KanaDojo is a free Japanese learning platform for practicing Hiragana, Katakana, Kanji, and vocabulary with fast drills and game-like training modes. It’s designed for self-study, quick feedback, and steady progress."
+        "question": "What is PThamSS?",
+        "answer": "PThamSS is a free Japanese learning platform for practicing Hiragana, Katakana, Kanji, and vocabulary with fast drills and game-like training modes. It’s designed for self-study, quick feedback, and steady progress."
       },
       "q2": {
-        "question": "Is KanaDojo really free?",
-        "answer": "Yes. KanaDojo is free to use with no required account and no paywalled practice content."
+        "question": "Is PThamSS really free?",
+        "answer": "Yes. PThamSS is free to use with no required account and no paywalled practice content."
       },
       "q3": {
         "question": "Do I need to create an account?",
@@ -71,7 +71,7 @@
       "description": "How practice works and which mode to pick for your goal.",
       "q1": {
         "question": "What are the training modes?",
-        "answer": "KanaDojo includes recognition and recall modes (pick/reverse-pick, input/reverse-input) plus speed challenges like Blitz and longer mastery checks like Gauntlet. Switch modes depending on whether you want accuracy, recall, or speed."
+        "answer": "PThamSS includes recognition and recall modes (pick/reverse-pick, input/reverse-input) plus speed challenges like Blitz and longer mastery checks like Gauntlet. Switch modes depending on whether you want accuracy, recall, or speed."
       },
       "q2": {
         "question": "What’s the best mode for beginners?",
@@ -79,7 +79,7 @@
       },
       "q3": {
         "question": "Can I customize themes and fonts?",
-        "answer": "Yes. KanaDojo supports extensive customization (themes, fonts, and preferences) so you can find a look that’s comfortable for long study sessions."
+        "answer": "Yes. PThamSS supports extensive customization (themes, fonts, and preferences) so you can find a look that’s comfortable for long study sessions."
       }
     },
     "privacy": {
@@ -94,20 +94,20 @@
         "answer": "Not automatically. Because progress is stored locally, switching browsers/devices won’t carry progress unless you manually move data."
       },
       "q3": {
-        "question": "Does KanaDojo work offline?",
-        "answer": "KanaDojo can work offline for core practice once assets are cached, but the best experience is with an internet connection—especially the first load."
+        "question": "Does PThamSS work offline?",
+        "answer": "PThamSS can work offline for core practice once assets are cached, but the best experience is with an internet connection—especially the first load."
       }
     },
     "jlpt": {
       "title": "JLPT preparation",
-      "description": "How KanaDojo fits into a JLPT study plan.",
+      "description": "How PThamSS fits into a JLPT study plan.",
       "q1": {
-        "question": "Does KanaDojo help with JLPT?",
-        "answer": "Yes. KanaDojo organizes Kanji and vocabulary by JLPT level (N5–N1), which makes it easy to focus your practice for a target exam level."
+        "question": "Does PThamSS help with JLPT?",
+        "answer": "Yes. PThamSS organizes Kanji and vocabulary by JLPT level (N5–N1), which makes it easy to focus your practice for a target exam level."
       },
       "q2": {
-        "question": "Is KanaDojo enough to pass JLPT?",
-        "answer": "It’s a strong practice tool for recognition, recall, and speed—but JLPT also tests listening, reading comprehension, and grammar in context. Pair KanaDojo with graded reading/listening and a grammar resource."
+        "question": "Is PThamSS enough to pass JLPT?",
+        "answer": "It’s a strong practice tool for recognition, recall, and speed—but JLPT also tests listening, reading comprehension, and grammar in context. Pair PThamSS with graded reading/listening and a grammar resource."
       },
       "q3": {
         "question": "What should I study for JLPT N5 first?",

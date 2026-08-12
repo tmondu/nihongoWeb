@@ -68,7 +68,7 @@ export default async function VocabularyJlptN2Page({
         assesses='JLPT N2 word recognition and recall speed'
         timeRequired='PT35M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',

@@ -1,5 +1,5 @@
 {
-  "title": "Bienvenue sur KanaDojo !",
+  "title": "Bienvenue sur PThamSS !",
   "subtitle": "Personnalisons votre expérience d'apprentissage",
   "steps": {
     "welcome": {
@@ -38,7 +38,7 @@
     },
     "complete": {
       "title": "C'est prêt !",
-      "subtitle": "Votre KanaDojo est maintenant personnalisé",
+      "subtitle": "Votre PThamSS est maintenant personnalisé",
       "canChange": "Vous pouvez modifier ces paramètres à tout moment dans les Préférences.",
       "happyLearning": "Bon apprentissage !"
     }

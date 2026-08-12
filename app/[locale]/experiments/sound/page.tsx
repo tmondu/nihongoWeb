@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Sound Garden - Interactive Kana Sounds | KanaDojo',
+  title: 'Sound Garden - Interactive Kana Sounds | PThamSS',
   description: 'Create music and sounds using Japanese characters.',
 };
 

@@ -43,7 +43,7 @@ export default function StreakProgress() {
           How Streak Tracking Works
         </h3>
         <div className='space-y-2 text-sm text-(--secondary-color)'>
-          <p>• Your visits are automatically tracked when you use KanaDojo</p>
+          <p>• Your visits are automatically tracked when you use PThamSS</p>
           <p>• Each day you visit counts toward your streak</p>
           <p>• Keep your streak going by visiting daily!</p>
         </div>

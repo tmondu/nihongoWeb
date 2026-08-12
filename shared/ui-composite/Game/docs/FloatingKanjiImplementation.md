@@ -531,5 +531,5 @@ const delay = rng.real(0, 3); // 0-3 seconds
 ---
 
 **Last Updated:** 2026-04-06  
-**Author:** KanaDojo Development Team  
+**Author:** PThamSS Development Team  
 **Version:** 1.0.0

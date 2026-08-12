@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Memory Palace - Spatial Memory Game | KanaDojo',
+  title: 'Memory Palace - Spatial Memory Game | PThamSS',
   description: 'Test your spatial memory with Japanese characters.',
 };
 

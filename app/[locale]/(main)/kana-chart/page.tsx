@@ -11,7 +11,7 @@ export const revalidate = 3600;
 
 export async function generateMetadata() {
   return {
-    title: 'Kana Chart | Hiragana Katakana Reference | KanaDojo',
+    title: 'Kana Chart | Hiragana Katakana Reference | PThamSS',
     description:
       'Complete Hiragana and Katakana chart with all characters, romanization, and pronunciation guide. Free interactive Japanese kana reference table for learners.',
     keywords:

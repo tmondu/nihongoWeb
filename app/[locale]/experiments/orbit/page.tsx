@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Orbit - Mesmerizing Orbital Characters | KanaDojo',
+  title: 'Kana Orbit - Mesmerizing Orbital Characters | PThamSS',
   description: 'Watch kana characters orbit in mesmerizing concentric circles.',
 };
 

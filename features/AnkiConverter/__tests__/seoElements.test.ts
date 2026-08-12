@@ -52,12 +52,12 @@ const webApplicationSchema = {
   ],
   author: {
     '@type': 'Organization',
-    name: 'KanaDojo',
+    name: 'PThamSS',
     url: 'https://www.pthamnihongo.site',
   },
   creator: {
     '@type': 'Organization',
-    name: 'KanaDojo',
+    name: 'PThamSS',
   },
   isAccessibleForFree: true,
   inLanguage: ['en', 'es', 'ja'],
@@ -134,7 +134,7 @@ describe('Anki Converter SEO Elements', () => {
     it('should have author information', () => {
       expect(webApplicationSchema.author).toBeDefined();
       expect(webApplicationSchema.author['@type']).toBe('Organization');
-      expect(webApplicationSchema.author.name).toBe('KanaDojo');
+      expect(webApplicationSchema.author.name).toBe('PThamSS');
     });
 
     it('should have feature list with relevant features', () => {
@@ -346,7 +346,7 @@ describe('Anki Converter SEO Elements', () => {
         'Convert Anki flashcard decks to JSON format instantly. Supports APKG, TSV, SQLite, and COLPKG files. Free, fast, and completely private - all processing happens in your browser.',
       type: 'website',
       url: 'https://www.pthamnihongo.site/en/anki-converter',
-      siteName: 'KanaDojo',
+      siteName: 'PThamSS',
     };
 
     it('should have OG title', () => {
@@ -370,7 +370,7 @@ describe('Anki Converter SEO Elements', () => {
     });
 
     it('should have OG site name', () => {
-      expect(expectedOG.siteName).toBe('KanaDojo');
+      expect(expectedOG.siteName).toBe('PThamSS');
     });
   });
 });

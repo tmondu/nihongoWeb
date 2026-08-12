@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Clock - Japanese Time Display | KanaDojo',
+  title: 'Kana Clock - Japanese Time Display | PThamSS',
   description: 'A beautiful analog clock with Japanese kana for numbers!',
 };
 

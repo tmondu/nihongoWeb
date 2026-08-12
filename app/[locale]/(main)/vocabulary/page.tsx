@@ -67,7 +67,7 @@ export default async function VocabularyPage({
         assesses='Vocabulary recognition, recall speed, and JLPT-level word knowledge'
         timeRequired='PT45M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',

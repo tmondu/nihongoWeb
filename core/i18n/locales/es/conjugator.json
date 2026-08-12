@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Conjugador de Verbos Japoneses - Herramienta Gratuita en Línea | KanaDojo",
-    "titleWithVerb": "Conjugación de {verb} ({romaji}) - Todas las Formas Verbales Japonesas | KanaDojo",
+    "title": "Conjugador de Verbos Japoneses - Herramienta Gratuita en Línea | PThamSS",
+    "titleWithVerb": "Conjugación de {verb} ({romaji}) - Todas las Formas Verbales Japonesas | PThamSS",
     "description": "Conjugador de verbos japoneses gratuito con todas las formas de conjugación. Conjuga cualquier verbo japonés al instante - Godan, Ichidan, verbos irregulares. Obtén forma-te, forma-masu, potencial, pasivo, causativo y más.",
     "descriptionWithVerb": "Conjugación completa de {verb} ({romaji}). Ve todas las formas incluyendo forma-te, forma-masu, potencial, pasivo, causativo y más. Conjugador de verbos japoneses gratuito."
   },
@@ -219,7 +219,7 @@
     "button": "Compartir",
     "copied": "¡Copiado!",
     "error": "Error al copiar",
-    "title": "Conjugación de {verb} - KanaDojo",
+    "title": "Conjugación de {verb} - PThamSS",
     "text": "Mira la conjugación de {verb} ({romaji})"
   },
   "errors": {
@@ -314,7 +314,7 @@
         "content": "Los patrones de conjugación se vuelven automáticos con práctica consistente. Usa herramientas como este conjugador para verificar tu comprensión."
       }
     ],
-    "aboutTool": "El Conjugador de Verbos Japoneses de KanaDojo es una herramienta educativa gratuita que genera todas las formas de conjugación para cualquier verbo japonés. Soporta verbos Godan, Ichidan e irregulares incluyendo verbos compuestos. El conjugador proporciona pronunciación romaji, detección de tipo de verbo y cobertura completa de formas para preparación JLPT y aprendizaje del idioma japonés."
+    "aboutTool": "El Conjugador de Verbos Japoneses de PThamSS es una herramienta educativa gratuita que genera todas las formas de conjugación para cualquier verbo japonés. Soporta verbos Godan, Ichidan e irregulares incluyendo verbos compuestos. El conjugador proporciona pronunciación romaji, detección de tipo de verbo y cobertura completa de formas para preparación JLPT y aprendizaje del idioma japonés."
   },
   "faq": {
     "title": "Preguntas Frecuentes",
@@ -414,6 +414,6 @@
         "description": "Lecciones estructuradas para aprendizaje completo del japonés"
       }
     },
-    "footer": "KanaDojo ofrece un conjunto completo de herramientas de aprendizaje de japonés. Desde dominar lo básico con práctica de Hiragana y Katakana, hasta construir vocabulario y entender Kanji, nuestra plataforma apoya a estudiantes en todos los niveles. Usa el conjugador de verbos junto con estos recursos para un estudio completo del idioma japonés."
+    "footer": "PThamSS ofrece un conjunto completo de herramientas de aprendizaje de japonés. Desde dominar lo básico con práctica de Hiragana y Katakana, hasta construir vocabulario y entender Kanji, nuestra plataforma apoya a estudiantes en todos los niveles. Usa el conjugador de verbos junto con estos recursos para un estudio completo del idioma japonés."
   }
 }

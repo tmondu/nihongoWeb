@@ -47,9 +47,9 @@ export default async function Credits() {
 
   const credits = `# Credits
 
-Thank you to everyone who has contributed to **KanaDojo** — maintainers, contributors, translators, and supporters.
+Thank you to everyone who has contributed to **PThamSS** — maintainers, contributors, translators, and supporters.
 
-KanaDojo is what you see today thanks to everyone's work and suggestions. We'll keep making it **better**, and we hope you stay with us on this amazing adventure!
+PThamSS is what you see today thanks to everyone's work and suggestions. We'll keep making it **better**, and we hope you stay with us on this amazing adventure!
 `;
 
   return (
@@ -105,7 +105,7 @@ KanaDojo is what you see today thanks to everyone's work and suggestions. We'll 
           <div className='mt-8 rounded-lg border border-(--border-color) bg-(--card-color) p-6'>
             <p className='mb-3 flex items-center gap-2 font-medium text-(--main-color)'>
               <Heart className='fill-current text-red-500 hover:text-red-500 motion-safe:animate-pulse' />
-              Support KanaDojo
+              Support PThamSS
             </p>
             <p className='mb-4 text-sm text-(--secondary-color)'>
               Your support is really appreciated. Thank you!

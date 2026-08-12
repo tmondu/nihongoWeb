@@ -1,6 +1,6 @@
 # R2 Wallpaper Asset Pipeline
 
-KanaDojo built-in Premium wallpaper images are generated locally, uploaded to
+PThamSS built-in Premium wallpaper images are generated locally, uploaded to
 Cloudflare R2, and consumed by the app through the generated wallpaper manifest.
 
 ## Runtime Shape

@@ -79,7 +79,7 @@ const BASE_KEYWORDS = [
  * Requirements: 13.1
  */
 export const BASE_META: ConjugatorMeta = {
-  title: 'Japanese Verb Conjugator | All Conjugation Forms | KanaDojo',
+  title: 'Japanese Verb Conjugator | All Conjugation Forms | PThamSS',
   titleShort: 'Japanese Verb Conjugator',
   description:
     'Free Japanese verb conjugator with all conjugation forms. Conjugate any Japanese verb instantly - Godan, Ichidan, irregular verbs. Get te-form, masu-form, potential, passive, causative and more.',
@@ -174,8 +174,8 @@ export function generateVerbMeta(
   const verbTypeDisplay = getVerbTypeDisplay(verb);
 
   // Generate title following SEO best practices (Requirements: 15.5)
-  // Format: "食べる (taberu) Conjugation - All Japanese Verb Forms | KanaDojo"
-  const title = `${verb.dictionaryForm} (${verb.romaji}) Conjugation - All Japanese Verb Forms | KanaDojo`;
+  // Format: "食べる (taberu) Conjugation - All Japanese Verb Forms | PThamSS"
+  const title = `${verb.dictionaryForm} (${verb.romaji}) Conjugation - All Japanese Verb Forms | PThamSS`;
   const titleShort = `${verb.dictionaryForm} (${verb.romaji}) Conjugation`;
 
   // Generate unique description (Requirements: 15.2)

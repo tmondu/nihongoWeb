@@ -17,7 +17,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const title = 'JLPT N4 Kanji List - Complete Study Resource | KanaDojo';
+  const title = 'JLPT N4 Kanji List - Complete Study Resource | PThamSS';
   const description =
     'Complete JLPT N4 Kanji list with all ~170 characters, meanings, and readings. Free interactive practice for JLPT N4 exam preparation. Master N4 Kanji efficiently!';
   const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n4`;
@@ -198,7 +198,7 @@ export default async function JLPTN4Page({
 
               <div className='rounded-lg bg-(--card-color) p-4'>
                 <h3 className='mb-2 font-semibold text-(--main-color)'>
-                  4️⃣ Use KanaDojo&apos;s Training Modes
+                  4️⃣ Use PThamSS&apos;s Training Modes
                 </h3>
                 <p>
                   Vary your practice with Pick, Input, and Blitz modes for
@@ -214,7 +214,7 @@ export default async function JLPTN4Page({
               📊 Track Your N4 Progress
             </h2>
             <p className='mb-4'>
-              KanaDojo automatically tracks your progress through N4 kanji:
+              PThamSS automatically tracks your progress through N4 kanji:
             </p>
             <ul className='mb-4 list-disc space-y-2 pl-6'>
               <li>

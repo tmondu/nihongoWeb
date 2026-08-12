@@ -46,7 +46,7 @@ export default function GauntletPage() {
         assesses='Progressive Kana recognition and mastery'
         timeRequired='PT15M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
       <KanaGauntlet />
     </>

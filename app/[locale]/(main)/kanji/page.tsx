@@ -61,7 +61,7 @@ export default async function KanjiPage({
         assesses='Kanji recognition, onyomi and kunyomi recall, and meaning comprehension'
         timeRequired='PT1H'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',

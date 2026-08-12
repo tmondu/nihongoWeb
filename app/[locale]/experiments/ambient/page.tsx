@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Ambient Mode - Floating Kana Atmosphere | KanaDojo',
+  title: 'Ambient Mode - Floating Kana Atmosphere | PThamSS',
   description: 'Relax with floating Japanese characters in ambient mode.',
 };
 

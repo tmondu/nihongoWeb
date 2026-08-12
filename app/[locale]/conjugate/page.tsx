@@ -111,7 +111,7 @@ export default async function ConjugatePage({
           itemType='https://schema.org/WebApplication'
           id='conjugator'
         >
-          <meta itemProp='name' content='KanaDojo Japanese Verb Conjugator' />
+          <meta itemProp='name' content='PThamSS Japanese Verb Conjugator' />
           <meta
             itemProp='applicationCategory'
             content='EducationalApplication'

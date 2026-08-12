@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Breathing Exercise - Relax with Kana | KanaDojo',
+  title: 'Breathing Exercise - Relax with Kana | PThamSS',
   description:
     'Guided breathing exercises synchronized with Japanese characters.',
 };

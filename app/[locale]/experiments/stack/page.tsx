@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Stack - Alphabetical Sorting Game | KanaDojo',
+  title: 'Kana Stack - Alphabetical Sorting Game | PThamSS',
   description: 'Stack kana cards in alphabetical order by romanji.',
 };
 

@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Bounce - Physics Playground | KanaDojo',
+  title: 'Kana Bounce - Physics Playground | PThamSS',
   description: 'Click to spawn bouncing kana with realistic physics!',
 };
 

@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Slot - Slot Machine Game | KanaDojo',
+  title: 'Kana Slot - Slot Machine Game | PThamSS',
   description: 'Spin the slot machine and match kana to win!',
 };
 

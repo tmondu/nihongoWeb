@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Wave - Rhythmic Learning | KanaDojo',
+  title: 'Kana Wave - Rhythmic Learning | PThamSS',
   description: 'Catch the Japanese characters in sync with the rhythm.',
 };
 

@@ -65,7 +65,7 @@ export default async function LearnKatakanaPage({
         assesses='Katakana recognition speed, accuracy, and recall'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
       <FAQSchema faqs={commonKanaDOJOFAQs} />
       <KanaMenu filter='katakana' />

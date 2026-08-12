@@ -109,7 +109,7 @@ export function buildTranslatorSchema(config: TranslatorSeoConfig) {
     graph.push({
       '@type': 'SoftwareApplication',
       '@id': `${pageUrl}#software`,
-      name: 'KanaDojo Japanese Translator',
+      name: 'PThamSS Japanese Translator',
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Web',
       url: pageUrl,

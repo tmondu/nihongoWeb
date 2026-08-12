@@ -2,7 +2,7 @@
 
 ## Overview
 
-KanaDojo tracks learning progress with **progress bars** and a **star system** (up to 3 stars per level/group). Progress is always shown as 0–100% per level. Stars indicate how many times that level has been fully completed.
+PThamSS tracks learning progress with **progress bars** and a **star system** (up to 3 stars per level/group). Progress is always shown as 0–100% per level. Stars indicate how many times that level has been fully completed.
 
 Both progress and stars are **derived mathematically** from the same stored counters — no separate star storage or destructive counter resets.
 

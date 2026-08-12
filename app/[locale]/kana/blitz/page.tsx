@@ -43,7 +43,7 @@ export default function BlitzPage() {
         assesses='Hiragana and Katakana reading speed and accuracy'
         timeRequired='PT5M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
       <KanaBlitz />
     </>

@@ -18,8 +18,8 @@ export interface InternalLink {
 export const mainLinks = {
   home: {
     href: '/',
-    text: 'KanaDojo',
-    title: 'KanaDojo - Learn Japanese Online',
+    text: 'PThamSS',
+    title: 'PThamSS - Learn Japanese Online',
   },
   kana: {
     href: '/kana',

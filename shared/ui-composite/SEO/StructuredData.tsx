@@ -15,14 +15,14 @@ export function StructuredData({ data }: StructuredDataProps) {
   );
 }
 
-// Comprehensive Schema Graph for KanaDojo
+// Comprehensive Schema Graph for PThamSS
 export const kanaDojoSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Organization',
       '@id': 'https://www.pthamnihongo.site/#organization',
-      name: 'KanaDojo',
+      name: 'PThamSS',
       url: 'https://www.pthamnihongo.site',
       logo: 'https://www.pthamnihongo.site/favicon.ico',
       description:
@@ -38,9 +38,9 @@ export const kanaDojoSchema = {
       '@type': 'WebSite',
       '@id': 'https://www.pthamnihongo.site/#website',
       url: 'https://www.pthamnihongo.site',
-      name: 'KanaDojo',
+      name: 'PThamSS',
       description:
-        'Master Japanese with KanaDojo - Learn Hiragana, Katakana, Kanji, and Vocabulary',
+        'Master Japanese with PThamSS - Learn Hiragana, Katakana, Kanji, and Vocabulary',
       publisher: { '@id': 'https://www.pthamnihongo.site/#organization' },
       inLanguage: ['en', 'es'],
       potentialAction: {
@@ -55,7 +55,7 @@ export const kanaDojoSchema = {
     {
       '@type': 'WebApplication',
       '@id': 'https://www.pthamnihongo.site/#webapp',
-      name: 'KanaDojo',
+      name: 'PThamSS',
       alternateName: 'Kana Dojo',
       url: 'https://www.pthamnihongo.site',
       applicationCategory: 'EducationalApplication',
@@ -102,7 +102,7 @@ export const kanaDojoSchema = {
     {
       '@type': 'EducationalOrganization',
       '@id': 'https://www.pthamnihongo.site/#educational',
-      name: 'KanaDojo',
+      name: 'PThamSS',
       url: 'https://www.pthamnihongo.site',
       description: 'Interactive Japanese language learning platform',
       educationalCredentialAwarded: 'Japanese Language Proficiency',
@@ -116,7 +116,7 @@ export const kanaDojoSchema = {
             description: 'Master Japanese Hiragana and Katakana syllabaries',
             provider: {
               '@type': 'Organization',
-              name: 'KanaDojo',
+              name: 'PThamSS',
             },
           },
           {
@@ -126,7 +126,7 @@ export const kanaDojoSchema = {
               'Learn essential Kanji characters organized by JLPT levels',
             provider: {
               '@type': 'Organization',
-              name: 'KanaDojo',
+              name: 'PThamSS',
             },
           },
           {
@@ -135,7 +135,7 @@ export const kanaDojoSchema = {
             description: 'Build Japanese vocabulary organized by JLPT levels',
             provider: {
               '@type': 'Organization',
-              name: 'KanaDojo',
+              name: 'PThamSS',
             },
           },
         ],
@@ -147,23 +147,23 @@ export const kanaDojoSchema = {
       mainEntity: [
         {
           '@type': 'Question',
-          name: 'What is KanaDojo?',
+          name: 'What is PThamSS?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'KanaDojo is a free, aesthetic Japanese learning platform that helps you master Hiragana, Katakana, Kanji, and Vocabulary through interactive games and exercises. It features 100+ customizable themes, progress tracking, and training modes designed to make learning Japanese enjoyable and effective.',
+            text: 'PThamSS is a free, aesthetic Japanese learning platform that helps you master Hiragana, Katakana, Kanji, and Vocabulary through interactive games and exercises. It features 100+ customizable themes, progress tracking, and training modes designed to make learning Japanese enjoyable and effective.',
           },
         },
         {
           '@type': 'Question',
-          name: 'Is KanaDojo completely free?',
+          name: 'Is PThamSS completely free?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Yes! KanaDojo is completely free to use with no hidden costs, subscriptions, or premium features. All learning content, games, themes, and features are available to everyone at no charge.',
+            text: 'Yes! PThamSS is completely free to use with no hidden costs, subscriptions, or premium features. All learning content, games, themes, and features are available to everyone at no charge.',
           },
         },
         {
           '@type': 'Question',
-          name: 'What can I learn on KanaDojo?',
+          name: 'What can I learn on PThamSS?',
           acceptedAnswer: {
             '@type': 'Answer',
             text: 'You can learn all fundamental Japanese writing systems: Hiragana (basic, dakuon, yoon), Katakana (basic, dakuon, yoon, foreign sounds), Kanji organized by JLPT levels (N5-N1), and Japanese Vocabulary also organized by JLPT levels with thousands of words and example sentences.',
@@ -174,7 +174,7 @@ export const kanaDojoSchema = {
           name: 'Do I need to create an account?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'No account is required! KanaDojo stores all your progress locally in your browser, so you can start learning immediately without signing up. Your progress and preferences are automatically saved as you use the platform.',
+            text: 'No account is required! PThamSS stores all your progress locally in your browser, so you can start learning immediately without signing up. Your progress and preferences are automatically saved as you use the platform.',
           },
         },
         {
@@ -182,7 +182,7 @@ export const kanaDojoSchema = {
           name: 'What are the different training modes?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'KanaDojo offers multiple training modes: Pick Mode (multiple choice recognition), Reverse-Pick (reverse multiple choice), Input Mode (text input practice), Reverse-Input (reverse text input), Blitz Mode (speed tests), and Gauntlet Mode (comprehensive mastery challenges).',
+            text: 'PThamSS offers multiple training modes: Pick Mode (multiple choice recognition), Reverse-Pick (reverse multiple choice), Input Mode (text input practice), Reverse-Input (reverse text input), Blitz Mode (speed tests), and Gauntlet Mode (comprehensive mastery challenges).',
           },
         },
         {
@@ -190,23 +190,23 @@ export const kanaDojoSchema = {
           name: 'How does progress tracking work?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'KanaDojo automatically tracks your learning statistics including correct answers, speed, accuracy, and mastery levels for each character or word. All progress is stored locally in your browser and displayed in detailed charts and statistics on the Progress page.',
+            text: 'PThamSS automatically tracks your learning statistics including correct answers, speed, accuracy, and mastery levels for each character or word. All progress is stored locally in your browser and displayed in detailed charts and statistics on the Progress page.',
           },
         },
         {
           '@type': 'Question',
-          name: 'Can I use KanaDojo on mobile devices?',
+          name: 'Can I use PThamSS on mobile devices?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Yes! KanaDojo is fully responsive and works seamlessly on mobile phones, tablets, and desktop computers. The interface adapts to your screen size for an optimal learning experience on any device.',
+            text: 'Yes! PThamSS is fully responsive and works seamlessly on mobile phones, tablets, and desktop computers. The interface adapts to your screen size for an optimal learning experience on any device.',
           },
         },
         {
           '@type': 'Question',
-          name: 'Is KanaDojo suitable for JLPT preparation?',
+          name: 'Is PThamSS suitable for JLPT preparation?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Absolutely! KanaDojo organizes Kanji and Vocabulary content by JLPT levels (N5, N4, N3, N2, N1), making it an excellent supplementary tool for JLPT exam preparation. Practice characters and words specific to your target JLPT level.',
+            text: 'Absolutely! PThamSS organizes Kanji and Vocabulary content by JLPT levels (N5, N4, N3, N2, N1), making it an excellent supplementary tool for JLPT exam preparation. Practice characters and words specific to your target JLPT level.',
           },
         },
       ],

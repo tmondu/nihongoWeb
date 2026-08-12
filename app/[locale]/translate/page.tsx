@@ -21,7 +21,7 @@ interface TranslatePageProps {
 
 const metadataConfig = {
   pathname: '/translate',
-  title: 'Japanese Translator | English ⇄ Japanese with Romaji | KanaDojo',
+  title: 'Japanese Translator | English ⇄ Japanese with Romaji | PThamSS',
   description:
     'Free Japanese translator for English to Japanese and Japanese to English text. Translate quickly, review romaji support, and jump into direction-specific pages for better context.',
   keywords: [
@@ -69,7 +69,7 @@ export async function generateMetadata({
   const localizedConfig = {
     ...metadataConfig,
     title: isVi
-      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | KanaDojo'
+      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | PThamSS'
       : metadataConfig.title,
     description: isVi
       ? 'Trình dịch tiếng Nhật trực tuyến miễn phí cho tiếng Anh/Việt sang tiếng Nhật và ngược lại. Dịch nhanh chóng, hỗ trợ phiên âm romaji và hướng dẫn học tập.'
@@ -119,7 +119,7 @@ export default async function TranslatePage({ params }: TranslatePageProps) {
   const localizedConfig = {
     ...metadataConfig,
     title: isVi
-      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | KanaDojo'
+      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | PThamSS'
       : metadataConfig.title,
     description: isVi
       ? 'Trình dịch tiếng Nhật trực tuyến miễn phí cho tiếng Anh/Việt sang tiếng Nhật và ngược lại. Dịch nhanh chóng, hỗ trợ phiên âm romaji và hướng dẫn học tập.'
@@ -180,8 +180,8 @@ export default async function TranslatePage({ params }: TranslatePageProps) {
             itemProp='name'
             content={
               isVi
-                ? 'Trình dịch tiếng Nhật KanaDojo'
-                : 'KanaDojo Japanese Translator'
+                ? 'Trình dịch tiếng Nhật PThamSS'
+                : 'PThamSS Japanese Translator'
             }
           />
           <meta

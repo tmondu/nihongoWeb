@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Wordle - Guessing Game | KanaDojo',
+  title: 'Kana Wordle - Guessing Game | PThamSS',
   description: 'Guess the kana from its romanji in limited tries!',
 };
 

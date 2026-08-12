@@ -14,11 +14,11 @@
 
 <!--<div id="top"></div>-->
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/56716ee9-9347-4224-9fe2-ef1beb93e286)
+![PThamSS Banner](https://github.com/user-attachments/assets/56716ee9-9347-4224-9fe2-ef1beb93e286)
 
 ![Training](https://github.com/user-attachments/assets/d491708f-2ad3-41c7-9717-dec8a90afd03)
 
@@ -55,7 +55,7 @@ This README is available in multiple languages:
 
 ## About
 
-KanaDojo is an engaging and user-friendly web-based Japanese learning platform that makes mastering Hiragana, Katakana, Kanji, and vocabulary fun and intuitive. Built with a focus on aesthetics, customization, and effective learning, it provides an immersive training environment for Japanese language learners at all levels.
+PThamSS is an engaging and user-friendly web-based Japanese learning platform that makes mastering Hiragana, Katakana, Kanji, and vocabulary fun and intuitive. Built with a focus on aesthetics, customization, and effective learning, it provides an immersive training environment for Japanese language learners at all levels.
 
 ## Contributing
 
@@ -145,7 +145,7 @@ npm run check
 
 ### Logo
 
-- [Brandon Haupt](https://www.instagram.com/talorash/) — creator of the KanaDojo logo.
+- [Brandon Haupt](https://www.instagram.com/talorash/) — creator of the PThamSS logo.
 
 ### Sponsors
 

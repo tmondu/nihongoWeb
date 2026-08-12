@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Search - Grid Challenge | KanaDojo',
+  title: 'Kana Search - Grid Challenge | PThamSS',
   description:
     'Find the target Japanese character in a grid of similar-looking ones.',
 };

@@ -33,7 +33,7 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'KanaDojo Academy — Japanese Learning Articles',
+    name: 'PThamSS Academy — Japanese Learning Articles',
     description:
       'A curated collection of Japanese learning guides, tutorials, and study tips covering Hiragana, Katakana, Kanji, vocabulary, grammar, and JLPT preparation.',
     numberOfItems: posts.length,
@@ -50,13 +50,13 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
   const collectionPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'KanaDojo Academy',
+    name: 'PThamSS Academy',
     description:
       'A comprehensive collection of Japanese learning articles, tutorials, and study guides.',
     url: 'https://www.pthamnihongo.site/academy',
     isPartOf: {
       '@type': 'WebSite',
-      name: 'KanaDojo',
+      name: 'PThamSS',
       url: 'https://www.pthamnihongo.site',
     },
     about: {

@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Trace - Practice Drawing | KanaDojo',
+  title: 'Kana Trace - Practice Drawing | PThamSS',
   description:
     'A relaxing playground to practice drawing Japanese kana characters.',
 };
