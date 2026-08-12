@@ -15,10 +15,10 @@ import type {
   ConjugationCategory,
   ConjugationError,
   HistoryEntry,
-  VerbType,
 } from '../types';
 import { ALL_CONJUGATION_CATEGORIES } from '../types';
 import { conjugate } from '../lib/engine/conjugate';
+import { toHiragana } from 'wanakana';
 
 // ============================================================================
 // Constants
@@ -161,12 +161,15 @@ const useConjugatorStore = create<ConjugatorState>()(
       conjugate: () => {
         const { inputText, addToHistory } = get();
 
-        // Set loading state
-        set({ isLoading: true, error: null });
+        // Convert Romaji to Hiragana (e.g. "taberu" -> "たべる") locally to support easy Romaji input
+        const processedInput = toHiragana(inputText.trim());
+
+        // Update the input text visually and set loading state
+        set({ inputText: processedInput, isLoading: true, error: null });
 
         try {
           // Perform conjugation
-          const conjugateResult = conjugate(inputText);
+          const conjugateResult = conjugate(processedInput);
 
           if (conjugateResult.success) {
             // Success - update result and add to history
