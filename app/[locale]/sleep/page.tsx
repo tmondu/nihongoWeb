@@ -52,8 +52,11 @@ export default async function SleepPage({ params }: SleepPageProps) {
         </div>
 
         {/* Localized message */}
-        <h1 className='mb-4 bg-gradient-to-r from-yellow-100 via-yellow-200 to-amber-200 bg-clip-text text-3xl font-bold tracking-tight text-transparent sm:text-4xl'>
-          {isVi ? 'Chúc bạn ngủ ngon! 🌙' : 'Good Night! 🌙'}
+        <h1 className='mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl'>
+          <span className='bg-gradient-to-r from-yellow-100 via-yellow-200 to-amber-200 bg-clip-text text-transparent'>
+            {isVi ? 'Chúc bạn ngủ ngon!' : 'Good Night!'}
+          </span>{' '}
+          🌙
         </h1>
 
         <p className='text-base leading-relaxed font-medium text-slate-300'>
