@@ -203,7 +203,7 @@ const softwareApplicationSchema = {
   },
   description:
     'Command-line tool for converting Anki decks to JSON format. Ideal for batch processing and automation.',
-  downloadUrl: 'https://github.com/lingdojo/kanadojo',
+  downloadUrl: 'https://github.com/tmondu/nihongoWeb',
   softwareVersion: '1.0.0',
   author: {
     '@type': 'Organization',

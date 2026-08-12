@@ -115,12 +115,13 @@ export default function AboutPage() {
         Our Approach
       </h2>
       <div className='mb-12 space-y-4 text-(--secondary-color)'>
-        <div><Link
-          href='/faq'
-          className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
-        >
-          FAQ
-        </Link>
+        <div>
+          <Link
+            href='/faq'
+            className='rounded-lg border border-(--border-color) px-4 py-2 font-medium text-(--main-color) transition-colors hover:bg-(--main-color) hover:text-white'
+          >
+            FAQ
+          </Link>
           <h3 className='mb-2 font-semibold text-(--main-color)'>
             Evidence-Based Learning
           </h3>
@@ -222,7 +223,7 @@ export default function AboutPage() {
         contributions, feedback, and suggestions from the community.
       </p>
       <a
-        href='https://github.com/lingdojo/kanadojo'
+        href='https://github.com/tmondu/nihongoWeb'
         target='_blank'
         rel='noopener noreferrer'
         className='mb-12 inline-flex items-center gap-2 rounded-lg bg-(--main-color) px-6 py-3 font-semibold text-white transition-opacity hover:opacity-90'
@@ -264,4 +265,3 @@ export default function AboutPage() {
     </LegalLayout>
   );
 }
-

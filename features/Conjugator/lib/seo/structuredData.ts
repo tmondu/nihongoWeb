@@ -373,7 +373,7 @@ function generateOrganizationSchema(): Record<string, unknown> {
     },
     description:
       'Free online Japanese learning platform featuring verb conjugation, Hiragana, Katakana, Kanji training, and vocabulary building',
-    sameAs: ['https://github.com/lingdojo/kanadojo'],
+    sameAs: ['https://github.com/tmondu/nihongoWeb'],
   };
 }
 

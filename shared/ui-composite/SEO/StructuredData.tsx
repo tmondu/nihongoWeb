@@ -27,7 +27,7 @@ export const kanaDojoSchema = {
       logo: 'https://www.pthamnihongo.site/favicon.ico',
       description:
         'An aesthetic, minimalist platform for learning Japanese Hiragana, Katakana, Kanji, and Vocabulary',
-      sameAs: ['https://github.com/lingdojo/kanadojo'],
+      sameAs: ['https://github.com/tmondu/nihongoWeb'],
       contactPoint: {
         '@type': 'ContactPoint',
         email: 'dev@www.pthamnihongo.site',

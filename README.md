@@ -26,10 +26,12 @@
 
 [![Vercel OSS Program](https://img.shields.io/badge/Vercel-OSS%20Program-black?style=for-the-badge&logo=vercel)](https://vercel.com/open-source-program)
 [![Sponsored by Vercel](https://img.shields.io/badge/Sponsored%20by-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/oss)
+
 <!--[![Sponsored by Cossistant](https://cdn.cossistant.com/oss/oss-friends.svg)](https://cossistant.com/open-source-program)-->
+
 [![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
-[![Good First Issues](https://img.shields.io/github/issues-search/lingdojo/kana-dojo?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/lingdojo/kana-dojo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
+[![Good First Issues](https://img.shields.io/github/issues-search/tmondu/nihongoWeb?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org/)
@@ -80,7 +82,7 @@ All contributions are welcome! Whether you're fixing bugs, adding features, impr
 ## Quick Start
 
 ```bash
-git clone https://github.com/lingdojo/kana-dojo.git
+git clone https://github.com/tmondu/nihongoWeb.git
 cd kana-dojo
 npm install
 npm run dev
@@ -128,12 +130,13 @@ npm run check
 | [All Documentation](./docs/)                              | Complete documentation index                   |
 
 ## Tech Stack
-- [Next.js](https://nextjs.org/) 15  
-- [React](https://react.dev/) 19  
-- [TypeScript](https://www.typescriptlang.org/)  
-- [Tailwind CSS](https://tailwindcss.com/)  
-- [shadcn/ui](https://ui.shadcn.com/)  
-- [Zustand](https://github.com/pmndrs/zustand)  
+
+- [Next.js](https://nextjs.org/) 15
+- [React](https://react.dev/) 19
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Zustand](https://github.com/pmndrs/zustand)
 - [Framer Motion](https://www.framer.com/motion/)
 
 > See [Architecture docs](./docs/ARCHITECTURE.md) for full technical details.
@@ -171,7 +174,7 @@ npm run check
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=Date)](https://star-history.com/#lingdojo/kana-dojo&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=Date)](https://star-history.com/#tmondu/nihongoWeb&Date)
 
 </div>
 

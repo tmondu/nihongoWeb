@@ -5,7 +5,7 @@ export const revalidate = 3600; // Cache for 1 hour
 export async function GET() {
   try {
     const [githubRes, discordRes] = await Promise.allSettled([
-      fetch('https://api.github.com/repos/lingdojo/kana-dojo', {
+      fetch('https://api.github.com/repos/tmondu/nihongoWeb', {
         headers: {
           Accept: 'application/vnd.github.v3+json',
         },

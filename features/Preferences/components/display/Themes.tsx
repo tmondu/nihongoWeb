@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/set-state-in-effect */
 'use client';
 import { createElement, useEffect, useRef } from 'react';
 import themeSets, {
@@ -570,7 +571,7 @@ const Themes = ({ useNewIconDesign = false }: ThemesProps) => {
                   className='text-(--main-color) font-bold underline'
                   target='_blank'
                   rel='noopener noreferrer'
-                  href='https://github.com/lingdojo/kana-dojo/blob/main/docs/UI_DESIGN.md#theming-system'
+                  href='https://github.com/tmondu/nihongoWeb/blob/main/docs/UI_DESIGN.md#theming-system'
                 >
                   UI_DESIGN
                 </a>{' '}
@@ -701,4 +702,3 @@ const Themes = ({ useNewIconDesign = false }: ThemesProps) => {
 };
 
 export default Themes;
-

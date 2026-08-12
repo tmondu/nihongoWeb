@@ -17,7 +17,7 @@ type GHContributor = {
 const fetchContributors = async (): Promise<Contributor[]> => {
   try {
     const res = await fetch(
-      'https://api.github.com/repos/lingdojo/kana-dojo/contributors?per_page=100',
+      'https://api.github.com/repos/tmondu/nihongoWeb/contributors?per_page=100',
       { next: { revalidate: 60 * 60 * 24 } },
     );
 
@@ -82,7 +82,7 @@ KanaDojo is what you see today thanks to everyone's work and suggestions. We'll 
               Visit our{' '}
               <a
                 className='font-semibold text-(--main-color) underline transition-opacity hover:opacity-70'
-                href='https://github.com/lingdojo/kana-dojo'
+                href='https://github.com/tmondu/nihongoWeb'
                 target='_blank'
                 rel='noreferrer'
               >
@@ -114,7 +114,7 @@ KanaDojo is what you see today thanks to everyone's work and suggestions. We'll 
             <div className='flex flex-wrap gap-3'>
               <a
                 className='inline-flex items-center rounded-lg bg-(--main-color) px-4 py-2 text-sm font-medium text-(--background-color) transition-opacity hover:opacity-90'
-                href='https://ko-fi.com/kanadojo'
+                href='#'
                 target='_blank'
                 rel='noreferrer'
               >
@@ -123,7 +123,7 @@ KanaDojo is what you see today thanks to everyone's work and suggestions. We'll 
 
               <a
                 className='inline-flex items-center rounded-lg border-2 border-(--main-color) px-4 py-2 text-sm font-medium text-(--main-color) transition-colors hover:bg-(--card-color)'
-                href='https://www.patreon.com/kanadojo'
+                href='#'
                 target='_blank'
                 rel='noreferrer'
               >
@@ -136,4 +136,3 @@ KanaDojo is what you see today thanks to everyone's work and suggestions. We'll 
     </ContentLayout>
   );
 }
-

@@ -236,7 +236,7 @@ const MainMenu = () => {
               )}
               onClick={() => {
                 playClick();
-                window.open('https://github.com/lingdojo/kana-dojo', '_blank');
+                window.open('https://github.com/tmondu/nihongoWeb', '_blank');
               }}
             />
             <button
@@ -264,7 +264,7 @@ const MainMenu = () => {
               )}
               onClick={() => {
                 playClick();
-                window.open('https://ko-fi.com/kanadojo', '_blank');
+                window.open('#', '_blank');
               }} */}
             {/* /> */}
           </div>

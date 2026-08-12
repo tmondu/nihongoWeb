@@ -251,7 +251,7 @@ export default async function AcademyPostPage({
         affiliation='KanaDojo'
         expertise='Japanese Language Education, Hiragana, Katakana, Kanji, JLPT Preparation'
         description='The KanaDojo team creates free, interactive Japanese learning tools and in-depth educational content to help learners at every level.'
-        sameAs={['https://github.com/lingdojo/kanadojo']}
+        sameAs={['https://github.com/tmondu/nihongoWeb']}
       />
 
       <BlogPostComponent post={post} relatedPosts={relatedPostsMeta}>

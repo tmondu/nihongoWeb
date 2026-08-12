@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
  * https://securitytxt.org/
  */
 export async function GET() {
-  const securityTxt = `Contact: https://github.com/lingdojo/kanadojo/security
+  const securityTxt = `Contact: https://github.com/tmondu/nihongoWeb/security
 Contact: mailto:security@www.pthamnihongo.site
 Expires: 2026-12-31T23:59:59.000Z
 Preferred-Languages: en, es

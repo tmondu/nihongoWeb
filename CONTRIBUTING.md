@@ -35,14 +35,14 @@ Before you jump in, make sure your environment is ready:
 
 ```bash
 # 1. Fork the repo
-https://github.com/lingdojo/kana-dojo/fork
+https://github.com/tmondu/nihongoWeb/fork
 
 # 2. Clone your fork
 git clone https://github.com/<your-username>/kana-dojo.git
 cd kana-dojo
 
 # 3. Add the original repo as upstream (to stay in sync)
-git remote add upstream https://github.com/lingdojo/kana-dojo.git
+git remote add upstream https://github.com/tmondu/nihongoWeb.git
 
 # 4. Install dependencies and start the dev server
 npm install && npm run dev
@@ -53,7 +53,7 @@ Open [http://localhost:3000](http://localhost:3000) to see KanaDojo running.
 ## 🔎 Before You Start
 
 - **Docs**: [Architecture](./docs/ARCHITECTURE.md) · [UI Design](./docs/UI_DESIGN.md) · [Translation Guide](./docs/TRANSLATION_GUIDE.md) · [Troubleshooting](./docs/TROUBLESHOOTING.md)
-- **Good first issues**: https://github.com/lingdojo/kana-dojo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
+- **Good first issues**: https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
 ## 🏷️ Label Glossary (Quick)
 
@@ -171,7 +171,7 @@ When your change is ready:
    git push origin feat/dark-mode-improvements
    ```
 
-2. Open a pull request against the **`main`** branch of `lingdojo/kana-dojo`.
+2. Open a pull request against the **`main`** branch of `tmondu/nihongoWeb`.
 
 3. In your PR description:
    - Explain what problem you solved and _why_ it matters.

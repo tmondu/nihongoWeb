@@ -16,7 +16,7 @@ export async function GET() {
   } catch {
     // Fallback in case the file isn't available in the runtime environment
     const fallback =
-      '# KanaDojo (www.pthamnihongo.site)\n\nThis endpoint serves repository-curated context for LLM tools.\n\nSee: https://github.com/lingdojo/kanadojo\n';
+      '# KanaDojo (www.pthamnihongo.site)\n\nThis endpoint serves repository-curated context for LLM tools.\n\nSee: https://github.com/tmondu/nihongoWeb\n';
 
     return new NextResponse(fallback, {
       headers: {

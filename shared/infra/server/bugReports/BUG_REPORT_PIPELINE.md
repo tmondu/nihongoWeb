@@ -63,7 +63,7 @@ Keep the tables and bucket private for v1. The server uses `SUPABASE_SERVICE_ROL
 
 Production already has an encrypted Vercel `GITHUB_PAT`, and this pipeline reuses it.
 
-If that token ever needs to be rotated, create a fine-grained personal access token for `lingdojo/kana-dojo` with:
+If that token ever needs to be rotated, create a fine-grained personal access token for `tmondu/nihongoWeb` with:
 
 ```txt
 Issues: Read and write
