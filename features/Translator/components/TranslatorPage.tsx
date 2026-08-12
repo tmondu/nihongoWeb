@@ -11,7 +11,7 @@ import useTranslatorStore from '../store/useTranslatorStore';
 import TranslatorInput from './TranslatorInput';
 import TranslatorOutput from './TranslatorOutput';
 import TranslationHistory from './TranslationHistory';
-import SEOContent from './SEOContent';
+// import SEOContent from './SEOContent';
 
 interface TranslatorPageProps {
   locale?: string;
@@ -316,7 +316,7 @@ function TranslatorPageContent({
           onClearAll={clearHistory}
         />
       </div>
-      <SEOContent />
+      {/* <SEOContent /> */}
     </div>
   );
 }
