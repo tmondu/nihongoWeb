@@ -2,7 +2,7 @@
 
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Heart, X } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useCallback } from 'react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { cn } from '@/shared/utils/utils';
@@ -23,6 +23,18 @@ export default function DonationModal({
     onOpenChange(false);
   }, [playClick, onOpenChange]);
 
+  const handleSleep = useCallback(() => {
+    playClick();
+    // Try to close window
+    try {
+      window.close();
+    } catch (e) {
+      console.error(e);
+    }
+    // Fallback: redirect to blank page
+    window.location.href = 'about:blank';
+  }, [playClick]);
+
   if (!open) return null;
 
   return (
@@ -32,6 +44,8 @@ export default function DonationModal({
         <DialogPrimitive.Content
           className='fixed top-1/2 left-1/2 z-50 flex max-h-[72vh] w-[95vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col gap-0 overflow-hidden rounded-2xl border-0 border-(--border-color) bg-(--background-color) p-0 sm:max-h-[82vh]'
           onOpenAutoFocus={e => e.preventDefault()}
+          onPointerDownOutside={e => e.preventDefault()}
+          onEscapeKeyDown={e => e.preventDefault()}
         >
           <div className='flex items-center justify-between border-b-2 border-(--border-color) bg-(--background-color) px-3 py-4 sm:px-6 sm:py-5'>
             <div className='flex items-center gap-3'>
@@ -42,28 +56,23 @@ export default function DonationModal({
                 Dừng lạiiii
               </DialogPrimitive.Title>
             </div>
-            <button
-              onClick={handleClose}
-              className='shrink-0 rounded-xl p-2 hover:cursor-pointer hover:bg-(--card-color)'
-            >
-              <X size={24} className='text-(--secondary-color)' />
-            </button>
           </div>
 
           <div className='flex min-h-0 flex-1 flex-col'>
             <div className='min-h-0 flex-1 overflow-y-auto px-4 py-3 sm:px-6 sm:py-5'>
               <div className='space-y-4 text-(--secondary-color)'>
-                <p className='text-lg font-medium leading-9'>
+                <p className='text-lg leading-9 font-medium'>
                   Bạn đã ngồi ở đây bao lâu rồi!
                 </p>
-                <p className='text-lg font-medium leading-9'>
-                  Chăm chỉ là tốt nhưng cũng nên chú ý tới sức khỏe của mình chứ.
+                <p className='text-lg leading-9 font-medium'>
+                  Chăm chỉ là tốt nhưng cũng nên chú ý tới sức khỏe của mình
+                  chứ.
                   {/*
                   We completely understand that not everyone can, and we thank
                   you sincerely just for considering it.
  */}
                 </p>
-                <p className='text-lg font-medium leading-9'>
+                <p className='text-lg leading-9 font-medium'>
                   Tắt máy và lên giường đi nhé!!!
                   {/*
                   Thank
@@ -72,7 +81,6 @@ export default function DonationModal({
                   on it.
  */}
                 </p>
-
               </div>
             </div>
 
@@ -129,7 +137,7 @@ export default function DonationModal({
                 </ActionButton>
                 <button
                   type='button'
-                  onClick={handleClose}
+                  onClick={handleSleep}
                   className='inline-flex items-center justify-center rounded-2xl px-5 py-4 text-lg font-medium text-(--secondary-color) transition-colors hover:cursor-pointer hover:bg-(--background-color) hover:text-(--main-color)'
                 >
                   Ngủ hoii
