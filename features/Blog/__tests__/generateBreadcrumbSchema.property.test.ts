@@ -71,7 +71,7 @@ const blogPostArb: fc.Arbitrary<BlogPost> = fc.record({
  * **Validates: Requirements 4.3**
  */
 describe('Property 11: Breadcrumb Schema Correctly Structured', () => {
-  const BASE_URL = 'https://kanadojo.com';
+  const BASE_URL = 'https://www.pthamnihongo.site';
 
   it('schema has @type as BreadcrumbList', () => {
     fc.assert(

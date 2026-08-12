@@ -3,7 +3,7 @@
  * Helper functions for sitemap management and submission
  */
 
-const SITE_URL = 'https://kanadojo.com';
+const SITE_URL = 'https://www.pthamnihongo.site';
 
 /**
  * Submit sitemap to search engines
@@ -76,7 +76,7 @@ export function generateImageSitemapEntry(
 ): ImageSitemapEntry {
   return {
     loc: pageUrl,
-    images: images.map((img) => ({
+    images: images.map(img => ({
       loc: img.url,
       caption: img.caption,
       title: img.title,
@@ -116,7 +116,7 @@ export function validateSitemapUrl(url: string): boolean {
 export function generateSitemapIndex(sitemapUrls: string[]): string {
   const sitemaps = sitemapUrls
     .map(
-      (url) => `
+      url => `
   <sitemap>
     <loc>${url}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>

@@ -21,7 +21,7 @@ export interface HreflangOptions {
 /**
  * Base URL for the site
  */
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 
 /**
  * Mapping of locale codes to hreflang values

@@ -76,7 +76,7 @@ const NightlyBanner = ({
           </button>
 
           <a
-            href='https://nightly.kanadojo.com'
+            href='https://nightly.www.pthamnihongo.site'
             target='_blank'
             rel='noopener noreferrer'
             onClick={onSwitch}

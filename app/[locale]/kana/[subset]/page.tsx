@@ -36,7 +36,7 @@ export async function generateMetadata({
   const description = t(`kanaSubset.${subsetKey}.description`);
   const keywords = t(`kanaSubset.${subsetKey}.keywords`).split(',');
 
-  // const ogImageUrl = `https://kanadojo.com/api/og?title=${encodeURIComponent(titleShort)}&description=${encodeURIComponent(description.slice(0, 100))}&type=kana`;
+  // const ogImageUrl = `https://www.pthamnihongo.site/api/og?title=${encodeURIComponent(titleShort)}&description=${encodeURIComponent(description.slice(0, 100))}&type=kana`;
 
   return {
     title,
@@ -45,7 +45,7 @@ export async function generateMetadata({
     openGraph: {
       title: titleShort,
       description,
-      url: `https://kanadojo.com/${locale}/kana/${subset}`,
+      url: `https://www.pthamnihongo.site/${locale}/kana/${subset}`,
       type: 'website',
       /* images: [
         {
@@ -63,10 +63,10 @@ export async function generateMetadata({
       /* images: [ogImageUrl], */
     },
     alternates: {
-      canonical: `https://kanadojo.com/${locale}/kana/${subset}`,
+      canonical: `https://www.pthamnihongo.site/${locale}/kana/${subset}`,
       languages: {
-        en: `https://kanadojo.com/en/kana/${subset}`,
-        es: `https://kanadojo.com/es/kana/${subset}`,
+        en: `https://www.pthamnihongo.site/en/kana/${subset}`,
+        es: `https://www.pthamnihongo.site/es/kana/${subset}`,
       },
     },
   };

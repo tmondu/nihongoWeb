@@ -30,10 +30,10 @@ export default async function HowToUsePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
           {
             name: 'How to Use',
-            url: `https://kanadojo.com/${locale}/how-to-use`,
+            url: `https://www.pthamnihongo.site/${locale}/how-to-use`,
           },
         ]}
       />
@@ -507,4 +507,3 @@ export default async function HowToUsePage({
     </>
   );
 }
-

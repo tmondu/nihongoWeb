@@ -4,7 +4,7 @@ import type { BlogPostMeta } from '../types/blog';
 /**
  * Base URL for the site
  */
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 
 /**
  * Configuration options for metadata generation

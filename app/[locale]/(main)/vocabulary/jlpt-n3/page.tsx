@@ -39,21 +39,21 @@ export default async function VocabularyJlptN3Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
           {
             name: 'Vocabulary',
-            url: `https://kanadojo.com/${locale}/vocabulary`,
+            url: `https://www.pthamnihongo.site/${locale}/vocabulary`,
           },
           {
             name: 'JLPT N3',
-            url: `https://kanadojo.com/${locale}/vocabulary/jlpt-n3`,
+            url: `https://www.pthamnihongo.site/${locale}/vocabulary/jlpt-n3`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N3 Japanese Vocabulary Course'
         description='Practice JLPT N3 Japanese vocabulary with interactive level sets. Train word recognition, meanings, and reading recall with fast feedback and progress tracking.'
-        url={`https://kanadojo.com/${locale}/vocabulary/jlpt-n3`}
+        url={`https://www.pthamnihongo.site/${locale}/vocabulary/jlpt-n3`}
         educationalLevel='Intermediate'
         skillLevel='JLPT N3'
         learningResourceType='Interactive Course'
@@ -61,14 +61,14 @@ export default async function VocabularyJlptN3Page({
       <LearningResourceSchema
         name='JLPT N3 Vocabulary Practice'
         description='Targeted JLPT N3 vocabulary drills with selectable sets, quick selection controls, and dictionary links for exam-focused Japanese study.'
-        url={`https://kanadojo.com/${locale}/vocabulary/jlpt-n3`}
+        url={`https://www.pthamnihongo.site/${locale}/vocabulary/jlpt-n3`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Intermediate']}
         teaches='JLPT N3 Japanese vocabulary, meanings, and usage'
         assesses='JLPT N3 word recognition and recall speed'
         timeRequired='PT30M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',
@@ -80,4 +80,3 @@ export default async function VocabularyJlptN3Page({
     </>
   );
 }
-

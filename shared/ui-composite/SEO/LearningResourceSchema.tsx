@@ -16,7 +16,18 @@ export interface LearningResourceSchemaProps {
     | 'Quiz'
     | 'Simulation'
     | 'Tutorial'
-    | Array<'Activity' | 'Assessment' | 'Course' | 'Game' | 'Interactive' | 'Lesson' | 'LessonPlan' | 'Quiz' | 'Simulation' | 'Tutorial'>;
+    | Array<
+        | 'Activity'
+        | 'Assessment'
+        | 'Course'
+        | 'Game'
+        | 'Interactive'
+        | 'Lesson'
+        | 'LessonPlan'
+        | 'Quiz'
+        | 'Simulation'
+        | 'Tutorial'
+      >;
   /** Educational level (e.g., "Beginner", "Intermediate", "Advanced") */
   educationalLevel?: string | string[];
   /** What the resource teaches */
@@ -141,7 +152,7 @@ export function generateLearningResourceSchema(
  * <LearningResourceSchema
  *   name="Hiragana Practice Game"
  *   description="Interactive game to practice Hiragana characters"
- *   url="https://kanadojo.com/kana/train"
+ *   url="https://www.pthamnihongo.site/kana/train"
  *   learningResourceType="Game"
  *   educationalLevel={["Beginner", "Intermediate"]}
  *   teaches="Japanese Hiragana Characters"

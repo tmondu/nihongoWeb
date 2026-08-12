@@ -72,7 +72,7 @@ export async function generateMetadata({
     openGraph: {
       title: `Best ${subcategory.name} for Learning Japanese | KanaDojo`,
       description,
-      url: `https://kanadojo.com/resources/${categoryId}/${subcategoryId}`,
+      url: `https://www.pthamnihongo.site/resources/${categoryId}/${subcategoryId}`,
       type: 'website',
     },
     twitter: {
@@ -81,7 +81,7 @@ export async function generateMetadata({
       description,
     },
     alternates: {
-      canonical: `https://kanadojo.com/resources/${categoryId}/${subcategoryId}`,
+      canonical: `https://www.pthamnihongo.site/resources/${categoryId}/${subcategoryId}`,
     },
   };
 }
@@ -143,15 +143,15 @@ export default async function SubcategoryPage({
   const availableFilters = getFilterOptions(subcategoryResources);
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://kanadojo.com' },
-    { name: 'Resources', url: 'https://kanadojo.com/resources' },
+    { name: 'Home', url: 'https://www.pthamnihongo.site' },
+    { name: 'Resources', url: 'https://www.pthamnihongo.site/resources' },
     {
       name: category.name,
-      url: `https://kanadojo.com/resources/${categoryId}`,
+      url: `https://www.pthamnihongo.site/resources/${categoryId}`,
     },
     {
       name: subcategory.name,
-      url: `https://kanadojo.com/resources/${categoryId}/${subcategoryId}`,
+      url: `https://www.pthamnihongo.site/resources/${categoryId}/${subcategoryId}`,
     },
   ];
 
@@ -183,4 +183,3 @@ export default async function SubcategoryPage({
     </>
   );
 }
-

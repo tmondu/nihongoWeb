@@ -42,10 +42,10 @@ export default async function HiraganaPracticePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
           {
             name: t('hiragana.title'),
-            url: `https://kanadojo.com/${locale}/hiragana-practice`,
+            url: `https://www.pthamnihongo.site/${locale}/hiragana-practice`,
           },
         ]}
       />
@@ -150,4 +150,3 @@ export default async function HiraganaPracticePage({
     </>
   );
 }
-

@@ -21,7 +21,7 @@ export async function generateMetadata({
     'Japanese-English Glossary - Essential Learning Terms | KanaDojo';
   const description =
     'Comprehensive Japanese-English glossary of essential learning terms. Understand Hiragana, Katakana, Kanji, grammar, and Japanese language concepts with clear explanations.';
-  const canonical = `https://kanadojo.com/${locale}/glossary`;
+  const canonical = `https://www.pthamnihongo.site/${locale}/glossary`;
 
   return {
     title,
@@ -31,8 +31,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://kanadojo.com/en/glossary',
-        es: 'https://kanadojo.com/es/glossary',
+        en: 'https://www.pthamnihongo.site/en/glossary',
+        es: 'https://www.pthamnihongo.site/es/glossary',
       },
     },
     openGraph: {
@@ -236,8 +236,11 @@ export default async function GlossaryPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'Glossary', url: `https://kanadojo.com/${locale}/glossary` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          {
+            name: 'Glossary',
+            url: `https://www.pthamnihongo.site/${locale}/glossary`,
+          },
         ]}
       />
 
@@ -385,4 +388,3 @@ export default async function GlossaryPage({
     </>
   );
 }
-

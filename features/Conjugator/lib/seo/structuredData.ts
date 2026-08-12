@@ -14,7 +14,7 @@ import type { VerbInfo, ConjugationResult } from '../../types';
 // Constants
 // ============================================================================
 
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 const CONJUGATE_PATH = '/conjugate';
 
 // ============================================================================

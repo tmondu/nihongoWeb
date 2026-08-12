@@ -151,7 +151,7 @@ describe('SEO Meta Tag Generation Properties', () => {
       fc.assert(
         fc.property(fc.constantFrom(...ALL_VERB_INFOS), verb => {
           const meta = generateVerbMeta(verb);
-          const expectedUrl = `https://kanadojo.com/conjugate?verb=${encodeURIComponent(verb.dictionaryForm)}`;
+          const expectedUrl = `https://www.pthamnihongo.site/conjugate?verb=${encodeURIComponent(verb.dictionaryForm)}`;
 
           expect(meta.canonicalUrl).toBe(expectedUrl);
         }),
@@ -246,7 +246,7 @@ describe('SEO Meta Tag Generation Properties', () => {
       expect(BASE_META.keywords.length).toBeGreaterThan(0);
 
       expect(BASE_META.canonicalUrl).toBeDefined();
-      expect(BASE_META.canonicalUrl).toContain('kanadojo.com');
+      expect(BASE_META.canonicalUrl).toContain('www.pthamnihongo.site');
 
       // expect(BASE_META.ogImage).toBeDefined();
       // expect(BASE_META.ogImage).toMatch(/^https:\/\//);
@@ -269,7 +269,7 @@ describe('SEO Meta Tag Generation Properties', () => {
   describe('generateCanonicalUrl', () => {
     it('generates correct URL without verb', () => {
       const url = generateCanonicalUrl();
-      expect(url).toBe('https://kanadojo.com/conjugate');
+      expect(url).toBe('https://www.pthamnihongo.site/conjugate');
     });
 
     it('generates correct URL with verb', () => {
@@ -302,7 +302,7 @@ describe('SEO Meta Tag Generation Properties', () => {
       const customBase = 'https://test.example.com';
       const url = generateCanonicalUrl('食べる', { baseUrl: customBase });
       expect(url).toContain(customBase);
-      expect(url).not.toContain('kanadojo.com');
+      expect(url).not.toContain('www.pthamnihongo.site');
     });
   });
 

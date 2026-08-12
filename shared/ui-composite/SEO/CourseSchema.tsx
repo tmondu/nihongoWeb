@@ -34,7 +34,7 @@ export function generateCourseSchema(props: CourseSchemaProps) {
     provider: {
       '@type': 'Organization',
       name: provider,
-      url: 'https://kanadojo.com',
+      url: 'https://www.pthamnihongo.site',
     },
     educationalLevel,
     courseMode,

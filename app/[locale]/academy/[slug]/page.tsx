@@ -246,7 +246,7 @@ export default async function AcademyPostPage({
       <StructuredData data={breadcrumbSchema} />
       <AuthorSchema
         name={post.author || 'KanaDojo Team'}
-        url='https://kanadojo.com'
+        url='https://www.pthamnihongo.site'
         jobTitle='Japanese Language Education Team'
         affiliation='KanaDojo'
         expertise='Japanese Language Education, Hiragana, Katakana, Kanji, JLPT Preparation'
@@ -273,4 +273,3 @@ function generateHeadingId(text: string): string {
     .replace(/-+/g, '-')
     .trim();
 }
-

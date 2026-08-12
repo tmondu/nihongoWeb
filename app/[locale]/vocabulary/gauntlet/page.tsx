@@ -28,25 +28,30 @@ export default function GauntletPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://kanadojo.com' },
-          { name: 'Vocabulary', url: 'https://kanadojo.com/vocabulary' },
-          { name: 'Gauntlet', url: 'https://kanadojo.com/vocabulary/gauntlet' },
+          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          {
+            name: 'Vocabulary',
+            url: 'https://www.pthamnihongo.site/vocabulary',
+          },
+          {
+            name: 'Gauntlet',
+            url: 'https://www.pthamnihongo.site/vocabulary/gauntlet',
+          },
         ]}
       />
       <LearningResourceSchema
         name='Japanese Vocabulary Gauntlet Mode'
         description='Progressive Japanese vocabulary mastery challenge. Build comprehensive word knowledge across JLPT levels.'
-        url='https://kanadojo.com/vocabulary/gauntlet'
+        url='https://www.pthamnihongo.site/vocabulary/gauntlet'
         learningResourceType='Assessment'
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Complete vocabulary mastery across JLPT N5-N1 levels'
         assesses='Progressive vocabulary recognition and comprehension'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
       />
       <VocabGauntlet />
     </>
   );
 }
-

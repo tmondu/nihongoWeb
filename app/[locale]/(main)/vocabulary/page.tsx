@@ -42,17 +42,17 @@ export default async function VocabularyPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
           {
             name: 'Vocabulary',
-            url: `https://kanadojo.com/${locale}/vocabulary`,
+            url: `https://www.pthamnihongo.site/${locale}/vocabulary`,
           },
         ]}
       />
       <CourseSchema
         name='Japanese Vocabulary Building Course by JLPT Level (N5-N1)'
         description='Build your Japanese vocabulary with thousands of words organized by JLPT levels. Learn nouns, verbs, adjectives, and adverbs with readings, meanings, and interactive practice from beginner to advanced.'
-        url={`https://kanadojo.com/${locale}/vocabulary`}
+        url={`https://www.pthamnihongo.site/${locale}/vocabulary`}
         educationalLevel='Beginner to Advanced'
         skillLevel='All Levels'
         learningResourceType='Interactive Course, Exercise and Games'
@@ -60,14 +60,14 @@ export default async function VocabularyPage({
       <LearningResourceSchema
         name='Japanese Vocabulary Quiz and JLPT Word Practice'
         description='Build your Japanese vocabulary with thousands of words organized by JLPT levels N5 through N1. Practice readings, meanings, and usage with interactive drills and quick set selection.'
-        url={`https://kanadojo.com/${locale}/vocabulary`}
+        url={`https://www.pthamnihongo.site/${locale}/vocabulary`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese vocabulary, word readings, meanings, and usage'
         assesses='Vocabulary recognition, recall speed, and JLPT-level word knowledge'
         timeRequired='PT45M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',
@@ -93,4 +93,3 @@ export default async function VocabularyPage({
     </>
   );
 }
-

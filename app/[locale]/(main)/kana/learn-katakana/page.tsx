@@ -39,18 +39,18 @@ export default async function LearnKatakanaPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'Kana', url: `https://kanadojo.com/${locale}/kana` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Kana', url: `https://www.pthamnihongo.site/${locale}/kana` },
           {
             name: 'Learn Katakana',
-            url: `https://kanadojo.com/${locale}/kana/learn-katakana`,
+            url: `https://www.pthamnihongo.site/${locale}/kana/learn-katakana`,
           },
         ]}
       />
       <CourseSchema
         name='Learn Katakana - Complete Japanese Alphabet Course'
         description='Master Katakana with interactive drills, kana selection cards, and instant feedback. Study the full katakana chart, dakuon, yoon, and foreign sound combinations with guided practice.'
-        url={`https://kanadojo.com/${locale}/kana/learn-katakana`}
+        url={`https://www.pthamnihongo.site/${locale}/kana/learn-katakana`}
         educationalLevel='Beginner'
         skillLevel='Beginner'
         learningResourceType='Interactive Course'
@@ -58,18 +58,17 @@ export default async function LearnKatakanaPage({
       <LearningResourceSchema
         name='Katakana Practice Playground'
         description='Interactive Katakana learning hub with selectable character groups, drills, and training modes. Built for recognizing loanword katakana, pronunciation, and reading fluency.'
-        url={`https://kanadojo.com/${locale}/kana/learn-katakana`}
+        url={`https://www.pthamnihongo.site/${locale}/kana/learn-katakana`}
         learningResourceType={['Interactive', 'Quiz', 'Game']}
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Katakana chart, reading, recognition, and pronunciation'
         assesses='Katakana recognition speed, accuracy, and recall'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
       />
       <FAQSchema faqs={commonKanaDOJOFAQs} />
       <KanaMenu filter='katakana' />
     </>
   );
 }
-

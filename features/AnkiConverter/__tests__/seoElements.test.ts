@@ -23,7 +23,7 @@ const webApplicationSchema = {
   '@type': 'WebApplication',
   name: 'Anki Deck to JSON Converter',
   alternateName: 'Anki Converter',
-  url: 'https://kanadojo.com/en/anki-converter',
+  url: 'https://www.pthamnihongo.site/en/anki-converter',
   applicationCategory: 'UtilityApplication',
   applicationSubCategory: 'File Converter',
   operatingSystem: 'Any',
@@ -53,7 +53,7 @@ const webApplicationSchema = {
   author: {
     '@type': 'Organization',
     name: 'KanaDojo',
-    url: 'https://kanadojo.com',
+    url: 'https://www.pthamnihongo.site',
   },
   creator: {
     '@type': 'Organization',
@@ -176,7 +176,7 @@ describe('Anki Converter SEO Elements', () => {
     });
 
     it('should have question and answer for each FAQ item', () => {
-      faqItems.forEach((faq, index) => {
+      faqItems.forEach(faq => {
         expect(faq.question).toBeDefined();
         expect(faq.answer).toBeDefined();
         expect(typeof faq.question).toBe('string');
@@ -345,7 +345,7 @@ describe('Anki Converter SEO Elements', () => {
       description:
         'Convert Anki flashcard decks to JSON format instantly. Supports APKG, TSV, SQLite, and COLPKG files. Free, fast, and completely private - all processing happens in your browser.',
       type: 'website',
-      url: 'https://kanadojo.com/en/anki-converter',
+      url: 'https://www.pthamnihongo.site/en/anki-converter',
       siteName: 'KanaDojo',
     };
 
@@ -365,7 +365,7 @@ describe('Anki Converter SEO Elements', () => {
 
     it('should have OG URL', () => {
       expect(expectedOG.url).toBeDefined();
-      expect(expectedOG.url).toContain('kanadojo.com');
+      expect(expectedOG.url).toContain('www.pthamnihongo.site');
       expect(expectedOG.url).toContain('anki-converter');
     });
 

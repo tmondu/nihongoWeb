@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * Submits sitemaps to Google and Bing for faster indexing
  */
 
-const SITE_URL = 'https://kanadojo.com';
+const SITE_URL = 'https://www.pthamnihongo.site';
 
 interface SubmissionResult {
   engine: 'google' | 'bing';
@@ -100,7 +100,8 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     service: 'Sitemap Submission API',
-    usage: 'POST with { "sitemapUrl": "https://kanadojo.com/sitemap.xml" }',
+    usage:
+      'POST with { "sitemapUrl": "https://www.pthamnihongo.site/sitemap.xml" }',
     searchEngines: ['Google', 'Bing'],
     defaultSitemap: `${SITE_URL}/sitemap.xml`,
   });

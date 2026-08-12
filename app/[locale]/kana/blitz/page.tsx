@@ -28,25 +28,24 @@ export default function BlitzPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://kanadojo.com' },
-          { name: 'Kana', url: 'https://kanadojo.com/kana' },
-          { name: 'Blitz', url: 'https://kanadojo.com/kana/blitz' },
+          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          { name: 'Kana', url: 'https://www.pthamnihongo.site/kana' },
+          { name: 'Blitz', url: 'https://www.pthamnihongo.site/kana/blitz' },
         ]}
       />
       <LearningResourceSchema
         name='Hiragana & Katakana Blitz Mode'
         description='Fast-paced Japanese Kana practice game. Test your speed and accuracy with Hiragana and Katakana recognition in timed challenges.'
-        url='https://kanadojo.com/kana/blitz'
+        url='https://www.pthamnihongo.site/kana/blitz'
         learningResourceType='Game'
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Hiragana and Katakana speed recognition'
         assesses='Hiragana and Katakana reading speed and accuracy'
         timeRequired='PT5M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
       />
       <KanaBlitz />
     </>
   );
 }
-

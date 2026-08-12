@@ -37,10 +37,10 @@ export default async function ProgressPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
           {
             name: 'Progress',
-            url: `https://kanadojo.com/${locale}/progress`,
+            url: `https://www.pthamnihongo.site/${locale}/progress`,
           },
         ]}
       />
@@ -50,4 +50,3 @@ export default async function ProgressPage({
     </>
   );
 }
-

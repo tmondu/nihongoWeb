@@ -7,16 +7,16 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   const securityTxt = `Contact: https://github.com/lingdojo/kanadojo/security
-Contact: mailto:security@kanadojo.com
+Contact: mailto:security@www.pthamnihongo.site
 Expires: 2026-12-31T23:59:59.000Z
 Preferred-Languages: en, es
-Canonical: https://kanadojo.com/.well-known/security.txt
-Policy: https://kanadojo.com/security
-Acknowledgments: https://kanadojo.com/credits
+Canonical: https://www.pthamnihongo.site/.well-known/security.txt
+Policy: https://www.pthamnihongo.site/security
+Acknowledgments: https://www.pthamnihongo.site/credits
 
 # Security Policy for KanaDojo
 # If you discover a security vulnerability, please report it responsibly.
-# See our security policy at https://kanadojo.com/security for details.`;
+# See our security policy at https://www.pthamnihongo.site/security for details.`;
 
   return new NextResponse(securityTxt, {
     headers: {

@@ -36,18 +36,21 @@ export default async function KanjiJlptN4Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'Kanji', url: `https://kanadojo.com/${locale}/kanji` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          {
+            name: 'Kanji',
+            url: `https://www.pthamnihongo.site/${locale}/kanji`,
+          },
           {
             name: 'JLPT N4',
-            url: `https://kanadojo.com/${locale}/kanji/jlpt-n4`,
+            url: `https://www.pthamnihongo.site/${locale}/kanji/jlpt-n4`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N4 Kanji Course - Japanese Kanji Practice'
         description='Study JLPT N4 kanji with interactive drills and set-based practice. Improve kanji recognition, readings, and meanings with immediate feedback and progress tracking.'
-        url={`https://kanadojo.com/${locale}/kanji/jlpt-n4`}
+        url={`https://www.pthamnihongo.site/${locale}/kanji/jlpt-n4`}
         educationalLevel='Beginner to Intermediate'
         skillLevel='JLPT N4'
         learningResourceType='Interactive Course'
@@ -55,14 +58,14 @@ export default async function KanjiJlptN4Page({
       <LearningResourceSchema
         name='JLPT N4 Kanji Practice'
         description='Targeted JLPT N4 kanji practice with selectable levels, quick selection tools, and kanji set dictionaries for exam-focused study.'
-        url={`https://kanadojo.com/${locale}/kanji/jlpt-n4`}
+        url={`https://www.pthamnihongo.site/${locale}/kanji/jlpt-n4`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Beginner to Intermediate']}
         teaches='JLPT N4 kanji readings, meanings, and recognition'
         assesses='JLPT N4 kanji recall speed and accuracy'
         timeRequired='PT25M'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',
@@ -74,4 +77,3 @@ export default async function KanjiJlptN4Page({
     </>
   );
 }
-

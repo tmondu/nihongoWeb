@@ -15,7 +15,7 @@ interface DojoRouteSchemaProps {
   };
 }
 
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 
 function withLocalePath(locale: string, path: string) {
   return `${BASE_URL}/${locale}${path}`;
@@ -34,7 +34,11 @@ function getRouteAliases(routeKey: DojoRouteSchemaProps['routeKey']) {
   if (routeKey === 'kanji') {
     return ['learn kanji', 'kanji practice', 'jlpt kanji'];
   }
-  return ['learn japanese vocabulary', 'jlpt vocabulary', 'vocabulary practice'];
+  return [
+    'learn japanese vocabulary',
+    'jlpt vocabulary',
+    'vocabulary practice',
+  ];
 }
 
 export function DojoRouteSchema({
@@ -120,7 +124,9 @@ export function DojoRouteSchema({
     },
   ];
 
-  return <StructuredData data={{ '@context': 'https://schema.org', '@graph': graph }} />;
+  return (
+    <StructuredData
+      data={{ '@context': 'https://schema.org', '@graph': graph }}
+    />
+  );
 }
-
-

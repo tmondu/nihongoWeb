@@ -63,7 +63,7 @@ const blogPostMetaArb: fc.Arbitrary<BlogPostMeta> = fc.record({
  * **Validates: Requirements 4.1**
  */
 describe('Property 9: Metadata Contains Required Fields', () => {
-  const BASE_URL = 'https://kanadojo.com';
+  const BASE_URL = 'https://www.pthamnihongo.site';
 
   it('generated metadata contains title from post', () => {
     fc.assert(

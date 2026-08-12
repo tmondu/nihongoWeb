@@ -71,7 +71,7 @@ const blogPostArb: fc.Arbitrary<BlogPost> = fc.record({
  * **Validates: Requirements 4.2**
  */
 describe('Property 10: Article Schema Contains Required Fields', () => {
-  const BASE_URL = 'https://kanadojo.com';
+  const BASE_URL = 'https://www.pthamnihongo.site';
 
   it('schema has @type as Article', () => {
     fc.assert(

@@ -11,7 +11,7 @@ describe('translator SEO helpers', () => {
     });
 
     expect(metadata.alternates?.canonical).toBe(
-      'https://kanadojo.com/translate/english-to-japanese',
+      'https://www.pthamnihongo.site/translate/english-to-japanese',
     );
     expect(metadata.title).toBe('English to Japanese Translator Online');
     expect(String(metadata.alternates?.canonical)).not.toContain('/en/');
@@ -34,7 +34,7 @@ describe('translator SEO helpers', () => {
     });
 
     const serialized = JSON.stringify(schema);
-    expect(serialized).toContain('https://kanadojo.com/translate');
+    expect(serialized).toContain('https://www.pthamnihongo.site/translate');
     expect(serialized).not.toContain('/en/translate');
     expect(serialized).not.toContain('/es/translate');
   });

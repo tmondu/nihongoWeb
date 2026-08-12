@@ -80,7 +80,7 @@ export function generateAuthorSchema(props: AuthorSchemaProps) {
   }
 
   if (credentials && credentials.length > 0) {
-    schema.hasCredential = credentials.map((credential) => ({
+    schema.hasCredential = credentials.map(credential => ({
       '@type': 'EducationalOccupationalCredential',
       name: credential,
     }));
@@ -101,7 +101,7 @@ export function generateAuthorSchema(props: AuthorSchemaProps) {
  * @example
  * <AuthorSchema
  *   name="John Tanaka"
- *   url="https://kanadojo.com/authors/john-tanaka"
+ *   url="https://www.pthamnihongo.site/authors/john-tanaka"
  *   jobTitle="Japanese Language Instructor"
  *   expertise="Japanese Language Education, JLPT Preparation"
  *   yearsOfExperience={10}

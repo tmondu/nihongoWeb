@@ -20,7 +20,7 @@ export async function generateMetadata({
   const title = 'JLPT N3 Vocabulary Guide - Intermediate Japanese | KanaDojo';
   const description =
     'Complete JLPT N3 vocabulary and kanji guide for intermediate Japanese learners. Free interactive practice with ~370 kanji and 3,000+ vocabulary words. Master N3 efficiently!';
-  const canonical = `https://kanadojo.com/${locale}/jlpt/n3`;
+  const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n3`;
 
   return {
     title,
@@ -30,8 +30,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://kanadojo.com/en/jlpt/n3',
-        es: 'https://kanadojo.com/es/jlpt/n3',
+        en: 'https://www.pthamnihongo.site/en/jlpt/n3',
+        es: 'https://www.pthamnihongo.site/es/jlpt/n3',
       },
     },
     openGraph: {
@@ -54,9 +54,15 @@ export default async function JLPTN3Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'JLPT', url: `https://kanadojo.com/${locale}/jlpt/n3` },
-          { name: 'N3', url: `https://kanadojo.com/${locale}/jlpt/n3` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          {
+            name: 'JLPT',
+            url: `https://www.pthamnihongo.site/${locale}/jlpt/n3`,
+          },
+          {
+            name: 'N3',
+            url: `https://www.pthamnihongo.site/${locale}/jlpt/n3`,
+          },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
@@ -339,4 +345,3 @@ export default async function JLPTN3Page({
     </>
   );
 }
-

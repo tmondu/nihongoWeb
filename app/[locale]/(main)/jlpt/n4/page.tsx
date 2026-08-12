@@ -20,7 +20,7 @@ export async function generateMetadata({
   const title = 'JLPT N4 Kanji List - Complete Study Resource | KanaDojo';
   const description =
     'Complete JLPT N4 Kanji list with all ~170 characters, meanings, and readings. Free interactive practice for JLPT N4 exam preparation. Master N4 Kanji efficiently!';
-  const canonical = `https://kanadojo.com/${locale}/jlpt/n4`;
+  const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n4`;
 
   return {
     title,
@@ -30,8 +30,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://kanadojo.com/en/jlpt/n4',
-        es: 'https://kanadojo.com/es/jlpt/n4',
+        en: 'https://www.pthamnihongo.site/en/jlpt/n4',
+        es: 'https://www.pthamnihongo.site/es/jlpt/n4',
       },
     },
     openGraph: {
@@ -54,9 +54,15 @@ export default async function JLPTN4Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'JLPT', url: `https://kanadojo.com/${locale}/jlpt/n4` },
-          { name: 'N4', url: `https://kanadojo.com/${locale}/jlpt/n4` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          {
+            name: 'JLPT',
+            url: `https://www.pthamnihongo.site/${locale}/jlpt/n4`,
+          },
+          {
+            name: 'N4',
+            url: `https://www.pthamnihongo.site/${locale}/jlpt/n4`,
+          },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
@@ -262,4 +268,3 @@ export default async function JLPTN4Page({
     </>
   );
 }
-

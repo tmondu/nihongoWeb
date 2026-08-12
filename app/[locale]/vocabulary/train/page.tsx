@@ -28,15 +28,21 @@ export default function Train() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://kanadojo.com' },
-          { name: 'Vocabulary', url: 'https://kanadojo.com/vocabulary' },
-          { name: 'Training', url: 'https://kanadojo.com/vocabulary/train' },
+          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          {
+            name: 'Vocabulary',
+            url: 'https://www.pthamnihongo.site/vocabulary',
+          },
+          {
+            name: 'Training',
+            url: 'https://www.pthamnihongo.site/vocabulary/train',
+          },
         ]}
       />
       <CourseSchema
         name='Japanese Vocabulary Training'
         description='Build your Japanese vocabulary with words organized by JLPT levels. Interactive exercises with example sentences and translations.'
-        url='https://kanadojo.com/vocabulary/train'
+        url='https://www.pthamnihongo.site/vocabulary/train'
         skillLevel='Beginner to Advanced'
         learningResourceType='Interactive Vocabulary Training'
       />
@@ -44,4 +50,3 @@ export default function Train() {
     </>
   );
 }
-

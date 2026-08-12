@@ -21,43 +21,43 @@ export const kanaDojoSchema = {
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': 'https://kanadojo.com/#organization',
+      '@id': 'https://www.pthamnihongo.site/#organization',
       name: 'KanaDojo',
-      url: 'https://kanadojo.com',
-      logo: 'https://kanadojo.com/favicon.ico',
+      url: 'https://www.pthamnihongo.site',
+      logo: 'https://www.pthamnihongo.site/favicon.ico',
       description:
         'An aesthetic, minimalist platform for learning Japanese Hiragana, Katakana, Kanji, and Vocabulary',
       sameAs: ['https://github.com/lingdojo/kanadojo'],
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'dev@kanadojo.com',
+        email: 'dev@www.pthamnihongo.site',
         contactType: 'Customer Support',
       },
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://kanadojo.com/#website',
-      url: 'https://kanadojo.com',
+      '@id': 'https://www.pthamnihongo.site/#website',
+      url: 'https://www.pthamnihongo.site',
       name: 'KanaDojo',
       description:
         'Master Japanese with KanaDojo - Learn Hiragana, Katakana, Kanji, and Vocabulary',
-      publisher: { '@id': 'https://kanadojo.com/#organization' },
+      publisher: { '@id': 'https://www.pthamnihongo.site/#organization' },
       inLanguage: ['en', 'es'],
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: 'https://kanadojo.com/?q={search_term_string}',
+          urlTemplate: 'https://www.pthamnihongo.site/?q={search_term_string}',
         },
         'query-input': 'required name=search_term_string',
       },
     },
     {
       '@type': 'WebApplication',
-      '@id': 'https://kanadojo.com/#webapp',
+      '@id': 'https://www.pthamnihongo.site/#webapp',
       name: 'KanaDojo',
       alternateName: 'Kana Dojo',
-      url: 'https://kanadojo.com',
+      url: 'https://www.pthamnihongo.site',
       applicationCategory: 'EducationalApplication',
       applicationSubCategory: 'Language Learning',
       operatingSystem: 'Any',
@@ -101,9 +101,9 @@ export const kanaDojoSchema = {
     },
     {
       '@type': 'EducationalOrganization',
-      '@id': 'https://kanadojo.com/#educational',
+      '@id': 'https://www.pthamnihongo.site/#educational',
       name: 'KanaDojo',
-      url: 'https://kanadojo.com',
+      url: 'https://www.pthamnihongo.site',
       description: 'Interactive Japanese language learning platform',
       educationalCredentialAwarded: 'Japanese Language Proficiency',
       hasOfferCatalog: {
@@ -143,7 +143,7 @@ export const kanaDojoSchema = {
     },
     {
       '@type': 'FAQPage',
-      '@id': 'https://kanadojo.com/#faq',
+      '@id': 'https://www.pthamnihongo.site/#faq',
       mainEntity: [
         {
           '@type': 'Question',

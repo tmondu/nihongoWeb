@@ -14,7 +14,7 @@ Cloudflare R2, and consumed by the app through the generated wallpaper manifest.
   need to be uploaded after processing.
 - `.generated/wallpapers/wallpaper-upload-report.json` records the latest R2
   upload and verification results.
-- Public delivery uses `https://assets.kanadojo.com/wallpapers/*`.
+- Public delivery uses `https://assets.www.pthamnihongo.site/wallpapers/*`.
 - The app imports `features/Preferences/data/wallpapers/wallpapers.generated.ts`.
 - Premium themes are generated from the manifest in `themeDefinitions.ts`.
 
@@ -44,9 +44,9 @@ URLs.
 
 ## Cloudflare Resources
 
-- Cloudflare account: the account that owns the active `kanadojo.com` zone.
+- Cloudflare account: the account that owns the active `www.pthamnihongo.site` zone.
 - R2 bucket: `kanadojo-wallpapers`.
-- Custom domain: `assets.kanadojo.com`.
+- Custom domain: `assets.www.pthamnihongo.site`.
 - Object prefix: `wallpapers/`.
 - Cache header: `public, max-age=31536000, immutable`.
 
@@ -55,7 +55,7 @@ URLs.
 The defaults are production-ready, but these env vars can override them:
 
 ```txt
-WALLPAPER_ASSET_BASE_URL=https://assets.kanadojo.com
+WALLPAPER_ASSET_BASE_URL=https://assets.www.pthamnihongo.site
 WALLPAPER_R2_BUCKET=kanadojo-wallpapers
 WALLPAPER_R2_PREFIX=wallpapers
 WALLPAPER_STAGING_DIR=.generated/wallpapers

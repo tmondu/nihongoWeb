@@ -4,7 +4,7 @@
  * Good internal linking improves crawlability and page authority distribution
  */
 
-const SITE_URL = 'https://kanadojo.com';
+const SITE_URL = 'https://www.pthamnihongo.site';
 
 export interface InternalLink {
   href: string;

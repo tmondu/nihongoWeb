@@ -47,9 +47,9 @@ export interface ArticleSchemaOptions {
 /**
  * Base URL for the site
  */
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 const PUBLISHER_NAME = 'KanaDojo';
-const PUBLISHER_LOGO = 'https://kanadojo.com/logo.png';
+const PUBLISHER_LOGO = 'https://www.pthamnihongo.site/logo.png';
 
 /**
  * Generates JSON-LD Article structured data from BlogPost

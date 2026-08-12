@@ -49,7 +49,7 @@ export async function generateMetadata({
     openGraph: {
       title: 'Best Japanese Learning Resources | KanaDojo',
       description,
-      url: 'https://kanadojo.com/resources',
+      url: 'https://www.pthamnihongo.site/resources',
       type: 'website',
     },
     twitter: {
@@ -58,7 +58,7 @@ export async function generateMetadata({
       description,
     },
     alternates: {
-      canonical: 'https://kanadojo.com/resources',
+      canonical: 'https://www.pthamnihongo.site/resources',
     },
   };
 }
@@ -108,8 +108,8 @@ export default async function ResourcesPage({
   const availableFilters = getFilterOptions(resources);
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://kanadojo.com' },
-    { name: 'Resources', url: 'https://kanadojo.com/resources' },
+    { name: 'Home', url: 'https://www.pthamnihongo.site' },
+    { name: 'Resources', url: 'https://www.pthamnihongo.site/resources' },
   ];
 
   const itemListSchema = generateItemListSchema(resources, locale);
@@ -126,13 +126,13 @@ export default async function ResourcesPage({
       <LearningResourceSchema
         name='Japanese Learning Resources Library'
         description={`Curated collection of ${resources.length}+ Japanese learning resources including apps, textbooks, YouTube channels, podcasts, games, and JLPT preparation materials.`}
-        url='https://kanadojo.com/resources'
+        url='https://www.pthamnihongo.site/resources'
         learningResourceType='Course'
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese Language — Hiragana, Katakana, Kanji, Vocabulary, Grammar'
         isAccessibleForFree={true}
         inLanguage={['en', 'ja']}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
       />
 
       {/* Page Content */}
@@ -145,4 +145,3 @@ export default async function ResourcesPage({
     </>
   );
 }
-

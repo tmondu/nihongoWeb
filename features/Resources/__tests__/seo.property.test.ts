@@ -33,7 +33,7 @@ function generateMainPageMetadata(locale: Locale, totalCount: number) {
     openGraph: {
       title: 'Best Japanese Learning Resources | KanaDojo',
       description,
-      url: `https://kanadojo.com/${locale}/resources`,
+      url: `https://www.pthamnihongo.site/${locale}/resources`,
       type: 'website',
     },
     twitter: {
@@ -42,7 +42,7 @@ function generateMainPageMetadata(locale: Locale, totalCount: number) {
       description,
     },
     alternates: {
-      canonical: `https://kanadojo.com/${locale}/resources`,
+      canonical: `https://www.pthamnihongo.site/${locale}/resources`,
       languages: {
         en: '/en/resources',
         es: '/es/resources',
@@ -75,7 +75,7 @@ function generateCategoryPageMetadata(
     openGraph: {
       title: `Best ${categoryName} for Learning Japanese | KanaDojo`,
       description,
-      url: `https://kanadojo.com/${locale}/resources/${categoryId}`,
+      url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
       type: 'website',
     },
     twitter: {
@@ -84,7 +84,7 @@ function generateCategoryPageMetadata(
       description,
     },
     alternates: {
-      canonical: `https://kanadojo.com/${locale}/resources/${categoryId}`,
+      canonical: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
       languages: {
         en: `/en/resources/${categoryId}`,
         es: `/es/resources/${categoryId}`,
@@ -117,7 +117,7 @@ function generateSubcategoryPageMetadata(
     openGraph: {
       title: `Best ${subcategoryName} for Learning Japanese | KanaDojo`,
       description,
-      url: `https://kanadojo.com/${locale}/resources/${categoryId}/${subcategoryId}`,
+      url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
       type: 'website',
     },
     twitter: {
@@ -126,7 +126,7 @@ function generateSubcategoryPageMetadata(
       description,
     },
     alternates: {
-      canonical: `https://kanadojo.com/${locale}/resources/${categoryId}/${subcategoryId}`,
+      canonical: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
       languages: {
         en: `/en/resources/${categoryId}/${subcategoryId}`,
         es: `/es/resources/${categoryId}/${subcategoryId}`,

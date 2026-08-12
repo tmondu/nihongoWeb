@@ -21,7 +21,7 @@ export async function generateMetadata({
     'JLPT N5 Study Guide - Complete Preparation Resource | KanaDojo';
   const description =
     'Complete JLPT N5 study guide with all essential Kanji, vocabulary, and study tips. Free interactive practice for JLPT N5 exam success. Start preparing today!';
-  const canonical = `https://kanadojo.com/${locale}/jlpt/n5`;
+  const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n5`;
 
   return {
     title,
@@ -31,8 +31,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://kanadojo.com/en/jlpt/n5',
-        es: 'https://kanadojo.com/es/jlpt/n5',
+        en: 'https://www.pthamnihongo.site/en/jlpt/n5',
+        es: 'https://www.pthamnihongo.site/es/jlpt/n5',
       },
     },
     openGraph: {
@@ -55,9 +55,15 @@ export default async function JLPTN5Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'JLPT', url: `https://kanadojo.com/${locale}/jlpt/n5` },
-          { name: 'N5', url: `https://kanadojo.com/${locale}/jlpt/n5` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          {
+            name: 'JLPT',
+            url: `https://www.pthamnihongo.site/${locale}/jlpt/n5`,
+          },
+          {
+            name: 'N5',
+            url: `https://www.pthamnihongo.site/${locale}/jlpt/n5`,
+          },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
@@ -343,4 +349,3 @@ export default async function JLPTN5Page({
     </>
   );
 }
-

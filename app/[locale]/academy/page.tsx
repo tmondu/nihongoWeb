@@ -41,7 +41,7 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
     itemListElement: posts.slice(0, 20).map((post, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `https://kanadojo.com/academy/${post.slug}`,
+      url: `https://www.pthamnihongo.site/academy/${post.slug}`,
       name: post.title,
     })),
   };
@@ -53,11 +53,11 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
     name: 'KanaDojo Academy',
     description:
       'A comprehensive collection of Japanese learning articles, tutorials, and study guides.',
-    url: 'https://kanadojo.com/academy',
+    url: 'https://www.pthamnihongo.site/academy',
     isPartOf: {
       '@type': 'WebSite',
       name: 'KanaDojo',
-      url: 'https://kanadojo.com',
+      url: 'https://www.pthamnihongo.site',
     },
     about: {
       '@type': 'Thing',
@@ -71,8 +71,8 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
       {/* Structured Data for SEO */}
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://kanadojo.com' },
-          { name: 'Academy', url: 'https://kanadojo.com/academy' },
+          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          { name: 'Academy', url: 'https://www.pthamnihongo.site/academy' },
         ]}
       />
       <StructuredData data={itemListSchema} />
@@ -112,4 +112,3 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
     </>
   );
 }
-

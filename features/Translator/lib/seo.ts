@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 
 export interface TranslatorFaqEntry {
   question: string;
@@ -23,9 +23,7 @@ function toUrl(pathname: string) {
   return `${BASE_URL}${pathname}`;
 }
 
-export function buildTranslatorMetadata(
-  config: TranslatorSeoConfig,
-): Metadata {
+export function buildTranslatorMetadata(config: TranslatorSeoConfig): Metadata {
   const canonical = toUrl(config.pathname);
   const ogTitle = config.ogTitle ?? config.title;
   // const ogImageUrl = `${BASE_URL}/api/og?title=${encodeURIComponent(ogTitle)}&description=${encodeURIComponent(config.description.slice(0, 100))}&type=default`;

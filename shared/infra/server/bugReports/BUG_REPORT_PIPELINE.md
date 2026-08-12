@@ -135,7 +135,7 @@ In the Tally bug report form:
 3. Add endpoint URL:
 
 ```txt
-https://kanadojo.com/api/webhooks/tally/bug-report
+https://www.pthamnihongo.site/api/webhooks/tally/bug-report
 ```
 
 4. Add custom HTTP header:

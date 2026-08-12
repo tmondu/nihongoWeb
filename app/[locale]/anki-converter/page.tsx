@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 
 export async function generateMetadata({
   params,
@@ -642,4 +642,3 @@ npm run anki:convert -- --help`}
     </>
   );
 }
-

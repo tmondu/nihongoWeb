@@ -36,14 +36,17 @@ export default async function KanjiPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://kanadojo.com/${locale}` },
-          { name: 'Kanji', url: `https://kanadojo.com/${locale}/kanji` },
+          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          {
+            name: 'Kanji',
+            url: `https://www.pthamnihongo.site/${locale}/kanji`,
+          },
         ]}
       />
       <CourseSchema
         name='Japanese Kanji Learning Course by JLPT Level (N5-N1)'
         description='Learn Japanese Kanji characters organized by JLPT levels from N5 to N1. Master over 2,000 essential kanji with readings, meanings, and context through interactive training and spaced repetition.'
-        url={`https://kanadojo.com/${locale}/kanji`}
+        url={`https://www.pthamnihongo.site/${locale}/kanji`}
         educationalLevel='Beginner to Advanced'
         skillLevel='All Levels'
         learningResourceType='Interactive Course, Exercise and Games'
@@ -51,14 +54,14 @@ export default async function KanjiPage({
       <LearningResourceSchema
         name='Interactive Kanji Practice and JLPT Quiz'
         description='Master over 2,000 Japanese Kanji characters by JLPT levels N5 through N1. Practice readings, meanings, and recognition with interactive quizzes and adaptive repetition.'
-        url={`https://kanadojo.com/${locale}/kanji`}
+        url={`https://www.pthamnihongo.site/${locale}/kanji`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese Kanji Characters, Readings, and Meanings'
         assesses='Kanji recognition, onyomi and kunyomi recall, and meaning comprehension'
         timeRequired='PT1H'
         isAccessibleForFree={true}
-        provider={{ name: 'KanaDojo', url: 'https://kanadojo.com' }}
+        provider={{ name: 'KanaDojo', url: 'https://www.pthamnihongo.site' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',
@@ -84,4 +87,3 @@ export default async function KanjiPage({
     </>
   );
 }
-

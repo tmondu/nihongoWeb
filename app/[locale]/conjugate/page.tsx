@@ -43,7 +43,7 @@ export async function generateMetadata({
     if (verbInfo) {
       return generateNextMetadata(verbInfo, {
         locale,
-        baseUrl: 'https://kanadojo.com',
+        baseUrl: 'https://www.pthamnihongo.site',
       });
     }
   }
@@ -51,7 +51,7 @@ export async function generateMetadata({
   // Return base meta for the conjugator page
   return generateNextMetadata(undefined, {
     locale,
-    baseUrl: 'https://kanadojo.com',
+    baseUrl: 'https://www.pthamnihongo.site',
   });
 }
 
@@ -91,10 +91,10 @@ export default async function ConjugatePage({
       <StructuredData data={structuredData} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://kanadojo.com' },
+          { name: 'Home', url: 'https://www.pthamnihongo.site' },
           {
             name: 'Verb Conjugator',
-            url: 'https://kanadojo.com/conjugate',
+            url: 'https://www.pthamnihongo.site/conjugate',
           },
         ]}
       />
@@ -146,4 +146,3 @@ export default async function ConjugatePage({
     </>
   );
 }
-

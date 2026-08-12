@@ -28,15 +28,15 @@ export default function Train() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://kanadojo.com' },
-          { name: 'Kana', url: 'https://kanadojo.com/kana' },
-          { name: 'Training', url: 'https://kanadojo.com/kana/train' },
+          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          { name: 'Kana', url: 'https://www.pthamnihongo.site/kana' },
+          { name: 'Training', url: 'https://www.pthamnihongo.site/kana/train' },
         ]}
       />
       <CourseSchema
         name='Hiragana & Katakana Training'
         description='Master Japanese Hiragana and Katakana with interactive training modes including multiple choice, input practice, and speed tests.'
-        url='https://kanadojo.com/kana/train'
+        url='https://www.pthamnihongo.site/kana/train'
         skillLevel='Beginner to Intermediate'
         learningResourceType='Interactive Training Game'
       />
@@ -44,4 +44,3 @@ export default function Train() {
     </>
   );
 }
-

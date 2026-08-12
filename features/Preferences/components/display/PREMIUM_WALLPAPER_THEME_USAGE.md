@@ -42,7 +42,7 @@ They are not uploaded to R2.
 Built-in Premium wallpaper URLs should point to:
 
 ```txt
-https://assets.kanadojo.com/wallpapers/*
+https://assets.www.pthamnihongo.site/wallpapers/*
 ```
 
 Local `/wallpapers/*` URLs are part of the old public-folder pipeline and should

@@ -21,7 +21,7 @@ const localesSubsetArb = fc
  * **Validates: Requirements 4.5**
  */
 describe('Property 12: Hreflang Tags for Multi-Locale Posts', () => {
-  const BASE_URL = 'https://kanadojo.com';
+  const BASE_URL = 'https://www.pthamnihongo.site';
 
   it('generates one hreflang tag per available locale', () => {
     fc.assert(

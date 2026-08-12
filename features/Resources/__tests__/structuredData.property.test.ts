@@ -36,20 +36,23 @@ function generateBreadcrumbItems(
   subcategoryName?: string,
 ) {
   const items = [
-    { name: 'Home', url: `https://kanadojo.com/${locale}` },
-    { name: 'Resources', url: `https://kanadojo.com/${locale}/resources` },
+    { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+    {
+      name: 'Resources',
+      url: `https://www.pthamnihongo.site/${locale}/resources`,
+    },
   ];
 
   if (categoryId && categoryName) {
     items.push({
       name: categoryName,
-      url: `https://kanadojo.com/${locale}/resources/${categoryId}`,
+      url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
     });
 
     if (subcategoryId && subcategoryName) {
       items.push({
         name: subcategoryName,
-        url: `https://kanadojo.com/${locale}/resources/${categoryId}/${subcategoryId}`,
+        url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
       });
     }
   }
@@ -320,4 +323,3 @@ describe('Property 10: Structured Data Validity', () => {
     });
   });
 });
-

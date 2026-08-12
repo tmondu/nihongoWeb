@@ -13,7 +13,7 @@ import type { VerbInfo } from '../../types';
 // Constants
 // ============================================================================
 
-const BASE_URL = 'https://kanadojo.com';
+const BASE_URL = 'https://www.pthamnihongo.site';
 const CONJUGATE_PATH = '/conjugate';
 
 // ============================================================================
@@ -171,7 +171,6 @@ export function generateVerbMeta(
   verb: VerbInfo,
   options?: GenerateMetaOptions,
 ): ConjugatorMeta {
-  const baseUrl = options?.baseUrl ?? BASE_URL;
   const verbTypeDisplay = getVerbTypeDisplay(verb);
 
   // Generate title following SEO best practices (Requirements: 15.5)

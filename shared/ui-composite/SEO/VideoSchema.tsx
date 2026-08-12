@@ -113,8 +113,8 @@ export function generateVideoSchema(props: VideoSchemaProps) {
  * <VideoSchema
  *   name="How to Write Hiragana あ"
  *   description="Learn the correct stroke order for hiragana character あ"
- *   contentUrl="https://cdn.kanadojo.com/videos/hiragana-a.mp4"
- *   thumbnailUrl="https://cdn.kanadojo.com/thumbnails/hiragana-a.jpg"
+ *   contentUrl="https://cdn.www.pthamnihongo.site/videos/hiragana-a.mp4"
+ *   thumbnailUrl="https://cdn.www.pthamnihongo.site/thumbnails/hiragana-a.jpg"
  *   uploadDate="2025-01-15"
  *   duration="PT2M30S"
  *   educationalUse="Instruction"
