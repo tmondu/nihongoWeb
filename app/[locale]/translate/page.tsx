@@ -151,7 +151,7 @@ export default async function TranslatePage({ params }: TranslatePageProps) {
         {
           question: 'Có giới hạn lượt sử dụng không?',
           answer:
-            'Có. Giới hạn sử dụng hợp lý được áp dụng khi lưu lượng truy cập cao để giữ dịch vụ ổn định.',
+            'Không giới hạn. Hiện tại trình dịch được cung cấp miễn phí cho mọi người dùng.',
         },
       ]
     : schemaFaqEntries;
