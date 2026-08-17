@@ -14,7 +14,7 @@ import {
   getHueDifference,
 } from './colorUtils';
 import { validateTheme, validateAllThemes } from './themeValidator';
-import themeSets from '../data/themes';
+import themeSets from '../data/themes/themes';
 
 describe('Color Parsing', () => {
   it('parses hex colors correctly', () => {

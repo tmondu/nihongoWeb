@@ -17,7 +17,34 @@ import {
 } from '../types/blog';
 import { BlogPost } from '../components/BlogPost';
 
-// Mock next-intl Link component
+// Mock next-intl Link component and core/i18n/routing
+vi.mock('@/core/i18n/routing', () => ({
+  Link: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: vi.fn(() => ''),
+  redirect: vi.fn(),
+}));
+
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en',
+  useTranslations: () => (key: string) => key,
+}));
+
 vi.mock('@/shared/ui-composite/navigation/Link', () => ({
   Link: ({
     children,

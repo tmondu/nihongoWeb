@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
+import { env } from '@/shared/config/env';
 import { hashPassword } from '@/shared/utils/auth';
 import { RowDataPacket } from 'mysql2';
 
@@ -37,7 +38,7 @@ async function verifyTurnstileToken(
   token: string | undefined,
   ip?: string,
 ): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
+  const secret = env.turnstile.secretKey;
   if (!secret) {
     // If not configured locally, pass verification (bypass for development)
     return true;
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Verify Turnstile Token (if secret is configured)
-    if (process.env.TURNSTILE_SECRET_KEY) {
+    if (env.turnstile.secretKey) {
       const isTurnstileValid = await verifyTurnstileToken(turnstileToken, ip);
       if (!isTurnstileValid) {
         return NextResponse.json(

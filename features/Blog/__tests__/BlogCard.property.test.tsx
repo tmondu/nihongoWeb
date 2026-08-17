@@ -10,6 +10,11 @@ import {
 } from '../types/blog';
 import { BlogCard } from '../components/BlogCard';
 
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en',
+  useTranslations: () => (key: string) => key,
+}));
+
 // Mock next-intl Link component
 vi.mock('@/shared/ui-composite/navigation/Link', () => ({
   Link: ({

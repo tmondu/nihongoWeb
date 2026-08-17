@@ -3,6 +3,8 @@ import mysql from 'mysql2/promise';
 
 import { hashPassword } from '../../utils/auth';
 
+import { env } from '@/shared/config/env';
+
 let pool: mysql.Pool | null = null;
 let initialized = false;
 
@@ -10,11 +12,11 @@ export function getDbPool(): mysql.Pool {
   if (pool) return pool;
 
   pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'nihongo_db',
-    port: Number(process.env.DB_PORT) || 3306,
+    host: env.db.host,
+    user: env.db.user,
+    password: env.db.password,
+    database: env.db.name,
+    port: env.db.port,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,

@@ -161,12 +161,16 @@ export const GameBottomBar = ({
             </div>
           )}
           <p className='flex flex-col'>
-            <span className='text-lg text-(--secondary-color) sm:text-xl'>
-              {frozenTitle}
-            </span>
-            <span className='text-sm text-(--main-color) sm:text-lg'>
-              {frozenFeedbackContent}
-            </span>
+            {!(isWrong && hideWrongFeedback) && (
+              <>
+                <span className='text-lg text-(--secondary-color) sm:text-xl'>
+                  {frozenTitle}
+                </span>
+                <span className='text-sm text-(--main-color) sm:text-lg'>
+                  {frozenFeedbackContent}
+                </span>
+              </>
+            )}
           </p>
           <button
             onClick={() => {

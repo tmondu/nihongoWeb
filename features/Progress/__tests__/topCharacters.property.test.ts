@@ -1,5 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import * as fc from 'fast-check';
+
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en',
+  useTranslations: () => (key: string) => key,
+}));
+
+vi.mock('@/core/i18n/routing', () => ({
+  Link: () => null,
+  useRouter: () => ({ push: () => {}, replace: () => {}, prefetch: () => {} }),
+  usePathname: () => '',
+}));
 import { getTopCharacters } from '../components/stats/CharacterMasteryPanel';
 import type {
   CharacterMasteryItem,

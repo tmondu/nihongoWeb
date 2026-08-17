@@ -18,6 +18,7 @@ import {
   type LucideIcon,
   Heart,
   User,
+  Search,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -49,6 +50,8 @@ type NavItem = {
   iconClassName?: string;
   /** Whether to animate the icon when not active */
   animateWhenInactive?: boolean;
+  /** Whether this is a sub-item nested under a main parent */
+  isSubItem?: boolean;
 };
 
 type NavSection = {
@@ -67,6 +70,12 @@ const mainNavItems: NavItem[] = [
   { href: '/kana', labelKey: 'kana', charIcon: 'あ' },
   { href: '/vocabulary', labelKey: 'vocabulary', charIcon: '語' },
   { href: '/kanji', labelKey: 'kanji', charIcon: '字' },
+  {
+    href: '/kanji/search',
+    labelKey: 'kanjiSearch',
+    icon: Search,
+    isSubItem: true,
+  },
   {
     href: '/preferences',
     labelKey: 'preferences',
@@ -218,7 +227,12 @@ const NavLink = memo(
         : 'max-lg:pt-1 max-lg:pb-2.5 lg:pt-1.5 lg:pb-2.5';
 
       return (
-        <div className={clsx('relative lg:w-full', className)}>
+        <div className={clsx(
+          'relative lg:w-full',
+          item.isSubItem && 'max-lg:hidden',
+          item.isSubItem && isDesktopCollapsed && 'lg:hidden',
+          className
+        )}>
           {/* Sliding indicator - smooth spring animation */}
           {isActive && (
             <motion.div
@@ -242,10 +256,13 @@ const NavLink = memo(
             className={clsx(
               'relative z-10 flex items-center gap-2 rounded-2xl',
               isMain ? 'text-2xl' : 'text-sm',
+              item.isSubItem ? 'lg:text-lg' : undefined,
               'max-lg:justify-center max-lg:px-3 lg:w-full lg:px-4',
+              item.isSubItem ? 'lg:pl-10 lg:pr-4' : undefined,
               isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
               paddingClasses,
-              !isMain && 'max-lg:hidden',
+              (!isMain || item.isSubItem) && 'max-lg:hidden',
+              item.isSubItem && isDesktopCollapsed && 'lg:hidden',
               isActive && SIDEBAR_ACTIVE_FLOAT_CLASSES,
               isActive
                 ? activeTextClass

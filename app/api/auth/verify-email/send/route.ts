@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyJwt } from '@/shared/utils/auth';
+import { env } from '@/shared/config/env';
 import { getDbPool } from '@/shared/infra/server/db';
 import crypto from 'crypto';
 import { RowDataPacket } from 'mysql2';
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
     lastSentTimestamps.set(userId, now);
 
     // Send email via Resend if API key is configured
-    const apiKey = process.env.RESEND_API_KEY;
+    const apiKey = env.resend.apiKey;
     if (apiKey) {
       try {
         const response = await fetch('https://api.resend.com/emails', {
@@ -79,9 +80,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({
-            from:
-              process.env.RESEND_FROM_EMAIL ||
-              'PThamSS <onboarding@resend.dev>',
+            from: env.resend.fromEmail,
             to: [email],
             subject: `[PThamSS] Mã xác thực email của bạn: ${code}`,
             html: `

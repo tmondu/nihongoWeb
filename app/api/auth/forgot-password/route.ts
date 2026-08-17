@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
+import { env } from '@/shared/config/env';
 import crypto from 'crypto';
 import { RowDataPacket } from 'mysql2';
 
@@ -30,7 +31,7 @@ async function verifyTurnstileToken(
   token: string | undefined,
   ip?: string,
 ): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
+  const secret = env.turnstile.secretKey;
   if (!secret) {
     return true; // Bypass in local dev
   }
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
     const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
 
     // 1. Verify Turnstile Token if secret key is present
-    if (process.env.TURNSTILE_SECRET_KEY) {
+    if (env.turnstile.secretKey) {
       const isTurnstileValid = await verifyTurnstileToken(turnstileToken, ip);
       if (!isTurnstileValid) {
         return NextResponse.json(
@@ -139,7 +140,7 @@ export async function POST(request: NextRequest) {
     );
 
     // 6. Send reset password link
-    let origin = process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL;
+    let origin = env.appUrl;
     if (!origin) {
       const forwardedHost = request.headers.get('x-forwarded-host');
       const forwardedProto =
@@ -152,7 +153,7 @@ export async function POST(request: NextRequest) {
     }
     const resetLink = `${origin}/reset-password?token=${rawToken}`;
 
-    const apiKey = process.env.RESEND_API_KEY;
+    const apiKey = env.resend.apiKey;
     if (apiKey) {
       try {
         const response = await fetch('https://api.resend.com/emails', {
@@ -162,9 +163,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${apiKey}`,
           },
           body: JSON.stringify({
-            from:
-              process.env.RESEND_FROM_EMAIL ||
-              'PThamSS <onboarding@resend.dev>',
+            from: env.resend.fromEmail,
             to: [email],
             subject: '[PThamSS] Đặt lại mật khẩu tài khoản của bạn',
             html: `

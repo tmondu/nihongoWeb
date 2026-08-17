@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { env } from '@/shared/config/env';
 import {
   checkTranslateUsageLimit,
   checkTranslateRateLimit,
@@ -221,7 +222,7 @@ async function verifyTurnstileToken(
   token: string | undefined,
   request: NextRequest,
 ): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
+  const secret = env.turnstile.secretKey;
   if (!secret || !token) {
     return false;
   }
@@ -256,7 +257,7 @@ async function translateWithAzure({
   sourceLanguage: 'en' | 'ja' | 'vi';
   targetLanguage: 'en' | 'ja' | 'vi';
 }): Promise<TranslationProviderResult> {
-  const apiKey = process.env.AZURE_TRANSLATOR_KEY;
+  const apiKey = env.azure.key;
   if (!apiKey) {
     throw new TranslationProviderError(
       'AZURE_TRANSLATOR_KEY is not configured',
@@ -266,10 +267,8 @@ async function translateWithAzure({
     );
   }
 
-  const endpoint =
-    process.env.AZURE_TRANSLATOR_ENDPOINT ||
-    'https://api.cognitive.microsofttranslator.com';
-  const region = process.env.AZURE_TRANSLATOR_REGION;
+  const endpoint = env.azure.endpoint;
+  const region = env.azure.region;
   const azureApiUrl = new URL('/translate', endpoint);
   azureApiUrl.searchParams.set('api-version', '3.0');
   azureApiUrl.searchParams.set('from', sourceLanguage);
@@ -680,8 +679,8 @@ export async function POST(request: NextRequest) {
 
     if (
       usageResult.requiresVerification &&
-      process.env.TURNSTILE_SECRET_KEY &&
-      process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+      env.turnstile.secretKey &&
+      env.turnstile.siteKey
     ) {
       trackTranslate('translate_rejected', {
         reason: 'verification_required',

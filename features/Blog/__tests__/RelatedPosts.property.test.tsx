@@ -10,6 +10,11 @@ import {
 } from '../types/blog';
 import { RelatedPosts } from '../components/RelatedPosts';
 
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en',
+  useTranslations: () => (key: string) => key,
+}));
+
 // Mock next-intl Link component
 vi.mock('@/shared/ui-composite/navigation/Link', () => ({
   Link: ({
@@ -164,7 +169,7 @@ describe('Property 8: Related Posts Rendered When Present', () => {
         const { container, unmount } = render(<RelatedPosts posts={posts} />);
 
         for (const post of posts) {
-          const link = container.querySelector(`a[href="/blog/${post.slug}"]`);
+          const link = container.querySelector(`a[href="/academy/${post.slug}"]`);
           expect(link).not.toBeNull();
         }
         unmount();
@@ -192,7 +197,7 @@ describe('Property 8: Related Posts Rendered When Present', () => {
         const { container, unmount } = render(<RelatedPosts posts={posts} />);
 
         for (const post of posts) {
-          const link = container.querySelector(`a[href="/blog/${post.slug}"]`);
+          const link = container.querySelector(`a[href="/academy/${post.slug}"]`);
           expect(link?.textContent).toContain(post.title);
         }
         unmount();
@@ -207,7 +212,7 @@ describe('Property 8: Related Posts Rendered When Present', () => {
         const { container, unmount } = render(<RelatedPosts posts={posts} />);
 
         for (const post of posts) {
-          const link = container.querySelector(`a[href="/blog/${post.slug}"]`);
+          const link = container.querySelector(`a[href="/academy/${post.slug}"]`);
           expect(link?.textContent).toContain(`${post.readingTime} min read`);
         }
         unmount();

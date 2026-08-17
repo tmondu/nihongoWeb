@@ -76,6 +76,7 @@ export function BlogCard({
             className={cn(
               'inline-flex items-center rounded-sm bg-white/90 px-3 py-1 text-[10px] font-black tracking-widest text-black uppercase shadow-sm backdrop-blur-sm dark:bg-black/90 dark:text-white',
             )}
+            data-testid='blog-card-category'
           >
             {post.category}
           </span>
@@ -90,7 +91,7 @@ export function BlogCard({
         )}
       >
         <div className='mb-3 flex items-center gap-3 font-mono text-[10px] tracking-tighter text-(--secondary-color) uppercase opacity-50'>
-          <time dateTime={post.publishedAt}>{formattedDate}</time>
+          <time dateTime={post.publishedAt} data-testid='blog-card-date'>{formattedDate}</time>
           {post.updatedAt && (
             <>
               <span className='h-px w-3 bg-(--border-color)' />
@@ -100,7 +101,7 @@ export function BlogCard({
             </>
           )}
           <span className='h-px w-4 bg-(--border-color)' />
-          <span>{post.readingTime} min read</span>
+          <span data-testid='blog-card-reading-time'>{post.readingTime} min read</span>
           {(() => {
             const badge = getFreshnessBadge(post.updatedAt || post.publishedAt);
             if (badge.variant === 'fresh') {
@@ -126,6 +127,7 @@ export function BlogCard({
                 ? 'mb-6 text-3xl md:text-5xl lg:text-6xl'
                 : 'mb-4 line-clamp-2 text-2xl',
             )}
+            data-testid='blog-card-title'
           >
             {post.title}
           </h2>
@@ -138,6 +140,7 @@ export function BlogCard({
               ? 'mb-8 text-lg md:text-xl'
               : 'mb-6 line-clamp-3 text-sm',
           )}
+          data-testid='blog-card-description'
         >
           {post.description}
         </p>

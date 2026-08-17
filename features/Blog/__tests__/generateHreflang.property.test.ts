@@ -57,40 +57,24 @@ describe('Property 12: Hreflang Tags for Multi-Locale Posts', () => {
 
         for (const locale of locales) {
           const tag = tags.find(t => t.hreflang === locale);
-          expect(tag?.href).toBe(`${BASE_URL}/${locale}/academy/${slug}`);
+          expect(tag?.href).toBe(`${BASE_URL}/academy/${slug}`);
         }
       }),
       { numRuns: 100 },
     );
   });
 
-  it('includes x-default tag when English is available', () => {
+  it('includes x-default tag when locales are available', () => {
     fc.assert(
       fc.property(
         slugArb,
-        localesSubsetArb.filter(locales => locales.includes('en')),
+        localesSubsetArb.filter(locales => locales.length > 0),
         (slug, locales) => {
           const tags = generateHreflang(slug, locales, { baseUrl: BASE_URL });
 
           const xDefaultTag = tags.find(t => t.hreflang === 'x-default');
           expect(xDefaultTag).toBeDefined();
-          expect(xDefaultTag?.href).toBe(`${BASE_URL}/en/academy/${slug}`);
-        },
-      ),
-      { numRuns: 100 },
-    );
-  });
-
-  it('does not include x-default when English is not available', () => {
-    fc.assert(
-      fc.property(
-        slugArb,
-        localesSubsetArb.filter(locales => !locales.includes('en')),
-        (slug, locales) => {
-          const tags = generateHreflang(slug, locales, { baseUrl: BASE_URL });
-
-          const xDefaultTag = tags.find(t => t.hreflang === 'x-default');
-          expect(xDefaultTag).toBeUndefined();
+          expect(xDefaultTag?.href).toBe(`${BASE_URL}/academy/${slug}`);
         },
       ),
       { numRuns: 100 },
@@ -104,7 +88,7 @@ describe('Property 12: Hreflang Tags for Multi-Locale Posts', () => {
 
         for (const tag of tags) {
           expect(tag.href).toMatch(
-            /^https:\/\/kanadojo\.com\/(en|es)\/academy\/.+$/,
+            /^https:\/\/www\.pthamnihongo\.site\/academy\/.+$/,
           );
         }
       }),

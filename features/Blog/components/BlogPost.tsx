@@ -91,9 +91,9 @@ export function BlogPost({
 
       <div className='flex flex-col lg:flex-row lg:gap-20 xl:gap-32'>
         {/* Main Article Container */}
-        <div className='min-w-0 flex-1'>
+        <main className='min-w-0 flex-1' data-testid='blog-post-main'>
           {/* Hero Header Section */}
-          <header className='mb-20 text-left'>
+          <header className='mb-20 text-left' data-testid='blog-post-header'>
             <div className='mb-8 flex items-center gap-4'>
               <span className='h-[1px] w-8 bg-(--main-color) opacity-20' />
               <span className='text-[10px] font-black tracking-[0.2em] text-(--main-color) uppercase'>
@@ -101,7 +101,7 @@ export function BlogPost({
               </span>
             </div>
 
-            <h1 className='premium-serif mb-10 text-5xl leading-[1.05] font-black tracking-tight text-(--main-color) md:text-7xl lg:text-8xl'>
+            <h1 className='premium-serif mb-10 text-5xl leading-[1.05] font-black tracking-tight text-(--main-color) md:text-7xl lg:text-8xl' data-testid='blog-post-title'>
               {post.title}
             </h1>
 
@@ -158,7 +158,7 @@ export function BlogPost({
           </div>
 
           {/* Article Body Content */}
-          <main className='editorial-content mx-auto max-w-3xl lg:mx-0'>
+          <section className='editorial-content mx-auto max-w-3xl lg:mx-0' data-testid='blog-post-content'>
             <div className='editorial-drop-cap prose-lg prose-serif leading-[1.8] text-(--secondary-color)'>
               {children}
             </div>
@@ -184,7 +184,7 @@ export function BlogPost({
 
             {/* Related Studies Section */}
             {relatedPosts.length > 0 && (
-              <section className='mt-32 border-t-[3px] border-(--main-color) pt-16'>
+              <section className='mt-32 border-t-[3px] border-(--main-color) pt-16' data-testid='blog-post-related-section'>
                 <h3 className='premium-serif mb-12 text-4xl font-black italic'>
                   Complementary Studies
                 </h3>
@@ -212,8 +212,8 @@ export function BlogPost({
                 </div>
               </Link>
             </div>
-          </main>
-        </div>
+          </section>
+        </main>
 
         {/* Floating Sidebar (Desktop Only) */}
         <aside className='hidden w-72 shrink-0 lg:block'>

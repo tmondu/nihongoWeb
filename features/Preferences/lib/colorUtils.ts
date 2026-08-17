@@ -38,6 +38,11 @@ export function parseColor(color: string): RGB {
     return parseHsl(trimmed);
   }
 
+  // OKLCH format
+  if (trimmed.startsWith('oklch')) {
+    return parseOklch(trimmed);
+  }
+
   throw new Error(`Unsupported color format: ${color}`);
 }
 
@@ -96,6 +101,62 @@ function parseHsl(hsl: string): RGB {
   const l = parseFloat(match[3]) / 100;
 
   return hslToRgb({ h, s, l });
+}
+
+/**
+ * Parse oklch() to RGB
+ */
+function parseOklch(oklch: string): RGB {
+  // Matches oklch(L C H / A) or oklch(L C H) with percentages, decimals, spaces, commas, slashes
+  const cleaned = oklch.replace(/,/g, ' ');
+  const match = cleaned.match(/oklch\s*\(\s*([\d.]+)%?\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*[\d.]+)?\s*\)/);
+  if (!match) {
+    throw new Error(`Invalid OKLCH color: ${oklch}`);
+  }
+
+  let l = parseFloat(match[1]);
+  if (cleaned.includes('%')) {
+    l = l / 100;
+  }
+  const c = parseFloat(match[2]);
+  const h = parseFloat(match[3]);
+
+  return oklchToRgb(l, c, h);
+}
+
+/**
+ * Convert OKLCH to RGB using standard color space transformation matrices
+ */
+function oklchToRgb(L: number, C: number, H: number): RGB {
+  const hRad = (H * Math.PI) / 180;
+  const a = C * Math.cos(hRad);
+  const b = C * Math.sin(hRad);
+
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+
+  const l = l_ * l_ * l_;
+  const m = m_ * m_ * m_;
+  const s = s_ * s_ * s_;
+
+  let r = +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s;
+  let g = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s;
+  let b_val = -0.0041960863 * l - 0.7034186145 * m + 1.7076147010 * s;
+
+  const transform = (c: number): number => {
+    return c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+  };
+
+  r = Math.max(0, Math.min(1, r));
+  g = Math.max(0, Math.min(1, g));
+  b_val = Math.max(0, Math.min(1, b_val));
+
+  return {
+    r: Math.round(transform(r) * 255),
+    g: Math.round(transform(g) * 255),
+    b: Math.round(transform(b_val) * 255)
+  };
 }
 
 /**

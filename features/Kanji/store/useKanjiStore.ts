@@ -28,6 +28,10 @@ interface IKanjiState {
   // Collapsed rows per unit (keyed by collection name)
   collapsedRowsByUnit: Record<string, number[]>;
   setCollapsedRowsForUnit: (unit: string, rows: number[]) => void;
+
+  // Search sidebar state
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 }
 
 const sameKanjiArray = (a: IKanjiObj[], b: IKanjiObj[]) =>
@@ -142,6 +146,9 @@ const useKanjiStore = create<IKanjiState>(set => ({
         [unit]: rows,
       },
     })),
+
+  searchQuery: '',
+  setSearchQuery: query => set({ searchQuery: query }),
 }));
 
 export default useKanjiStore;

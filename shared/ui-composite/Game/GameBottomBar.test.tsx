@@ -1,6 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('next-intl', () => ({
+  useLocale: () => 'en',
+  useTranslations: () => (key: string) => key,
+}));
+
+vi.mock('@/core/i18n/routing', () => ({
+  Link: ({ children, href, ...props }: any) => <a href={href} {...props}>{children}</a>,
+  useRouter: () => ({ push: () => {}, replace: () => {}, prefetch: () => {} }),
+  usePathname: () => '',
+}));
+
 import { GameBottomBar } from '@/shared/ui-composite/Game/GameBottomBar';
 
 describe('GameBottomBar feedback freezing', () => {

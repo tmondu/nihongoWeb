@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
@@ -9,7 +10,7 @@ import { usePathname } from 'next/navigation';
 import { removeLocaleFromPath } from '@/shared/utils/pathUtils';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { useScrollVisibility } from '@/shared/hooks/generic/useScrollVisibility';
-import { CircleCheck, Trash } from 'lucide-react';
+import { Trash } from 'lucide-react';
 import { ActionButton } from '@/shared/ui/components/ActionButton';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/shared/utils/utils';

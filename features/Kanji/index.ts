@@ -16,6 +16,8 @@ export { default as KanjiGame } from './components/Game';
 export { default as KanjiCards } from './components';
 export { default as KanjiBlitz } from './components/Blitz';
 export { default as KanjiGauntlet } from './components/Gauntlet';
+export { default as SearchSidebar } from './components/SearchSidebar';
+export { default as SearchClient } from './components/SearchClient';
 
 // ============================================================================
 // PRIVATE - DO NOT IMPORT DIRECTLY
