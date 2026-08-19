@@ -5,7 +5,13 @@ interface DojoRouteSchemaProps {
   locale: string;
   title: string;
   description: string;
-  canonicalPath: '/kana' | '/kanji' | '/vocabulary' | '/kanji/search';
+  canonicalPath:
+    | '/kana'
+    | '/kanji'
+    | '/vocabulary'
+    | '/kanji/search'
+    | '/kanji/thamkanji'
+    | `/kanji/thamkanji/${string}`;
   teaches: string;
   assesses: string;
   educationalAlignment?: {

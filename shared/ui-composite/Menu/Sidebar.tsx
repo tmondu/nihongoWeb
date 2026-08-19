@@ -19,6 +19,7 @@ import {
   Heart,
   User,
   Search,
+  LayoutGrid,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -74,6 +75,12 @@ const mainNavItems: NavItem[] = [
     href: '/kanji/search',
     labelKey: 'kanjiSearch',
     icon: Search,
+    isSubItem: true,
+  },
+  {
+    href: '/kanji/thamkanji',
+    labelKey: 'thamKanji',
+    icon: LayoutGrid,
     isSubItem: true,
   },
   {
@@ -227,12 +234,14 @@ const NavLink = memo(
         : 'max-lg:pt-1 max-lg:pb-2.5 lg:pt-1.5 lg:pb-2.5';
 
       return (
-        <div className={clsx(
-          'relative lg:w-full',
-          item.isSubItem && 'max-lg:hidden',
-          item.isSubItem && isDesktopCollapsed && 'lg:hidden',
-          className
-        )}>
+        <div
+          className={clsx(
+            'relative lg:w-full',
+            item.isSubItem && 'max-lg:hidden',
+            item.isSubItem && isDesktopCollapsed && 'lg:hidden',
+            className,
+          )}
+        >
           {/* Sliding indicator - smooth spring animation */}
           {isActive && (
             <motion.div
@@ -258,7 +267,7 @@ const NavLink = memo(
               isMain ? 'text-2xl' : 'text-sm',
               item.isSubItem ? 'lg:text-lg' : undefined,
               'max-lg:justify-center max-lg:px-3 lg:w-full lg:px-4',
-              item.isSubItem ? 'lg:pl-10 lg:pr-4' : undefined,
+              item.isSubItem ? 'lg:pr-4 lg:pl-10' : undefined,
               isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
               paddingClasses,
               (!isMain || item.isSubItem) && 'max-lg:hidden',

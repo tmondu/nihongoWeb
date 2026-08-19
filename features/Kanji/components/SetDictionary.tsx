@@ -1,9 +1,12 @@
 'use client';
 
 import clsx from 'clsx';
-import { cardBorderStyles } from '@/shared/utils/styles';
+import { Link } from '@/core/i18n/routing';
 import type { IKanjiObj } from '@/features/Kanji/store/useKanjiStore';
-import { useAudioPreferences, useThemePreferences } from '@/features/Preferences';
+import {
+  useAudioPreferences,
+  useThemePreferences,
+} from '@/features/Preferences';
 import { useJapaneseTTS } from '@/features/Preferences/hooks/useJapaneseTTS';
 import FuriganaText from '@/shared/ui-composite/text/FuriganaText';
 import { useClick } from '@/shared/hooks/generic/useAudio';
@@ -57,16 +60,14 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
         <div
           key={kanjiObj.id}
           className={clsx(
-            'flex flex-col items-center justify-start gap-2 py-4 max-md:px-4',
+            'flex w-full flex-col items-center justify-start gap-2 py-4 max-md:px-4',
             i !== words.length - 1 && 'border-b-1 border-(--border-color)',
           )}
         >
           <div className='flex w-full flex-row gap-4'>
-            <a
+            <Link
               className='group relative flex aspect-square w-full max-w-[100px] items-center justify-center hover:cursor-pointer'
-              href={`http://kanjiheatmap.com/?open=${kanjiObj.kanjiChar}`}
-              rel='noopener'
-              target='_blank'
+              href={`/kanji/thamkanji/${kanjiObj.kanjiChar}`}
               onClick={() => {
                 playClick();
               }}
@@ -85,7 +86,7 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                 className='relative z-10 pb-2 text-7xl'
                 lang='ja'
               />
-            </a>
+            </Link>
 
             <div className='flex w-full flex-col gap-1'>
               {kanjiObj.onyomi.length > 0 && kanjiObj.onyomi[0] !== '' && (
@@ -112,7 +113,8 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                 )}
               >
                 {kanjiObj.onyomi.slice(0, 2).map((onyomiReading, i) => {
-                  const pronunciation = onyomiReading.split(' ')[1] || onyomiReading;
+                  const pronunciation =
+                    onyomiReading.split(' ')[1] || onyomiReading;
 
                   return (
                     <button
@@ -121,9 +123,7 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                       onClick={() => {
                         void playReadingPronunciation(pronunciation);
                       }}
-                      disabled={
-                        !pronunciationEnabled || !pronunciation.trim()
-                      }
+                      disabled={!pronunciationEnabled || !pronunciation.trim()}
                       className={clsx(
                         'group flex w-full flex-row items-center justify-center bg-transparent px-2 py-1.5 text-sm md:text-base',
                         'w-full text-(--secondary-color)',
@@ -186,7 +186,8 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                 )}
               >
                 {kanjiObj.kunyomi.slice(0, 2).map((kunyomiReading, i) => {
-                  const pronunciation = kunyomiReading.split(' ')[1] || kunyomiReading;
+                  const pronunciation =
+                    kunyomiReading.split(' ')[1] || kunyomiReading;
 
                   return (
                     <button
@@ -195,9 +196,7 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                       onClick={() => {
                         void playReadingPronunciation(pronunciation);
                       }}
-                      disabled={
-                        !pronunciationEnabled || !pronunciation.trim()
-                      }
+                      disabled={!pronunciationEnabled || !pronunciation.trim()}
                       className={clsx(
                         'group flex w-full flex-row items-center justify-center bg-transparent px-2 py-1.5 text-sm md:text-base',
                         'w-full text-(--secondary-color)',
@@ -246,5 +245,3 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
 });
 
 export default KanjiSetDictionary;
-
-
