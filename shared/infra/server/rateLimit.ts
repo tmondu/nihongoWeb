@@ -55,7 +55,10 @@ interface TranslateUsageResult {
   remainingGlobalMonthlyChars: number;
   resetAt: number;
   retryAfter?: number;
-  reason?: 'daily_char_quota' | 'monthly_char_quota' | 'global_monthly_char_quota';
+  reason?:
+    | 'daily_char_quota'
+    | 'monthly_char_quota'
+    | 'global_monthly_char_quota';
 }
 
 interface TranslateUsageStats {
@@ -390,7 +393,8 @@ async function checkRateLimitRedis(
   config: RateLimitConfig,
   scope: string,
 ): Promise<RateLimitResult> {
-  const { hasRedisConfig, redisPipeline } = await import('@/shared/infra/server/redis');
+  const { hasRedisConfig, redisPipeline } =
+    await import('@/shared/infra/server/redis');
 
   if (!hasRedisConfig()) {
     throw new Error('Redis not configured.');
@@ -549,18 +553,26 @@ export async function checkTranslateRateLimit(
 export async function checkTranslateUsageLimit(
   identifier: string,
   charCount: number,
-  options: { verified?: boolean } = {},
+  options: { verified?: boolean; isLoggedIn?: boolean } = {},
 ): Promise<TranslateUsageResult> {
-  const config = getTranslateUsageConfig();
+  let config = getTranslateUsageConfig();
+  if (!options.isLoggedIn) {
+    // Enforce much lower limits for guest users
+    config = {
+      ...config,
+      dailyCharLimit: 500,
+      monthlyCharLimit: 2000,
+      verificationDailyCharThreshold: 150,
+    };
+  }
   const chars = Math.max(0, Math.floor(charCount));
   const now = Date.now();
   const dailyResetAt = getNextMidnightUTC(now);
   const monthlyResetAt = getNextMonthUTC(now);
 
   try {
-    const { hasRedisConfig, redisPipeline } = await import(
-      '@/shared/infra/server/redis'
-    );
+    const { hasRedisConfig, redisPipeline } =
+      await import('@/shared/infra/server/redis');
 
     if (!hasRedisConfig()) {
       throw new Error('Redis not configured.');
@@ -759,9 +771,8 @@ export async function getTranslateUsageStats(): Promise<TranslateUsageStats> {
   const monthlyResetAt = getNextMonthUTC(now);
 
   try {
-    const { hasRedisConfig, redisPipeline } = await import(
-      '@/shared/infra/server/redis'
-    );
+    const { hasRedisConfig, redisPipeline } =
+      await import('@/shared/infra/server/redis');
     if (!hasRedisConfig()) {
       throw new Error('Redis not configured.');
     }
@@ -865,4 +876,3 @@ export function createRateLimitHeaders(result: RateLimitResult): Headers {
 
   return headers;
 }
-
