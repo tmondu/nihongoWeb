@@ -1,7 +1,12 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import { useTranslations } from 'next-intl';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
 import clsx from 'clsx';
 import { Timer, Zap, Trophy, RefreshCcw } from 'lucide-react';
@@ -10,11 +15,14 @@ import confetti from 'canvas-confetti';
 const GAME_DURATION = 30;
 
 export default function FlashRush() {
+  const t = useTranslations('experiments.flashRush');
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'result'>(
     'idle',
   );
-  const [currentKana, setCurrentKana] = useState<any>(null);
-  const [options, setOptions] = useState<any[]>([]);
+  const [currentKana, setCurrentKana] = useState<(typeof allKana)[0] | null>(
+    null,
+  );
+  const [options, setOptions] = useState<(typeof allKana)[0][]>([]);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [lastResult, setLastResult] = useState<'correct' | 'wrong' | null>(
@@ -48,6 +56,7 @@ export default function FlashRush() {
   useEffect(() => {
     if (gameState !== 'playing') return;
     if (timeLeft <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setGameState('result');
       if (score > 10) confetti();
       return;
@@ -56,8 +65,8 @@ export default function FlashRush() {
     return () => clearInterval(timer);
   }, [gameState, timeLeft, score]);
 
-  const handleAnswer = (option: any) => {
-    if (gameState !== 'playing') return;
+  const handleAnswer = (option: (typeof allKana)[0]) => {
+    if (gameState !== 'playing' || !currentKana) return;
 
     if (option.kana === currentKana.kana) {
       playCorrect();
@@ -80,18 +89,18 @@ export default function FlashRush() {
             size={48}
           />
           <h1 className='text-center text-5xl font-black text-(--main-color)'>
-            FLASH RUSH
+            {t('title')}
           </h1>
         </div>
         <p className='max-w-md text-center text-(--secondary-color)'>
-          Identify as many kana as you can in 30 seconds. Speed is key!
+          {t('description')}
         </p>
         <button
           onClick={startGame}
           className='group relative flex items-center gap-3 rounded-2xl bg-(--main-color) px-10 py-5 text-xl font-bold text-white transition-all hover:scale-105 active:scale-95'
         >
           <Zap className='fill-current' size={24} />
-          START RUSH
+          {t('startRush')}
           <div className='absolute inset-0 rounded-2xl bg-white/20 opacity-0 transition-opacity group-hover:opacity-100' />
         </button>
       </div>
@@ -108,15 +117,13 @@ export default function FlashRush() {
         >
           <Trophy className='text-yellow-400' size={80} />
           <h2 className='text-4xl font-bold text-(--main-color)'>
-            Rush Over!
+            {t('rushOver')}
           </h2>
           <div className='rounded-3xl border border-(--border-color) bg-(--card-color) p-8 shadow-xl'>
             <p className='text-sm tracking-widest text-(--secondary-color) uppercase'>
-              Final Score
+              {t('finalScore')}
             </p>
-            <p className='text-7xl font-black text-(--main-color)'>
-              {score}
-            </p>
+            <p className='text-7xl font-black text-(--main-color)'>{score}</p>
           </div>
         </motion.div>
         <button
@@ -124,7 +131,7 @@ export default function FlashRush() {
           className='flex items-center gap-2 rounded-xl border-2 border-(--main-color) px-8 py-3 font-bold text-(--main-color) transition-all hover:bg-(--main-color) hover:text-white'
         >
           <RefreshCcw size={20} />
-          TRY AGAIN
+          {t('tryAgain')}
         </button>
       </div>
     );

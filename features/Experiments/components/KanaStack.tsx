@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Lightweight: Simple drag simulation with transitions
  */
 const KanaStack = () => {
+  const t = useTranslations('experiments.kanaStack');
   const [cards, setCards] = useState(() => {
     const shuffled = [...allKana]
       .sort(() => Math.random() - 0.5)
@@ -58,13 +60,9 @@ const KanaStack = () => {
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-8 p-4'>
       <h2 className='text-xl text-(--main-color)'>
-        {allStacked
-          ? '🎉 Perfect Stack!'
-          : `Stack alphabetically by romanji (${stack.length}/8)`}
+        {allStacked ? t('perfect') : `${t('instructions')} (${stack.length}/8)`}
       </h2>
-      <p className='text-sm text-(--secondary-color)'>
-        Next: Pick the kana with the earliest romanji
-      </p>
+      <p className='text-sm text-(--secondary-color)'>{t('nextHint')}</p>
 
       {/* Available Cards */}
       <div className='flex flex-wrap justify-center gap-3'>
@@ -92,9 +90,8 @@ const KanaStack = () => {
           ))}
       </div>
 
-      {/* Stack */}
       <div className='flex h-24 items-end gap-1'>
-        {stack.map((card, i) => (
+        {stack.map(card => (
           <div
             key={card.id}
             className='flex h-16 w-12 items-center justify-center rounded-lg border border-green-500 bg-green-500/20 text-green-400'
@@ -114,7 +111,7 @@ const KanaStack = () => {
           onClick={restart}
           className='rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
         >
-          Play Again
+          {t('playAgain')}
         </button>
       )}
 

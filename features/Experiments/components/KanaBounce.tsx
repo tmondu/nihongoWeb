@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback, useEffect } from 'react';
-import clsx from 'clsx';
+
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -18,6 +19,7 @@ type Ball = {
 };
 
 const KanaBounce = () => {
+  const t = useTranslations('experiments.kanaBounce');
   const [balls, setBalls] = useState<Ball[]>([]);
   const [idCounter, setIdCounter] = useState(0);
 
@@ -90,8 +92,10 @@ const KanaBounce = () => {
     >
       {/* Instructions */}
       <div className='absolute top-4 left-1/2 z-10 -translate-x-1/2 text-center text-(--secondary-color)'>
-        <p>Click anywhere to spawn bouncing kana!</p>
-        <p className='mt-1 text-sm'>🎱 Balls: {balls.length}/20</p>
+        <p>{t('instructions')}</p>
+        <p className='mt-1 text-sm'>
+          🎱 {t('ballsCount', { count: balls.length })}
+        </p>
       </div>
 
       {/* Floor */}
@@ -111,10 +115,7 @@ const KanaBounce = () => {
             boxShadow: `0 0 10px hsla(${ball.hue}, 70%, 50%, 0.5)`,
           }}
         >
-          <span
-            lang='ja'
-            className='text-lg text-(--main-color) md:text-xl'
-          >
+          <span lang='ja' className='text-lg text-(--main-color) md:text-xl'>
             {ball.kana}
           </span>
         </div>

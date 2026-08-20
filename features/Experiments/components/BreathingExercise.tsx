@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Play, Pause } from 'lucide-react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { getRandomKana } from '../data/kanaData';
 
@@ -14,14 +15,15 @@ const PHASE_DURATIONS = {
   rest: 2000,
 };
 
-const PHASE_LABELS = {
-  inhale: 'Breathe In',
-  hold: 'Hold',
-  exhale: 'Breathe Out',
-  rest: 'Rest',
-};
-
 const BreathingExercise = () => {
+  const t = useTranslations('experiments.breathing');
+
+  const PHASE_LABELS = {
+    inhale: t('inhale'),
+    hold: t('hold'),
+    exhale: t('exhale'),
+    rest: t('rest'),
+  };
   const [isMounted, setIsMounted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [phase, setPhase] = useState<BreathPhase>('inhale');
@@ -30,6 +32,7 @@ const BreathingExercise = () => {
   const { playClick } = useClick();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -104,7 +107,7 @@ const BreathingExercise = () => {
             {PHASE_LABELS[phase]}
           </p>
           <p className='mt-2 text-sm text-(--secondary-color)'>
-            Cycle {cycleCount + 1}
+            {t('cycle', { count: cycleCount + 1 })}
           </p>
         </div>
 

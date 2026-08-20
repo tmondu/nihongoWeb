@@ -2,7 +2,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { EyeOff, Play } from 'lucide-react';
 import clsx from 'clsx';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import { useTranslations } from 'next-intl';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 import { hiraganaOnly } from '../data/kanaData';
 
 type GamePhase = 'memorize' | 'recall' | 'result';
@@ -20,6 +25,7 @@ const GRID_SIZE = 8;
 const MEMORIZE_TIME = 5000;
 
 const MemoryPalace = () => {
+  const t = useTranslations('experiments.memoryPalace');
   const [isMounted, setIsMounted] = useState(false);
   const [phase, setPhase] = useState<GamePhase>('memorize');
   const [cards, setCards] = useState<MemoryCard[]>([]);
@@ -73,6 +79,7 @@ const MemoryPalace = () => {
   useEffect(() => {
     setIsMounted(true);
     startGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -146,22 +153,22 @@ const MemoryPalace = () => {
     <div className='flex min-h-[80vh] flex-1 flex-col items-center justify-center gap-6'>
       <div className='mb-2 text-center'>
         <h1 className='text-2xl text-(--main-color) md:text-3xl'>
-          Memory Palace
+          {t('title')}
         </h1>
         <p className='mt-2 text-(--secondary-color)'>
-          {phase === 'memorize' && `Memorize the positions! ${timeLeft}s`}
-          {phase === 'recall' && 'Find the matching pairs!'}
-          {phase === 'result' && 'Round Complete!'}
+          {phase === 'memorize' && t('memorize', { time: timeLeft })}
+          {phase === 'recall' && t('recall')}
+          {phase === 'result' && t('roundComplete')}
         </p>
         <div className='mt-2 flex justify-center gap-4 text-sm'>
           <span className='text-(--secondary-color)'>
-            Round: <span className='text-(--main-color)'>{round}</span>
+            {t('round', { round })}
           </span>
           <span className='text-(--secondary-color)'>
-            Score: <span className='text-(--main-color)'>{score}</span>
+            {t('score', { score })}
           </span>
           <span className='text-(--secondary-color)'>
-            Mistakes: <span className='text-red-400'>{mistakes}</span>
+            {t('mistakes', { count: mistakes })}
           </span>
         </div>
       </div>
@@ -203,10 +210,10 @@ const MemoryPalace = () => {
         <div className='mt-2 text-center'>
           <p className='mb-4 text-xl text-(--main-color)'>
             {mistakes === 0
-              ? '🎉 Perfect!'
+              ? t('perfect')
               : mistakes <= 2
-                ? '👍 Great job!'
-                : '💪 Keep practicing!'}
+                ? t('greatJob')
+                : t('keepPracticing')}
           </p>
           <button
             onClick={nextRound}
@@ -215,7 +222,7 @@ const MemoryPalace = () => {
             )}
           >
             <Play size={20} />
-            Next Round
+            {t('nextRound')}
           </button>
         </div>
       )}

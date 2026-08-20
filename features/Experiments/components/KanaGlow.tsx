@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -7,10 +8,12 @@ import { allKana } from '../data/kanaData';
  * Lightweight: CSS glow effects and transitions
  */
 const KanaGlow = () => {
+  const t = useTranslations('experiments.kanaGlow');
   const [isMounted, setIsMounted] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -76,7 +79,7 @@ const KanaGlow = () => {
       })}
 
       <div className='pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 text-(--secondary-color) opacity-60'>
-        Move your cursor to illuminate the kana ✨
+        {t('instructions')}
       </div>
     </div>
   );

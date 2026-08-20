@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Lightweight: Simple opacity transitions
  */
 const KanaWhisper = () => {
+  const t = useTranslations('experiments.kanaWhisper');
   const [phase, setPhase] = useState<'show' | 'hide' | 'guess'>('show');
   const [target, setTarget] = useState(
     () => allKana[Math.floor(Math.random() * allKana.length)],
@@ -73,7 +75,7 @@ const KanaWhisper = () => {
   if (!isMounted) {
     return (
       <div className='flex min-h-[300px] flex-1 flex-col items-center justify-center p-4'>
-        <span className='text-(--secondary-color)'>Đang tải trò chơi...</span>
+        <span className='text-(--secondary-color)'>{t('loading')}</span>
       </div>
     );
   }
@@ -81,8 +83,8 @@ const KanaWhisper = () => {
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-8 p-4'>
       <div className='flex gap-8 text-lg text-(--main-color)'>
-        <span>Score: {score}</span>
-        <span>🔥 Streak: {streak}</span>
+        <span>{t('score', { score })}</span>
+        <span>{t('streak', { streak })}</span>
       </div>
 
       {/* Display Area */}
@@ -127,10 +129,10 @@ const KanaWhisper = () => {
       {/* Instructions */}
       <p className='text-sm text-(--secondary-color)'>
         {phase === 'show'
-          ? 'Remember this kana...'
+          ? t('remember')
           : phase === 'hide'
-            ? 'Fading...'
-            : 'Which kana was it?'}
+            ? t('fading')
+            : t('which')}
       </p>
     </div>
   );

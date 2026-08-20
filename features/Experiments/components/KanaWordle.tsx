@@ -1,6 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Like Wordle but for kana learning
  */
 const KanaWordle = () => {
+  const t = useTranslations('experiments.kanaWordle');
   const [target, setTarget] = useState(
     () => allKana[Math.floor(Math.random() * allKana.length)],
   );
@@ -19,11 +21,7 @@ const KanaWordle = () => {
     'playing',
   );
 
-  useEffect(() => {
-    generateOptions();
-  }, [target]);
-
-  const generateOptions = () => {
+  const generateOptions = useCallback(() => {
     const opts = [target];
     while (opts.length < 6) {
       const rand = allKana[Math.floor(Math.random() * allKana.length)];
@@ -32,7 +30,12 @@ const KanaWordle = () => {
       }
     }
     setOptions(opts.sort(() => Math.random() - 0.5));
-  };
+  }, [target]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    generateOptions();
+  }, [target, generateOptions]);
 
   const handleGuess = (kana: (typeof allKana)[0]) => {
     if (gameState !== 'playing') return;
@@ -63,15 +66,12 @@ const KanaWordle = () => {
 
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-6 p-4'>
-      <h2 className='text-2xl text-(--main-color)'>🎯 Kana Wordle</h2>
+      <h2 className='text-2xl text-(--main-color)'>{t('title')}</h2>
 
       {/* Hint */}
       <div className='text-center'>
         <p className='text-lg text-(--secondary-color)'>
-          Find the kana that sounds like:
-        </p>
-        <p className='mt-2 font-mono text-3xl text-(--accent-color)'>
-          "{target.romanji}"
+          {t('prompt', { romaji: target.romanji })}
         </p>
       </div>
 
@@ -134,14 +134,14 @@ const KanaWordle = () => {
             )}
           >
             {gameState === 'won'
-              ? `🎉 Correct! Found in ${guesses.length} ${guesses.length === 1 ? 'try' : 'tries'}!`
-              : `😢 The answer was ${target.kana} (${target.romanji})`}
+              ? t('correct', { attempts: guesses.length })
+              : t('incorrect', { kana: target.kana, romaji: target.romanji })}
           </p>
           <button
             onClick={restart}
             className='rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
           >
-            Play Again
+            {t('playAgain')}
           </button>
         </div>
       )}

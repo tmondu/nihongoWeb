@@ -1,12 +1,13 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
-import { Eraser, Download, Palette, Undo, Type } from 'lucide-react';
+import { Eraser, Download, Type } from 'lucide-react';
 import clsx from 'clsx';
 
 export default function KanaTrace() {
+  const t = useTranslations('experiments.kanaTrace');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [currentColor, setCurrentColor] = useState('#ff4e50');
@@ -114,11 +115,9 @@ export default function KanaTrace() {
       <div className='flex flex-col items-center justify-between gap-4 md:flex-row'>
         <div>
           <h1 className='text-3xl font-bold text-(--main-color)'>
-            Kana Trace
+            {t('title')}
           </h1>
-          <p className='text-(--secondary-color)'>
-            Practice drawing strokes in a relaxing way
-          </p>
+          <p className='text-(--secondary-color)'>{t('description')}</p>
         </div>
         <div className='flex items-center gap-2'>
           <button
@@ -129,21 +128,21 @@ export default function KanaTrace() {
                 ? 'border-(--main-color) bg-(--main-color) text-white'
                 : 'border-(--border-color) bg-(--card-color) text-(--secondary-color)',
             )}
-            title='Toggle Reference'
+            title={t('toggleReference')}
           >
             <Type size={20} />
           </button>
           <button
             onClick={clearCanvas}
             className='rounded-xl border border-(--border-color) bg-(--card-color) p-3 text-(--secondary-color) transition-all hover:border-red-400 hover:text-red-400'
-            title='Clear Canvas'
+            title={t('clearCanvas')}
           >
             <Eraser size={20} />
           </button>
           <button
             onClick={downloadImage}
             className='rounded-xl border border-(--border-color) bg-(--card-color) p-3 text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color)'
-            title='Download Practice'
+            title={t('downloadPractice')}
           >
             <Download size={20} />
           </button>
@@ -179,7 +178,7 @@ export default function KanaTrace() {
         <div className='flex w-full flex-col gap-6 lg:w-64'>
           <div className='rounded-2xl border border-(--border-color) bg-(--card-color) p-6'>
             <h2 className='mb-4 text-sm font-bold tracking-widest text-(--secondary-color) uppercase'>
-              Current Target
+              {t('currentTarget')}
             </h2>
             <div className='flex items-center gap-4'>
               <div className='flex h-16 w-16 items-center justify-center rounded-xl bg-(--main-color)/10 text-3xl font-bold text-(--main-color)'>
@@ -193,7 +192,7 @@ export default function KanaTrace() {
                   onClick={nextKana}
                   className='text-xs text-(--secondary-color) underline underline-offset-2 hover:text-(--main-color)'
                 >
-                  Change Target
+                  {t('changeTarget')}
                 </button>
               </div>
             </div>
@@ -201,12 +200,12 @@ export default function KanaTrace() {
 
           <div className='rounded-2xl border border-(--border-color) bg-(--card-color) p-6'>
             <h2 className='mb-4 text-sm font-bold tracking-widest text-(--secondary-color) uppercase'>
-              Settings
+              {t('settings')}
             </h2>
             <div className='space-y-6'>
               <div>
                 <p className='mb-2 block text-sm text-(--secondary-color)'>
-                  Brush Color
+                  {t('brushColor')}
                 </p>
                 <div className='flex flex-wrap gap-2'>
                   {[
@@ -236,7 +235,7 @@ export default function KanaTrace() {
                   htmlFor='kana-trace-brush-size'
                   className='mb-2 block text-sm text-(--secondary-color)'
                 >
-                  Brush Size: {brushSize}px
+                  {t('brushSize', { size: brushSize })}
                 </label>
                 <input
                   id='kana-trace-brush-size'

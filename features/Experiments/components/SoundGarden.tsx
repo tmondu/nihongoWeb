@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Volume2 } from 'lucide-react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useCorrect } from '@/shared/hooks/generic/useAudio';
 import { hiraganaOnly } from '../data/kanaData';
 
@@ -12,12 +13,14 @@ interface GardenTile {
 }
 
 const SoundGarden = () => {
+  const t = useTranslations('experiments.soundGarden');
   const [isMounted, setIsMounted] = useState(false);
   const [tiles, setTiles] = useState<GardenTile[]>([]);
   const [lastPlayed, setLastPlayed] = useState<string | null>(null);
   const { playCorrect } = useCorrect();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
     // Use first 20 hiragana for the garden
     const gardenKana = hiraganaOnly.slice(0, 20).map(k => ({
@@ -61,17 +64,15 @@ const SoundGarden = () => {
       <div className='text-center'>
         <h1 className='flex items-center justify-center gap-2 text-2xl text-(--main-color) md:text-3xl'>
           <Volume2 size={28} />
-          Sound Garden
+          {t('title')}
         </h1>
-        <p className='mt-2 text-(--secondary-color)'>
-          Tap the kana to hear their sounds
-        </p>
+        <p className='mt-2 text-(--secondary-color)'>{t('description')}</p>
       </div>
 
       {/* Last played indicator */}
       {lastPlayed && (
         <div className='text-lg text-(--secondary-color)'>
-          Last: <span className='text-(--main-color)'>{lastPlayed}</span>
+          {t('last', { romanji: lastPlayed })}
         </div>
       )}
 
@@ -118,9 +119,7 @@ const SoundGarden = () => {
       </div>
 
       {/* Instructions */}
-      <p className='text-center text-sm text-(--secondary-color)'>
-        Create melodies by tapping different kana in sequence
-      </p>
+      <p className='text-center text-sm text-(--secondary-color)'>{t('tip')}</p>
     </div>
   );
 };

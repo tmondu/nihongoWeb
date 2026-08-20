@@ -1,7 +1,12 @@
 'use client';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import { useTranslations } from 'next-intl';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
 import clsx from 'clsx';
 import { Music, Activity, Play } from 'lucide-react';
@@ -19,6 +24,7 @@ const SPAWN_INTERVAL = 1500;
 const SPEED = 0.5; // Percent per frame
 
 export default function KanaWave() {
+  const t = useTranslations('experiments.kanaWave');
   const [isPlaying, setIsPlaying] = useState(false);
   const [waveKanas, setWaveKanas] = useState<WaveKana[]>([]);
   const [score, setScore] = useState(0);
@@ -54,10 +60,6 @@ export default function KanaWave() {
           .map(k => ({ ...k, x: k.x - SPEED }))
           .filter(k => k.x > -10);
 
-        // Check for misses (characters that passed the target line at x=15)
-        const missed = filtered.find(
-          k => k.x < 15 && k.x > 14 && k.lane === activeLane,
-        );
         // Logic for hitting is in handleHit
 
         return filtered;
@@ -65,7 +67,7 @@ export default function KanaWave() {
 
       requestRef.current = requestAnimationFrame(update);
     },
-    [spawnKana, activeLane],
+    [spawnKana],
   );
 
   useEffect(() => {
@@ -110,6 +112,7 @@ export default function KanaWave() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPlaying, activeLane, waveKanas]);
 
   return (
@@ -117,15 +120,13 @@ export default function KanaWave() {
       <div className='flex items-center justify-between'>
         <div>
           <h1 className='flex items-center gap-2 text-3xl font-bold text-(--main-color)'>
-            <Music className='text-pink-400' /> Kana Wave
+            <Music className='text-pink-400' /> {t('title')}
           </h1>
-          <p className='text-(--secondary-color)'>
-            Catch the kana in the target zone!
-          </p>
+          <p className='text-(--secondary-color)'>{t('description')}</p>
         </div>
         <div className='flex flex-col items-end'>
           <span className='text-sm tracking-widest text-(--secondary-color) uppercase'>
-            Score
+            {t('score', { score }).split(':')[0].trim()}
           </span>
           <span className='font-mono text-4xl font-black text-(--main-color)'>
             {score.toString().padStart(6, '0')}
@@ -137,11 +138,9 @@ export default function KanaWave() {
         <div className='flex flex-1 flex-col items-center justify-center gap-6 rounded-[3rem] border-2 border-dashed border-(--border-color) bg-(--card-color)/50'>
           <Activity size={64} className='text-(--main-color) opacity-20' />
           <div className='space-y-2 text-center'>
-            <p className='text-(--secondary-color)'>
-              Use Arrow Keys to switch lanes and Space to hit!
-            </p>
+            <p className='text-(--secondary-color)'>{t('instructions')}</p>
             <p className='text-xs text-(--secondary-color) opacity-60'>
-              Wait for characters to reach the target line on the left.
+              {t('subInstructions')}
             </p>
           </div>
           <button
@@ -151,7 +150,7 @@ export default function KanaWave() {
             }}
             className='flex items-center gap-3 rounded-2xl bg-(--main-color) px-12 py-5 text-xl font-bold text-white shadow-lg transition-transform hover:scale-105 active:scale-95'
           >
-            <Play fill='currentColor' /> START SESSION
+            <Play fill='currentColor' /> {t('startSession')}
           </button>
         </div>
       ) : (
@@ -212,7 +211,7 @@ export default function KanaWave() {
               onPointerDown={checkHit}
               className='h-20 w-40 rounded-full bg-(--main-color) text-xl font-black text-white shadow-lg transition-transform active:scale-95'
             >
-              HIT!
+              {t('hit')}
             </button>
           </div>
         </div>

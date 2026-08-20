@@ -2,12 +2,16 @@
   "title": "Thử nghiệm",
   "description": "Khám phá các tính năng thử nghiệm và phương pháp học tập mới",
   "zenMode": {
-    "title": "Chế độ Zen",
-    "description": "Chế độ tập trung tối giản để luyện tập không bị phân tâm"
+    "returnHome": "Trở về trang chủ"
   },
   "breathing": {
     "title": "Bài tập thở",
-    "description": "Bài tập thở chánh niệm để cải thiện sự tập trung và giảm căng thẳng"
+    "description": "Bài tập thở chánh niệm để cải thiện sự tập trung và giảm căng thẳng",
+    "inhale": "Hít vào",
+    "hold": "Giữ hơi",
+    "exhale": "Thở ra",
+    "rest": "Thư giãn",
+    "cycle": "Chu kỳ {count}"
   },
   "ambient": {
     "title": "Chế độ xung quanh",
@@ -35,6 +39,227 @@
   },
   "haiku": {
     "title": "Haiku hằng ngày",
-    "description": "Học qua những vần thơ tiếng Nhật đẹp"
+    "description": "Học qua những vần thơ tiếng Nhật đẹp",
+    "todaysHaiku": "Haiku hôm nay",
+    "randomHaiku": "Haiku ngẫu nhiên",
+    "showRomaji": "Hiện Romaji",
+    "hideRomaji": "Ẩn Romaji",
+    "newHaiku": "Haiku mới"
+  },
+  "kanaBounce": {
+    "instructions": "Nhấp vào bất kỳ vị trí nào để tạo Kana nảy!",
+    "ballsCount": "Số bóng: {count}/20"
+  },
+  "flashRush": {
+    "title": "Gõ phím siêu tốc",
+    "description": "Xác định nhiều ký tự kana nhất có thể trong 30 giây. Tốc độ là quyết định!",
+    "startRush": "BẮT ĐẦU CHƠI",
+    "rushOver": "Hết giờ!",
+    "finalScore": "Điểm chung cuộc",
+    "tryAgain": "CHƠI LẠI"
+  },
+  "kanaCatch": {
+    "gameOver": "Trò chơi kết thúc!",
+    "finalScore": "Điểm số: {score}",
+    "playAgain": "Chơi lại",
+    "instructions": "Di chuyển chuột hoặc dùng phím ← → để hứng",
+    "score": "Điểm: {score}",
+    "missed": "Bỏ lỡ: {missed}/5"
+  },
+  "kanaConstellation": {
+    "title": "Chòm sao Kana",
+    "description": "Kết nối các ngôi sao để tạo thành ký tự kana",
+    "completed": "Chòm sao hoàn thành: {score}",
+    "instructions": "Kết nối các ngôi sao theo thứ tự bảng chữ cái!",
+    "round": "Vòng: {round}",
+    "completeBadge": "✨ Chòm sao đã hoàn thành! ✨",
+    "newConstellation": "Chòm sao mới",
+    "reset": "Đặt lại"
+  },
+  "kanaDNA": {
+    "title": "🧬 Chuỗi xoắn DNA Kana",
+    "instructions": "Rê chuột để làm nổi bật"
+  },
+  "kanaFortune": {
+    "title": "🔮 Vòng quay May mắn Kana",
+    "description": "Quay bánh xe!",
+    "spin": "Quay",
+    "spinning": "Đang quay...",
+    "luckGreat": "Hôm nay đại cát!",
+    "luckLove": "Tình duyên chớm nở",
+    "luckAdventure": "Cuộc phiêu lưu đón chờ",
+    "luckStudy": "Học tập tiến bộ",
+    "luckSmall": "May mắn nhỏ",
+    "luckPatient": "Hãy kiên nhẫn",
+    "luckRest": "Dành thời gian nghỉ ngơi",
+    "luckFriends": "Có thêm bạn mới"
+  },
+  "kanaGlow": {
+    "instructions": "Di chuyển con trỏ để thắp sáng các ký tự kana ✨"
+  },
+  "kanaGravity": {
+    "instructions": "Nhấp để đảo ngược trọng lực!"
+  },
+  "kanaMagnet": {
+    "instructions": "Di chuyển con trỏ để hút • Nhấn giữ chuột để đẩy"
+  },
+  "kanaMirror": {
+    "playAgain": "Chơi lại",
+    "title": "Ghép cặp Hiragana ↔ Katakana",
+    "perfect": "✨ Ghép cặp Hoàn hảo! ✨"
+  },
+  "kanaNebula": {
+    "title": "TINH VÂN KANA",
+    "description": "Khám phá không gian sâu thẳm",
+    "sector": "Phân khu {name}"
+  },
+  "kanaOrbit": {
+    "instructions": "Vòng quỹ đạo Kana đầy mê hoặc"
+  },
+  "kanaPop": {
+    "title": "Bóng bay Kana!",
+    "score": "Điểm: {score}",
+    "instructions": "Bấm bóng để ghi điểm!"
+  },
+  "kanaPulse": {
+    "score": "Điểm: {score}",
+    "gameOver": "Trò chơi kết thúc! Điểm số: {score}",
+    "playAgain": "Chơi lại"
+  },
+  "kanaRain": {
+    "title": "Mưa Kana",
+    "description": "Hứng các ký tự kana rơi xuống trong trò chơi kiểu arcade",
+    "instructions": "Rê chuột vào ký tự để xem romaji"
+  },
+  "kanaSearch": {
+    "title": "Tìm kiếm Kana",
+    "highScore": "Điểm cao nhất: {score}",
+    "instructions": "Tìm ký tự mục tiêu trong lưới trước khi hết giờ!",
+    "startSearch": "BẮT ĐẦU TÌM KIẾM",
+    "timesUp": "HẾT GIỜ!",
+    "reachedLevel": "Bạn đã đạt Cấp độ {level}",
+    "retry": "THỬ LẠI",
+    "target": "Mục tiêu"
+  },
+  "kanaShadow": {
+    "round": "Vòng: {round}",
+    "score": "Điểm: {score}",
+    "its": "Đó là chữ \"{answer}\"",
+    "next": "Tiếp theo"
+  },
+  "kanaSlot": {
+    "title": "🎰 Máy quay Kana",
+    "coins": "Xu: {coins}",
+    "freeCoins": "Nhận 100 xu miễn phí",
+    "jackpot": "🎉 JACKPOT! +100 xu!",
+    "nice": "✨ Tuyệt vời! +25 xu!",
+    "tryAgain": "Quay tiếp!",
+    "spin": "Quay! (-10)",
+    "noCoins": "Hết xu!"
+  },
+  "kanaSnake": {
+    "score": "Điểm: {score}",
+    "collected": "Đã ăn: {kana}",
+    "gameOver": "Trò chơi kết thúc! Điểm: {score}",
+    "playAgain": "Chơi lại",
+    "instructions": "Sử dụng phím mũi tên hoặc WASD để di chuyển"
+  },
+  "kanaStack": {
+    "perfect": "🎉 Xếp chồng Hoàn hảo!",
+    "instructions": "Xếp chồng theo thứ tự bảng chữ cái romaji (A -> Z)",
+    "nextHint": "Tiếp theo: Chọn kana có romaji sớm nhất",
+    "playAgain": "Chơi lại"
+  },
+  "kanaTrace": {
+    "title": "Tập viết Kana",
+    "description": "Tập vẽ các nét chữ một cách thư thái",
+    "toggleReference": "Hiện/Ẩn chữ mẫu",
+    "clearCanvas": "Xóa bảng vẽ",
+    "downloadPractice": "Tải bài thực hành",
+    "currentTarget": "Mục tiêu hiện tại",
+    "changeTarget": "Đổi mục tiêu",
+    "settings": "Cài đặt",
+    "brushColor": "Màu cọ vẽ",
+    "brushSize": "Kích thước cọ: {size}px"
+  },
+  "kanaWave": {
+    "title": "Sóng nhạc Kana",
+    "description": "Nhấn trúng ký tự trong vùng mục tiêu!",
+    "score": "Điểm: {score}",
+    "instructions": "Dùng phím mũi tên đổi làn và phím Space để nhấn trúng!",
+    "subInstructions": "Đợi các ký tự đi đến vạch mục tiêu bên trái.",
+    "startSession": "BẮT ĐẦU CHƠI",
+    "hit": "TRÚNG!"
+  },
+  "kanaWhisper": {
+    "loading": "Đang tải trò chơi...",
+    "score": "Điểm: {score}",
+    "streak": "🔥 Chuỗi ăn: {streak}",
+    "remember": "Ghi nhớ ký tự này...",
+    "fading": "Đang mờ dần...",
+    "which": "Ký tự vừa rồi là gì?"
+  },
+  "kanaWordle": {
+    "title": "🎯 Kana Wordle",
+    "prompt": "Chọn từ có phát âm: {romaji}",
+    "correct": "🎉 Chính xác! Bạn đã đoán đúng sau {attempts} lần thử!",
+    "incorrect": "😢 Đáp án chính xác là {kana} ({romaji})",
+    "playAgain": "Chơi lại"
+  },
+  "kanaZen": {
+    "instructions": "Hít thở và thư giãn..."
+  },
+  "memoryPalace": {
+    "title": "Cung điện ký ức",
+    "round": "Vòng: {round}",
+    "score": "Điểm: {score}",
+    "mistakes": "Lỗi sai: {count}",
+    "perfect": "🎉 Hoàn hảo!",
+    "nextRound": "Vòng kế tiếp",
+    "memorize": "Ghi nhớ các vị trí! {time}giây",
+    "recall": "Tìm các cặp hình giống nhau!",
+    "roundComplete": "Vòng chơi hoàn thành!",
+    "greatJob": "👍 Làm tốt lắm!",
+    "keepPracticing": "💪 Hãy luyện tập thêm!"
+  },
+  "runnerGame": {
+    "score": "Điểm số: {score}",
+    "instructions": "Space / Chạm để Nhảy • Phím Xuống để Trượt • Ăn Kana để ghi điểm",
+    "title": "Chạy trốn Yokai",
+    "tryAgain": "Chơi lại chứ?",
+    "start": "Bắt đầu",
+    "retry": "Thử lại",
+    "gameOver": "Trò chơi kết thúc"
+  },
+  "soundGarden": {
+    "title": "Vườn âm thanh",
+    "description": "Chạm vào các ký tự để nghe phát âm",
+    "last": "Vừa chạm: {romanji}",
+    "tip": "Tạo nên các giai điệu bằng cách chạm liên tiếp vào các chữ Kana"
+  },
+  "speedTyping": {
+    "title": "Gõ phím nhanh",
+    "description": "Gõ romaji nhanh nhất có thể!",
+    "startGame": "Bắt đầu chơi",
+    "score": "Điểm: {score}",
+    "time": "Thời gian: {time}giây",
+    "errors": "Lỗi sai: {count}",
+    "placeholder": "Gõ vào đây...",
+    "results": "Kết quả",
+    "correct": "Đúng: {count}",
+    "mistakes": "Sai: {count}",
+    "accuracy": "Độ chính xác: {accuracy}%",
+    "kpm": "{kpm} KPM",
+    "kanaPerMinute": "(Từ mỗi phút)",
+    "playAgain": "Chơi lại"
+  },
+  "zenBonsai": {
+    "title": "Bonsai Thiền",
+    "description": "Nuôi dưỡng cây kana bằng các hành động chánh niệm",
+    "level": "Cấp độ {level}",
+    "evolution": "Tiến hóa sau {points} điểm",
+    "water": "TƯỚI NƯỚC",
+    "sun": "ÁNH SÁNG",
+    "wind": "GIÓ KANA"
   }
 }

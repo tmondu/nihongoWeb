@@ -2,7 +2,12 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { RotateCcw, Play } from 'lucide-react';
 import clsx from 'clsx';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import { useTranslations } from 'next-intl';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
 
 type GameState = 'idle' | 'playing' | 'finished';
@@ -11,6 +16,7 @@ const GAME_DURATION = 60; // seconds
 const QUEUE_SIZE = 10;
 
 const SpeedTyping = () => {
+  const t = useTranslations('experiments.speedTyping');
   const [isMounted, setIsMounted] = useState(false);
   const [gameState, setGameState] = useState<GameState>('idle');
   const [queue, setQueue] = useState<typeof allKana>([]);
@@ -25,6 +31,7 @@ const SpeedTyping = () => {
   const { playError } = useError();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -68,6 +75,7 @@ const SpeedTyping = () => {
   useEffect(() => {
     if (gameState === 'finished') {
       const minutes = (GAME_DURATION - timeLeft) / 60 || 1;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setWpm(Math.round(score / minutes));
     }
   }, [gameState, score, timeLeft]);
@@ -107,11 +115,9 @@ const SpeedTyping = () => {
       {/* Header */}
       <div className='text-center'>
         <h1 className='text-2xl text-(--main-color) md:text-3xl'>
-          Speed Typing
+          {t('title')}
         </h1>
-        <p className='mt-2 text-(--secondary-color)'>
-          Type the romanji as fast as you can!
-        </p>
+        <p className='mt-2 text-(--secondary-color)'>{t('description')}</p>
       </div>
 
       {gameState === 'idle' && (
@@ -126,7 +132,7 @@ const SpeedTyping = () => {
           )}
         >
           <Play size={24} />
-          Start Game
+          {t('startGame')}
         </button>
       )}
 
@@ -135,14 +141,13 @@ const SpeedTyping = () => {
           {/* Stats bar */}
           <div className='flex w-full max-w-md justify-between text-lg'>
             <span className='text-(--secondary-color)'>
-              Score: <span className='text-(--main-color)'>{score}</span>
+              {t('score', { score })}
             </span>
             <span className='text-(--secondary-color)'>
-              Time:{' '}
-              <span className='text-(--main-color)'>{timeLeft}s</span>
+              {t('time', { time: timeLeft })}
             </span>
             <span className='text-(--secondary-color)'>
-              Errors: <span className='text-red-400'>{mistakes}</span>
+              {t('errors', { count: mistakes })}
             </span>
           </div>
 
@@ -185,7 +190,7 @@ const SpeedTyping = () => {
               'text-(--main-color) outline-none',
               'focus:border-(--main-color)',
             )}
-            placeholder='Type here...'
+            placeholder={t('placeholder')}
             autoComplete='off'
             autoCapitalize='off'
           />
@@ -200,29 +205,29 @@ const SpeedTyping = () => {
               'rounded-2xl p-8 text-center',
             )}
           >
-            <h2 className='mb-4 text-2xl text-(--main-color)'>Results</h2>
+            <h2 className='mb-4 text-2xl text-(--main-color)'>
+              {t('results')}
+            </h2>
             <div className='space-y-2'>
               <p className='text-lg text-(--secondary-color)'>
-                Correct:{' '}
-                <span className='text-(--main-color)'>{score}</span>
+                {t('correct', { count: score })}
               </p>
               <p className='text-lg text-(--secondary-color)'>
-                Mistakes: <span className='text-red-400'>{mistakes}</span>
+                {t('mistakes', { count: mistakes })}
               </p>
               <p className='text-lg text-(--secondary-color)'>
-                Accuracy:{' '}
-                <span className='text-(--main-color)'>
-                  {score + mistakes > 0
-                    ? Math.round((score / (score + mistakes)) * 100)
-                    : 0}
-                  %
-                </span>
+                {t('accuracy', {
+                  accuracy:
+                    score + mistakes > 0
+                      ? Math.round((score / (score + mistakes)) * 100)
+                      : 0,
+                })}
               </p>
               <p className='mt-4 text-2xl text-(--main-color)'>
-                {wpm} KPM
+                {t('kpm', { kpm: wpm })}
               </p>
               <p className='text-sm text-(--secondary-color)'>
-                (Kana Per Minute)
+                {t('kanaPerMinute')}
               </p>
             </div>
           </div>
@@ -238,7 +243,7 @@ const SpeedTyping = () => {
             )}
           >
             <RotateCcw size={20} />
-            Play Again
+            {t('playAgain')}
           </button>
         </div>
       )}

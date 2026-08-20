@@ -19,11 +19,26 @@ const SPAWN_INTERVAL = 200;
 
 const KanaRain = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const [drops, setDrops] = useState<RainDrop[]>([]);
+  const [drops, setDrops] = useState<RainDrop[]>(() => {
+    const createInitialDrop = (id: number): RainDrop => {
+      const kana = allKana[Math.floor(Math.random() * allKana.length)];
+      return {
+        id,
+        column: Math.floor(Math.random() * COLUMNS),
+        kana: kana.kana,
+        romanji: kana.romanji,
+        speed: Math.random() * 2 + 3,
+        opacity: Math.random() * 0.4 + 0.4,
+        startDelay: Math.random() * 5,
+      };
+    };
+    return Array.from({ length: 40 }, (_, i) => createInitialDrop(i));
+  });
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const idCounter = useRef(0);
+  const idCounter = useRef(40);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -42,13 +57,6 @@ const KanaRain = () => {
         startDelay: Math.random() * 5, // 0-5 seconds into animation
       };
     };
-
-    // Create 40 initial drops spread throughout the screen
-    const initial: RainDrop[] = [];
-    for (let i = 0; i < 40; i++) {
-      initial.push(createDrop());
-    }
-    setDrops(initial);
 
     // Spawn a new drop every 300ms
     const interval = setInterval(() => {

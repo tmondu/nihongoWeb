@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import useDecorationsStore from '@/shared/store/useDecorationsStore';
 import Decorations from '@/shared/ui-composite/Decorations/Decorations';
 
 const ZenMode = () => {
+  const t = useTranslations('experiments.zenMode');
   const [isMounted, setIsMounted] = useState(false);
   const { playClick } = useClick();
   const router = useRouter();
@@ -16,6 +18,7 @@ const ZenMode = () => {
   );
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
     setExpandDecorations(true);
 
@@ -47,7 +50,7 @@ const ZenMode = () => {
           'transition-all duration-250 hover:cursor-pointer',
           'active:scale-95',
         )}
-        aria-label='Return to home'
+        aria-label={t('returnHome')}
       >
         <Home size={24} />
       </button>

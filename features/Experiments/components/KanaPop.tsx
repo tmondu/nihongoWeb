@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useClick, useCorrect } from '@/shared/hooks/generic/useAudio';
+import { useTranslations } from 'next-intl';
+import { useCorrect } from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
 import clsx from 'clsx';
 import { Sparkles } from 'lucide-react';
@@ -26,14 +27,15 @@ const COLORS = [
 ];
 
 export default function KanaPop() {
+  const t = useTranslations('experiments.kanaPop');
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [score, setScore] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
-  const { playClick } = useClick();
   const { playCorrect } = useCorrect();
   const idCounter = useRef(0);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -72,12 +74,12 @@ export default function KanaPop() {
         <div className='flex items-center gap-2'>
           <Sparkles className='text-yellow-400' size={24} />
           <h1 className='text-3xl font-bold tracking-tight text-(--main-color)'>
-            Kana Pop!
+            {t('title')}
           </h1>
         </div>
         <div className='flex items-center gap-4'>
           <p className='text-lg font-medium text-(--secondary-color)'>
-            Score: <span className='text-(--main-color)'>{score}</span>
+            {t('score', { score })}
           </p>
         </div>
       </div>
@@ -149,7 +151,7 @@ export default function KanaPop() {
 
       {/* Instructions */}
       <div className='pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 text-sm text-(--secondary-color) opacity-50'>
-        Pop the bubbles to score points!
+        {t('instructions')}
       </div>
     </div>
   );

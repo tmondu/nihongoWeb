@@ -1,11 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
  * Kana DNA - Beautiful double helix of rotating kana!
  */
 const KanaDNA = () => {
+  const t = useTranslations('experiments.kanaDNA');
   const [rotation, setRotation] = useState(0);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
@@ -96,8 +98,8 @@ const KanaDNA = () => {
       </div>
 
       <div className='absolute bottom-8 text-center text-(--secondary-color)'>
-        <p>🧬 Kana DNA Helix</p>
-        <p className='mt-1 text-sm'>Hover to highlight</p>
+        <p>{t('title')}</p>
+        <p className='mt-1 text-sm'>{t('instructions')}</p>
       </div>
     </div>
   );

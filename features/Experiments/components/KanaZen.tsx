@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -7,24 +8,28 @@ import { allKana } from '../data/kanaData';
  * Lightweight: Pure CSS float animation
  */
 const KanaZen = () => {
+  const t = useTranslations('experiments.kanaZen');
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
-  const floaters = Array.from({ length: 25 }, (_, i) => {
-    const kana = allKana[Math.floor(Math.random() * allKana.length)];
-    return {
-      id: i,
-      kana: kana.kana,
-      x: Math.random() * 90 + 5,
-      y: Math.random() * 80 + 10,
-      size: Math.random() * 1.5 + 1,
-      delay: Math.random() * 5,
-      duration: Math.random() * 4 + 6,
-    };
-  });
+  const [floaters] = useState(() =>
+    Array.from({ length: 25 }, (_, i) => {
+      const kana = allKana[Math.floor(Math.random() * allKana.length)];
+      return {
+        id: i,
+        kana: kana.kana,
+        x: Math.random() * 90 + 5,
+        y: Math.random() * 80 + 10,
+        size: Math.random() * 1.5 + 1,
+        delay: Math.random() * 5,
+        duration: Math.random() * 4 + 6,
+      };
+    }),
+  );
 
   if (!isMounted) return null;
 
@@ -49,7 +54,7 @@ const KanaZen = () => {
 
       <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
         <p className='text-lg text-(--secondary-color) opacity-60'>
-          Breathe and relax...
+          {t('instructions')}
         </p>
       </div>
 

@@ -1,18 +1,24 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
 import clsx from 'clsx';
-import { Search, Timer, Trophy, AlertCircle } from 'lucide-react';
+import { Search, Timer, AlertCircle } from 'lucide-react';
 
 const GRID_SIZE = 36; // 6x6
 const ROUND_TIME = 10;
 
 export default function KanaSearch() {
+  const t = useTranslations('experiments.kanaSearch');
   const [level, setLevel] = useState(1);
   const [target, setTarget] = useState(allKana[0]);
-  const [grid, setGrid] = useState<any[]>([]);
+  const [grid, setGrid] = useState<(typeof allKana)[0][]>([]);
   const [timeLeft, setTimeLeft] = useState(ROUND_TIME);
   const [score, setScore] = useState(0);
   const [gameState, setGameState] = useState<'playing' | 'gameover' | 'idle'>(
@@ -58,6 +64,7 @@ export default function KanaSearch() {
   useEffect(() => {
     if (gameState !== 'playing') return;
     if (timeLeft <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setGameState('gameover');
       playError();
       return;
@@ -66,7 +73,7 @@ export default function KanaSearch() {
     return () => clearInterval(timer);
   }, [gameState, timeLeft, playError]);
 
-  const handleSelect = (kana: any) => {
+  const handleSelect = (kana: (typeof allKana)[0]) => {
     if (gameState !== 'playing') return;
 
     if (kana.kana === target.kana) {
@@ -87,15 +94,12 @@ export default function KanaSearch() {
         <div className='flex items-center gap-2'>
           <Search className='text-(--main-color)' size={32} />
           <h1 className='text-2xl font-black text-(--main-color) uppercase'>
-            Kana Search
+            {t('title')}
           </h1>
         </div>
         <div className='flex flex-col items-end'>
-          <span className='text-[10px] font-bold text-(--secondary-color)'>
-            High Score
-          </span>
           <span className='text-xl font-black text-(--main-color)'>
-            {score}
+            {t('highScore', { score })}
           </span>
         </div>
       </div>
@@ -103,13 +107,13 @@ export default function KanaSearch() {
       {gameState === 'idle' ? (
         <div className='flex flex-col items-center gap-6'>
           <p className='max-w-xs text-center text-(--secondary-color)'>
-            Find the target character in the grid before the time runs out!
+            {t('instructions')}
           </p>
           <button
             onClick={startGame}
             className='rounded-2xl bg-(--main-color) px-8 py-4 font-bold text-white shadow-lg transition-all hover:scale-105 active:scale-95'
           >
-            START SEARCH
+            {t('startSearch')}
           </button>
         </div>
       ) : gameState === 'gameover' ? (
@@ -123,25 +127,25 @@ export default function KanaSearch() {
           </div>
           <div>
             <h2 className='text-3xl font-black text-(--main-color)'>
-              TIME'S UP!
+              {t('timesUp')}
             </h2>
             <p className='text-(--secondary-color)'>
-              You reached Level {level}
+              {t('reachedLevel', { level })}
             </p>
           </div>
           <button
             onClick={startGame}
             className='flex items-center gap-2 rounded-xl border border-(--border-color) bg-(--card-color) px-8 py-3 font-bold text-(--main-color) transition-all hover:border-(--main-color)'
           >
-            RETRY
+            {t('retry')}
           </button>
         </motion.div>
       ) : (
         <div className='flex w-full flex-col items-center gap-8'>
           <div className='flex items-center gap-6'>
-            <div className='flex min-w-[100px] flex-col items-center rounded-2xl bg-(--main-color) p-4 text-white shadow-xl'>
-              <span className='text-xs font-bold tracking-widest uppercase opacity-80'>
-                Target
+            <div className='flex min-w-[100px] flex-col items-center rounded-2xl border border-(--border-color) bg-(--card-color) p-4 text-(--main-color) shadow-xl'>
+              <span className='text-xs font-bold tracking-widest text-(--secondary-color) uppercase opacity-80'>
+                {t('target')}
               </span>
               <span className='text-5xl font-black'>{target.kana}</span>
             </div>

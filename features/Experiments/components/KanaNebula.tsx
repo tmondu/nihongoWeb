@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
 import { Telescope, Rocket } from 'lucide-react';
@@ -17,7 +18,18 @@ interface StarKana {
 }
 
 export default function KanaNebula() {
+  const t = useTranslations('experiments.kanaNebula');
   const [stars, setStars] = useState<StarKana[]>([]);
+  const [staticStars] = useState(() =>
+    Array.from({ length: 100 }, (_, i) => ({
+      id: i,
+      width: Math.random() * 2,
+      height: Math.random() * 2,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      opacity: Math.random(),
+    })),
+  );
   const { playClick } = useClick();
   const idCounter = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,8 +56,14 @@ export default function KanaNebula() {
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      document.documentElement.style.setProperty('--mouse-x', `${event.clientX}px`);
-      document.documentElement.style.setProperty('--mouse-y', `${event.clientY}px`);
+      document.documentElement.style.setProperty(
+        '--mouse-x',
+        `${event.clientX}px`,
+      );
+      document.documentElement.style.setProperty(
+        '--mouse-y',
+        `${event.clientY}px`,
+      );
     };
 
     document.addEventListener('mousemove', handleMouseMove);
@@ -65,16 +83,16 @@ export default function KanaNebula() {
 
       {/* Distant Stars (Static) */}
       <div className='absolute inset-0 opacity-30'>
-        {[...Array(100)].map((_, i) => (
+        {staticStars.map(s => (
           <div
-            key={i}
+            key={s.id}
             className='absolute rounded-full bg-white transition-opacity'
             style={{
-              width: Math.random() * 2,
-              height: Math.random() * 2,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random(),
+              width: s.width,
+              height: s.height,
+              top: s.top,
+              left: s.left,
+              opacity: s.opacity,
             }}
           />
         ))}
@@ -83,10 +101,10 @@ export default function KanaNebula() {
       {/* Header */}
       <div className='pointer-events-none absolute top-10 left-10 z-20'>
         <h1 className='flex items-center gap-3 text-4xl font-black text-white'>
-          <Telescope className='text-indigo-400' /> KANA NEBULA
+          <Telescope className='text-indigo-400' /> {t('title')}
         </h1>
         <p className='mt-2 text-xs tracking-[0.3em] text-indigo-300 uppercase opacity-60'>
-          Deep Space Exploration
+          {t('description')}
         </p>
       </div>
 
@@ -146,7 +164,7 @@ export default function KanaNebula() {
       </motion.div>
 
       <div className='absolute right-10 bottom-10 z-20 font-mono text-[10px] tracking-widest text-indigo-400 uppercase opacity-20'>
-        Sector {Math.floor(idCounter.current / 10)}-Alpha
+        {t('sector', { name: `${Math.floor(stars.length / 10)}-Alpha` })}
       </div>
     </div>
   );

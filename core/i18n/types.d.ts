@@ -1305,12 +1305,16 @@ export interface ExperimentsTranslations {
   title: string;
   description: string;
   zenMode: {
-    title: string;
-    description: string;
+    returnHome: string;
   };
   breathing: {
     title: string;
     description: string;
+    inhale: string;
+    hold: string;
+    exhale: string;
+    rest: string;
+    cycle: string;
   };
   ambient: {
     title: string;
@@ -1339,6 +1343,227 @@ export interface ExperimentsTranslations {
   haiku: {
     title: string;
     description: string;
+    todaysHaiku: string;
+    randomHaiku: string;
+    showRomaji: string;
+    hideRomaji: string;
+    newHaiku: string;
+  };
+  kanaBounce: {
+    instructions: string;
+    ballsCount: string;
+  };
+  flashRush: {
+    title: string;
+    description: string;
+    startRush: string;
+    rushOver: string;
+    finalScore: string;
+    tryAgain: string;
+  };
+  kanaCatch: {
+    gameOver: string;
+    finalScore: string;
+    playAgain: string;
+    instructions: string;
+    score: string;
+    missed: string;
+  };
+  kanaConstellation: {
+    title: string;
+    description: string;
+    completed: string;
+    instructions: string;
+    round: string;
+    completeBadge: string;
+    newConstellation: string;
+    reset: string;
+  };
+  kanaDNA: {
+    title: string;
+    instructions: string;
+  };
+  kanaFortune: {
+    title: string;
+    description: string;
+    spin: string;
+    spinning: string;
+    luckGreat: string;
+    luckLove: string;
+    luckAdventure: string;
+    luckStudy: string;
+    luckSmall: string;
+    luckPatient: string;
+    luckRest: string;
+    luckFriends: string;
+  };
+  kanaGlow: {
+    instructions: string;
+  };
+  kanaGravity: {
+    instructions: string;
+  };
+  kanaMagnet: {
+    instructions: string;
+  };
+  kanaMirror: {
+    playAgain: string;
+    title: string;
+    perfect: string;
+  };
+  kanaNebula: {
+    title: string;
+    description: string;
+    sector: string;
+  };
+  kanaOrbit: {
+    instructions: string;
+  };
+  kanaPop: {
+    title: string;
+    score: string;
+    instructions: string;
+  };
+  kanaPulse: {
+    score: string;
+    gameOver: string;
+    playAgain: string;
+  };
+  kanaRain: {
+    title: string;
+    description: string;
+    instructions: string;
+  };
+  kanaSearch: {
+    title: string;
+    highScore: string;
+    instructions: string;
+    startSearch: string;
+    timesUp: string;
+    reachedLevel: string;
+    retry: string;
+    target: string;
+  };
+  kanaShadow: {
+    round: string;
+    score: string;
+    its: string;
+    next: string;
+  };
+  kanaSlot: {
+    title: string;
+    coins: string;
+    freeCoins: string;
+    jackpot: string;
+    nice: string;
+    tryAgain: string;
+    spin: string;
+    noCoins: string;
+  };
+  kanaSnake: {
+    score: string;
+    collected: string;
+    gameOver: string;
+    playAgain: string;
+    instructions: string;
+  };
+  kanaStack: {
+    perfect: string;
+    instructions: string;
+    nextHint: string;
+    playAgain: string;
+  };
+  kanaTrace: {
+    title: string;
+    description: string;
+    toggleReference: string;
+    clearCanvas: string;
+    downloadPractice: string;
+    currentTarget: string;
+    changeTarget: string;
+    settings: string;
+    brushColor: string;
+    brushSize: string;
+  };
+  kanaWave: {
+    title: string;
+    description: string;
+    score: string;
+    instructions: string;
+    subInstructions: string;
+    startSession: string;
+    hit: string;
+  };
+  kanaWhisper: {
+    loading: string;
+    score: string;
+    streak: string;
+    remember: string;
+    fading: string;
+    which: string;
+  };
+  kanaWordle: {
+    title: string;
+    prompt: string;
+    correct: string;
+    incorrect: string;
+    playAgain: string;
+  };
+  kanaZen: {
+    instructions: string;
+  };
+  memoryPalace: {
+    title: string;
+    round: string;
+    score: string;
+    mistakes: string;
+    perfect: string;
+    nextRound: string;
+    memorize: string;
+    recall: string;
+    roundComplete: string;
+    greatJob: string;
+    keepPracticing: string;
+  };
+  runnerGame: {
+    score: string;
+    instructions: string;
+    title: string;
+    tryAgain: string;
+    start: string;
+    retry: string;
+    gameOver: string;
+  };
+  soundGarden: {
+    title: string;
+    description: string;
+    last: string;
+    tip: string;
+  };
+  speedTyping: {
+    title: string;
+    description: string;
+    startGame: string;
+    score: string;
+    time: string;
+    errors: string;
+    placeholder: string;
+    results: string;
+    correct: string;
+    mistakes: string;
+    accuracy: string;
+    kpm: string;
+    kanaPerMinute: string;
+    playAgain: string;
+  };
+  zenBonsai: {
+    title: string;
+    description: string;
+    level: string;
+    evolution: string;
+    water: string;
+    sun: string;
+    wind: string;
   };
 }
 

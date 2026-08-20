@@ -1,9 +1,8 @@
 'use client';
 import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useClick, useCorrect } from '@/shared/hooks/generic/useAudio';
+import { useCorrect } from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
-import clsx from 'clsx';
 import { Sparkles, Moon } from 'lucide-react';
 
 interface Firework {
@@ -25,7 +24,16 @@ const COLORS = [
 
 export default function Hanabi() {
   const [fireworks, setFireworks] = useState<Firework[]>([]);
-  const { playClick } = useClick();
+  const [staticStars] = useState(() =>
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i,
+      width: Math.random() * 3,
+      height: Math.random() * 3,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      animationDelay: `${Math.random() * 5}s`,
+    })),
+  );
   const { playCorrect } = useCorrect();
   const idCounter = useRef(0);
 
@@ -76,16 +84,16 @@ export default function Hanabi() {
         <div className='absolute top-20 right-20 text-white/20'>
           <Moon size={80} strokeWidth={1} />
         </div>
-        {[...Array(20)].map((_, i) => (
+        {staticStars.map(s => (
           <div
-            key={i}
+            key={s.id}
             className='absolute animate-pulse rounded-full bg-white'
             style={{
-              width: Math.random() * 3,
-              height: Math.random() * 3,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
+              width: s.width,
+              height: s.height,
+              top: s.top,
+              left: s.left,
+              animationDelay: s.animationDelay,
             }}
           />
         ))}
@@ -99,7 +107,7 @@ export default function Hanabi() {
             Hanabi ✨
           </h1>
         </div>
-        <p className='text-white/50'>Click anywhere to launch fireworks</p>
+        <p className='text-white/50'>Nhấn để bắn pháo hoa</p>
       </div>
 
       {/* Firework Display */}
@@ -150,7 +158,7 @@ export default function Hanabi() {
       </AnimatePresence>
 
       <div className='pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 text-xs tracking-widest text-white uppercase opacity-30'>
-        Traditional Japanese Fireworks
+        Pháo hoa truyền thống Nhật Bản
       </div>
     </div>
   );

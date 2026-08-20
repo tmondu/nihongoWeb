@@ -2,12 +2,16 @@
   "title": "Expériences",
   "description": "Explorez des fonctionnalités expérimentales et des méthodes d'apprentissage alternatives",
   "zenMode": {
-    "title": "Mode Zen",
-    "description": "Mode minimaliste sans distraction pour une pratique concentrée"
+    "returnHome": "Return to home"
   },
   "breathing": {
-    "title": "Exercice de respiration",
-    "description": "Exercice de respiration consciente pour améliorer la concentration et réduire le stress"
+    "title": "Breathing Exercise",
+    "description": "Mindful breathing exercise to improve focus and reduce stress",
+    "inhale": "Inhale",
+    "hold": "Hold",
+    "exhale": "Exhale",
+    "rest": "Rest",
+    "cycle": "Cycle {count}"
   },
   "ambient": {
     "title": "Mode ambiance",
@@ -34,7 +38,228 @@
     "description": "Améliorez votre vitesse de frappe avec les caractères japonais"
   },
   "haiku": {
-    "title": "Haïku du jour",
-    "description": "Apprenez à travers la belle poésie japonaise"
+    "title": "Daily Haiku",
+    "description": "Learn through beautiful Japanese poetry",
+    "todaysHaiku": "Today's Haiku",
+    "randomHaiku": "Random Haiku",
+    "showRomaji": "Show Romaji",
+    "hideRomaji": "Hide Romaji",
+    "newHaiku": "New Haiku"
+  },
+  "kanaBounce": {
+    "instructions": "Cliquez n'importe où pour faire apparaître des kana rebondissants !",
+    "ballsCount": "Balles : {count}/20"
+  },
+  "flashRush": {
+    "title": "Flash Rush",
+    "description": "Identify as many kana as you can in 30 seconds. Speed is key!",
+    "startRush": "START RUSH",
+    "rushOver": "Rush Over!",
+    "finalScore": "Final Score",
+    "tryAgain": "TRY AGAIN"
+  },
+  "kanaCatch": {
+    "gameOver": "Game Over!",
+    "finalScore": "Final Score: {score}",
+    "playAgain": "Play Again",
+    "instructions": "Move mouse or use ← → arrow keys",
+    "score": "Score: {score}",
+    "missed": "Missed: {missed}/5"
+  },
+  "kanaConstellation": {
+    "title": "Kana Constellation",
+    "description": "Connect the stars to form kana characters",
+    "completed": "Constellations completed: {score}",
+    "instructions": "Connect the stars in alphabetical order!",
+    "round": "Round: {round}",
+    "completeBadge": "✨ Constellation Complete! ✨",
+    "newConstellation": "New Constellation",
+    "reset": "Reset"
+  },
+  "kanaDNA": {
+    "title": "🧬 Kana DNA Helix",
+    "instructions": "Hover to highlight"
+  },
+  "kanaFortune": {
+    "title": "🔮 Kana Fortune",
+    "description": "Spin the wheel!",
+    "spin": "Spin",
+    "spinning": "Spinning...",
+    "luckGreat": "Great luck today!",
+    "luckLove": "Love is in the air",
+    "luckAdventure": "Adventure awaits",
+    "luckStudy": "Study hard today",
+    "luckSmall": "Small blessing",
+    "luckPatient": "Be patient",
+    "luckRest": "Take a rest",
+    "luckFriends": "Make new friends"
+  },
+  "kanaGlow": {
+    "instructions": "Move your cursor to illuminate the kana ✨"
+  },
+  "kanaGravity": {
+    "instructions": "Click to flip gravity!"
+  },
+  "kanaMagnet": {
+    "instructions": "Move cursor to attract • Hold click to repel"
+  },
+  "kanaMirror": {
+    "playAgain": "Play Again",
+    "title": "Match Hiragana ↔ Katakana",
+    "perfect": "✨ Perfect Match!"
+  },
+  "kanaNebula": {
+    "title": "KANA NEBULA",
+    "description": "Deep Space Exploration",
+    "sector": "Sector {name}"
+  },
+  "kanaOrbit": {
+    "instructions": "Mesmerizing orbital circles"
+  },
+  "kanaPop": {
+    "title": "Kana Pop!",
+    "score": "Score: {score}",
+    "instructions": "Pop the bubbles to score points!"
+  },
+  "kanaPulse": {
+    "score": "Score: {score}",
+    "gameOver": "Game Over! Final Score: {score}",
+    "playAgain": "Play Again"
+  },
+  "kanaRain": {
+    "title": "Kana Rain",
+    "description": "Catch falling kana characters in this arcade-style game",
+    "instructions": "Hover over kana to reveal romaji"
+  },
+  "kanaSearch": {
+    "title": "Kana Search",
+    "highScore": "High Score: {score}",
+    "instructions": "Find the target character in the grid before the time runs out!",
+    "startSearch": "START SEARCH",
+    "timesUp": "TIME'S UP!",
+    "reachedLevel": "You reached Level {level}",
+    "retry": "RETRY",
+    "target": "Target"
+  },
+  "kanaShadow": {
+    "round": "Round: {round}",
+    "score": "Score: {score}",
+    "its": "It's \"{answer}\"",
+    "next": "Next"
+  },
+  "kanaSlot": {
+    "title": "🎰 Kana Slot",
+    "coins": "Coins: {coins}",
+    "freeCoins": "Get 100 free coins",
+    "jackpot": "🎉 JACKPOT! +100 coins!",
+    "nice": "✨ Nice! +25 coins!",
+    "tryAgain": "Try again!",
+    "spin": "Spin! (-10)",
+    "noCoins": "No coins!"
+  },
+  "kanaSnake": {
+    "score": "Score: {score}",
+    "collected": "Collected: {kana}",
+    "gameOver": "Game Over! Score: {score}",
+    "playAgain": "Play Again",
+    "instructions": "Use Arrow Keys or WASD to move"
+  },
+  "kanaStack": {
+    "perfect": "🎉 Perfect Stack!",
+    "instructions": "Stack alphabetically by romaji (earliest first)",
+    "nextHint": "Next: Pick the kana with the earliest romaji",
+    "playAgain": "Play Again"
+  },
+  "kanaTrace": {
+    "title": "Kana Trace",
+    "description": "Practice drawing strokes in a relaxing way",
+    "toggleReference": "Toggle Reference",
+    "clearCanvas": "Clear Canvas",
+    "downloadPractice": "Download Practice",
+    "currentTarget": "Current Target",
+    "changeTarget": "Change Target",
+    "settings": "Settings",
+    "brushColor": "Brush Color",
+    "brushSize": "Brush Size: {size}px"
+  },
+  "kanaWave": {
+    "title": "Kana Wave",
+    "description": "Catch the kana in the target zone!",
+    "score": "Score: {score}",
+    "instructions": "Use Arrow Keys to switch lanes and Space to hit!",
+    "subInstructions": "Wait for characters to reach the target line on the left.",
+    "startSession": "START SESSION",
+    "hit": "HIT!"
+  },
+  "kanaWhisper": {
+    "loading": "Loading game...",
+    "score": "Score: {score}",
+    "streak": "🔥 Streak: {streak}",
+    "remember": "Remember this kana...",
+    "fading": "Fading...",
+    "which": "Which kana was it?"
+  },
+  "kanaWordle": {
+    "title": "🎯 Kana Wordle",
+    "prompt": "Pick the kana with pronunciation: {romaji}",
+    "correct": "🎉 Correct! Guessed in {attempts} attempt(s)!",
+    "incorrect": "😢 Correct answer is {kana} ({romaji})",
+    "playAgain": "Play Again"
+  },
+  "kanaZen": {
+    "instructions": "Breathe and relax..."
+  },
+  "memoryPalace": {
+    "title": "Memory Palace",
+    "round": "Round: {round}",
+    "score": "Score: {score}",
+    "mistakes": "Mistakes: {count}",
+    "perfect": "🎉 Perfect!",
+    "nextRound": "Next Round",
+    "memorize": "Memorize the positions! {time}s",
+    "recall": "Find the matching pairs!",
+    "roundComplete": "Round Complete!",
+    "greatJob": "👍 Great job!",
+    "keepPracticing": "💪 Keep practicing!"
+  },
+  "runnerGame": {
+    "score": "Score: {score}",
+    "instructions": "Space / Tap to Jump • Down to Dive • Collect Kana for Points",
+    "title": "Yokai Run",
+    "tryAgain": "Try Again?",
+    "start": "Start Game",
+    "retry": "Retry",
+    "gameOver": "Game Over"
+  },
+  "soundGarden": {
+    "title": "Sound Garden",
+    "description": "Tap the kana to hear their sounds",
+    "last": "Last: {romanji}",
+    "tip": "Create melodies by tapping different kana in sequence"
+  },
+  "speedTyping": {
+    "title": "Speed Typing",
+    "description": "Type the romaji as fast as you can!",
+    "startGame": "Start Game",
+    "score": "Score: {score}",
+    "time": "Time: {time}s",
+    "errors": "Errors: {count}",
+    "placeholder": "Type here...",
+    "results": "Results",
+    "correct": "Correct: {count}",
+    "mistakes": "Mistakes: {count}",
+    "accuracy": "Accuracy: {accuracy}%",
+    "kpm": "{kpm} KPM",
+    "kanaPerMinute": "(Kana Per Minute)",
+    "playAgain": "Play Again"
+  },
+  "zenBonsai": {
+    "title": "Zen Bonsai",
+    "description": "Nourish the kana tree with mindful actions",
+    "level": "Level {level}",
+    "evolution": "Evolve in {points} points",
+    "water": "WATER",
+    "sun": "SUNLIGHT",
+    "wind": "KANA WIND"
   }
 }

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Button } from '@/shared/ui/components/button';
+import { useTranslations } from 'next-intl';
 import { RefreshCcw, Play, Volume2, VolumeX } from 'lucide-react';
-import clsx from 'clsx';
 import { useGameAudio } from '../hooks/useGameAudio';
 import { generateAssets, GameAssets } from './RunnerAssets';
 
@@ -93,8 +93,8 @@ const KANA_CHARS = [
 ];
 
 export const RunnerGame = () => {
+  const t = useTranslations('experiments.runnerGame');
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const [gameState, setGameState] = useState<GameState>('START');
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -218,6 +218,7 @@ export const RunnerGame = () => {
       // Add magical particles
       createParticles(player.x + 20, player.y + 40, 8, 'rgba(100,200,255,0.6)');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState, resetGame]);
 
   const dive = useCallback(() => {
@@ -724,6 +725,7 @@ export const RunnerGame = () => {
 
       requestRef.current = requestAnimationFrame(animate);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [gameState],
   );
 
@@ -741,7 +743,7 @@ export const RunnerGame = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [jump]);
+  }, [jump, dive]);
 
   useEffect(() => {
     if (gameState === 'PLAYING') {
@@ -790,15 +792,15 @@ export const RunnerGame = () => {
           <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/40 backdrop-blur-[2px] transition-all'>
             <div className='animate-in fade-in zoom-in rounded-2xl border border-(--border-color) bg-(--bg-color) p-8 text-center shadow-xl duration-300'>
               <h2 className='mb-2 text-4xl font-bold text-(--main-color)'>
-                {gameState === 'START' ? '妖怪ラン' : 'Game Over'}
+                {gameState === 'START' ? t('title') : t('gameOver')}
               </h2>
               <p className='mb-6 text-lg tracking-widest text-(--secondary-color) uppercase'>
-                {gameState === 'START' ? 'Yokai Run' : 'Try Again?'}
+                {gameState === 'START' ? t('title') : t('tryAgain')}
               </p>
 
               {gameState === 'GAME_OVER' && (
                 <div className='mb-6 font-mono text-2xl'>
-                  Score: <span className='font-bold'>{Math.floor(score)}</span>
+                  {t('score', { score: Math.floor(score) })}
                 </div>
               )}
 
@@ -812,11 +814,11 @@ export const RunnerGame = () => {
                 ) : (
                   <RefreshCcw className='h-6 w-6' />
                 )}
-                {gameState === 'START' ? 'Start Game' : 'Retry'}
+                {gameState === 'START' ? t('start') : t('retry')}
               </Button>
 
               <p className='mt-4 text-xs text-(--secondary-color) opacity-70'>
-                Space / Tap to Jump • Down to Dive • Collect Kana for Points
+                {t('instructions')}
               </p>
             </div>
           </div>
@@ -825,4 +827,3 @@ export const RunnerGame = () => {
     </div>
   );
 };
-

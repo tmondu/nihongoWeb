@@ -1,9 +1,9 @@
 'use client';
 import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { useClick, useCorrect } from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
-import clsx from 'clsx';
 import { TreePine, Droplet, Sun, Wind, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -27,6 +27,7 @@ const COLORS = [
 ];
 
 export default function ZenBonsai() {
+  const t = useTranslations('experiments.zenBonsai');
   const [level, setLevel] = useState(1);
   const [energy, setEnergy] = useState(0);
   const [elements, setElements] = useState<PlantElement[]>([]);
@@ -73,11 +74,9 @@ export default function ZenBonsai() {
     <div className='flex min-h-[85vh] flex-1 flex-col items-center justify-between gap-8 overflow-hidden'>
       <div className='text-center'>
         <h1 className='flex items-center justify-center gap-2 text-3xl font-bold text-(--main-color)'>
-          <TreePine className='text-emerald-500' /> Zen Bonsai
+          <TreePine className='text-emerald-500' /> {t('title')}
         </h1>
-        <p className='text-(--secondary-color)'>
-          Nurture your kana tree with mindful actions
-        </p>
+        <p className='text-(--secondary-color)'>{t('description')}</p>
       </div>
 
       <div className='relative flex w-full flex-1 items-end justify-center'>
@@ -142,7 +141,8 @@ export default function ZenBonsai() {
           />
         </div>
         <p className='text-sm font-bold tracking-tighter text-(--secondary-color) uppercase'>
-          Level {level} Evolution
+          {t('level', { level })} •{' '}
+          {t('evolution', { points: level * 10 - energy })}
         </p>
 
         <div className='flex gap-4'>
@@ -151,21 +151,21 @@ export default function ZenBonsai() {
             className='flex flex-col items-center gap-2 rounded-2xl border border-(--border-color) bg-(--card-color) p-4 text-(--secondary-color) transition-all hover:border-blue-400 hover:text-blue-400 active:scale-95'
           >
             <Droplet />
-            <span className='text-[10px] font-bold'>WATER</span>
+            <span className='text-[10px] font-bold'>{t('water')}</span>
           </button>
           <button
             onClick={() => handleInteract('sun')}
             className='flex flex-col items-center gap-2 rounded-2xl border border-(--border-color) bg-(--card-color) p-4 text-(--secondary-color) transition-all hover:border-orange-400 hover:text-orange-400 active:scale-95'
           >
             <Sun />
-            <span className='text-[10px] font-bold'>SUN</span>
+            <span className='text-[10px] font-bold'>{t('sun')}</span>
           </button>
           <button
             onClick={() => handleInteract('wind')}
             className='flex flex-col items-center gap-2 rounded-2xl border border-(--border-color) bg-(--card-color) p-4 text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) active:scale-95'
           >
             <Wind />
-            <span className='text-[10px] font-bold'>WIND</span>
+            <span className='text-[10px] font-bold'>{t('wind')}</span>
           </button>
         </div>
       </div>

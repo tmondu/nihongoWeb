@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -14,6 +15,7 @@ const GRID_SIZE = 15;
 const INITIAL_SPEED = 200;
 
 const KanaSnake = () => {
+  const t = useTranslations('experiments.kanaSnake');
   const [snake, setSnake] = useState<Position[]>([{ x: 7, y: 7 }]);
   const [direction, setDirection] = useState<Direction>('right');
   const [food, setFood] = useState<
@@ -121,9 +123,9 @@ const KanaSnake = () => {
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-4 p-4'>
       <div className='flex items-center gap-6 text-lg text-(--main-color)'>
-        <span>Score: {score}</span>
+        <span>{t('score', { score })}</span>
         <span className='text-sm text-(--secondary-color)'>
-          Collected: {collected.join(' ')}
+          {t('collected', { kana: collected.join(' ') })}
         </span>
       </div>
 
@@ -163,20 +165,18 @@ const KanaSnake = () => {
       {gameOver && (
         <div className='flex flex-col items-center gap-3'>
           <p className='text-xl text-(--main-color)'>
-            Game Over! Score: {score}
+            {t('gameOver', { score })}
           </p>
           <button
             onClick={restart}
             className='rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
           >
-            Play Again
+            {t('playAgain')}
           </button>
         </div>
       )}
 
-      <p className='text-sm text-(--secondary-color)'>
-        Use Arrow Keys or WASD to move
-      </p>
+      <p className='text-sm text-(--secondary-color)'>{t('instructions')}</p>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Match 3 to win big!
  */
 const KanaSlot = () => {
+  const t = useTranslations('experiments.kanaSlot');
   const [reels, setReels] = useState([0, 0, 0]);
   const [spinning, setSpinning] = useState([false, false, false]);
   const [coins, setCoins] = useState(100);
@@ -51,7 +53,7 @@ const KanaSlot = () => {
             setTimeout(() => {
               if (finals[0] === finals[1] && finals[1] === finals[2]) {
                 setCoins(c => c + 100);
-                setMessage('🎉 JACKPOT! +100 coins!');
+                setMessage(t('jackpot'));
                 setWin(true);
               } else if (
                 finals[0] === finals[1] ||
@@ -59,10 +61,10 @@ const KanaSlot = () => {
                 finals[0] === finals[2]
               ) {
                 setCoins(c => c + 25);
-                setMessage('✨ Nice! +25 coins!');
+                setMessage(t('nice'));
                 setWin(true);
               } else {
-                setMessage('Try again!');
+                setMessage(t('tryAgain'));
               }
             }, 200);
           }
@@ -74,11 +76,11 @@ const KanaSlot = () => {
 
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-6 p-4'>
-      <h2 className='text-2xl text-(--main-color)'>🎰 Kana Slot</h2>
+      <h2 className='text-2xl text-(--main-color)'>{t('title')}</h2>
 
       {/* Coins */}
       <div className='text-xl text-(--accent-color)'>
-        💰 Coins: {coins}
+        💰 {t('coins', { coins })}
       </div>
 
       {/* Slot Machine */}
@@ -100,7 +102,8 @@ const KanaSlot = () => {
               )}
             >
               {spinning[i]
-                ? slotKana[Math.floor(Math.random() * slotKana.length)].kana
+                ? // eslint-disable-next-line react-hooks/purity
+                  slotKana[Math.floor(Math.random() * slotKana.length)].kana
                 : slotKana[reel].kana}
             </span>
           </div>
@@ -128,7 +131,7 @@ const KanaSlot = () => {
             : 'bg-(--accent-color) hover:scale-105',
         )}
       >
-        {coins < 10 ? '💸 No coins!' : '🎰 Spin! (-10)'}
+        {coins < 10 ? '💸 ' + t('noCoins') : '🎰 ' + t('spin')}
       </button>
 
       {/* Reset */}
@@ -137,7 +140,7 @@ const KanaSlot = () => {
           onClick={() => setCoins(100)}
           className='text-sm text-(--secondary-color) underline'
         >
-          Get 100 free coins
+          {t('freeCoins')}
         </button>
       )}
 

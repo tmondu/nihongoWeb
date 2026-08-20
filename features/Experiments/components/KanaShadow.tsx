@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Lightweight: CSS blur filter, no animations needed
  */
 const KanaShadow = () => {
+  const t = useTranslations('experiments.kanaShadow');
   const [round, setRound] = useState(0);
   const [score, setScore] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -52,8 +54,8 @@ const KanaShadow = () => {
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-8 p-4'>
       <div className='flex gap-6 text-xl text-(--main-color)'>
-        <span>Round: {round + 1}</span>
-        <span>Score: {score}</span>
+        <span>{t('round', { round: round + 1 })}</span>
+        <span>{t('score', { score })}</span>
       </div>
 
       {/* Shadow Display */}
@@ -106,14 +108,14 @@ const KanaShadow = () => {
               feedback === 'correct' ? 'text-green-400' : 'text-red-400',
             )}
           >
-            {feedback === 'correct' ? '✓ Correct!' : '✗ Wrong!'} It's "
-            {currentRound.shadow.romanji}"
+            {feedback === 'correct' ? '✓ ' : '✗ '}
+            {t('its', { answer: currentRound.shadow.romanji })}
           </p>
           <button
             onClick={nextRound}
             className='mt-2 rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
           >
-            Next
+            {t('next')}
           </button>
         </div>
       )}

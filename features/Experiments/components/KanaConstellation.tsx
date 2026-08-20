@@ -2,7 +2,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import { RotateCcw, Star } from 'lucide-react';
 import clsx from 'clsx';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import { useTranslations } from 'next-intl';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 import { hiraganaOnly } from '../data/kanaData';
 
 interface ConstellationPoint {
@@ -35,8 +40,11 @@ const generateConstellation = (): ConstellationPoint[] => {
 };
 
 const KanaConstellation = () => {
+  const t = useTranslations('experiments.kanaConstellation');
   const [isMounted, setIsMounted] = useState(false);
-  const [points, setPoints] = useState<ConstellationPoint[]>([]);
+  const [points, setPoints] = useState<ConstellationPoint[]>(
+    generateConstellation,
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lines, setLines] = useState<
     { x1: number; y1: number; x2: number; y2: number }[]
@@ -48,8 +56,8 @@ const KanaConstellation = () => {
   const { playError } = useError();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
-    setPoints(generateConstellation());
   }, []);
 
   const handlePointClick = useCallback(
@@ -112,13 +120,13 @@ const KanaConstellation = () => {
       <div className='mb-4 text-center'>
         <h1 className='flex items-center justify-center gap-2 text-2xl text-(--main-color) md:text-3xl'>
           <Star size={28} />
-          Kana Constellation
+          {t('title')}
         </h1>
         <p className='mt-2 text-(--secondary-color)'>
-          Connect the stars in order: {currentTarget?.romanji || 'Complete!'}
+          {t('instructions')} {currentTarget?.romanji || t('reset')}
         </p>
         <p className='text-sm text-(--secondary-color)'>
-          Constellations completed: {score}
+          {t('completed', { score })}
         </p>
       </div>
 
@@ -178,7 +186,7 @@ const KanaConstellation = () => {
           <div className='absolute inset-0 flex items-center justify-center bg-(--background-color)/80'>
             <div className='text-center'>
               <p className='mb-4 text-2xl text-(--main-color)'>
-                ✨ Constellation Complete! ✨
+                {t('completeBadge')}
               </p>
               <button
                 onClick={resetGame}
@@ -191,7 +199,7 @@ const KanaConstellation = () => {
                 )}
               >
                 <RotateCcw size={20} />
-                New Constellation
+                {t('newConstellation')}
               </button>
             </div>
           </div>
@@ -211,7 +219,7 @@ const KanaConstellation = () => {
           )}
         >
           <RotateCcw size={16} />
-          Reset
+          {t('reset')}
         </button>
       )}
     </div>

@@ -2,19 +2,21 @@
 import { useEffect, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { getDailyHaiku, getRandomHaiku, Haiku } from '../data/haiku';
 
 const DailyHaiku = () => {
+  const t = useTranslations('experiments.haiku');
   const [isMounted, setIsMounted] = useState(false);
-  const [haiku, setHaiku] = useState<Haiku | null>(null);
+  const [haiku, setHaiku] = useState<Haiku | null>(() => getDailyHaiku());
   const [showRomanji, setShowRomanji] = useState(false);
   const [isDaily, setIsDaily] = useState(true);
   const { playClick } = useClick();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
-    setHaiku(getDailyHaiku());
   }, []);
 
   const handleNewHaiku = () => {
@@ -35,7 +37,7 @@ const DailyHaiku = () => {
       {/* Title */}
       <div className='text-center'>
         <h1 className='text-xl text-(--secondary-color) md:text-2xl'>
-          {isDaily ? "Today's Haiku" : 'Random Haiku'}
+          {isDaily ? t('todaysHaiku') : t('randomHaiku')}
         </h1>
       </div>
 
@@ -83,9 +85,7 @@ const DailyHaiku = () => {
 
         {/* Author */}
         <div className='mt-4 text-center'>
-          <p className='text-sm text-(--secondary-color)'>
-            — {haiku.author}
-          </p>
+          <p className='text-sm text-(--secondary-color)'>— {haiku.author}</p>
           <p lang='ja' className='text-sm text-(--main-color)'>
             {haiku.authorJapanese}
           </p>
@@ -102,11 +102,10 @@ const DailyHaiku = () => {
             'text-(--secondary-color) hover:text-(--main-color)',
             'transition-all duration-250 hover:cursor-pointer',
             'active:scale-95',
-            showRomanji &&
-              'border-(--main-color) text-(--main-color)',
+            showRomanji && 'border-(--main-color) text-(--main-color)',
           )}
         >
-          {showRomanji ? 'Hide' : 'Show'} Romanji
+          {showRomanji ? t('hideRomaji') : t('showRomaji')}
         </button>
         <button
           onClick={handleNewHaiku}
@@ -119,7 +118,7 @@ const DailyHaiku = () => {
           )}
         >
           <RefreshCw size={16} />
-          New Haiku
+          {t('newHaiku')}
         </button>
       </div>
     </div>

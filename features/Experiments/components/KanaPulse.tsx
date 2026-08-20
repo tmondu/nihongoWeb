@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Lightweight: Simple grid with CSS transitions
  */
 const KanaPulse = () => {
+  const t = useTranslations('experiments.kanaPulse');
   const [grid] = useState(() =>
     Array.from({ length: 16 }, (_, i) => ({
       id: i,
@@ -15,7 +17,9 @@ const KanaPulse = () => {
     })),
   );
 
-  const [targetIdx, setTargetIdx] = useState(0);
+  const [targetIdx, setTargetIdx] = useState(() =>
+    Math.floor(Math.random() * 16),
+  );
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(100);
   const [gameOver, setGameOver] = useState(false);
@@ -23,10 +27,6 @@ const KanaPulse = () => {
   const pickNewTarget = useCallback(() => {
     setTargetIdx(Math.floor(Math.random() * 16));
   }, []);
-
-  useEffect(() => {
-    pickNewTarget();
-  }, [pickNewTarget]);
 
   useEffect(() => {
     if (gameOver) return;
@@ -63,7 +63,7 @@ const KanaPulse = () => {
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-6 p-4'>
       <div className='flex items-center gap-8 text-xl'>
-        <span className='text-(--main-color)'>Score: {score}</span>
+        <span className='text-(--main-color)'>{t('score', { score })}</span>
         <div className='h-3 w-40 overflow-hidden rounded-full bg-(--border-color)'>
           <div
             className='h-full transition-all duration-100'
@@ -102,13 +102,13 @@ const KanaPulse = () => {
       {gameOver && (
         <div className='flex flex-col items-center gap-4'>
           <p className='text-2xl text-(--main-color)'>
-            Game Over! Final Score: {score}
+            {t('gameOver', { score })}
           </p>
           <button
             onClick={restart}
             className='rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
           >
-            Play Again
+            {t('playAgain')}
           </button>
         </div>
       )}

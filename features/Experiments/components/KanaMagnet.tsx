@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -7,31 +8,21 @@ import { allKana } from '../data/kanaData';
  * Hold click to repel, release to attract
  */
 const KanaMagnet = () => {
+  const t = useTranslations('experiments.kanaMagnet');
   const [repel, setRepel] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
-  const [particles, setParticles] = useState<
-    Array<{
-      id: number;
-      kana: string;
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-    }>
-  >([]);
-  const frameRef = useRef<number | undefined>(undefined);
-
-  useEffect(() => {
-    const initial = Array.from({ length: 30 }, (_, i) => ({
+  const [particles, setParticles] = useState(() =>
+    Array.from({ length: 30 }, (_, i) => ({
       id: i,
       kana: allKana[i % allKana.length].kana,
       x: Math.random() * 80 + 10,
       y: Math.random() * 80 + 10,
       vx: 0,
       vy: 0,
-    }));
-    setParticles(initial);
-  }, []);
+    })),
+  );
+
+  const frameRef = useRef<number | undefined>(undefined);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -119,7 +110,7 @@ const KanaMagnet = () => {
 
       {/* Instructions */}
       <div className='absolute bottom-8 left-1/2 -translate-x-1/2 text-center text-(--secondary-color)'>
-        <p>Move cursor to attract • Hold click to repel</p>
+        <p>{t('instructions')}</p>
         <p className='mt-1 text-sm'>
           {repel ? '💥 Repelling!' : '🧲 Attracting...'}
         </p>

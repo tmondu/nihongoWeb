@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -7,30 +8,19 @@ import { allKana } from '../data/kanaData';
  * Click to reverse gravity, watch kana respond
  */
 const KanaGravity = () => {
+  const t = useTranslations('experiments.kanaGravity');
   const [gravityUp, setGravityUp] = useState(false);
-  const [particles, setParticles] = useState<
-    Array<{
-      id: number;
-      kana: string;
-      x: number;
-      y: number;
-      vy: number;
-    }>
-  >([]);
-  const frameRef = useRef<number | undefined>(undefined);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Initialize particles
-    const initial = Array.from({ length: 20 }, (_, i) => ({
+  const [particles, setParticles] = useState(() =>
+    Array.from({ length: 20 }, (_, i) => ({
       id: i,
       kana: allKana[i % allKana.length].kana,
       x: Math.random() * 90 + 5,
       y: Math.random() * 40 + 30,
       vy: 0,
-    }));
-    setParticles(initial);
-  }, []);
+    })),
+  );
+  const frameRef = useRef<number | undefined>(undefined);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const gravity = gravityUp ? -0.3 : 0.3;
@@ -82,7 +72,7 @@ const KanaGravity = () => {
         >
           ⬇️
         </span>
-        <span className='text-sm'>Click to flip gravity!</span>
+        <span className='text-sm'>{t('instructions')}</span>
       </div>
 
       {/* Particles */}

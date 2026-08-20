@@ -1,22 +1,24 @@
 'use client';
 import { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
  * Kana Fortune - Spin the wheel for your daily kana fortune!
  */
 const fortunes = [
-  { text: 'Great luck today!', emoji: '🌟', color: 'text-yellow-400' },
-  { text: 'Love is in the air', emoji: '💖', color: 'text-pink-400' },
-  { text: 'Adventure awaits', emoji: '🗻', color: 'text-blue-400' },
-  { text: 'Study hard today', emoji: '📚', color: 'text-purple-400' },
-  { text: 'Small blessing', emoji: '🍀', color: 'text-green-400' },
-  { text: 'Be patient', emoji: '🐢', color: 'text-teal-400' },
-  { text: 'Take a rest', emoji: '😴', color: 'text-indigo-400' },
-  { text: 'Make new friends', emoji: '🤝', color: 'text-orange-400' },
+  { key: 'luckGreat', emoji: '🌟', color: 'text-yellow-400' },
+  { key: 'luckLove', emoji: '💖', color: 'text-pink-400' },
+  { key: 'luckAdventure', emoji: '🗻', color: 'text-blue-400' },
+  { key: 'luckStudy', emoji: '📚', color: 'text-purple-400' },
+  { key: 'luckSmall', emoji: '🍀', color: 'text-green-400' },
+  { key: 'luckPatient', emoji: '🐢', color: 'text-teal-400' },
+  { key: 'luckRest', emoji: '😴', color: 'text-indigo-400' },
+  { key: 'luckFriends', emoji: '🤝', color: 'text-orange-400' },
 ];
 
 const KanaFortune = () => {
+  const t = useTranslations('experiments.kanaFortune');
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<{
@@ -56,7 +58,7 @@ const KanaFortune = () => {
 
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-8 p-4'>
-      <h2 className='text-2xl text-(--main-color)'>🔮 Kana Fortune</h2>
+      <h2 className='text-2xl text-(--main-color)'>{t('title')}</h2>
 
       {/* Wheel */}
       <div className='relative'>
@@ -110,7 +112,7 @@ const KanaFortune = () => {
             : 'bg-(--accent-color) hover:scale-105'
         }`}
       >
-        {spinning ? '🌀 Spinning...' : '✨ Spin!'}
+        {spinning ? t('spinning') : t('spin')}
       </button>
 
       {/* Result */}
@@ -126,7 +128,7 @@ const KanaFortune = () => {
             </span>
           </div>
           <p className={`text-xl ${result.fortune.color}`}>
-            {result.fortune.text}
+            {t(result.fortune.key as Parameters<typeof t>[0])}
           </p>
         </div>
       )}

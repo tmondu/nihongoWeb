@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
-import clsx from 'clsx';
+
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Move with mouse or arrow keys
  */
 const KanaCatch = () => {
+  const t = useTranslations('experiments.kanaCatch');
   const [basketX, setBasketX] = useState(50);
   const [falling, setFalling] = useState<
     Array<{
@@ -115,8 +117,8 @@ const KanaCatch = () => {
     >
       {/* HUD */}
       <div className='absolute top-4 left-1/2 z-10 flex -translate-x-1/2 gap-8 text-lg text-(--main-color)'>
-        <span>Score: {score}</span>
-        <span className='text-red-400'>Missed: {missed}/5</span>
+        <span>{t('score', { score })}</span>
+        <span className='text-red-400'>{t('missed', { missed })}</span>
       </div>
 
       {/* Falling Kana */}
@@ -153,15 +155,15 @@ const KanaCatch = () => {
       {gameOver && (
         <div className='absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/50'>
           <div className='flex flex-col items-center gap-4 rounded-2xl bg-(--card-color) p-8'>
-            <p className='text-2xl text-(--main-color)'>Game Over!</p>
+            <p className='text-2xl text-(--main-color)'>{t('gameOver')}</p>
             <p className='text-xl text-(--accent-color)'>
-              Final Score: {score}
+              {t('finalScore', { score })}
             </p>
             <button
               onClick={restart}
               className='rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
             >
-              Play Again
+              {t('playAgain')}
             </button>
           </div>
         </div>
@@ -170,7 +172,7 @@ const KanaCatch = () => {
       {/* Instructions */}
       {!gameOver && (
         <p className='absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-(--secondary-color)'>
-          Move mouse or use ← → arrow keys
+          {t('instructions')}
         </p>
       )}
     </div>

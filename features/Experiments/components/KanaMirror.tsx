@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { allKana } from '../data/kanaData';
 
 /**
@@ -8,6 +9,7 @@ import { allKana } from '../data/kanaData';
  * Lightweight: Pure CSS animations, no external dependencies
  */
 const KanaMirror = () => {
+  const t = useTranslations('experiments.kanaMirror');
   const [pairs] = useState(() => {
     // Create 6 hiragana-katakana pairs
     const hiragana = allKana.slice(0, 46);
@@ -53,7 +55,7 @@ const KanaMirror = () => {
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-8 p-4'>
       <h2 className='text-2xl text-(--main-color)'>
-        {allMatched ? '✨ Perfect Match!' : 'Match Hiragana ↔ Katakana'}
+        {allMatched ? t('perfect') : t('title')}
       </h2>
 
       <div className='flex gap-12'>
@@ -107,7 +109,7 @@ const KanaMirror = () => {
           onClick={() => window.location.reload()}
           className='rounded-xl bg-(--accent-color) px-6 py-3 text-white transition-transform hover:scale-105'
         >
-          Play Again
+          {t('playAgain')}
         </button>
       )}
     </div>
