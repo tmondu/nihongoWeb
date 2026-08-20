@@ -340,3 +340,13 @@ input[type='checkbox']:focus-visible {
   z-index: -1;
   border-radius: 0.5rem;
 }
+
+/* Custom Autofill Styles to match theme colors */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--background-color) inset !important;
+  -webkit-text-fill-color: var(--main-color) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

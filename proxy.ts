@@ -48,7 +48,26 @@ export default async function proxy(request: NextRequest) {
     canonicalPath === '/register' ||
     canonicalPath === '/forgot-password' ||
     canonicalPath === '/reset-password';
-  const isPublicPage = canonicalPath === '/' || canonicalPath === '/about';
+  const isPublicPage =
+    canonicalPath === '/' ||
+    canonicalPath === '/about' ||
+    canonicalPath === '/privacy' ||
+    canonicalPath === '/terms' ||
+    canonicalPath === '/credits' ||
+    canonicalPath === '/faq' ||
+    canonicalPath === '/how-to-use' ||
+    canonicalPath === '/patch-notes' ||
+    canonicalPath.startsWith('/kana') ||
+    canonicalPath.startsWith('/kanji') ||
+    canonicalPath.startsWith('/vocabulary') ||
+    canonicalPath.startsWith('/translate') ||
+    canonicalPath.startsWith('/conjugate') ||
+    canonicalPath.startsWith('/academy') ||
+    canonicalPath.startsWith('/resources') ||
+    canonicalPath.startsWith('/preferences') ||
+    canonicalPath.startsWith('/progress') ||
+    canonicalPath.startsWith('/zen') ||
+    canonicalPath.startsWith('/anki-converter');
 
   // Redirect if not authenticated
   if (!user && !isAuthPage && !isPublicPage) {

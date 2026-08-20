@@ -13,7 +13,7 @@ Include as much detail as possible to ensure reproducibility. At a minimum, vuln
 
 If you discover a security vulnerability in this project, please report it responsibly:
 
-- **Report via:** [dev@kanadojo.com](mailto:dev@kanadojo.com), open a **issue** on this repository or contact the developer directly through our Discord server.
+- **Report via:** [nduc120201@gmail.com](mailto:nduc120201@gmail.com), open a **issue** on this repository or contact the developer directly through our Discord server.
 - **Response time:** We aim to acknowledge all reports within **48 hours**.
 - **Next steps:** Once verified, we will provide a timeline for a fix. If the report is declined, we will provide an explanation.
 - **Confidentiality:** Please do **not publicly disclose** the actual vulnerability itself until a fix has been released.

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { env } from '@/shared/config/env';
+import { verifyJwt } from '@/shared/utils/auth';
 import {
   checkTranslateUsageLimit,
   checkTranslateRateLimit,
@@ -642,19 +643,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const token = request.cookies.get('auth_token')?.value;
+    let user = null;
+    if (token) {
+      user = await verifyJwt(token);
+    }
+    const isLoggedIn = !!user;
+
     const verified = await verifyTurnstileToken(verificationToken, request);
     const usageResult = await checkTranslateUsageLimit(
       clientIP,
       normalizedText.length,
-      { verified },
+      { verified, isLoggedIn },
     );
     const usageHeaders = createTranslateUsageHeaders(usageResult);
 
     if (!usageResult.allowed) {
-      const message =
-        usageResult.reason === 'global_monthly_char_quota'
-          ? 'Service is experiencing high demand. Please try again later.'
-          : 'Daily translation limit reached. Please try again later.';
+      let message: string;
+      if (usageResult.reason === 'global_monthly_char_quota') {
+        message =
+          'Service is experiencing high demand. Please try again later.';
+      } else {
+        message = isLoggedIn
+          ? 'Daily translation limit reached. Please try again tomorrow.'
+          : 'Bạn đã đạt giới hạn dịch thuật hàng ngày cho Khách. Hãy đăng ký hoặc đăng nhập tài khoản để tiếp tục dịch không giới hạn!';
+      }
 
       trackTranslate('translate_rejected', {
         reason: 'usage_limit',

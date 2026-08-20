@@ -631,13 +631,13 @@ const Sidebar = () => {
       }}
       className={clsx(
         'flex lg:flex-col lg:items-start',
-        'lg:relative lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-auto',
+        'lg:relative lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
         'lg:pt-6',
         'max-lg:fixed max-lg:bottom-0 max-lg:w-full',
         'max-lg:bg-(--card-color)',
         'z-50',
         'border-(--border-color) max-lg:items-center max-lg:justify-evenly max-lg:border-t-2 max-lg:py-2',
-        'lg:h-auto lg:border-r lg:px-3',
+        'lg:border-r lg:px-3',
         'lg:transition-[width] lg:duration-300 lg:ease-in-out',
         isDesktopSidebarCollapsed ? 'lg:w-20' : 'lg:w-80',
         'lg:pb-4',
@@ -674,95 +674,103 @@ const Sidebar = () => {
         </h1>
       </motion.div>
 
-      {/* Main Navigation - with sliding indicator */}
+      {/* Scrollable Navigation Area */}
       <div
         className={clsx(
-          'max-lg:flex max-lg:w-full max-lg:items-center max-lg:justify-evenly',
-          'lg:flex lg:w-full lg:flex-col lg:gap-1',
+          'max-lg:contents',
+          'lg:flex lg:w-full lg:flex-1 lg:flex-col lg:gap-1 lg:overflow-x-hidden lg:overflow-y-auto lg:pr-1',
         )}
       >
-        {mainNavItems.map(item => (
-          <NavLink
-            key={item.href}
-            item={item}
-            label={t(item.labelKey as any)}
-            isActive={isActive(item.href)}
-            onClick={playClick}
-            variant='main'
-            useSlidingIndicator={true}
-            isDesktopCollapsed={isDesktopSidebarCollapsed}
-            animateIconWhenInactive={
-              !hasVisitedPreferences && item.href === '/preferences'
-            }
-            className={item.href === '/profile' ? 'lg:hidden' : undefined}
-          />
-        ))}
+        {/* Main Navigation - with sliding indicator */}
+        <div
+          className={clsx(
+            'max-lg:flex max-lg:w-full max-lg:items-center max-lg:justify-evenly',
+            'lg:flex lg:w-full lg:flex-col lg:gap-1',
+          )}
+        >
+          {mainNavItems.map(item => (
+            <NavLink
+              key={item.href}
+              item={item}
+              label={t(item.labelKey as any)}
+              isActive={isActive(item.href)}
+              onClick={playClick}
+              variant='main'
+              useSlidingIndicator={true}
+              isDesktopCollapsed={isDesktopSidebarCollapsed}
+              animateIconWhenInactive={
+                !hasVisitedPreferences && item.href === '/preferences'
+              }
+              className={item.href === '/profile' ? 'lg:hidden' : undefined}
+            />
+          ))}
+        </div>
+
+        {/* Secondary Navigation Sections */}
+        {!isDesktopSidebarCollapsed &&
+          secondaryNavSections.map(section => {
+            // Determine which expand state and toggle function to use based on section title
+            const sectionTitleKey = section.titleKey;
+            const translatedTitle = t(sectionTitleKey as any);
+            const isExpanded =
+              sectionTitleKey === 'academy'
+                ? isAcademyExpanded
+                : sectionTitleKey === 'tools'
+                  ? isToolsExpanded
+                  : isExperimentsExpanded;
+            const onToggle =
+              sectionTitleKey === 'academy'
+                ? () => setIsAcademyExpanded(prev => !prev)
+                : sectionTitleKey === 'tools'
+                  ? () => setIsToolsExpanded(prev => !prev)
+                  : () => setIsExperimentsExpanded(prev => !prev);
+
+            return (
+              <div key={section.titleKey} className='contents'>
+                <SectionHeader
+                  title={translatedTitle}
+                  icon={
+                    section.titleKey === 'academy'
+                      ? BookOpen
+                      : section.titleKey === 'tools'
+                        ? Languages
+                        : FlaskConical
+                  }
+                  collapsible={section.collapsible}
+                  isExpanded={isExpanded}
+                  onToggle={onToggle}
+                />
+                {/* Only show items if section is expanded or not collapsible */}
+                {(!section.collapsible || isExpanded) &&
+                  section.items.length > 0 && (
+                    <div className='flex w-full flex-col gap-0 max-lg:hidden'>
+                      {section.items.map(item => {
+                        // Experiments might not have translations, so we fallback to labelKey directly
+                        const itemLabel =
+                          section.titleKey === 'experiments'
+                            ? item.labelKey
+                            : t(item.labelKey as any);
+                        return (
+                          <NavLink
+                            key={item.href}
+                            item={item}
+                            label={itemLabel}
+                            isActive={isActive(item.href)}
+                            onClick={playClick}
+                            variant='secondary'
+                            useSlidingIndicator={true}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+              </div>
+            );
+          })}
       </div>
 
-      {/* Secondary Navigation Sections */}
-      {!isDesktopSidebarCollapsed &&
-        secondaryNavSections.map(section => {
-          // Determine which expand state and toggle function to use based on section title
-          const sectionTitleKey = section.titleKey;
-          const translatedTitle = t(sectionTitleKey as any);
-          const isExpanded =
-            sectionTitleKey === 'academy'
-              ? isAcademyExpanded
-              : sectionTitleKey === 'tools'
-                ? isToolsExpanded
-                : isExperimentsExpanded;
-          const onToggle =
-            sectionTitleKey === 'academy'
-              ? () => setIsAcademyExpanded(prev => !prev)
-              : sectionTitleKey === 'tools'
-                ? () => setIsToolsExpanded(prev => !prev)
-                : () => setIsExperimentsExpanded(prev => !prev);
-
-          return (
-            <div key={section.titleKey} className='contents'>
-              <SectionHeader
-                title={translatedTitle}
-                icon={
-                  section.titleKey === 'academy'
-                    ? BookOpen
-                    : section.titleKey === 'tools'
-                      ? Languages
-                      : FlaskConical
-                }
-                collapsible={section.collapsible}
-                isExpanded={isExpanded}
-                onToggle={onToggle}
-              />
-              {/* Only show items if section is expanded or not collapsible */}
-              {(!section.collapsible || isExpanded) &&
-                section.items.length > 0 && (
-                  <div className='flex w-full flex-col gap-0 max-lg:hidden'>
-                    {section.items.map(item => {
-                      // Experiments might not have translations, so we fallback to labelKey directly
-                      const itemLabel =
-                        section.titleKey === 'experiments'
-                          ? item.labelKey
-                          : t(item.labelKey as any);
-                      return (
-                        <NavLink
-                          key={item.href}
-                          item={item}
-                          label={itemLabel}
-                          isActive={isActive(item.href)}
-                          onClick={playClick}
-                          variant='secondary'
-                          useSlidingIndicator={true}
-                        />
-                      );
-                    })}
-                  </div>
-                )}
-            </div>
-          );
-        })}
-
-      {/* Profile Item at the bottom of Sidebar for Desktop */}
-      <div className='mt-auto mb-16 hidden w-full shrink-0 lg:block'>
+      {/* Fixed Footer Area (Desktop Only) */}
+      <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-4 lg:pt-4'>
         <NavLink
           item={{ href: '/profile', labelKey: 'profile', icon: User }}
           label={t('profile' as any)}
@@ -772,23 +780,24 @@ const Sidebar = () => {
           useSlidingIndicator={true}
           isDesktopCollapsed={isDesktopSidebarCollapsed}
         />
-      </div>
 
-      <button
-        onClick={toggleDesktopSidebarCollapse}
-        className={clsx(
-          'hidden cursor-pointer items-center rounded-2xl px-3 py-1.5 text-(--secondary-color) transition-colors hover:bg-(--card-color) hover:text-(--main-color) lg:absolute lg:bottom-8 lg:left-5 lg:flex',
-        )}
-        aria-label={
-          isDesktopSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
-        }
-      >
-        {isDesktopSidebarCollapsed ? (
-          <PanelLeftOpen className='h-5 w-5 shrink-0' />
-        ) : (
-          <PanelLeftClose className='h-5 w-5 shrink-0' />
-        )}
-      </button>
+        <button
+          onClick={toggleDesktopSidebarCollapse}
+          className={clsx(
+            'flex w-fit cursor-pointer items-center rounded-2xl px-3 py-1.5 text-(--secondary-color) transition-colors hover:bg-(--card-color) hover:text-(--main-color)',
+            isDesktopSidebarCollapsed ? 'mx-auto' : 'pl-4',
+          )}
+          aria-label={
+            isDesktopSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+          }
+        >
+          {isDesktopSidebarCollapsed ? (
+            <PanelLeftOpen className='h-5 w-5 shrink-0' />
+          ) : (
+            <PanelLeftClose className='h-5 w-5 shrink-0' />
+          )}
+        </button>
+      </div>
     </motion.aside>
   );
 };

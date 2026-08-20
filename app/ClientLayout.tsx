@@ -119,7 +119,26 @@ export default function ClientLayout({
       pathname.includes('/forgot-password') ||
       pathname.includes('/reset-password');
     const cleanPath = pathname.replace(/^\/[a-z]{2}(\/|$)/, '/');
-    const isPublicRoute = cleanPath === '/' || cleanPath === '/about';
+    const isPublicRoute =
+      cleanPath === '/' ||
+      cleanPath === '/about' ||
+      cleanPath === '/privacy' ||
+      cleanPath === '/terms' ||
+      cleanPath === '/credits' ||
+      cleanPath === '/faq' ||
+      cleanPath === '/how-to-use' ||
+      cleanPath === '/patch-notes' ||
+      cleanPath.startsWith('/kana') ||
+      cleanPath.startsWith('/kanji') ||
+      cleanPath.startsWith('/vocabulary') ||
+      cleanPath.startsWith('/translate') ||
+      cleanPath.startsWith('/conjugate') ||
+      cleanPath.startsWith('/academy') ||
+      cleanPath.startsWith('/resources') ||
+      cleanPath.startsWith('/preferences') ||
+      cleanPath.startsWith('/progress') ||
+      cleanPath.startsWith('/zen') ||
+      cleanPath.startsWith('/anki-converter');
 
     if (!isAuthRoute && !isPublicRoute) {
       const isLoggedIn = sessionStorage.getItem('is_logged_in');

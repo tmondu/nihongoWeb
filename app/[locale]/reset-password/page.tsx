@@ -61,19 +61,17 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className='relative flex min-h-screen items-center justify-center overflow-hidden bg-[#030303] px-4 py-12 text-[#fafafa] selection:bg-blue-500 selection:text-white'>
-      {/* Liquid background blobs */}
-      <div className='pointer-events-none absolute top-1/4 left-1/4 h-96 w-96 -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-blue-500/20 mix-blend-screen blur-[120px]' />
-      <div className='pointer-events-none absolute right-1/4 bottom-1/4 h-96 w-96 translate-x-1/2 translate-y-1/2 animate-pulse rounded-full bg-cyan-500/20 mix-blend-screen blur-[120px] [animation-delay:2s]' />
-      <div className='pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-600/10 mix-blend-screen blur-[150px]' />
+    <div className='relative flex min-h-screen items-center justify-center overflow-hidden bg-(--background-color) px-4 py-12 text-(--main-color) selection:bg-(--main-color)/20 selection:text-(--main-color)'>
+      {/* Liquid background blobs using main theme color */}
+      <div className='pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--main-color)/5 blur-[150px]' />
 
       {/* Glassmorphic Card Container */}
-      <div className='relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-white/[0.03] p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-xl transition-all duration-500 hover:border-white/20'>
+      <div className='relative z-10 w-full max-w-md rounded-3xl border border-(--border-color) bg-(--card-color) p-8 shadow-xl transition-all duration-500 hover:border-(--main-color)/20'>
         <div className='mb-8 text-center'>
-          <h1 className='bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-4xl font-black tracking-tight text-transparent drop-shadow-[0_2px_8px_rgba(59,130,246,0.3)] filter'>
+          <h1 className='text-4xl font-bold tracking-tight text-(--main-color)'>
             PThamSS
           </h1>
-          <p className='mt-3 text-xs font-semibold tracking-wide text-zinc-400 uppercase'>
+          <p className='mt-3 text-xs font-semibold tracking-wide text-(--secondary-color) uppercase'>
             Thiết lập mật khẩu mới
           </p>
         </div>
@@ -102,7 +100,7 @@ export default function ResetPasswordPage() {
             <div>
               <label
                 htmlFor='password'
-                className='block text-xs font-semibold tracking-wider text-zinc-300 uppercase'
+                className='block text-xs font-semibold tracking-wider text-(--secondary-color) uppercase'
               >
                 Mật khẩu mới
               </label>
@@ -112,7 +110,7 @@ export default function ResetPasswordPage() {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className='placeholder-zinc-650 mt-2 block w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-zinc-100 shadow-sm transition-all duration-300 focus:border-blue-500 focus:bg-white/[0.07] focus:ring-1 focus:ring-blue-500 focus:outline-none'
+                className='mt-2 block w-full rounded-xl border border-(--border-color) bg-(--background-color) px-4 py-3 text-sm text-(--main-color) placeholder-(--secondary-color)/40 shadow-sm transition-all duration-300 focus:border-(--main-color) focus:ring-1 focus:ring-(--main-color) focus:outline-none'
                 placeholder='••••••••'
               />
             </div>
@@ -120,7 +118,7 @@ export default function ResetPasswordPage() {
             <div>
               <label
                 htmlFor='confirmPassword'
-                className='block text-xs font-semibold tracking-wider text-zinc-300 uppercase'
+                className='block text-xs font-semibold tracking-wider text-(--secondary-color) uppercase'
               >
                 Xác nhận mật khẩu mới
               </label>
@@ -130,7 +128,7 @@ export default function ResetPasswordPage() {
                 required
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
-                className='placeholder-zinc-650 mt-2 block w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-zinc-100 shadow-sm transition-all duration-300 focus:border-blue-500 focus:bg-white/[0.07] focus:ring-1 focus:ring-blue-500 focus:outline-none'
+                className='mt-2 block w-full rounded-xl border border-(--border-color) bg-(--background-color) px-4 py-3 text-sm text-(--main-color) placeholder-(--secondary-color)/40 shadow-sm transition-all duration-300 focus:border-(--main-color) focus:ring-1 focus:ring-(--main-color) focus:outline-none'
                 placeholder='••••••••'
               />
             </div>
@@ -138,18 +136,18 @@ export default function ResetPasswordPage() {
             <button
               type='submit'
               disabled={loading}
-              className='relative flex w-full justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-[0_4px_20px_0_rgba(59,130,246,0.3)] transition-colors duration-300 hover:bg-blue-500 disabled:pointer-events-none disabled:opacity-50'
+              className='relative flex w-full justify-center rounded-xl border-b-4 border-(--main-color-accent) bg-(--main-color) px-4 py-3 text-sm font-bold text-(--background-color) shadow-md transition-all hover:brightness-110 active:brightness-95 disabled:pointer-events-none disabled:opacity-50'
             >
               {loading ? 'Đang cập nhật...' : 'Xác nhận đổi mật khẩu'}
             </button>
           </form>
         )}
 
-        <p className='mt-8 text-center text-xs text-zinc-500'>
+        <p className='mt-8 text-center text-xs text-(--secondary-color)/85'>
           Quay lại{' '}
           <Link
             href='/login'
-            className='font-bold text-blue-400 decoration-2 transition-colors duration-200 hover:text-blue-300 hover:underline'
+            className='font-bold text-(--main-color) transition-colors hover:text-(--secondary-color) hover:underline'
           >
             Đăng nhập
           </Link>

@@ -1,4 +1,4 @@
-﻿# AI Assistant Guide
+# AI Assistant Guide
 
 This file provides comprehensive guidance for AI coding assistants (GitHub Copilot, Claude, Kiro, Cursor, and other AI models) when working with the PThamSS codebase.
 
@@ -10,7 +10,7 @@ This file provides comprehensive guidance for AI coding assistants (GitHub Copil
 
 ## Shell Environment
 
-**Windows PowerShell**: use `;` 
+**Windows PowerShell**: use `;`
 
 **Linux/macOS/WSL**: use `&&`
 
@@ -31,7 +31,7 @@ This file provides comprehensive guidance for AI coding assistants (GitHub Copil
 | i18n      | next-intl (namespace-based)              |
 | Testing   | Vitest with jsdom                        |
 
-**URLs**: [kanadojo.com](https://kanadojo.com) · [GitHub](https://github.com/lingdojo/kanadojo)
+**URLs**: [www.pthamnihongo.site](https://www.pthamnihongo.site) · [GitHub](https://github.com/lingdojo/kanadojo)
 
 ---
 
