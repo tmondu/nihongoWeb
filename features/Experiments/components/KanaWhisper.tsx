@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { allKana } from '../data/kanaData';
 
@@ -17,6 +17,12 @@ const KanaWhisper = () => {
   const [streak, setStreak] = useState(0);
   const [showTime, setShowTime] = useState(2000);
   const [result, setResult] = useState<'correct' | 'wrong' | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMounted(true);
+  }, []);
 
   const generateOptions = (correct: (typeof allKana)[0]) => {
     const opts = [correct];
@@ -63,6 +69,14 @@ const KanaWhisper = () => {
       setPhase('show');
     }, 1000);
   };
+
+  if (!isMounted) {
+    return (
+      <div className='flex min-h-[300px] flex-1 flex-col items-center justify-center p-4'>
+        <span className='text-(--secondary-color)'>Đang tải trò chơi...</span>
+      </div>
+    );
+  }
 
   return (
     <div className='flex flex-1 flex-col items-center justify-center gap-8 p-4'>
