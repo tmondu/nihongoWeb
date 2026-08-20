@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * SEO Health Check Script
  *
@@ -14,7 +15,7 @@
  */
 
 const BASE_URL = process.argv.includes('--live')
-  ? 'https://kanadojo.com'
+  ? 'https://www.pthamnihongo.site'
   : 'http://localhost:3000';
 
 // Key pages that MUST have proper SEO
@@ -240,7 +241,7 @@ async function checkMetaTags(path: string): Promise<void> {
     );
     if (canonicalMatch && canonicalMatch[1]) {
       const canonicalHref = canonicalMatch[1];
-      if (!canonicalHref.startsWith('https://kanadojo.com/')) {
+      if (!canonicalHref.startsWith('https://www.pthamnihongo.site/')) {
         log({
           page,
           status: 'warn',
@@ -400,9 +401,13 @@ async function checkLlmsTxt(): Promise<void> {
     if (response.ok) {
       const text = await response.text();
       const sections = (text.match(/^## /gm) || []).length;
-      const hasKanaRoute = text.includes('https://kanadojo.com/kana');
-      const hasKanjiRoute = text.includes('https://kanadojo.com/kanji');
-      const hasVocabularyRoute = text.includes('https://kanadojo.com/vocabulary');
+      const hasKanaRoute = text.includes('https://www.pthamnihongo.site/kana');
+      const hasKanjiRoute = text.includes(
+        'https://www.pthamnihongo.site/kanji',
+      );
+      const hasVocabularyRoute = text.includes(
+        'https://www.pthamnihongo.site/vocabulary',
+      );
       log({
         page: 'llms.txt',
         status: 'pass',

@@ -30,7 +30,7 @@
 
 [Comment Start][![Sponsored by Cossistant](https://cdn.cossistant.com/oss/oss-friends.svg)](https://cossistant.com/open-source-program)[Comment End]
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
 [![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
 [![Good First Issues](https://img.shields.io/github/issues-search/tmondu/nihongoWeb?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
@@ -41,7 +41,7 @@
 [![Vitest](https://img.shields.io/badge/Tests-Vitest-yellow?style=for-the-badge)](https://vitest.dev/)
 [![AGPL-3.0](https://img.shields.io/badge/open-source-green?style=for-the-badge)](https://www.gnu.org/licenses/agpl-3.0)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/CyvBNNrSmb)
-[![Email](https://img.shields.io/badge/Email-dev%40kanadojo.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dev@kanadojo.com)
+[![Email](https://img.shields.io/badge/Email-nduc120201%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nduc120201@gmail.com)
 
 ---
 
@@ -68,7 +68,7 @@ Start with the [Beginner's Contribution Guide](./docs/CONTRIBUTING-BEGINNERS.md)
 
 All contributions are welcome! Whether you're fixing bugs, adding features, improving documentation, or translating — check out [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
 
-[Live Demo](https://kanadojo.com) · [Documentation](./docs/)
+[Live Demo](https://www.pthamnihongo.site) · [Documentation](./docs/)
 
 </div>
 
@@ -186,7 +186,7 @@ This project is licensed under the AGPL 3.0 License — see [LICENSE.md](./LICEN
 ## Contact
 
 - **Discord**: https://discord.gg/CyvBNNrSmb
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 
 ---
 

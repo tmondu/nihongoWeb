@@ -35,7 +35,7 @@ function getAcademyPostPaths() {
 
 /** @type {import('next-sitemap').IConfig} */
 const sitemapConfig = {
-  siteUrl: process.env.SITE_URL || 'https://kanadojo.com',
+  siteUrl: process.env.SITE_URL || 'https://www.pthamnihongo.site',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   changefreq: 'weekly',
