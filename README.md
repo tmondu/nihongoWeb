@@ -1,3 +1,4 @@
+<!--
 <p align="center">
 <b>This project is sponsored by</b>
 <br/>
@@ -12,7 +13,7 @@
 </a>
 </p>
 
-<!--<div id="top"></div>-->
+[Comment Start]<div id="top"></div>[Comment End]
 
 # PThamSS かな道場
 
@@ -27,7 +28,7 @@
 [![Vercel OSS Program](https://img.shields.io/badge/Vercel-OSS%20Program-black?style=for-the-badge&logo=vercel)](https://vercel.com/open-source-program)
 [![Sponsored by Vercel](https://img.shields.io/badge/Sponsored%20by-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/oss)
 
-<!--[![Sponsored by Cossistant](https://cdn.cossistant.com/oss/oss-friends.svg)](https://cossistant.com/open-source-program)-->
+[Comment Start][![Sponsored by Cossistant](https://cdn.cossistant.com/oss/oss-friends.svg)](https://cossistant.com/open-source-program)[Comment End]
 
 [![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
 [![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
@@ -44,14 +45,14 @@
 
 ---
 
-<!--
+[Comment Start]
 ## 🌐 Translations / 번역 / 翻訳
 
 This README is available in multiple languages:
 
 **English** (current) · [한국어 (Korean)](./docs/translations/README.ko.md) · [日本語 (Japanese)](./docs/translations/README.ja.md) · [Español (Spanish)](./docs/translations/README.es.md) · [Français (French)](./docs/translations/README.fr.md) · [Deutsch (German)](./docs/translations/README.de.md) · [Português (Portuguese)](./docs/translations/README.pt-br.md) · [Русский (Russian)](./docs/translations/README.ru.md) · [Türkçe (Turkish)](./docs/translations/README.tr.md) · [العربية (Arabic)](./docs/translations/README.ar.md) · [हिन्दी (Hindi)](./docs/translations/README.hin.md) · [Italiano (Italian)](./docs/translations/README.it.md) · [Bahasa Indonesia (Indonesian)](./docs/translations/README.id.md) · [Українська (Ukrainian)](./docs/translations/README.ua.md) · [Tiếng Việt (Vietnamese)](./docs/translations/README.vi.md) · [简体中文 (Simplified Chinese)](./docs/translations/README.zh-CN.md) · [繁體中文 (Traditional Chinese)](./docs/translations/README.zh-tw.md)
 
--->
+[Comment End]
 
 ## About
 
@@ -98,7 +99,7 @@ npm run check
 
 > **Having issues?** See the [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
 
-<!--
+[Comment Start]
 ## Screenshots
 
 <div align="center">
@@ -116,7 +117,7 @@ npm run check
 ![Themes](https://github.com/user-attachments/assets/f664a280-0344-4ff9-8639-83f9c1c4223b)
 
 </div>
--->
+[Comment End]
 
 ## Documentation
 
@@ -198,3 +199,5 @@ This project is licensed under the AGPL 3.0 License — see [LICENSE.md](./LICEN
 [⬆ Back to top](#top)
 
 </div>
+
+-->
