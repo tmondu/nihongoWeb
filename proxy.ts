@@ -23,7 +23,15 @@ export default async function proxy(request: NextRequest) {
   // Force HTTPS and www in production
   if (process.env.NODE_ENV === 'production') {
     const host = request.headers.get('host') ?? '';
-    const proto = request.headers.get('x-forwarded-proto') ?? 'http';
+
+    // Check multiple headers — Railway / proxies may use different ones
+    const proto =
+      request.headers.get('x-forwarded-proto') ??
+      request.headers.get('x-scheme') ??
+      (request.headers.get('x-forwarded-ssl') === 'on' ? 'https' : null) ??
+      (request.headers.get('front-end-https') === 'on' ? 'https' : null) ??
+      'http';
+
     const isHttps = proto === 'https';
     const isWww = host.startsWith('www.');
 
