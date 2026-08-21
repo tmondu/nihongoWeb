@@ -98,6 +98,7 @@ export interface NavigationTranslations {
     conjugate: string;
     converter: string;
     experiments: string;
+    thamlet: string;
   };
   breadcrumbs: {
     home: string;
