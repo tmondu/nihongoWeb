@@ -175,6 +175,40 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           crossOrigin='anonymous'
           strategy='afterInteractive'
         />
+        <script
+          id='theme-init'
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var raw = localStorage.getItem('theme-css-cache');
+                  var root = document.documentElement;
+                  if (raw) {
+                    var theme = JSON.parse(raw);
+                    if (theme.id) {
+                      root.setAttribute('data-theme', theme.id);
+                    }
+                    for (var k in theme) {
+                      if (k !== 'id' && theme[k]) {
+                        var cssKey = '--' + k.replace(/([A-Z])/g, '-$1').toLowerCase();
+                        root.style.setProperty(cssKey, theme[k]);
+                      }
+                    }
+                  } else {
+                    var pref = localStorage.getItem('theme-storage');
+                    if (pref) {
+                      var parsed = JSON.parse(pref);
+                      var themeId = parsed && parsed.state && parsed.state.theme;
+                      if (themeId) {
+                        root.setAttribute('data-theme', themeId);
+                      }
+                    }
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         <Script id='audio-sw-migration' strategy='afterInteractive'>

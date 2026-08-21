@@ -1,6 +1,4 @@
-'use client';
-
-import TopBar from '@/shared/ui-composite/navigation/TopBar';
+import SidebarLayout from '@/shared/ui-composite/layout/SidebarLayout';
 
 interface AnkiConverterLayoutProps {
   children: React.ReactNode;
@@ -9,13 +7,5 @@ interface AnkiConverterLayoutProps {
 export default function AnkiConverterLayout({
   children,
 }: AnkiConverterLayoutProps) {
-  return (
-    <div className='min-h-dvh bg-(--background-color)'>
-      <TopBar />
-      <main className='mx-auto max-w-7xl px-4 pt-24 pb-16 md:px-6'>
-        {children}
-      </main>
-    </div>
-  );
+  return <SidebarLayout showBanner={false}>{children}</SidebarLayout>;
 }
-

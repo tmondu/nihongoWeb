@@ -13,6 +13,8 @@ body {
   overscroll-behavior: none; /* Prevents zooming on iOS */
   font-family: 'Noto Sans JP', sans-serif;
   scroll-behavior: smooth;
+  background-color: var(--background-color);
+  color: var(--main-color);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -139,26 +141,28 @@ input[type='checkbox']:focus-visible {
 }
 
 :root {
-  /* Default theme (using light theme as default) */
-  --background-color: hsla(210, 17%, 100%, 1);
-  --card-color: hsla(210, 17%, 91%, 1);
-  --border-color: hsla(210, 17%, 76%, 1);
+  /* Default theme (sapphire bloom - dark aesthetic default) */
+  --background-color: oklch(23.44% 0.0432 267.85 / 1);
+  --card-color: oklch(27.44% 0.0432 267.85 / 1);
+  --border-color: oklch(34.44% 0.0432 267.85 / 1);
 
-  --main-color: hsl(0, 0%, 0%);
-  --secondary-color: hsl(0, 0%, 35%);
+  --main-color: oklch(79.09% 0.1242 299.66 / 1);
+  --main-color-accent: oklch(69.09% 0.1242 299.66 / 1);
+  --secondary-color: oklch(89.39% 0.1672 171.49 / 1);
+  --secondary-color-accent: oklch(79.39% 0.1672 171.49 / 1);
 
   /* New aliases */
-  --surface: hsla(210, 17%, 100%, 1);
-  --on-surface: hsl(0, 0%, 0%);
-  --surface-variant: hsla(210, 17%, 91%, 1);
-  --on-surface-variant: hsl(0, 0%, 0%);
-  --outline: hsla(210, 17%, 76%, 1);
-  --primary: hsl(0, 0%, 0%);
-  --on-primary: hsla(210, 17%, 100%, 1);
-  --secondary: hsl(0, 0%, 35%);
-  --on-secondary: hsla(210, 17%, 100%, 1);
-  --background: hsla(210, 17%, 100%, 1);
-  --on-background: hsl(0, 0%, 0%);
+  --surface: oklch(23.44% 0.0432 267.85 / 1);
+  --on-surface: oklch(79.09% 0.1242 299.66 / 1);
+  --surface-variant: oklch(27.44% 0.0432 267.85 / 1);
+  --on-surface-variant: oklch(79.09% 0.1242 299.66 / 1);
+  --outline: oklch(34.44% 0.0432 267.85 / 1);
+  --primary: oklch(79.09% 0.1242 299.66 / 1);
+  --on-primary: oklch(23.44% 0.0432 267.85 / 1);
+  --secondary: oklch(89.39% 0.1672 171.49 / 1);
+  --on-secondary: oklch(23.44% 0.0432 267.85 / 1);
+  --background: oklch(23.44% 0.0432 267.85 / 1);
+  --on-background: oklch(79.09% 0.1242 299.66 / 1);
 }
 
 /* scrollbar style */

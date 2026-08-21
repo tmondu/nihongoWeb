@@ -332,12 +332,10 @@ function ensureCustomThemesLoaded(): void {
   const isBuiltInThemeId = (id: string) => builtInThemeIds.has(id);
 
   // --- Custom color themes (from useCustomThemeStore) ---
-  useCustomThemeStore
-    .getState()
-    .themes.forEach(theme => {
-      if (isBuiltInThemeId(theme.id)) return;
-      themeMap.set(theme.id, buildThemeFromTemplate(theme));
-    });
+  useCustomThemeStore.getState().themes.forEach(theme => {
+    if (isBuiltInThemeId(theme.id)) return;
+    themeMap.set(theme.id, buildThemeFromTemplate(theme));
+  });
 
   useCustomThemeStore.subscribe(state => {
     state.themes.forEach(theme => {
@@ -405,6 +403,18 @@ export function applyTheme(themeId: string) {
   }
 
   root.setAttribute('data-theme', resolvedThemeId);
+
+  // Cache theme CSS variables in localStorage for instant 0ms restoration on page load
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(
+        'theme-css-cache',
+        JSON.stringify({ ...effectiveTheme, id: resolvedThemeId }),
+      );
+    } catch {
+      // Ignore quota errors
+    }
+  }
 
   // Apply wallpaper if theme has one
   const wallpaperId = getThemeDefaultWallpaperId(resolvedThemeId);

@@ -53,6 +53,8 @@ type NavItem = {
   animateWhenInactive?: boolean;
   /** Whether this is a sub-item nested under a main parent */
   isSubItem?: boolean;
+  /** Whether this item is only displayed on mobile BottomBar */
+  isMobileOnly?: boolean;
 };
 
 type NavSection = {
@@ -82,6 +84,18 @@ const mainNavItems: NavItem[] = [
     labelKey: 'thamKanji',
     icon: LayoutGrid,
     isSubItem: true,
+  },
+  {
+    href: '/translate',
+    labelKey: 'tools',
+    icon: Languages,
+    isMobileOnly: true,
+  },
+  {
+    href: '/experiments',
+    labelKey: 'experiments',
+    icon: FlaskConical,
+    isMobileOnly: true,
   },
   {
     href: '/preferences',
@@ -239,6 +253,7 @@ const NavLink = memo(
             'relative lg:w-full',
             item.isSubItem && 'max-lg:hidden',
             item.isSubItem && isDesktopCollapsed && 'lg:hidden',
+            item.isMobileOnly && 'lg:hidden',
             className,
           )}
         >
@@ -266,12 +281,13 @@ const NavLink = memo(
               'relative z-10 flex items-center gap-2 rounded-2xl',
               isMain ? 'text-2xl' : 'text-sm',
               item.isSubItem ? 'lg:text-lg' : undefined,
-              'max-lg:justify-center max-lg:px-3 lg:w-full lg:px-4',
+              'max-lg:justify-center max-lg:px-1.5 sm:max-lg:px-2.5 lg:w-full lg:px-4',
               item.isSubItem ? 'lg:pr-4 lg:pl-10' : undefined,
               isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
               paddingClasses,
               (!isMain || item.isSubItem) && 'max-lg:hidden',
               item.isSubItem && isDesktopCollapsed && 'lg:hidden',
+              item.isMobileOnly && 'lg:hidden',
               isActive && SIDEBAR_ACTIVE_FLOAT_CLASSES,
               isActive
                 ? activeTextClass
@@ -607,6 +623,16 @@ const Sidebar = () => {
       return (
         pathWithoutLocale === href || pathWithoutLocale.startsWith('/kana/')
       );
+    }
+    if (href === '/translate') {
+      return (
+        pathWithoutLocale === '/translate' ||
+        pathWithoutLocale === '/conjugate' ||
+        pathWithoutLocale === '/anki-converter'
+      );
+    }
+    if (href === '/experiments') {
+      return pathWithoutLocale.startsWith('/experiments');
     }
 
     return pathWithoutLocale === href;
