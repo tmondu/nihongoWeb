@@ -20,6 +20,21 @@ const translatorMiddleware = createMiddleware({
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Force HTTPS and www in production
+  if (process.env.NODE_ENV === 'production') {
+    const host = request.headers.get('host') ?? '';
+    const proto = request.headers.get('x-forwarded-proto') ?? 'http';
+    const isHttps = proto === 'https';
+    const isWww = host.startsWith('www.');
+
+    if (!isHttps || !isWww) {
+      const canonicalUrl = request.nextUrl.clone();
+      canonicalUrl.protocol = 'https:';
+      canonicalUrl.host = isWww ? host : `www.${host}`;
+      return NextResponse.redirect(canonicalUrl, { status: 301 });
+    }
+  }
+
   // Fast path - skip for paths that don't need locale handling or auth protection
   if (
     pathname.startsWith('/_next') ||
