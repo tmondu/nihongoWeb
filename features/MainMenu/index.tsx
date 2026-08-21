@@ -15,7 +15,6 @@ import {
   Sparkle,
   FileDiff,
   CircleHelp,
-  Bug,
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord, faGithub } from '@fortawesome/free-brands-svg-icons';
@@ -179,22 +178,6 @@ const MainMenu = () => {
             <PThamSSBanner />
           </div>
           <div className='pointer-events-none flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
-            <button
-              type='button'
-              onClick={() => {
-                playClick();
-                window.open('https://tally.so/r/2E4rB9', '_blank', 'noopener');
-              }}
-              className={clsx(
-                'pointer-events-auto inline-flex sm:hidden',
-                'duration-250 hover:scale-105 hover:cursor-pointer',
-                'active:scale-100 active:duration-225',
-                'fill-current text-(--secondary-color) hover:text-(--main-color)',
-              )}
-              aria-label='Report a bug'
-            >
-              <Bug size={32} fill='currentColor' />
-            </button>
             <button
               type='button'
               onClick={() => {
