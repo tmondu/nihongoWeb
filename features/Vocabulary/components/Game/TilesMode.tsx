@@ -4,7 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import type { IVocabObj } from '@/features/Vocabulary/store/useVocabStore';
 import { Random } from 'random-js';
-import { useCorrect, useError, useClick } from '@/shared/hooks/generic/useAudio';
+import {
+  useCorrect,
+  useError,
+  useClick,
+} from '@/shared/hooks/generic/useAudio';
 import { getGlobalAdaptiveSelector } from '@/shared/utils/adaptiveSelection';
 import Stars from '@/shared/ui-composite/Game/Stars';
 import { useCrazyModeTrigger } from '@/features/CrazyMode/hooks/useCrazyModeTrigger';
@@ -36,9 +40,34 @@ import {
   type VocabQuizType,
 } from '@/features/Vocabulary/components/Game/vocabFormatLock';
 import { useSetProgressStore } from '@/features/Progress';
+import { useLocale } from 'next-intl';
 
 const random = new Random();
 const adaptiveSelector = getGlobalAdaptiveSelector();
+
+const uiTranslations = {
+  vi: {
+    correctTitle: 'Đúng rồi!',
+    wrongTitle: 'Sai rồi! Mời bạn chọn lại.',
+    check: 'Kiểm tra',
+    tryAgain: 'Thử lại',
+    next: 'Tiếp theo',
+  },
+  en: {
+    correctTitle: 'Nicely done!',
+    wrongTitle: 'Incorrect! Please try again.',
+    check: 'Check',
+    tryAgain: 'Try again',
+    next: 'Next',
+  },
+  es: {
+    correctTitle: '¡Bien hecho!',
+    wrongTitle: '¡Incorrecto! Por favor, inténtalo de nuevo.',
+    check: 'Comprobar',
+    tryAgain: 'Intentar de nuevo',
+    next: 'Siguiente',
+  },
+};
 
 // Helper function to check if a word contains kanji characters
 // Kanji are in the CJK Unified Ideographs range (U+4E00 to U+9FAF)
@@ -73,6 +102,8 @@ const VocabTilesMode = ({
   onCorrect: externalOnCorrect,
   onWrong: externalOnWrong,
 }: VocabTilesModeProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const logAttempt = useClassicSessionStore(state => state.logAttempt);
   const recordVocabularyProgress = useSetProgressStore(
     state => state.recordVocabularyProgress,
@@ -102,8 +133,12 @@ const VocabTilesMode = ({
 
   const isGlassMode = useThemePreferences().isGlassMode;
 
-  const { startAnswerTimer, pauseAnswerTimer, getAnswerTimeMs, resetAnswerTimer } =
-    useAnswerTimer();
+  const {
+    startAnswerTimer,
+    pauseAnswerTimer,
+    getAnswerTimeMs,
+    resetAnswerTimer,
+  } = useAnswerTimer();
   const { playCorrect } = useCorrect();
   const { playErrorTwice } = useError();
   const { playClick } = useClick();
@@ -330,6 +365,7 @@ const VocabTilesMode = ({
   // This prevents the summary from being hidden when smart reverse mode changes after a correct answer
   useEffect(() => {
     if (!displayAnswerSummary) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       resetGame();
     }
   }, [isReverse, resetGame, displayAnswerSummary]);
@@ -395,20 +431,15 @@ const VocabTilesMode = ({
       setScore(score + 1);
       setBottomBarState('correct');
       setIsCelebrating(true);
-
-      // Use the word object stored with the question - guaranteed to be valid
-      // since the question wouldn't have been generated without it
-      if (selectedWordObj) {
-        setCurrentWordObjForSummary(selectedWordObj);
-        setDisplayAnswerSummary(true);
-      }
+      setDisplayAnswerSummary(true);
+      // Store the current word object for summary display
+      setCurrentWordObjForSummary(selectedWordObj || null);
 
       // Set feedback for the summary
       // displayText should match what was shown as the question
-      const displayText =
-        quizType === 'meaning' && isReverse
-          ? selectedWordObj?.meanings[0] // meaning+reverse: showed meaning
-          : questionData.word; // meaning+normal or reading: showed word
+      const displayText = isReverse
+        ? selectedWordObj?.meanings[0]
+        : questionData.word;
       setFeedback(
         <>
           <span className='text-(--secondary-color)'>{`${displayText} = ${questionData.correctAnswer} `}</span>
@@ -417,11 +448,7 @@ const VocabTilesMode = ({
       );
       logAttempt({
         questionId: questionData.word,
-        questionPrompt: String(
-          questionData.quizType === 'meaning' && isReverse
-            ? questionData.wordObj?.meanings?.[0] ?? questionData.word
-            : questionData.word,
-        ),
+        questionPrompt: String(questionData.word),
         expectedAnswers: [questionData.correctAnswer],
         userAnswer: String(selectedTileChar ?? ''),
         inputKind: 'word_building',
@@ -465,11 +492,7 @@ const VocabTilesMode = ({
       externalOnWrong?.();
       logAttempt({
         questionId: questionData.word,
-        questionPrompt: String(
-          questionData.quizType === 'meaning' && isReverse
-            ? questionData.wordObj?.meanings?.[0] ?? questionData.word
-            : questionData.word,
-        ),
+        questionPrompt: String(questionData.word),
         expectedAnswers: [questionData.correctAnswer],
         userAnswer: String(selectedTileChar ?? ''),
         inputKind: 'word_building',
@@ -502,13 +525,11 @@ const VocabTilesMode = ({
     setScore,
     externalOnWrong,
     externalIsReverse,
-    decideNextReverseMode,
     recordReverseModeWrong,
     logAttempt,
     isReverse,
     addCorrectAnswerTime,
     recordAnswerTime,
-    quizType,
     pauseAnswerTimer,
     getAnswerTimeMs,
     resetAnswerTimer,
@@ -557,6 +578,7 @@ const VocabTilesMode = ({
     resetGame,
     getNextQuizType,
     quizType,
+    isReverse,
   ]);
 
   const handleTryAgain = useCallback(() => {
@@ -716,7 +738,23 @@ const VocabTilesMode = ({
               : handleCheck
         }
         canCheck={canCheck}
-        feedbackContent={questionData.correctAnswer}
+        feedbackTitle={
+          bottomBarState === 'correct'
+            ? t.correctTitle
+            : bottomBarState === 'wrong'
+              ? t.wrongTitle
+              : undefined
+        }
+        actionLabel={
+          bottomBarState === 'correct'
+            ? t.next
+            : bottomBarState === 'wrong'
+              ? t.tryAgain
+              : t.check
+        }
+        feedbackContent={
+          bottomBarState === 'correct' ? questionData.correctAnswer : undefined
+        }
         buttonRef={buttonRef}
       />
 

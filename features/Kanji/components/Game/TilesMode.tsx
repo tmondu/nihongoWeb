@@ -4,7 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import type { IKanjiObj } from '@/features/Kanji/store/useKanjiStore';
 import { Random } from 'random-js';
-import { useCorrect, useError, useClick } from '@/shared/hooks/generic/useAudio';
+import {
+  useCorrect,
+  useError,
+  useClick,
+} from '@/shared/hooks/generic/useAudio';
 import { getGlobalAdaptiveSelector } from '@/shared/utils/adaptiveSelection';
 import Stars from '@/shared/ui-composite/Game/Stars';
 import { useCrazyModeTrigger } from '@/features/CrazyMode/hooks/useCrazyModeTrigger';
@@ -29,10 +33,34 @@ import TilesModeGrid from '@/shared/ui-composite/Game/TilesModeGrid';
 import useClassicSessionStore from '@/shared/store/useClassicSessionStore';
 import { useSetProgressStore } from '@/features/Progress';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
+import { useLocale } from 'next-intl';
 
 const random = new Random();
 const adaptiveSelector = getGlobalAdaptiveSelector();
 
+const uiTranslations = {
+  vi: {
+    correctTitle: 'Đúng rồi!',
+    wrongTitle: 'Sai rồi! Mời bạn chọn lại.',
+    check: 'Kiểm tra',
+    tryAgain: 'Thử lại',
+    next: 'Tiếp theo',
+  },
+  en: {
+    correctTitle: 'Nicely done!',
+    wrongTitle: 'Incorrect! Please try again.',
+    check: 'Check',
+    tryAgain: 'Try again',
+    next: 'Next',
+  },
+  es: {
+    correctTitle: '¡Bien hecho!',
+    wrongTitle: '¡Incorrecto! Por favor, inténtalo de nuevo.',
+    check: 'Comprobar',
+    tryAgain: 'Intentar de nuevo',
+    next: 'Siguiente',
+  },
+};
 
 interface KanjiTilesModeProps {
   selectedKanjiObjs: IKanjiObj[];
@@ -55,6 +83,8 @@ const KanjiTilesMode = ({
   onCorrect: externalOnCorrect,
   onWrong: externalOnWrong,
 }: KanjiTilesModeProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const logAttempt = useClassicSessionStore(state => state.logAttempt);
   const recordKanjiProgress = useSetProgressStore(
     state => state.recordKanjiProgress,
@@ -87,8 +117,12 @@ const KanjiTilesMode = ({
   );
   const isGlassMode = useThemePreferences().isGlassMode;
 
-  const { startAnswerTimer, pauseAnswerTimer, getAnswerTimeMs, resetAnswerTimer } =
-    useAnswerTimer();
+  const {
+    startAnswerTimer,
+    pauseAnswerTimer,
+    getAnswerTimeMs,
+    resetAnswerTimer,
+  } = useAnswerTimer();
   const { playCorrect } = useCorrect();
   const { playErrorTwice } = useError();
   const { playClick } = useClick();
@@ -218,6 +252,7 @@ const KanjiTilesMode = ({
   ]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     resetGame();
   }, [isReverse, resetGame]);
 
@@ -230,6 +265,9 @@ const KanjiTilesMode = ({
 
   // Keyboard shortcut for Enter/Space to trigger button
   useTilesModeActionKey(buttonRef);
+
+  // Get the selected kanji object for correct answer handling
+  const selectedKanjiObj = kanjiObjMap.get(questionData.kanjiChar);
 
   // Handle Check button
   const handleCheck = useCallback(() => {
@@ -284,7 +322,9 @@ const KanjiTilesMode = ({
       );
       logAttempt({
         questionId: questionData.kanjiChar,
-        questionPrompt: String(questionData.displayChar ?? questionData.kanjiChar),
+        questionPrompt: String(
+          questionData.displayChar ?? questionData.kanjiChar,
+        ),
         expectedAnswers: [questionData.correctAnswer],
         userAnswer: String(selectedTileChar ?? ''),
         inputKind: 'word_building',
@@ -321,7 +361,9 @@ const KanjiTilesMode = ({
       externalOnWrong?.();
       logAttempt({
         questionId: questionData.kanjiChar,
-        questionPrompt: String(questionData.displayChar ?? questionData.kanjiChar),
+        questionPrompt: String(
+          questionData.displayChar ?? questionData.kanjiChar,
+        ),
         expectedAnswers: [questionData.correctAnswer],
         userAnswer: String(selectedTileChar ?? ''),
         inputKind: 'word_building',
@@ -353,7 +395,6 @@ const KanjiTilesMode = ({
     setScore,
     externalOnWrong,
     externalIsReverse,
-    decideNextReverseMode,
     recordReverseModeWrong,
     logAttempt,
     isReverse,
@@ -362,6 +403,8 @@ const KanjiTilesMode = ({
     pauseAnswerTimer,
     getAnswerTimeMs,
     resetAnswerTimer,
+    recordKanjiProgress,
+    selectedKanjiObj,
     setIsChecking,
     setBottomBarState,
     setIsCelebrating,
@@ -400,9 +443,6 @@ const KanjiTilesMode = ({
 
   // Get the kanji object for display
   const currentKanjiObj = kanjiObjMap.get(questionData.kanjiChar);
-
-  // Get the selected kanji object for correct answer handling
-  const selectedKanjiObj = kanjiObjMap.get(questionData.kanjiChar);
 
   return (
     <div
@@ -479,7 +519,9 @@ const KanjiTilesMode = ({
                 isReverse ? '5.5rem' : '5rem',
               )}
               tilesContainerClassName={
-                isGlassMode ? 'rounded-xl bg-(--card-color) px-4 py-2' : undefined
+                isGlassMode
+                  ? 'rounded-xl bg-(--card-color) px-4 py-2'
+                  : undefined
               }
               tilesWrapperKey={questionData.kanjiChar}
             />
@@ -499,7 +541,23 @@ const KanjiTilesMode = ({
               : handleCheck
         }
         canCheck={canCheck}
-        feedbackContent={questionData.correctAnswer}
+        feedbackTitle={
+          bottomBarState === 'correct'
+            ? t.correctTitle
+            : bottomBarState === 'wrong'
+              ? t.wrongTitle
+              : undefined
+        }
+        actionLabel={
+          bottomBarState === 'correct'
+            ? t.next
+            : bottomBarState === 'wrong'
+              ? t.tryAgain
+              : t.check
+        }
+        feedbackContent={
+          bottomBarState === 'correct' ? questionData.correctAnswer : undefined
+        }
         buttonRef={buttonRef}
       />
 

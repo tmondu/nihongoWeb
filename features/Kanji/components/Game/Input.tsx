@@ -4,7 +4,11 @@ import { CircleCheck } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import type { IKanjiObj } from '@/features/Kanji/store/useKanjiStore';
-import { useClick, useCorrect, useError } from '@/shared/hooks/generic/useAudio';
+import {
+  useClick,
+  useCorrect,
+  useError,
+} from '@/shared/hooks/generic/useAudio';
 // import GameIntel from '@/shared/ui-composite/Game/GameIntel';
 import { useStatsStore } from '@/features/Progress';
 import { useShallow } from 'zustand/react/shallow';
@@ -21,9 +25,31 @@ import { cn } from '@/shared/utils/utils';
 import { useSetProgressStore } from '@/features/Progress';
 import { shouldSuppressContinueKeyboardShortcut } from '@/shared/utils/game/continueShortcutGuard';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
+import { useLocale } from 'next-intl';
 
 // Get the global adaptive selector for weighted character selection
 const adaptiveSelector = getGlobalAdaptiveSelector();
+
+const uiTranslations = {
+  vi: {
+    correctTitle: 'Đúng rồi!',
+    wrongTitleInput: 'Sai rồi! Hãy gõ lại.',
+    check: 'Kiểm tra',
+    next: 'Tiếp theo',
+  },
+  en: {
+    correctTitle: 'Nicely done!',
+    wrongTitleInput: 'Incorrect! Please try again.',
+    check: 'Check',
+    next: 'Next',
+  },
+  es: {
+    correctTitle: '¡Bien hecho!',
+    wrongTitleInput: '¡Incorrecto! Por favor, inténtalo de nuevo.',
+    check: 'Comprobar',
+    next: 'Siguiente',
+  },
+};
 
 // Bottom bar states
 type BottomBarState = 'check' | 'correct' | 'wrong';
@@ -39,6 +65,8 @@ const KanjiInputGame = ({
   isHidden,
   isReverse = false,
 }: KanjiInputGameProps) => {
+  const locale = useLocale();
+  const t = uiTranslations[locale as 'vi' | 'en' | 'es'] || uiTranslations.en;
   const logAttempt = useClassicSessionStore(state => state.logAttempt);
   const recordKanjiProgress = useSetProgressStore(
     state => state.recordKanjiProgress,
@@ -125,13 +153,17 @@ const KanjiInputGame = ({
   const [promptSequence, setPromptSequence] = useState(0);
   const pauseTimer = () => {
     if (answerStartTimeRef.current !== null) {
-      elapsedTimeMsRef.current += performance.now() - answerStartTimeRef.current;
+      elapsedTimeMsRef.current +=
+        performance.now() - answerStartTimeRef.current;
       answerStartTimeRef.current = null;
     }
   };
   const getElapsedTimeMs = () => {
     if (answerStartTimeRef.current !== null) {
-      return elapsedTimeMsRef.current + (performance.now() - answerStartTimeRef.current);
+      return (
+        elapsedTimeMsRef.current +
+        (performance.now() - answerStartTimeRef.current)
+      );
     }
     return elapsedTimeMsRef.current;
   };
@@ -160,10 +192,7 @@ const KanjiInputGame = ({
       const isSpace = event.code === 'Space' || event.key === ' ';
       const isContinueShortcut = isEnter || isSpace;
 
-      if (
-        isContinueShortcut &&
-        shouldSuppressContinueKeyboardShortcut()
-      ) {
+      if (isContinueShortcut && shouldSuppressContinueKeyboardShortcut()) {
         event.preventDefault();
         return;
       }
@@ -221,7 +250,8 @@ const KanjiInputGame = ({
         targetChar.some(answer => normalizeAnswer(answer) === normalizedInput)
       );
     } else {
-      const reverseTargetChar = typeof targetChar === 'string' ? targetChar : '';
+      const reverseTargetChar =
+        typeof targetChar === 'string' ? targetChar : '';
       return normalizedInput === normalizeAnswer(reverseTargetChar);
     }
   };
@@ -472,7 +502,17 @@ const KanjiInputGame = ({
         state={bottomBarState}
         onAction={showContinue ? handleContinue : handleCheck}
         canCheck={canCheck}
-        feedbackContent={feedbackText}
+        feedbackTitle={
+          bottomBarState === 'correct'
+            ? t.correctTitle
+            : bottomBarState === 'wrong'
+              ? t.wrongTitleInput
+              : undefined
+        }
+        actionLabel={bottomBarState === 'correct' ? t.next : t.check}
+        feedbackContent={
+          bottomBarState === 'correct' ? feedbackText : undefined
+        }
         buttonRef={buttonRef}
         hideRetry
         clearWrongFeedbackSignal={clearWrongFeedbackSignal}
@@ -485,4 +525,3 @@ const KanjiInputGame = ({
 };
 
 export default KanjiInputGame;
-

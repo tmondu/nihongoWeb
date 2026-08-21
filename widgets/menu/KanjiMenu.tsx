@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Info from '@/shared/ui-composite/Menu/Info';
 import TrainingActionBar from '@/shared/ui-composite/Menu/TrainingActionBar';
 import UnitSelector from '@/shared/ui-composite/Menu/UnitSelector';
-import { KanjiCards, useKanjiSelection } from '@/features/Kanji';
+import { KanjiCards, KanjiQuickNav, useKanjiSelection } from '@/features/Kanji';
 import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
 
@@ -47,12 +47,20 @@ const KanjiMenu = ({
       selectedCollection: fixedCollection,
       selectedSubunitByUnit: {},
     });
-  }, [fixedCollection, selectedKanjiCollection, setKanjiCollection, clearKanji, clearKanjiSets, setPersistedCollectionSelection]);
+  }, [
+    fixedCollection,
+    selectedKanjiCollection,
+    setKanjiCollection,
+    clearKanji,
+    clearKanjiSets,
+    setPersistedCollectionSelection,
+  ]);
 
   return (
     <>
       <div className='flex flex-col gap-4'>
         <Info />
+        <KanjiQuickNav />
         {!hideUnitSelector && <UnitSelector />}
         <KanjiCards />
       </div>
@@ -62,4 +70,3 @@ const KanjiMenu = ({
 };
 
 export default KanjiMenu;
-
