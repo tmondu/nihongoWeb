@@ -20,6 +20,7 @@ import {
   User,
   Search,
   LayoutGrid,
+  Layers,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -84,6 +85,11 @@ const mainNavItems: NavItem[] = [
     labelKey: 'thamKanji',
     icon: LayoutGrid,
     isSubItem: true,
+  },
+  {
+    href: '/thamlet',
+    labelKey: 'thamlet',
+    icon: Layers,
   },
   {
     href: '/translate',
@@ -633,6 +639,11 @@ const Sidebar = () => {
     }
     if (href === '/experiments') {
       return pathWithoutLocale.startsWith('/experiments');
+    }
+    if (href === '/thamlet') {
+      return (
+        pathWithoutLocale === href || pathWithoutLocale.startsWith('/thamlet/')
+      );
     }
 
     return pathWithoutLocale === href;

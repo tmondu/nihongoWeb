@@ -92,6 +92,11 @@ const MainMenu = () => {
       name_ja: '字',
       href: '/kanji',
     },
+    {
+      name_en: 'Thamlet',
+      name_ja: '札',
+      href: '/thamlet',
+    },
 
     // {
     //   name_en: 'Sentences',
