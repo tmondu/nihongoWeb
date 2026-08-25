@@ -12,6 +12,7 @@ import { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { headers } from 'next/headers';
 import SessionPrefetch from '@/shared/ui-composite/Performance/SessionPrefetch';
+import SecurityGuard from '@/shared/ui-composite/Security/SecurityGuard';
 
 const googleVerificationToken = process.env.GOOGLE_VERIFICATION_TOKEN || '';
 const msVerificationToken = process.env.MS_VERIFICATION_TOKEN || '';
@@ -244,6 +245,45 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <SpeedInsights />
           </>
         )}
+        <SecurityGuard />
+        <noscript>
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: '#0a0a0f',
+              color: '#ffffff',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 9999999,
+              textAlign: 'center',
+              padding: '24px',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+            }}
+          >
+            <h1
+              style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                marginBottom: '12px',
+              }}
+            >
+              JavaScript bị vô hiệu hoá
+            </h1>
+            <p
+              style={{ fontSize: '15px', color: '#a0a0b0', maxWidth: '400px' }}
+            >
+              PThamSS là ứng dụng tương tác học tiếng Nhật yêu cầu bật
+              JavaScript để hoạt động. Vui lòng bật lại JavaScript trong cài đặt
+              trình duyệt để tiếp tục.
+            </p>
+          </div>
+        </noscript>
         {children}
       </body>
     </html>

@@ -13,7 +13,7 @@ export async function generateMetadata() {
   return {
     title: 'How to Use PThamSS - Complete Tutorial Guide',
     description:
-      'Learn how to use PThamSS effectively with this complete tutorial. Discover all features, training modes, progress tracking, and tips for mastering Japanese Hiragana, Katakana, Kanji, and Vocabulary.',
+      'Learn how to use KanaDojo effectively with this complete tutorial. Discover all features, training modes, progress tracking, and tips for mastering Japanese Hiragana, Katakana, Kanji, and Vocabulary.',
     keywords:
       'how to use kanadojo, kanadojo tutorial, kanadojo guide, japanese learning tutorial, kana training guide, kanji study guide, kanadojo features',
   };
@@ -30,16 +30,16 @@ export default async function HowToUsePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://kanadojo.com/${locale}` },
           {
             name: 'How to Use',
-            url: `https://www.pthamnihongo.site/${locale}/how-to-use`,
+            url: `https://kanadojo.com/${locale}/how-to-use`,
           },
         ]}
       />
       <HowToSchema
-        name='How to Learn Japanese with PThamSS'
-        description='A step-by-step guide to using PThamSS for learning Japanese Hiragana, Katakana, Kanji, and Vocabulary effectively.'
+        name='How to Learn Japanese with KanaDojo'
+        description='A step-by-step guide to using KanaDojo for learning Japanese Hiragana, Katakana, Kanji, and Vocabulary effectively.'
         totalTime='PT30M'
         estimatedCost='0'
         steps={[
@@ -61,16 +61,16 @@ export default async function HowToUsePage({
           },
           {
             name: 'Customize your experience',
-            text: 'Visit Preferences to change themes, fonts, and other settings. PThamSS offers 100+ themes to personalize your learning environment.',
+            text: 'Visit Preferences to change themes, fonts, and other settings. KanaDojo offers 100+ themes to personalize your learning environment.',
           },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
         <h1 className='mb-4 text-center text-4xl font-bold text-(--main-color)'>
-          How to Use PThamSS
+          How to Use KanaDojo
         </h1>
         <p className='mb-8 text-center text-lg text-(--secondary-color)'>
-          Your complete guide to mastering Japanese with PThamSS
+          Your complete guide to mastering Japanese with KanaDojo
         </p>
 
         <div className='space-y-8 text-(--secondary-color)'>
@@ -80,7 +80,7 @@ export default async function HowToUsePage({
               Getting Started
             </h2>
             <p className='mb-4'>
-              PThamSS is designed to be intuitive and easy to use. No account
+              KanaDojo is designed to be intuitive and easy to use. No account
               required - just visit the site and start learning!
             </p>
             <div className='rounded-lg border-2 border-(--border-color) bg-(--card-color) p-6'>
@@ -170,7 +170,7 @@ export default async function HowToUsePage({
               Training Modes
             </h2>
             <p className='mb-4'>
-              PThamSS offers 6 different training modes to keep learning
+              KanaDojo offers 6 different training modes to keep learning
               engaging and effective:
             </p>
 
@@ -243,7 +243,7 @@ export default async function HowToUsePage({
               Progress Tracking
             </h2>
             <p className='mb-4'>
-              PThamSS automatically tracks your learning progress:
+              KanaDojo automatically tracks your learning progress:
             </p>
             <ul className='list-disc space-y-2 pl-6'>
               <li>
@@ -276,7 +276,7 @@ export default async function HowToUsePage({
             <h2 className='mb-4 text-3xl font-semibold text-(--main-color)'>
               Customization
             </h2>
-            <p className='mb-4'>Make PThamSS your own:</p>
+            <p className='mb-4'>Make KanaDojo your own:</p>
             <ul className='list-disc space-y-2 pl-6'>
               <li>
                 <strong>100+ Themes</strong> - Choose from light and dark color
@@ -440,14 +440,14 @@ export default async function HowToUsePage({
                   Do I need to create an account?
                 </h4>
                 <p>
-                  No! PThamSS works without any account. Your progress is saved
+                  No! KanaDojo works without any account. Your progress is saved
                   locally in your browser.
                 </p>
               </div>
 
               <div>
                 <h4 className='mb-2 font-semibold text-(--main-color)'>
-                  Is PThamSS really completely free?
+                  Is KanaDojo really completely free?
                 </h4>
                 <p>
                   Yes! No hidden costs, no premium features, no advertisements.
@@ -457,17 +457,17 @@ export default async function HowToUsePage({
 
               <div>
                 <h4 className='mb-2 font-semibold text-(--main-color)'>
-                  Can I use PThamSS offline?
+                  Can I use KanaDojo offline?
                 </h4>
                 <p>
-                  Yes! PThamSS works as a Progressive Web App (PWA). Once
+                  Yes! KanaDojo works as a Progressive Web App (PWA). Once
                   loaded, it works offline.
                 </p>
               </div>
 
               <div>
                 <h4 className='mb-2 font-semibold text-(--main-color)'>
-                  How long does it take to learn Japanese with PThamSS?
+                  How long does it take to learn Japanese with KanaDojo?
                 </h4>
                 <p>
                   This depends on your goals and study time. Most learners
@@ -484,7 +484,7 @@ export default async function HowToUsePage({
               Ready to Start Learning?
             </h2>
             <p className='mb-6 text-lg'>
-              Begin your Japanese journey today with PThamSS&apos;s free
+              Begin your Japanese journey today with KanaDojo&apos;s free
               interactive lessons!
             </p>
             <div className='flex flex-col gap-4 sm:flex-row sm:justify-center'>
