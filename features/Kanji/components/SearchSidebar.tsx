@@ -51,23 +51,26 @@ function HandwritingSearchCard({
   const { playClick } = useClick();
   const { theme } = useThemePreferences();
 
-  const redrawStrokes = useCallback((ctx: CanvasRenderingContext2D, allStrokes: Stroke[]) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    drawGrid(ctx);
+  const redrawStrokes = useCallback(
+    (ctx: CanvasRenderingContext2D, allStrokes: Stroke[]) => {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      drawGrid(ctx);
 
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = 'var(--main-color, #ff4e50)';
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = 'var(--main-color, #ff4e50)';
 
-    allStrokes.forEach(stroke => {
-      if (stroke.length === 0) return;
-      ctx.beginPath();
-      ctx.moveTo(stroke[0][0], stroke[0][1]);
-      for (let i = 1; i < stroke.length; i++) {
-        ctx.lineTo(stroke[i][0], stroke[i][1]);
-      }
-      ctx.stroke();
-    });
-  }, []);
+      allStrokes.forEach(stroke => {
+        if (stroke.length === 0) return;
+        ctx.beginPath();
+        ctx.moveTo(stroke[0][0], stroke[0][1]);
+        for (let i = 1; i < stroke.length; i++) {
+          ctx.lineTo(stroke[i][0], stroke[i][1]);
+        }
+        ctx.stroke();
+      });
+    },
+    [],
+  );
 
   // Draw coordinate smoothing & DPI handling
   useEffect(() => {
@@ -91,7 +94,7 @@ function HandwritingSearchCard({
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.lineWidth = 5;
-      
+
       const resolvedColor = getComputedStyle(document.documentElement)
         .getPropertyValue('--main-color')
         .trim();
@@ -105,9 +108,9 @@ function HandwritingSearchCard({
     return () => window.removeEventListener('resize', resizeCanvas);
   }, [strokes, theme, redrawStrokes]);
 
-
-
-  const getCoordinates = (e: React.MouseEvent | React.TouchEvent): [number, number] => {
+  const getCoordinates = (
+    e: React.MouseEvent | React.TouchEvent,
+  ): [number, number] => {
     const canvas = canvasRef.current;
     if (!canvas) return [0, 0];
     const rect = canvas.getBoundingClientRect();
@@ -181,7 +184,8 @@ function HandwritingSearchCard({
     setStrokes(updatedStrokes);
     setCurrentStroke([]);
 
-    if (recognitionTimeoutRef.current) clearTimeout(recognitionTimeoutRef.current);
+    if (recognitionTimeoutRef.current)
+      clearTimeout(recognitionTimeoutRef.current);
     recognitionTimeoutRef.current = setTimeout(() => {
       void recognizeHandwriting(updatedStrokes);
     }, 600);
@@ -231,7 +235,7 @@ function HandwritingSearchCard({
               },
             ],
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -256,7 +260,8 @@ function HandwritingSearchCard({
     setStrokes([]);
     setCurrentStroke([]);
     setCandidates([]);
-    if (recognitionTimeoutRef.current) clearTimeout(recognitionTimeoutRef.current);
+    if (recognitionTimeoutRef.current)
+      clearTimeout(recognitionTimeoutRef.current);
 
     const canvas = canvasRef.current;
     if (canvas) {
@@ -282,7 +287,8 @@ function HandwritingSearchCard({
       }
     }
 
-    if (recognitionTimeoutRef.current) clearTimeout(recognitionTimeoutRef.current);
+    if (recognitionTimeoutRef.current)
+      clearTimeout(recognitionTimeoutRef.current);
 
     if (updated.length > 0) {
       recognitionTimeoutRef.current = setTimeout(() => {
@@ -294,13 +300,15 @@ function HandwritingSearchCard({
   };
 
   return (
-    <div className={cn(
-      'flex flex-col gap-3 p-4 shadow-sm',
-      'rounded-2xl border-2 border-(--border-color) bg-(--card-color)',
-      className
-    )}>
+    <div
+      className={cn(
+        'flex flex-col gap-3 p-4 shadow-sm',
+        'rounded-2xl border-2 border-(--border-color) bg-(--card-color)',
+        className,
+      )}
+    >
       <div className='flex items-center justify-between'>
-        <span className='text-sm font-bold text-(--secondary-color) flex items-center gap-1.5'>
+        <span className='flex items-center gap-1.5 text-sm font-bold text-(--secondary-color)'>
           <Search size={15} />
           Hoặc vẽ Kanji
         </span>
@@ -309,9 +317,9 @@ function HandwritingSearchCard({
             onClick={handleUndo}
             disabled={strokes.length === 0}
             className={cn(
-              'rounded-xl bg-(--background-color) p-2 text-(--secondary-color) border border-(--border-color)',
-              'hover:text-(--main-color) hover:border-(--main-color) disabled:opacity-40 transition-all',
-              'active:scale-95 duration-275 cursor-pointer'
+              'rounded-xl border border-(--border-color) bg-(--background-color) p-2 text-(--secondary-color)',
+              'transition-all hover:border-(--main-color) hover:text-(--main-color) disabled:opacity-40',
+              'cursor-pointer duration-275 active:scale-95',
             )}
             title='Undo'
           >
@@ -321,9 +329,9 @@ function HandwritingSearchCard({
             onClick={handleClear}
             disabled={strokes.length === 0 && candidates.length === 0}
             className={cn(
-              'rounded-xl bg-(--background-color) p-2 text-red-500 border border-(--border-color)',
-              'hover:bg-red-50 dark:hover:bg-red-950/20 disabled:opacity-40 transition-all',
-              'active:scale-95 duration-275 cursor-pointer'
+              'rounded-xl border border-(--border-color) bg-(--background-color) p-2 text-red-500',
+              'transition-all hover:bg-red-50 disabled:opacity-40 dark:hover:bg-red-950/20',
+              'cursor-pointer duration-275 active:scale-95',
             )}
             title='Clear'
           >
@@ -345,40 +353,45 @@ function HandwritingSearchCard({
           className='absolute inset-0 z-10 cursor-crosshair touch-none'
         />
         {strokes.length === 0 && (
-          <div className='pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-xs text-(--secondary-color)/40 gap-1 select-none z-0'>
+          <div className='pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center gap-1 text-xs text-(--secondary-color)/40 select-none'>
             <span className='font-medium'>Vẽ chữ Kanji tại đây</span>
-            <span className='scale-75 opacity-70'>(Dùng chuột hoặc cảm ứng)</span>
+            <span className='scale-75 opacity-70'>
+              (Dùng chuột hoặc cảm ứng)
+            </span>
           </div>
         )}
       </div>
 
-      <div className='flex flex-wrap gap-1.5 min-h-[44px] items-center justify-start py-1'>
+      <div className='flex min-h-[44px] flex-wrap items-center justify-start gap-1.5 py-1'>
         {loading && (
-          <div className='flex items-center gap-1.5 text-xs text-(--secondary-color) animate-pulse font-medium'>
+          <div className='flex animate-pulse items-center gap-1.5 text-xs font-medium text-(--secondary-color)'>
             <Loader2 className='animate-spin' size={14} />
             Đang nhận diện...
           </div>
         )}
         {!loading && candidates.length === 0 && strokes.length > 0 && (
-          <span className='text-xs text-(--secondary-color)/60 font-medium'>Không có gợi ý phù hợp.</span>
+          <span className='text-xs font-medium text-(--secondary-color)/60'>
+            Không có gợi ý phù hợp.
+          </span>
         )}
-        {!loading && candidates.map((char) => (
-          <button
-            key={char}
-            onClick={() => {
-              playClick();
-              onSelectKanji(char);
-            }}
-            className={cn(
-              'h-9 min-w-9 px-2 flex items-center justify-center text-lg font-bold cursor-pointer',
-              'rounded-xl border-2 border-(--border-color) bg-(--background-color) text-(--secondary-color)',
-              'hover:border-(--main-color) hover:text-(--main-color)',
-              'active:scale-90 transition-all duration-150'
-            )}
-          >
-            {char}
-          </button>
-        ))}
+        {!loading &&
+          candidates.map(char => (
+            <button
+              key={char}
+              onClick={() => {
+                playClick();
+                onSelectKanji(char);
+              }}
+              className={cn(
+                'flex h-9 min-w-9 cursor-pointer items-center justify-center px-2 text-lg font-bold',
+                'rounded-xl border-2 border-(--border-color) bg-(--background-color) text-(--secondary-color)',
+                'hover:border-(--main-color) hover:text-(--main-color)',
+                'transition-all duration-150 active:scale-90',
+              )}
+            >
+              {char}
+            </button>
+          ))}
       </div>
     </div>
   );
@@ -409,16 +422,18 @@ export default function SearchSidebar() {
   return (
     <div className='flex w-full flex-col gap-4'>
       {/* Title */}
-      <h2 className='text-2xl font-bold text-(--main-color) pl-1'>Tìm kiếm Kanji</h2>
+      <h2 className='pl-1 text-2xl font-bold text-(--main-color)'>
+        Tìm kiếm Kanji
+      </h2>
 
       {/* Input query field */}
-      <div className='relative w-full rounded-2xl border-2 border-(--border-color) bg-(--card-color) p-2 shadow-sm'>
+      <div className='relative w-full rounded-2xl border-2 border-(--border-color) bg-(--card-color) p-2 shadow-sm transition-all focus-within:border-(--main-color) focus-within:ring-4 focus-within:ring-(--main-color)/15'>
         <input
           type='text'
           value={inputValue}
           onChange={handleInputChange}
           placeholder='Nhập kanji hoặc âm hán việt'
-          className='w-full bg-transparent px-3 py-2 text-sm text-(--secondary-color) outline-none placeholder:text-(--secondary-color)/50'
+          className='w-full border-none bg-transparent px-3 py-2 text-sm text-(--secondary-color) placeholder:text-(--secondary-color)/50 focus:ring-0 focus:outline-none'
         />
         {inputValue && (
           <button
@@ -427,7 +442,7 @@ export default function SearchSidebar() {
               setInputValue('');
               setSearchQuery('');
             }}
-            className='absolute top-1/2 right-4 -translate-y-1/2 text-xs text-red-500 hover:underline cursor-pointer'
+            className='absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-xs text-red-500 hover:underline'
           >
             Xóa
           </button>
@@ -444,7 +459,9 @@ export default function SearchSidebar() {
         </div>
         <div>
           <h4 className='font-bold text-(--main-color)'>2500+ Kanji</h4>
-          <p className='text-xs text-(--secondary-color)/80'>Chiết tự - Sơ đồ - N5...N1</p>
+          <p className='text-xs text-(--secondary-color)/80'>
+            Chiết tự - Sơ đồ - N5...N1
+          </p>
         </div>
       </div>
     </div>

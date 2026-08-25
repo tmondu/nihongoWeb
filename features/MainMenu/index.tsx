@@ -97,6 +97,11 @@ const MainMenu = () => {
       name_ja: '札',
       href: '/thamlet',
     },
+    {
+      name_en: 'Shadowing',
+      name_ja: '影',
+      href: '/shadowing',
+    },
 
     // {
     //   name_en: 'Sentences',

@@ -23,7 +23,8 @@
     "conjugate": "Conjugate",
     "converter": "Converter",
     "experiments": "Experiments",
-    "thamlet": "Thamlet"
+    "thamlet": "Thamlet",
+    "shadowing": "Shadowing"
   },
   "breadcrumbs": {
     "home": "Home",

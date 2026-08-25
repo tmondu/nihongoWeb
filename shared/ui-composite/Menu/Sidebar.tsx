@@ -21,6 +21,7 @@ import {
   Search,
   LayoutGrid,
   Layers,
+  Video,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -90,6 +91,11 @@ const mainNavItems: NavItem[] = [
     href: '/thamlet',
     labelKey: 'thamlet',
     icon: Layers,
+  },
+  {
+    href: '/shadowing',
+    labelKey: 'shadowing',
+    icon: Video,
   },
   {
     href: '/translate',
@@ -643,6 +649,12 @@ const Sidebar = () => {
     if (href === '/thamlet') {
       return (
         pathWithoutLocale === href || pathWithoutLocale.startsWith('/thamlet/')
+      );
+    }
+    if (href === '/shadowing') {
+      return (
+        pathWithoutLocale === href ||
+        pathWithoutLocale.startsWith('/shadowing/')
       );
     }
 

@@ -15,19 +15,17 @@ body {
   scroll-behavior: smooth;
   background-color: var(--background-color);
   color: var(--main-color);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-input,
-textarea,
-[contenteditable='true'] {
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
   -ms-user-select: text !important;
   user-select: text !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

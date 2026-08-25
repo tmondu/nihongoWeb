@@ -51,49 +51,7 @@ export default function SecurityGuard() {
       }
     };
 
-    // 2. Chặn chuột phải (Context Menu) toàn trang
-    const handleContextMenu = (e: MouseEvent) => {
-      const target = e.target as HTMLElement | null;
-      // Vẫn cho phép chuột phải trong ô input/textarea nếu cần paste
-      if (
-        target &&
-        (target.tagName === 'INPUT' ||
-          target.tagName === 'TEXTAREA' ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    };
-
-    // 3. Chặn copy, cut, drag text bên ngoài ô input
-    const handleCopy = (e: ClipboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' ||
-          target.tagName === 'TEXTAREA' ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-      e.preventDefault();
-    };
-
-    const handleDragStart = (e: DragEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')
-      ) {
-        return;
-      }
-      e.preventDefault();
-    };
-
-    // 4. Phát hiện DevTools mở (qua Menu hoặc bất kỳ tab nào như Network, Elements, Console)
+    // 2. Phát hiện DevTools mở (qua Menu hoặc bất kỳ tab nào như Network, Elements, Console)
     // Tự động đóng tab / xoá trắng trang nếu mở quá 1 giây (1000ms)
     let openDuration = 0;
 
@@ -143,19 +101,10 @@ export default function SecurityGuard() {
 
     // Đăng ký event listeners
     window.addEventListener('keydown', handleKeyDown, true);
-    window.addEventListener('contextmenu', handleContextMenu, true);
-    document.addEventListener('copy', handleCopy, true);
-    document.addEventListener('cut', handleCopy, true);
-    document.addEventListener('dragstart', handleDragStart, true);
-
     const intervalId = setInterval(checkDevTools, 250);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown, true);
-      window.removeEventListener('contextmenu', handleContextMenu, true);
-      document.removeEventListener('copy', handleCopy, true);
-      document.removeEventListener('cut', handleCopy, true);
-      document.removeEventListener('dragstart', handleDragStart, true);
       clearInterval(intervalId);
     };
   }, []);

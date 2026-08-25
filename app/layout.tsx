@@ -13,6 +13,7 @@ import Script from 'next/script';
 import { headers } from 'next/headers';
 import SessionPrefetch from '@/shared/ui-composite/Performance/SessionPrefetch';
 import SecurityGuard from '@/shared/ui-composite/Security/SecurityGuard';
+import CustomContextMenu from '@/shared/ui-composite/Security/CustomContextMenu';
 
 const googleVerificationToken = process.env.GOOGLE_VERIFICATION_TOKEN || '';
 const msVerificationToken = process.env.MS_VERIFICATION_TOKEN || '';
@@ -246,6 +247,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           </>
         )}
         <SecurityGuard />
+        <CustomContextMenu />
         <noscript>
           <div
             style={{

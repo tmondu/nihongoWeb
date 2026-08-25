@@ -99,6 +99,7 @@ export interface NavigationTranslations {
     converter: string;
     experiments: string;
     thamlet: string;
+    shadowing: string;
   };
   breadcrumbs: {
     home: string;
