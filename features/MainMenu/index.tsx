@@ -38,14 +38,13 @@ const MainMenu = () => {
 
   const characterTileClassName = (delay?: string, floatDistance?: string) =>
     clsx(
-      'inline-flex h-12 w-12 items-center justify-center rounded-2xl',
+      'inline-flex size-9 sm:size-10 md:size-11 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl text-base sm:text-lg md:text-xl font-bold',
       'bg-(--secondary-color) group-hover:bg-(--main-color) text-(--background-color)',
-      'border-b-8 border-(--secondary-color-accent) group-hover:border-(--main-color-accent)',
+      'border-b-4 sm:border-b-6 border-(--secondary-color-accent) group-hover:border-(--main-color-accent)',
       'transition-all duration-200',
-      'active:border-b-0 active:translate-y-[6px] active:mb-[6px]',
+      'active:border-b-0 active:translate-y-[4px] active:mb-[4px]',
       'motion-safe:animate-float',
       delay,
-      // `[--float-distance:${floatDistance}]`,
       `[--float-distance:-4px]`,
     );
 
@@ -177,7 +176,7 @@ const MainMenu = () => {
       )}
       <div
         className={clsx(
-          '3xl:w-2/5 flex w-full flex-col items-center gap-4 px-4 pb-16 max-md:pt-4 sm:w-3/4 md:justify-center lg:w-1/2',
+          'flex w-full max-w-5xl flex-col items-center gap-4 px-4 pb-16 max-md:pt-4 sm:w-11/12 md:justify-center lg:w-4/5 xl:w-3/4',
           'pointer-events-none z-50',
           !isGlassMode && 'opacity-90',
           expandDecorations && 'hidden',
@@ -204,62 +203,6 @@ const MainMenu = () => {
             >
               {theme === 'dark' ? <Moon size={32} /> : <Sun size={32} />}
             </button>
-
-            {/* <FontAwesomeIcon
-              icon={faDiscord}
-              size='2x'
-              className={clsx(
-                'duration-250 hover:cursor-pointer hover:scale-105',
-                'active:scale-100 active:duration-225',
-                'md:hidden',
-                'text-(--secondary-color) hover:text-(--main-color)',
-              )}
-              onClick={() => {
-                playClick();
-                window.open('https://discord.gg/CyvBNNrSmb', '_blank');
-              }} */}
-            {/* />
-            <FontAwesomeIcon
-              icon={faGithub}
-              size='2x'
-              className={clsx(
-                'duration-250 hover:cursor-pointer hover:scale-105',
-                'active:scale-100 active:duration-225',
-                'text-(--secondary-color) hover:text-(--main-color)',
-              )}
-              onClick={() => {
-                playClick();
-                window.open('https://github.com/tmondu/nihongoWeb', '_blank');
-              }}
-            />
-            <button
-              type='button'
-              onClick={() => {
-                playClick();
-                window.open('https://tally.so/r/2E4rB9', '_blank', 'noopener');
-              }}
-              className={clsx(
-                'hidden sm:inline-flex pointer-events-auto',
-                'duration-250 hover:cursor-pointer hover:scale-105',
-                'active:scale-100 active:duration-225',
-                ' text-(--secondary-color) hover:text-(--main-color)',
-              )}
-              aria-label='Report a bug'
-            >
-              <Bug size={32} />
-            </button>
-            <Heart
-              size={32}
-              className={clsx(
-                'duration-250 hover:cursor-pointer hover:scale-105',
-                'active:scale-100 active:duration-225',
-                'animate-bounce fill-current text-red-500',
-              )}
-              onClick={() => {
-                playClick();
-                window.open('#', '_blank');
-              }} */}
-            {/* /> */}
           </div>
         </div>
         <div className='pointer-events-auto w-full'>
@@ -287,16 +230,16 @@ const MainMenu = () => {
                   href={link.href}
                   prefetch
                   className={clsx(
-                    'group w-full',
+                    'group w-full min-w-0',
                     !USE_NEW_DESIGN && 'overflow-hidden',
                   )}
                 >
                   <button
                     className={clsx(
-                      'flex h-full w-full text-2xl',
-                      'items-center gap-3',
+                      'flex h-full w-full text-sm font-bold sm:text-base md:text-lg lg:text-xl',
+                      'items-center gap-2 sm:gap-2.5',
                       'justify-start md:justify-center',
-                      'py-8',
+                      'px-2 py-6 sm:px-3 sm:py-7',
                       mobileLabelInset,
                       'md:pl-0',
                       'group',
@@ -325,7 +268,7 @@ const MainMenu = () => {
                     >
                       {link.name_ja}
                     </span>
-                    <span lang='en' className='leading-none'>
+                    <span lang='en' className='truncate leading-none font-bold'>
                       {link.name_en}
                     </span>
                   </button>
