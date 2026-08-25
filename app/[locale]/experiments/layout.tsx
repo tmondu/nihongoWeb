@@ -19,6 +19,17 @@ export default function ExperimentsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <SidebarLayout showBanner={false}>{children}</SidebarLayout>;
+  return (
+    <SidebarLayout showBanner={false}>
+      <div
+        className='select-none [&_*]:select-none'
+        style={{
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
+        }}
+      >
+        {children}
+      </div>
+    </SidebarLayout>
+  );
 }
-
