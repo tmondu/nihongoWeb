@@ -59,9 +59,9 @@ export default function AdminVocabulary() {
   const [formDefinition, setFormDefinition] = useState('');
   const [formError, setFormError] = useState('');
 
-  const fetchVocabulary = async () => {
+  const fetchVocabulary = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const queryParams = new URLSearchParams({
         page: page.toString(),
         limit: limit.toString(),
@@ -81,7 +81,7 @@ export default function AdminVocabulary() {
       console.error(err);
       setError(err.message || 'Lỗi khi tải dữ liệu.');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -156,7 +156,7 @@ export default function AdminVocabulary() {
       }
 
       setIsDialogOpen(false);
-      await fetchVocabulary();
+      await fetchVocabulary(true);
     } catch (err: any) {
       setFormError(err.message);
     } finally {
@@ -183,7 +183,7 @@ export default function AdminVocabulary() {
         throw new Error(errData.error || 'Xóa từ vựng thất bại');
       }
 
-      await fetchVocabulary();
+      await fetchVocabulary(true);
     } catch (err: any) {
       alert(err.message);
     } finally {

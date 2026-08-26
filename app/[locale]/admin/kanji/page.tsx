@@ -63,9 +63,9 @@ export default function AdminKanji() {
   const [formIsDecoration, setFormIsDecoration] = useState(false);
   const [formError, setFormError] = useState('');
 
-  const fetchKanjis = async () => {
+  const fetchKanjis = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const queryParams = new URLSearchParams({
         page: page.toString(),
         limit: limit.toString(),
@@ -83,7 +83,7 @@ export default function AdminKanji() {
       console.error(err);
       setError(err.message || 'Lỗi khi tải dữ liệu.');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -179,7 +179,7 @@ export default function AdminKanji() {
       }
 
       setIsDialogOpen(false);
-      await fetchKanjis();
+      await fetchKanjis(true);
     } catch (err: any) {
       setFormError(err.message);
     } finally {
@@ -206,7 +206,7 @@ export default function AdminKanji() {
         throw new Error(errData.error || 'Xóa chữ Kanji thất bại');
       }
 
-      await fetchKanjis();
+      await fetchKanjis(true);
     } catch (err: any) {
       alert(err.message);
     } finally {
