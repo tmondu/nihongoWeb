@@ -3,10 +3,12 @@
 import clsx from 'clsx';
 import { toKana, toRomaji } from 'wanakana';
 import { IWord } from '@/shared/types/interfaces';
-import { cardBorderStyles } from '@/shared/utils/styles';
-import { useAudioPreferences, useThemePreferences } from '@/features/Preferences';
+import {
+  useAudioPreferences,
+  useThemePreferences,
+} from '@/features/Preferences';
 import { useJapaneseTTS } from '@/features/Preferences/hooks/useJapaneseTTS';
-import FuriganaText from '@/shared/ui-composite/text/FuriganaText';
+import { parseFuriganaSegments } from '@/shared/utils/furigana';
 import { Volume2 } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
 
@@ -77,6 +79,8 @@ const SetDictionary = memo(function SetDictionary({
           ? toKana(baseReading)
           : toRomaji(baseReading);
 
+        const segments = parseFuriganaSegments(wordObj.word, wordObj.reading);
+
         return (
           <div
             key={`${wordObj.word}-${i}`}
@@ -91,14 +95,22 @@ const SetDictionary = memo(function SetDictionary({
               )}`}
               target='_blank'
               rel='noopener'
-              className='cursor-pointer transition-opacity'
+              className='group inline-flex cursor-pointer items-end pt-2 text-5xl leading-none font-black text-(--main-color) transition-opacity select-none md:text-6xl'
+              lang='ja'
             >
-              <FuriganaText
-                text={wordObj.word}
-                reading={wordObj.reading}
-                className='text-6xl md:text-5xl'
-                lang='ja'
-              />
+              {segments.map((seg, idx) => {
+                if (seg.furigana) {
+                  return (
+                    <ruby key={idx} className='inline-ruby'>
+                      {seg.text}
+                      <rt className='pb-1 text-sm font-bold tracking-wider text-(--secondary-color) md:text-base'>
+                        {seg.furigana}
+                      </rt>
+                    </ruby>
+                  );
+                }
+                return <span key={idx}>{seg.text}</span>;
+              })}
             </a>
             <div className='flex flex-col items-start gap-2'>
               <button
@@ -144,4 +156,3 @@ const SetDictionary = memo(function SetDictionary({
 });
 
 export default SetDictionary;
-

@@ -1,6 +1,7 @@
 'use client';
 import { ReactNode, memo } from 'react';
 import { useThemePreferences } from '@/features/Preferences';
+import { parseFuriganaSegments } from '@/shared/utils/furigana';
 
 interface FuriganaTextProps {
   text: string;
@@ -12,9 +13,8 @@ interface FuriganaTextProps {
 }
 
 /**
- * Component for displaying Japanese text with optional furigana (reading annotations)
- * When furigana is enabled in settings, displays reading above the main text
- * When disabled, displays only the main text
+ * Component for displaying Japanese text with accurate furigana alignment
+ * Only renders ruby annotation over Kanji, leaving Kana/Okurigana untouched.
  */
 const FuriganaText = ({
   text,
@@ -48,21 +48,29 @@ const FuriganaText = ({
   }
 
   if (furiganaEnabled && reading) {
-    const hiraganaReading = reading.includes(' ')
-      ? reading.split(' ')[1]
-      : reading;
+    const segments = parseFuriganaSegments(text, reading);
 
     return (
-      <ruby className={className} lang={lang}>
-        {text}
-        <rt
-          className={`text-xs ${furiganaClassName} text-(--secondary-color)`}
-        >
-          {hiraganaReading}
-        </rt>
-      </ruby>
+      <span className={`inline-flex items-end ${className}`} lang={lang}>
+        {segments.map((seg, idx) => {
+          if (seg.furigana) {
+            return (
+              <ruby key={idx} className='inline-ruby'>
+                {seg.text}
+                <rt
+                  className={`text-xs ${furiganaClassName} text-(--secondary-color)`}
+                >
+                  {seg.furigana}
+                </rt>
+              </ruby>
+            );
+          }
+          return <span key={idx}>{seg.text}</span>;
+        })}
+      </span>
     );
   }
+
   return (
     <span className={className} lang={lang}>
       {text}
