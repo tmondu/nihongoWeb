@@ -85,34 +85,38 @@ const SetDictionary = memo(function SetDictionary({
           <div
             key={`${wordObj.word}-${i}`}
             className={clsx(
-              'flex flex-col items-start justify-start gap-4 py-4 max-md:px-4',
+              'flex min-h-[190px] flex-col items-start justify-start gap-2.5 py-4 max-md:px-4',
               i !== words.length - 1 && 'border-b-1 border-(--border-color)',
             )}
           >
-            <a
-              href={`https://jisho.org/search/${encodeURIComponent(
-                wordObj.word,
-              )}`}
-              target='_blank'
-              rel='noopener'
-              className='group inline-flex cursor-pointer items-end pt-2 text-5xl leading-none font-black text-(--main-color) transition-opacity select-none md:text-6xl'
-              lang='ja'
-            >
-              {segments.map((seg, idx) => {
-                if (seg.furigana) {
-                  return (
-                    <ruby key={idx} className='inline-ruby'>
-                      {seg.text}
-                      <rt className='pb-1 text-sm font-bold tracking-wider text-(--secondary-color) md:text-base'>
-                        {seg.furigana}
-                      </rt>
-                    </ruby>
-                  );
-                }
-                return <span key={idx}>{seg.text}</span>;
-              })}
-            </a>
-            <div className='flex flex-col items-start gap-2'>
+            {/* Word container with fixed height and bottom-alignment for consistent baseline */}
+            <div className='flex h-[76px] w-full items-end justify-start'>
+              <a
+                href={`https://jisho.org/search/${encodeURIComponent(
+                  wordObj.word,
+                )}`}
+                target='_blank'
+                rel='noopener'
+                className='group inline-flex cursor-pointer items-end text-5xl leading-none font-black text-(--main-color) transition-opacity select-none md:text-6xl'
+                lang='ja'
+              >
+                {segments.map((seg, idx) => {
+                  if (seg.furigana) {
+                    return (
+                      <ruby key={idx} className='inline-ruby'>
+                        {seg.text}
+                        <rt className='pb-1 text-sm font-bold tracking-wider text-(--secondary-color) md:text-base'>
+                          {seg.furigana}
+                        </rt>
+                      </ruby>
+                    );
+                  }
+                  return <span key={idx}>{seg.text}</span>;
+                })}
+              </a>
+            </div>
+
+            <div className='flex w-full flex-col items-start gap-2'>
               <button
                 type='button'
                 onClick={() => {
@@ -144,7 +148,7 @@ const SetDictionary = memo(function SetDictionary({
                   <Volume2 size={15} className='fill-current' />
                 </span>
               </button>
-              <p className='text-xl text-(--secondary-color) md:text-2xl'>
+              <p className='min-h-[3.5rem] text-xl leading-snug text-(--secondary-color) md:text-2xl'>
                 {wordObj.meanings.join(', ')}
               </p>
             </div>

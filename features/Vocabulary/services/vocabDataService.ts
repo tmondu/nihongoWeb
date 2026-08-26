@@ -27,7 +27,7 @@ const pendingRequests: Partial<Record<VocabLevel, Promise<IVocabObj[]>>> = {};
 
 const getCachedLevel = (level: VocabLevel) => {
   const sessionCache = useVocabCacheStore.getState().cachedByLevel[level];
-  if (sessionCache) return sessionCache;
+  if (sessionCache && sessionCache.length > 0) return sessionCache;
   return vocabCache[level];
 };
 
@@ -38,22 +38,23 @@ const setCachedLevel = (level: VocabLevel, items: IVocabObj[]) => {
 
 export const vocabDataService = {
   /**
-   * Get vocab data for a specific level. Returns cached data if available,
-   * otherwise fetches and caches it.
+   * Fetch fresh vocabulary data from MySQL database
    */
-  async getVocabByLevel(level: VocabLevel): Promise<IVocabObj[]> {
-    // Return cached data immediately if available
-    const cached = getCachedLevel(level);
-    if (cached) return cached;
-
-    // If there's already a pending request for this level, wait for it
+  async fetchFresh(level: VocabLevel): Promise<IVocabObj[]> {
     if (pendingRequests[level]) {
       return pendingRequests[level];
     }
 
-    // Create new request and store the promise to prevent duplicate fetches
-    pendingRequests[level] = fetch(`/api/vocab?level=${level}`)
-      .then(res => res.json() as Promise<RawVocabEntry[]>)
+    pendingRequests[level] = fetch(`/api/vocab?level=${level}`, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    })
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+        return res.json() as Promise<RawVocabEntry[]>;
+      })
       .then(data => {
         const words = data.map(toWordObj);
         setCachedLevel(level, words);
@@ -62,6 +63,7 @@ export const vocabDataService = {
       })
       .catch(err => {
         delete pendingRequests[level];
+        console.error(`Failed to fetch fresh vocab for ${level}:`, err);
         throw err;
       });
 
@@ -69,7 +71,27 @@ export const vocabDataService = {
   },
 
   /**
-   * Preload all vocab levels in parallel (useful for initial load)
+   * Get vocab data for a specific level with Stale-While-Revalidate pattern.
+   * Returns cached data immediately for instant UI render,
+   * while always fetching the latest data from MySQL in the background.
+   */
+  async getVocabByLevel(level: VocabLevel): Promise<IVocabObj[]> {
+    const cached = getCachedLevel(level);
+
+    // Revalidate in background to fetch latest updates from MySQL
+    void this.fetchFresh(level).catch(() => {
+      // Ignore background revalidation errors if cache is available
+    });
+
+    if (cached) {
+      return cached;
+    }
+
+    return this.fetchFresh(level);
+  },
+
+  /**
+   * Preload all vocab levels in parallel
    */
   async preloadAll(): Promise<void> {
     const levels: VocabLevel[] = ['n5', 'n4', 'n3', 'n2', 'n1'];
