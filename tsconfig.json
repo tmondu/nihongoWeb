@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,24 +19,12 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ],
-      "@/entities/*": [
-        "./entities/*"
-      ],
-      "@/features/*": [
-        "./features/*"
-      ],
-      "@/widgets/*": [
-        "./widgets/*"
-      ],
-      "@/shared/*": [
-        "./shared/*"
-      ],
-      "@/core/*": [
-        "./core/*"
-      ]
+      "@/*": ["./*"],
+      "@/entities/*": ["./entities/*"],
+      "@/features/*": ["./features/*"],
+      "@/widgets/*": ["./widgets/*"],
+      "@/shared/*": ["./shared/*"],
+      "@/core/*": ["./core/*"]
     },
     // Performance optimizations
     "assumeChangesOnlyAffectDirectDependencies": true,
@@ -57,6 +41,7 @@
   ],
   "exclude": [
     "node_modules",
+    "admin-app",
     "**/__tests__/**",
     "**/*.test.ts",
     "**/*.test.tsx",
