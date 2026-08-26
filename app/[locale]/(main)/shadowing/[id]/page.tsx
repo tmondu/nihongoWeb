@@ -7,12 +7,13 @@ import {
   VideoPlayerRef,
   SubtitleOverlay,
   RecordingConsole,
+  DictationConsole,
   DialogueList,
   ShadowingHeader,
   DialogueLine,
 } from '@/features/Shadowing';
 import { Link } from '@/core/i18n/routing';
-import { ArrowLeft, Video } from 'lucide-react';
+import { ArrowLeft, Video, Mic, PenLine } from 'lucide-react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
 interface ShadowingPracticePageProps {
@@ -30,6 +31,9 @@ export default function ShadowingPracticePage({
   const playerRef = useRef<VideoPlayerRef | null>(null);
 
   const [activeDialogueIndex, setActiveDialogueIndex] = useState(0);
+  const [practiceMode, setPracticeMode] = useState<'shadowing' | 'dictation'>(
+    'shadowing',
+  );
 
   if (!video || video.dialogues.length === 0) {
     return (
@@ -147,15 +151,61 @@ export default function ShadowingPracticePage({
             onReplayDialogue={handleReplayCurrentDialogue}
           />
 
-          {/* Recording & Comparison Console */}
-          <RecordingConsole
-            dialogue={currentDialogue}
-            hasPrev={hasPrev}
-            hasNext={hasNext}
-            onPrev={handlePrevDialogue}
-            onNext={handleNextDialogue}
-            onPlayOriginal={handleReplayCurrentDialogue}
-          />
+          {/* Mode Switch Tabs (Luyện nói vs Chép chính tả) */}
+          <div className='flex rounded-2xl border-2 border-(--border-color) bg-(--card-color) p-1 shadow-sm'>
+            <button
+              type='button'
+              onClick={() => {
+                playClick();
+                setPracticeMode('shadowing');
+              }}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition-all sm:text-sm ${
+                practiceMode === 'shadowing'
+                  ? 'bg-(--main-color) text-(--background-color) shadow-md'
+                  : 'text-(--secondary-color) hover:text-(--main-color)'
+              }`}
+            >
+              <Mic className='size-4' />
+              <span>🎙️ Luyện nói Shadowing</span>
+            </button>
+
+            <button
+              type='button'
+              onClick={() => {
+                playClick();
+                setPracticeMode('dictation');
+              }}
+              className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition-all sm:text-sm ${
+                practiceMode === 'dictation'
+                  ? 'bg-(--main-color) text-(--background-color) shadow-md'
+                  : 'text-(--secondary-color) hover:text-(--main-color)'
+              }`}
+            >
+              <PenLine className='size-4' />
+              <span>✍️ Chép chính tả (Dictation)</span>
+            </button>
+          </div>
+
+          {/* Conditional Console */}
+          {practiceMode === 'shadowing' ? (
+            <RecordingConsole
+              dialogue={currentDialogue}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+              onPrev={handlePrevDialogue}
+              onNext={handleNextDialogue}
+              onPlayOriginal={handleReplayCurrentDialogue}
+            />
+          ) : (
+            <DictationConsole
+              dialogue={currentDialogue}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+              onPrev={handlePrevDialogue}
+              onNext={handleNextDialogue}
+              onPlayOriginal={handleReplayCurrentDialogue}
+            />
+          )}
         </div>
 
         {/* Right Column: Dialogue Timeline List (5 cols) */}

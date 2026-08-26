@@ -2,33 +2,49 @@
 
 import { useState, useCallback } from 'react';
 
-// Hàm tính độ tương đồng chuỗi Levenshtein Distance
-function calculateSimilarity(s1: string, s2: string): number {
-  const clean1 = s1.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
-  const clean2 = s2.replace(/[^\p{L}\p{N}]/gu, '').toLowerCase();
+export interface WordMatchResult {
+  char: string;
+  isMatched: boolean;
+}
 
-  if (!clean1 || !clean2) return 0;
-  if (clean1 === clean2) return 100;
+// Thuật toán so khớp ký tự chi tiết giữa câu mẫu và câu người học đọc
+export function diffJapaneseText(
+  target: string,
+  spoken: string,
+): { score: number; results: WordMatchResult[] } {
+  const cleanTarget = target.replace(/[^\p{L}\p{N}]/gu, '');
+  const cleanSpoken = spoken.replace(/[^\p{L}\p{N}]/gu, '');
 
-  const longer = clean1.length > clean2.length ? clean1 : clean2;
-  const shorter = clean1.length > clean2.length ? clean2 : clean1;
-  const longerLength = longer.length;
-
-  let costs = Array.from({ length: shorter.length + 1 }, (_, i) => i);
-  for (let i = 0; i < longer.length; i++) {
-    const newCosts = [i + 1];
-    for (let j = 0; j < shorter.length; j++) {
-      const cost = longer[i] === shorter[j] ? 0 : 1;
-      newCosts.push(
-        Math.min(newCosts[j] + 1, costs[j + 1] + 1, costs[j] + cost),
-      );
-    }
-    costs = newCosts;
+  if (!cleanTarget) return { score: 0, results: [] };
+  if (!cleanSpoken) {
+    return {
+      score: 0,
+      results: cleanTarget.split('').map(char => ({ char, isMatched: false })),
+    };
   }
 
-  const distance = costs[shorter.length];
-  const score = Math.round(((longerLength - distance) / longerLength) * 100);
-  return Math.max(0, Math.min(100, score));
+  let matchedCount = 0;
+  const results: WordMatchResult[] = [];
+
+  // So khớp từng ký tự
+  for (let i = 0; i < cleanTarget.length; i++) {
+    const char = cleanTarget[i];
+    // Ký tự có xuất hiện trong vùng tương ứng của spoken không
+    const windowStart = Math.max(0, i - 2);
+    const windowEnd = Math.min(cleanSpoken.length, i + 3);
+    const windowSlice = cleanSpoken.slice(windowStart, windowEnd);
+
+    const isMatched = windowSlice.includes(char);
+    if (isMatched) matchedCount++;
+
+    results.push({ char, isMatched });
+  }
+
+  const score = Math.round((matchedCount / cleanTarget.length) * 100);
+  return {
+    score: Math.min(100, Math.max(0, score)),
+    results,
+  };
 }
 
 interface SpeechRecognitionEvent {
@@ -45,15 +61,21 @@ export function useSpeechEvaluator() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState<string>('');
   const [score, setScore] = useState<number | null>(null);
+  const [diffResults, setDiffResults] = useState<WordMatchResult[]>([]);
   const [isSupported, setIsSupported] = useState(true);
 
   const evaluateSpeech = useCallback(
     (
       targetText: string,
-      onFinish?: (finalScore: number, finalTranscript: string) => void,
+      onFinish?: (
+        finalScore: number,
+        finalTranscript: string,
+        finalDiff: WordMatchResult[],
+      ) => void,
     ) => {
       setTranscript('');
       setScore(null);
+      setDiffResults([]);
 
       const SpeechRecognitionClass =
         (typeof window !== 'undefined' &&
@@ -85,10 +107,16 @@ export function useSpeechEvaluator() {
         recognition.onresult = (event: SpeechRecognitionEvent) => {
           const speechResult = event.results[0][0].transcript;
           setTranscript(speechResult);
-          const similarityScore = calculateSimilarity(targetText, speechResult);
-          setScore(similarityScore);
+
+          const { score: calculatedScore, results } = diffJapaneseText(
+            targetText,
+            speechResult,
+          );
+          setScore(calculatedScore);
+          setDiffResults(results);
+
           if (onFinish) {
-            onFinish(similarityScore, speechResult);
+            onFinish(calculatedScore, speechResult, results);
           }
         };
 
@@ -108,11 +136,19 @@ export function useSpeechEvaluator() {
     [],
   );
 
+  const clearEvaluation = useCallback(() => {
+    setTranscript('');
+    setScore(null);
+    setDiffResults([]);
+  }, []);
+
   return {
     isListening,
     transcript,
     score,
+    diffResults,
     isSupported,
     evaluateSpeech,
+    clearEvaluation,
   };
 }

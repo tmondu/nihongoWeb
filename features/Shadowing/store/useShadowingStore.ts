@@ -28,7 +28,7 @@ interface ShadowingState {
 
 export const useShadowingStore = create<ShadowingState>()(
   persist(
-    (set, get) => ({
+    set => ({
       videos: SAMPLE_SHADOWING_VIDEOS,
       completedDialogueIds: [],
       favoriteVideoIds: [],
@@ -67,11 +67,20 @@ export const useShadowingStore = create<ShadowingState>()(
         })),
 
       getVideoById: id => {
-        return get().videos.find(v => v.id === id);
+        return SAMPLE_SHADOWING_VIDEOS.find(v => v.id === id);
       },
     }),
     {
-      name: 'ptham-shadowing-storage',
+      name: 'ptham-shadowing-storage-v2',
+      partialize: state => ({
+        completedDialogueIds: state.completedDialogueIds,
+        favoriteVideoIds: state.favoriteVideoIds,
+        showFurigana: state.showFurigana,
+        showRomaji: state.showRomaji,
+        showVietnamese: state.showVietnamese,
+        autoLoopDialogue: state.autoLoopDialogue,
+        playbackSpeed: state.playbackSpeed,
+      }),
     },
   ),
 );

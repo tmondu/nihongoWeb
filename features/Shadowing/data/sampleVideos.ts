@@ -3,118 +3,103 @@ import { ShadowingVideo } from '../types';
 export const SAMPLE_SHADOWING_VIDEOS: ShadowingVideo[] = [
   {
     id: 'sh-01',
-    title: 'Giao tiếp gọi món tại quán ăn Nhật Bản',
+    title: 'Hội thoại gọi món tại quán ăn Nhật Bản (Ramen & Gyoza)',
     description:
-      'Học cách vào quán, gọi món ramen, hỏi xin thêm nước và thanh toán tiền.',
+      'Luyện tập tình huống vào quán, gọi món chính, gọi đồ uống và thanh toán.',
     level: 'N5',
     category: 'Giao tiếp',
-    youtubeId: 'kJQP7kiw5Fk', // Ví dụ video ID
-    duration: '01:30',
+    youtubeId: 'k32Y9doZieY', // Video hội thoại gọi món tiếng Nhật
+    duration: '01:25',
     dialogues: [
       {
         id: 1,
-        startTime: 0,
-        endTime: 4.5,
+        startTime: 0.0,
+        endTime: 3.8,
         japanese: 'いらっしゃいませ！何名様ですか？',
         furigana: 'いらっしゃいませ！[何名様:なんめいさま]ですか？',
         romaji: 'Irasshaimase! Nan-mei sama desu ka?',
-        vietnamese: 'Kính chào quý khách! Quý khách đi mấy người ạ?',
+        vietnamese: 'Xin kính chào quý khách! Quý khách đi mấy người ạ?',
         keywords: [
           {
             word: '何名様',
             reading: 'なんめいさま',
-            meaning: 'mấy vị / mấy người (kính ngữ)',
+            meaning: 'mấy vị / mấy người',
           },
           { word: 'いらっしゃいませ', meaning: 'kính chào quý khách' },
         ],
       },
       {
         id: 2,
-        startTime: 5.0,
-        endTime: 9.0,
-        japanese: '二人です。奥の席は空いていますか？',
+        startTime: 4.2,
+        endTime: 8.5,
+        japanese: '一人です。カウンター席でお願いします。',
         furigana:
-          '[二人:ふたり]です。[奥:おく]の[席:せき]は[空:あ]いていますか？',
-        romaji: 'Futari desu. Oku no seki wa aite imasu ka?',
-        vietnamese: 'Hai người ạ. Chỗ ngồi phía trong còn trống không?',
+          '[一人:ひとり]です。カウンター[席:せき]でお[願:ねが]いします。',
+        romaji: 'Hitori desu. Kauntaa seki de onegaishimasu.',
+        vietnamese: 'Tôi đi một mình. Cho tôi ngồi ở quầy bar nhé.',
         keywords: [
-          { word: '二人', reading: 'ふたり', meaning: '2 người' },
-          { word: '奥', reading: 'おく', meaning: 'bên trong, phía trong' },
+          { word: '一人', reading: 'ひとり', meaning: '1 người' },
+          { word: '席', reading: 'せき', meaning: 'chỗ ngồi' },
           {
-            word: '空いている',
-            reading: 'あいている',
-            meaning: 'còn trống, chưa có người',
+            word: 'お願いします',
+            reading: 'おねがいします',
+            meaning: 'xin vui lòng',
           },
         ],
       },
       {
         id: 3,
-        startTime: 9.5,
-        endTime: 14.2,
-        japanese: 'はい、どうぞこちらへご案内いたします。',
-        furigana: 'はい、どうぞこちらへご[案内:あんない]いたします。',
-        romaji: 'Hai, douzo kochira e go-annai itashimasu.',
-        vietnamese: 'Vâng, xin mời đi theo hướng này để tôi dẫn đường ạ.',
+        startTime: 9.0,
+        endTime: 14.0,
+        japanese: 'ご注文が決まりましたらお呼びください。',
+        furigana:
+          'ご[注文:ちゅうもん]が[決:き]まりましたらお[呼:よ]びください。',
+        romaji: 'Go-chuumon ga kimarimashitara oyobi kudasai.',
+        vietnamese: 'Khi nào quý khách chọn xong món, xin hãy gọi tôi nhé.',
         keywords: [
-          {
-            word: 'ご案内',
-            reading: 'ごあんない',
-            meaning: 'hướng dẫn, dẫn đường (khiêm nhường ngữ)',
-          },
+          { word: '注文', reading: 'ちゅうもん', meaning: 'gọi món, đặt hàng' },
+          { word: '決まる', reading: 'きまる', meaning: 'được quyết định' },
+          { word: '呼ぶ', reading: 'よぶ', meaning: 'gọi' },
         ],
       },
       {
         id: 4,
-        startTime: 14.8,
-        endTime: 19.5,
-        japanese: 'すみません、おすすめのラーメンを教えてください。',
-        furigana: 'すみません、おすすめのラーメンを[教:おし]えてください。',
-        romaji: 'Sumimasen, osusume no raamen o oshiete kudasai.',
+        startTime: 14.5,
+        endTime: 19.8,
+        japanese: 'すみません！醤油ラーメンと餃子を一つずつください。',
+        furigana:
+          'すみません！[醤油:しょうゆ]ラーメンと[餃子:ぎょうざ]を[一:ひと]つずつください。',
+        romaji: 'Sumimasen! Shouyu raamen to gyouza o hitotsu zutsu kudasai.',
         vietnamese:
-          'Xin lỗi, cho tôi hỏi quán có món ramen nào ngon đề xuất không ạ?',
+          'Xin lỗi! Cho tôi một bát mì ramen nước tương và một đĩa há cảo gyoza.',
         keywords: [
-          { word: 'おすすめ', meaning: 'gợi ý, món được đề xuất' },
+          { word: '醤油', reading: 'しょうゆ', meaning: 'nước tương' },
+          { word: '餃子', reading: 'ぎょうざ', meaning: 'há cảo chiên' },
           {
-            word: '教えてください',
-            reading: 'おしえてください',
-            meaning: 'xin hãy chỉ cho tôi',
+            word: '一つずつ',
+            reading: 'ひとつずつ',
+            meaning: 'mỗi thứ một cái',
           },
         ],
       },
       {
         id: 5,
-        startTime: 20.0,
-        endTime: 24.8,
-        japanese: '当店一番人気は特製醤油ラーメンです！',
+        startTime: 20.2,
+        endTime: 25.5,
+        japanese: 'かしこまりました。少々お待ちくださいませ。',
         furigana:
-          '[当店:とうてん][一番:いちばん][人気:にんき]は[特製:とくせい][醤油:しょうゆ]ラーメンです！',
-        romaji: 'Touten ichiban ninki wa tokusei shouyu raamen desu!',
-        vietnamese:
-          'Món được yêu thích số 1 của quán chúng tôi là Ramen nước tương đặc biệt ạ!',
+          'かしこまりました。[少々:しょうしょう]お[待:ま]ちくださいませ。',
+        romaji: 'Kashikomarimashita. Shoushou omachi kudasai mase.',
+        vietnamese: 'Tôi đã hiểu rồi ạ. Xin quý khách vui lòng đợi một chút.',
         keywords: [
-          { word: '当店', reading: 'とうてん', meaning: 'quán của chúng tôi' },
           {
-            word: '特製',
-            reading: 'とくせい',
-            meaning: 'đặc chế, món đặc biệt',
+            word: 'かしこまりました',
+            meaning: 'tôi đã hiểu rõ (kính ngữ phục vụ)',
           },
-          { word: '醤油', reading: 'しょうゆ', meaning: 'nước tương Nhật' },
-        ],
-      },
-      {
-        id: 6,
-        startTime: 25.2,
-        endTime: 29.5,
-        japanese: 'じゃあ、それを一つお願いします。',
-        furigana: 'じゃあ、それを[一:ひと]つお[願:ねが]いします。',
-        romaji: 'Jaa, sore o hitotsu onegaishimasu.',
-        vietnamese: 'Vậy thì, làm ơn cho tôi một bát đó nhé.',
-        keywords: [
-          { word: '一つ', reading: 'ひとつ', meaning: '1 cái / 1 phần' },
           {
-            word: 'お願いします',
-            reading: 'おねがいします',
-            meaning: 'làm ơn, xin vui lòng',
+            word: '少々',
+            reading: 'しょうしょう',
+            meaning: 'một chút, một lát',
           },
         ],
       },
@@ -122,153 +107,139 @@ export const SAMPLE_SHADOWING_VIDEOS: ShadowingVideo[] = [
   },
   {
     id: 'sh-02',
-    title: 'Hỏi đường tại ga tàu điện Shinjuku Tokyo',
+    title: 'Mua sắm & Thanh toán tại cửa hàng tiện lợi Conbini',
     description:
-      'Tình huống hỏi lối ra và đường đi đến toà nhà Tokyo Metropolitan.',
+      'Học cách trả lời nhân viên thu ngân về túi nilon, hâm nóng đồ ăn và thẻ tích điểm.',
     level: 'N4',
     category: 'Đời sống',
-    youtubeId: '9bZkp7q19f0',
-    duration: '01:15',
+    youtubeId: 'qs8mDlRMeLo',
+    duration: '01:10',
     dialogues: [
       {
         id: 1,
-        startTime: 0,
-        endTime: 5.2,
-        japanese:
-          'あのう、すみません。都庁に行きたいんですが、どの出口ですか？',
-        furigana:
-          'あのう、すみません。[都庁:とちょう]に[行:い]きたいんですが、どの[出口:でぐち]ですか？',
-        romaji:
-          'Anou, sumimasen. Tochou ni ikitai n desu ga, dono deguchi desu ka?',
-        vietnamese:
-          'Xin lỗi cho tôi hỏi. Tôi muốn đến Toà nhà Toà thị chính (Tochou), phải đi lối ra nào ạ?',
+        startTime: 0.0,
+        endTime: 4.5,
+        japanese: 'お弁当温めますか？',
+        furigana: 'お[弁当:べんとう][温:あたた]めますか？',
+        romaji: 'Obentou atatamemasu ka?',
+        vietnamese: 'Cơm hộp có cần hâm nóng lại không ạ?',
         keywords: [
-          { word: '都庁', reading: 'とちょう', meaning: 'Toà thị chính Tokyo' },
-          { word: '出口', reading: 'でぐち', meaning: 'lối ra' },
+          { word: '弁当', reading: 'べんとう', meaning: 'cơm hộp' },
+          {
+            word: '温める',
+            reading: 'あたためる',
+            meaning: 'làm nóng, hâm nóng',
+          },
         ],
       },
       {
         id: 2,
-        startTime: 5.8,
-        endTime: 10.5,
-        japanese: '西口を出て、まっすぐ歩いて５分くらいですよ。',
+        startTime: 5.0,
+        endTime: 8.8,
+        japanese: 'はい、お願いします。レジ袋も一枚ください。',
         furigana:
-          '[西口:にしぐち]を[出:で]て、まっすぐ[歩:ある]いて５[分:ふん]くらいですよ。',
-        romaji: 'Nishiguchi o dete, massugu aruite gofun kurai desu yo.',
+          'はい、お[願:ねが]いします。レジ[袋:ぶくろ]も[一枚:いちまい]ください。',
+        romaji: 'Hai, onegaishimasu. Rejibukuro mo ichimai kudasai.',
         vietnamese:
-          'Bạn ra Cửa Tây (Nishiguchi), đi bộ thẳng khoảng 5 phút là tới nha.',
+          'Vâng, nhờ bạn nhé. Cho tôi xin thêm một chiếc túi nilon nữa.',
         keywords: [
-          { word: '西口', reading: 'にしぐち', meaning: 'Cửa Tây' },
-          { word: 'まっすぐ', meaning: 'thẳng một mạch' },
-          { word: '歩く', reading: 'あるく', meaning: 'đi bộ' },
+          {
+            word: 'レジ袋',
+            reading: 'レジぶくろ',
+            meaning: 'túi nilon tính tiền',
+          },
+          { word: '一枚', reading: 'いちまい', meaning: '1 tờ / 1 chiếc' },
         ],
       },
       {
         id: 3,
-        startTime: 11.0,
-        endTime: 14.5,
-        japanese: '地下通路を通って行くこともできますか？',
-        furigana:
-          '[地下通路:ちかつうろ]を[通:とお]って[行:い]くこともできますか？',
-        romaji: 'Chika tsuuro o tootte iku koto mo dekimasu ka?',
-        vietnamese: 'Tôi có thể đi qua đường hầm dưới lòng đất được không ạ?',
+        startTime: 9.2,
+        endTime: 13.5,
+        japanese: 'ポイントカードはお持ちですか？',
+        furigana: 'ポイントカードはお[持:も]ちですか？',
+        romaji: 'Pointo kaado wa omochi desu ka?',
+        vietnamese: 'Quý khách có mang theo thẻ tích điểm không ạ?',
         keywords: [
-          {
-            word: '地下通路',
-            reading: 'ちかつうろ',
-            meaning: 'đường hầm ngầm',
-          },
-          {
-            word: '通る',
-            reading: 'とおる',
-            meaning: 'đi ngang qua, băng qua',
-          },
+          { word: 'ポイントカード', meaning: 'thẻ tích điểm' },
+          { word: 'お持ち', reading: 'おもち', meaning: 'mang theo' },
         ],
       },
       {
         id: 4,
-        startTime: 15.0,
-        endTime: 19.8,
-        japanese: 'はい、雨の日は地下通路のほうが便利ですよ。',
-        furigana:
-          'はい、[雨:あめ]の[日:ひ]は[地下通路:ちかつうろ]のほうが[便利:べんり]ですよ。',
-        romaji: 'Hai, ame no hi wa chika tsuuro no hou ga benri desu yo.',
-        vietnamese:
-          'Vâng, vào những ngày mưa thì đi đường hầm ngầm sẽ tiện hơn đó.',
+        startTime: 14.0,
+        endTime: 18.5,
+        japanese: 'いいえ、持っていません。Suicaで支払います。',
+        furigana: 'いいえ、[持:も]っていません。Suicaで[支払:しはら]います。',
+        romaji: 'Iie, motte imasen. Suica de shiharaimasu.',
+        vietnamese: 'Không, tôi không có. Tôi thanh toán bằng thẻ Suica nhé.',
         keywords: [
-          { word: '雨の日', reading: 'あめのひ', meaning: 'ngày mưa' },
-          { word: '便利', reading: 'べんり', meaning: 'tiện lợi' },
+          {
+            word: '支払う',
+            reading: 'しはらう',
+            meaning: 'chi trả, thanh toán',
+          },
         ],
       },
     ],
   },
   {
     id: 'sh-03',
-    title: 'Hội thoại rủ bạn bè đi xem phim cuối tuần',
+    title: 'Hỏi đường đến ga tàu điện ngầm Shinjuku',
     description:
-      'Luyện ngữ điệu tự nhiên, từ ngữ thân mật giữa bạn bè thân thiết.',
+      'Cách hỏi đường lịch sự và lắng nghe chỉ dẫn phương hướng của người dân địa phương.',
     level: 'N3',
-    category: 'Anime & Phim',
-    youtubeId: '3JZ_D3ELwOQ',
+    category: 'Giao tiếp',
+    youtubeId: 'vBfipXaPRr4',
     duration: '01:05',
     dialogues: [
       {
         id: 1,
-        startTime: 0,
-        endTime: 4.8,
-        japanese: 'ねえ、今週末何か予定ある？一緒に映画見に行かない？',
+        startTime: 0.0,
+        endTime: 5.0,
+        japanese: 'あのう、すみません。地下鉄の駅はどちらですか？',
         furigana:
-          'ねえ、[今週末:こんしゅうまつ][何:なに]か[予定:よてい]ある？[一緒:いっしょ]に[映画:えいが][見:み]に[行:い]かない？',
-        romaji:
-          'Nee, konshuumatsu nanika yotei aru? Issho ni eiga mi ni ikanai?',
-        vietnamese:
-          'Nè, cuối tuần này cậu có kế hoạch gì chưa? Đi xem phim cùng tớ không?',
+          'あのう、すみません。[地下鉄:ちかてつ]の[駅:えき]はどちらですか？',
+        romaji: 'Anou, sumimasen. Chikatetsu no eki wa dochira desu ka?',
+        vietnamese: 'Xin lỗi cho tôi hỏi. Ga tàu điện ngầm ở hướng nào vậy ạ?',
         keywords: [
-          {
-            word: '今週末',
-            reading: 'こんしゅうまつ',
-            meaning: 'cuối tuần này',
-          },
-          { word: '予定', reading: 'よてい', meaning: 'dự định, kế hoạch' },
+          { word: '地下鉄', reading: 'ちかてつ', meaning: 'tàu điện ngầm' },
+          { word: '駅', reading: 'えき', meaning: 'nhà ga' },
+          { word: 'どちら', meaning: 'hướng nào / phía nào (lịch sự)' },
         ],
       },
       {
         id: 2,
-        startTime: 5.2,
-        endTime: 9.5,
-        japanese: 'いいね！ちょうど気になってた新作があるんだよね。',
+        startTime: 5.5,
+        endTime: 10.8,
+        japanese:
+          'この道をまっすぐ行って、二つ目の交差点を右に曲がってください。',
         furigana:
-          'いいね！ちょうど[気:き]になってた[新作:しんさく]があるんだよね。',
-        romaji: 'Ii ne! Choudo ki ni natteta shinsaku ga aru n da yo ne.',
-        vietnamese: 'Được đó! Tớ cũng vừa khéo đang tò mò bộ phim mới ra này.',
+          'この[道:みち]をまっすぐ[行:い]って、[二:ふた]つ[目:め]の[交差点:こうさてん]を[右:みぎ]に[曲:ま]がってください。',
+        romaji:
+          'Kono michi o massugu itte, futatsume no kousaten o migi ni magatte kudasai.',
+        vietnamese:
+          'Bạn đi thẳng con đường này, đến ngã tư thứ hai thì rẽ sang bên phải nhé.',
         keywords: [
-          {
-            word: '気になる',
-            reading: 'きになる',
-            meaning: 'để ý, tò mò, quan tâm',
-          },
-          {
-            word: '新作',
-            reading: 'しんさく',
-            meaning: 'tác phẩm mới, phim mới',
-          },
+          { word: '道', reading: 'みち', meaning: 'con đường' },
+          { word: '交差点', reading: 'こうさてん', meaning: 'ngã tư, giao lộ' },
+          { word: '曲がる', reading: 'まがる', meaning: 'rẽ, quẹo' },
         ],
       },
       {
         id: 3,
-        startTime: 10.0,
-        endTime: 14.8,
-        japanese:
-          'じゃあ土曜日の午後２時、映画館のチケット売り場で待ち合わせしよう！',
-        furigana:
-          'じゃあ[土曜日:どようび]の[午後:ごご]２[時:じ]、[映画館:えいがかん]のチケット[売:う]り[場:ば]で[待:ま]ち[合:あ]わせしよう！',
-        romaji:
-          'Jaa doyoubi no gogo niji, eigakan no chiketto uriba de machiawase shiyou!',
+        startTime: 11.2,
+        endTime: 15.5,
+        japanese: 'わかりました！ご丁寧にありがとうございます。',
+        furigana: 'わかりました！ご[丁寧:ていねい]にありがとうございます。',
+        romaji: 'Wakarimashita! Goteinei ni arigatou gozaimasu.',
         vietnamese:
-          'Thế thì 2 giờ chiều thứ Bảy, hẹn gặp nhau ở quầy bán vé rạp chiếu phim nha!',
+          'Tôi hiểu rồi ạ! Cảm ơn bạn rất nhiều vì đã tận tình chỉ dẫn.',
         keywords: [
-          { word: '売り場', reading: 'うりば', meaning: 'quầy bán, nơi bán' },
-          { word: '待ち合わせ', reading: 'まちあわせ', meaning: 'hẹn gặp' },
+          {
+            word: '丁寧',
+            reading: 'ていねい',
+            meaning: 'lịch sự, chu đáo, tận tình',
+          },
         ],
       },
     ],

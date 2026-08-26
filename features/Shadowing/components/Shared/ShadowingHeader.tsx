@@ -37,7 +37,7 @@ export const ShadowingHeader: React.FC<ShadowingHeaderProps> = ({
               Shadowing Video
             </h1>
             <span className='rounded-full bg-(--main-color)/15 px-2.5 py-0.5 text-xs font-black text-(--main-color)'>
-              PRO
+              BETA
             </span>
           </div>
         )}

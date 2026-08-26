@@ -47,7 +47,8 @@ export const RecordingConsole: React.FC<RecordingConsoleProps> = ({
     error: recordError,
   } = useAudioRecorder();
 
-  const { transcript, score, evaluateSpeech } = useSpeechEvaluator();
+  const { transcript, score, diffResults, evaluateSpeech } =
+    useSpeechEvaluator();
 
   const userAudioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlayingUserAudio, setIsPlayingUserAudio] = useState(false);
@@ -211,13 +212,13 @@ export const RecordingConsole: React.FC<RecordingConsoleProps> = ({
         )}
       </div>
 
-      {/* Speech Evaluation Card (Điểm phát âm nhận diện) */}
+      {/* Speech Evaluation Card (Điểm phát âm nhận diện & Chi tiết từng từ) */}
       {(score !== null || transcript) && (
-        <div className='space-y-2 rounded-2xl border border-(--border-color) bg-(--background-color)/70 p-4'>
+        <div className='space-y-3 rounded-2xl border border-(--border-color) bg-(--background-color)/70 p-4'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-1.5 text-xs font-bold text-(--main-color)'>
               <Sparkles className='size-3.5 text-amber-400' />
-              <span>Độ khớp văn bản nhận diện:</span>
+              <span>Độ chính xác phát âm:</span>
             </div>
             {score !== null && (
               <span
@@ -239,8 +240,33 @@ export const RecordingConsole: React.FC<RecordingConsoleProps> = ({
               </span>
             )}
           </div>
+
+          {/* Chi tiết từng ký tự: Xanh = đúng, Đỏ = sai/thiếu */}
+          {diffResults.length > 0 && (
+            <div className='rounded-xl border border-(--border-color)/60 bg-(--card-color) p-3 text-center'>
+              <div className='mb-1.5 text-xs font-medium text-(--secondary-color)'>
+                So sánh phát âm từng từ:
+              </div>
+              <div className='flex flex-wrap items-center justify-center gap-1 text-base font-black sm:text-lg'>
+                {diffResults.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className={clsx(
+                      'rounded-md px-1 py-0.5 transition-colors',
+                      item.isMatched
+                        ? 'border border-emerald-500/30 bg-emerald-500/15 text-emerald-500'
+                        : 'border border-rose-500/30 bg-rose-500/15 text-rose-500 line-through',
+                    )}
+                  >
+                    {item.char}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {transcript && (
-            <p className='text-xs text-(--secondary-color) italic'>
+            <p className='text-center text-xs text-(--secondary-color) italic'>
               Máy nghe được: &quot;{transcript}&quot;
             </p>
           )}

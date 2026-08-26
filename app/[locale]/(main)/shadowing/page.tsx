@@ -120,6 +120,21 @@ export default function ShadowingLibraryPage() {
           </p>
         </div>
       )}
+
+      {/* Experimental Testing Notice Banner (Dưới 3 video và kích thước to) */}
+      <div className='rounded-3xl border-2 border-dashed border-amber-500/40 bg-amber-500/10 p-6 text-center shadow-sm'>
+        <div className='space-y-1.5'>
+          <p className='flex items-center justify-center gap-2 text-lg font-black text-amber-600 sm:text-xl md:text-2xl dark:text-amber-400'>
+            <span>🧪</span>
+            <span>Chế độ đang được thử nghiệm hí hí</span>
+            <span>✨</span>
+          </p>
+          <p className='text-xs text-(--secondary-color) sm:text-sm'>
+            Hệ thống nhận diện giọng nói & đồng bộ video đang trong giai đoạn
+            phát triển và hoàn thiện.
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
