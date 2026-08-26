@@ -38,6 +38,68 @@ interface VocabSearchResultItem extends IVocabObj {
   level: VocabLevel;
 }
 
+interface IndexedVocabEntry {
+  obj: IVocabObj;
+  level: VocabLevel;
+  wordLower: string;
+  kanaReading: string;
+  romajiReading: string;
+  meaningsJoined: string;
+}
+
+// Module-level precomputed search index for 0ms lookup
+let indexedVocabCache: IndexedVocabEntry[] | null = null;
+let lastCacheStamp = 0;
+
+function getIndexedVocab(): IndexedVocabEntry[] {
+  const cached = vocabDataService.getAllCached();
+  const keys = Object.keys(cached);
+  if (keys.length === 0) return [];
+
+  // Rebuild only if cache data changed or not yet built
+  const currentStamp = Object.values(cached).reduce(
+    (acc, arr) => acc + (arr?.length || 0),
+    0,
+  );
+  if (indexedVocabCache && lastCacheStamp === currentStamp) {
+    return indexedVocabCache;
+  }
+
+  const levels: VocabLevel[] = ['n5', 'n4', 'n3', 'n2', 'n1'];
+  const list: IndexedVocabEntry[] = [];
+  const seen = new Set<string>();
+
+  for (const lvl of levels) {
+    const words = cached[lvl] || [];
+    for (let i = 0; i < words.length; i++) {
+      const w = words[i];
+      if (!w || !w.word || seen.has(`${w.word}-${lvl}`)) continue;
+      seen.add(`${w.word}-${lvl}`);
+
+      const rawReading =
+        typeof w.reading === 'string' ? w.reading.toLowerCase() : '';
+      const baseReading = rawReading.split(' ')[1] || rawReading;
+      const romaji = toRomaji(baseReading).toLowerCase();
+      const meanings = Array.isArray(w.meanings)
+        ? w.meanings.join(' ').toLowerCase()
+        : '';
+
+      list.push({
+        obj: w,
+        level: lvl,
+        wordLower: w.word.toLowerCase(),
+        kanaReading: rawReading,
+        romajiReading: romaji,
+        meaningsJoined: meanings,
+      });
+    }
+  }
+
+  indexedVocabCache = list;
+  lastCacheStamp = currentStamp;
+  return list;
+}
+
 const levelBadgeStyles: Record<
   VocabLevel,
   { bg: string; text: string; border: string }
@@ -69,6 +131,8 @@ const levelBadgeStyles: Record<
   },
 };
 
+const PAGE_SIZE = 36;
+
 export default function VocabInlineSearch() {
   const inputRef = useRef<HTMLInputElement>(null);
   const { playClick } = useClick();
@@ -77,7 +141,7 @@ export default function VocabInlineSearch() {
     useAudioPreferences();
   const { speak, stop, isPlaying, refreshVoices } = useJapaneseTTS();
 
-  const searchQuery = useVocabStore(state => state.searchQuery);
+  const storeSearchQuery = useVocabStore(state => state.searchQuery);
   const setSearchQuery = useVocabStore(state => state.setSearchQuery);
   const searchLevelFilter = useVocabStore(state => state.searchLevelFilter);
   const setSearchLevelFilter = useVocabStore(
@@ -93,10 +157,40 @@ export default function VocabInlineSearch() {
     string | null
   >(null);
 
+  // Local state for instantaneous 0ms input typing
+  const [localInput, setLocalInput] = useState(storeSearchQuery);
+  const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
+
   // Preload all vocab on mount for instantaneous search
   useEffect(() => {
     void vocabDataService.preloadAll().catch(console.error);
   }, []);
+
+  // Debounced sync to global store so typing remains 120fps fluid
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchQuery(localInput);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [localInput, setSearchQuery]);
+
+  const handleInputChange = (val: string) => {
+    setLocalInput(val);
+    setDisplayCount(PAGE_SIZE);
+  };
+
+  const handleClearInput = () => {
+    setLocalInput('');
+    setSearchQuery('');
+    setDisplayCount(PAGE_SIZE);
+    inputRef.current?.focus();
+  };
+
+  const handleFilterClick = (lvlId: string) => {
+    playClick();
+    setSearchLevelFilter(lvlId);
+    setDisplayCount(PAGE_SIZE);
+  };
 
   // Keyboard shortcut (press '/' or Ctrl+K / Cmd+K to focus search)
   useEffect(() => {
@@ -108,6 +202,7 @@ export default function VocabInlineSearch() {
         target.isContentEditable
       ) {
         if (e.key === 'Escape' && target === inputRef.current) {
+          setLocalInput('');
           setSearchQuery('');
           inputRef.current?.blur();
         }
@@ -171,49 +266,42 @@ export default function VocabInlineSearch() {
     ],
   );
 
-  // Search logic across all JLPT levels
+  // Ultra-fast search logic using pre-indexed lookup (0ms)
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) return [];
+    const q = storeSearchQuery.trim().toLowerCase();
+    if (!q) return [];
 
-    const q = searchQuery.trim().toLowerCase();
     const kanaQ = toKana(q).toLowerCase();
-    const cached = vocabDataService.getAllCached();
-    const levels: VocabLevel[] = ['n5', 'n4', 'n3', 'n2', 'n1'];
+    const index = getIndexedVocab();
     const results: VocabSearchResultItem[] = [];
-    const seenWords = new Set<string>();
 
-    for (const lvl of levels) {
-      if (searchLevelFilter !== 'all' && searchLevelFilter !== lvl) {
+    for (let i = 0; i < index.length; i++) {
+      const item = index[i];
+      if (searchLevelFilter !== 'all' && searchLevelFilter !== item.level) {
         continue;
       }
 
-      const words = cached[lvl] || [];
-      for (const w of words) {
-        if (!w || !w.word || seenWords.has(w.word)) continue;
+      const matchKanji =
+        item.wordLower.includes(q) || item.wordLower.includes(kanaQ);
+      const matchKana =
+        item.kanaReading.includes(q) || item.kanaReading.includes(kanaQ);
+      const matchRomaji = item.romajiReading.includes(q);
+      const matchMeaning = item.meaningsJoined.includes(q);
 
-        const rawReading =
-          typeof w.reading === 'string' ? w.reading.toLowerCase() : '';
-        const baseReading = rawReading.split(' ')[1] || rawReading;
-        const romajiReading = toRomaji(baseReading).toLowerCase();
-        const wordLower = w.word.toLowerCase();
-
-        const matchKanji = wordLower.includes(q) || wordLower.includes(kanaQ);
-        const matchKana = rawReading.includes(q) || rawReading.includes(kanaQ);
-        const matchRomaji = romajiReading.includes(q);
-        const matchMeaning = w.meanings?.some(m => m.toLowerCase().includes(q));
-
-        if (matchKanji || matchKana || matchRomaji || matchMeaning) {
-          seenWords.add(w.word);
-          results.push({
-            ...w,
-            level: lvl,
-          });
-        }
+      if (matchKanji || matchKana || matchRomaji || matchMeaning) {
+        results.push({
+          ...item.obj,
+          level: item.level,
+        });
       }
     }
 
     return results;
-  }, [searchQuery, searchLevelFilter]);
+  }, [storeSearchQuery, searchLevelFilter]);
+
+  const displayedResults = useMemo(() => {
+    return searchResults.slice(0, displayCount);
+  }, [searchResults, displayCount]);
 
   const levels: { id: string; label: string }[] = [
     { id: 'all', label: 'Tất cả' },
@@ -224,7 +312,8 @@ export default function VocabInlineSearch() {
     { id: 'n1', label: 'N1' },
   ];
 
-  const isSearching = searchQuery.trim().length > 0;
+  const isSearching =
+    storeSearchQuery.trim().length > 0 || localInput.trim().length > 0;
 
   const handleSelectAllResults = () => {
     playClick();
@@ -247,8 +336,8 @@ export default function VocabInlineSearch() {
           <input
             ref={inputRef}
             type='text'
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            value={localInput}
+            onChange={e => handleInputChange(e.target.value)}
             placeholder='Tìm từ vựng theo chữ Hán, Hiragana, Romaji hoặc nghĩa tiếng Việt...'
             className={clsx(
               'w-full rounded-2xl border py-3 pr-20 pl-11 text-sm font-medium transition-all select-none',
@@ -257,13 +346,10 @@ export default function VocabInlineSearch() {
               'shadow-xs',
             )}
           />
-          {searchQuery ? (
+          {localInput ? (
             <button
               type='button'
-              onClick={() => {
-                setSearchQuery('');
-                inputRef.current?.focus();
-              }}
+              onClick={handleClearInput}
               aria-label='Xóa tìm kiếm'
               className='absolute top-2.5 right-3 flex size-7 items-center justify-center rounded-xl bg-(--secondary-color)/10 text-(--secondary-color) transition-colors hover:bg-(--secondary-color)/20 hover:text-(--main-color)'
             >
@@ -284,10 +370,7 @@ export default function VocabInlineSearch() {
               <button
                 key={lvl.id}
                 type='button'
-                onClick={() => {
-                  playClick();
-                  setSearchLevelFilter(lvl.id);
-                }}
+                onClick={() => handleFilterClick(lvl.id)}
                 className={clsx(
                   'shrink-0 rounded-xl px-3 py-2 text-xs font-bold transition-all select-none',
                   isSelected
@@ -348,145 +431,166 @@ export default function VocabInlineSearch() {
 
           {/* Results Grid */}
           {searchResults.length > 0 ? (
-            <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
-              {searchResults.map((wordObj, i) => {
-                const isSelected = selectedVocabObjs.some(
-                  selected => selected.word === wordObj.word,
-                );
-                const rawReading =
-                  typeof wordObj.reading === 'string' ? wordObj.reading : '';
-                const baseReading = rawReading.split(' ')[1] || rawReading;
-                const displayReading = showKana
-                  ? toKana(baseReading)
-                  : toRomaji(baseReading);
-                const segments = parseFuriganaSegments(
-                  wordObj.word,
-                  wordObj.reading,
-                );
-                const badge = levelBadgeStyles[wordObj.level];
+            <>
+              <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3'>
+                {displayedResults.map((wordObj, i) => {
+                  const isSelected = selectedVocabObjs.some(
+                    selected => selected.word === wordObj.word,
+                  );
+                  const rawReading =
+                    typeof wordObj.reading === 'string' ? wordObj.reading : '';
+                  const baseReading = rawReading.split(' ')[1] || rawReading;
+                  const displayReading = showKana
+                    ? toKana(baseReading)
+                    : toRomaji(baseReading);
+                  const segments = parseFuriganaSegments(
+                    wordObj.word,
+                    wordObj.reading,
+                  );
+                  const badge = levelBadgeStyles[wordObj.level];
 
-                return (
-                  <div
-                    key={`${wordObj.word}-${wordObj.level}-${i}`}
-                    onClick={() => {
-                      playClick();
-                      addVocabObj(wordObj);
-                    }}
+                  return (
+                    <div
+                      key={`${wordObj.word}-${wordObj.level}-${i}`}
+                      onClick={() => {
+                        playClick();
+                        addVocabObj(wordObj);
+                      }}
+                      className={clsx(
+                        'group relative flex cursor-pointer flex-col justify-between gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
+                        isSelected
+                          ? 'border-(--main-color) bg-(--main-color)/10 shadow-md ring-1 ring-(--main-color)'
+                          : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color)/50 hover:shadow-xs',
+                        cardBorderStyles,
+                      )}
+                    >
+                      {/* Top Row: Word with Furigana + Level Badge & Selection */}
+                      <div className='flex items-start justify-between gap-2'>
+                        <div className='flex flex-col items-start'>
+                          {/* Word + Furigana */}
+                          <div className='flex items-end text-3xl font-black text-(--main-color) transition-transform group-hover:scale-[1.02]'>
+                            {segments.map((seg, idx) => (
+                              <ruby key={idx} className='leading-none'>
+                                {seg.text}
+                                {seg.furigana && (
+                                  <rt className='text-xs font-semibold text-(--secondary-color) opacity-80'>
+                                    {seg.furigana}
+                                  </rt>
+                                )}
+                              </ruby>
+                            ))}
+                          </div>
+
+                          {/* Reading */}
+                          <span className='mt-1 text-sm font-medium text-(--secondary-color)'>
+                            {displayReading}
+                          </span>
+                        </div>
+
+                        {/* Right actions: JLPT Level + Checkbox */}
+                        <div className='flex items-center gap-2'>
+                          <span
+                            className={clsx(
+                              'rounded-lg border px-2 py-0.5 text-[11px] font-black uppercase',
+                              badge.bg,
+                              badge.text,
+                              badge.border,
+                            )}
+                          >
+                            {wordObj.level}
+                          </span>
+                          <div
+                            className={clsx(
+                              'flex size-5.5 items-center justify-center rounded-lg border transition-all',
+                              isSelected
+                                ? 'border-(--main-color) bg-(--main-color) text-(--background-color)'
+                                : 'border-(--border-color) bg-(--background-color)/50 text-transparent group-hover:border-(--main-color)/40',
+                            )}
+                          >
+                            <Check className='size-3.5 stroke-[3]' />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Middle: Meanings */}
+                      <div className='flex flex-wrap gap-1 pt-1'>
+                        {wordObj.meanings?.slice(0, 3).map((mean, mIdx) => (
+                          <span
+                            key={mIdx}
+                            className='rounded-md bg-(--background-color)/60 px-2 py-0.5 text-xs text-(--main-color)/90'
+                          >
+                            {mean}
+                          </span>
+                        ))}
+                        {(wordObj.meanings?.length ?? 0) > 3 && (
+                          <span className='rounded-md bg-(--background-color)/40 px-1.5 py-0.5 text-xs text-(--secondary-color)'>
+                            +{(wordObj.meanings?.length ?? 0) - 3}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Bottom: Quick Pronounce & ThamTuVung Details */}
+                      <div
+                        className='flex items-center justify-between border-t border-(--border-color)/40 pt-2 text-xs text-(--secondary-color)'
+                        onClick={e => e.stopPropagation()}
+                      >
+                        <button
+                          type='button'
+                          onClick={e => handlePronounce(wordObj.reading, e)}
+                          className='inline-flex items-center gap-1 rounded-lg px-2 py-1 transition-colors hover:bg-(--secondary-color)/10 hover:text-(--main-color)'
+                        >
+                          <Volume2
+                            className={clsx(
+                              'size-3.5',
+                              activePronunciationText ===
+                                wordObj.reading.trim() &&
+                                'animate-pulse text-emerald-500',
+                            )}
+                          />
+                          <span>Phát âm</span>
+                        </button>
+
+                        <button
+                          type='button'
+                          onClick={() => {
+                            playClick();
+                            setActiveDetailWord(wordObj);
+                          }}
+                          className='inline-flex items-center gap-1 rounded-lg px-2 py-1 font-bold text-(--main-color) transition-colors hover:bg-(--main-color)/10'
+                        >
+                          <BookOpen className='size-3.5 text-(--main-color)' />
+                          <span>ThamTuVung</span>
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Load More Button */}
+              {searchResults.length > displayCount && (
+                <div className='flex justify-center pt-2 pb-4'>
+                  <button
+                    type='button'
+                    onClick={() => setDisplayCount(prev => prev + PAGE_SIZE)}
                     className={clsx(
-                      'group relative flex cursor-pointer flex-col justify-between gap-3 rounded-2xl border p-4 transition-all duration-150 select-none',
-                      isSelected
-                        ? 'border-(--main-color) bg-(--main-color)/10 shadow-md ring-1 ring-(--main-color)'
-                        : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color)/50 hover:shadow-xs',
-                      cardBorderStyles,
+                      'rounded-2xl border px-6 py-2.5 text-xs font-bold transition-all',
+                      'border-(--border-color) bg-(--card-color) text-(--main-color)',
+                      'shadow-xs hover:border-(--main-color) hover:bg-(--main-color)/10 active:scale-95',
                     )}
                   >
-                    {/* Top Row: Word with Furigana + Level Badge & Selection */}
-                    <div className='flex items-start justify-between gap-2'>
-                      <div className='flex flex-col items-start'>
-                        {/* Word + Furigana */}
-                        <div className='flex items-end text-3xl font-black text-(--main-color) transition-transform group-hover:scale-[1.02]'>
-                          {segments.map((seg, idx) => (
-                            <ruby key={idx} className='leading-none'>
-                              {seg.text}
-                              {seg.furigana && (
-                                <rt className='text-xs font-semibold text-(--secondary-color) opacity-80'>
-                                  {seg.furigana}
-                                </rt>
-                              )}
-                            </ruby>
-                          ))}
-                        </div>
-
-                        {/* Reading */}
-                        <span className='mt-1 text-sm font-medium text-(--secondary-color)'>
-                          {displayReading}
-                        </span>
-                      </div>
-
-                      {/* Right actions: JLPT Level + Checkbox */}
-                      <div className='flex items-center gap-2'>
-                        <span
-                          className={clsx(
-                            'rounded-lg border px-2 py-0.5 text-[11px] font-black uppercase',
-                            badge.bg,
-                            badge.text,
-                            badge.border,
-                          )}
-                        >
-                          {wordObj.level}
-                        </span>
-                        <div
-                          className={clsx(
-                            'flex size-5.5 items-center justify-center rounded-lg border transition-all',
-                            isSelected
-                              ? 'border-(--main-color) bg-(--main-color) text-(--background-color)'
-                              : 'border-(--border-color) bg-(--background-color)/50 text-transparent group-hover:border-(--main-color)/40',
-                          )}
-                        >
-                          <Check className='size-3.5 stroke-[3]' />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Middle: Meanings */}
-                    <div className='flex flex-wrap gap-1 pt-1'>
-                      {wordObj.meanings?.slice(0, 3).map((mean, mIdx) => (
-                        <span
-                          key={mIdx}
-                          className='rounded-md bg-(--background-color)/60 px-2 py-0.5 text-xs text-(--main-color)/90'
-                        >
-                          {mean}
-                        </span>
-                      ))}
-                      {(wordObj.meanings?.length ?? 0) > 3 && (
-                        <span className='rounded-md bg-(--background-color)/40 px-1.5 py-0.5 text-xs text-(--secondary-color)'>
-                          +{(wordObj.meanings?.length ?? 0) - 3}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Bottom: Quick Pronounce & ThamTuVung Details */}
-                    <div
-                      className='flex items-center justify-between border-t border-(--border-color)/40 pt-2 text-xs text-(--secondary-color)'
-                      onClick={e => e.stopPropagation()}
-                    >
-                      <button
-                        type='button'
-                        onClick={e => handlePronounce(wordObj.reading, e)}
-                        className='inline-flex items-center gap-1 rounded-lg px-2 py-1 transition-colors hover:bg-(--secondary-color)/10 hover:text-(--main-color)'
-                      >
-                        <Volume2
-                          className={clsx(
-                            'size-3.5',
-                            activePronunciationText ===
-                              wordObj.reading.trim() &&
-                              'animate-pulse text-emerald-500',
-                          )}
-                        />
-                        <span>Phát âm</span>
-                      </button>
-
-                      <button
-                        type='button'
-                        onClick={() => {
-                          playClick();
-                          setActiveDetailWord(wordObj);
-                        }}
-                        className='inline-flex items-center gap-1 rounded-lg px-2 py-1 font-bold text-(--main-color) transition-colors hover:bg-(--main-color)/10'
-                      >
-                        <BookOpen className='size-3.5 text-(--main-color)' />
-                        <span>ThamTuVung</span>
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    Xem thêm{' '}
+                    {Math.min(PAGE_SIZE, searchResults.length - displayCount)}{' '}
+                    kết quả (còn {searchResults.length - displayCount} từ)
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className='flex flex-col items-center justify-center rounded-3xl border border-dashed border-(--border-color) bg-(--card-color)/30 py-16 text-center'>
               <BookOpen className='size-10 text-(--secondary-color)/40' />
               <p className='mt-3 text-base font-bold text-(--main-color)'>
-                Không tìm thấy từ vựng khớp với &quot;{searchQuery}&quot;
+                Không tìm thấy từ vựng khớp với &quot;{storeSearchQuery}&quot;
               </p>
               <p className='mt-1 max-w-md text-xs text-(--secondary-color)'>
                 Thử tìm kiếm bằng chữ Hán, Hiragana (ví dụ: がっこう), Romaji
@@ -495,7 +599,7 @@ export default function VocabInlineSearch() {
               {searchLevelFilter !== 'all' && (
                 <button
                   type='button'
-                  onClick={() => setSearchLevelFilter('all')}
+                  onClick={() => handleFilterClick('all')}
                   className='mt-4 rounded-xl border border-(--border-color) bg-(--card-color) px-3.5 py-1.5 text-xs font-bold text-(--main-color) transition-all hover:border-(--main-color)'
                 >
                   Tìm trên tất cả các cấp độ (N5 - N1)
