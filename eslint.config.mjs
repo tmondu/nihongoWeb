@@ -16,7 +16,7 @@ const eslintConfig = [
   ...nextCoreWebVitals,
   ...nextTypescript,
   {
-    ignores: ['.next/**/*', 'next-env.d.ts'],
+    ignores: ['.next/**/*', 'next-env.d.ts', 'admin-app/**/*'],
   },
   {
     plugins: {

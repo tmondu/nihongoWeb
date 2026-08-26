@@ -4,6 +4,8 @@ node_modules/
 out/
 dist/
 build/
+admin-app/.next/
+admin-app/node_modules/
 
 # Production
 *.min.js
