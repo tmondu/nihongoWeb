@@ -1,7 +1,7 @@
 {
-  "name": "KanaDojo - Learn Japanese Hiragana, Katakana, Kanji, Vocabulary & Translation",
-  "short_name": "KanaDojo",
-  "description": "Master Japanese with KanaDojo - learn Hiragana, Katakana, Kanji, Vocabulary with interactive games. Free Japanese to English translator with romanization. Track progress and customize your experience.",
+  "name": "PThamSS - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng",
+  "short_name": "PThamSS",
+  "description": "Làm chủ tiếng Nhật cùng PThamSS - học Hiragana, Katakana, Kanji, Từ vựng với các trò chơi tương tác, flashcard Thamlet và luyện Shadowing trực tuyến.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -9,7 +9,7 @@
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "categories": ["education", "productivity"],
-  "lang": "en",
+  "lang": "vi",
   "dir": "ltr",
   "icons": [
     {
@@ -24,29 +24,36 @@
     {
       "name": "Kana Dojo",
       "short_name": "Kana",
-      "description": "Practice Hiragana and Katakana",
+      "description": "Luyện tập Hiragana và Katakana",
       "url": "/kana",
       "icons": []
     },
     {
       "name": "Kanji Dojo",
       "short_name": "Kanji",
-      "description": "Practice Kanji characters",
+      "description": "Luyện tập chữ Kanji",
       "url": "/kanji",
       "icons": []
     },
     {
       "name": "Vocabulary Dojo",
-      "short_name": "Vocabulary",
-      "description": "Practice Japanese vocabulary",
+      "short_name": "Từ vựng",
+      "description": "Luyện tập từ vựng tiếng Nhật",
       "url": "/vocabulary",
       "icons": []
     },
     {
-      "name": "Japanese Translator",
-      "short_name": "Translator",
-      "description": "Translate Japanese to English with romaji",
-      "url": "/translate",
+      "name": "Thamlet",
+      "short_name": "Thamlet",
+      "description": "Học flashcard và làm bài tập trắc nghiệm",
+      "url": "/thamlet",
+      "icons": []
+    },
+    {
+      "name": "Shadowing",
+      "short_name": "Shadowing",
+      "description": "Luyện nghe nói Shadowing tiếng Nhật",
+      "url": "/shadowing",
       "icons": []
     }
   ]

@@ -283,5 +283,35 @@
     "titleShort": "Kanji Practice",
     "description": "Practice Japanese Kanji by JLPT level with interactive training. Improve recognition, readings, and retention with fast drills and progress tracking.",
     "keywords": "kanji practice, practice kanji, learn kanji, jlpt kanji, kanji by level, kanji drills, kanji quiz, japanese kanji"
+  },
+  "thamlet": {
+    "title": "Thamlet - Japanese Flashcards & Study Games | PThamSS",
+    "titleShort": "Thamlet Flashcards",
+    "description": "Master Japanese vocabulary and Kanji with Quizlet-style flashcards. Create custom decks, import from Quizlet/Excel, study with 3D cards, match games, and practice tests.",
+    "keywords": "thamlet, japanese flashcards, vocabulary flashcards, study sets, quizlet japanese, match game, japanese test practice"
+  },
+  "shadowing": {
+    "title": "Japanese Shadowing - Speaking & Listening Practice | PThamSS",
+    "titleShort": "Shadowing Practice",
+    "description": "Improve your Japanese speech and listening with the Shadowing method. Interactive furigana subtitles, AI speech evaluation, and voice recording practice.",
+    "keywords": "japanese shadowing, japanese speaking practice, shadowing method, japanese listening, speech evaluation, furigana subtitles"
+  },
+  "howToUse": {
+    "title": "How to Use PThamSS - Complete Tutorial Guide | PThamSS",
+    "titleShort": "How to Use",
+    "description": "Learn how to use PThamSS effectively with this complete tutorial. Discover all features, training modes, Thamlet, Shadowing, and tips for mastering Japanese.",
+    "keywords": "how to use pthamss, pthamss tutorial, pthamss guide, japanese learning guide"
+  },
+  "kanaChart": {
+    "title": "Complete Japanese Kana Chart - Hiragana & Katakana Reference | PThamSS",
+    "titleShort": "Kana Chart",
+    "description": "Complete Hiragana and Katakana chart with all characters, dakuon, yoon, romaji romanization, and pronunciation guide.",
+    "keywords": "kana chart, hiragana chart, katakana chart, japanese alphabet table, kana reference"
+  },
+  "thamkanji": {
+    "title": "ThamKanji Explorer - Japanese Kanji Details & Radicals | PThamSS",
+    "titleShort": "ThamKanji Explorer",
+    "description": "Look up detailed Japanese Kanji information, Onyomi, Kunyomi, stroke order, radicals, and common vocabulary compounds by JLPT level.",
+    "keywords": "kanji lookup, thamkanji, kanji dictionary, stroke order, radicals, jlpt kanji details"
   }
 }

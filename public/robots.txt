@@ -1,45 +1,75 @@
 # *
 User-agent: *
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # GPTBot
 User-agent: GPTBot
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # ChatGPT-User
 User-agent: ChatGPT-User
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # Claude-Web
 User-agent: Claude-Web
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # anthropic-ai
 User-agent: anthropic-ai
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # PerplexityBot
 User-agent: PerplexityBot
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # Google-Extended
 User-agent: Google-Extended
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # CCBot
 User-agent: CCBot
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # Applebot
 User-agent: Applebot
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # Amazonbot
 User-agent: Amazonbot
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
 Allow: /
 
 # Host
-Host: https://kanadojo.com
+Host: https://www.pthamnihongo.site
 
 # Sitemaps
-Sitemap: https://kanadojo.com/sitemap.xml
+Sitemap: https://www.pthamnihongo.site/sitemap.xml

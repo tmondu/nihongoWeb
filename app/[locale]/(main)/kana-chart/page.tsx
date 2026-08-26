@@ -2,6 +2,8 @@ import { getTranslations } from 'next-intl/server';
 import KanaChartDisplay from './KanaChartDisplay';
 import { routing } from '@/core/i18n/routing';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
+import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
+import type { Metadata } from 'next';
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -9,14 +11,16 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-export async function generateMetadata() {
-  return {
-    title: 'Kana Chart | Hiragana Katakana Reference | PThamSS',
-    description:
-      'Complete Hiragana and Katakana chart with all characters, romanization, and pronunciation guide. Free interactive Japanese kana reference table for learners.',
-    keywords:
-      'hiragana chart, katakana chart, kana chart, japanese alphabet chart, hiragana table, katakana table, japanese characters, kana reference, hiragana katakana chart, learn kana',
-  };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return await generatePageMetadata('kanaChart', {
+    locale,
+    pathname: '/kana-chart',
+  });
 }
 
 export default async function KanaChartPage({

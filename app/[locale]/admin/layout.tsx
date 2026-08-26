@@ -4,6 +4,7 @@ import { verifyJwt } from '@/shared/utils/auth';
 import { getDbPool } from '@/shared/infra/server/db';
 import { RowDataPacket } from 'mysql2';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import {
   LayoutDashboard,
   Users,
@@ -13,6 +14,20 @@ import {
 } from 'lucide-react';
 
 import AdminLogoutButton from '@/shared/ui/components/AdminLogoutButton';
+
+export const metadata: Metadata = {
+  title: 'Admin Dashboard | PThamSS',
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+};
 
 async function checkAdmin() {
   const cookieStore = await cookies();

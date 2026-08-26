@@ -281,7 +281,37 @@
   "kanjiPractice": {
     "title": "Práctica de Kanji - Aprende Kanji por Nivel JLPT | PThamSS",
     "titleShort": "Práctica de Kanji",
-    "description": "Practica kanji japonés por nivel JLPT con entrenamiento interactivo. Mejora reconocimiento y retención con ejercicios rápidos y seguimiento de progreso.",
+    "description": "Practica kanji japonés por nivel JLPT con entrenamiento interactivo. Mejora reconocimiento y retención con ejercicios rápidos và seguimiento de progreso.",
     "keywords": "práctica de kanji, practicar kanji, aprender kanji, kanji jlpt, kanji por nivel, ejercicios kanji, quiz kanji, kanji japonés"
+  },
+  "thamlet": {
+    "title": "Thamlet - Tarjetas de estudio y juegos de japonés | PThamSS",
+    "titleShort": "Thamlet Tarjetas",
+    "description": "Aprende vocabulario y kanji japonés con Thamlet. Crea conjuntos de tarjetas, importa desde Quizlet/Excel, practica con tarjetas 3D, juego de emparejar y exámenes.",
+    "keywords": "thamlet, tarjetas japones, flashcards japones, vocabulario japones, juegos de estudio"
+  },
+  "shadowing": {
+    "title": "Shadowing de Japonés - Práctica de habla y escucha | PThamSS",
+    "titleShort": "Práctica de Shadowing",
+    "description": "Mejora tu pronunciación y fluidez en japonés con el método Shadowing. Subtítulos interactivos con furigana, evaluación por IA y grabación de voz.",
+    "keywords": "shadowing japones, hablar japones, escuchar japones, pronunciacion japones"
+  },
+  "howToUse": {
+    "title": "Cómo usar PThamSS - Guía tutorial completa | PThamSS",
+    "titleShort": "Cómo usar",
+    "description": "Aprende a utilizar PThamSS eficazmente con esta guía completa. Descubre todas las funciones, modos de práctica y consejos para dominar el japonés.",
+    "keywords": "como usar pthamss, guia pthamss, tutorial japones"
+  },
+  "kanaChart": {
+    "title": "Tabla completa de Kana japonés - Hiragana y Katakana | PThamSS",
+    "titleShort": "Tabla Kana",
+    "description": "Tabla completa de Hiragana y Katakana con todos los caracteres, dakuon, yoon, romaji y guía de pronunciación.",
+    "keywords": "tabla kana, tabla hiragana, tabla katakana, alfabeto japones"
+  },
+  "thamkanji": {
+    "title": "Explorador ThamKanji - Detalles de Kanji y radicales | PThamSS",
+    "titleShort": "Explorador ThamKanji",
+    "description": "Consulta información detallada de kanji japonés, Onyomi, Kunyomi, orden de trazos, radicales y palabras compuestas por nivel JLPT.",
+    "keywords": "buscar kanji, thamkanji, diccionario kanji, orden de trazos"
   }
 }

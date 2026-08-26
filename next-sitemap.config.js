@@ -90,6 +90,8 @@ const sitemapConfig = {
     }));
   },
   exclude: [
+    '/admin',
+    '/admin/*',
     '/api/*',
     '/_next/*',
     '/en',
@@ -103,42 +105,52 @@ const sitemapConfig = {
     policies: [
       {
         userAgent: '*',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'GPTBot',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'ChatGPT-User',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'Claude-Web',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'anthropic-ai',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'PerplexityBot',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'Google-Extended',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'CCBot',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'Applebot',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
       {
         userAgent: 'Amazonbot',
+        disallow: ['/admin', '/admin/*', '/api/'],
         allow: '/',
       },
     ],

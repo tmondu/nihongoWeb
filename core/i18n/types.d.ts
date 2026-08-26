@@ -1013,6 +1013,36 @@ export interface MetadataTranslations {
     description: string;
     keywords: string;
   };
+  thamlet: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  shadowing: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  howToUse: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  kanaChart: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  thamkanji: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
 }
 
 export interface FaqTranslations {

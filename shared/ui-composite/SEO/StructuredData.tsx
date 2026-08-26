@@ -26,7 +26,7 @@ export const kanaDojoSchema = {
       url: 'https://www.pthamnihongo.site',
       logo: 'https://www.pthamnihongo.site/favicon.ico',
       description:
-        'An aesthetic, minimalist platform for learning Japanese Hiragana, Katakana, Kanji, and Vocabulary',
+        'Nền tảng học tiếng Nhật Hiragana, Katakana, Kanji, Từ vựng, Flashcard Thamlet và Shadowing trực tuyến.',
       sameAs: ['https://github.com/tmondu/nihongoWeb'],
       contactPoint: {
         '@type': 'ContactPoint',
@@ -40,9 +40,9 @@ export const kanaDojoSchema = {
       url: 'https://www.pthamnihongo.site',
       name: 'PThamSS',
       description:
-        'Master Japanese with PThamSS - Learn Hiragana, Katakana, Kanji, and Vocabulary',
+        'Làm chủ tiếng Nhật cùng PThamSS - Học Hiragana, Katakana, Kanji, Từ vựng, Thamlet & Shadowing',
       publisher: { '@id': 'https://www.pthamnihongo.site/#organization' },
-      inLanguage: ['en', 'es'],
+      inLanguage: ['vi', 'en', 'es'],
       potentialAction: {
         '@type': 'SearchAction',
         target: {
@@ -56,7 +56,7 @@ export const kanaDojoSchema = {
       '@type': 'WebApplication',
       '@id': 'https://www.pthamnihongo.site/#webapp',
       name: 'PThamSS',
-      alternateName: 'Kana Dojo',
+      alternateName: 'PTham Nihongo',
       url: 'https://www.pthamnihongo.site',
       applicationCategory: 'EducationalApplication',
       applicationSubCategory: 'Language Learning',
@@ -70,29 +70,29 @@ export const kanaDojoSchema = {
         availability: 'https://schema.org/InStock',
       },
       description:
-        'Interactive Japanese learning platform with Hiragana, Katakana, Kanji, and Vocabulary training',
+        'Interactive Japanese learning platform with Hiragana, Katakana, Kanji, Vocabulary, Thamlet Flashcards, and Shadowing training',
       featureList: [
         'Learn Hiragana and Katakana',
         'Practice Kanji by JLPT level',
         'Build Japanese vocabulary',
+        'Thamlet Quizlet-style flashcards',
+        'Shadowing audio & video practice',
         'Interactive games and quizzes',
         'Progress tracking',
         '100+ customizable themes',
         'Multiple training modes',
         'Blitz and Gauntlet challenges',
-        'No account required',
-        'Works offline with progress saved locally',
       ],
       author: {
         '@type': 'Organization',
-        name: 'LingDojo',
+        name: 'PThamSS',
       },
       creator: {
         '@type': 'Organization',
-        name: 'LingDojo',
+        name: 'PThamSS',
       },
-      inLanguage: ['en', 'es'],
-      availableLanguage: ['English', 'Spanish'],
+      inLanguage: ['vi', 'en', 'es'],
+      availableLanguage: ['Vietnamese', 'English', 'Spanish'],
       isAccessibleForFree: true,
       audience: {
         '@type': 'EducationalAudience',

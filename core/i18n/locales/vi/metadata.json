@@ -283,5 +283,35 @@
     "titleShort": "Luyện tập Kanji",
     "description": "Thực hành Kanji tiếng Nhật theo cấp độ JLPT với các buổi rèn luyện tương tác. Cải thiện nhận diện, âm đọc và lưu trữ thông tin tốt hơn.",
     "keywords": "luyện tập kanji, học kanji jlpt, luyện kanji theo cấp độ, câu đố chữ hán nhật"
+  },
+  "thamlet": {
+    "title": "Thamlet - Bộ thẻ Flashcard & Luyện tập tiếng Nhật | PThamSS",
+    "titleShort": "Thamlet Flashcards",
+    "description": "Làm chủ từ vựng và Kanji tiếng Nhật cùng Thamlet phong cách Quizlet. Tự tạo bộ thẻ hoặc nhập từ Quizlet/Excel, học với thẻ 3D, ghép thẻ, làm bài kiểm tra và theo dõi tiến trình.",
+    "keywords": "thamlet, flashcard tiếng nhật, bộ thẻ flashcard, quizlet tiếng nhật, học từ vựng tiếng nhật, ghép thẻ tiếng nhật, bài kiểm tra tiếng nhật"
+  },
+  "shadowing": {
+    "title": "Shadowing tiếng Nhật - Luyện phản xạ nghe nói & phát âm chuẩn | PThamSS",
+    "titleShort": "Luyện Shadowing",
+    "description": "Luyện nói và ngữ điệu tiếng Nhật theo phương pháp Shadowing với video sinh động, phụ đề Furigana tương tác, chấm điểm phát âm bằng AI và ghi âm giọng nói.",
+    "keywords": "shadowing tiếng nhật, luyện nghe nói tiếng nhật, phát âm tiếng nhật, kaiwa tiếng nhật, nghe hội thoại tiếng nhật, chấm điểm phát âm"
+  },
+  "howToUse": {
+    "title": "Hướng dẫn sử dụng PThamSS - Cẩm nang học tiếng Nhật toàn diện | PThamSS",
+    "titleShort": "Hướng dẫn sử dụng",
+    "description": "Tìm hiểu cách sử dụng PThamSS hiệu quả với cẩm nang hướng dẫn đầy đủ. Khám phá mọi tính năng: Hiragana, Katakana, Kanji, Từ vựng, Thamlet, Shadowing và mẹo học tiếng Nhật.",
+    "keywords": "hướng dẫn sử dụng pthamss, cẩm nang tiếng nhật, cách học hiragana, cách học kanji, hướng dẫn tự học tiếng nhật"
+  },
+  "kanaChart": {
+    "title": "Bảng chữ cái tiếng Nhật Hiragana & Katakana đầy đủ | PThamSS",
+    "titleShort": "Bảng chữ cái Kana",
+    "description": "Bảng tra cứu Hiragana và Katakana hoàn chỉnh gồm chữ cơ bản, âm đục (dakuon), âm ghép (yoon), phiên âm Romaji và âm thanh phát âm chuẩn.",
+    "keywords": "bảng chữ cái tiếng nhật, bảng hiragana, bảng katakana, bảng kana đầy đủ, phát âm tiếng nhật, bảng chữ cái tiếng nhật có âm thanh"
+  },
+  "thamkanji": {
+    "title": "Tra cứu ThamKanji - Chi tiết chữ Kanji & Bộ thủ tiếng Nhật | PThamSS",
+    "titleShort": "Tra cứu ThamKanji",
+    "description": "Tra cứu chi tiết chữ Kanji tiếng Nhật, âm Hán Việt, Onyomi, Kunyomi, số nét, thứ tự nét viết, giải nghĩa bộ thủ và từ ghép theo cấp độ JLPT.",
+    "keywords": "tra cứu kanji, thamkanji, chữ hán tiếng nhật, âm hán việt, onyomi kunyomi, thứ tự nét viết kanji, bộ thủ kanji"
   }
 }
