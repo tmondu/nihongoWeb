@@ -9,6 +9,7 @@ interface KanjiRow extends RowDataPacket {
   onyomi: string | string[];
   kunyomi: string | string[];
   meanings: string | string[];
+  hanviet?: string | null;
 }
 
 export async function GET(request: NextRequest) {
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [rows] = await pool.execute(
-      'SELECT original_id AS id, kanji_char AS kanjiChar, onyomi, kunyomi, meanings FROM kanjis WHERE level = ? ORDER BY original_id ASC',
+      'SELECT original_id AS id, kanji_char AS kanjiChar, onyomi, kunyomi, meanings, hanviet FROM kanjis WHERE level = ? ORDER BY original_id ASC',
       [level],
     );
 
@@ -40,6 +41,7 @@ export async function GET(request: NextRequest) {
         typeof row.meanings === 'string'
           ? JSON.parse(row.meanings)
           : row.meanings,
+      hanviet: row.hanviet || '',
     }));
 
     return NextResponse.json(kanjiList);

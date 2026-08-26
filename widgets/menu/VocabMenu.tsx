@@ -12,6 +12,7 @@ import {
 } from '@/features/Vocabulary';
 import useVocabStore from '@/features/Vocabulary/store/useVocabStore';
 import { vocabDataService } from '@/features/Vocabulary/services/vocabDataService';
+import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
 
 const PRELOAD_FLAG = 'vocab-preload-complete';
@@ -43,6 +44,7 @@ const VocabMenu = ({
 
     sessionStorage.setItem(PRELOAD_FLAG, 'true');
     void vocabDataService.preloadAll();
+    void kanjiDataService.preloadAll();
   }, []);
 
   useEffect(() => {

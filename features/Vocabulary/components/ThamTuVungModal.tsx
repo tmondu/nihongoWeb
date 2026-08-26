@@ -24,6 +24,8 @@ import hanvietMapRaw from '@/shared/data/kanji_hanviet.json';
 import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import { cardBorderStyles, buttonBorderStyles } from '@/shared/utils/styles';
 
+import type { IKanjiObj } from '@/entities/kanji';
+
 const hanvietMap = hanvietMapRaw as Record<string, string>;
 const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf]/g;
 
@@ -42,6 +44,37 @@ export default function ThamTuVungModal() {
   const [copied, setCopied] = useState(false);
   const [isPlayingSlow, setIsPlayingSlow] = useState(false);
   const [isPlayingNormal, setIsPlayingNormal] = useState(false);
+  const [kanjiList, setKanjiList] = useState<IKanjiObj[]>(() => {
+    return Object.values(kanjiDataService.getAllCached())
+      .flat()
+      .filter(Boolean);
+  });
+
+  // Ensure Kanji data is fully preloaded in background for On/Kun and definitions
+  useEffect(() => {
+    let isMounted = true;
+    const initial = Object.values(kanjiDataService.getAllCached())
+      .flat()
+      .filter(Boolean);
+
+    if (initial.length === 0) {
+      kanjiDataService
+        .preloadAll()
+        .then(() => {
+          if (isMounted) {
+            const all = Object.values(kanjiDataService.getAllCached())
+              .flat()
+              .filter(Boolean);
+            setKanjiList(all);
+          }
+        })
+        .catch(console.error);
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Close on Escape key
   useEffect(() => {
@@ -122,12 +155,10 @@ export default function ThamTuVungModal() {
     if (!activeDetailWord) return [];
     const kanjis = activeDetailWord.word.match(KANJI_REGEX) || [];
     const uniqueKanjis = Array.from(new Set(kanjis));
-    const cachedKanji = kanjiDataService.getAllCached();
-    const allKanjiList = Object.values(cachedKanji).flat().filter(Boolean);
 
     return uniqueKanjis.map(char => {
-      const hanviet = hanvietMap[char] || '';
-      const kanjiInfo = allKanjiList.find(k => k && k.kanjiChar === char);
+      const kanjiInfo = kanjiList.find(k => k && k.kanjiChar === char);
+      const hanviet = kanjiInfo?.hanviet || hanvietMap[char] || '';
       return {
         char,
         hanviet,
@@ -136,7 +167,7 @@ export default function ThamTuVungModal() {
         meanings: kanjiInfo?.meanings || [],
       };
     });
-  }, [activeDetailWord]);
+  }, [activeDetailWord, kanjiList]);
 
   if (!activeDetailWord) return null;
 
