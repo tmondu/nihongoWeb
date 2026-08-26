@@ -25,6 +25,16 @@ interface IFormState {
   // Collapsed rows per unit (keyed by collection name)
   collapsedRowsByUnit: Record<string, number[]>;
   setCollapsedRowsForUnit: (unit: string, rows: number[]) => void;
+
+  // Search state
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  searchLevelFilter: string;
+  setSearchLevelFilter: (level: string) => void;
+
+  // ThamTuVung modal state
+  activeDetailWord: IVocabObj | null;
+  setActiveDetailWord: (word: IVocabObj | null) => void;
 }
 
 const uniqByWord = (vocabObjs: IVocabObj[]) => {
@@ -103,6 +113,14 @@ const useVocabStore = create<IFormState>()(
             [unit]: rows,
           },
         })),
+
+      searchQuery: '',
+      setSearchQuery: query => set({ searchQuery: query }),
+      searchLevelFilter: 'all',
+      setSearchLevelFilter: level => set({ searchLevelFilter: level }),
+
+      activeDetailWord: null,
+      setActiveDetailWord: word => set({ activeDetailWord: word }),
     }),
     {
       name: 'vocabulary-storage',

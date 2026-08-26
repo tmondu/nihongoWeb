@@ -4,7 +4,13 @@ import { useEffect } from 'react';
 import Info from '@/shared/ui-composite/Menu/Info';
 import TrainingActionBar from '@/shared/ui-composite/Menu/TrainingActionBar';
 import UnitSelector from '@/shared/ui-composite/Menu/UnitSelector';
-import { VocabCards, useVocabSelection } from '@/features/Vocabulary';
+import {
+  VocabCards,
+  VocabInlineSearch,
+  ThamTuVungModal,
+  useVocabSelection,
+} from '@/features/Vocabulary';
+import useVocabStore from '@/features/Vocabulary/store/useVocabStore';
 import { vocabDataService } from '@/features/Vocabulary/services/vocabDataService';
 import { useMenuSelectorStore } from '@/shared/ui-composite/Menu/store/useMenuSelectorStore';
 
@@ -24,6 +30,9 @@ const VocabMenu = ({
   const setVocabCollection = vocabSelection.setCollection;
   const clearVocab = vocabSelection.clearVocab;
   const clearVocabSets = vocabSelection.clearSets;
+  const searchQuery = useVocabStore(state => state.searchQuery);
+  const isSearching = searchQuery.trim().length > 0;
+
   const setPersistedCollectionSelection = useMenuSelectorStore(
     state => state.setCollectionSelection,
   );
@@ -47,19 +56,27 @@ const VocabMenu = ({
       selectedCollection: fixedCollection,
       selectedSubunitByUnit: {},
     });
-  }, [fixedCollection, selectedVocabCollection, setVocabCollection, clearVocab, clearVocabSets, setPersistedCollectionSelection]);
+  }, [
+    fixedCollection,
+    selectedVocabCollection,
+    setVocabCollection,
+    clearVocab,
+    clearVocabSets,
+    setPersistedCollectionSelection,
+  ]);
 
   return (
     <>
       <div className='flex flex-col gap-4'>
         <Info />
-        {!hideUnitSelector && <UnitSelector />}
-        <VocabCards />
+        <VocabInlineSearch />
+        {!isSearching && !hideUnitSelector && <UnitSelector />}
+        {!isSearching && <VocabCards />}
       </div>
+      <ThamTuVungModal />
       <TrainingActionBar currentDojo='vocabulary' />
     </>
   );
 };
 
 export default VocabMenu;
-

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <filter id="shadowText" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0.5" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadowText)">
+    <!-- White outer boundary -->
+    <path d="M 11 4 L 21 4 M 16 4 L 16 28 M 11 28 L 21 28" 
+          stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <!-- Central Ink I-beam with brush taper -->
+    <path d="M 12 4 L 20 4 M 16 4 L 16 28 M 12 28 L 20 28" 
+          stroke="#09090b" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="16" cy="16" r="1.5" fill="#ef4444"/>
+  </g>
+</svg>

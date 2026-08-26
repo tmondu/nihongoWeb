@@ -81,10 +81,21 @@ export default function ClientLayout({
   // Redeploy trigger - R2 wallpaper pipeline rollout, June 20, 2026
 
   // Redeploy trigger - second redundant comment to force redeploy (no-op)
-  // Redeploy trigger - third redundant comment to test Vercel Edge outage (March 2, 2026)
-  const { theme, font } = usePreferencesStore(
-    useShallow(state => ({ theme: state.theme, font: state.font })),
+  const { theme, font, customCursor } = usePreferencesStore(
+    useShallow(state => ({
+      theme: state.theme,
+      font: state.font,
+      customCursor: state.customCursor,
+    })),
   );
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    document.documentElement.setAttribute(
+      'data-custom-cursor',
+      customCursor !== false ? 'true' : 'false',
+    );
+  }, [customCursor]);
 
   // Crazy Mode Integration
   const { isCrazyMode, activeThemeId, activeFontName, randomize } =

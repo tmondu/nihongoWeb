@@ -52,6 +52,8 @@ interface PreferencesState {
   clearWallpaper: () => void;
 
   // Visual effects
+  customCursor: boolean;
+  setCustomCursor: (enabled: boolean) => void;
   cursorTrailEffect: string;
   setCursorTrailEffect: (id: string) => void;
   clickEffect: string;
@@ -108,6 +110,8 @@ const usePreferencesStore = create<PreferencesState>()(
       clearWallpaper: () => set({ selectedWallpaperId: null }),
 
       // Visual effects
+      customCursor: true,
+      setCustomCursor: enabled => set({ customCursor: enabled }),
       cursorTrailEffect: 'none',
       setCursorTrailEffect: id => set({ cursorTrailEffect: id }),
       clickEffect: 'none',

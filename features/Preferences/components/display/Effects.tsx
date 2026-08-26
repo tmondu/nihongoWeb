@@ -6,7 +6,7 @@ import { useHasFinePointer } from '@/shared/hooks/generic/useHasFinePointer';
 import { EFFECTS, CLICK_EFFECTS } from '../../data/effects/effectsData';
 import { CLICK_SOUND_OPTIONS } from '../../data/audio/clickSounds';
 import CollapsibleSection from '../shared/CollapsibleSection';
-import { MousePointer2, Volume2, Zap } from 'lucide-react';
+import { MousePointer2, Volume2, Zap, PenTool } from 'lucide-react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
 function EffectCard({
@@ -47,13 +47,15 @@ function EffectCard({
         checked={isSelected}
         aria-label={name}
       />
-      {emoji ? (
-        <span className='text-4xl leading-none'>{emoji}</span>
-      ) : (
-        <span className='text-lg leading-none text-(--secondary-color)'>-</span>
-      )}
-      {/* TEMP: hide effect names in cards */}
-      {/* <span className='text-center text-xs leading-tight'>{name}</span> */}
+      <span className='text-xl'>{emoji}</span>
+      <span
+        className={clsx(
+          'text-center text-xs font-semibold select-none',
+          isSelected ? 'text-(--background-color)' : 'text-(--main-color)',
+        )}
+      >
+        {name.toLowerCase()}
+      </span>
     </label>
   );
 }
@@ -111,6 +113,8 @@ type EffectsProps = {
 const Effects = ({ useNewIconDesign = false }: EffectsProps) => {
   const hasFinePointer = useHasFinePointer();
   const { playClick, playClickById } = useClick();
+  const customCursor = usePreferencesStore(s => s.customCursor);
+  const setCustomCursor = usePreferencesStore(s => s.setCustomCursor);
   const cursorTrailEffect = usePreferencesStore(s => s.cursorTrailEffect);
   const setCursorTrailEffect = usePreferencesStore(s => s.setCursorTrailEffect);
   const clickEffect = usePreferencesStore(s => s.clickEffect);
@@ -120,6 +124,51 @@ const Effects = ({ useNewIconDesign = false }: EffectsProps) => {
 
   return (
     <div className='flex flex-col gap-6'>
+      {hasFinePointer && (
+        <CollapsibleSection
+          title='Calligraphy Cursor'
+          icon={<PenTool size={18} />}
+          useNewIconDesign={useNewIconDesign}
+          level='subsection'
+          defaultOpen={true}
+          storageKey='prefs-effects-fude-cursor'
+        >
+          <div className='flex items-center justify-between rounded-2xl border border-(--border-color) bg-(--card-color)/40 p-4 transition-colors hover:border-(--main-color)/40'>
+            <div className='flex items-center gap-3.5'>
+              <div className='flex size-11 items-center justify-center rounded-xl border border-(--border-color) bg-(--card-color) shadow-xs'>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src='/cursors/fude-default.svg'
+                  alt='Bút lông thư pháp Fude'
+                  className='size-7 drop-shadow-xs select-none'
+                />
+              </div>
+              <div>
+                <p className='text-sm font-bold text-(--main-color)'>
+                  Bút lông thư pháp (Fude Brush)
+                </p>
+                <p className='text-xs text-(--secondary-color)/70'>
+                  Con trỏ chuột phong cách cọ thư pháp Nhật Bản truyền thống
+                  (chuyển mực đỏ son khi di vào nút bấm)
+                </p>
+              </div>
+            </div>
+            <label className='relative inline-flex cursor-pointer items-center'>
+              <input
+                type='checkbox'
+                checked={customCursor}
+                onChange={e => {
+                  setCustomCursor(e.target.checked);
+                  playClick();
+                }}
+                className='peer sr-only'
+              />
+              <div className="peer h-6 w-11 rounded-full border border-(--border-color) bg-(--card-color) peer-checked:border-(--main-color) peer-checked:bg-(--main-color) after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-(--background-color) after:transition-all after:content-[''] peer-checked:after:translate-x-full"></div>
+            </label>
+          </div>
+        </CollapsibleSection>
+      )}
+
       <CollapsibleSection
         title='Sound Effects'
         icon={<Volume2 size={18} />}
@@ -184,9 +233,9 @@ const Effects = ({ useNewIconDesign = false }: EffectsProps) => {
               name={effect.name}
               emoji={effect.emoji}
               isSelected={clickEffect === effect.id}
-                onSelect={() => setClickEffect(effect.id)}
-                onClick={() => playClick()}
-                group='click'
+              onSelect={() => setClickEffect(effect.id)}
+              onClick={() => playClick()}
+              group='click'
             />
           ))}
         </fieldset>
@@ -196,4 +245,3 @@ const Effects = ({ useNewIconDesign = false }: EffectsProps) => {
 };
 
 export default Effects;
-

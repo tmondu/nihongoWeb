@@ -11,6 +11,8 @@ import { useJapaneseTTS } from '@/features/Preferences/hooks/useJapaneseTTS';
 import { parseFuriganaSegments } from '@/shared/utils/furigana';
 import { Volume2 } from 'lucide-react';
 import { memo, useCallback, useState } from 'react';
+import useVocabStore from '@/features/Vocabulary/store/useVocabStore';
+import { useClick } from '@/shared/hooks/generic/useAudio';
 
 type SetDictionaryProps = {
   words: IWord[];
@@ -26,6 +28,8 @@ const SetDictionary = memo(function SetDictionary({
   const [activePronunciationText, setActivePronunciationText] = useState<
     string | null
   >(null);
+  const setActiveDetailWord = useVocabStore(state => state.setActiveDetailWord);
+  const { playClick } = useClick();
 
   const playReadingPronunciation = useCallback(
     async (reading: string) => {
@@ -91,14 +95,19 @@ const SetDictionary = memo(function SetDictionary({
           >
             {/* Word container with fixed height and bottom-alignment for consistent baseline */}
             <div className='flex h-[76px] w-full items-end justify-start'>
-              <a
-                href={`https://jisho.org/search/${encodeURIComponent(
-                  wordObj.word,
-                )}`}
-                target='_blank'
-                rel='noopener'
-                className='group inline-flex cursor-pointer items-end text-5xl leading-none font-black text-(--main-color) transition-opacity select-none md:text-6xl'
+              <button
+                type='button'
+                onClick={() => {
+                  playClick();
+                  setActiveDetailWord({
+                    word: wordObj.word,
+                    reading: wordObj.reading,
+                    meanings: wordObj.meanings,
+                  });
+                }}
+                className='group inline-flex cursor-pointer items-end text-left text-5xl leading-none font-black text-(--main-color) transition-opacity select-none hover:opacity-85 md:text-6xl'
                 lang='ja'
+                aria-label={`Xem chi tiết từ vựng ${wordObj.word}`}
               >
                 {segments.map((seg, idx) => {
                   if (seg.furigana) {
@@ -113,7 +122,7 @@ const SetDictionary = memo(function SetDictionary({
                   }
                   return <span key={idx}>{seg.text}</span>;
                 })}
-              </a>
+              </button>
             </div>
 
             <div className='flex w-full flex-col items-start gap-2'>

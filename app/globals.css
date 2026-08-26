@@ -21,6 +21,69 @@ body {
   user-select: text !important;
 }
 
+/* Custom Japanese Calligraphy Brush Cursors */
+:root[data-custom-cursor='true'],
+:root[data-custom-cursor='true'] body,
+:root:not([data-custom-cursor='false']),
+:root:not([data-custom-cursor='false']) body {
+  cursor:
+    url('/cursors/fude-default.svg') 2 2,
+    auto;
+}
+
+:root[data-custom-cursor='true'] a,
+:root[data-custom-cursor='true'] button,
+:root[data-custom-cursor='true'] [role='button'],
+:root[data-custom-cursor='true'] input[type='button'],
+:root[data-custom-cursor='true'] input[type='submit'],
+:root[data-custom-cursor='true'] input[type='reset'],
+:root[data-custom-cursor='true'] input[type='checkbox'],
+:root[data-custom-cursor='true'] input[type='radio'],
+:root[data-custom-cursor='true'] select,
+:root[data-custom-cursor='true'] summary,
+:root[data-custom-cursor='true'] .cursor-pointer,
+:root:not([data-custom-cursor='false']) a,
+:root:not([data-custom-cursor='false']) button,
+:root:not([data-custom-cursor='false']) [role='button'],
+:root:not([data-custom-cursor='false']) input[type='button'],
+:root:not([data-custom-cursor='false']) input[type='submit'],
+:root:not([data-custom-cursor='false']) input[type='reset'],
+:root:not([data-custom-cursor='false']) input[type='checkbox'],
+:root:not([data-custom-cursor='false']) input[type='radio'],
+:root:not([data-custom-cursor='false']) select,
+:root:not([data-custom-cursor='false']) summary,
+:root:not([data-custom-cursor='false']) .cursor-pointer {
+  cursor:
+    url('/cursors/fude-pointer.svg') 2 2,
+    pointer !important;
+}
+
+:root[data-custom-cursor='true'] input[type='text'],
+:root[data-custom-cursor='true'] input[type='search'],
+:root[data-custom-cursor='true'] input[type='password'],
+:root[data-custom-cursor='true'] input[type='email'],
+:root[data-custom-cursor='true'] input[type='number'],
+:root[data-custom-cursor='true'] textarea,
+:root:not([data-custom-cursor='false']) input[type='text'],
+:root:not([data-custom-cursor='false']) input[type='search'],
+:root:not([data-custom-cursor='false']) input[type='password'],
+:root:not([data-custom-cursor='false']) input[type='email'],
+:root:not([data-custom-cursor='false']) input[type='number'],
+:root:not([data-custom-cursor='false']) textarea {
+  cursor:
+    url('/cursors/fude-text.svg') 16 16,
+    text !important;
+}
+
+:root[data-custom-cursor='true'] button:disabled,
+:root[data-custom-cursor='true'] input:disabled,
+:root[data-custom-cursor='true'] [aria-disabled='true'],
+:root:not([data-custom-cursor='false']) button:disabled,
+:root:not([data-custom-cursor='false']) input:disabled,
+:root:not([data-custom-cursor='false']) [aria-disabled='true'] {
+  cursor: not-allowed !important;
+}
+
 input:focus,
 textarea:focus,
 select:focus,
