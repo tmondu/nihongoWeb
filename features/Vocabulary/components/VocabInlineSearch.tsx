@@ -467,8 +467,18 @@ export default function VocabInlineSearch() {
                       {/* Top Row: Word with Furigana + Level Badge & Selection */}
                       <div className='flex items-start justify-between gap-2'>
                         <div className='flex flex-col items-start'>
-                          {/* Word + Furigana */}
-                          <div className='flex items-end text-3xl font-black text-(--main-color) transition-transform group-hover:scale-[1.02]'>
+                          {/* Word + Furigana: Click to open detail popup */}
+                          <button
+                            type='button'
+                            onClick={e => {
+                              e.stopPropagation();
+                              playClick();
+                              setActiveDetailWord(wordObj);
+                            }}
+                            className='group/word inline-flex cursor-pointer items-end text-left text-3xl font-black text-(--main-color) transition-all select-none hover:scale-[1.02] hover:opacity-85'
+                            title='Bấm để xem chi tiết từ vựng'
+                            aria-label={`Xem chi tiết từ vựng ${wordObj.word}`}
+                          >
                             {segments.map((seg, idx) => (
                               <ruby key={idx} className='leading-none'>
                                 {seg.text}
@@ -479,7 +489,7 @@ export default function VocabInlineSearch() {
                                 )}
                               </ruby>
                             ))}
-                          </div>
+                          </button>
 
                           {/* Reading */}
                           <span className='mt-1 text-sm font-medium text-(--secondary-color)'>
