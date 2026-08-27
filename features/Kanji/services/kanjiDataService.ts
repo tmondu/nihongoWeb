@@ -41,7 +41,15 @@ export const kanjiDataService = {
 
     // Create new request and store the promise to prevent duplicate fetches
     pendingRequests[level] = fetch(`/api/kanji?level=${level}`)
-      .then(res => res.json() as Promise<RawKanjiEntry[]>)
+      .then(async res => {
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(
+            (err as { error?: string }).error ?? `HTTP ${res.status}`,
+          );
+        }
+        return res.json() as Promise<RawKanjiEntry[]>;
+      })
       .then(data => {
         const kanji = data.map(entry => ({ ...entry })) as IKanjiObj[];
         setCachedLevel(level, kanji);

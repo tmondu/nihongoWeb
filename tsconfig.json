@@ -41,6 +41,7 @@
   ],
   "exclude": [
     "node_modules",
+    ".next",
     "admin-app",
     "**/__tests__/**",
     "**/*.test.ts",
