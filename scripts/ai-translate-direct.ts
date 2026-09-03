@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 import mysql, { Pool } from 'mysql2/promise';
 
 dotenv.config();
+if (fs.existsSync(path.join(process.cwd(), '.env.local'))) {
+  dotenv.config({ path: path.join(process.cwd(), '.env.local') });
+}
 
 // Types
 interface KanjiEntry {
@@ -100,30 +103,47 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * Call Gemini API directly via HTTP
  */
+const GEMINI_MODELS = [
+  process.env.GEMINI_MODEL,
+  'gemini-3.5-flash-lite',
+  'gemini-3.5-flash',
+  'gemini-flash-lite-latest',
+  'gemini-3.1-flash-lite',
+].filter(Boolean) as string[];
+
+/**
+ * Call Gemini API directly via HTTP with model fallback
+ */
 async function callGemini(prompt: string): Promise<string> {
-  // Use gemini-1.5-flash or gemini-2.0-flash
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.2,
-        responseMimeType: 'application/json',
-      },
-    }),
-  });
+  let lastError = '';
+  for (const model of GEMINI_MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.2,
+            responseMimeType: 'application/json',
+          },
+        }),
+      });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Gemini API Error (${response.status}): ${errorText}`);
+      if (response.ok) {
+        const data = await response.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) return text;
+      } else {
+        const errorText = await response.text();
+        lastError = `[${model}] (${response.status}): ${errorText}`;
+      }
+    } catch (e: any) {
+      lastError = `[${model}]: ${e.message}`;
+    }
   }
-
-  const data = await response.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error('Không nhận được nội dung từ Gemini API');
-  return text;
+  throw new Error(`Gemini API Error: ${lastError}`);
 }
 
 /**
@@ -299,6 +319,7 @@ function getDb(): Pool {
       password: process.env.DB_PASSWORD || '',
       database: process.env.DB_NAME || 'nihongo_db',
       connectionLimit: 10,
+      multipleStatements: true,
     });
   }
   return dbPool;
@@ -572,16 +593,19 @@ Hoặc chạy lệnh kèm cờ:
     const conn = await pool.getConnection();
     try {
       await conn.beginTransaction();
-      let count = 0;
-      for (const query of sqlUpdates) {
-        await conn.execute(query);
-        count++;
-        if (count % 500 === 0) {
-          console.log(`Đã cập nhật ${count}/${sqlUpdates.length} dòng...`);
-        }
+      const CHUNK_SIZE = 100;
+      for (let i = 0; i < sqlUpdates.length; i += CHUNK_SIZE) {
+        const chunk = sqlUpdates.slice(i, i + CHUNK_SIZE);
+        await conn.query(chunk.join('\n'));
+        const current = Math.min(i + CHUNK_SIZE, sqlUpdates.length);
+        console.log(
+          `Đã cập nhật ${current}/${sqlUpdates.length} dòng vào DB...`,
+        );
       }
       await conn.commit();
-      console.log(`✓ Cập nhật MySQL Database thành công: ${count} dòng!`);
+      console.log(
+        `✓ Cập nhật MySQL Database thành công: ${sqlUpdates.length} dòng!`,
+      );
     } catch (dbErr: any) {
       await conn.rollback();
       console.error('Lỗi khi cập nhật MySQL:', dbErr.message);

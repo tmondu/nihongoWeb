@@ -5,6 +5,9 @@ import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 dotenv.config();
+if (fs.existsSync(path.join(process.cwd(), '.env.local'))) {
+  dotenv.config({ path: path.join(process.cwd(), '.env.local') });
+}
 
 const dbConfig = {
   host: process.env.DB_HOST || 'localhost',

@@ -39,8 +39,11 @@
     "build-storybook": "storybook build",
     "translate:hanviet": "tsx scripts/ai-translate-direct.ts --hanviet-only",
     "translate:test": "tsx scripts/ai-translate-direct.ts --test",
+    "translate:kanji": "tsx scripts/ai-translate-direct.ts --type=kanji",
+    "translate:vocab": "tsx scripts/ai-translate-direct.ts --type=vocab",
     "translate:n5": "tsx scripts/ai-translate-direct.ts --level=n5",
-    "translate:all": "tsx scripts/ai-translate-direct.ts"
+    "translate:all": "tsx scripts/ai-translate-direct.ts",
+    "db:apply-sql": "tsx scripts/apply-sql.ts"
   },
   "type": "module",
   "dependencies": {
