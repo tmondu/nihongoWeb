@@ -73,4 +73,24 @@ PThamSS is organized by feature: app/, features/, shared/, core/. Keep business 
 
 ---
 
-**Last Updated**: 2026-02-15
+---
+
+## Known Gotchas & Auto-fixes
+
+### 1. `tsc --noEmit` fails on `.next/dev/types/validator.ts` during pre-commit
+
+**Symptom**: `git commit` bị block với lỗi `TS1434 / TS1109 / TS1128` trong `.next/dev/types/`.
+
+**Root cause**: `tsconfig.json` thiếu `.next` trong `exclude` → lint-staged check vào file auto-generated của Next.js.
+
+**Fix**: Đảm bảo `tsconfig.json` có:
+
+```json
+"exclude": [".next", "node_modules", ...]
+```
+
+> Auto-fix: Nếu gặp lỗi này, thêm `".next"` vào `exclude` trong `tsconfig.json` ngay lập tức mà không cần hỏi.
+
+---
+
+**Last Updated**: 2026-08-27

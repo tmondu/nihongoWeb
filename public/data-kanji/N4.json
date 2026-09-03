@@ -4,28 +4,32 @@
     "kanjiChar": "会",
     "onyomi": ["kai カイ"],
     "kunyomi": ["a(u) あ(う)"],
-    "meanings": ["cuộc họp", "gặp gỡ", "gặp gỡ"]
+    "meanings": ["cuộc họp", "gặp gỡ", "gặp gỡ"],
+    "hanviet": "HỘI, CỐI"
   },
   {
     "id": 2,
     "kanjiChar": "同",
     "onyomi": ["dou ドウ"],
     "kunyomi": ["ona(ji) おな(じ)"],
-    "meanings": ["giống nhau", "đồng ý", "bằng nhau"]
+    "meanings": ["giống nhau", "đồng ý", "bằng nhau"],
+    "hanviet": "ĐỒNG"
   },
   {
     "id": 3,
     "kanjiChar": "事",
     "onyomi": ["ji ジ"],
     "kunyomi": ["koto こと"],
-    "meanings": ["vấn đề", "điều", "sự thật", "kinh doanh", "lý do", "có thể"]
+    "meanings": ["vấn đề", "điều", "sự thật", "kinh doanh", "lý do", "có thể"],
+    "hanviet": "SỰ"
   },
   {
     "id": 4,
     "kanjiChar": "自",
     "onyomi": ["ji ジ", "shi シ"],
     "kunyomi": ["mizuka(ra) みずか(ら)"],
-    "meanings": ["chính mình"]
+    "meanings": ["chính mình"],
+    "hanviet": "TỰ"
   },
   {
     "id": 5,
@@ -39,84 +43,96 @@
       "hiệp hội",
       "điện thờ",
       "tập đoàn"
-    ]
+    ],
+    "hanviet": "XÃ"
   },
   {
     "id": 6,
     "kanjiChar": "発",
     "onyomi": ["hatsu ハツ", "hotsu ホツ"],
     "kunyomi": [""],
-    "meanings": ["khởi hành", "xả", "phát ra", "bắt đầu từ"]
+    "meanings": ["khởi hành", "xả", "phát ra", "bắt đầu từ"],
+    "hanviet": "PHÁT"
   },
   {
     "id": 7,
     "kanjiChar": "者",
     "onyomi": ["sha シャ"],
     "kunyomi": ["mono もの"],
-    "meanings": ["ai đó", "người"]
+    "meanings": ["ai đó", "người"],
+    "hanviet": "GIẢ"
   },
   {
     "id": 8,
     "kanjiChar": "地",
     "onyomi": ["chi チ", "ji ジ"],
     "kunyomi": [""],
-    "meanings": ["mặt đất", "trái đất"]
+    "meanings": ["mặt đất", "trái đất"],
+    "hanviet": "ĐỊA"
   },
   {
     "id": 9,
     "kanjiChar": "業",
     "onyomi": ["gyou ギョウ"],
     "kunyomi": ["waza わざ"],
-    "meanings": ["kinh doanh", "ơn gọi", "nghệ thuật", "hiệu suất"]
+    "meanings": ["kinh doanh", "ơn gọi", "nghệ thuật", "hiệu suất"],
+    "hanviet": "NGHIỆP"
   },
   {
     "id": 10,
     "kanjiChar": "方",
     "onyomi": ["hou ホウ"],
     "kunyomi": ["kata かた"],
-    "meanings": ["phương hướng", "người", "thay thế"]
+    "meanings": ["phương hướng", "người", "thay thế"],
+    "hanviet": "PHƯƠNG, BÀNG"
   },
   {
     "id": 11,
     "kanjiChar": "新",
     "onyomi": ["shin シン"],
     "kunyomi": ["atara(shii) あたら(しい)", "ara(ta) あら(た)"],
-    "meanings": ["mới"]
+    "meanings": ["mới"],
+    "hanviet": "TÂN"
   },
   {
     "id": 12,
     "kanjiChar": "場",
     "onyomi": ["jou ジョウ"],
     "kunyomi": ["ba ば"],
-    "meanings": ["vị trí", "địa điểm"]
+    "meanings": ["vị trí", "địa điểm"],
+    "hanviet": "TRƯỜNG"
   },
   {
     "id": 13,
     "kanjiChar": "員",
     "onyomi": ["in イン"],
     "kunyomi": [""],
-    "meanings": ["nhân viên", "thành viên", "con số", "người phụ trách"]
+    "meanings": ["nhân viên", "thành viên", "con số", "người phụ trách"],
+    "hanviet": "VIÊN"
   },
   {
     "id": 14,
     "kanjiChar": "立",
     "onyomi": ["ritsu リツ"],
     "kunyomi": ["ta(tsu) た(つ)"],
-    "meanings": ["đứng lên", "tăng lên"]
+    "meanings": ["đứng lên", "tăng lên"],
+    "hanviet": "LẬP"
   },
   {
     "id": 15,
     "kanjiChar": "開",
     "onyomi": ["kai カイ"],
     "kunyomi": ["hira(ku) ひら(く)", "a(keru) あ(ける)"],
-    "meanings": ["mở", "mở ra", "mở niêm phong"]
+    "meanings": ["mở", "mở ra", "mở niêm phong"],
+    "hanviet": "KHAI"
   },
   {
     "id": 16,
     "kanjiChar": "手",
     "onyomi": ["shu シュ"],
     "kunyomi": ["te て"],
-    "meanings": ["tay"]
+    "meanings": ["tay"],
+    "hanviet": "THỦ"
   },
   {
     "id": 17,
@@ -130,84 +146,103 @@
       "căng thẳng",
       "chịu đựng",
       "gắng sức"
-    ]
+    ],
+    "hanviet": "LỰC"
   },
   {
     "id": 18,
     "kanjiChar": "問",
     "onyomi": ["mon モン"],
     "kunyomi": ["to(u) と(う)"],
-    "meanings": ["câu hỏi", "hỏi", "hỏi", "vấn đề"]
+    "meanings": ["câu hỏi", "hỏi", "hỏi", "vấn đề"],
+    "hanviet": "VẤN"
   },
   {
     "id": 19,
     "kanjiChar": "代",
     "onyomi": ["dai ダイ"],
     "kunyomi": ["ka(wari) か(わり)"],
-    "meanings": ["thay thế", "thay đổi", "chuyển đổi", "thay thế", "thời kỳ"]
+    "meanings": ["thay thế", "thay đổi", "chuyển đổi", "thay thế", "thời kỳ"],
+    "hanviet": "ĐẠI"
   },
   {
     "id": 20,
     "kanjiChar": "明",
     "onyomi": ["mei メイ", "myou ミョウ"],
     "kunyomi": ["aka(rui) あか(るい)"],
-    "meanings": ["tươi sáng", "ánh sáng"]
+    "meanings": ["tươi sáng", "ánh sáng"],
+    "hanviet": "MINH"
   },
   {
     "id": 21,
     "kanjiChar": "動",
     "onyomi": ["dou ドウ"],
     "kunyomi": ["ugo(ku) うご(く)"],
-    "meanings": ["di chuyển", "chuyển động", "thay đổi"]
+    "meanings": ["di chuyển", "chuyển động", "thay đổi"],
+    "hanviet": "ĐỘNG"
   },
   {
     "id": 22,
     "kanjiChar": "京",
     "onyomi": ["kyou キョウ", "kei ケイ", "kin キン"],
     "kunyomi": ["miyako みやこ"],
-    "meanings": ["vốn", "thủ đô"]
+    "meanings": ["vốn", "thủ đô"],
+    "hanviet": "KINH"
   },
   {
     "id": 23,
     "kanjiChar": "目",
     "onyomi": ["moku モク", "boku ボク"],
     "kunyomi": ["me め"],
-    "meanings": ["mắt", "lớp học", "nhìn", "cái nhìn sâu sắc", "kinh nghiệm"]
+    "meanings": ["mắt", "lớp học", "nhìn", "cái nhìn sâu sắc", "kinh nghiệm"],
+    "hanviet": "MỤC"
   },
   {
     "id": 24,
     "kanjiChar": "通",
     "onyomi": ["tsuu ツウ"],
     "kunyomi": ["too(ru) とお(る)", "kayo(u) かよ(う)"],
-    "meanings": ["giao thông", "đi qua", "đi qua", "đại lộ", "đi lại", "đi lại"]
+    "meanings": [
+      "giao thông",
+      "đi qua",
+      "đi qua",
+      "đại lộ",
+      "đi lại",
+      "đi lại"
+    ],
+    "hanviet": "THÔNG"
   },
   {
     "id": 25,
     "kanjiChar": "言",
     "onyomi": ["gen ゲン", "gon ゴン"],
     "kunyomi": ["i(u) い(う)", "koto こと"],
-    "meanings": ["nói", "để nói", "từ"]
+    "meanings": ["nói", "để nói", "từ"],
+    "hanviet": "NGÔN, NGÂN"
   },
   {
     "id": 26,
     "kanjiChar": "理",
     "onyomi": ["ri リ", "rui ルイ"],
     "kunyomi": [""],
-    "meanings": ["logic", "sự sắp xếp", "lý do", "công lý", "sự thật"]
+    "meanings": ["logic", "sự sắp xếp", "lý do", "công lý", "sự thật"],
+    "hanviet": "LÝ"
   },
   {
     "id": 27,
     "kanjiChar": "体",
     "onyomi": ["tai タイ"],
     "kunyomi": ["karada からだ"],
-    "meanings": ["cơ thể", "chất", "vật thể", "thực tế"]
+    "meanings": ["cơ thể", "chất", "vật thể", "thực tế"],
+    "hanviet": "THỂ, BỔN"
   },
   {
     "id": 28,
     "kanjiChar": "田",
     "onyomi": ["den デン"],
     "kunyomi": ["ta た"],
-    "meanings": ["ruộng lúa", "ruộng lúa"]
+    "meanings": ["ruộng lúa", "ruộng lúa"],
+    "hanviet": "ĐIỀN"
   },
   {
     "id": 29,
@@ -220,35 +255,40 @@
       "bậc thầy",
       "điều chính",
       "hiệu trưởng"
-    ]
+    ],
+    "hanviet": "CHỦ, CHÚA"
   },
   {
     "id": 30,
     "kanjiChar": "題",
     "onyomi": ["dai ダイ"],
     "kunyomi": [""],
-    "meanings": ["chủ đề", "chủ đề"]
+    "meanings": ["chủ đề", "chủ đề"],
+    "hanviet": "ĐỀ"
   },
   {
     "id": 31,
     "kanjiChar": "意",
     "onyomi": ["i イ"],
     "kunyomi": [""],
-    "meanings": ["ý tưởng", "tâm trí", "trái tim", "hương vị", "suy nghĩ"]
+    "meanings": ["ý tưởng", "tâm trí", "trái tim", "hương vị", "suy nghĩ"],
+    "hanviet": "Ý"
   },
   {
     "id": 32,
     "kanjiChar": "不",
     "onyomi": ["fu フ", "bu ブ"],
     "kunyomi": [""],
-    "meanings": ["tiêu cực", "không-", "tệ", "không"]
+    "meanings": ["tiêu cực", "không-", "tệ", "không"],
+    "hanviet": "BẤT"
   },
   {
     "id": 33,
     "kanjiChar": "作",
     "onyomi": ["saku サク", "sa サ"],
     "kunyomi": ["tsuku(ru) つく(る)"],
-    "meanings": ["làm", "sản xuất", "chuẩn bị", "xây dựng", "làm", "chuẩn bị"]
+    "meanings": ["làm", "sản xuất", "chuẩn bị", "xây dựng", "làm", "chuẩn bị"],
+    "hanviet": "TÁC"
   },
   {
     "id": 34,
@@ -264,182 +304,208 @@
       "sử dụng",
       "sử dụng",
       "tuyển dụng"
-    ]
+    ],
+    "hanviet": "DỤNG"
   },
   {
     "id": 35,
     "kanjiChar": "度",
     "onyomi": ["do ド", "taku タク"],
     "kunyomi": ["tabi たび", "ta(i) た(い)"],
-    "meanings": ["độ", "sự xuất hiện", "thời gian", "bộ đếm sự xuất hiện"]
+    "meanings": ["độ", "sự xuất hiện", "thời gian", "bộ đếm sự xuất hiện"],
+    "hanviet": "ĐỘ"
   },
   {
     "id": 36,
     "kanjiChar": "強",
     "onyomi": ["kyou キョウ", "gou ゴウ"],
     "kunyomi": ["tsuyo(i) つよ(い)"],
-    "meanings": ["mạnh mẽ"]
+    "meanings": ["mạnh mẽ"],
+    "hanviet": "CƯỜNG"
   },
   {
     "id": 37,
     "kanjiChar": "公",
     "onyomi": ["kou (コウ)"],
     "kunyomi": [""],
-    "meanings": ["công cộng", "hoàng tử", "chính thức", "chính phủ"]
+    "meanings": ["công cộng", "hoàng tử", "chính thức", "chính phủ"],
+    "hanviet": "CÔNG"
   },
   {
     "id": 38,
     "kanjiChar": "持",
     "onyomi": ["ji (ジ)"],
     "kunyomi": ["mo(tsu) も(つ)"],
-    "meanings": ["giữ", "có"]
+    "meanings": ["giữ", "có"],
+    "hanviet": "TRÌ"
   },
   {
     "id": 39,
     "kanjiChar": "野",
     "onyomi": ["ya ヤ"],
     "kunyomi": ["no の"],
-    "meanings": ["đồng bằng", "lĩnh vực", "mộc mạc", "đời sống dân sự"]
+    "meanings": ["đồng bằng", "lĩnh vực", "mộc mạc", "đời sống dân sự"],
+    "hanviet": "DÃ"
   },
   {
     "id": 40,
     "kanjiChar": "以",
     "onyomi": ["i イ"],
     "kunyomi": ["mo(tte) もっ(て)"],
-    "meanings": ["bằng cách", "bởi vì", "theo quan điểm của", "so với"]
+    "meanings": ["bằng cách", "bởi vì", "theo quan điểm của", "so với"],
+    "hanviet": "DĨ"
   },
   {
     "id": 41,
     "kanjiChar": "思",
     "onyomi": ["shi シ"],
     "kunyomi": ["omo(u) おも(う)"],
-    "meanings": ["nghĩ", "suy nghĩ"]
+    "meanings": ["nghĩ", "suy nghĩ"],
+    "hanviet": "TƯ"
   },
   {
     "id": 42,
     "kanjiChar": "家",
     "onyomi": ["ka カ"],
     "kunyomi": ["ie いえ", "ya や", "uchi うち"],
-    "meanings": ["nhà ở", "nhà", "gia đình", "chuyên nghiệp", "chuyên gia"]
+    "meanings": ["nhà ở", "nhà", "gia đình", "chuyên nghiệp", "chuyên gia"],
+    "hanviet": "GIA, CÔ"
   },
   {
     "id": 43,
     "kanjiChar": "世",
     "onyomi": ["sei セイ", "se セ"],
     "kunyomi": ["yo よ"],
-    "meanings": ["thế hệ", "thế giới", "xã hội", "công cộng"]
+    "meanings": ["thế hệ", "thế giới", "xã hội", "công cộng"],
+    "hanviet": "THẾ"
   },
   {
     "id": 44,
     "kanjiChar": "多",
     "onyomi": ["ta タ"],
     "kunyomi": ["oo(i) おお(い)"],
-    "meanings": ["nhiều", "thường xuyên", "nhiều"]
+    "meanings": ["nhiều", "thường xuyên", "nhiều"],
+    "hanviet": "ĐA"
   },
   {
     "id": 45,
     "kanjiChar": "正",
     "onyomi": ["sei セイ", "shou ショウ"],
     "kunyomi": ["tada(shii) ただ(しい)", "masa(ni) まさ(に)"],
-    "meanings": ["đúng", "công lý", "chính đáng"]
+    "meanings": ["đúng", "công lý", "chính đáng"],
+    "hanviet": "CHÍNH, CHÁNH"
   },
   {
     "id": 46,
     "kanjiChar": "安",
     "onyomi": ["an アン"],
     "kunyomi": ["yasu(i) やす(い)"],
-    "meanings": ["an toàn", "yên bình", "giá rẻ"]
+    "meanings": ["an toàn", "yên bình", "giá rẻ"],
+    "hanviet": "AN, YÊN"
   },
   {
     "id": 47,
     "kanjiChar": "院",
     "onyomi": ["in イン"],
     "kunyomi": [""],
-    "meanings": ["cơ quan", "ngôi đền", "biệt thự", "trường học"]
+    "meanings": ["cơ quan", "ngôi đền", "biệt thự", "trường học"],
+    "hanviet": "VIỆN"
   },
   {
     "id": 48,
     "kanjiChar": "心",
     "onyomi": ["shin シン"],
     "kunyomi": ["kokoro こころ"],
-    "meanings": ["trái tim", "tâm trí", "tinh thần"]
+    "meanings": ["trái tim", "tâm trí", "tinh thần"],
+    "hanviet": "TÂM"
   },
   {
     "id": 49,
     "kanjiChar": "界",
     "onyomi": ["kai カイ"],
     "kunyomi": [""],
-    "meanings": ["thế giới", "ranh giới"]
+    "meanings": ["thế giới", "ranh giới"],
+    "hanviet": "GIỚI"
   },
   {
     "id": 50,
     "kanjiChar": "教",
     "onyomi": ["kyou キョウ"],
     "kunyomi": ["oshi(eru) おし(える)", "oso(waru) おそ(わる)"],
-    "meanings": ["dạy", "dạy", "đức tin", "học thuyết"]
+    "meanings": ["dạy", "dạy", "đức tin", "học thuyết"],
+    "hanviet": "GIÁO, GIAO"
   },
   {
     "id": 51,
     "kanjiChar": "文",
     "onyomi": ["bun ブン", "mon モン"],
     "kunyomi": ["fumi ふみ"],
-    "meanings": ["câu", "văn học", "phong cách", "nghệ thuật"]
+    "meanings": ["câu", "văn học", "phong cách", "nghệ thuật"],
+    "hanviet": "VĂN, VẤN"
   },
   {
     "id": 52,
     "kanjiChar": "元",
     "onyomi": ["gen ゲン", "gan ガン"],
     "kunyomi": ["moto もと"],
-    "meanings": ["sự khởi đầu", "thời xưa", "nguồn gốc"]
+    "meanings": ["sự khởi đầu", "thời xưa", "nguồn gốc"],
+    "hanviet": "NGUYÊN"
   },
   {
     "id": 53,
     "kanjiChar": "重",
     "onyomi": ["juu ジュウ", "chou チョウ"],
     "kunyomi": ["omo(i) おも(い)", "kasa(neru) かさ(ねる)"],
-    "meanings": ["nặng nề", "quan trọng", "quý trọng", "tôn trọng"]
+    "meanings": ["nặng nề", "quan trọng", "quý trọng", "tôn trọng"],
+    "hanviet": "TRỌNG, TRÙNG"
   },
   {
     "id": 54,
     "kanjiChar": "近",
     "onyomi": ["kin キン"],
     "kunyomi": ["chika(i) ちか(い)"],
-    "meanings": ["gần", "sớm", "giống", "tương đương"]
+    "meanings": ["gần", "sớm", "giống", "tương đương"],
+    "hanviet": "CẬN"
   },
   {
     "id": 55,
     "kanjiChar": "考",
     "onyomi": ["kou コウ"],
     "kunyomi": ["kanga(eru) かんが(える)"],
-    "meanings": ["xem xét", "suy nghĩ lại", "để xem xét", "suy nghĩ lại"]
+    "meanings": ["xem xét", "suy nghĩ lại", "để xem xét", "suy nghĩ lại"],
+    "hanviet": "KHẢO"
   },
   {
     "id": 56,
     "kanjiChar": "画",
     "onyomi": ["ga ガ", "kaku カク"],
     "kunyomi": ["kaku(suru) かく(する)"],
-    "meanings": ["nét vẽ", "bức tranh", "nét cọ"]
+    "meanings": ["nét vẽ", "bức tranh", "nét cọ"],
+    "hanviet": "HỌA, HOẠCH"
   },
   {
     "id": 57,
     "kanjiChar": "海",
     "onyomi": ["kai カイ"],
     "kunyomi": ["umi うみ"],
-    "meanings": ["biển", "đại dương"]
+    "meanings": ["biển", "đại dương"],
+    "hanviet": "HẢI"
   },
   {
     "id": 58,
     "kanjiChar": "売",
     "onyomi": ["bai バイ"],
     "kunyomi": ["u(ru) う(る)"],
-    "meanings": ["bán", "bán"]
+    "meanings": ["bán", "bán"],
+    "hanviet": "MẠI"
   },
   {
     "id": 59,
     "kanjiChar": "知",
     "onyomi": ["chi チ"],
     "kunyomi": ["shi(ru) し(る)"],
-    "meanings": ["biết", "trí tuệ", "để biết"]
+    "meanings": ["biết", "trí tuệ", "để biết"],
+    "hanviet": "TRI"
   },
   {
     "id": 60,
@@ -453,14 +519,16 @@
       "cuộc hành trình",
       "khóa học",
       "đường"
-    ]
+    ],
+    "hanviet": "ĐẠO"
   },
   {
     "id": 61,
     "kanjiChar": "集",
     "onyomi": ["shuu シュウ"],
     "kunyomi": ["atsu(meru) あつ(める)"],
-    "meanings": ["tập hợp", "gặp gỡ", "tập hợp", "gặp gỡ"]
+    "meanings": ["tập hợp", "gặp gỡ", "tập hợp", "gặp gỡ"],
+    "hanviet": "TẬP"
   },
   {
     "id": 62,
@@ -474,98 +542,112 @@
       "để tách",
       "rẽ nhánh",
       "phân kỳ"
-    ]
+    ],
+    "hanviet": "BIỆT"
   },
   {
     "id": 63,
     "kanjiChar": "物",
     "onyomi": ["butsu ブツ", "motsu モツ"],
     "kunyomi": ["mono もの"],
-    "meanings": ["điều", "vật thể", "vấn đề"]
+    "meanings": ["điều", "vật thể", "vấn đề"],
+    "hanviet": "VẬT"
   },
   {
     "id": 64,
     "kanjiChar": "使",
     "onyomi": ["shi シ"],
     "kunyomi": ["tsuka(u) つか(う)"],
-    "meanings": ["sử dụng", "đặt hàng", "sứ giả", "đại sứ"]
+    "meanings": ["sử dụng", "đặt hàng", "sứ giả", "đại sứ"],
+    "hanviet": "SỬ, SỨ"
   },
   {
     "id": 65,
     "kanjiChar": "品",
     "onyomi": ["hin ヒン"],
     "kunyomi": ["shina しな"],
-    "meanings": ["hàng hóa", "sàng lọc", "phẩm giá", "bài viết"]
+    "meanings": ["hàng hóa", "sàng lọc", "phẩm giá", "bài viết"],
+    "hanviet": "PHẨM"
   },
   {
     "id": 66,
     "kanjiChar": "計",
     "onyomi": ["kei ケイ"],
     "kunyomi": ["haka(ru) はか(る)"],
-    "meanings": ["âm mưu", "kế hoạch", "kế hoạch", "đo lường"]
+    "meanings": ["âm mưu", "kế hoạch", "kế hoạch", "đo lường"],
+    "hanviet": "KẾ"
   },
   {
     "id": 67,
     "kanjiChar": "死",
     "onyomi": ["shi シ"],
     "kunyomi": ["shi(nu) し(ぬ)"],
-    "meanings": ["cái chết", "chết", "chết"]
+    "meanings": ["cái chết", "chết", "chết"],
+    "hanviet": "TỬ"
   },
   {
     "id": 68,
     "kanjiChar": "特",
     "onyomi": ["toku トク"],
     "kunyomi": [""],
-    "meanings": ["đặc biệt"]
+    "meanings": ["đặc biệt"],
+    "hanviet": "ĐẶC"
   },
   {
     "id": 69,
     "kanjiChar": "私",
     "onyomi": ["shi シ"],
     "kunyomi": ["watakushi わたくし", "watashi わたし"],
-    "meanings": ["riêng tư", "tôi", "tôi"]
+    "meanings": ["riêng tư", "tôi", "tôi"],
+    "hanviet": "TƯ"
   },
   {
     "id": 70,
     "kanjiChar": "始",
     "onyomi": ["shi シ"],
     "kunyomi": ["haji(meru) はじ(める)"],
-    "meanings": ["bắt đầu", "bắt đầu", "bắt đầu", "bắt đầu"]
+    "meanings": ["bắt đầu", "bắt đầu", "bắt đầu", "bắt đầu"],
+    "hanviet": "THỦY"
   },
   {
     "id": 71,
     "kanjiChar": "朝",
     "onyomi": ["chou チョウ"],
     "kunyomi": ["asa あさ"],
-    "meanings": ["buổi sáng"]
+    "meanings": ["buổi sáng"],
+    "hanviet": "TRIỀU, TRIÊU"
   },
   {
     "id": 72,
     "kanjiChar": "運",
     "onyomi": ["un ウン"],
     "kunyomi": ["hako(bu) はこ(ぶ)"],
-    "meanings": ["mang theo", "may mắn", "định mệnh", "số phận", "vận chuyển"]
+    "meanings": ["mang theo", "may mắn", "định mệnh", "số phận", "vận chuyển"],
+    "hanviet": "VẬN"
   },
   {
     "id": 73,
     "kanjiChar": "終",
     "onyomi": ["shuu シュウ"],
     "kunyomi": ["o(waru) お(わる)"],
-    "meanings": ["kết thúc", "kết thúc", "kết thúc", "để kết thúc"]
+    "meanings": ["kết thúc", "kết thúc", "kết thúc", "để kết thúc"],
+    "hanviet": "CHUNG"
   },
   {
     "id": 74,
     "kanjiChar": "台",
     "onyomi": ["dai ダイ", "tai タイ"],
     "kunyomi": ["utena うてな"],
-    "meanings": ["bệ đỡ", "đứng", "một giá đỡ", "quầy cho máy móc và xe cộ"]
+    "meanings": ["bệ đỡ", "đứng", "một giá đỡ", "quầy cho máy móc và xe cộ"],
+    "hanviet": "ĐÀI"
   },
   {
     "id": 75,
     "kanjiChar": "広",
     "onyomi": ["kou コウ"],
     "kunyomi": ["hiro(i) ひろ(い)"],
-    "meanings": ["rộng", "rộng rãi", "rộng rãi"]
+    "meanings": ["rộng", "rộng rãi", "rộng rãi"],
+    "hanviet": "QUẢNG"
   },
   {
     "id": 76,
@@ -581,7 +663,8 @@
       "cư trú",
       "sống",
       "sinh sống"
-    ]
+    ],
+    "hanviet": "TRÚ, TRỤ"
   },
   {
     "id": 77,
@@ -597,14 +680,16 @@
       "không",
       "không",
       "không"
-    ]
+    ],
+    "hanviet": "VÔ, MÔ"
   },
   {
     "id": 78,
     "kanjiChar": "真",
     "onyomi": ["shin シン"],
     "kunyomi": ["ma (ま)", "makoto まこと"],
-    "meanings": ["đúng", "thực tế", "giáo phái Phật giáo"]
+    "meanings": ["đúng", "thực tế", "giáo phái Phật giáo"],
+    "hanviet": "CHÂN"
   },
   {
     "id": 79,
@@ -620,49 +705,56 @@
       "có",
       "tồn tại",
       "xảy ra"
-    ]
+    ],
+    "hanviet": "HỮU, HỰU, DỰU"
   },
   {
     "id": 80,
     "kanjiChar": "口",
     "onyomi": ["kou コウ"],
     "kunyomi": ["kuchi くち"],
-    "meanings": ["miệng"]
+    "meanings": ["miệng"],
+    "hanviet": "KHẨU"
   },
   {
     "id": 81,
     "kanjiChar": "少",
     "onyomi": ["shou ショウ"],
     "kunyomi": ["suku(nai) すく(ない)", "suko(shi) すこ(し)"],
-    "meanings": ["ít", "ít"]
+    "meanings": ["ít", "ít"],
+    "hanviet": "THIỂU, THIẾU"
   },
   {
     "id": 82,
     "kanjiChar": "町",
     "onyomi": ["chou チョウ"],
     "kunyomi": ["machi まち"],
-    "meanings": ["thị trấn", "làng", "chặn", "đường phố"]
+    "meanings": ["thị trấn", "làng", "chặn", "đường phố"],
+    "hanviet": "ĐINH"
   },
   {
     "id": 83,
     "kanjiChar": "料",
     "onyomi": ["ryou リョウ"],
     "kunyomi": [""],
-    "meanings": ["lệ phí", "vật liệu"]
+    "meanings": ["lệ phí", "vật liệu"],
+    "hanviet": "LIỆU"
   },
   {
     "id": 84,
     "kanjiChar": "工",
     "onyomi": ["kou コウ", "ku ク", "gu グ"],
     "kunyomi": [""],
-    "meanings": ["thủ công", "xây dựng"]
+    "meanings": ["thủ công", "xây dựng"],
+    "hanviet": "CÔNG"
   },
   {
     "id": 85,
     "kanjiChar": "建",
     "onyomi": ["ken ケン", "kon コン"],
     "kunyomi": ["ta(teru) た(てる)"],
-    "meanings": ["xây dựng"]
+    "meanings": ["xây dựng"],
+    "hanviet": "KIẾN"
   },
   {
     "id": 86,
@@ -681,14 +773,16 @@
       "trống rỗng",
       "bỏ trống",
       "chân không"
-    ]
+    ],
+    "hanviet": "KHÔNG"
   },
   {
     "id": 87,
     "kanjiChar": "急",
     "onyomi": ["kyuu キュウ"],
     "kunyomi": ["iso(gu) いそ(ぐ)"],
-    "meanings": ["nhanh lên", "trường hợp khẩn cấp", "đột ngột", "dốc"]
+    "meanings": ["nhanh lên", "trường hợp khẩn cấp", "đột ngột", "dốc"],
+    "hanviet": "CẤP"
   },
   {
     "id": 88,
@@ -700,21 +794,24 @@
       "ya(meru) や(める)",
       "yo(su) よ(す)"
     ],
-    "meanings": ["dừng lại", "dừng lại"]
+    "meanings": ["dừng lại", "dừng lại"],
+    "hanviet": "CHỈ, CHI"
   },
   {
     "id": 89,
     "kanjiChar": "送",
     "onyomi": ["sou ソウ"],
     "kunyomi": ["oku(ru) おく(る)"],
-    "meanings": ["hộ tống", "gửi", "hộ tống", "gửi"]
+    "meanings": ["hộ tống", "gửi", "hộ tống", "gửi"],
+    "hanviet": "TỐNG"
   },
   {
     "id": 90,
     "kanjiChar": "切",
     "onyomi": ["setsu セツ", "sai サイ"],
     "kunyomi": ["ki(ru) き(る)"],
-    "meanings": ["cắt", "sự cắt đứt", "hãy sắc bén", "cắt", "trở nên sắc nét"]
+    "meanings": ["cắt", "sự cắt đứt", "hãy sắc bén", "cắt", "trở nên sắc nét"],
+    "hanviet": "THIẾT"
   },
   {
     "id": 91,
@@ -728,7 +825,8 @@
       "xoay vòng",
       "quay lại",
       "thay đổi"
-    ]
+    ],
+    "hanviet": "CHUYỂN"
   },
   {
     "id": 92,
@@ -741,28 +839,32 @@
       "làm sắc nét",
       "đánh bóng",
       "làm sắc nét"
-    ]
+    ],
+    "hanviet": "NGHIÊN"
   },
   {
     "id": 93,
     "kanjiChar": "足",
     "onyomi": ["soku ソク"],
     "kunyomi": ["ashi あし", "ta(riru) た(りる)"],
-    "meanings": ["chân", "chân", "đủ", "đủ"]
+    "meanings": ["chân", "chân", "đủ", "đủ"],
+    "hanviet": "TÚC"
   },
   {
     "id": 94,
     "kanjiChar": "究",
     "onyomi": ["kyuu キュウ"],
     "kunyomi": [""],
-    "meanings": ["nghiên cứu", "học tập"]
+    "meanings": ["nghiên cứu", "học tập"],
+    "hanviet": "CỨU"
   },
   {
     "id": 95,
     "kanjiChar": "楽",
     "onyomi": ["gaku ガク", "raku ラク"],
     "kunyomi": ["tano(shii) たの(しい)"],
-    "meanings": ["âm nhạc", "sự thoải mái", "dễ dàng"]
+    "meanings": ["âm nhạc", "sự thoải mái", "dễ dàng"],
+    "hanviet": "LẠC, NHẠC"
   },
   {
     "id": 96,
@@ -776,7 +878,8 @@
       "thức dậy",
       "đứng dậy",
       "đánh thức"
-    ]
+    ],
+    "hanviet": "KHỞI"
   },
   {
     "id": 97,
@@ -790,35 +893,40 @@
       "đến",
       "mặc",
       "phù hợp với quần áo"
-    ]
+    ],
+    "hanviet": "TRƯỚC"
   },
   {
     "id": 98,
     "kanjiChar": "店",
     "onyomi": ["ten テン"],
     "kunyomi": ["mise みせ"],
-    "meanings": ["cửa hàng", "cửa tiệm"]
+    "meanings": ["cửa hàng", "cửa tiệm"],
+    "hanviet": "ĐIẾM"
   },
   {
     "id": 99,
     "kanjiChar": "病",
     "onyomi": ["byou ビョウ"],
     "kunyomi": ["ya(mu) や(む)"],
-    "meanings": ["bị bệnh", "bị bệnh"]
+    "meanings": ["bị bệnh", "bị bệnh"],
+    "hanviet": "BỆNH"
   },
   {
     "id": 100,
     "kanjiChar": "質",
     "onyomi": ["shitsu シツ", "shichi シチ"],
     "kunyomi": ["tachi たち", "tada(su) ただ(す)"],
-    "meanings": ["chất", "chất lượng", "vấn đề", "tính khí"]
+    "meanings": ["chất", "chất lượng", "vấn đề", "tính khí"],
+    "hanviet": "CHẤT"
   },
   {
     "id": 101,
     "kanjiChar": "待",
     "onyomi": ["tai タイ"],
     "kunyomi": ["ma(tsu) ま(つ)"],
-    "meanings": ["chờ đã", "phụ thuộc vào"]
+    "meanings": ["chờ đã", "phụ thuộc vào"],
+    "hanviet": "ĐÃI"
   },
   {
     "id": 102,
@@ -834,70 +942,80 @@
       "để thử",
       "cố gắng",
       "để thử nghiệm"
-    ]
+    ],
+    "hanviet": "THÍ"
   },
   {
     "id": 103,
     "kanjiChar": "族",
     "onyomi": ["zoku ゾク"],
     "kunyomi": [""],
-    "meanings": ["bộ lạc", "gia đình"]
+    "meanings": ["bộ lạc", "gia đình"],
+    "hanviet": "TỘC"
   },
   {
     "id": 104,
     "kanjiChar": "銀",
     "onyomi": ["gin ギン"],
     "kunyomi": [""],
-    "meanings": ["bạc"]
+    "meanings": ["bạc"],
+    "hanviet": "NGÂN"
   },
   {
     "id": 105,
     "kanjiChar": "早",
     "onyomi": ["sou ソウ", "sa サッ"],
     "kunyomi": ["haya(i) はや(い)"],
-    "meanings": ["sớm", "nhanh"]
+    "meanings": ["sớm", "nhanh"],
+    "hanviet": "TẢO"
   },
   {
     "id": 106,
     "kanjiChar": "映",
     "onyomi": ["ei エイ"],
     "kunyomi": ["utsu(ru) うつ(る)", "ha(eru) は(える)"],
-    "meanings": ["phản ánh", "sự phản chiếu", "phép chiếu"]
+    "meanings": ["phản ánh", "sự phản chiếu", "phép chiếu"],
+    "hanviet": "ẢNH, ÁNH"
   },
   {
     "id": 107,
     "kanjiChar": "親",
     "onyomi": ["shin シン"],
     "kunyomi": ["oya おや", "shita(shii) した(しい)"],
-    "meanings": ["cha mẹ", "sự thân mật", "tương đối", "sự quen thuộc"]
+    "meanings": ["cha mẹ", "sự thân mật", "tương đối", "sự quen thuộc"],
+    "hanviet": "THÂN"
   },
   {
     "id": 108,
     "kanjiChar": "験",
     "onyomi": ["ken ケン"],
     "kunyomi": [""],
-    "meanings": ["xác minh", "hiệu ứng", "thử nghiệm"]
+    "meanings": ["xác minh", "hiệu ứng", "thử nghiệm"],
+    "hanviet": "NGHIỆM"
   },
   {
     "id": 109,
     "kanjiChar": "英",
     "onyomi": ["ei エイ"],
     "kunyomi": [""],
-    "meanings": ["nước Anh", "Tiếng Anh", "anh hùng", "xuất sắc"]
+    "meanings": ["nước Anh", "Tiếng Anh", "anh hùng", "xuất sắc"],
+    "hanviet": "ANH"
   },
   {
     "id": 110,
     "kanjiChar": "医",
     "onyomi": ["i イ"],
     "kunyomi": [""],
-    "meanings": ["bác sĩ", "y học"]
+    "meanings": ["bác sĩ", "y học"],
+    "hanviet": "Y"
   },
   {
     "id": 111,
     "kanjiChar": "仕",
     "onyomi": ["shi シ"],
     "kunyomi": [""],
-    "meanings": ["tham dự", "đang làm", "chính thức", "phục vụ"]
+    "meanings": ["tham dự", "đang làm", "chính thức", "phục vụ"],
+    "hanviet": "SĨ"
   },
   {
     "id": 112,
@@ -911,14 +1029,16 @@
       "rời đi",
       "trôi qua",
       "loại bỏ"
-    ]
+    ],
+    "hanviet": "KHỨ, KHU, KHỬ"
   },
   {
     "id": 113,
     "kanjiChar": "味",
     "onyomi": ["mi ミ"],
     "kunyomi": ["aji あじ"],
-    "meanings": ["hương vị", "hương vị"]
+    "meanings": ["hương vị", "hương vị"],
+    "hanviet": "VỊ"
   },
   {
     "id": 114,
@@ -931,35 +1051,40 @@
       "mô tả",
       "để mô tả",
       "được chụp ảnh"
-    ]
+    ],
+    "hanviet": "TẢ"
   },
   {
     "id": 115,
     "kanjiChar": "字",
     "onyomi": ["ji ジ"],
     "kunyomi": [""],
-    "meanings": ["nhân vật", "lá thư", "từ"]
+    "meanings": ["nhân vật", "lá thư", "từ"],
+    "hanviet": "TỰ"
   },
   {
     "id": 116,
     "kanjiChar": "答",
     "onyomi": ["tou トウ"],
     "kunyomi": ["kota(eru) こた(える)"],
-    "meanings": ["giải pháp", "câu trả lời"]
+    "meanings": ["giải pháp", "câu trả lời"],
+    "hanviet": "ĐÁP"
   },
   {
     "id": 117,
     "kanjiChar": "夜",
     "onyomi": ["ya ヤ"],
     "kunyomi": ["yo よ", "yoru よる"],
-    "meanings": ["đêm", "buổi tối"]
+    "meanings": ["đêm", "buổi tối"],
+    "hanviet": "DẠ"
   },
   {
     "id": 118,
     "kanjiChar": "音",
     "onyomi": ["on オン"],
     "kunyomi": ["oto おと", "ne ね"],
-    "meanings": ["âm thanh", "tiếng ồn"]
+    "meanings": ["âm thanh", "tiếng ồn"],
+    "hanviet": "ÂM, ẤM"
   },
   {
     "id": 119,
@@ -973,175 +1098,200 @@
       "rơi nước mắt",
       "chảy vào",
       "tập trung vào"
-    ]
+    ],
+    "hanviet": "CHÚ"
   },
   {
     "id": 120,
     "kanjiChar": "帰",
     "onyomi": ["ki キ"],
     "kunyomi": ["kae(ru) かえ(る)", "kae(su) かえ(す)"],
-    "meanings": ["sự trở về quê hương", "đến", "dẫn đến", "dẫn đến"]
+    "meanings": ["sự trở về quê hương", "đến", "dẫn đến", "dẫn đến"],
+    "hanviet": "QUY, QUI"
   },
   {
     "id": 121,
     "kanjiChar": "古",
     "onyomi": ["ko コ"],
     "kunyomi": ["furu(i) ふる(い)"],
-    "meanings": ["cũ"]
+    "meanings": ["cũ"],
+    "hanviet": "CỔ"
   },
   {
     "id": 122,
     "kanjiChar": "歌",
     "onyomi": ["ka カ"],
     "kunyomi": ["uta うた", "uta(u) うた(う)"],
-    "meanings": ["bài hát", "hát", "hát"]
+    "meanings": ["bài hát", "hát", "hát"],
+    "hanviet": "CA"
   },
   {
     "id": 123,
     "kanjiChar": "買",
     "onyomi": ["bai バイ"],
     "kunyomi": ["ka(u) か(う)"],
-    "meanings": ["mua", "mua"]
+    "meanings": ["mua", "mua"],
+    "hanviet": "MÃI"
   },
   {
     "id": 124,
     "kanjiChar": "悪",
     "onyomi": ["aku アク"],
     "kunyomi": ["waru(i) わる(い)"],
-    "meanings": ["tệ", "tà ác", "sai"]
+    "meanings": ["tệ", "tà ác", "sai"],
+    "hanviet": "ÁC"
   },
   {
     "id": 125,
     "kanjiChar": "図",
     "onyomi": ["zu ズ", "to ト"],
     "kunyomi": ["haka(ru) はか(る)"],
-    "meanings": ["bản đồ", "vẽ", "kế hoạch", "phi thường"]
+    "meanings": ["bản đồ", "vẽ", "kế hoạch", "phi thường"],
+    "hanviet": "ĐỒ"
   },
   {
     "id": 126,
     "kanjiChar": "週",
     "onyomi": ["shuu シュウ"],
     "kunyomi": [""],
-    "meanings": ["tuần"]
+    "meanings": ["tuần"],
+    "hanviet": "CHU"
   },
   {
     "id": 127,
     "kanjiChar": "室",
     "onyomi": ["shitsu シツ"],
     "kunyomi": ["muro むろ"],
-    "meanings": ["phòng", "căn hộ", "buồng", "nhà kính", "hầm"]
+    "meanings": ["phòng", "căn hộ", "buồng", "nhà kính", "hầm"],
+    "hanviet": "THẤT"
   },
   {
     "id": 128,
     "kanjiChar": "歩",
     "onyomi": ["ho ホ", "bu ブ"],
     "kunyomi": ["aru(ku) ある(く)", "ayu(mu) あゆ(む)"],
-    "meanings": ["đi bộ", "đi bộ", "bộ đếm bước"]
+    "meanings": ["đi bộ", "đi bộ", "bộ đếm bước"],
+    "hanviet": "BỘ"
   },
   {
     "id": 129,
     "kanjiChar": "風",
     "onyomi": ["fuu フウ", "fu フ"],
     "kunyomi": ["kaze かぜ", "kaza- かざ-"],
-    "meanings": ["gió", "không khí", "phong cách", "cách thức"]
+    "meanings": ["gió", "không khí", "phong cách", "cách thức"],
+    "hanviet": "PHONG • PHÓNG • PHÚNG"
   },
   {
     "id": 130,
     "kanjiChar": "紙",
     "onyomi": ["shi シ"],
     "kunyomi": ["kami かみ"],
-    "meanings": ["giấy"]
+    "meanings": ["giấy"],
+    "hanviet": "CHỈ"
   },
   {
     "id": 131,
     "kanjiChar": "黒",
     "onyomi": ["koku コク"],
     "kunyomi": ["kuro くろ"],
-    "meanings": ["màu đen"]
+    "meanings": ["màu đen"],
+    "hanviet": "HẮC"
   },
   {
     "id": 132,
     "kanjiChar": "花",
     "onyomi": ["ka カ", "ke ケ"],
     "kunyomi": ["hana はな"],
-    "meanings": ["hoa"]
+    "meanings": ["hoa"],
+    "hanviet": "HOA"
   },
   {
     "id": 133,
     "kanjiChar": "春",
     "onyomi": ["shun シュン"],
     "kunyomi": ["haru はる"],
-    "meanings": ["mùa xuân"]
+    "meanings": ["mùa xuân"],
+    "hanviet": "XUÂN"
   },
   {
     "id": 134,
     "kanjiChar": "赤",
     "onyomi": ["seki セキ", "shaku シャク"],
     "kunyomi": ["aka(i) あか(い)"],
-    "meanings": ["màu đỏ"]
+    "meanings": ["màu đỏ"],
+    "hanviet": "XÍCH"
   },
   {
     "id": 135,
     "kanjiChar": "青",
     "onyomi": ["sei セイ", "shou ショウ"],
     "kunyomi": ["ao(i) あお(い)"],
-    "meanings": ["màu xanh"]
+    "meanings": ["màu xanh"],
+    "hanviet": "THANH"
   },
   {
     "id": 136,
     "kanjiChar": "館",
     "onyomi": ["kan カン"],
     "kunyomi": ["yakata やかた"],
-    "meanings": ["tòa nhà", "biệt thự", "tòa nhà lớn", "cung điện"]
+    "meanings": ["tòa nhà", "biệt thự", "tòa nhà lớn", "cung điện"],
+    "hanviet": "QUÁN"
   },
   {
     "id": 137,
     "kanjiChar": "屋",
     "onyomi": ["oku オク"],
     "kunyomi": ["ya や"],
-    "meanings": ["mái nhà", "nhà ở", "cửa tiệm", "đại lý", "người bán"]
+    "meanings": ["mái nhà", "nhà ở", "cửa tiệm", "đại lý", "người bán"],
+    "hanviet": "ỐC"
   },
   {
     "id": 138,
     "kanjiChar": "色",
     "onyomi": ["shoku ショク", "shiki シキ"],
     "kunyomi": ["iro いろ"],
-    "meanings": ["màu sắc"]
+    "meanings": ["màu sắc"],
+    "hanviet": "SẮC"
   },
   {
     "id": 139,
     "kanjiChar": "走",
     "onyomi": ["sou ソウ"],
     "kunyomi": ["hashi(ru) はし(る)"],
-    "meanings": ["chạy"]
+    "meanings": ["chạy"],
+    "hanviet": "TẨU"
   },
   {
     "id": 140,
     "kanjiChar": "秋",
     "onyomi": ["shuu シュウ"],
     "kunyomi": ["aki あき"],
-    "meanings": ["mùa thu", "ngã"]
+    "meanings": ["mùa thu", "ngã"],
+    "hanviet": "THU"
   },
   {
     "id": 141,
     "kanjiChar": "夏",
     "onyomi": ["ka カ", "ge ゲ"],
     "kunyomi": ["natsu なつ"],
-    "meanings": ["mùa hè"]
+    "meanings": ["mùa hè"],
+    "hanviet": "HẠ"
   },
   {
     "id": 142,
     "kanjiChar": "習",
     "onyomi": ["shuu シュウ"],
     "kunyomi": ["nara(u) なら(う)"],
-    "meanings": ["học hỏi"]
+    "meanings": ["học hỏi"],
+    "hanviet": "TẬP"
   },
   {
     "id": 143,
     "kanjiChar": "駅",
     "onyomi": ["eki エキ"],
     "kunyomi": [""],
-    "meanings": ["trạm"]
+    "meanings": ["trạm"],
+    "hanviet": "DỊCH"
   },
   {
     "id": 144,
@@ -1154,167 +1304,191 @@
       "nước ngoài",
       "phong cách phương Tây",
       "phong cách phương Tây"
-    ]
+    ],
+    "hanviet": "DƯƠNG"
   },
   {
     "id": 145,
     "kanjiChar": "旅",
     "onyomi": ["ryo リョ"],
     "kunyomi": ["tabi たび"],
-    "meanings": ["chuyến đi", "du lịch"]
+    "meanings": ["chuyến đi", "du lịch"],
+    "hanviet": "LỮ"
   },
   {
     "id": 146,
     "kanjiChar": "服",
     "onyomi": ["fuku フク"],
     "kunyomi": [""],
-    "meanings": ["quần áo", "thừa nhận", "tuân theo"]
+    "meanings": ["quần áo", "thừa nhận", "tuân theo"],
+    "hanviet": "PHỤC"
   },
   {
     "id": 147,
     "kanjiChar": "夕",
     "onyomi": [""],
     "kunyomi": ["yuu ゆう"],
-    "meanings": ["buổi tối"]
+    "meanings": ["buổi tối"],
+    "hanviet": "TỊCH"
   },
   {
     "id": 148,
     "kanjiChar": "借",
     "onyomi": ["shaku シャク"],
     "kunyomi": ["ka(riru) か(りる)"],
-    "meanings": ["mượn", "thuê"]
+    "meanings": ["mượn", "thuê"],
+    "hanviet": "TÁ"
   },
   {
     "id": 149,
     "kanjiChar": "曜",
     "onyomi": ["you ヨウ"],
     "kunyomi": [""],
-    "meanings": ["ngày trong tuần"]
+    "meanings": ["ngày trong tuần"],
+    "hanviet": "DIỆU"
   },
   {
     "id": 150,
     "kanjiChar": "飲",
     "onyomi": ["in イン"],
     "kunyomi": ["no(mu) の(む)"],
-    "meanings": ["uống", "uống"]
+    "meanings": ["uống", "uống"],
+    "hanviet": "ẨM"
   },
   {
     "id": 151,
     "kanjiChar": "肉",
     "onyomi": ["niku ニク"],
     "kunyomi": [""],
-    "meanings": ["thịt"]
+    "meanings": ["thịt"],
+    "hanviet": "NHỤC"
   },
   {
     "id": 152,
     "kanjiChar": "貸",
     "onyomi": ["tai タイ"],
     "kunyomi": ["ka(su) か(す)", "kashi かし"],
-    "meanings": ["cho mượn", "cho vay"]
+    "meanings": ["cho mượn", "cho vay"],
+    "hanviet": "THẢI"
   },
   {
     "id": 153,
     "kanjiChar": "堂",
     "onyomi": ["dou ドウ"],
     "kunyomi": [""],
-    "meanings": ["phòng công cộng", "đại sảnh"]
+    "meanings": ["phòng công cộng", "đại sảnh"],
+    "hanviet": "ĐƯỜNG"
   },
   {
     "id": 154,
     "kanjiChar": "鳥",
     "onyomi": ["chou チョウ"],
     "kunyomi": ["tori とり"],
-    "meanings": ["chim", "gà"]
+    "meanings": ["chim", "gà"],
+    "hanviet": "ĐIỂU"
   },
   {
     "id": 155,
     "kanjiChar": "飯",
     "onyomi": ["han ハン"],
     "kunyomi": ["meshi めし"],
-    "meanings": ["bữa ăn", "cơm"]
+    "meanings": ["bữa ăn", "cơm"],
+    "hanviet": "PHẠN"
   },
   {
     "id": 156,
     "kanjiChar": "勉",
     "onyomi": ["ben ベン"],
     "kunyomi": ["tsuto(meru) つと(める)"],
-    "meanings": ["gắng sức", "nỗ lực", "nỗ lực"]
+    "meanings": ["gắng sức", "nỗ lực", "nỗ lực"],
+    "hanviet": "MIỄN"
   },
   {
     "id": 157,
     "kanjiChar": "冬",
     "onyomi": ["tou トウ"],
     "kunyomi": ["fuyu ふゆ"],
-    "meanings": ["mùa đông"]
+    "meanings": ["mùa đông"],
+    "hanviet": "ĐÔNG"
   },
   {
     "id": 158,
     "kanjiChar": "昼",
     "onyomi": ["chuu チュウ"],
     "kunyomi": ["hiru ひる"],
-    "meanings": ["ban ngày", "buổi trưa"]
+    "meanings": ["ban ngày", "buổi trưa"],
+    "hanviet": "TRÚ"
   },
   {
     "id": 159,
     "kanjiChar": "茶",
     "onyomi": ["cha チャ", "sa サ"],
     "kunyomi": [""],
-    "meanings": ["trà"]
+    "meanings": ["trà"],
+    "hanviet": "TRÀ"
   },
   {
     "id": 160,
     "kanjiChar": "弟",
     "onyomi": ["tei テイ", "dai ダイ", "de デ"],
     "kunyomi": ["otouto おとうと"],
-    "meanings": ["em trai", "anh trai"]
+    "meanings": ["em trai", "anh trai"],
+    "hanviet": "ĐỆ"
   },
   {
     "id": 161,
     "kanjiChar": "牛",
     "onyomi": ["gyuu ギュウ"],
     "kunyomi": ["ushi うし"],
-    "meanings": ["con bò"]
+    "meanings": ["con bò"],
+    "hanviet": "NGƯU"
   },
   {
     "id": 162,
     "kanjiChar": "魚",
     "onyomi": ["gyo ギョ"],
     "kunyomi": ["uo うお", "sakana さかな"],
-    "meanings": ["cá"]
+    "meanings": ["cá"],
+    "hanviet": "NGƯ"
   },
   {
     "id": 163,
     "kanjiChar": "兄",
     "onyomi": ["kyou キョウ", "kei ケイ"],
     "kunyomi": ["ani あに"],
-    "meanings": ["anh trai", "anh trai"]
+    "meanings": ["anh trai", "anh trai"],
+    "hanviet": "HUYNH"
   },
   {
     "id": 164,
     "kanjiChar": "犬",
     "onyomi": ["ken ケン"],
     "kunyomi": ["inu いぬ"],
-    "meanings": ["con chó"]
+    "meanings": ["con chó"],
+    "hanviet": "KHUYỂN"
   },
   {
     "id": 165,
     "kanjiChar": "妹",
     "onyomi": ["mai マイ"],
     "kunyomi": ["imouto いもうと"],
-    "meanings": ["em gái", "chị gái"]
+    "meanings": ["em gái", "chị gái"],
+    "hanviet": "MUỘI"
   },
   {
     "id": 166,
     "kanjiChar": "姉",
     "onyomi": ["shi シ"],
     "kunyomi": ["ane あね"],
-    "meanings": ["chị gái", "chị gái"]
+    "meanings": ["chị gái", "chị gái"],
+    "hanviet": "TỶ, TỈ"
   },
   {
     "id": 167,
     "kanjiChar": "漢",
     "onyomi": ["kan カン"],
     "kunyomi": [""],
-    "meanings": ["Trung Quốc", "tiếng trung"]
+    "meanings": ["Trung Quốc", "tiếng trung"],
+    "hanviet": "HÁN"
   }
 ]
