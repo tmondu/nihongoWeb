@@ -45,12 +45,7 @@ export const vocabDataService = {
       return pendingRequests[level];
     }
 
-    pendingRequests[level] = fetch(`/api/vocab?level=${level}`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache',
-      },
-    })
+    pendingRequests[level] = fetch(`/api/vocab?level=${level}`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         return res.json() as Promise<RawVocabEntry[]>;
@@ -71,18 +66,11 @@ export const vocabDataService = {
   },
 
   /**
-   * Get vocab data for a specific level with Stale-While-Revalidate pattern.
-   * Returns cached data immediately for instant UI render,
-   * while always fetching the latest data from MySQL in the background.
+   * Get vocab data for a specific level.
+   * Returns cached data immediately if available, otherwise fetches it.
    */
   async getVocabByLevel(level: VocabLevel): Promise<IVocabObj[]> {
     const cached = getCachedLevel(level);
-
-    // Revalidate in background to fetch latest updates from MySQL
-    void this.fetchFresh(level).catch(() => {
-      // Ignore background revalidation errors if cache is available
-    });
-
     if (cached) {
       return cached;
     }
