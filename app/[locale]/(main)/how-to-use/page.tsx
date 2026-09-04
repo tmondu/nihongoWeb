@@ -2,8 +2,6 @@ import Link from 'next/link';
 import { routing } from '@/core/i18n/routing';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import { HowToSchema } from '@/shared/ui-composite/SEO/HowToSchema';
-import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
-import type { Metadata } from 'next';
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
@@ -11,16 +9,14 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  return await generatePageMetadata('howToUse', {
-    locale,
-    pathname: '/how-to-use',
-  });
+export async function generateMetadata() {
+  return {
+    title: 'How to Use PThamSS - Complete Tutorial Guide',
+    description:
+      'Learn how to use KanaDojo effectively with this complete tutorial. Discover all features, training modes, progress tracking, and tips for mastering Japanese Hiragana, Katakana, Kanji, and Vocabulary.',
+    keywords:
+      'how to use kanadojo, kanadojo tutorial, kanadojo guide, japanese learning tutorial, kana training guide, kanji study guide, kanadojo features',
+  };
 }
 
 export default async function HowToUsePage({

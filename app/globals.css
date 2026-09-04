@@ -24,11 +24,13 @@ body {
 /* Custom Japanese Calligraphy Brush Cursors */
 :root[data-custom-cursor='true'],
 :root[data-custom-cursor='true'] body,
+:root[data-custom-cursor='true'] .cursor-default,
 :root:not([data-custom-cursor='false']),
-:root:not([data-custom-cursor='false']) body {
+:root:not([data-custom-cursor='false']) body,
+:root:not([data-custom-cursor='false']) .cursor-default {
   cursor:
     url('/cursors/fude-default.svg') 2 2,
-    auto;
+    auto !important;
 }
 
 :root[data-custom-cursor='true'] a,

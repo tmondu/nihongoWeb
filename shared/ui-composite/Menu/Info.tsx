@@ -61,10 +61,7 @@ const Info = () => {
       )}
     >
       <motion.h3
-        className={clsx(
-          'group text-xl hover:cursor-pointer',
-          'flex flex-row items-center gap-1',
-        )}
+        className={clsx('group text-xl', 'flex flex-row items-center gap-1')}
         onClick={() => {
           playClick();
           setShowInfo(showInfo => !showInfo);
@@ -108,4 +105,3 @@ const Info = () => {
 };
 
 export default Info;
-

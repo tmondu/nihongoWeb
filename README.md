@@ -1,4 +1,3 @@
-<!--
 <p align="center">
 <b>This project is sponsored by</b>
 <br/>
@@ -13,7 +12,7 @@
 </a>
 </p>
 
-[Comment Start]<div id="top"></div>[Comment End]
+<!--<div id="top"></div>-->
 
 # PThamSS かな道場
 
@@ -28,9 +27,9 @@
 [![Vercel OSS Program](https://img.shields.io/badge/Vercel-OSS%20Program-black?style=for-the-badge&logo=vercel)](https://vercel.com/open-source-program)
 [![Sponsored by Vercel](https://img.shields.io/badge/Sponsored%20by-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/oss)
 
-[Comment Start][![Sponsored by Cossistant](https://cdn.cossistant.com/oss/oss-friends.svg)](https://cossistant.com/open-source-program)[Comment End]
+<!--[![Sponsored by Cossistant](https://cdn.cossistant.com/oss/oss-friends.svg)](https://cossistant.com/open-source-program)-->
 
-[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
 [![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
 [![Good First Issues](https://img.shields.io/github/issues-search/tmondu/nihongoWeb?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
@@ -41,18 +40,18 @@
 [![Vitest](https://img.shields.io/badge/Tests-Vitest-yellow?style=for-the-badge)](https://vitest.dev/)
 [![AGPL-3.0](https://img.shields.io/badge/open-source-green?style=for-the-badge)](https://www.gnu.org/licenses/agpl-3.0)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/CyvBNNrSmb)
-[![Email](https://img.shields.io/badge/Email-nduc120201%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nduc120201@gmail.com)
+[![Email](https://img.shields.io/badge/Email-dev%40kanadojo.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dev@kanadojo.com)
 
 ---
 
-[Comment Start]
+<!--
 ## 🌐 Translations / 번역 / 翻訳
 
 This README is available in multiple languages:
 
 **English** (current) · [한국어 (Korean)](./docs/translations/README.ko.md) · [日本語 (Japanese)](./docs/translations/README.ja.md) · [Español (Spanish)](./docs/translations/README.es.md) · [Français (French)](./docs/translations/README.fr.md) · [Deutsch (German)](./docs/translations/README.de.md) · [Português (Portuguese)](./docs/translations/README.pt-br.md) · [Русский (Russian)](./docs/translations/README.ru.md) · [Türkçe (Turkish)](./docs/translations/README.tr.md) · [العربية (Arabic)](./docs/translations/README.ar.md) · [हिन्दी (Hindi)](./docs/translations/README.hin.md) · [Italiano (Italian)](./docs/translations/README.it.md) · [Bahasa Indonesia (Indonesian)](./docs/translations/README.id.md) · [Українська (Ukrainian)](./docs/translations/README.ua.md) · [Tiếng Việt (Vietnamese)](./docs/translations/README.vi.md) · [简体中文 (Simplified Chinese)](./docs/translations/README.zh-CN.md) · [繁體中文 (Traditional Chinese)](./docs/translations/README.zh-tw.md)
 
-[Comment End]
+-->
 
 ## About
 
@@ -68,7 +67,7 @@ Start with the [Beginner's Contribution Guide](./docs/CONTRIBUTING-BEGINNERS.md)
 
 All contributions are welcome! Whether you're fixing bugs, adding features, improving documentation, or translating — check out [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
 
-[Live Demo](https://www.pthamnihongo.site) · [Documentation](./docs/)
+[Live Demo](https://kanadojo.com) · [Documentation](./docs/)
 
 </div>
 
@@ -99,7 +98,7 @@ npm run check
 
 > **Having issues?** See the [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
 
-[Comment Start]
+<!--
 ## Screenshots
 
 <div align="center">
@@ -117,7 +116,7 @@ npm run check
 ![Themes](https://github.com/user-attachments/assets/f664a280-0344-4ff9-8639-83f9c1c4223b)
 
 </div>
-[Comment End]
+-->
 
 ## Documentation
 
@@ -186,7 +185,7 @@ This project is licensed under the AGPL 3.0 License — see [LICENSE.md](./LICEN
 ## Contact
 
 - **Discord**: https://discord.gg/CyvBNNrSmb
-- **Email**: nduc120201@gmail.com
+- **Email**: dev@kanadojo.com
 
 ---
 
@@ -199,5 +198,3 @@ This project is licensed under the AGPL 3.0 License — see [LICENSE.md](./LICEN
 [⬆ Back to top](#top)
 
 </div>
-
--->
