@@ -42,7 +42,6 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
     null,
   );
   const [userEmail, setUserEmail] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
   const [videoChecking, setVideoChecking] = useState(false);
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
@@ -92,9 +91,6 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
       }
 
       const data = await res.json();
-      if (data?.user?.is_admin) {
-        setIsAdmin(true);
-      }
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
     } catch (err) {
@@ -295,24 +291,6 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                           <span>Xem bài giảng khác</span>
                         </Link>
                       </div>
-
-                      {isAdmin && (
-                        <div className='mt-4 max-w-md rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-left text-xs text-amber-300'>
-                          <div className='mb-1 flex items-center gap-1.5 font-semibold'>
-                            <span>🛠 Gợi ý cho Giáo viên / Quản trị viên:</span>
-                          </div>
-                          <p className='text-[11px] leading-relaxed text-amber-200/80'>
-                            Vào Google Drive &rarr; Nhấp chuột phải vào video
-                            &rarr; Chọn <strong>Chia sẻ (Share)</strong> &rarr;
-                            Đổi quyền truy cập chung thành{' '}
-                            <strong>
-                              &ldquo;Bất kỳ ai có đường liên kết&rdquo; (Anyone
-                              with the link)
-                            </strong>{' '}
-                            rồi bấm &ldquo;Thử kiểm tra lại&rdquo;.
-                          </p>
-                        </div>
-                      )}
                     </div>
                   ) : parsedVideo?.embedUrl ? (
                     <>
