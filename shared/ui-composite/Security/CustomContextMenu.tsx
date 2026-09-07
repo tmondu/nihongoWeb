@@ -24,6 +24,8 @@ export default function CustomContextMenu() {
     end: 0,
   });
 
+  const [isOnInput, setIsOnInput] = useState(false);
+
   const handleContextMenu = useCallback((e: MouseEvent) => {
     e.preventDefault();
 
@@ -42,13 +44,15 @@ export default function CustomContextMenu() {
         start: inputEl.selectionStart || 0,
         end: inputEl.selectionEnd || 0,
       };
+      setIsOnInput(true);
     } else {
       targetInputRef.current = null;
+      setIsOnInput(false);
     }
 
     // Tính toán toạ độ hiển thị
     const menuWidth = 175;
-    const menuHeight = 140;
+    const menuHeight = 160;
 
     let x = e.clientX;
     let y = e.clientY;
@@ -68,17 +72,29 @@ export default function CustomContextMenu() {
     setIsOpen(false);
   }, []);
 
+  // Đóng menu khi chạm ra ngoài (mobile)
+  const handleTouchOutside = useCallback((e: TouchEvent) => {
+    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
+
   useEffect(() => {
     window.addEventListener('contextmenu', handleContextMenu);
     window.addEventListener('click', handleClose);
     window.addEventListener('scroll', handleClose);
+    // Mobile: chạm ra ngoài menu thì đóng
+    window.addEventListener('touchstart', handleTouchOutside, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener('contextmenu', handleContextMenu);
       window.removeEventListener('click', handleClose);
       window.removeEventListener('scroll', handleClose);
+      window.removeEventListener('touchstart', handleTouchOutside);
     };
-  }, [handleContextMenu, handleClose]);
+  }, [handleContextMenu, handleClose, handleTouchOutside]);
 
   // Hành động 1: Sao chép
   const handleCopy = async () => {
@@ -187,18 +203,20 @@ export default function CustomContextMenu() {
         </button>
       )}
 
-      {/* Paste Action */}
-      <button
-        type='button'
-        onClick={handlePaste}
-        className='flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-(--main-color) transition-all hover:bg-(--main-color) hover:text-(--background-color)'
-      >
-        <div className='flex items-center gap-2'>
-          <ClipboardPaste className='size-3.5' />
-          <span>Dán nội dung</span>
-        </div>
-        <span className='text-[10px] opacity-60'>Ctrl+V</span>
-      </button>
+      {/* Paste Action — chỉ hiện khi đang focus vào ô nhập liệu */}
+      {isOnInput && (
+        <button
+          type='button'
+          onClick={handlePaste}
+          className='flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-xs font-semibold text-(--main-color) transition-all hover:bg-(--main-color) hover:text-(--background-color)'
+        >
+          <div className='flex items-center gap-2'>
+            <ClipboardPaste className='size-3.5' />
+            <span>Dán nội dung</span>
+          </div>
+          <span className='text-[10px] opacity-60'>Ctrl+V</span>
+        </button>
+      )}
 
       {/* Speak Action (nếu có bôi đen) */}
       {selectedText && (
