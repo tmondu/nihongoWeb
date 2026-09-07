@@ -48,6 +48,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
   const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('9:16');
+  const [showToolbar, setShowToolbar] = useState(false);
   const videoBoxRef = useRef<HTMLDivElement>(null);
 
   const handleFullscreen = () => {
@@ -265,49 +266,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
             <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-12'>
               {/* Left Column: Big Video Player & Details (8 cols) */}
               <div className='flex flex-col gap-5 lg:col-span-8'>
-                {/* Ratio & Playback Toolbar */}
-                <div className='flex flex-wrap items-center justify-between gap-2.5 pb-1'>
-                  <div className='border-border/60 bg-muted/40 flex items-center gap-1 rounded-xl border p-1'>
-                    <button
-                      type='button'
-                      onClick={() => setAspectRatio('9:16')}
-                      className={cn(
-                        'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all',
-                        aspectRatio === '9:16'
-                          ? 'bg-blue-600 text-white shadow-xs'
-                          : 'text-muted-foreground hover:text-foreground',
-                      )}
-                    >
-                      <Smartphone className='h-3.5 w-3.5' />
-                      <span>Khung dọc (9:16)</span>
-                    </button>
-                    <button
-                      type='button'
-                      onClick={() => setAspectRatio('16:9')}
-                      className={cn(
-                        'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all',
-                        aspectRatio === '16:9'
-                          ? 'bg-blue-600 text-white shadow-xs'
-                          : 'text-muted-foreground hover:text-foreground',
-                      )}
-                    >
-                      <Tv className='h-3.5 w-3.5' />
-                      <span>Khung ngang (16:9)</span>
-                    </button>
-                  </div>
-
-                  <div className='flex items-center gap-2'>
-                    <button
-                      type='button'
-                      onClick={handleFullscreen}
-                      className='border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all'
-                      title='Xem toàn màn hình'
-                    >
-                      <Maximize2 className='h-3.5 w-3.5' />
-                      <span className='hidden sm:inline'>Toàn màn hình</span>
-                    </button>
-                  </div>
-                </div>
+                {/* Collapsible Ratio & Playback Toolbar — hiện phía dưới video */}
 
                 {/* Dynamic Video Box (Defaults to 9:16 tall container) */}
                 <div
@@ -372,12 +331,95 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
                         allowFullScreen
                       />
+                      {/* Overlay trong suốt chặn nút pop-out của Drive ở góc trên-phải */}
+                      {parsedVideo.type === 'drive' && (
+                        <div
+                          className='pointer-events-auto absolute top-0 right-0 z-20 h-14 w-14'
+                          onTouchStart={e => e.stopPropagation()}
+                        />
+                      )}
                     </>
                   ) : (
                     <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
                       Không tìm thấy liên kết video hợp lệ.
                     </div>
                   )}
+                </div>
+
+                {/* Toolbar thu gọn — hiện dưới video */}
+                <div className='flex items-center justify-between gap-2 pt-0.5'>
+                  <div className='flex items-center gap-2'>
+                    {/* Toggle nút thu gọn toolbar */}
+                    <button
+                      type='button'
+                      onClick={() => setShowToolbar(v => !v)}
+                      className={cn(
+                        'border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all',
+                        showToolbar &&
+                          'border-blue-500/40 bg-blue-500/10 text-blue-400',
+                      )}
+                      title='Cài đặt hiển thị'
+                    >
+                      {aspectRatio === '9:16' ? (
+                        <>
+                          <Smartphone className='h-3.5 w-3.5' />
+                          <span className='hidden sm:inline'>Dọc 9:16</span>
+                        </>
+                      ) : (
+                        <>
+                          <Tv className='h-3.5 w-3.5' />
+                          <span className='hidden sm:inline'>Ngang 16:9</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Expanded toolbar */}
+                    {showToolbar && (
+                      <div className='animate-in fade-in slide-in-from-left-2 flex items-center gap-1 duration-150'>
+                        <button
+                          type='button'
+                          onClick={() => {
+                            setAspectRatio('9:16');
+                            setShowToolbar(false);
+                          }}
+                          className={cn(
+                            'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
+                            aspectRatio === '9:16'
+                              ? 'border-blue-600 bg-blue-600 text-white'
+                              : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                          )}
+                        >
+                          <Smartphone className='h-3.5 w-3.5' />
+                          <span>9:16</span>
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => {
+                            setAspectRatio('16:9');
+                            setShowToolbar(false);
+                          }}
+                          className={cn(
+                            'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
+                            aspectRatio === '16:9'
+                              ? 'border-blue-600 bg-blue-600 text-white'
+                              : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                          )}
+                        >
+                          <Tv className='h-3.5 w-3.5' />
+                          <span>16:9</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    type='button'
+                    onClick={handleFullscreen}
+                    className='border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all'
+                    title='Toàn màn hình'
+                  >
+                    <Maximize2 className='h-3.5 w-3.5' />
+                  </button>
                 </div>
 
                 {/* Lesson Info Box - NO "Mở link gốc" */}
