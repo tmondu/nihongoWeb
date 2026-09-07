@@ -1,18 +1,18 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
 import {
   GraduationCap,
   PlayCircle,
   Clock,
   Lock,
-  ExternalLink,
   BookOpen,
   Calendar,
   RefreshCw,
+  Search,
+  ChevronRight,
 } from 'lucide-react';
-import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
+import { Link, useRouter } from '@/core/i18n/routing';
 
 interface Lesson {
   id: number;
@@ -36,8 +36,8 @@ const LEVELS = [
 export default function ClassroomPage() {
   const router = useRouter();
   const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [selectedLevel, setSelectedLevel] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<'unauthorized' | 'pending' | null>(
     null,
@@ -69,9 +69,6 @@ export default function ClassroomPage() {
       const data = await res.json();
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
-      if (list.length > 0) {
-        setSelectedLesson(list[0]);
-      }
     } catch (err) {
       console.error('Fetch lessons failed:', err);
     } finally {
@@ -83,39 +80,29 @@ export default function ClassroomPage() {
     fetchLessons();
   }, []);
 
-  // Filter lessons by level
+  // Filter lessons by level & search query
   const filteredLessons = useMemo(() => {
-    if (selectedLevel === 'all') return lessons;
-    return lessons.filter(
-      l => l.level?.toLowerCase() === selectedLevel.toLowerCase(),
-    );
-  }, [lessons, selectedLevel]);
-
-  // Keep selected lesson valid when level filter changes
-  useEffect(() => {
-    if (filteredLessons.length > 0) {
-      const exists = filteredLessons.some(l => l.id === selectedLesson?.id);
-      if (!exists) {
-        setSelectedLesson(filteredLessons[0]);
-      }
-    } else {
-      setSelectedLesson(null);
-    }
-  }, [filteredLessons, selectedLesson]);
-
-  const parsedVideo = useMemo(() => {
-    if (!selectedLesson?.video_url) return null;
-    return parseVideoEmbedUrl(selectedLesson.video_url);
-  }, [selectedLesson]);
+    return lessons.filter(l => {
+      const matchLevel =
+        selectedLevel === 'all' ||
+        l.level?.toLowerCase() === selectedLevel.toLowerCase();
+      const matchQuery =
+        !searchQuery.trim() ||
+        l.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (l.description &&
+          l.description.toLowerCase().includes(searchQuery.toLowerCase()));
+      return matchLevel && matchQuery;
+    });
+  }, [lessons, selectedLevel, searchQuery]);
 
   return (
-    <div className='mx-auto min-h-screen w-full max-w-7xl px-4 py-6 md:px-8'>
+    <div className='mx-auto min-h-screen w-full max-w-6xl px-4 py-6 md:px-8'>
       {/* Page Header */}
-      <div className='border-border/40 mb-8 flex flex-col gap-4 border-b pb-5 md:flex-row md:items-center md:justify-between'>
-        <div>
-          <div className='flex items-center gap-3'>
-            <div className='rounded-xl border border-blue-500/20 bg-blue-500/10 p-2.5 text-blue-400'>
-              <GraduationCap className='h-7 w-7' />
+      <div className='border-border/40 mb-8 border-b pb-6'>
+        <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
+          <div className='flex items-center gap-3.5'>
+            <div className='rounded-2xl border border-blue-500/20 bg-blue-500/10 p-3 text-blue-400'>
+              <GraduationCap className='h-8 w-8' />
             </div>
             <div>
               <h1 className='text-foreground text-2xl font-bold tracking-tight md:text-3xl'>
@@ -129,25 +116,40 @@ export default function ClassroomPage() {
           </div>
         </div>
 
-        {/* Level Filters */}
-        {!authError && (
-          <div className='flex max-w-full items-center gap-1.5 overflow-x-auto pb-1'>
-            {LEVELS.map(lvl => {
-              const active = selectedLevel === lvl.id;
-              return (
-                <button
-                  key={lvl.id}
-                  onClick={() => setSelectedLevel(lvl.id)}
-                  className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
-                    active
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                      : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-                >
-                  {lvl.label}
-                </button>
-              );
-            })}
+        {/* Level Filters & Search bar */}
+        {!authError && !loading && (
+          <div className='mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+            {/* Level Tabs */}
+            <div className='flex max-w-full items-center gap-1.5 overflow-x-auto pb-1'>
+              {LEVELS.map(lvl => {
+                const active = selectedLevel === lvl.id;
+                return (
+                  <button
+                    key={lvl.id}
+                    onClick={() => setSelectedLevel(lvl.id)}
+                    className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
+                      active
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                        : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                    }`}
+                  >
+                    {lvl.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Search Input */}
+            <div className='relative w-full sm:max-w-xs'>
+              <Search className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2' />
+              <input
+                type='text'
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder='Tìm kiếm bài học...'
+                className='border-border/60 bg-card text-foreground placeholder:text-muted-foreground/60 w-full rounded-xl border py-2 pr-3 pl-9 text-xs focus:border-blue-500 focus:outline-none'
+              />
+            </div>
           </div>
         )}
       </div>
@@ -211,7 +213,7 @@ export default function ClassroomPage() {
         </div>
       )}
 
-      {/* Normal State: Player & Playlist */}
+      {/* Normal State: List of Lesson Titles */}
       {!loading && !authError && (
         <>
           {filteredLessons.length === 0 ? (
@@ -221,136 +223,70 @@ export default function ClassroomPage() {
                 Chưa có bài giảng nào
               </h3>
               <p className='text-muted-foreground mt-1 text-xs'>
-                Hiện tại chưa có video ghi hình nào cho cấp độ này.
+                {searchQuery
+                  ? 'Không tìm thấy bài giảng nào phù hợp với từ khóa.'
+                  : 'Hiện tại chưa có video ghi hình nào cho cấp độ này.'}
               </p>
             </div>
           ) : (
-            <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-12'>
-              {/* Left Column: Big Video Player (8 cols) */}
-              <div className='flex flex-col gap-4 lg:col-span-8'>
-                {/* 16:9 Video Box */}
-                <div className='border-border/60 relative aspect-video w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40'>
-                  {parsedVideo?.embedUrl ? (
-                    <iframe
-                      src={parsedVideo.embedUrl}
-                      title={selectedLesson?.title || 'Video bài giảng'}
-                      className='absolute inset-0 h-full w-full border-0'
-                      allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
-                      allowFullScreen
-                    />
-                  ) : (
-                    <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
-                      Không tìm thấy liên kết video hợp lệ.
-                    </div>
-                  )}
-                </div>
-
-                {/* Lesson Info Box */}
-                {selectedLesson && (
-                  <div className='bg-card border-border/60 rounded-2xl border p-5 shadow-sm'>
-                    <div className='mb-2.5 flex flex-wrap items-center justify-between gap-3'>
-                      <div className='flex items-center gap-2'>
-                        <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold text-blue-400 uppercase'>
-                          {selectedLesson.level}
-                        </span>
-                        <span className='text-muted-foreground flex items-center gap-1 text-xs'>
-                          <Calendar className='h-3.5 w-3.5' />
-                          {new Date(
-                            selectedLesson.created_at,
-                          ).toLocaleDateString('vi-VN')}
-                        </span>
-                      </div>
-
-                      {selectedLesson.video_url && (
-                        <a
-                          href={selectedLesson.video_url}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                          className='inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 transition-colors hover:text-blue-300'
-                        >
-                          <span>Mở link gốc</span>
-                          <ExternalLink className='h-3.5 w-3.5' />
-                        </a>
-                      )}
-                    </div>
-
-                    <h2 className='text-foreground text-lg leading-snug font-bold md:text-xl'>
-                      {selectedLesson.title}
-                    </h2>
-
-                    {selectedLesson.description && (
-                      <div className='border-border/40 text-muted-foreground mt-3 border-t pt-3 text-sm leading-relaxed whitespace-pre-wrap'>
-                        {selectedLesson.description}
-                      </div>
-                    )}
-                  </div>
-                )}
+            <div className='space-y-3'>
+              <div className='text-muted-foreground flex items-center justify-between px-1 text-xs'>
+                <span>Danh sách các bài học</span>
+                <span>{filteredLessons.length} bài giảng</span>
               </div>
 
-              {/* Right Column: Playlist Sidebar (4 cols) */}
-              <div className='flex flex-col gap-3 lg:col-span-4'>
-                <div className='bg-card border-border/60 rounded-2xl border p-4 shadow-sm'>
-                  <div className='border-border/40 mb-3.5 flex items-center justify-between border-b pb-2'>
-                    <div className='flex items-center gap-2'>
-                      <PlayCircle className='h-5 w-5 text-blue-400' />
-                      <h3 className='text-foreground text-sm font-semibold'>
-                        Danh sách bài giảng
-                      </h3>
-                    </div>
-                    <span className='bg-muted text-muted-foreground rounded-full px-2 py-0.5 text-xs font-medium'>
-                      {filteredLessons.length} buổi
-                    </span>
-                  </div>
+              <div className='grid grid-cols-1 gap-3 sm:gap-4'>
+                {filteredLessons.map((item, index) => {
+                  const lessonNumber = item.order_num || index + 1;
+                  return (
+                    <Link
+                      key={item.id}
+                      href={`/classroom/${item.id}`}
+                      className='group border-border/60 bg-card flex flex-col justify-between gap-4 rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-600/[0.03] hover:shadow-md md:flex-row md:items-center md:p-5'
+                    >
+                      <div className='flex min-w-0 items-start gap-3.5 sm:gap-4'>
+                        {/* Lesson number badge */}
+                        <div className='border-border/60 bg-muted/60 text-muted-foreground flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-sm font-bold transition-all duration-200 group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'>
+                          {lessonNumber}
+                        </div>
 
-                  {/* Scrollable playlist list */}
-                  <div className='flex max-h-[600px] flex-col gap-2 overflow-y-auto pr-1'>
-                    {filteredLessons.map((item, index) => {
-                      const isPlaying = item.id === selectedLesson?.id;
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => setSelectedLesson(item)}
-                          className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-all ${
-                            isPlaying
-                              ? 'border-blue-500/40 bg-blue-600/10 shadow-sm'
-                              : 'bg-muted/30 hover:bg-muted/60 hover:border-border/40 border-transparent'
-                          }`}
-                        >
-                          <div
-                            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
-                              isPlaying
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-muted text-muted-foreground'
-                            }`}
-                          >
-                            {item.order_num || index + 1}
-                          </div>
-
-                          <div className='min-w-0 flex-1'>
-                            <p
-                              className={`line-clamp-2 text-xs leading-snug font-semibold ${
-                                isPlaying ? 'text-blue-400' : 'text-foreground'
-                              }`}
-                            >
-                              {item.title}
-                            </p>
-                            <div className='mt-1 flex items-center gap-2'>
-                              <span className='text-muted-foreground text-[10px] font-bold uppercase'>
-                                {item.level}
-                              </span>
-                              {isPlaying && (
-                                <span className='flex items-center gap-1 text-[10px] font-medium text-blue-400'>
-                                  <span className='h-1.5 w-1.5 animate-ping rounded-full bg-blue-400' />
-                                  Đang phát
-                                </span>
+                        {/* Title and metadata */}
+                        <div className='min-w-0 flex-1'>
+                          <div className='mb-1 flex flex-wrap items-center gap-2'>
+                            <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold text-blue-400 uppercase'>
+                              {item.level}
+                            </span>
+                            <span className='text-muted-foreground flex items-center gap-1 text-[11px]'>
+                              <Calendar className='h-3 w-3' />
+                              {new Date(item.created_at).toLocaleDateString(
+                                'vi-VN',
                               )}
-                            </div>
+                            </span>
                           </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+
+                          <h2 className='text-foreground text-sm font-bold transition-colors group-hover:text-blue-400 md:text-base'>
+                            {item.title}
+                          </h2>
+
+                          {item.description && (
+                            <p className='text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed'>
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right Action Button */}
+                      <div className='flex shrink-0 items-center justify-end md:justify-center'>
+                        <div className='border-border/60 bg-muted/40 text-muted-foreground inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold shadow-xs transition-all duration-200 group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'>
+                          <PlayCircle className='h-4 w-4' />
+                          <span>Xem bài giảng</span>
+                          <ChevronRight className='h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5' />
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           )}

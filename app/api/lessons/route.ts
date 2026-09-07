@@ -81,13 +81,17 @@ export async function GET(request: NextRequest) {
 
     // 3. Fetch lessons
     const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
     const level = searchParams.get('level')?.toLowerCase();
 
     let query =
       'SELECT id, title, description, level, video_url, order_num, created_at FROM lessons';
     const params: (string | number)[] = [];
 
-    if (level && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(level)) {
+    if (id) {
+      query += ' WHERE id = ?';
+      params.push(Number(id));
+    } else if (level && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(level)) {
       query += ' WHERE level = ?';
       params.push(level);
     }
