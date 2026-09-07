@@ -59,11 +59,11 @@ export async function GET(request: NextRequest) {
     const total = countRows[0]?.total ?? 0;
 
     const [rows] = await pool.execute<KanjiRow[]>(
-      `SELECT id, level, original_id, kanji_char, onyomi, kunyomi, meanings, is_decoration 
+      `SELECT id, level, original_id, kanji_char, onyomi, kunyomi, hanviet, meanings, is_decoration 
        FROM kanjis ${whereClause} 
        ORDER BY id ASC 
-       LIMIT ? OFFSET ?`,
-      [...params, limit.toString(), offset.toString()],
+       LIMIT ${Number(limit)} OFFSET ${Number(offset)}`,
+      params,
     );
 
     const kanjis = rows.map(row => ({

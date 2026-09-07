@@ -62,8 +62,8 @@ export async function GET(request: NextRequest) {
       `SELECT id, level, jmdict_seq, kana, kanji, waller_definition 
        FROM vocabularies ${whereClause} 
        ORDER BY id ASC 
-       LIMIT ? OFFSET ?`,
-      [...params, limit.toString(), offset.toString()],
+       LIMIT ${Number(limit)} OFFSET ${Number(offset)}`,
+      params,
     );
 
     return NextResponse.json({
