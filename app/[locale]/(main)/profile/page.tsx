@@ -31,6 +31,8 @@ interface UserProfile {
   id: number;
   email: string;
   is_approved: number;
+  can_watch_video?: number;
+  level?: string;
   is_admin: number;
   is_verified?: number;
   created_at: string;
@@ -313,6 +315,20 @@ export default function ProfilePage() {
                     ? new Date(user.created_at).toLocaleDateString('vi-VN')
                     : ''}
                 </span>
+              </div>
+              <div className='flex flex-wrap items-center gap-2 pt-1'>
+                <span className='inline-flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-400 uppercase'>
+                  Khóa học: {user?.level || 'N5'}
+                </span>
+                {user?.can_watch_video === 1 ? (
+                  <span className='inline-flex items-center gap-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-400'>
+                    Đã mở quyền video
+                  </span>
+                ) : (
+                  <span className='inline-flex items-center gap-1 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-400'>
+                    Chưa kích hoạt video
+                  </span>
+                )}
               </div>
               {user?.is_admin === 1 && (
                 <div className='flex w-fit items-center gap-2 rounded-lg border border-purple-500/20 bg-purple-500/10 px-2.5 py-1 font-medium text-purple-400'>

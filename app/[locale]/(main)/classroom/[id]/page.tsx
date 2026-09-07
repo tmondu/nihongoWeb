@@ -27,6 +27,7 @@ interface Lesson {
   video_url: string;
   order_num: number;
   created_at: string;
+  is_locked?: boolean;
 }
 
 interface LessonVideoPageProps {
@@ -40,10 +41,12 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
 
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState<'unauthorized' | 'pending' | null>(
-    null,
-  );
+  const [authError, setAuthError] = useState<
+    'unauthorized' | 'pending' | 'forbidden_level' | null
+  >(null);
   const [userEmail, setUserEmail] = useState('');
+  const [currentUserLevel, setCurrentUserLevel] = useState('N5');
+  const [requiredLevel, setRequiredLevel] = useState('');
   const [videoChecking, setVideoChecking] = useState(false);
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
@@ -58,15 +61,29 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
     }
     setVideoChecking(true);
     try {
-      const res = await fetch(
-        `/api/lessons/check-video?url=${encodeURIComponent(url)}${fresh ? '&fresh=true' : ''}`,
-      );
-      const data = await res.json();
-      setVideoAvailable(Boolean(data.available));
-      setVideoErrorReason(data.reason || null);
+      const driveInfo = parseVideoEmbedUrl(url);
+      if (driveInfo.type === 'drive') {
+        const fileId = driveInfo.driveId;
+        const res = await fetch(
+          `/api/video/stream?id=${fileId}${fresh ? '&fresh=1' : ''}`,
+          {
+            method: 'HEAD',
+          },
+        );
+        if (res.ok) {
+          setVideoAvailable(true);
+          setVideoErrorReason(null);
+        } else {
+          setVideoAvailable(false);
+          setVideoErrorReason(`http_${res.status}`);
+        }
+      } else {
+        setVideoAvailable(true);
+        setVideoErrorReason(null);
+      }
     } catch {
-      // If verification endpoint encounters network error, fall back to true
-      setVideoAvailable(true);
+      setVideoAvailable(false);
+      setVideoErrorReason('fetch_error');
     } finally {
       setVideoChecking(false);
     }
@@ -101,8 +118,18 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
         return;
       }
 
+      const userLvl = (data.user.level || 'n5').toUpperCase();
+      setCurrentUserLevel(userLvl);
+      setUserEmail(data.user.email || '');
+
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
+
+      const target = list.find(l => l.id === lessonId);
+      if (target && target.is_locked) {
+        setAuthError('forbidden_level');
+        setRequiredLevel(target.level.toUpperCase());
+      }
     } catch (err) {
       console.error('Fetch lessons failed:', err);
     } finally {
@@ -112,6 +139,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
 
   useEffect(() => {
     fetchLessons();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const currentLesson = useMemo(() => {
@@ -228,6 +256,49 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
             <RefreshCw className='h-4 w-4' />
             Kiểm tra lại
           </button>
+        </div>
+      )}
+
+      {/* Auth state: Forbidden level */}
+      {!loading && authError === 'forbidden_level' && (
+        <div className='mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-16 text-center'>
+          <div className='mb-4 rounded-full border border-rose-500/20 bg-rose-500/10 p-4 text-rose-400'>
+            <Lock className='h-10 w-10' />
+          </div>
+          <div className='mb-2 inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-xs font-bold text-rose-400 uppercase'>
+            Yêu cầu cấp độ {requiredLevel}
+          </div>
+          <h2 className='text-foreground mb-2 text-xl font-bold'>
+            Bài giảng yêu cầu cấp độ cao hơn
+          </h2>
+          <p className='text-muted-foreground mb-4 text-sm leading-relaxed'>
+            Bài giảng này thuộc chương trình học{' '}
+            <strong className='text-foreground font-semibold'>
+              {requiredLevel}
+            </strong>
+            . Tài khoản của bạn hiện tại đang được đăng ký ở cấp độ{' '}
+            <strong className='font-semibold text-blue-400'>
+              {currentUserLevel}
+            </strong>
+            .
+          </p>
+          <div className='bg-muted/40 border-border/50 text-muted-foreground mb-6 w-full rounded-xl border p-3.5 text-left text-xs leading-relaxed'>
+            💡 <strong>Quy định xem bài giảng:</strong> Học viên có quyền truy
+            cập các bài giảng thuộc cấp độ của mình và các cấp độ thấp hơn (ví
+            dụ: N4 có thể xem N5, N4; N3 có thể xem N5, N4, N3).
+            <br />
+            Nếu bạn muốn đăng ký hoặc nâng cấp lên khóa{' '}
+            <strong className='text-foreground'>{requiredLevel}</strong>, vui
+            lòng liên hệ giáo viên để được hỗ trợ kích hoạt.
+          </div>
+          <div className='flex items-center gap-3'>
+            <Link
+              href='/classroom'
+              className='rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
+            >
+              Quay lại danh sách bài giảng
+            </Link>
+          </div>
         </div>
       )}
 
@@ -447,6 +518,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                   <div className='flex max-h-[620px] flex-col gap-2 overflow-y-auto pr-1'>
                     {lessons.map((item, index) => {
                       const isCurrent = item.id === currentLesson.id;
+                      const isLocked = Boolean(item.is_locked);
                       return (
                         <Link
                           key={item.id}
@@ -454,23 +526,35 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                           className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-all ${
                             isCurrent
                               ? 'border-blue-500/40 bg-blue-600/10 shadow-sm'
-                              : 'bg-muted/30 hover:bg-muted/60 hover:border-border/40 border-transparent'
+                              : isLocked
+                                ? 'bg-muted/20 hover:bg-muted/40 border-transparent opacity-75 hover:border-amber-500/30'
+                                : 'bg-muted/30 hover:border-border/40 hover:bg-muted/60 border-transparent'
                           }`}
                         >
                           <div
                             className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
                               isCurrent
                                 ? 'bg-blue-600 text-white'
-                                : 'bg-muted text-muted-foreground'
+                                : isLocked
+                                  ? 'bg-amber-500/10 text-amber-400'
+                                  : 'bg-muted text-muted-foreground'
                             }`}
                           >
-                            {item.order_num || index + 1}
+                            {isLocked ? (
+                              <Lock className='h-3.5 w-3.5' />
+                            ) : (
+                              item.order_num || index + 1
+                            )}
                           </div>
 
                           <div className='min-w-0 flex-1'>
                             <p
                               className={`line-clamp-2 text-xs leading-snug font-semibold ${
-                                isCurrent ? 'text-blue-400' : 'text-foreground'
+                                isCurrent
+                                  ? 'text-blue-400'
+                                  : isLocked
+                                    ? 'text-foreground/80'
+                                    : 'text-foreground'
                               }`}
                             >
                               {item.title}
@@ -479,6 +563,12 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                               <span className='text-muted-foreground text-[10px] font-bold uppercase'>
                                 {item.level}
                               </span>
+                              {isLocked && (
+                                <span className='inline-flex items-center gap-0.5 text-[10px] font-medium text-amber-400'>
+                                  <Lock className='h-2.5 w-2.5' /> Cần cấp độ
+                                  cao hơn
+                                </span>
+                              )}
                               {isCurrent && (
                                 <span className='flex items-center gap-1 text-[10px] font-medium text-blue-400'>
                                   <span className='h-1.5 w-1.5 animate-ping rounded-full bg-blue-400' />

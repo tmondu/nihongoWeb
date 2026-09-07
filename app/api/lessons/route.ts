@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
 import { verifyJwt } from '@/shared/utils/auth';
+import { canAccessLesson } from '@/features/Classroom/lib/permissions';
 import { RowDataPacket } from 'mysql2';
 
 export const dynamic = 'force-dynamic';
@@ -20,6 +21,7 @@ interface UserRow extends RowDataPacket {
   email: string;
   is_approved: number;
   can_watch_video: number;
+  level: string;
   is_admin: number;
 }
 
@@ -37,7 +39,7 @@ export async function GET(request: NextRequest) {
       try {
         const pool = getDbPool();
         const [users] = await pool.execute<UserRow[]>(
-          'SELECT id, email, is_approved, can_watch_video, is_admin FROM users WHERE id = ?',
+          'SELECT id, email, is_approved, can_watch_video, level, is_admin FROM users WHERE id = ?',
           [payload.userId as number],
         );
         if (users[0]) {
@@ -46,38 +48,6 @@ export async function GET(request: NextRequest) {
       } catch (err) {
         console.error('Error fetching user info in /api/lessons:', err);
       }
-    }
-  }
-
-  const canWatch = Boolean(
-    currentUser?.can_watch_video || currentUser?.is_admin,
-  );
-
-  // If requesting to watch a specific video (e.g. ?id=...)
-  if (id) {
-    if (!currentUser) {
-      return NextResponse.json(
-        {
-          error: 'unauthorized',
-          message: 'Vui lòng đăng nhập để xem video bài giảng.',
-        },
-        { status: 401 },
-      );
-    }
-
-    if (!canWatch) {
-      return NextResponse.json(
-        {
-          error: 'forbidden',
-          message:
-            'Tài khoản của bạn chưa được cấp quyền xem video bài giảng. Vui lòng liên hệ giáo viên để được kích hoạt quyền học.',
-          user: {
-            email: currentUser.email,
-            can_watch_video: false,
-          },
-        },
-        { status: 403 },
-      );
     }
   }
 
@@ -99,11 +69,85 @@ export async function GET(request: NextRequest) {
 
     const [lessons] = await pool.execute<LessonRow[]>(query, params);
 
-    // If user cannot watch, hide video_url to prevent link leakage
-    const sanitizedLessons = lessons.map(l => ({
-      ...l,
-      video_url: canWatch ? l.video_url : '',
-    }));
+    // If requesting a specific lesson
+    if (id) {
+      if (!currentUser) {
+        return NextResponse.json(
+          {
+            error: 'unauthorized',
+            message: 'Vui lòng đăng nhập để xem video bài giảng.',
+          },
+          { status: 401 },
+        );
+      }
+
+      if (!currentUser.is_admin && !currentUser.can_watch_video) {
+        return NextResponse.json(
+          {
+            error: 'pending',
+            message:
+              'Tài khoản của bạn chưa được cấp quyền xem video bài giảng. Vui lòng liên hệ giáo viên để được kích hoạt quyền học.',
+            user: {
+              email: currentUser.email,
+              can_watch_video: false,
+              level: currentUser.level || 'n5',
+            },
+          },
+          { status: 403 },
+        );
+      }
+
+      if (lessons.length === 0) {
+        return NextResponse.json(
+          { error: 'not_found', message: 'Không tìm thấy bài giảng.' },
+          { status: 404 },
+        );
+      }
+
+      const targetLesson = lessons[0];
+      const hasLevelAccess = canAccessLesson({
+        userLevel: currentUser.level,
+        lessonLevel: targetLesson.level,
+        isAdmin: currentUser.is_admin,
+        canWatchVideo: currentUser.can_watch_video,
+      });
+
+      if (!hasLevelAccess) {
+        const userLvl = (currentUser.level || 'n5').toUpperCase();
+        const lessonLvl = (targetLesson.level || 'n5').toUpperCase();
+        return NextResponse.json(
+          {
+            error: 'forbidden_level',
+            message: `Bài giảng này thuộc cấp độ ${lessonLvl}. Tài khoản của bạn hiện ở cấp độ ${userLvl}. Vui lòng nâng cấp khóa học để mở khóa bài học này.`,
+            requiredLevel: lessonLvl,
+            userLevel: userLvl,
+            user: {
+              email: currentUser.email,
+              can_watch_video: Boolean(currentUser.can_watch_video),
+              level: currentUser.level || 'n5',
+              is_admin: Boolean(currentUser.is_admin),
+            },
+          },
+          { status: 403 },
+        );
+      }
+    }
+
+    // Sanitize lessons: only provide video_url if user has access to that specific lesson's level
+    const sanitizedLessons = lessons.map(l => {
+      const isAllowed = canAccessLesson({
+        userLevel: currentUser?.level,
+        lessonLevel: l.level,
+        isAdmin: currentUser?.is_admin,
+        canWatchVideo: currentUser?.can_watch_video,
+      });
+
+      return {
+        ...l,
+        video_url: isAllowed ? l.video_url : '',
+        is_locked: !isAllowed,
+      };
+    });
 
     return NextResponse.json({
       success: true,
@@ -112,7 +156,8 @@ export async function GET(request: NextRequest) {
       user: currentUser
         ? {
             email: currentUser.email,
-            can_watch_video: canWatch,
+            can_watch_video: Boolean(currentUser.can_watch_video),
+            level: currentUser.level || 'n5',
             is_admin: Boolean(currentUser.is_admin),
           }
         : null,

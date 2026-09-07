@@ -19,6 +19,7 @@ interface UserRecord {
   email: string;
   is_approved: number;
   can_watch_video: number;
+  level: string;
   is_admin: number;
   created_at: string;
 }
@@ -77,6 +78,27 @@ export default function AdminUsersPage() {
         body: JSON.stringify({
           userId: user.id,
           canWatchVideo: user.can_watch_video === 1 ? 0 : 1,
+        }),
+      });
+      if (res.ok) {
+        await fetchUsers(true);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleChangeLevel = async (user: UserRecord, newLevel: string) => {
+    try {
+      setActionLoading(user.id);
+      const res = await fetch('/api/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          level: newLevel,
         }),
       });
       if (res.ok) {
@@ -174,6 +196,7 @@ export default function AdminUsersPage() {
                   <th className='px-5 py-3'>Email</th>
                   <th className='px-5 py-3'>Trạng Thái</th>
                   <th className='px-5 py-3'>Xem Video</th>
+                  <th className='px-5 py-3'>Cấp Độ JLPT</th>
                   <th className='px-5 py-3'>Vai Trò</th>
                   <th className='px-5 py-3'>Ngày Tạo</th>
                   <th className='px-5 py-3 text-right'>Thao Tác</th>
@@ -215,6 +238,20 @@ export default function AdminUsersPage() {
                           Chưa cấp
                         </span>
                       )}
+                    </td>
+                    <td className='px-5 py-3.5'>
+                      <select
+                        value={user.level ? user.level.toLowerCase() : 'n5'}
+                        disabled={actionLoading !== null}
+                        onChange={e => handleChangeLevel(user, e.target.value)}
+                        className='cursor-pointer rounded-lg border border-[#2d2d38] bg-[#16161c] px-2.5 py-1 text-xs font-semibold text-purple-300 transition-colors hover:border-purple-500/50 focus:border-purple-500 focus:outline-none disabled:opacity-50'
+                      >
+                        <option value='n5'>N5 (Cơ bản)</option>
+                        <option value='n4'>N4 (Sơ cấp)</option>
+                        <option value='n3'>N3 (Trung cấp)</option>
+                        <option value='n2'>N2 (Cao cấp)</option>
+                        <option value='n1'>N1 (Thượng cấp)</option>
+                      </select>
                     </td>
                     <td className='px-5 py-3.5'>
                       {user.is_admin === 1 ? (

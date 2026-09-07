@@ -62,6 +62,22 @@ export function getDbPool(): mysql.Pool {
         // Ignore if column already exists
       }
 
+      try {
+        await pool.execute(
+          'ALTER TABLE `users` ADD COLUMN `can_watch_video` TINYINT(1) DEFAULT 0 AFTER `is_verified`',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
+      try {
+        await pool.execute(
+          "ALTER TABLE `users` ADD COLUMN `level` VARCHAR(5) NOT NULL DEFAULT 'n5' AFTER `can_watch_video`",
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
       await pool.execute(`
         CREATE TABLE IF NOT EXISTS \`email_verification_codes\` (
           \`id\` INT AUTO_INCREMENT PRIMARY KEY,

@@ -20,6 +20,7 @@ interface UserRow extends RowDataPacket {
   email: string;
   is_approved: number;
   can_watch_video: number;
+  level: string;
   is_admin: number;
 }
 
@@ -134,7 +135,7 @@ export async function GET(request: NextRequest) {
     // 3. Find or create user in Database
     const pool = getDbPool();
     const [existingUsers] = await pool.execute<UserRow[]>(
-      'SELECT id, email, is_approved, can_watch_video, is_admin FROM users WHERE email = ?',
+      'SELECT id, email, is_approved, can_watch_video, level, is_admin FROM users WHERE email = ?',
       [email],
     );
 
@@ -144,13 +145,13 @@ export async function GET(request: NextRequest) {
       userId = existingUsers[0].id;
     } else {
       // New user registering via Google:
-      // Verified automatically by Google, approved by default, can_watch_video = 0
+      // Verified automatically by Google, approved by default, can_watch_video = 0, level = 'n5'
       const randomPassword = crypto.randomUUID();
       const passwordHash = hashPassword(randomPassword);
 
       const [insertResult] = await pool.execute<ResultSetHeader>(
-        'INSERT INTO users (email, password_hash, is_approved, can_watch_video, is_admin, is_verified) VALUES (?, ?, 1, 0, 0, 1)',
-        [email, passwordHash],
+        'INSERT INTO users (email, password_hash, is_approved, can_watch_video, level, is_admin, is_verified) VALUES (?, ?, 1, 0, ?, 0, 1)',
+        [email, passwordHash, 'n5'],
       );
       userId = insertResult.insertId;
     }

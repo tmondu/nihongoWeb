@@ -9,6 +9,7 @@ interface UserRow extends RowDataPacket {
   email: string;
   is_approved: number;
   can_watch_video: number;
+  level: string;
   is_admin: number;
   created_at: string;
 }
@@ -17,7 +18,7 @@ export async function GET() {
   try {
     const pool = getDbPool();
     const [rows] = await pool.execute<UserRow[]>(
-      'SELECT id, email, is_approved, can_watch_video, is_admin, created_at FROM users ORDER BY id DESC',
+      'SELECT id, email, is_approved, can_watch_video, level, is_admin, created_at FROM users ORDER BY id DESC',
     );
 
     return NextResponse.json(rows);
@@ -30,7 +31,7 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, isApproved, isAdmin, canWatchVideo } = body;
+    const { userId, isApproved, isAdmin, canWatchVideo, level } = body;
 
     if (userId === undefined) {
       return NextResponse.json(
@@ -54,6 +55,10 @@ export async function PUT(request: NextRequest) {
     if (isAdmin !== undefined) {
       updates.push('is_admin = ?');
       values.push(isAdmin ? 1 : 0);
+    }
+    if (level !== undefined) {
+      updates.push('level = ?');
+      values.push(String(level).toLowerCase().trim());
     }
 
     if (updates.length === 0) {

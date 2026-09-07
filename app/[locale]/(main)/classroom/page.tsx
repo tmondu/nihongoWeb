@@ -9,6 +9,7 @@ import {
   RefreshCw,
   Search,
   ChevronRight,
+  Lock,
 } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
 
@@ -20,6 +21,14 @@ interface Lesson {
   video_url: string;
   order_num: number;
   created_at: string;
+  is_locked?: boolean;
+}
+
+interface UserInfo {
+  email: string;
+  can_watch_video: boolean;
+  level: string;
+  is_admin: boolean;
 }
 
 const LEVELS = [
@@ -33,6 +42,7 @@ const LEVELS = [
 
 export default function ClassroomPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
@@ -48,6 +58,7 @@ export default function ClassroomPage() {
       const data = await res.json();
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
+      setUserInfo(data.user || null);
     } catch (err) {
       console.error('Fetch lessons failed:', err);
     } finally {
@@ -92,6 +103,21 @@ export default function ClassroomPage() {
               </p>
             </div>
           </div>
+
+          {userInfo && (
+            <div className='flex items-center gap-2 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-4 py-2.5 text-xs'>
+              <div className='flex flex-col'>
+                <span className='text-muted-foreground text-[10px] font-semibold tracking-wider uppercase'>
+                  Cấp độ tài khoản
+                </span>
+                <span className='text-sm font-bold text-blue-400 uppercase'>
+                  {userInfo.is_admin
+                    ? 'Admin (Mọi cấp độ)'
+                    : `Khóa học ${userInfo.level || 'N5'}`}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Level Filters & Search bar */}
@@ -165,24 +191,46 @@ export default function ClassroomPage() {
               <div className='grid grid-cols-1 gap-3 sm:gap-4'>
                 {filteredLessons.map((item, index) => {
                   const lessonNumber = item.order_num || index + 1;
+                  const isLocked = Boolean(item.is_locked);
                   return (
                     <Link
                       key={item.id}
                       href={`/classroom/${item.id}`}
-                      className='group border-border/60 bg-card flex flex-col justify-between gap-4 rounded-2xl border p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-600/[0.03] hover:shadow-md md:flex-row md:items-center md:p-5'
+                      className={`group border-border/60 bg-card flex flex-col justify-between gap-4 rounded-2xl border p-4 shadow-sm transition-all duration-200 md:flex-row md:items-center md:p-5 ${
+                        isLocked
+                          ? 'opacity-85 hover:border-amber-500/40 hover:bg-amber-500/[0.02]'
+                          : 'hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-600/[0.03] hover:shadow-md'
+                      }`}
                     >
                       <div className='flex min-w-0 items-start gap-3.5 sm:gap-4'>
                         {/* Lesson number badge */}
-                        <div className='border-border/60 bg-muted/60 text-muted-foreground flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-sm font-bold transition-all duration-200 group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'>
-                          {lessonNumber}
+                        <div
+                          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-sm font-bold transition-all duration-200 ${
+                            isLocked
+                              ? 'border-amber-500/20 bg-amber-500/10 text-amber-400 group-hover:border-amber-500/40'
+                              : 'border-border/60 bg-muted/60 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
+                          }`}
+                        >
+                          {isLocked ? (
+                            <Lock className='h-4 w-4' />
+                          ) : (
+                            lessonNumber
+                          )}
                         </div>
 
                         {/* Title and metadata */}
                         <div className='min-w-0 flex-1'>
                           <div className='mb-1 flex flex-wrap items-center gap-2'>
-                            <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold text-blue-400 uppercase'>
-                              {item.level}
-                            </span>
+                            {isLocked ? (
+                              <span className='flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-bold text-amber-400 uppercase'>
+                                <Lock className='h-2.5 w-2.5' /> Cần{' '}
+                                {item.level}
+                              </span>
+                            ) : (
+                              <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold text-blue-400 uppercase'>
+                                {item.level}
+                              </span>
+                            )}
                             <span className='text-muted-foreground flex items-center gap-1 text-[11px]'>
                               <Calendar className='h-3 w-3' />
                               {new Date(item.created_at).toLocaleDateString(
@@ -191,7 +239,13 @@ export default function ClassroomPage() {
                             </span>
                           </div>
 
-                          <h2 className='text-foreground text-sm font-bold transition-colors group-hover:text-blue-400 md:text-base'>
+                          <h2
+                            className={`text-foreground text-sm font-bold transition-colors md:text-base ${
+                              isLocked
+                                ? 'group-hover:text-amber-400'
+                                : 'group-hover:text-blue-400'
+                            }`}
+                          >
                             {item.title}
                           </h2>
 
@@ -205,9 +259,24 @@ export default function ClassroomPage() {
 
                       {/* Right Action Button */}
                       <div className='flex shrink-0 items-center justify-end md:justify-center'>
-                        <div className='border-border/60 bg-muted/40 text-muted-foreground inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold shadow-xs transition-all duration-200 group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'>
-                          <PlayCircle className='h-4 w-4' />
-                          <span>Xem bài giảng</span>
+                        <div
+                          className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold shadow-xs transition-all duration-200 ${
+                            isLocked
+                              ? 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-amber-500/30 group-hover:bg-amber-500/10 group-hover:text-amber-400'
+                              : 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
+                          }`}
+                        >
+                          {isLocked ? (
+                            <>
+                              <Lock className='h-4 w-4' />
+                              <span>Chưa mở khóa</span>
+                            </>
+                          ) : (
+                            <>
+                              <PlayCircle className='h-4 w-4' />
+                              <span>Xem bài giảng</span>
+                            </>
+                          )}
                           <ChevronRight className='h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5' />
                         </div>
                       </div>

@@ -1,12 +1,13 @@
 -- Script cập nhật Cơ sở dữ liệu TiDB / MySQL
 -- Bổ sung bảng bài giảng (lessons) và trường quyền xem video (can_watch_video)
 
--- 1. Bổ sung trường can_watch_video vào bảng users (nếu chưa có)
+-- 1. Bổ sung trường can_watch_video và level vào bảng users (nếu chưa có)
 -- Lưu ý: Nếu cột đã tồn tại trên MySQL/TiDB sẽ báo lỗi Duplicate column name, có thể bỏ qua.
 ALTER TABLE `users` ADD COLUMN `can_watch_video` TINYINT(1) NOT NULL DEFAULT 0 AFTER `is_approved`;
+ALTER TABLE `users` ADD COLUMN `level` VARCHAR(5) NOT NULL DEFAULT 'n5' AFTER `can_watch_video`;
 
 -- 2. Đảm bảo bảng users có cột is_admin (nếu chưa có)
--- ALTER TABLE `users` ADD COLUMN `is_admin` TINYINT(1) NOT NULL DEFAULT 0 AFTER `can_watch_video`;
+-- ALTER TABLE `users` ADD COLUMN `is_admin` TINYINT(1) NOT NULL DEFAULT 0 AFTER `level`;
 
 -- 3. Tạo bảng lessons quản lý video bài giảng
 CREATE TABLE IF NOT EXISTS `lessons` (
