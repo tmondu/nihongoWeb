@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
-import { cn } from '@/shared/utils';
 
 interface Lesson {
   id: number;
@@ -301,22 +300,10 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                       <iframe
                         src={parsedVideo.embedUrl}
                         title={currentLesson.title}
-                        className={cn(
-                          'absolute left-0 w-full border-0',
-                          parsedVideo.type === 'drive'
-                            ? '-top-[60px] h-[calc(100%+60px)]'
-                            : 'inset-0 h-full',
-                        )}
+                        className='absolute inset-0 h-full w-full border-0'
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
                         allowFullScreen
                       />
-                      {/* Shield for Google Drive top-right pop-out button */}
-                      {parsedVideo.type === 'drive' && (
-                        <div
-                          className='pointer-events-auto absolute top-0 right-0 z-20 h-16 w-24'
-                          aria-hidden='true'
-                        />
-                      )}
                     </>
                   ) : (
                     <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
