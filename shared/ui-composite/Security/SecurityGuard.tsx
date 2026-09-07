@@ -2,8 +2,15 @@
 
 import { useEffect } from 'react';
 
+// Đặt là true để BẬT lại tính năng chặn DevTools / F12
+// Đặt là false để TẠM NGƯNG tính năng chặn DevTools
+const ENABLE_SECURITY_GUARD = false;
+
 export default function SecurityGuard() {
   useEffect(() => {
+    // Khi đang tạm ngưng chặn DevTools thì không đăng ký sự kiện
+    if (!ENABLE_SECURITY_GUARD) return;
+
     // 1. Chặn tất cả phím tắt mở DevTools, View Source, Save page
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;

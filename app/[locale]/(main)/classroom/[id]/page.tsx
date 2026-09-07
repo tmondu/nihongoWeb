@@ -14,7 +14,6 @@ import {
   Smartphone,
   Tv,
   Maximize2,
-  ExternalLink,
 } from 'lucide-react';
 import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
@@ -307,19 +306,6 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                       <Maximize2 className='h-3.5 w-3.5' />
                       <span className='hidden sm:inline'>Toàn màn hình</span>
                     </button>
-
-                    {currentLesson?.video_url && (
-                      <a
-                        href={currentLesson.video_url}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all'
-                        title='Mở video trên ứng dụng Google Drive'
-                      >
-                        <ExternalLink className='h-3.5 w-3.5' />
-                        <span className='hidden sm:inline'>Mở Drive</span>
-                      </a>
-                    )}
                   </div>
                 </div>
 
@@ -386,6 +372,24 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
                         allowFullScreen
                       />
+
+                      {/* Cover & block the Google Drive pop-out button at top-right */}
+                      {parsedVideo.type === 'drive' && (
+                        <div
+                          className='pointer-events-auto absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/85 px-2.5 py-1 text-[11px] font-semibold text-white/90 shadow-md backdrop-blur-md select-none'
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                          onTouchStart={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                        >
+                          <span className='h-1.5 w-1.5 animate-pulse rounded-full bg-blue-500' />
+                          <span>PThamSS</span>
+                        </div>
+                      )}
                     </>
                   ) : (
                     <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
