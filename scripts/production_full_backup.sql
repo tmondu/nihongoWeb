@@ -10843,4 +10843,21 @@ INSERT INTO `vocabularies` (`id`, `level`, `jmdict_seq`, `kana`, `kanji`, `walle
 (8292, 'n1', '1146110', 'レンジ', NULL, 'lò vi sóng, phạm vi'),
 (8293, 'n1', '1146230', 'レントゲン', NULL, 'tia X, chụp X-quang');
 
+DROP TABLE IF EXISTS `lessons`;
+CREATE TABLE `lessons` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `level` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'n5',
+  `video_url` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_num` int NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_lesson_level` (`level`),
+  KEY `idx_lesson_order` (`order_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `lessons` (`id`, `title`, `description`, `level`, `video_url`, `order_num`) VALUES
+(1, 'Buổi 1: Giới thiệu khóa học & Phương pháp học tiếng Nhật hiệu quả', 'Video mẫu hướng dẫn cách tiếp cận tiếng Nhật từ con số 0, cách phân bổ thời gian học Kanji, từ vựng và luyện phát âm Shadowing.', 'n5', 'https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs/view?usp=sharing', 1);
+
 SET FOREIGN_KEY_CHECKS = 1;

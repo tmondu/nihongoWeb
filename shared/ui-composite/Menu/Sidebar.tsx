@@ -22,6 +22,7 @@ import {
   LayoutGrid,
   Layers,
   Video,
+  GraduationCap,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -96,6 +97,11 @@ const mainNavItems: NavItem[] = [
     href: '/shadowing',
     labelKey: 'shadowing',
     icon: Video,
+  },
+  {
+    href: '/classroom',
+    labelKey: 'classroom',
+    icon: GraduationCap,
   },
   {
     href: '/translate',

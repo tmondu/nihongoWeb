@@ -9,6 +9,7 @@ import {
   Users,
   LogOut,
   Sparkles,
+  GraduationCap,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -26,6 +27,11 @@ const NAV_ITEMS = [
     label: 'Chữ Hán (Kanji)',
     href: '/kanji',
     icon: Languages,
+  },
+  {
+    label: 'Bài Giảng (Lessons)',
+    href: '/lessons',
+    icon: GraduationCap,
   },
   {
     label: 'Thành Viên (Users)',

@@ -24,7 +24,8 @@
     "converter": "Converter",
     "experiments": "Experiments",
     "thamlet": "Thamlet",
-    "shadowing": "Shadowing"
+    "shadowing": "Shadowing",
+    "classroom": "Lessons"
   },
   "breadcrumbs": {
     "home": "Home",
