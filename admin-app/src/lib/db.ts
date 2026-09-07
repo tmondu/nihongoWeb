@@ -16,6 +16,10 @@ export function getDbPool(): Pool {
       user,
       password,
       database,
+      ssl:
+        process.env.DB_SSL === 'true'
+          ? { minVersion: 'TLSv1.2', rejectUnauthorized: true }
+          : undefined,
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0,

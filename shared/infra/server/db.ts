@@ -17,9 +17,11 @@ export function getDbPool(): mysql.Pool {
     password: env.db.password,
     database: env.db.name,
     port: env.db.port,
+    ssl: env.db.ssl,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    enableKeepAlive: true,
   });
 
   if (!initialized) {
