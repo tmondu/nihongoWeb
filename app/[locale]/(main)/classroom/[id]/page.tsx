@@ -11,6 +11,7 @@ import {
   ArrowLeft,
   ChevronLeft,
   ChevronRight,
+  VideoOff,
 } from 'lucide-react';
 import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
@@ -41,6 +42,32 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
     null,
   );
   const [userEmail, setUserEmail] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [videoChecking, setVideoChecking] = useState(false);
+  const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
+  const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
+
+  const checkVideoStatus = async (url: string, fresh = false) => {
+    if (!url) {
+      setVideoAvailable(false);
+      setVideoErrorReason('empty_url');
+      return;
+    }
+    setVideoChecking(true);
+    try {
+      const res = await fetch(
+        `/api/lessons/check-video?url=${encodeURIComponent(url)}${fresh ? '&fresh=true' : ''}`,
+      );
+      const data = await res.json();
+      setVideoAvailable(Boolean(data.available));
+      setVideoErrorReason(data.reason || null);
+    } catch {
+      // If verification endpoint encounters network error, fall back to true
+      setVideoAvailable(true);
+    } finally {
+      setVideoChecking(false);
+    }
+  };
 
   const fetchLessons = async () => {
     setLoading(true);
@@ -65,6 +92,9 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
       }
 
       const data = await res.json();
+      if (data?.user?.is_admin) {
+        setIsAdmin(true);
+      }
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
     } catch (err) {
@@ -100,6 +130,15 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const parsedVideo = useMemo(() => {
     if (!currentLesson?.video_url) return null;
     return parseVideoEmbedUrl(currentLesson.video_url);
+  }, [currentLesson]);
+
+  useEffect(() => {
+    if (currentLesson?.video_url) {
+      checkVideoStatus(currentLesson.video_url);
+    } else if (currentLesson && !currentLesson.video_url) {
+      setVideoAvailable(false);
+      setVideoErrorReason('empty_url');
+    }
   }, [currentLesson]);
 
   return (
@@ -213,7 +252,69 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
               <div className='flex flex-col gap-5 lg:col-span-8'>
                 {/* 16:9 Video Box */}
                 <div className='border-border/60 relative aspect-video w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40'>
-                  {parsedVideo?.embedUrl ? (
+                  {videoChecking ? (
+                    <div className='text-muted-foreground flex h-full w-full flex-col items-center justify-center gap-3 bg-black/60'>
+                      <RefreshCw className='h-7 w-7 animate-spin text-blue-500' />
+                      <p className='text-xs font-medium'>
+                        Đang chuẩn bị bài giảng...
+                      </p>
+                    </div>
+                  ) : videoAvailable === false ? (
+                    /* Custom Error Screen */
+                    <div className='flex h-full w-full flex-col items-center justify-center bg-gradient-to-b from-slate-900 via-[#111118] to-black p-6 text-center'>
+                      <div className='mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-lg shadow-rose-500/10'>
+                        <VideoOff className='h-7 w-7' />
+                      </div>
+
+                      <h3 className='text-foreground text-base font-bold md:text-lg'>
+                        Video bài giảng tạm thời không khả dụng
+                      </h3>
+
+                      <p className='text-muted-foreground mt-1.5 max-w-md text-xs leading-relaxed md:text-sm'>
+                        {videoErrorReason === 'private_or_not_shared'
+                          ? 'Tệp video Google Drive hiện chưa được cấp quyền xem công khai hoặc đã bị giới hạn truy cập.'
+                          : 'Không thể tải video từ liên kết được cung cấp (tệp có thể đã bị xóa hoặc liên kết không chính xác).'}
+                      </p>
+
+                      <div className='mt-4 flex flex-wrap items-center justify-center gap-3'>
+                        <button
+                          onClick={() =>
+                            currentLesson?.video_url &&
+                            checkVideoStatus(currentLesson.video_url, true)
+                          }
+                          className='inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
+                        >
+                          <RefreshCw className='h-3.5 w-3.5' />
+                          <span>Thử kiểm tra lại</span>
+                        </button>
+                        <Link
+                          href='/classroom'
+                          className='border-border/60 bg-muted/40 hover:bg-muted text-foreground inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-xs font-medium transition-all'
+                        >
+                          <ArrowLeft className='h-3.5 w-3.5' />
+                          <span>Xem bài giảng khác</span>
+                        </Link>
+                      </div>
+
+                      {isAdmin && (
+                        <div className='mt-4 max-w-md rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-left text-xs text-amber-300'>
+                          <div className='mb-1 flex items-center gap-1.5 font-semibold'>
+                            <span>🛠 Gợi ý cho Giáo viên / Quản trị viên:</span>
+                          </div>
+                          <p className='text-[11px] leading-relaxed text-amber-200/80'>
+                            Vào Google Drive &rarr; Nhấp chuột phải vào video
+                            &rarr; Chọn <strong>Chia sẻ (Share)</strong> &rarr;
+                            Đổi quyền truy cập chung thành{' '}
+                            <strong>
+                              &ldquo;Bất kỳ ai có đường liên kết&rdquo; (Anyone
+                              with the link)
+                            </strong>{' '}
+                            rồi bấm &ldquo;Thử kiểm tra lại&rdquo;.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : parsedVideo?.embedUrl ? (
                     <>
                       <iframe
                         src={parsedVideo.embedUrl}
