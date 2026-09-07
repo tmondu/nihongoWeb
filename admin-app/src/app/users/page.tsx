@@ -11,12 +11,14 @@ import {
   ShieldAlert,
   UserCheck,
   UserX,
+  Video,
 } from 'lucide-react';
 
 interface UserRecord {
   id: number;
   email: string;
   is_approved: number;
+  can_watch_video: number;
   is_admin: number;
   created_at: string;
 }
@@ -54,6 +56,27 @@ export default function AdminUsersPage() {
           userId: user.id,
           isApproved: user.is_approved === 1 ? 0 : 1,
           isAdmin: user.is_admin,
+        }),
+      });
+      if (res.ok) {
+        await fetchUsers(true);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleToggleWatchVideo = async (user: UserRecord) => {
+    try {
+      setActionLoading(user.id);
+      const res = await fetch('/api/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          canWatchVideo: user.can_watch_video === 1 ? 0 : 1,
         }),
       });
       if (res.ok) {
@@ -150,6 +173,7 @@ export default function AdminUsersPage() {
                   <th className='px-5 py-3'>ID</th>
                   <th className='px-5 py-3'>Email</th>
                   <th className='px-5 py-3'>Trạng Thái</th>
+                  <th className='px-5 py-3'>Xem Video</th>
                   <th className='px-5 py-3'>Vai Trò</th>
                   <th className='px-5 py-3'>Ngày Tạo</th>
                   <th className='px-5 py-3 text-right'>Thao Tác</th>
@@ -181,6 +205,18 @@ export default function AdminUsersPage() {
                       )}
                     </td>
                     <td className='px-5 py-3.5'>
+                      {user.can_watch_video === 1 ? (
+                        <span className='inline-flex items-center gap-1 rounded-md border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold text-blue-400'>
+                          <Video className='size-3' />
+                          Được xem
+                        </span>
+                      ) : (
+                        <span className='inline-flex items-center gap-1 rounded-md border border-slate-700 bg-slate-800/40 px-2 py-0.5 text-[10px] font-bold text-slate-500'>
+                          Chưa cấp
+                        </span>
+                      )}
+                    </td>
+                    <td className='px-5 py-3.5'>
                       {user.is_admin === 1 ? (
                         <span className='inline-flex items-center gap-1 rounded-md border border-purple-500/20 bg-purple-500/10 px-2 py-0.5 text-[10px] font-bold text-purple-400'>
                           <ShieldCheck className='size-3' />
@@ -204,6 +240,21 @@ export default function AdminUsersPage() {
                         }`}
                       >
                         {user.is_approved === 1 ? 'Khóa' : 'Duyệt'}
+                      </button>
+
+                      <button
+                        disabled={actionLoading !== null}
+                        onClick={() => handleToggleWatchVideo(user)}
+                        className={`flex cursor-pointer items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors ${
+                          user.can_watch_video === 1
+                            ? 'bg-rose-500/10 text-rose-400 hover:bg-rose-500/20'
+                            : 'bg-blue-500/10 text-blue-400 hover:bg-blue-500/20'
+                        }`}
+                        title='Cấp hoặc chặn quyền xem video'
+                      >
+                        {user.can_watch_video === 1
+                          ? 'Chặn Video'
+                          : 'Cấp Video'}
                       </button>
 
                       <button

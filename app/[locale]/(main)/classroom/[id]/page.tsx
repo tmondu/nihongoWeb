@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo, use } from 'react';
 import {
   PlayCircle,
-  Clock,
   Lock,
   BookOpen,
   Calendar,
@@ -78,19 +77,25 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
         setLoading(false);
         return;
       }
-      if (res.status === 403) {
-        const data = await res.json();
-        setAuthError('pending');
-        setUserEmail(data?.user?.email || '');
-        setLoading(false);
-        return;
-      }
 
       if (!res.ok) {
         throw new Error('Lỗi khi tải bài giảng');
       }
 
       const data = await res.json();
+      if (!data.user) {
+        setAuthError('unauthorized');
+        setLoading(false);
+        return;
+      }
+
+      if (!data.user.can_watch_video && !data.user.is_admin) {
+        setAuthError('pending');
+        setUserEmail(data.user.email || '');
+        setLoading(false);
+        return;
+      }
+
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
     } catch (err) {
@@ -193,28 +198,27 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
         </div>
       )}
 
-      {/* Auth state: Pending approval */}
+      {/* Auth state: No video permission */}
       {!loading && authError === 'pending' && (
         <div className='mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-16 text-center'>
-          <div className='mb-4 rounded-full border border-blue-500/20 bg-blue-500/10 p-4 text-blue-400'>
-            <Clock className='h-10 w-10 animate-pulse' />
+          <div className='mb-4 rounded-full border border-amber-500/20 bg-amber-500/10 p-4 text-amber-400'>
+            <Lock className='h-10 w-10' />
           </div>
           <h2 className='text-foreground mb-2 text-xl font-bold'>
-            Tài khoản đang chờ phê duyệt
+            Chưa có quyền xem video bài giảng
           </h2>
           <p className='text-muted-foreground mb-4 text-sm leading-relaxed'>
             Tài khoản{' '}
             <span className='text-foreground font-semibold'>{userEmail}</span>{' '}
-            của bạn đã đăng ký thành công nhưng đang chờ giáo viên cấp quyền
-            truy cập vào kho bài giảng.
+            của bạn chưa được kích hoạt quyền xem video các buổi học.
           </p>
           <div className='bg-muted/40 border-border/50 text-muted-foreground mb-6 w-full rounded-xl border p-3.5 text-left text-xs'>
-            💡 <strong>Mẹo:</strong> Hãy nhắn tin cho giáo viên hoặc quản trị
-            viên để kích hoạt tài khoản của bạn nhanh chóng nhé.
+            💡 <strong>Mẹo:</strong> Hãy liên hệ với giáo viên hoặc quản trị
+            viên để được cấp quyền xem video nhé.
           </div>
           <button
             onClick={() => fetchLessons()}
-            className='bg-muted hover:bg-muted/80 text-foreground border-border flex items-center gap-2 rounded-xl border px-5 py-2 text-sm font-medium transition-all'
+            className='border-border bg-muted/80 hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-5 py-2 text-sm font-medium transition-all'
           >
             <RefreshCw className='h-4 w-4' />
             Kiểm tra lại

@@ -8,6 +8,7 @@ interface UserRow extends RowDataPacket {
   id: number;
   email: string;
   is_approved: number;
+  can_watch_video: number;
   is_admin: number;
   created_at: string;
 }
@@ -16,7 +17,7 @@ export async function GET() {
   try {
     const pool = getDbPool();
     const [rows] = await pool.execute<UserRow[]>(
-      'SELECT id, email, is_approved, is_admin, created_at FROM users ORDER BY id DESC',
+      'SELECT id, email, is_approved, can_watch_video, is_admin, created_at FROM users ORDER BY id DESC',
     );
 
     return NextResponse.json(rows);
@@ -29,7 +30,7 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, isApproved, isAdmin } = body;
+    const { userId, isApproved, isAdmin, canWatchVideo } = body;
 
     if (userId === undefined) {
       return NextResponse.json(
@@ -39,9 +40,30 @@ export async function PUT(request: NextRequest) {
     }
 
     const pool = getDbPool();
+    const updates: string[] = [];
+    const values: (number | string)[] = [];
+
+    if (isApproved !== undefined) {
+      updates.push('is_approved = ?');
+      values.push(isApproved ? 1 : 0);
+    }
+    if (canWatchVideo !== undefined) {
+      updates.push('can_watch_video = ?');
+      values.push(canWatchVideo ? 1 : 0);
+    }
+    if (isAdmin !== undefined) {
+      updates.push('is_admin = ?');
+      values.push(isAdmin ? 1 : 0);
+    }
+
+    if (updates.length === 0) {
+      return NextResponse.json({ success: true });
+    }
+
+    values.push(userId);
     const [result] = await pool.execute<ResultSetHeader>(
-      'UPDATE users SET is_approved = ?, is_admin = ? WHERE id = ?',
-      [isApproved ? 1 : 0, isAdmin ? 1 : 0, userId],
+      `UPDATE users SET ${updates.join(', ')} WHERE id = ?`,
+      values,
     );
 
     if (result.affectedRows === 0) {

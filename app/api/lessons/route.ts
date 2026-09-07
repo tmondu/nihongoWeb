@@ -19,71 +19,70 @@ interface UserRow extends RowDataPacket {
   id: number;
   email: string;
   is_approved: number;
+  can_watch_video: number;
   is_admin: number;
 }
 
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get('id');
+  const level = searchParams.get('level')?.toLowerCase();
+
   const token = request.cookies.get('auth_token')?.value;
 
-  // 1. Check login
-  if (!token) {
-    return NextResponse.json(
-      {
-        error: 'unauthorized',
-        message: 'Vui lòng đăng nhập để xem bài giảng.',
-      },
-      { status: 401 },
-    );
+  let currentUser: UserRow | null = null;
+  if (token) {
+    const payload = await verifyJwt(token);
+    if (payload?.userId) {
+      try {
+        const pool = getDbPool();
+        const [users] = await pool.execute<UserRow[]>(
+          'SELECT id, email, is_approved, can_watch_video, is_admin FROM users WHERE id = ?',
+          [payload.userId as number],
+        );
+        if (users[0]) {
+          currentUser = users[0];
+        }
+      } catch (err) {
+        console.error('Error fetching user info in /api/lessons:', err);
+      }
+    }
   }
 
-  const payload = await verifyJwt(token);
-  if (!payload || !payload.userId) {
-    return NextResponse.json(
-      { error: 'unauthorized', message: 'Phiên đăng nhập không hợp lệ.' },
-      { status: 401 },
-    );
-  }
+  const canWatch = Boolean(
+    currentUser?.can_watch_video || currentUser?.is_admin,
+  );
 
-  try {
-    const pool = getDbPool();
-
-    // 2. Check approval
-    const [users] = await pool.execute<UserRow[]>(
-      'SELECT id, email, is_approved, is_admin FROM users WHERE id = ?',
-      [payload.userId as number],
-    );
-
-    const user = users[0];
-    if (!user) {
+  // If requesting to watch a specific video (e.g. ?id=...)
+  if (id) {
+    if (!currentUser) {
       return NextResponse.json(
         {
-          error: 'user_not_found',
-          message: 'Không tìm thấy thông tin tài khoản.',
+          error: 'unauthorized',
+          message: 'Vui lòng đăng nhập để xem video bài giảng.',
         },
-        { status: 404 },
+        { status: 401 },
       );
     }
 
-    if (!user.is_approved && !user.is_admin) {
+    if (!canWatch) {
       return NextResponse.json(
         {
-          error: 'pending_approval',
+          error: 'forbidden',
           message:
-            'Tài khoản của bạn đang chờ phê duyệt. Vui lòng liên hệ giáo viên để được cấp quyền vào lớp học.',
+            'Tài khoản của bạn chưa được cấp quyền xem video bài giảng. Vui lòng liên hệ giáo viên để được kích hoạt quyền học.',
           user: {
-            email: user.email,
-            is_approved: false,
+            email: currentUser.email,
+            can_watch_video: false,
           },
         },
         { status: 403 },
       );
     }
+  }
 
-    // 3. Fetch lessons
-    const { searchParams } = new URL(request.url);
-    const id = searchParams.get('id');
-    const level = searchParams.get('level')?.toLowerCase();
-
+  try {
+    const pool = getDbPool();
     let query =
       'SELECT id, title, description, level, video_url, order_num, created_at FROM lessons';
     const params: (string | number)[] = [];
@@ -100,15 +99,23 @@ export async function GET(request: NextRequest) {
 
     const [lessons] = await pool.execute<LessonRow[]>(query, params);
 
+    // If user cannot watch, hide video_url to prevent link leakage
+    const sanitizedLessons = lessons.map(l => ({
+      ...l,
+      video_url: canWatch ? l.video_url : '',
+    }));
+
     return NextResponse.json({
       success: true,
-      lessons,
-      total: lessons.length,
-      user: {
-        email: user.email,
-        is_approved: true,
-        is_admin: Boolean(user.is_admin),
-      },
+      lessons: sanitizedLessons,
+      total: sanitizedLessons.length,
+      user: currentUser
+        ? {
+            email: currentUser.email,
+            can_watch_video: canWatch,
+            is_admin: Boolean(currentUser.is_admin),
+          }
+        : null,
     });
   } catch (error) {
     console.error('Error in /api/lessons:', error);

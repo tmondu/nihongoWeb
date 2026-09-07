@@ -4,15 +4,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   GraduationCap,
   PlayCircle,
-  Clock,
-  Lock,
   BookOpen,
   Calendar,
   RefreshCw,
   Search,
   ChevronRight,
 } from 'lucide-react';
-import { Link, useRouter } from '@/core/i18n/routing';
+import { Link } from '@/core/i18n/routing';
 
 interface Lesson {
   id: number;
@@ -34,34 +32,15 @@ const LEVELS = [
 ];
 
 export default function ClassroomPage() {
-  const router = useRouter();
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState<'unauthorized' | 'pending' | null>(
-    null,
-  );
-  const [userEmail, setUserEmail] = useState('');
 
   const fetchLessons = async () => {
     setLoading(true);
-    setAuthError(null);
     try {
       const res = await fetch('/api/lessons');
-      if (res.status === 401) {
-        setAuthError('unauthorized');
-        setLoading(false);
-        return;
-      }
-      if (res.status === 403) {
-        const data = await res.json();
-        setAuthError('pending');
-        setUserEmail(data?.user?.email || '');
-        setLoading(false);
-        return;
-      }
-
       if (!res.ok) {
         throw new Error('Lỗi khi tải bài giảng');
       }
@@ -109,15 +88,14 @@ export default function ClassroomPage() {
                 Kho Bài Giảng & Video Record
               </h1>
               <p className='text-muted-foreground mt-0.5 text-sm'>
-                Xem lại video các buổi học, hỗ trợ trực tiếp Google Drive &
-                YouTube Full HD
+                Xem lại video các buổi học, hỗ trợ trực tiếp của PThamSS!
               </p>
             </div>
           </div>
         </div>
 
         {/* Level Filters & Search bar */}
-        {!authError && !loading && (
+        {!loading && (
           <div className='mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
             {/* Level Tabs */}
             <div className='flex max-w-full items-center gap-1.5 overflow-x-auto pb-1'>
@@ -162,59 +140,8 @@ export default function ClassroomPage() {
         </div>
       )}
 
-      {/* Auth state: Unauthorized */}
-      {!loading && authError === 'unauthorized' && (
-        <div className='mx-auto flex max-w-md flex-col items-center justify-center px-4 py-16 text-center'>
-          <div className='mb-4 rounded-full border border-amber-500/20 bg-amber-500/10 p-4 text-amber-400'>
-            <Lock className='h-10 w-10' />
-          </div>
-          <h2 className='text-foreground mb-2 text-xl font-bold'>
-            Vui lòng đăng nhập
-          </h2>
-          <p className='text-muted-foreground mb-6 text-sm leading-relaxed'>
-            Khu vực bài giảng chỉ dành riêng cho học viên của PThamSS. Vui lòng
-            đăng nhập vào tài khoản của bạn để tiếp tục học.
-          </p>
-          <button
-            onClick={() => router.push('/profile')}
-            className='rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500'
-          >
-            Đăng nhập ngay
-          </button>
-        </div>
-      )}
-
-      {/* Auth state: Pending approval */}
-      {!loading && authError === 'pending' && (
-        <div className='mx-auto flex max-w-lg flex-col items-center justify-center px-4 py-16 text-center'>
-          <div className='mb-4 rounded-full border border-blue-500/20 bg-blue-500/10 p-4 text-blue-400'>
-            <Clock className='h-10 w-10 animate-pulse' />
-          </div>
-          <h2 className='text-foreground mb-2 text-xl font-bold'>
-            Tài khoản đang chờ phê duyệt
-          </h2>
-          <p className='text-muted-foreground mb-4 text-sm leading-relaxed'>
-            Tài khoản{' '}
-            <span className='text-foreground font-semibold'>{userEmail}</span>{' '}
-            của bạn đã đăng ký thành công nhưng đang chờ giáo viên cấp quyền
-            truy cập vào kho bài giảng.
-          </p>
-          <div className='bg-muted/40 border-border/50 text-muted-foreground mb-6 w-full rounded-xl border p-3.5 text-left text-xs'>
-            💡 <strong>Mẹo:</strong> Hãy nhắn tin cho giáo viên hoặc quản trị
-            viên để kích hoạt tài khoản của bạn nhanh chóng nhé.
-          </div>
-          <button
-            onClick={() => fetchLessons()}
-            className='bg-muted hover:bg-muted/80 text-foreground border-border flex items-center gap-2 rounded-xl border px-5 py-2 text-sm font-medium transition-all'
-          >
-            <RefreshCw className='h-4 w-4' />
-            Kiểm tra lại
-          </button>
-        </div>
-      )}
-
       {/* Normal State: List of Lesson Titles */}
-      {!loading && !authError && (
+      {!loading && (
         <>
           {filteredLessons.length === 0 ? (
             <div className='border-border/60 rounded-2xl border border-dashed py-20 text-center'>
