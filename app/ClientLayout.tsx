@@ -154,10 +154,24 @@ export default function ClientLayout({
     if (!isAuthRoute && !isPublicRoute) {
       const isLoggedIn = sessionStorage.getItem('is_logged_in');
       if (!isLoggedIn) {
-        fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
-          sessionStorage.clear();
-          window.location.href = '/login';
-        });
+        // Double check session with /api/auth/me before forcing logout
+        fetch('/api/auth/me')
+          .then(res => {
+            if (res.ok) {
+              sessionStorage.setItem('is_logged_in', 'true');
+            } else {
+              fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+                sessionStorage.clear();
+                window.location.href = `/login?redirect=${encodeURIComponent(cleanPath)}`;
+              });
+            }
+          })
+          .catch(() => {
+            fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+              sessionStorage.clear();
+              window.location.href = `/login?redirect=${encodeURIComponent(cleanPath)}`;
+            });
+          });
       }
     }
   }, [pathname]);

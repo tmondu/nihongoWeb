@@ -161,9 +161,35 @@ export async function GET(request: NextRequest) {
       email,
     });
 
-    // 5. Set session cookie and redirect to target page
-    const redirectUrl = new URL(redirectTarget, baseUrl);
-    const response = NextResponse.redirect(redirectUrl);
+    // 5. Set session cookie and redirect with client-side sessionStorage initialization
+    const html = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Đang đăng nhập...</title>
+</head>
+<body style="background:#0f172a;color:#f8fafc;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;margin:0;">
+  <div style="text-align:center;">
+    <h2 style="margin-bottom:8px;">Đăng nhập thành công!</h2>
+    <p style="color:#94a3b8;font-size:14px;">Đang chuyển hướng vào hệ thống...</p>
+  </div>
+  <script>
+    try {
+      sessionStorage.removeItem('vocab-cache');
+      sessionStorage.removeItem('kanji-cache');
+      sessionStorage.setItem('is_logged_in', 'true');
+    } catch (e) {}
+    window.location.replace(${JSON.stringify(redirectTarget)});
+  </script>
+</body>
+</html>`;
+
+    const response = new NextResponse(html, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    });
 
     response.cookies.set('auth_token', token, {
       httpOnly: true,
