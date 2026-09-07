@@ -372,24 +372,6 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
                         allowFullScreen
                       />
-
-                      {/* Cover & block the Google Drive pop-out button at top-right */}
-                      {parsedVideo.type === 'drive' && (
-                        <div
-                          className='pointer-events-auto absolute top-2.5 right-2.5 z-20 flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/85 px-2.5 py-1 text-[11px] font-semibold text-white/90 shadow-md backdrop-blur-md select-none'
-                          onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }}
-                          onTouchStart={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }}
-                        >
-                          <span className='h-1.5 w-1.5 animate-pulse rounded-full bg-blue-500' />
-                          <span>PThamSS</span>
-                        </div>
-                      )}
                     </>
                   ) : (
                     <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
