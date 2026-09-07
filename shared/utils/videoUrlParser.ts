@@ -6,6 +6,8 @@ export interface ParsedVideo {
   type: 'drive' | 'youtube' | 'generic';
   embedUrl: string;
   originalUrl: string;
+  /** Google Drive file ID — present only when type === 'drive' */
+  driveId?: string;
 }
 
 export function parseVideoEmbedUrl(rawUrl: string): ParsedVideo {
@@ -29,6 +31,7 @@ export function parseVideoEmbedUrl(rawUrl: string): ParsedVideo {
       type: 'drive',
       embedUrl: `https://drive.google.com/file/d/${driveId}/preview`,
       originalUrl: url,
+      driveId,
     };
   }
 

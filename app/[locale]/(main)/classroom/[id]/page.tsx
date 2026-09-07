@@ -13,11 +13,11 @@ import {
   VideoOff,
   Smartphone,
   Tv,
-  Maximize2,
 } from 'lucide-react';
 import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
 import { cn } from '@/shared/utils';
+import DriveVideoPlayer from '@/features/Classroom/components/DriveVideoPlayer';
 
 interface Lesson {
   id: number;
@@ -48,18 +48,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
   const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('9:16');
-  const [showToolbar, setShowToolbar] = useState(false);
   const videoBoxRef = useRef<HTMLDivElement>(null);
-
-  const handleFullscreen = () => {
-    if (videoBoxRef.current) {
-      if (document.fullscreenElement) {
-        document.exitFullscreen().catch(() => {});
-      } else if (videoBoxRef.current.requestFullscreen) {
-        videoBoxRef.current.requestFullscreen().catch(() => {});
-      }
-    }
-  };
 
   const checkVideoStatus = async (url: string, fresh = false) => {
     if (!url) {
@@ -266,64 +255,72 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
             <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-12'>
               {/* Left Column: Big Video Player & Details (8 cols) */}
               <div className='flex flex-col gap-5 lg:col-span-8'>
-                {/* Collapsible Ratio & Playback Toolbar — hiện phía dưới video */}
+                {/* Collapsible Ratio — dưới video */}
 
-                {/* Dynamic Video Box (Defaults to 9:16 tall container) */}
-                <div
-                  ref={videoBoxRef}
-                  className={cn(
-                    'border-border/60 relative w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40 transition-all duration-300',
-                    aspectRatio === '9:16'
-                      ? 'mx-auto aspect-[9/16] max-h-[85vh] max-w-[460px]'
-                      : 'aspect-video w-full',
-                  )}
-                >
-                  {videoChecking ? (
-                    <div className='text-muted-foreground flex h-full w-full flex-col items-center justify-center gap-3 bg-black/60'>
-                      <RefreshCw className='h-7 w-7 animate-spin text-blue-500' />
-                      <p className='text-xs font-medium'>
-                        Đang chuẩn bị bài giảng...
-                      </p>
-                    </div>
-                  ) : videoAvailable === false ? (
-                    /* Custom Error Screen */
-                    <div className='flex h-full w-full flex-col items-center justify-center bg-gradient-to-b from-slate-900 via-[#111118] to-black p-6 text-center'>
-                      <div className='mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-lg shadow-rose-500/10'>
-                        <VideoOff className='h-7 w-7' />
+                {/* Drive Custom Video Player */}
+                {parsedVideo?.type === 'drive' && parsedVideo.driveId ? (
+                  <DriveVideoPlayer
+                    fileId={parsedVideo.driveId}
+                    title={currentLesson.title}
+                    className={cn(
+                      'w-full transition-all duration-300',
+                      aspectRatio === '9:16'
+                        ? 'mx-auto aspect-[9/16] max-h-[85vh] max-w-[460px]'
+                        : 'aspect-video',
+                    )}
+                  />
+                ) : (
+                  /* Fallback: iframe for YouTube or generic */
+                  <div
+                    ref={videoBoxRef}
+                    className={cn(
+                      'border-border/60 relative w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40 transition-all duration-300',
+                      aspectRatio === '9:16'
+                        ? 'mx-auto aspect-[9/16] max-h-[85vh] max-w-[460px]'
+                        : 'aspect-video w-full',
+                    )}
+                  >
+                    {videoChecking ? (
+                      <div className='text-muted-foreground flex h-full w-full flex-col items-center justify-center gap-3 bg-black/60'>
+                        <RefreshCw className='h-7 w-7 animate-spin text-blue-500' />
+                        <p className='text-xs font-medium'>
+                          Đang chuẩn bị bài giảng...
+                        </p>
                       </div>
-
-                      <h3 className='text-foreground text-base font-bold md:text-lg'>
-                        Video bài giảng tạm thời không khả dụng
-                      </h3>
-
-                      <p className='text-muted-foreground mt-1.5 max-w-md text-xs leading-relaxed md:text-sm'>
-                        {videoErrorReason === 'private_or_not_shared'
-                          ? 'Tệp video Google Drive hiện chưa được cấp quyền xem công khai hoặc đã bị giới hạn truy cập.'
-                          : 'Không thể tải video từ liên kết được cung cấp (tệp có thể đã bị xóa hoặc liên kết không chính xác).'}
-                      </p>
-
-                      <div className='mt-4 flex flex-wrap items-center justify-center gap-3'>
-                        <button
-                          onClick={() =>
-                            currentLesson?.video_url &&
-                            checkVideoStatus(currentLesson.video_url, true)
-                          }
-                          className='inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
-                        >
-                          <RefreshCw className='h-3.5 w-3.5' />
-                          <span>Thử kiểm tra lại</span>
-                        </button>
-                        <Link
-                          href='/classroom'
-                          className='border-border/60 bg-muted/40 hover:bg-muted text-foreground inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-xs font-medium transition-all'
-                        >
-                          <ArrowLeft className='h-3.5 w-3.5' />
-                          <span>Xem bài giảng khác</span>
-                        </Link>
+                    ) : videoAvailable === false ? (
+                      <div className='flex h-full w-full flex-col items-center justify-center bg-gradient-to-b from-slate-900 via-[#111118] to-black p-6 text-center'>
+                        <div className='mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-lg shadow-rose-500/10'>
+                          <VideoOff className='h-7 w-7' />
+                        </div>
+                        <h3 className='text-foreground text-base font-bold md:text-lg'>
+                          Video bài giảng tạm thời không khả dụng
+                        </h3>
+                        <p className='text-muted-foreground mt-1.5 max-w-md text-xs leading-relaxed md:text-sm'>
+                          {videoErrorReason === 'private_or_not_shared'
+                            ? 'Tệp video Google Drive hiện chưa được cấp quyền xem công khai hoặc đã bị giới hạn truy cập.'
+                            : 'Không thể tải video từ liên kết được cung cấp (tệp có thể đã bị xóa hoặc liên kết không chính xác).'}
+                        </p>
+                        <div className='mt-4 flex flex-wrap items-center justify-center gap-3'>
+                          <button
+                            onClick={() =>
+                              currentLesson?.video_url &&
+                              checkVideoStatus(currentLesson.video_url, true)
+                            }
+                            className='inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
+                          >
+                            <RefreshCw className='h-3.5 w-3.5' />
+                            <span>Thử kiểm tra lại</span>
+                          </button>
+                          <Link
+                            href='/classroom'
+                            className='border-border/60 bg-muted/40 hover:bg-muted text-foreground inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-xs font-medium transition-all'
+                          >
+                            <ArrowLeft className='h-3.5 w-3.5' />
+                            <span>Xem bài giảng khác</span>
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ) : parsedVideo?.embedUrl ? (
-                    <>
+                    ) : parsedVideo?.embedUrl ? (
                       <iframe
                         src={parsedVideo.embedUrl}
                         title={currentLesson.title}
@@ -331,94 +328,41 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen'
                         allowFullScreen
                       />
-                      {/* Overlay trong suốt chặn nút pop-out của Drive ở góc trên-phải */}
-                      {parsedVideo.type === 'drive' && (
-                        <div
-                          className='pointer-events-auto absolute top-0 right-0 z-20 h-14 w-14'
-                          onTouchStart={e => e.stopPropagation()}
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
-                      Không tìm thấy liên kết video hợp lệ.
-                    </div>
-                  )}
-                </div>
-
-                {/* Toolbar thu gọn — hiện dưới video */}
-                <div className='flex items-center justify-between gap-2 pt-0.5'>
-                  <div className='flex items-center gap-2'>
-                    {/* Toggle nút thu gọn toolbar */}
-                    <button
-                      type='button'
-                      onClick={() => setShowToolbar(v => !v)}
-                      className={cn(
-                        'border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all',
-                        showToolbar &&
-                          'border-blue-500/40 bg-blue-500/10 text-blue-400',
-                      )}
-                      title='Cài đặt hiển thị'
-                    >
-                      {aspectRatio === '9:16' ? (
-                        <>
-                          <Smartphone className='h-3.5 w-3.5' />
-                          <span className='hidden sm:inline'>Dọc 9:16</span>
-                        </>
-                      ) : (
-                        <>
-                          <Tv className='h-3.5 w-3.5' />
-                          <span className='hidden sm:inline'>Ngang 16:9</span>
-                        </>
-                      )}
-                    </button>
-
-                    {/* Expanded toolbar */}
-                    {showToolbar && (
-                      <div className='animate-in fade-in slide-in-from-left-2 flex items-center gap-1 duration-150'>
-                        <button
-                          type='button'
-                          onClick={() => {
-                            setAspectRatio('9:16');
-                            setShowToolbar(false);
-                          }}
-                          className={cn(
-                            'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
-                            aspectRatio === '9:16'
-                              ? 'border-blue-600 bg-blue-600 text-white'
-                              : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
-                          )}
-                        >
-                          <Smartphone className='h-3.5 w-3.5' />
-                          <span>9:16</span>
-                        </button>
-                        <button
-                          type='button'
-                          onClick={() => {
-                            setAspectRatio('16:9');
-                            setShowToolbar(false);
-                          }}
-                          className={cn(
-                            'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
-                            aspectRatio === '16:9'
-                              ? 'border-blue-600 bg-blue-600 text-white'
-                              : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
-                          )}
-                        >
-                          <Tv className='h-3.5 w-3.5' />
-                          <span>16:9</span>
-                        </button>
+                    ) : (
+                      <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
+                        Không tìm thấy liên kết video hợp lệ.
                       </div>
                     )}
                   </div>
+                )}
 
+                {/* Ratio switcher dưới video */}
+                <div className='flex items-center gap-1 pt-1'>
                   <button
                     type='button'
-                    onClick={handleFullscreen}
-                    className='border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all'
-                    title='Toàn màn hình'
+                    onClick={() => setAspectRatio('9:16')}
+                    className={cn(
+                      'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
+                      aspectRatio === '9:16'
+                        ? 'border-blue-600 bg-blue-600 text-white'
+                        : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                    )}
                   >
-                    <Maximize2 className='h-3.5 w-3.5' />
+                    <Smartphone className='h-3.5 w-3.5' />
+                    <span>9:16</span>
+                  </button>
+                  <button
+                    type='button'
+                    onClick={() => setAspectRatio('16:9')}
+                    className={cn(
+                      'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
+                      aspectRatio === '16:9'
+                        ? 'border-blue-600 bg-blue-600 text-white'
+                        : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                    )}
+                  >
+                    <Tv className='h-3.5 w-3.5' />
+                    <span>16:9</span>
                   </button>
                 </div>
 
