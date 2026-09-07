@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo, use } from 'react';
+import React, { useState, useEffect, useMemo, useRef, use } from 'react';
 import {
   PlayCircle,
   Lock,
@@ -11,9 +11,14 @@ import {
   ChevronLeft,
   ChevronRight,
   VideoOff,
+  Smartphone,
+  Tv,
+  Maximize2,
+  ExternalLink,
 } from 'lucide-react';
 import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
+import { cn } from '@/shared/utils';
 
 interface Lesson {
   id: number;
@@ -43,6 +48,18 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const [videoChecking, setVideoChecking] = useState(false);
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
+  const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('9:16');
+  const videoBoxRef = useRef<HTMLDivElement>(null);
+
+  const handleFullscreen = () => {
+    if (videoBoxRef.current) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      } else if (videoBoxRef.current.requestFullscreen) {
+        videoBoxRef.current.requestFullscreen().catch(() => {});
+      }
+    }
+  };
 
   const checkVideoStatus = async (url: string, fresh = false) => {
     if (!url) {
@@ -249,8 +266,73 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
             <div className='grid grid-cols-1 items-start gap-6 lg:grid-cols-12'>
               {/* Left Column: Big Video Player & Details (8 cols) */}
               <div className='flex flex-col gap-5 lg:col-span-8'>
-                {/* 16:9 Video Box */}
-                <div className='border-border/60 relative aspect-video w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40'>
+                {/* Ratio & Playback Toolbar */}
+                <div className='flex flex-wrap items-center justify-between gap-2.5 pb-1'>
+                  <div className='border-border/60 bg-muted/40 flex items-center gap-1 rounded-xl border p-1'>
+                    <button
+                      type='button'
+                      onClick={() => setAspectRatio('9:16')}
+                      className={cn(
+                        'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all',
+                        aspectRatio === '9:16'
+                          ? 'bg-blue-600 text-white shadow-xs'
+                          : 'text-muted-foreground hover:text-foreground',
+                      )}
+                    >
+                      <Smartphone className='h-3.5 w-3.5' />
+                      <span>Khung dọc (9:16)</span>
+                    </button>
+                    <button
+                      type='button'
+                      onClick={() => setAspectRatio('16:9')}
+                      className={cn(
+                        'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all',
+                        aspectRatio === '16:9'
+                          ? 'bg-blue-600 text-white shadow-xs'
+                          : 'text-muted-foreground hover:text-foreground',
+                      )}
+                    >
+                      <Tv className='h-3.5 w-3.5' />
+                      <span>Khung ngang (16:9)</span>
+                    </button>
+                  </div>
+
+                  <div className='flex items-center gap-2'>
+                    <button
+                      type='button'
+                      onClick={handleFullscreen}
+                      className='border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all'
+                      title='Xem toàn màn hình'
+                    >
+                      <Maximize2 className='h-3.5 w-3.5' />
+                      <span className='hidden sm:inline'>Toàn màn hình</span>
+                    </button>
+
+                    {currentLesson?.video_url && (
+                      <a
+                        href={currentLesson.video_url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='border-border/60 bg-muted/40 hover:bg-muted text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all'
+                        title='Mở video trên ứng dụng Google Drive'
+                      >
+                        <ExternalLink className='h-3.5 w-3.5' />
+                        <span className='hidden sm:inline'>Mở Drive</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Dynamic Video Box (Defaults to 9:16 tall container) */}
+                <div
+                  ref={videoBoxRef}
+                  className={cn(
+                    'border-border/60 relative w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40 transition-all duration-300',
+                    aspectRatio === '9:16'
+                      ? 'mx-auto aspect-[9/16] max-h-[85vh] max-w-[460px]'
+                      : 'aspect-video w-full',
+                  )}
+                >
                   {videoChecking ? (
                     <div className='text-muted-foreground flex h-full w-full flex-col items-center justify-center gap-3 bg-black/60'>
                       <RefreshCw className='h-7 w-7 animate-spin text-blue-500' />
