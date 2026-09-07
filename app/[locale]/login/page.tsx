@@ -92,12 +92,12 @@ export default function LoginPage() {
         </a>
 
         {/* Divider */}
-        <div className='relative my-6 flex items-center justify-center'>
-          <div className='w-full border-t border-(--border-color)' />
-          <span className='bg-(--card-color) px-3 text-xs font-semibold tracking-wider text-(--secondary-color) uppercase'>
+        <div className='my-6 flex items-center gap-3'>
+          <div className='h-px flex-1 bg-(--border-color)' />
+          <span className='shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-(--secondary-color) uppercase'>
             Hoặc đăng nhập với Email
           </span>
-          <div className='w-full border-t border-(--border-color)' />
+          <div className='h-px flex-1 bg-(--border-color)' />
         </div>
 
         <form onSubmit={handleSubmit} className='space-y-6'>
