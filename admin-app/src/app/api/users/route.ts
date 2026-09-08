@@ -14,12 +14,24 @@ interface UserRow extends RowDataPacket {
   created_at: string;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const query = searchParams.get('query')?.trim();
+
     const pool = getDbPool();
-    const [rows] = await pool.execute<UserRow[]>(
-      'SELECT id, email, is_approved, can_watch_video, level, is_admin, created_at FROM users ORDER BY id DESC',
-    );
+    let sql =
+      'SELECT id, email, is_approved, can_watch_video, level, is_admin, created_at FROM users';
+    const params: string[] = [];
+
+    if (query) {
+      sql += ' WHERE email LIKE ? OR CAST(id AS CHAR) LIKE ?';
+      params.push(`%${query}%`, `%${query}%`);
+    }
+
+    sql += ' ORDER BY id DESC';
+
+    const [rows] = await pool.execute<UserRow[]>(sql, params);
 
     return NextResponse.json(rows);
   } catch (error) {

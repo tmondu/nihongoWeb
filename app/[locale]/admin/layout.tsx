@@ -11,6 +11,7 @@ import {
   BookOpen,
   ArrowLeft,
   Sparkles,
+  ClipboardCheck,
 } from 'lucide-react';
 
 import AdminLogoutButton from '@/shared/ui/components/AdminLogoutButton';
@@ -113,6 +114,13 @@ export default async function AdminLayout({
           >
             <Sparkles className='size-4 text-slate-400 transition-colors group-hover:text-amber-400' />
             Chữ Kanji
+          </Link>
+          <Link
+            href='/admin/exercises'
+            className='group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-[#16161a] hover:text-white'
+          >
+            <ClipboardCheck className='size-4 text-slate-400 transition-colors group-hover:text-amber-400' />
+            Bài tập
           </Link>
         </nav>
 

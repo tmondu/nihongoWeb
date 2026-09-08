@@ -23,6 +23,7 @@ import {
   Layers,
   Video,
   GraduationCap,
+  ClipboardCheck,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
@@ -102,6 +103,11 @@ const mainNavItems: NavItem[] = [
     href: '/classroom',
     labelKey: 'classroom',
     icon: GraduationCap,
+  },
+  {
+    href: '/exercises',
+    labelKey: 'exercises',
+    icon: ClipboardCheck,
   },
   {
     href: '/translate',

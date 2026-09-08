@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Users,
-  CheckCircle2,
+  Search,
+  X,
   Trash2,
   Loader2,
   ShieldCheck,
-  ShieldAlert,
   UserCheck,
   UserX,
   Video,
+  Filter,
+  RotateCcw,
 } from 'lucide-react';
 
 interface UserRecord {
@@ -28,6 +30,13 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<UserRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+
+  // Search and filter states
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<
+    'all' | 'approved' | 'pending' | 'can_watch' | 'admin'
+  >('all');
+  const [levelFilter, setLevelFilter] = useState<string>('all');
 
   const fetchUsers = async (silent = false) => {
     try {
@@ -46,6 +55,54 @@ export default function AdminUsersPage() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  // Filter users by search query and filters
+  const filteredUsers = useMemo(() => {
+    return users.filter(user => {
+      // Search matching by email or id
+      const q = searchQuery.trim().toLowerCase();
+      const matchSearch =
+        !q ||
+        user.email.toLowerCase().includes(q) ||
+        user.id.toString().includes(q) ||
+        `#${user.id}`.includes(q);
+
+      // Status filter
+      let matchStatus = true;
+      if (statusFilter === 'approved') {
+        matchStatus = user.is_approved === 1;
+      } else if (statusFilter === 'pending') {
+        matchStatus = user.is_approved === 0;
+      } else if (statusFilter === 'can_watch') {
+        matchStatus = user.can_watch_video === 1;
+      } else if (statusFilter === 'admin') {
+        matchStatus = user.is_admin === 1;
+      }
+
+      // Level filter
+      const matchLevel =
+        levelFilter === 'all' ||
+        (user.level && user.level.toLowerCase() === levelFilter.toLowerCase());
+
+      return matchSearch && matchStatus && matchLevel;
+    });
+  }, [users, searchQuery, statusFilter, levelFilter]);
+
+  // Quick stats
+  const stats = useMemo(() => {
+    const total = users.length;
+    const approved = users.filter(u => u.is_approved === 1).length;
+    const pending = users.filter(u => u.is_approved === 0).length;
+    const canWatch = users.filter(u => u.can_watch_video === 1).length;
+    const admins = users.filter(u => u.is_admin === 1).length;
+    return { total, approved, pending, canWatch, admins };
+  }, [users]);
+
+  const handleClearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('all');
+    setLevelFilter('all');
+  };
 
   const handleToggleApprove = async (user: UserRecord) => {
     try {
@@ -127,7 +184,7 @@ export default function AdminUsersPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId: user.id,
-          isApproved: 1, // Make sure admin is approved
+          isApproved: 1,
           isAdmin: nextAdmin,
         }),
       });
@@ -160,21 +217,102 @@ export default function AdminUsersPage() {
     }
   };
 
+  const hasActiveFilters =
+    searchQuery !== '' || statusFilter !== 'all' || levelFilter !== 'all';
+
   return (
     <div className='space-y-6'>
       {/* Header */}
       <div className='flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'>
         <div>
-          <h1 className='text-2xl font-black tracking-tight text-white'>
+          <h1 className='flex items-center gap-2.5 text-2xl font-black tracking-tight text-white'>
+            <Users className='size-7 text-purple-400' />
             Quản Lý Thành Viên (Users)
           </h1>
           <p className='mt-1 text-xs text-slate-400'>
-            Tổng cộng:{' '}
-            <span className='font-bold text-purple-400'>{users.length}</span>{' '}
-            tài khoản trong hệ thống
+            Tổng cộng{' '}
+            <span className='font-bold text-purple-400'>{stats.total}</span> tài
+            khoản trong hệ thống • {stats.approved} đã kích hoạt •{' '}
+            {stats.pending} chờ duyệt • {stats.canWatch} có quyền video
           </p>
         </div>
       </div>
+
+      {/* Search Bar & Filter Controls */}
+      <div className='flex flex-col gap-3 rounded-2xl border border-[#1e1e24] bg-[#0c0c0e] p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between'>
+        {/* Search input */}
+        <div className='relative flex-1 sm:max-w-md'>
+          <Search className='absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-slate-400' />
+          <input
+            type='text'
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            placeholder='Tìm kiếm theo email hoặc ID người dùng...'
+            className='w-full rounded-xl border border-[#2d2d38] bg-[#16161c] py-2.5 pr-10 pl-10 text-xs text-white transition-colors placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
+          />
+          {searchQuery && (
+            <button
+              type='button'
+              onClick={() => setSearchQuery('')}
+              className='absolute top-1/2 right-3 -translate-y-1/2 text-slate-400 hover:text-white'
+            >
+              <X className='size-3.5' />
+            </button>
+          )}
+        </div>
+
+        {/* Filters */}
+        <div className='flex flex-wrap items-center gap-2'>
+          {/* Status filter */}
+          <select
+            value={statusFilter}
+            onChange={e => setStatusFilter(e.target.value as any)}
+            className='rounded-xl border border-[#2d2d38] bg-[#16161c] px-3 py-2 text-xs font-semibold text-slate-300 focus:border-purple-500 focus:outline-none'
+          >
+            <option value='all'>Tất cả trạng thái</option>
+            <option value='approved'>Đã kích hoạt</option>
+            <option value='pending'>Chờ duyệt</option>
+            <option value='can_watch'>Được xem video</option>
+            <option value='admin'>Quản trị viên</option>
+          </select>
+
+          {/* Level filter */}
+          <select
+            value={levelFilter}
+            onChange={e => setLevelFilter(e.target.value)}
+            className='rounded-xl border border-[#2d2d38] bg-[#16161c] px-3 py-2 text-xs font-semibold text-slate-300 focus:border-purple-500 focus:outline-none'
+          >
+            <option value='all'>Tất cả cấp độ</option>
+            <option value='n5'>JLPT N5</option>
+            <option value='n4'>JLPT N4</option>
+            <option value='n3'>JLPT N3</option>
+            <option value='n2'>JLPT N2</option>
+            <option value='n1'>JLPT N1</option>
+          </select>
+
+          {/* Clear filter button */}
+          {hasActiveFilters && (
+            <button
+              type='button'
+              onClick={handleClearFilters}
+              className='inline-flex items-center gap-1 rounded-xl border border-purple-500/30 bg-purple-500/10 px-3 py-2 text-xs font-semibold text-purple-300 transition-colors hover:bg-purple-500/20'
+            >
+              <RotateCcw className='size-3' />
+              <span>Xóa bộ lọc</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Match info */}
+      {hasActiveFilters && (
+        <div className='flex items-center justify-between px-1 text-xs text-slate-400'>
+          <span>
+            Tìm thấy <b className='text-purple-400'>{filteredUsers.length}</b>{' '}
+            kết quả phù hợp (trên tổng số {users.length} tài khoản)
+          </span>
+        </div>
+      )}
 
       {/* Table */}
       <div className='rounded-2xl border border-[#1e1e24] bg-[#0c0c0e] p-5 shadow-sm'>
@@ -182,10 +320,24 @@ export default function AdminUsersPage() {
           <div className='flex justify-center py-20'>
             <Loader2 className='size-8 animate-spin text-purple-500' />
           </div>
-        ) : users.length === 0 ? (
+        ) : filteredUsers.length === 0 ? (
           <div className='flex flex-col items-center justify-center py-20 text-slate-500'>
             <Users className='mb-2 size-10 text-slate-700' />
-            <p className='text-xs'>Không có người dùng nào.</p>
+            <p className='text-xs font-medium'>
+              {hasActiveFilters
+                ? 'Không tìm thấy người dùng nào khớp với điều kiện tìm kiếm.'
+                : 'Chưa có người dùng nào.'}
+            </p>
+            {hasActiveFilters && (
+              <button
+                type='button'
+                onClick={handleClearFilters}
+                className='mt-3 inline-flex items-center gap-1.5 rounded-lg bg-purple-500/10 px-3 py-1.5 text-xs font-semibold text-purple-300 hover:bg-purple-500/20'
+              >
+                <RotateCcw className='size-3' />
+                Xóa tìm kiếm
+              </button>
+            )}
           </div>
         ) : (
           <div className='overflow-hidden rounded-xl border border-[#1e1e24]'>
@@ -203,7 +355,7 @@ export default function AdminUsersPage() {
                 </tr>
               </thead>
               <tbody className='divide-y divide-[#1e1e24]'>
-                {users.map(user => (
+                {filteredUsers.map(user => (
                   <tr
                     key={user.id}
                     className='text-slate-300 transition-colors hover:bg-[#16161a]'
