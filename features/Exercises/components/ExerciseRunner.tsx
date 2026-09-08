@@ -35,6 +35,56 @@ interface ExerciseRunnerProps {
   questions: PublicQuestion[];
 }
 
+/**
+ * Renders passage text with highlighted placeholder badges [18], [ 19 ], [★], etc.
+ */
+function renderPassageWithHighlights(
+  passageText: string,
+  activeQuestionText?: string,
+  currentIndex?: number,
+) {
+  if (!passageText) return null;
+
+  // Detect active blank from question text (e.g. "ô [ 18 ]", "[18]", "18.") or currentIndex + 1
+  const questionNumMatch = activeQuestionText?.match(
+    /(?:\[|\b)(\d+|★)(?:\]|\.|\b)/,
+  );
+  const activeBlank = questionNumMatch
+    ? questionNumMatch[1]
+    : currentIndex !== undefined
+      ? String(currentIndex + 1)
+      : '';
+
+  // Split text by placeholders like [18], [ 18 ], [★], [ * ], 【18】, 【 18 】
+  const parts = passageText.split(
+    /(\[[^\]\n]*?(?:\d+|★|\*)[^\]\n]*?\]|【[^】\n]*?(?:\d+|★|\*)[^】\n]*?】)/g,
+  );
+
+  return parts.map((part, index) => {
+    const match = part.match(/\[\s*(\d+|★|\*)\s*\]|【\s*(\d+|★|\*)\s*】/);
+    if (match) {
+      const tagContent = (match[1] || match[2] || '').trim();
+      const isActive =
+        activeBlank &&
+        (activeBlank === tagContent || activeBlank.includes(tagContent));
+
+      return (
+        <span
+          key={index}
+          className={`mx-1 my-0.5 inline-flex items-center justify-center rounded-xl px-2.5 py-0.5 text-xs font-bold transition-all select-none sm:text-sm ${
+            isActive
+              ? 'scale-105 animate-pulse bg-(--main-color) font-black text-(--background-color) shadow-md ring-3 ring-(--main-color)/40'
+              : 'border border-(--main-color)/40 bg-(--main-color)/20 text-(--main-color) hover:bg-(--main-color)/30'
+          }`}
+        >
+          [ {tagContent} ]
+        </span>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   exerciseId,
   title,
@@ -122,26 +172,17 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
       if (['1', '2', '3', '4'].includes(key)) {
         playClick();
         const optLetter = String.fromCharCode(64 + Number(key));
+        const qKey = String(currentQ.id || currentIndex + 1);
         setAnswers(prev => ({
           ...prev,
-          [String(currentQ.id || currentIndex + 1)]: optLetter,
+          [qKey]: optLetter,
         }));
-      } else if (['A', 'B', 'C', 'D'].includes(key)) {
-        playClick();
-        setAnswers(prev => ({
-          ...prev,
-          [String(currentQ.id || currentIndex + 1)]: key,
-        }));
-      } else if (e.key === 'ArrowRight') {
-        if (currentIndex < totalQuestions - 1) {
-          playClick();
-          setCurrentIndex(prev => prev + 1);
-        }
       } else if (e.key === 'ArrowLeft') {
-        if (currentIndex > 0) {
-          playClick();
-          setCurrentIndex(prev => prev - 1);
-        }
+        playClick();
+        setCurrentIndex(prev => Math.max(0, prev - 1));
+      } else if (e.key === 'ArrowRight') {
+        playClick();
+        setCurrentIndex(prev => Math.min(totalQuestions - 1, prev + 1));
       }
     };
 
@@ -183,7 +224,11 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   }
 
   return (
-    <div className='mx-auto max-w-4xl space-y-6 px-4 py-6'>
+    <div
+      className={`mx-auto space-y-6 px-4 py-6 transition-all sm:px-6 lg:px-8 ${
+        currentQ.passage ? 'max-w-[1550px] 2xl:max-w-[1750px]' : 'max-w-5xl'
+      }`}
+    >
       {/* Top Bar */}
       <div className='flex items-center justify-between rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-4 shadow-sm'>
         <Link
@@ -244,8 +289,12 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                 </span>
               </button>
               {isPassageExpanded && (
-                <div className='mt-3 max-h-64 overflow-y-auto border-t border-(--border-color)/60 pt-3 pr-1 text-sm leading-relaxed font-medium whitespace-pre-line text-(--main-color)'>
-                  {currentQ.passage}
+                <div className='mt-3 max-h-72 overflow-y-auto border-t border-(--border-color)/60 pt-3 pr-1 text-base leading-loose font-normal whitespace-pre-line text-(--main-color)'>
+                  {renderPassageWithHighlights(
+                    currentQ.passage,
+                    currentQ.question,
+                    currentIndex,
+                  )}
                 </div>
               )}
             </div>
@@ -256,15 +305,19 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
           >
             {currentQ.passage && (
               /* Desktop Left Sticky Passage Column (>= xl) */
-              <div className='sticky top-6 hidden max-h-[75vh] flex-col self-start rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm xl:col-span-6 xl:flex'>
+              <div className='sticky top-6 hidden max-h-[78vh] flex-col self-start rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-7 xl:col-span-6 xl:flex'>
                 <div className='mb-4 flex items-center gap-2 border-b border-(--border-color)/60 pb-3'>
-                  <BookOpen className='size-4.5 text-(--main-color)' />
+                  <BookOpen className='size-5 text-(--main-color)' />
                   <span className='text-base font-bold text-(--main-color)'>
                     {currentQ.passage_title || 'Đoạn văn đọc hiểu'}
                   </span>
                 </div>
-                <div className='flex-1 overflow-y-auto pr-3 text-sm leading-loose font-medium tracking-wide whitespace-pre-line text-(--main-color) selection:bg-(--main-color)/20'>
-                  {currentQ.passage}
+                <div className='flex-1 overflow-y-auto pr-3 text-base leading-loose font-normal tracking-wide whitespace-pre-line text-(--main-color) selection:bg-(--main-color)/20 sm:text-lg'>
+                  {renderPassageWithHighlights(
+                    currentQ.passage,
+                    currentQ.question,
+                    currentIndex,
+                  )}
                 </div>
               </div>
             )}

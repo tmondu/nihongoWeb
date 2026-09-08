@@ -22,12 +22,61 @@ interface ExerciseResultProps {
   onRetry: () => void;
 }
 
+/**
+ * Renders passage text with highlighted placeholder badges [18], [ 19 ], [★], etc.
+ */
+function renderPassageWithHighlights(
+  passageText: string,
+  activeQuestionText?: string,
+  currentIndex?: number,
+) {
+  if (!passageText) return null;
+
+  const questionNumMatch = activeQuestionText?.match(
+    /(?:\[|\b)(\d+|★)(?:\]|\.|\b)/,
+  );
+  const activeBlank = questionNumMatch
+    ? questionNumMatch[1]
+    : currentIndex !== undefined
+      ? String(currentIndex + 1)
+      : '';
+
+  const parts = passageText.split(
+    /(\[[^\]\n]*?(?:\d+|★|\*)[^\]\n]*?\]|【[^】\n]*?(?:\d+|★|\*)[^】\n]*?】)/g,
+  );
+
+  return parts.map((part, index) => {
+    const match = part.match(/\[\s*(\d+|★|\*)\s*\]|【\s*(\d+|★|\*)\s*】/);
+    if (match) {
+      const tagContent = (match[1] || match[2] || '').trim();
+      const isActive =
+        activeBlank &&
+        (activeBlank === tagContent || activeBlank.includes(tagContent));
+
+      return (
+        <span
+          key={index}
+          className={`mx-1 my-0.5 inline-flex items-center justify-center rounded-xl px-2 py-0.5 text-xs font-bold transition-all select-none ${
+            isActive
+              ? 'bg-(--main-color) font-black text-(--background-color) shadow-sm ring-2 ring-(--main-color)/40'
+              : 'border border-(--main-color)/40 bg-(--main-color)/20 text-(--main-color)'
+          }`}
+        >
+          [ {tagContent} ]
+        </span>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 export const ExerciseResult: React.FC<ExerciseResultProps> = ({
   result,
   exerciseTitle,
   onRetry,
 }) => {
   const { playClick } = useClick();
+  const hasPassage = result.questions_result.some(q => !!q.passage);
 
   useEffect(() => {
     if (result.percentage >= 70) {
@@ -50,7 +99,11 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
   };
 
   return (
-    <div className='mx-auto max-w-3xl space-y-8 px-4 py-6'>
+    <div
+      className={`mx-auto space-y-8 px-4 py-6 transition-all sm:px-6 lg:px-8 ${
+        hasPassage ? 'max-w-5xl xl:max-w-6xl' : 'max-w-3xl'
+      }`}
+    >
       {/* Result Hero Header */}
       <div className='relative overflow-hidden rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-8 text-center shadow-md'>
         <div className='relative z-10 space-y-4'>
@@ -168,8 +221,12 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
                         <BookOpen className='size-3.5' />
                         <span>{q.passage_title || 'Bài đọc liên quan'}</span>
                       </div>
-                      <div className='max-h-32 overflow-y-auto pr-1 text-xs leading-relaxed font-medium whitespace-pre-line text-(--secondary-color)'>
-                        {q.passage}
+                      <div className='max-h-40 overflow-y-auto pr-1 text-xs leading-loose font-normal whitespace-pre-line text-(--secondary-color) sm:text-sm'>
+                        {renderPassageWithHighlights(
+                          q.passage,
+                          q.question,
+                          idx,
+                        )}
                       </div>
                     </div>
                   )}
