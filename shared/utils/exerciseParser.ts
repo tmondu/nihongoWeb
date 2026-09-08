@@ -280,3 +280,55 @@ D. ところで
 ANSWER: A
 EXPLANATION: それで (Vì vậy, do đó) dùng để nối kết quả của việc thấy bóng chày rất thú vị nên quyết định tham gia.`;
 }
+
+/**
+ * Convert an array of ExerciseQuestion objects back into Aiken format text.
+ * Groups questions with the same passage together inside [PASSAGE]...[/PASSAGE] blocks.
+ */
+export function questionsToAiken(questions: ExerciseQuestion[]): string {
+  if (!questions || questions.length === 0) return '';
+
+  const chunks: string[] = [];
+  let currentPassage: string | null = null;
+  let currentPassageTitle: string | null = null;
+
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    const qPassage = q.passage?.trim() || null;
+    const qPassageTitle = q.passage_title?.trim() || null;
+
+    // Check if passage changed
+    if (qPassage !== currentPassage || qPassageTitle !== currentPassageTitle) {
+      if (qPassage) {
+        const titlePart = qPassageTitle ? `: ${qPassageTitle}` : '';
+        chunks.push(`[PASSAGE${titlePart}]\n${qPassage}\n[/PASSAGE]`);
+      }
+      currentPassage = qPassage;
+      currentPassageTitle = qPassageTitle;
+    }
+
+    const questionLines: string[] = [];
+    const questionNum = i + 1;
+    questionLines.push(`Câu ${questionNum}: ${q.question.trim()}`);
+
+    const letters = ['A', 'B', 'C', 'D'];
+    if (q.options && q.options.length > 0) {
+      q.options.forEach((opt, optIdx) => {
+        const letter = letters[optIdx] || String.fromCharCode(65 + optIdx);
+        questionLines.push(`${letter}. ${opt.trim()}`);
+      });
+    }
+
+    if (q.correct_answer) {
+      questionLines.push(`ANSWER: ${q.correct_answer.trim().toUpperCase()}`);
+    }
+
+    if (q.explanation && q.explanation.trim()) {
+      questionLines.push(`EXPLANATION: ${q.explanation.trim()}`);
+    }
+
+    chunks.push(questionLines.join('\n'));
+  }
+
+  return chunks.join('\n\n');
+}

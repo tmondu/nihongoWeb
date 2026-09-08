@@ -43,6 +43,8 @@ import {
   parseJsonFormat,
   generateSampleCsvTemplate,
   generateSampleAikenTemplate,
+  generateSampleReadingAikenTemplate,
+  questionsToAiken,
 } from '@/shared/utils/exerciseParser';
 
 const LEVELS = [
@@ -199,9 +201,18 @@ export default function AdminExercisesPage() {
     setFormLevel(ex.level);
     setFormTimeLimit(ex.time_limit || 0);
     setFormIsPublished(Boolean(ex.is_published));
-    setFormQuestions(
-      ex.questions && ex.questions.length > 0 ? ex.questions : [],
-    );
+    const questions =
+      ex.questions && ex.questions.length > 0 ? ex.questions : [];
+    setFormQuestions(questions);
+
+    // Pre-populate Aiken source text so user can view/edit in Source tab as well
+    try {
+      const aikenText = questionsToAiken(questions);
+      setSourceText(aikenText);
+    } catch {
+      setSourceText('');
+    }
+
     setBuilderTab('manual');
     setFormError('');
     setIsDialogOpen(true);
@@ -917,6 +928,55 @@ export default function AdminExercisesPage() {
                       </Button>
                     </div>
 
+                    {/* Đoạn văn đọc hiểu (Passage - Tùy chọn) */}
+                    <div className='space-y-2 rounded-xl border border-[#2a2a36] bg-[#16161e] p-3'>
+                      <div className='flex items-center justify-between'>
+                        <span className='flex items-center gap-1.5 text-xs font-semibold text-amber-300'>
+                          <BookOpen className='size-3.5 text-amber-400' />
+                          Đoạn văn đọc hiểu (Passage - Tùy chọn)
+                        </span>
+                        {q.passage ? (
+                          <button
+                            type='button'
+                            onClick={() => {
+                              handleQuestionChange(qIdx, 'passage', '');
+                              handleQuestionChange(qIdx, 'passage_title', '');
+                            }}
+                            className='text-[11px] text-rose-400 underline hover:text-rose-300'
+                          >
+                            Gỡ đoạn văn
+                          </button>
+                        ) : (
+                          <span className='text-[11px] text-slate-500'>
+                            Dùng cho bài đọc hiểu JLPT
+                          </span>
+                        )}
+                      </div>
+
+                      <Input
+                        value={q.passage_title || ''}
+                        onChange={e =>
+                          handleQuestionChange(
+                            qIdx,
+                            'passage_title',
+                            e.target.value,
+                          )
+                        }
+                        placeholder='Tiêu đề bài đọc (ví dụ: 初めての野球)...'
+                        className='border-[#2a2a36] bg-[#121216] text-xs text-white'
+                      />
+
+                      <textarea
+                        value={q.passage || ''}
+                        onChange={e =>
+                          handleQuestionChange(qIdx, 'passage', e.target.value)
+                        }
+                        rows={3}
+                        placeholder='Nội dung bài đọc tiếng Nhật (Hỗ trợ [ 18 ], [ 19 ]... làm ô điền câu hỏi)...'
+                        className='w-full rounded-lg border border-[#2a2a36] bg-[#121216] p-2.5 text-xs text-slate-100 placeholder:text-slate-500 focus:border-amber-500 focus:outline-none'
+                      />
+                    </div>
+
                     {/* Nội dung câu hỏi */}
                     <Input
                       value={q.question}
@@ -992,21 +1052,40 @@ export default function AdminExercisesPage() {
             {/* TAB CON 2: TẠO BẰNG SOURCE TEXT (AIKEN FORMAT) */}
             {builderTab === 'source' && (
               <div className='space-y-4'>
-                <div className='flex items-center justify-between'>
+                <div className='flex flex-wrap items-center justify-between gap-2'>
                   <p className='text-xs text-slate-400'>
-                    Nhập nội dung đề thi theo định dạng chuẩn Aiken. Hệ thống sẽ
-                    tự phân tích và chuyển đổi thành câu hỏi:
+                    Nhập hoặc sửa đề theo chuẩn Aiken (hỗ trợ cả khối{' '}
+                    <code className='text-amber-400'>
+                      [PASSAGE: Tiêu đề]...[/PASSAGE]
+                    </code>
+                    ):
                   </p>
-                  <Button
-                    type='button'
-                    variant='ghost'
-                    size='sm'
-                    onClick={() => setSourceText(generateSampleAikenTemplate())}
-                    className='h-7 text-xs text-amber-400 hover:bg-amber-400/10'
-                  >
-                    <Sparkles className='mr-1.5 size-3.5' />
-                    Chèn mẫu Aiken
-                  </Button>
+                  <div className='flex items-center gap-2'>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='sm'
+                      onClick={() =>
+                        setSourceText(generateSampleReadingAikenTemplate())
+                      }
+                      className='h-7 text-xs text-blue-400 hover:bg-blue-400/10'
+                    >
+                      <BookOpen className='mr-1.5 size-3.5' />
+                      Mẫu đọc hiểu
+                    </Button>
+                    <Button
+                      type='button'
+                      variant='ghost'
+                      size='sm'
+                      onClick={() =>
+                        setSourceText(generateSampleAikenTemplate())
+                      }
+                      className='h-7 text-xs text-amber-400 hover:bg-amber-400/10'
+                    >
+                      <Sparkles className='mr-1.5 size-3.5' />
+                      Mẫu Aiken
+                    </Button>
+                  </div>
                 </div>
 
                 <textarea
