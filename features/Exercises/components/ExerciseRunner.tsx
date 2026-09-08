@@ -234,11 +234,11 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
       }`}
     >
       {/* Top Bar */}
-      <div className='flex items-center justify-between rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-4 shadow-sm'>
+      <div className='flex items-center justify-between rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-4 shadow-sm select-none'>
         <Link
           href='/exercises'
           onClick={playClick}
-          className='inline-flex items-center gap-1.5 text-xs font-semibold text-(--secondary-color) transition-colors hover:text-(--main-color)'
+          className='inline-flex items-center gap-1.5 text-xs font-semibold text-(--secondary-color) transition-colors select-none hover:text-(--main-color)'
         >
           <ArrowLeft className='size-4' />
           <span>Thoát</span>
@@ -331,7 +331,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               className={`space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${effectivePassage ? 'xl:col-span-6' : ''}`}
             >
               {/* Question Progress Header */}
-              <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4'>
+              <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4 select-none'>
                 <span className='rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
                   Câu hỏi {currentIndex + 1} / {totalQuestions}
                 </span>
@@ -344,14 +344,14 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               </div>
 
               {/* Question Text */}
-              <div className='py-2'>
+              <div className='py-2 select-none'>
                 <p className='text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'>
                   {currentQ.question}
                 </p>
               </div>
 
               {/* Options List */}
-              <div className='space-y-3 pt-2'>
+              <div className='space-y-3 pt-2 select-none'>
                 {currentQ.options.map((optionText, optIdx) => {
                   const letter = String.fromCharCode(65 + optIdx);
                   const qKey = String(currentQ.id || currentIndex + 1);
@@ -362,7 +362,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                       key={letter}
                       type='button'
                       onClick={() => handleSelectOption(letter)}
-                      className={`group flex w-full items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-all ${
+                      className={`group flex w-full items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-all select-none ${
                         isSelected
                           ? 'border-(--main-color) bg-(--main-color)/15 shadow-sm'
                           : 'border-(--border-color) bg-(--background-color) hover:border-(--main-color)/60'
@@ -392,7 +392,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               </div>
 
               {/* Navigation Bottom Controls */}
-              <div className='flex items-center justify-between border-t border-(--border-color)/60 pt-6'>
+              <div className='flex items-center justify-between border-t border-(--border-color)/60 pt-6 select-none'>
                 <button
                   type='button'
                   onClick={() => {
@@ -400,7 +400,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                     setCurrentIndex(prev => Math.max(0, prev - 1));
                   }}
                   disabled={currentIndex === 0}
-                  className='inline-flex items-center gap-1.5 rounded-2xl border border-(--border-color) bg-(--card-color) px-4 py-2 text-xs font-semibold text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) disabled:opacity-40'
+                  className='inline-flex items-center gap-1.5 rounded-2xl border border-(--border-color) bg-(--card-color) px-4 py-2 text-xs font-semibold text-(--secondary-color) transition-all select-none hover:border-(--main-color) hover:text-(--main-color) active:scale-95 disabled:pointer-events-none disabled:opacity-40'
                 >
                   <ArrowLeft className='size-4' />
                   <span>Câu trước</span>
@@ -413,7 +413,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                       playClick();
                       setCurrentIndex(prev => prev + 1);
                     }}
-                    className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
+                    className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all select-none hover:opacity-90 active:scale-95'
                   >
                     <span>Câu tiếp</span>
                     <ArrowRight className='size-4' />
@@ -425,7 +425,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                       playClick();
                       setIsConfirmOpen(true);
                     }}
-                    className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
+                    className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all select-none hover:opacity-90 active:scale-95'
                   >
                     <Send className='size-3.5' />
                     <span>Nộp bài</span>
@@ -437,8 +437,8 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
         </div>
 
         {/* Question Palette Sidebar (1 col) */}
-        <div className='space-y-4 lg:col-span-1'>
-          <div className='space-y-4 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-sm'>
+        <div className='space-y-4 select-none lg:col-span-1'>
+          <div className='space-y-4 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-sm select-none'>
             <h3 className='text-xs font-bold tracking-wider text-(--secondary-color) uppercase'>
               Bảng câu hỏi
             </h3>
@@ -458,7 +458,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                       playClick();
                       setCurrentIndex(idx);
                     }}
-                    className={`flex size-9 items-center justify-center rounded-xl text-xs font-bold transition-all ${
+                    className={`flex size-9 items-center justify-center rounded-xl text-xs font-bold transition-all select-none ${
                       isCurrent
                         ? 'scale-105 bg-(--main-color) text-(--background-color) shadow-md'
                         : isAnswered
@@ -495,7 +495,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                 playClick();
                 setIsConfirmOpen(true);
               }}
-              className='flex w-full items-center justify-center gap-2 rounded-2xl bg-(--main-color) py-2.5 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
+              className='flex w-full items-center justify-center gap-2 rounded-2xl bg-(--main-color) py-2.5 text-xs font-bold text-(--background-color) shadow-md transition-all select-none hover:opacity-90 active:scale-95'
             >
               <Send className='size-3.5' />
               <span>
