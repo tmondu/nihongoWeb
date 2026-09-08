@@ -1,5 +1,7 @@
 export interface ExerciseQuestion {
   id: number | string;
+  passage_title?: string;
+  passage?: string;
   question: string;
   options: string[]; // 4 options
   correct_answer: string; // 'A' | 'B' | 'C' | 'D' or option text
@@ -54,6 +56,8 @@ export interface ExerciseSubmissionRecord {
 
 export interface QuestionResultItem {
   id: number | string;
+  passage_title?: string;
+  passage?: string;
   question: string;
   options: string[];
   user_answer: string;

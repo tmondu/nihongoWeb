@@ -97,6 +97,8 @@ export async function POST(
 
       questionsResult.push({
         id: q.id,
+        passage_title: q.passage_title,
+        passage: q.passage,
         question: q.question,
         options: q.options,
         user_answer: chosen,

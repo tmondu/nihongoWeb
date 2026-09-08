@@ -33,6 +33,7 @@ import {
   parseJsonFormat,
   generateSampleCsvTemplate,
   generateSampleAikenTemplate,
+  generateSampleReadingAikenTemplate,
 } from '@/lib/exerciseParser';
 
 const LEVELS = [
@@ -912,6 +913,35 @@ export default function AdminExercisesPage() {
                         </button>
                       </div>
 
+                      <div className='grid grid-cols-1 gap-2 sm:grid-cols-3'>
+                        <input
+                          type='text'
+                          value={q.passage_title || ''}
+                          onChange={e =>
+                            handleQuestionChange(
+                              qIdx,
+                              'passage_title',
+                              e.target.value,
+                            )
+                          }
+                          placeholder='Tiêu đề bài đọc (tùy chọn)...'
+                          className='rounded-xl border border-[#262630] bg-[#14141a] px-3 py-1.5 text-xs text-indigo-300 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none'
+                        />
+                        <input
+                          type='text'
+                          value={q.passage || ''}
+                          onChange={e =>
+                            handleQuestionChange(
+                              qIdx,
+                              'passage',
+                              e.target.value,
+                            )
+                          }
+                          placeholder='Bài đọc chung (Passage nếu có)...'
+                          className='rounded-xl border border-[#262630] bg-[#14141a] px-3 py-1.5 text-xs text-indigo-300 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none sm:col-span-2'
+                        />
+                      </div>
+
                       <input
                         type='text'
                         value={q.question}
@@ -986,28 +1016,43 @@ export default function AdminExercisesPage() {
               {/* 2. TẠO BẰNG SOURCE TEXT (AIKEN) */}
               {builderTab === 'source' && (
                 <div className='space-y-4'>
-                  <div className='flex items-center justify-between'>
+                  <div className='flex flex-wrap items-center justify-between gap-2'>
                     <p className='text-xs text-slate-400'>
-                      Nhập nội dung đề thi theo định dạng chuẩn Aiken. Hệ thống
-                      sẽ tự phân tích thành câu hỏi:
+                      Nhập đề thi định dạng Aiken. Hỗ trợ bài đọc hiểu với thẻ{' '}
+                      <code className='rounded bg-purple-500/20 px-1 py-0.5 text-[11px] text-purple-300'>
+                        [PASSAGE: Tiêu đề] ... [/PASSAGE]
+                      </code>
+                      :
                     </p>
-                    <button
-                      type='button'
-                      onClick={() =>
-                        setSourceText(generateSampleAikenTemplate())
-                      }
-                      className='inline-flex items-center gap-1.5 rounded-lg bg-purple-500/10 px-3 py-1.5 text-xs font-semibold text-purple-300 hover:bg-purple-500/20'
-                    >
-                      <Sparkles className='size-3.5' />
-                      <span>Chèn mẫu Aiken</span>
-                    </button>
+                    <div className='flex items-center gap-2'>
+                      <button
+                        type='button'
+                        onClick={() =>
+                          setSourceText(generateSampleAikenTemplate())
+                        }
+                        className='inline-flex items-center gap-1.5 rounded-lg bg-purple-500/10 px-3 py-1.5 text-xs font-semibold text-purple-300 hover:bg-purple-500/20'
+                      >
+                        <Sparkles className='size-3.5' />
+                        <span>Mẫu Trắc nghiệm</span>
+                      </button>
+                      <button
+                        type='button'
+                        onClick={() =>
+                          setSourceText(generateSampleReadingAikenTemplate())
+                        }
+                        className='inline-flex items-center gap-1.5 rounded-lg bg-indigo-500/15 px-3 py-1.5 text-xs font-semibold text-indigo-300 hover:bg-indigo-500/25'
+                      >
+                        <BookOpen className='size-3.5' />
+                        <span>Mẫu Đọc hiểu [PASSAGE]</span>
+                      </button>
+                    </div>
                   </div>
 
                   <textarea
                     value={sourceText}
                     onChange={e => setSourceText(e.target.value)}
-                    rows={8}
-                    placeholder={`Câu 1: Từ nào sau đây có nghĩa là "Ngày mai"?\nA. きのう\nB. あした\nC. きょう\nD. あさって\nANSWER: B\nEXPLANATION: あした nghĩa là ngày mai.`}
+                    rows={9}
+                    placeholder={`[PASSAGE: 初めての野球]\n日本に来る前に まんがで 野球という スポーツを 知って...\n[/PASSAGE]\n\nCâu 1: Từ nào sau đây có nghĩa là "Ngày mai"?\nA. きのう\nB. あした\nC. きょう\nD. あさって\nANSWER: B\nEXPLANATION: あした nghĩa là ngày mai.`}
                     className='w-full rounded-xl border border-[#262630] bg-[#14141a] p-4 font-mono text-xs text-slate-100 placeholder:text-slate-600 focus:border-purple-500 focus:outline-none'
                   />
 
@@ -1048,11 +1093,18 @@ export default function AdminExercisesPage() {
                           key={idx}
                           className='border-b border-[#1e1e24] pb-2 text-xs text-slate-300'
                         >
-                          <span className='font-bold text-white'>
-                            Câu {idx + 1}:
-                          </span>{' '}
-                          {q.question}
-                          <div className='mt-1 flex gap-3 text-slate-400'>
+                          <div className='flex items-center gap-2'>
+                            <span className='font-bold text-white'>
+                              Câu {idx + 1}:
+                            </span>
+                            {q.passage && (
+                              <span className='rounded bg-indigo-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-300'>
+                                📖 {q.passage_title || 'Có đoạn văn'}
+                              </span>
+                            )}
+                          </div>
+                          <p className='mt-0.5 text-slate-200'>{q.question}</p>
+                          <div className='mt-1 flex flex-wrap gap-3 text-slate-400'>
                             <span>
                               Đáp án đúng:{' '}
                               <b className='text-emerald-400'>

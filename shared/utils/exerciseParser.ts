@@ -6,85 +6,109 @@ import { ExerciseQuestion } from '../types/exercise';
 export function parseAikenFormat(text: string): ExerciseQuestion[] {
   if (!text || !text.trim()) return [];
 
-  const rawBlocks = text.split(/\n\s*\n+/);
+  // Split text into segments starting with [PASSAGE
+  const segments = text.split(/(?=\[PASSAGE(?::[^\]]*)?\])/i);
   const questions: ExerciseQuestion[] = [];
   let questionCounter = 1;
 
-  for (const block of rawBlocks) {
-    const lines = block
-      .split('\n')
-      .map(l => l.trim())
-      .filter(Boolean);
-    if (lines.length < 3) continue;
+  for (const segment of segments) {
+    const trimmedSegment = segment.trim();
+    if (!trimmedSegment) continue;
 
-    let questionText = '';
-    const options: string[] = [];
-    let correctAnswer = '';
-    let explanation = '';
+    let passageTitle: string | undefined = undefined;
+    let passageContent: string | undefined = undefined;
+    let questionsText = trimmedSegment;
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+    const passageMatch = trimmedSegment.match(
+      /^\[PASSAGE(?::\s*([^\]]*))?\]\s*([\s\S]*?)\[\/PASSAGE\]([\s\S]*)$/i,
+    );
 
-      // Check for Answer / Đáp án
-      const answerMatch = line.match(
-        /^(?:ANSWER|ĐÁP ÁN|DAP AN|KEY|ĐÁP ÁN ĐÚNG)[:\s]+([A-Da-d0-9]+|.+)/i,
-      );
-      if (answerMatch) {
-        correctAnswer = answerMatch[1].trim().toUpperCase();
-        continue;
-      }
-
-      // Check for Explanation / Giải thích
-      const explMatch = line.match(
-        /^(?:EXPLANATION|GIẢI THÍCH|GIAI THICH|NOTE|LỜI GIẢI)[:\s]+(.+)/i,
-      );
-      if (explMatch) {
-        explanation = explMatch[1].trim();
-        continue;
-      }
-
-      // Check for Option: A. text, A) text, [A] text
-      const optionMatch = line.match(/^([A-Da-d])[\.\)\:\-]\s*(.+)/);
-      if (optionMatch) {
-        options.push(optionMatch[2].trim());
-        continue;
-      }
-
-      // If we haven't found options yet, treat as part of question text
-      if (options.length === 0) {
-        // Strip out leading "Câu 1:", "Question 1:", "1."
-        const cleanedLine = line.replace(
-          /^(?:Câu|Question|\d+)[\s\d\.\:\-]+/i,
-          '',
-        );
-        questionText = questionText
-          ? `${questionText}\n${cleanedLine || line}`
-          : cleanedLine || line;
-      }
+    if (passageMatch) {
+      passageTitle = (passageMatch[1] || '').trim() || undefined;
+      passageContent = (passageMatch[2] || '').trim() || undefined;
+      questionsText = (passageMatch[3] || '').trim();
     }
 
-    if (questionText && options.length >= 2) {
-      // Normalize correct answer
-      let normAnswer = 'A';
-      if (['A', 'B', 'C', 'D'].includes(correctAnswer)) {
-        normAnswer = correctAnswer;
-      } else {
-        // Check if correct answer matches option text
-        const foundIdx = options.findIndex(
-          opt => opt.toLowerCase() === correctAnswer.toLowerCase(),
+    const rawBlocks = questionsText.split(/\n\s*\n+/);
+
+    for (const block of rawBlocks) {
+      const lines = block
+        .split('\n')
+        .map(l => l.trim())
+        .filter(Boolean);
+      if (lines.length < 3) continue;
+
+      let questionText = '';
+      const options: string[] = [];
+      let correctAnswer = '';
+      let explanation = '';
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        // Check for Answer / Đáp án
+        const answerMatch = line.match(
+          /^(?:ANSWER|ĐÁP ÁN|DAP AN|KEY|ĐÁP ÁN ĐÚNG)[:\s]+([A-Da-d0-9]+|.+)/i,
         );
-        if (foundIdx >= 0) {
-          normAnswer = String.fromCharCode(65 + foundIdx);
+        if (answerMatch) {
+          correctAnswer = answerMatch[1].trim().toUpperCase();
+          continue;
+        }
+
+        // Check for Explanation / Giải thích
+        const explMatch = line.match(
+          /^(?:EXPLANATION|GIẢI THÍCH|GIAI THICH|NOTE|LỜI GIẢI)[:\s]+(.+)/i,
+        );
+        if (explMatch) {
+          explanation = explMatch[1].trim();
+          continue;
+        }
+
+        // Check for Option: A. text, A) text, [A] text
+        const optionMatch = line.match(/^([A-Da-d])[\.\)\:\-]\s*(.+)/);
+        if (optionMatch) {
+          options.push(optionMatch[2].trim());
+          continue;
+        }
+
+        // If we haven't found options yet, treat as part of question text
+        if (options.length === 0) {
+          // Strip out leading "Câu 1:", "Question 1:", "1."
+          const cleanedLine = line.replace(
+            /^(?:Câu|Question|\d+)[\s\d\.\:\-]+/i,
+            '',
+          );
+          questionText = questionText
+            ? `${questionText}\n${cleanedLine || line}`
+            : cleanedLine || line;
         }
       }
 
-      questions.push({
-        id: questionCounter++,
-        question: questionText.trim(),
-        options: options.slice(0, 4),
-        correct_answer: normAnswer,
-        explanation: explanation || undefined,
-      });
+      if (questionText && options.length >= 2) {
+        // Normalize correct answer
+        let normAnswer = 'A';
+        if (['A', 'B', 'C', 'D'].includes(correctAnswer)) {
+          normAnswer = correctAnswer;
+        } else {
+          // Check if correct answer matches option text
+          const foundIdx = options.findIndex(
+            opt => opt.toLowerCase() === correctAnswer.toLowerCase(),
+          );
+          if (foundIdx >= 0) {
+            normAnswer = String.fromCharCode(65 + foundIdx);
+          }
+        }
+
+        questions.push({
+          id: questionCounter++,
+          passage_title: passageTitle,
+          passage: passageContent,
+          question: questionText.trim(),
+          options: options.slice(0, 4),
+          correct_answer: normAnswer,
+          explanation: explanation || undefined,
+        });
+      }
     }
   }
 
@@ -218,4 +242,41 @@ C. は
 D. で
 ANSWER: C
 EXPLANATION: は là trợ từ chỉ chủ ngữ trong câu giới thiệu/khẳng định.`;
+}
+
+/**
+ * Returns a sample Aiken text with Reading Comprehension [PASSAGE] for fast testing
+ */
+export function generateSampleReadingAikenTemplate(): string {
+  return `[PASSAGE: 初めての野球]
+日本に来る前に まんがで 野球という スポーツを 知って、きょうみを もちました。
+でも、私の国では、野球をしている人を見たことがありません。道具もないので、野球はできませんでした。
+
+先週の土曜日にともだちが入っている野球クラブの見学に行きました。クラブの人たちにさそわれて、ずっとやりたかった野球の練習を初めてすることになりました。
+[ 18 ] 野球ができることになって、うれしかったです。ボールを打つのは難しかったです。でも、クラブの人たちがやさしく [ 19 ]。野球はやはりおもしろいスポーツだと思いました。[ 20 ] クラブに入ることにしました。
+[/PASSAGE]
+
+Câu 18: Chọn từ thích hợp điền vào ô [ 18 ]:
+A. もっと
+B. やっと
+C. また
+D. まだ
+ANSWER: B
+EXPLANATION: Dùng やっと (cuối cùng thì) để diễn đạt một việc mong đợi bấy lâu nay đã thành hiện thực.
+
+Câu 19: Chọn cấu trúc thích hợp điền vào ô [ 19 ]:
+A. 教えて くれました
+B. 教えて あげました
+C. 教えて もらいました
+D. 教えて やりました
+ANSWER: A
+EXPLANATION: Chủ ngữ là クラブの人たちが (người khác làm cho mình một việc gì đó) -> dùng 〜てくれました.
+
+Câu 20: Chọn liên từ thích hợp điền vào ô [ 20 ]:
+A. それで
+B. しかし
+C. または
+D. ところで
+ANSWER: A
+EXPLANATION: それで (Vì vậy, do đó) dùng để nối kết quả của việc thấy bóng chày rất thú vị nên quyết định tham gia.`;
 }

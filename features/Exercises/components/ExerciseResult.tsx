@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   Clock,
   HelpCircle,
+  BookOpen,
 } from 'lucide-react';
 import { SubmitExerciseResponse } from '@/shared/types/exercise';
 import confetti from 'canvas-confetti';
@@ -160,6 +161,19 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
                       </span>
                     )}
                   </span>
+
+                  {q.passage && (
+                    <div className='my-2 rounded-2xl border border-(--border-color) bg-(--background-color) p-3'>
+                      <div className='mb-1 flex items-center gap-1.5 text-xs font-bold text-(--main-color)'>
+                        <BookOpen className='size-3.5' />
+                        <span>{q.passage_title || 'Bài đọc liên quan'}</span>
+                      </div>
+                      <div className='max-h-32 overflow-y-auto pr-1 text-xs leading-relaxed font-medium whitespace-pre-line text-(--secondary-color)'>
+                        {q.passage}
+                      </div>
+                    </div>
+                  )}
+
                   <p className='text-sm leading-relaxed font-semibold text-(--main-color)'>
                     {q.question}
                   </p>

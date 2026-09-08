@@ -10,6 +10,9 @@ import {
   AlertTriangle,
   Loader2,
   Send,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
 import {
   Dialog,
@@ -45,6 +48,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [result, setResult] = useState<SubmitExerciseResponse | null>(null);
+  const [isPassageExpanded, setIsPassageExpanded] = useState(true);
 
   const startTimeRef = useRef<number>(Date.now());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -213,108 +217,164 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
       <div className='grid grid-cols-1 gap-6 lg:grid-cols-4'>
         {/* Question Area (3 cols) */}
         <div className='space-y-6 lg:col-span-3'>
-          <div className='space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8'>
-            {/* Question Progress Header */}
-            <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4'>
-              <span className='rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
-                Câu hỏi {currentIndex + 1} / {totalQuestions}
-              </span>
-
-              <span className='text-xs text-(--secondary-color)'>
-                Đã trả lời:{' '}
-                <b className='text-(--main-color)'>{answeredCount}</b>/
-                {totalQuestions}
-              </span>
-            </div>
-
-            {/* Question Text */}
-            <div className='py-2'>
-              <p className='text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'>
-                {currentQ.question}
-              </p>
-            </div>
-
-            {/* Options List */}
-            <div className='space-y-3 pt-2'>
-              {currentQ.options.map((optionText, optIdx) => {
-                const letter = String.fromCharCode(65 + optIdx);
-                const qKey = String(currentQ.id || currentIndex + 1);
-                const isSelected = answers[qKey] === letter;
-
-                return (
-                  <button
-                    key={letter}
-                    type='button'
-                    onClick={() => handleSelectOption(letter)}
-                    className={`group flex w-full items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-all ${
-                      isSelected
-                        ? 'border-(--main-color) bg-(--main-color)/15 shadow-sm'
-                        : 'border-(--border-color) bg-(--background-color) hover:border-(--main-color)/60'
-                    }`}
-                  >
-                    <span
-                      className={`flex size-8 shrink-0 items-center justify-center rounded-xl text-xs font-bold transition-all ${
-                        isSelected
-                          ? 'bg-(--main-color) text-(--background-color) shadow-sm'
-                          : 'border border-(--border-color) bg-(--card-color) text-(--secondary-color) group-hover:text-(--main-color)'
-                      }`}
-                    >
-                      {letter}
-                    </span>
-                    <span
-                      className={`text-sm leading-relaxed font-medium ${
-                        isSelected
-                          ? 'font-bold text-(--main-color)'
-                          : 'text-(--secondary-color) group-hover:text-(--main-color)'
-                      }`}
-                    >
-                      {optionText}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Navigation Bottom Controls */}
-            <div className='flex items-center justify-between border-t border-(--border-color)/60 pt-6'>
+          {currentQ.passage && (
+            /* Mobile / Tablet Collapsible Passage Header (< xl) */
+            <div className='rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-4 shadow-sm xl:hidden'>
               <button
                 type='button'
                 onClick={() => {
                   playClick();
-                  setCurrentIndex(prev => Math.max(0, prev - 1));
+                  setIsPassageExpanded(prev => !prev);
                 }}
-                disabled={currentIndex === 0}
-                className='inline-flex items-center gap-1.5 rounded-2xl border border-(--border-color) bg-(--card-color) px-4 py-2 text-xs font-semibold text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) disabled:opacity-40'
+                className='flex w-full items-center justify-between text-sm font-bold text-(--main-color)'
               >
-                <ArrowLeft className='size-4' />
-                <span>Câu trước</span>
+                <span className='flex items-center gap-2'>
+                  <BookOpen className='size-4 text-(--main-color)' />
+                  <span>
+                    {currentQ.passage_title || 'Đoạn văn đọc hiểu (Passage)'}
+                  </span>
+                </span>
+                <span className='flex items-center gap-1 text-xs text-(--secondary-color) underline'>
+                  <span>{isPassageExpanded ? 'Thu gọn' : 'Xem bài đọc'}</span>
+                  {isPassageExpanded ? (
+                    <ChevronUp className='size-3.5' />
+                  ) : (
+                    <ChevronDown className='size-3.5' />
+                  )}
+                </span>
               </button>
-
-              {currentIndex < totalQuestions - 1 ? (
-                <button
-                  type='button'
-                  onClick={() => {
-                    playClick();
-                    setCurrentIndex(prev => prev + 1);
-                  }}
-                  className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
-                >
-                  <span>Câu tiếp</span>
-                  <ArrowRight className='size-4' />
-                </button>
-              ) : (
-                <button
-                  type='button'
-                  onClick={() => {
-                    playClick();
-                    setIsConfirmOpen(true);
-                  }}
-                  className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
-                >
-                  <Send className='size-3.5' />
-                  <span>Nộp bài</span>
-                </button>
+              {isPassageExpanded && (
+                <div className='mt-3 max-h-64 overflow-y-auto border-t border-(--border-color)/60 pt-3 pr-1 text-sm leading-relaxed font-medium whitespace-pre-line text-(--main-color)'>
+                  {currentQ.passage}
+                </div>
               )}
+            </div>
+          )}
+
+          <div
+            className={`grid grid-cols-1 gap-6 ${currentQ.passage ? 'xl:grid-cols-12' : ''}`}
+          >
+            {currentQ.passage && (
+              /* Desktop Left Sticky Passage Column (>= xl) */
+              <div className='sticky top-6 hidden max-h-[75vh] flex-col self-start rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm xl:col-span-6 xl:flex'>
+                <div className='mb-4 flex items-center gap-2 border-b border-(--border-color)/60 pb-3'>
+                  <BookOpen className='size-4.5 text-(--main-color)' />
+                  <span className='text-base font-bold text-(--main-color)'>
+                    {currentQ.passage_title || 'Đoạn văn đọc hiểu'}
+                  </span>
+                </div>
+                <div className='flex-1 overflow-y-auto pr-3 text-sm leading-loose font-medium tracking-wide whitespace-pre-line text-(--main-color) selection:bg-(--main-color)/20'>
+                  {currentQ.passage}
+                </div>
+              </div>
+            )}
+
+            {/* Right Question & Options Column */}
+            <div
+              className={`space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${currentQ.passage ? 'xl:col-span-6' : ''}`}
+            >
+              {/* Question Progress Header */}
+              <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4'>
+                <span className='rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
+                  Câu hỏi {currentIndex + 1} / {totalQuestions}
+                </span>
+
+                <span className='text-xs text-(--secondary-color)'>
+                  Đã trả lời:{' '}
+                  <b className='text-(--main-color)'>{answeredCount}</b>/
+                  {totalQuestions}
+                </span>
+              </div>
+
+              {/* Question Text */}
+              <div className='py-2'>
+                <p className='text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'>
+                  {currentQ.question}
+                </p>
+              </div>
+
+              {/* Options List */}
+              <div className='space-y-3 pt-2'>
+                {currentQ.options.map((optionText, optIdx) => {
+                  const letter = String.fromCharCode(65 + optIdx);
+                  const qKey = String(currentQ.id || currentIndex + 1);
+                  const isSelected = answers[qKey] === letter;
+
+                  return (
+                    <button
+                      key={letter}
+                      type='button'
+                      onClick={() => handleSelectOption(letter)}
+                      className={`group flex w-full items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-all ${
+                        isSelected
+                          ? 'border-(--main-color) bg-(--main-color)/15 shadow-sm'
+                          : 'border-(--border-color) bg-(--background-color) hover:border-(--main-color)/60'
+                      }`}
+                    >
+                      <span
+                        className={`flex size-8 shrink-0 items-center justify-center rounded-xl text-xs font-bold transition-all ${
+                          isSelected
+                            ? 'bg-(--main-color) text-(--background-color) shadow-sm'
+                            : 'border border-(--border-color) bg-(--card-color) text-(--secondary-color) group-hover:text-(--main-color)'
+                        }`}
+                      >
+                        {letter}
+                      </span>
+                      <span
+                        className={`text-sm leading-relaxed font-medium ${
+                          isSelected
+                            ? 'font-bold text-(--main-color)'
+                            : 'text-(--secondary-color) group-hover:text-(--main-color)'
+                        }`}
+                      >
+                        {optionText}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Navigation Bottom Controls */}
+              <div className='flex items-center justify-between border-t border-(--border-color)/60 pt-6'>
+                <button
+                  type='button'
+                  onClick={() => {
+                    playClick();
+                    setCurrentIndex(prev => Math.max(0, prev - 1));
+                  }}
+                  disabled={currentIndex === 0}
+                  className='inline-flex items-center gap-1.5 rounded-2xl border border-(--border-color) bg-(--card-color) px-4 py-2 text-xs font-semibold text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) disabled:opacity-40'
+                >
+                  <ArrowLeft className='size-4' />
+                  <span>Câu trước</span>
+                </button>
+
+                {currentIndex < totalQuestions - 1 ? (
+                  <button
+                    type='button'
+                    onClick={() => {
+                      playClick();
+                      setCurrentIndex(prev => prev + 1);
+                    }}
+                    className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
+                  >
+                    <span>Câu tiếp</span>
+                    <ArrowRight className='size-4' />
+                  </button>
+                ) : (
+                  <button
+                    type='button'
+                    onClick={() => {
+                      playClick();
+                      setIsConfirmOpen(true);
+                    }}
+                    className='inline-flex items-center gap-1.5 rounded-2xl bg-(--main-color) px-5 py-2 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
+                  >
+                    <Send className='size-3.5' />
+                    <span>Nộp bài</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
