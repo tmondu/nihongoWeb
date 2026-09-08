@@ -10,6 +10,7 @@ import {
   LogOut,
   Sparkles,
   GraduationCap,
+  ClipboardCheck,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -32,6 +33,11 @@ const NAV_ITEMS = [
     label: 'Bài Giảng (Lessons)',
     href: '/lessons',
     icon: GraduationCap,
+  },
+  {
+    label: 'Bài Tập (Exercises)',
+    href: '/exercises',
+    icon: ClipboardCheck,
   },
   {
     label: 'Thành Viên (Users)',
