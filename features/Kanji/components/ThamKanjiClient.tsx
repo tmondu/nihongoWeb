@@ -431,6 +431,7 @@ export default function ThamKanjiClient({
                 >
                   <Link
                     href={`/kanji/thamkanji/${kanji.kanjiChar}`}
+                    prefetch={false}
                     onClick={() => {
                       playClick();
                     }}
