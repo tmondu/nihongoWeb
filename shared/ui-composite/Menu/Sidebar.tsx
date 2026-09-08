@@ -299,7 +299,7 @@ const NavLink = memo(
           )}
           <Link
             href={item.href}
-            prefetch
+            prefetch={false}
             onClick={onClick}
             className={clsx(
               'relative z-10 flex items-center gap-2 rounded-2xl',
@@ -344,7 +344,7 @@ const NavLink = memo(
     return (
       <Link
         href={item.href}
-        prefetch
+        prefetch={false}
         className={clsx(
           baseClasses,
           isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',

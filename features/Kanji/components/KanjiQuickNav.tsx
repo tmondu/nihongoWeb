@@ -49,7 +49,7 @@ export const KanjiQuickNav = () => {
             <Link
               key={item.href}
               href={item.href}
-              prefetch
+              prefetch={false}
               onClick={playClick}
               className={clsx(
                 'group relative flex flex-col justify-between gap-2 overflow-hidden rounded-2xl p-3.5 transition-all duration-200',

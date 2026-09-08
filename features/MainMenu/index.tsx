@@ -228,7 +228,7 @@ const MainMenu = () => {
               <Fragment key={i}>
                 <Link
                   href={link.href}
-                  prefetch
+                  prefetch={false}
                   className={clsx(
                     'group w-full min-w-0',
                     !USE_NEW_DESIGN && 'overflow-hidden',
@@ -302,7 +302,7 @@ const MainMenu = () => {
           {legalLinks.map((link, i) => (
             <Link
               href={link.href}
-              prefetch
+              prefetch={false}
               key={i}
               className={clsx(
                 'flex flex-row items-center gap-1 text-(--secondary-color) hover:cursor-pointer hover:text-(--main-color)',

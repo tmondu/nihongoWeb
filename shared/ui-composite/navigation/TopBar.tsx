@@ -142,7 +142,7 @@ export default function TopBar() {
           >
             <span className='text-3xl'>PThamSS</span>
             <span className='font-normal text-(--secondary-color)'>
-              <Heart className='inline-block size-9 fill-current ml-1 text-red-500' />
+              <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
             </span>
           </Link>
 
@@ -240,12 +240,12 @@ export default function TopBar() {
               )}
               <Link
                 href={item.href}
-                prefetch
+                prefetch={false}
                 onClick={playClick}
                 className={clsx(
                   'relative z-10 flex items-center justify-center rounded-2xl px-3 py-2 text-2xl transition-all duration-250',
                   active &&
-                  'motion-safe:animate-float [--float-distance:-3.5px]',
+                    'motion-safe:animate-float [--float-distance:-3.5px]',
                   active
                     ? 'text-(--background-color)'
                     : 'text-(--secondary-color)',
@@ -262,4 +262,3 @@ export default function TopBar() {
     </>
   );
 }
-
