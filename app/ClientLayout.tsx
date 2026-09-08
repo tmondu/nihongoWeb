@@ -238,7 +238,7 @@ export default function ClientLayout({
       }
 
       // Show donation modal every 50 page changes (e.g. 50, 100, 150...)
-      if (nextCount % 20 === 0) {
+      if (nextCount % 50 === 0) {
         const timer = setTimeout(() => {
           setIsDonationModalOpen(true);
         }, 500);
