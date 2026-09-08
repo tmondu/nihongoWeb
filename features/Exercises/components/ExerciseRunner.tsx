@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { Link } from '@/core/i18n/routing';
 import {
   ArrowLeft,
@@ -106,6 +112,23 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   const currentQ = questions[currentIndex];
   const totalQuestions = questions.length;
   const answeredCount = Object.keys(answers).length;
+
+  // Effective passage: if current question defines passage use it, otherwise inherit from preceding question in passage group
+  const effectivePassage = useMemo(() => {
+    if (currentQ?.passage) return currentQ.passage;
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      if (questions[i]?.passage) return questions[i].passage;
+    }
+    return questions.find(q => q.passage)?.passage || '';
+  }, [currentQ, currentIndex, questions]);
+
+  const effectivePassageTitle = useMemo(() => {
+    if (currentQ?.passage_title) return currentQ.passage_title;
+    for (let i = currentIndex - 1; i >= 0; i--) {
+      if (questions[i]?.passage_title) return questions[i].passage_title;
+    }
+    return questions.find(q => q.passage_title)?.passage_title || '';
+  }, [currentQ, currentIndex, questions]);
 
   // Submit test function
   const handleSubmit = useCallback(async () => {
@@ -226,7 +249,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   return (
     <div
       className={`mx-auto space-y-6 px-4 py-6 transition-all sm:px-6 lg:px-8 ${
-        currentQ.passage ? 'max-w-[1550px] 2xl:max-w-[1750px]' : 'max-w-5xl'
+        effectivePassage ? 'max-w-[1550px] 2xl:max-w-[1750px]' : 'max-w-5xl'
       }`}
     >
       {/* Top Bar */}
@@ -262,7 +285,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
       <div className='grid grid-cols-1 gap-6 lg:grid-cols-4'>
         {/* Question Area (3 cols) */}
         <div className='space-y-6 lg:col-span-3'>
-          {currentQ.passage && (
+          {effectivePassage && (
             /* Mobile / Tablet Collapsible Passage Header (< xl) */
             <div className='rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-4 shadow-sm xl:hidden'>
               <button
@@ -276,7 +299,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                 <span className='flex items-center gap-2'>
                   <BookOpen className='size-4 text-(--main-color)' />
                   <span>
-                    {currentQ.passage_title || 'Đoạn văn đọc hiểu (Passage)'}
+                    {effectivePassageTitle || 'Đoạn văn đọc hiểu (Passage)'}
                   </span>
                 </span>
                 <span className='flex items-center gap-1 text-xs text-(--secondary-color) underline'>
@@ -291,7 +314,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               {isPassageExpanded && (
                 <div className='mt-3 max-h-72 overflow-y-auto border-t border-(--border-color)/60 pt-3 pr-1 text-base leading-loose font-normal whitespace-pre-line text-(--main-color)'>
                   {renderPassageWithHighlights(
-                    currentQ.passage,
+                    effectivePassage,
                     currentQ.question,
                     currentIndex,
                   )}
@@ -301,20 +324,20 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
           )}
 
           <div
-            className={`grid grid-cols-1 gap-6 ${currentQ.passage ? 'xl:grid-cols-12' : ''}`}
+            className={`grid grid-cols-1 gap-6 ${effectivePassage ? 'xl:grid-cols-12' : ''}`}
           >
-            {currentQ.passage && (
+            {effectivePassage && (
               /* Desktop Left Sticky Passage Column (>= xl) */
               <div className='sticky top-6 hidden max-h-[78vh] flex-col self-start rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-7 xl:col-span-6 xl:flex'>
                 <div className='mb-4 flex items-center gap-2 border-b border-(--border-color)/60 pb-3'>
                   <BookOpen className='size-5 text-(--main-color)' />
                   <span className='text-base font-bold text-(--main-color)'>
-                    {currentQ.passage_title || 'Đoạn văn đọc hiểu'}
+                    {effectivePassageTitle || 'Đoạn văn đọc hiểu'}
                   </span>
                 </div>
                 <div className='flex-1 overflow-y-auto pr-3 text-base leading-loose font-normal tracking-wide whitespace-pre-line text-(--main-color) selection:bg-(--main-color)/20 sm:text-lg'>
                   {renderPassageWithHighlights(
-                    currentQ.passage,
+                    effectivePassage,
                     currentQ.question,
                     currentIndex,
                   )}
@@ -324,7 +347,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
 
             {/* Right Question & Options Column */}
             <div
-              className={`space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${currentQ.passage ? 'xl:col-span-6' : ''}`}
+              className={`space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${effectivePassage ? 'xl:col-span-6' : ''}`}
             >
               {/* Question Progress Header */}
               <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4'>

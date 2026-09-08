@@ -375,14 +375,30 @@ export default function AdminExercisesPage() {
       return;
     }
 
-    if (formQuestions.length === 0) {
+    let finalQuestions = formQuestions;
+
+    // If user is editing in Source (Aiken) tab, auto-parse sourceText directly
+    if (builderTab === 'source' && sourceText.trim()) {
+      const parsed = parseAikenFormat(sourceText);
+      if (parsed.length > 0) {
+        finalQuestions = parsed;
+        setFormQuestions(parsed);
+      } else {
+        setFormError(
+          'Không nhận diện được câu hỏi theo định dạng Aiken. Vui lòng kiểm tra lại cú pháp.',
+        );
+        return;
+      }
+    }
+
+    if (finalQuestions.length === 0) {
       setFormError('Bài tập phải có ít nhất 1 câu hỏi.');
       return;
     }
 
     // Validate each question
-    for (let i = 0; i < formQuestions.length; i++) {
-      const q = formQuestions[i];
+    for (let i = 0; i < finalQuestions.length; i++) {
+      const q = finalQuestions[i];
       if (!q.question.trim()) {
         setFormError(`Câu hỏi số ${i + 1} chưa có nội dung.`);
         return;
@@ -400,7 +416,7 @@ export default function AdminExercisesPage() {
         description: formDescription,
         level: formLevel,
         time_limit: Number(formTimeLimit) || 0,
-        questions: formQuestions,
+        questions: finalQuestions,
         is_published: formIsPublished,
       };
 
@@ -936,16 +952,37 @@ export default function AdminExercisesPage() {
                           Đoạn văn đọc hiểu (Passage - Tùy chọn)
                         </span>
                         {q.passage ? (
-                          <button
-                            type='button'
-                            onClick={() => {
-                              handleQuestionChange(qIdx, 'passage', '');
-                              handleQuestionChange(qIdx, 'passage_title', '');
-                            }}
-                            className='text-[11px] text-rose-400 underline hover:text-rose-300'
-                          >
-                            Gỡ đoạn văn
-                          </button>
+                          <div className='flex items-center gap-3'>
+                            <button
+                              type='button'
+                              onClick={() => {
+                                setFormQuestions(prev =>
+                                  prev.map(item => ({
+                                    ...item,
+                                    passage: q.passage || '',
+                                    passage_title: q.passage_title || '',
+                                  })),
+                                );
+                                showToast(
+                                  'Đã đồng bộ đoạn văn này cho toàn bộ câu hỏi trong bài!',
+                                );
+                              }}
+                              className='text-[11px] font-semibold text-amber-400 underline hover:text-amber-300'
+                              title='Sao chép nội dung bài đọc này sang các câu hỏi khác trong bài'
+                            >
+                              Đồng bộ cho tất cả câu hỏi
+                            </button>
+                            <button
+                              type='button'
+                              onClick={() => {
+                                handleQuestionChange(qIdx, 'passage', '');
+                                handleQuestionChange(qIdx, 'passage_title', '');
+                              }}
+                              className='text-[11px] text-rose-400 underline hover:text-rose-300'
+                            >
+                              Gỡ đoạn văn
+                            </button>
+                          </div>
                         ) : (
                           <span className='text-[11px] text-slate-500'>
                             Dùng cho bài đọc hiểu JLPT
