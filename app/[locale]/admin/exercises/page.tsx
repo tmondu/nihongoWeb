@@ -298,7 +298,7 @@ export default function AdminExercisesPage() {
     });
   };
 
-  // Parse source text (Aiken / Text)
+  // Parse source text (Aiken / Text) - Tự động nạp trực tiếp vào bài tập
   const handleParseSource = () => {
     if (!sourceText.trim()) {
       alert('Vui lòng nhập nội dung câu hỏi nguồn.');
@@ -307,24 +307,18 @@ export default function AdminExercisesPage() {
     const parsed = parseAikenFormat(sourceText);
     if (parsed.length === 0) {
       alert(
-        'Không nhận diện được câu hỏi theo định dạng Aiken. Vui lòng bấm "Chèn mẫu Aiken" để xem hướng dẫn cú pháp.',
+        'Không nhận diện được câu hỏi theo định dạng Aiken. Vui lòng bấm "Mẫu Aiken" hoặc "Mẫu đọc hiểu" để xem cấu trúc.',
       );
       return;
     }
     setParsedPreviewQuestions(parsed);
-  };
-
-  // Apply parsed questions from Source or File to current form questions
-  const handleApplyParsedQuestions = (questionsToApply: ExerciseQuestion[]) => {
-    if (questionsToApply.length === 0) return;
-    setFormQuestions(questionsToApply);
-    setBuilderTab('manual');
+    setFormQuestions(parsed);
     showToast(
-      `Đã nạp thành công ${questionsToApply.length} câu hỏi vào bài tập!`,
+      `Đã nhận diện ${parsed.length} câu hỏi! Nhấn "Lưu thay đổi" để hoàn tất.`,
     );
   };
 
-  // Handle File Upload (CSV or JSON)
+  // Handle File Upload (CSV or JSON) - Tự động nạp trực tiếp vào bài tập
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -349,7 +343,10 @@ export default function AdminExercisesPage() {
       }
 
       setParsedPreviewQuestions(parsed);
-      showToast(`Đã đọc ${parsed.length} câu hỏi từ file "${file.name}"`);
+      setFormQuestions(parsed);
+      showToast(
+        `Đã đọc và nạp ${parsed.length} câu hỏi từ file "${file.name}"!`,
+      );
     };
     reader.readAsText(file, 'UTF-8');
   };
@@ -1133,27 +1130,23 @@ export default function AdminExercisesPage() {
                   className='w-full rounded-xl border border-[#262630] bg-[#121216] p-4 font-mono text-xs text-slate-100 placeholder:text-slate-600 focus:border-amber-500 focus:outline-none'
                 />
 
-                <div className='flex items-center justify-between'>
+                <div className='flex flex-wrap items-center justify-between gap-2'>
                   <Button
                     type='button'
                     onClick={handleParseSource}
-                    className='bg-amber-500 text-black hover:bg-amber-400'
+                    className='bg-amber-500 font-bold text-black shadow-md hover:bg-amber-400'
                   >
                     <CheckCircle2 className='mr-1.5 size-4' />
                     Phân tích & Xem trước
                   </Button>
 
                   {parsedPreviewQuestions.length > 0 && (
-                    <Button
-                      type='button'
-                      onClick={() =>
-                        handleApplyParsedQuestions(parsedPreviewQuestions)
-                      }
-                      className='bg-emerald-600 text-white hover:bg-emerald-500'
-                    >
-                      Áp dụng {parsedPreviewQuestions.length} câu hỏi vào bài
-                      tập
-                    </Button>
+                    <div className='flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400'>
+                      <CheckCircle2 className='size-3.5' />
+                      Đã nhận diện {parsedPreviewQuestions.length} câu hỏi. Bạn
+                      chỉ cần nhấn &quot;Lưu thay đổi&quot; bên dưới để hoàn
+                      tất!
+                    </div>
                   )}
                 </div>
 
@@ -1239,19 +1232,15 @@ export default function AdminExercisesPage() {
 
                 {parsedPreviewQuestions.length > 0 && (
                   <div className='space-y-3'>
-                    <div className='flex items-center justify-between'>
-                      <span className='text-xs font-bold text-emerald-400'>
-                        Đã nạp {parsedPreviewQuestions.length} câu hỏi từ file
+                    <div className='flex items-center justify-between rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2'>
+                      <span className='flex items-center gap-1.5 text-xs font-bold text-emerald-400'>
+                        <CheckCircle2 className='size-3.5' />
+                        Đã đọc và nạp {parsedPreviewQuestions.length} câu hỏi từ
+                        file vào bài tập!
                       </span>
-                      <Button
-                        type='button'
-                        onClick={() =>
-                          handleApplyParsedQuestions(parsedPreviewQuestions)
-                        }
-                        className='bg-emerald-600 text-white hover:bg-emerald-500'
-                      >
-                        Áp dụng vào bài tập
-                      </Button>
+                      <span className='text-xs text-slate-300'>
+                        Nhấn &quot;Lưu thay đổi&quot; bên dưới để hoàn tất.
+                      </span>
                     </div>
 
                     <div className='max-h-48 space-y-2 overflow-y-auto rounded-xl border border-[#262630] bg-[#121216] p-4 text-xs'>
