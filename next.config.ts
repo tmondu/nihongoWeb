@@ -49,7 +49,7 @@ const cspReportOnly = [
 const nextConfig: NextConfig = {
   // Performance optimizations
   reactStrictMode: true,
-  compress: false, // Let Vercel handle compression
+  compress: true, // Enable Gzip/Brotli compression (reduces egress bandwidth by 70-80%)
   poweredByHeader: false, // Remove X-Powered-By header for security
   generateEtags: true, // Generate ETags for better caching
   output: 'standalone',
