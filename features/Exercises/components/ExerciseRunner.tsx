@@ -1,12 +1,6 @@
 'use client';
 
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from '@/core/i18n/routing';
 import {
   ArrowLeft,
@@ -113,22 +107,9 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   const totalQuestions = questions.length;
   const answeredCount = Object.keys(answers).length;
 
-  // Effective passage: if current question defines passage use it, otherwise inherit from preceding question in passage group
-  const effectivePassage = useMemo(() => {
-    if (currentQ?.passage) return currentQ.passage;
-    for (let i = currentIndex - 1; i >= 0; i--) {
-      if (questions[i]?.passage) return questions[i].passage;
-    }
-    return questions.find(q => q.passage)?.passage || '';
-  }, [currentQ, currentIndex, questions]);
-
-  const effectivePassageTitle = useMemo(() => {
-    if (currentQ?.passage_title) return currentQ.passage_title;
-    for (let i = currentIndex - 1; i >= 0; i--) {
-      if (questions[i]?.passage_title) return questions[i].passage_title;
-    }
-    return questions.find(q => q.passage_title)?.passage_title || '';
-  }, [currentQ, currentIndex, questions]);
+  // Only display passage if the current question has a non-empty passage defined
+  const effectivePassage = currentQ?.passage?.trim() || '';
+  const effectivePassageTitle = currentQ?.passage_title?.trim() || '';
 
   // Submit test function
   const handleSubmit = useCallback(async () => {
