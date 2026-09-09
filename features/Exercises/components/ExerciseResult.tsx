@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from '@/core/i18n/routing';
 import {
   Trophy,
@@ -11,8 +11,13 @@ import {
   Clock,
   HelpCircle,
   BookOpen,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
-import { SubmitExerciseResponse } from '@/shared/types/exercise';
+import {
+  SubmitExerciseResponse,
+  QuestionResultItem,
+} from '@/shared/types/exercise';
 import confetti from 'canvas-confetti';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
@@ -70,16 +75,128 @@ function renderPassageWithHighlights(
   });
 }
 
+interface ReviewQuestionCardProps {
+  question: QuestionResultItem;
+  index: number;
+  renderPassageWithHighlights: (
+    passageText: string,
+    activeQuestionText?: string,
+    currentIndex?: number,
+  ) => React.ReactNode;
+}
+
+const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
+  question: q,
+  index: idx,
+  renderPassageWithHighlights,
+}) => {
+  const [showPassage, setShowPassage] = useState(false);
+
+  return (
+    <div
+      className={`rounded-3xl border-2 bg-(--card-color) p-5 transition-all ${
+        q.is_correct ? 'border-(--main-color)/50' : 'border-red-500/40'
+      }`}
+    >
+      {/* Question Review Header with Collapsible Passage Toggle */}
+      <div className='flex items-center justify-between gap-3 border-b border-(--border-color)/50 pb-3'>
+        <span className='inline-flex items-center gap-1.5 text-xs font-bold'>
+          {q.is_correct ? (
+            <span className='flex items-center gap-1 text-(--main-color)'>
+              <CheckCircle2 className='size-4' /> Câu {idx + 1} - Đúng
+            </span>
+          ) : (
+            <span className='flex items-center gap-1 text-red-400'>
+              <XCircle className='size-4' /> Câu {idx + 1} - Sai
+            </span>
+          )}
+        </span>
+
+        {q.passage && (
+          <button
+            type='button'
+            onClick={() => setShowPassage(!showPassage)}
+            className='inline-flex cursor-pointer items-center gap-1.5 rounded-xl border border-(--border-color) bg-(--background-color) px-3 py-1 text-xs font-semibold text-(--secondary-color) transition-all select-none hover:border-(--main-color) hover:text-(--main-color)'
+          >
+            <BookOpen className='size-3.5 text-(--main-color)' />
+            <span>{showPassage ? 'Ẩn bài đọc' : 'Xem bài đọc'}</span>
+            {showPassage ? (
+              <ChevronUp className='size-3.5' />
+            ) : (
+              <ChevronDown className='size-3.5' />
+            )}
+          </button>
+        )}
+      </div>
+
+      {/* Collapsible Passage Box (Hidden by default) */}
+      {q.passage && showPassage && (
+        <div className='my-3.5 rounded-2xl border border-(--border-color) bg-(--background-color) p-3.5 transition-all'>
+          <div className='mb-1.5 flex items-center gap-1.5 text-xs font-bold text-(--main-color)'>
+            <BookOpen className='size-3.5' />
+            <span>{q.passage_title || 'Bài đọc liên quan'}</span>
+          </div>
+          <div className='max-h-48 overflow-y-auto pr-1 text-xs leading-loose font-normal whitespace-pre-line text-(--secondary-color) sm:text-sm'>
+            {renderPassageWithHighlights(q.passage, q.question, idx)}
+          </div>
+        </div>
+      )}
+
+      <div className='mt-3.5'>
+        <p className='text-sm leading-relaxed font-semibold text-(--main-color)'>
+          {q.question}
+        </p>
+      </div>
+
+      {/* Options */}
+      <div className='mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2'>
+        {q.options.map((opt, optIdx) => {
+          const letter = String.fromCharCode(65 + optIdx);
+          const isUserPick = q.user_answer === letter;
+          const isCorrectAnswer = q.correct_answer === letter;
+
+          let optClass =
+            'border-(--border-color) bg-(--background-color) text-(--secondary-color)';
+          if (isCorrectAnswer) {
+            optClass =
+              'border-(--main-color) bg-(--main-color)/15 text-(--main-color) font-bold ring-1 ring-(--main-color)/30';
+          } else if (isUserPick && !q.is_correct) {
+            optClass =
+              'border-red-500/60 bg-red-500/10 text-red-400 line-through';
+          }
+
+          return (
+            <div
+              key={letter}
+              className={`flex items-center gap-2.5 rounded-2xl border-2 px-3.5 py-2 text-xs ${optClass}`}
+            >
+              <span className='font-bold'>{letter}.</span>
+              <span>{opt}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Explanation */}
+      {q.explanation && (
+        <div className='mt-3.5 rounded-2xl border border-(--main-color)/30 bg-(--main-color)/5 p-3.5 text-xs leading-relaxed text-(--main-color)'>
+          <span className='font-bold'>💡 Giải thích: </span>
+          {q.explanation}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const ExerciseResult: React.FC<ExerciseResultProps> = ({
   result,
   exerciseTitle,
   onRetry,
 }) => {
   const { playClick } = useClick();
-  const hasPassage = result.questions_result.some(q => !!q.passage);
 
   useEffect(() => {
-    if (result.percentage >= 70) {
+    if (result.passed) {
       try {
         confetti({
           particleCount: 80,
@@ -90,51 +207,35 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
         // Ignore in environments without canvas
       }
     }
-  }, [result.percentage]);
+  }, [result.passed]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins} phút ${secs < 10 ? '0' : ''}${secs} giây`;
+    return `${mins}p ${secs < 10 ? '0' : ''}${secs}s`;
   };
 
   return (
-    <div
-      className={`mx-auto space-y-8 px-4 py-6 transition-all sm:px-6 lg:px-8 ${
-        hasPassage ? 'max-w-5xl xl:max-w-6xl' : 'max-w-3xl'
-      }`}
-    >
-      {/* Result Hero Header */}
-      <div className='relative overflow-hidden rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-8 text-center shadow-md'>
+    <div className='mx-auto max-w-4xl space-y-8 px-4 py-6 sm:py-8'>
+      {/* Top Banner Card */}
+      <div className='relative overflow-hidden rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 text-center shadow-lg sm:p-8'>
         <div className='relative z-10 space-y-4'>
-          <div className='inline-flex items-center justify-center rounded-2xl border border-(--border-color) bg-(--background-color) p-3'>
-            {result.passed ? (
-              <Trophy className='size-10 text-(--main-color)' />
-            ) : (
-              <RotateCcw className='size-10 text-red-400' />
-            )}
+          <div className='inline-flex size-16 items-center justify-center rounded-2xl bg-(--main-color)/15 text-(--main-color) shadow-sm'>
+            <Trophy className='size-8' />
           </div>
 
-          <div>
-            <h2 className='text-2xl font-black text-(--main-color) sm:text-3xl'>
-              {result.percentage >= 90
-                ? 'Xuất sắc! 🎉'
-                : result.passed
-                  ? 'Làm tốt lắm! 👏'
-                  : 'Cố gắng hơn lần sau nhé! 💪'}
-            </h2>
-            <p className='mt-1 text-xs text-(--secondary-color)'>
+          <div className='space-y-1'>
+            <span className='text-xs font-semibold tracking-wider text-(--secondary-color) uppercase'>
+              Kết quả bài luyện tập
+            </span>
+            <h2 className='text-xl font-black text-(--main-color) sm:text-2xl'>
               {exerciseTitle}
-            </p>
+            </h2>
           </div>
 
-          {/* Big Score Box */}
-          <div className='inline-flex flex-col items-center justify-center rounded-3xl border border-(--border-color) bg-(--background-color) px-8 py-4'>
+          <div className='py-2'>
             <div className='text-4xl font-black text-(--main-color) sm:text-5xl'>
-              {result.score}{' '}
-              <span className='text-xl text-(--secondary-color)'>
-                / {result.total_questions}
-              </span>
+              {result.score} / {result.total_questions}
             </div>
             <div
               className={`mt-1 text-sm font-bold ${
@@ -149,15 +250,15 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
           <div className='flex items-center justify-center gap-6 pt-2 text-xs text-(--secondary-color)'>
             <span className='flex items-center gap-1.5'>
               <Clock className='size-4 text-(--main-color)' />
-              Thời gian: {formatTime(result.time_spent)}
+              {formatTime(result.time_spent)}
             </span>
             <span className='flex items-center gap-1.5 font-medium'>
               <CheckCircle2 className='size-4 text-(--main-color)' />
-              Đúng: {result.score}
+              {result.score} Đúng
             </span>
             <span className='flex items-center gap-1.5 font-medium'>
               <XCircle className='size-4 text-red-400' />
-              Sai: {result.total_questions - result.score}
+              {result.total_questions - result.score} Sai
             </span>
           </div>
 
@@ -195,85 +296,12 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
 
         <div className='space-y-4'>
           {result.questions_result.map((q, idx) => (
-            <div
+            <ReviewQuestionCard
               key={q.id || idx}
-              className={`rounded-3xl border-2 bg-(--card-color) p-5 transition-all ${
-                q.is_correct ? 'border-(--main-color)/50' : 'border-red-500/40'
-              }`}
-            >
-              <div className='flex items-start justify-between gap-4'>
-                <div className='space-y-1.5'>
-                  <span className='inline-flex items-center gap-1.5 text-xs font-bold'>
-                    {q.is_correct ? (
-                      <span className='flex items-center gap-1 text-(--main-color)'>
-                        <CheckCircle2 className='size-4' /> Câu {idx + 1} - Đúng
-                      </span>
-                    ) : (
-                      <span className='flex items-center gap-1 text-red-400'>
-                        <XCircle className='size-4' /> Câu {idx + 1} - Sai
-                      </span>
-                    )}
-                  </span>
-
-                  {q.passage && (
-                    <div className='my-2 rounded-2xl border border-(--border-color) bg-(--background-color) p-3'>
-                      <div className='mb-1 flex items-center gap-1.5 text-xs font-bold text-(--main-color)'>
-                        <BookOpen className='size-3.5' />
-                        <span>{q.passage_title || 'Bài đọc liên quan'}</span>
-                      </div>
-                      <div className='max-h-40 overflow-y-auto pr-1 text-xs leading-loose font-normal whitespace-pre-line text-(--secondary-color) sm:text-sm'>
-                        {renderPassageWithHighlights(
-                          q.passage,
-                          q.question,
-                          idx,
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  <p className='text-sm leading-relaxed font-semibold text-(--main-color)'>
-                    {q.question}
-                  </p>
-                </div>
-              </div>
-
-              {/* Options */}
-              <div className='mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2'>
-                {q.options.map((opt, optIdx) => {
-                  const letter = String.fromCharCode(65 + optIdx);
-                  const isUserPick = q.user_answer === letter;
-                  const isCorrectAnswer = q.correct_answer === letter;
-
-                  let optClass =
-                    'border-(--border-color) bg-(--background-color) text-(--secondary-color)';
-                  if (isCorrectAnswer) {
-                    optClass =
-                      'border-(--main-color) bg-(--main-color)/15 text-(--main-color) font-bold ring-1 ring-(--main-color)/30';
-                  } else if (isUserPick && !q.is_correct) {
-                    optClass =
-                      'border-red-500/60 bg-red-500/10 text-red-400 line-through';
-                  }
-
-                  return (
-                    <div
-                      key={letter}
-                      className={`flex items-center gap-2.5 rounded-2xl border-2 px-3.5 py-2 text-xs ${optClass}`}
-                    >
-                      <span className='font-bold'>{letter}.</span>
-                      <span>{opt}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Explanation */}
-              {q.explanation && (
-                <div className='mt-3.5 rounded-2xl border border-(--main-color)/30 bg-(--main-color)/5 p-3.5 text-xs leading-relaxed text-(--main-color)'>
-                  <span className='font-bold'>💡 Giải thích: </span>
-                  {q.explanation}
-                </div>
-              )}
-            </div>
+              question={q}
+              index={idx}
+              renderPassageWithHighlights={renderPassageWithHighlights}
+            />
           ))}
         </div>
       </div>
