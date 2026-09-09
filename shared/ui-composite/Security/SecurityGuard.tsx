@@ -2,14 +2,16 @@
 
 import { useEffect } from 'react';
 
-// Đặt là true để BẬT lại tính năng chặn DevTools / F12
+// Đặt là true để BẬT lại tính năng chặn DevTools / F12 trên Production
 // Đặt là false để TẠM NGƯNG tính năng chặn DevTools
-const ENABLE_SECURITY_GUARD = false;
+const ENABLE_SECURITY_GUARD = true;
 
 export default function SecurityGuard() {
   useEffect(() => {
-    // Khi đang tạm ngưng chặn DevTools thì không đăng ký sự kiện
-    if (!ENABLE_SECURITY_GUARD) return;
+    // Khi đang tạm ngưng chặn DevTools hoặc ở môi trường dev thì không đăng ký sự kiện
+    if (!ENABLE_SECURITY_GUARD || process.env.NODE_ENV === 'development') {
+      return;
+    }
 
     // 1. Chặn tất cả phím tắt mở DevTools, View Source, Save page
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -58,8 +60,9 @@ export default function SecurityGuard() {
       }
     };
 
-    // 2. Phát hiện DevTools mở (qua Menu hoặc bất kỳ tab nào như Network, Elements, Console)
-    // Tự động đóng tab / xoá trắng trang nếu mở quá 1 giây (1000ms)
+    // 2. Phát hiện DevTools mở (chỉ áp dụng cho Desktop / Laptop)
+    // Bỏ qua hoàn toàn iPhone / Android / iPad vì thanh URL Safari & bàn phím ảo
+    // làm lệch window.outerHeight gây chặn nhầm người dùng.
     let openDuration = 0;
 
     const killPage = () => {
@@ -91,14 +94,24 @@ export default function SecurityGuard() {
     };
 
     const checkDevTools = () => {
+      // Bỏ qua hoàn toàn thiết bị di động / máy tính bảng (iPhone, iPad, Android, touch devices)
+      const isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent,
+        ) ||
+        navigator.maxTouchPoints > 1 ||
+        window.innerWidth < 1024;
+
+      if (isMobile) return;
+
       // Khi DevTools mở (bên phải hoặc dưới đáy), kích thước inner sẽ bị hẹp đi rõ rệt
       const isWidthDocked = window.outerWidth - window.innerWidth > 180;
       const isHeightDocked = window.outerHeight - window.innerHeight > 280;
 
       if (isWidthDocked || isHeightDocked) {
         openDuration += 250;
-        if (openDuration >= 1000) {
-          // Quá 1 giây -> Tắt trang
+        if (openDuration >= 1500) {
+          // Quá 1.5 giây -> Tắt trang
           killPage();
         }
       } else {
