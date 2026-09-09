@@ -29,7 +29,7 @@ body {
 :root:not([data-custom-cursor='false']) body,
 :root:not([data-custom-cursor='false']) .cursor-default {
   cursor:
-    url('/cursors/fude-default.svg') 2 2,
+    url('/cursors/fude-default.svg') 0 0,
     auto !important;
 }
 
@@ -56,7 +56,7 @@ body {
 :root:not([data-custom-cursor='false']) summary,
 :root:not([data-custom-cursor='false']) .cursor-pointer {
   cursor:
-    url('/cursors/fude-default.svg') 2 2,
+    url('/cursors/fude-default.svg') 0 0,
     pointer !important;
 }
 
