@@ -289,3 +289,94 @@ D. ところで
 ANSWER: A
 EXPLANATION: それで (Vì vậy, do đó) dùng để nối kết quả của việc thấy bóng chày rất thú vị nên quyết định tham gia.`;
 }
+
+/**
+ * Convert an array of ExerciseQuestion objects back into Aiken format text.
+ * Groups questions with the same passage together inside [PASSAGE]...[/PASSAGE] blocks.
+ */
+export function questionsToAiken(rawQuestions: unknown): string {
+  if (!rawQuestions) return '';
+
+  let questions: ExerciseQuestion[] = [];
+  if (Array.isArray(rawQuestions)) {
+    questions = rawQuestions as ExerciseQuestion[];
+  } else if (typeof rawQuestions === 'string') {
+    try {
+      const parsed = JSON.parse(rawQuestions);
+      if (Array.isArray(parsed)) questions = parsed;
+    } catch {
+      return '';
+    }
+  }
+
+  if (questions.length === 0) return '';
+
+  const chunks: string[] = [];
+  let currentPassage: string | null = null;
+  let currentPassageTitle: string | null = null;
+
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i];
+    if (!q) continue;
+
+    const qPassage =
+      typeof q.passage === 'string' && q.passage.trim().length > 0
+        ? q.passage.trim()
+        : null;
+    const qPassageTitle =
+      typeof q.passage_title === 'string' && q.passage_title.trim().length > 0
+        ? q.passage_title.trim()
+        : null;
+
+    // Check if passage changed
+    if (qPassage !== currentPassage || qPassageTitle !== currentPassageTitle) {
+      if (qPassage) {
+        const titlePart = qPassageTitle ? `: ${qPassageTitle}` : '';
+        chunks.push(`[PASSAGE${titlePart}]\n${qPassage}\n[/PASSAGE]`);
+      }
+      currentPassage = qPassage;
+      currentPassageTitle = qPassageTitle;
+    }
+
+    const questionLines: string[] = [];
+    const questionNum = i + 1;
+    const qText =
+      typeof q.question === 'string'
+        ? q.question.trim()
+        : String(q.question || '').trim();
+
+    questionLines.push(`Câu ${questionNum}: ${qText}`);
+
+    const letters = ['A', 'B', 'C', 'D'];
+    const options = Array.isArray(q.options) ? q.options : [];
+    if (options.length > 0) {
+      options.forEach((opt: unknown, optIdx: number) => {
+        const letter = letters[optIdx] || String.fromCharCode(65 + optIdx);
+        const optText =
+          typeof opt === 'string' ? opt.trim() : String(opt || '').trim();
+        questionLines.push(`${letter}. ${optText}`);
+      });
+    }
+
+    if (q.correct_answer !== undefined && q.correct_answer !== null) {
+      const ansText = String(q.correct_answer).trim().toUpperCase();
+      if (ansText) {
+        questionLines.push(`ANSWER: ${ansText}`);
+      }
+    }
+
+    if (q.explanation !== undefined && q.explanation !== null) {
+      const explText =
+        typeof q.explanation === 'string'
+          ? q.explanation.trim()
+          : String(q.explanation || '').trim();
+      if (explText) {
+        questionLines.push(`EXPLANATION: ${explText}`);
+      }
+    }
+
+    chunks.push(questionLines.join('\n'));
+  }
+
+  return chunks.join('\n\n');
+}

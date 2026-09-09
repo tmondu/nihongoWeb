@@ -201,8 +201,16 @@ export default function AdminExercisesPage() {
     setFormLevel(ex.level);
     setFormTimeLimit(ex.time_limit || 0);
     setFormIsPublished(Boolean(ex.is_published));
-    const questions =
-      ex.questions && ex.questions.length > 0 ? ex.questions : [];
+    let questions: ExerciseQuestion[] = [];
+    if (typeof ex.questions === 'string') {
+      try {
+        questions = JSON.parse(ex.questions);
+      } catch {
+        questions = [];
+      }
+    } else if (Array.isArray(ex.questions)) {
+      questions = ex.questions;
+    }
     setFormQuestions(questions);
 
     // Pre-populate Aiken source text so user can view/edit in Source tab as well
@@ -877,7 +885,13 @@ export default function AdminExercisesPage() {
               <div className='flex rounded-xl border border-[#262630] bg-[#16161c] p-1'>
                 <button
                   type='button'
-                  onClick={() => setBuilderTab('manual')}
+                  onClick={() => {
+                    if (sourceText.trim()) {
+                      const parsed = parseAikenFormat(sourceText);
+                      if (parsed.length > 0) setFormQuestions(parsed);
+                    }
+                    setBuilderTab('manual');
+                  }}
                   className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
                     builderTab === 'manual'
                       ? 'bg-amber-500 font-bold text-black shadow'
@@ -889,7 +903,13 @@ export default function AdminExercisesPage() {
                 </button>
                 <button
                   type='button'
-                  onClick={() => setBuilderTab('source')}
+                  onClick={() => {
+                    if (formQuestions && formQuestions.length > 0) {
+                      const aiken = questionsToAiken(formQuestions);
+                      if (aiken) setSourceText(aiken);
+                    }
+                    setBuilderTab('source');
+                  }}
                   className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
                     builderTab === 'source'
                       ? 'bg-amber-500 font-bold text-black shadow'

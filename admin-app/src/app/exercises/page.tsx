@@ -34,6 +34,7 @@ import {
   generateSampleCsvTemplate,
   generateSampleAikenTemplate,
   generateSampleReadingAikenTemplate,
+  questionsToAiken,
 } from '@/lib/exerciseParser';
 
 const LEVELS = [
@@ -190,9 +191,26 @@ export default function AdminExercisesPage() {
     setFormLevel(ex.level);
     setFormTimeLimit(ex.time_limit || 0);
     setFormIsPublished(Boolean(ex.is_published));
-    setFormQuestions(
-      ex.questions && ex.questions.length > 0 ? ex.questions : [],
-    );
+    let questions: ExerciseQuestion[] = [];
+    if (typeof ex.questions === 'string') {
+      try {
+        questions = JSON.parse(ex.questions);
+      } catch {
+        questions = [];
+      }
+    } else if (Array.isArray(ex.questions)) {
+      questions = ex.questions;
+    }
+    setFormQuestions(questions);
+
+    // Pre-populate Aiken source text so user can view/edit in Source tab as well
+    try {
+      const aikenText = questionsToAiken(questions);
+      setSourceText(aikenText);
+    } catch {
+      setSourceText('');
+    }
+
     setBuilderTab('manual');
     setFormError('');
     setIsDialogOpen(true);
@@ -279,17 +297,20 @@ export default function AdminExercisesPage() {
   // Parse source text (Aiken / Text)
   const handleParseSource = () => {
     if (!sourceText.trim()) {
-      alert('Vui lòng nhập nội dung câu hỏi nguồn.');
+      showToast('Vui lòng nhập nội dung câu hỏi nguồn.', 'error');
       return;
     }
     const parsed = parseAikenFormat(sourceText);
     if (parsed.length === 0) {
-      alert(
-        'Không nhận diện được câu hỏi theo định dạng Aiken. Vui lòng bấm "Chèn mẫu Aiken" để xem hướng dẫn cú pháp.',
+      showToast(
+        'Không nhận diện được câu hỏi theo định dạng Aiken. Vui lòng kiểm tra lại cú pháp.',
+        'error',
       );
       return;
     }
     setParsedPreviewQuestions(parsed);
+    setFormQuestions(parsed);
+    showToast(`Đã nhận diện & áp dụng ${parsed.length} câu hỏi từ Aiken!`);
   };
 
   // Apply parsed questions from Source or File to current form questions
@@ -353,13 +374,22 @@ export default function AdminExercisesPage() {
       return;
     }
 
-    if (formQuestions.length === 0) {
+    let questionsToSave = [...formQuestions];
+    if (builderTab === 'source' && sourceText.trim()) {
+      const parsed = parseAikenFormat(sourceText);
+      if (parsed.length > 0) {
+        questionsToSave = parsed;
+        setFormQuestions(parsed);
+      }
+    }
+
+    if (questionsToSave.length === 0) {
       setFormError('Bài tập phải có ít nhất 1 câu hỏi.');
       return;
     }
 
-    for (let i = 0; i < formQuestions.length; i++) {
-      const q = formQuestions[i];
+    for (let i = 0; i < questionsToSave.length; i++) {
+      const q = questionsToSave[i];
       if (!q.question.trim()) {
         setFormError(`Câu hỏi số ${i + 1} chưa có nội dung.`);
         return;
@@ -377,7 +407,7 @@ export default function AdminExercisesPage() {
         description: formDescription,
         level: formLevel,
         time_limit: Number(formTimeLimit) || 0,
-        questions: formQuestions,
+        questions: questionsToSave,
         is_published: formIsPublished,
       };
 
@@ -851,7 +881,13 @@ export default function AdminExercisesPage() {
                 <div className='flex rounded-xl border border-[#262630] bg-[#16161c] p-1'>
                   <button
                     type='button'
-                    onClick={() => setBuilderTab('manual')}
+                    onClick={() => {
+                      if (sourceText.trim()) {
+                        const parsed = parseAikenFormat(sourceText);
+                        if (parsed.length > 0) setFormQuestions(parsed);
+                      }
+                      setBuilderTab('manual');
+                    }}
                     className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
                       builderTab === 'manual'
                         ? 'bg-purple-600 font-bold text-white shadow'
@@ -863,7 +899,13 @@ export default function AdminExercisesPage() {
                   </button>
                   <button
                     type='button'
-                    onClick={() => setBuilderTab('source')}
+                    onClick={() => {
+                      if (formQuestions && formQuestions.length > 0) {
+                        const aiken = questionsToAiken(formQuestions);
+                        if (aiken) setSourceText(aiken);
+                      }
+                      setBuilderTab('source');
+                    }}
                     className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
                       builderTab === 'source'
                         ? 'bg-purple-600 font-bold text-white shadow'
@@ -1056,7 +1098,7 @@ export default function AdminExercisesPage() {
                     className='w-full rounded-xl border border-[#262630] bg-[#14141a] p-4 font-mono text-xs text-slate-100 placeholder:text-slate-600 focus:border-purple-500 focus:outline-none'
                   />
 
-                  <div className='flex items-center justify-between'>
+                  <div className='flex flex-wrap items-center justify-between gap-2'>
                     <button
                       type='button'
                       onClick={handleParseSource}
@@ -1067,18 +1109,12 @@ export default function AdminExercisesPage() {
                     </button>
 
                     {parsedPreviewQuestions.length > 0 && (
-                      <button
-                        type='button'
-                        onClick={() =>
-                          handleApplyParsedQuestions(parsedPreviewQuestions)
-                        }
-                        className='inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500'
-                      >
-                        <span>
-                          Áp dụng {parsedPreviewQuestions.length} câu hỏi vào
-                          bài tập
-                        </span>
-                      </button>
+                      <div className='flex items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400'>
+                        <CheckCircle2 className='size-3.5' />
+                        Đã nhận diện {parsedPreviewQuestions.length} câu hỏi.
+                        Bạn chỉ cần nhấn &quot;Lưu thay đổi&quot; bên dưới để
+                        hoàn tất!
+                      </div>
                     )}
                   </div>
 
