@@ -1,19 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyJwt } from '@/shared/utils/auth';
 
 /**
  * GET /api/video/stream?id=DRIVE_FILE_ID
  *
- * Server-side proxy that streams a public Google Drive video to the client.
+ * Secure server-side proxy that streams a Google Drive video to authenticated users.
+ * Hides Google Drive URLs from the client DOM, Console, and DevTools.
  * Handles:
+ *  - User JWT session verification
  *  - Large file confirmation page (virus-scan warning)
  *  - Range requests for seeking
- *  - CORS headers
  */
 
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
 export async function GET(req: NextRequest) {
+  // ── Step 0: Auth verification ──
+  const token = req.cookies.get('auth_token')?.value;
+  if (!token) {
+    return new NextResponse('Unauthorized: Please log in to stream video', {
+      status: 401,
+    });
+  }
+
+  const payload = await verifyJwt(token);
+  if (!payload?.userId) {
+    return new NextResponse('Unauthorized: Invalid session', { status: 401 });
+  }
+
   const { searchParams } = new URL(req.url);
   const fileId = searchParams.get('id');
 
@@ -97,8 +112,8 @@ export async function GET(req: NextRequest) {
 
   respHeaders.set('Content-Type', videoContentType);
   respHeaders.set('Accept-Ranges', acceptRanges);
-  respHeaders.set('Cache-Control', 'public, max-age=3600');
-  respHeaders.set('Access-Control-Allow-Origin', '*');
+  respHeaders.set('Cache-Control', 'private, max-age=3600');
+  respHeaders.set('X-Content-Type-Options', 'nosniff');
   if (contentLength) respHeaders.set('Content-Length', contentLength);
   if (contentRange) respHeaders.set('Content-Range', contentRange);
 

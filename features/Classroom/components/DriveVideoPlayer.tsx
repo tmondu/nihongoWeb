@@ -44,18 +44,12 @@ const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
 type Speed = (typeof SPEEDS)[number];
 
 /**
- * Build candidate URLs to try loading the Drive video.
- * Browser has Google session cookies → direct download often works for public files.
+ * Internal video stream endpoint:
+ * Streams video securely through server proxy so direct Google Drive links
+ * are NEVER exposed to the client DOM, Console, or DevTools.
  */
 function buildVideoUrls(fileId: string): string[] {
-  return [
-    // 1. usercontent (newer endpoint, handles large files)
-    `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0&confirm=t`,
-    // 2. Classic uc endpoint
-    `https://drive.google.com/uc?id=${fileId}&export=download&confirm=t`,
-    // 3. Server-side proxy (last resort — has bandwidth limits)
-    `/api/video/stream?id=${fileId}`,
-  ];
+  return [`/api/video/stream?id=${fileId}`];
 }
 
 /* ═══════════════════════════════════════════
@@ -337,16 +331,18 @@ export default function DriveVideoPlayer({
           >
             Thử lại
           </button>
-          <button
-            onClick={() => {
-              setError(null);
-              setUrlIndex(0);
-              setLoading(true);
-            }}
-            className='rounded-xl border border-white/20 px-4 py-2 text-xs font-medium text-white/80'
-          >
-            Đổi nguồn
-          </button>
+          {candidateUrls.length > 1 && (
+            <button
+              onClick={() => {
+                setError(null);
+                setUrlIndex(0);
+                setLoading(true);
+              }}
+              className='rounded-xl border border-white/20 px-4 py-2 text-xs font-medium text-white/80'
+            >
+              Đổi nguồn
+            </button>
+          )}
         </div>
       )}
 
