@@ -25,17 +25,18 @@ import type { ConversionStats } from '../types';
 
 export interface ConverterInterfaceProps {
   onConversionComplete?: (stats: ConversionStats) => void;
+  locale?: string;
 }
 
 /**
  * Supported file extensions for display
  */
 const SUPPORTED_FORMATS = [
-  { ext: '.apkg', name: 'Anki Package' },
-  { ext: '.colpkg', name: 'Collection Package' },
-  { ext: '.anki2', name: 'Anki Database' },
-  { ext: '.tsv', name: 'Tab-Separated Values' },
-  { ext: '.db', name: 'SQLite Database' },
+  { ext: '.apkg', name: 'Gói Anki' },
+  { ext: '.colpkg', name: 'Bộ sưu tập Anki' },
+  { ext: '.anki2', name: 'Cơ sở dữ liệu Anki' },
+  { ext: '.tsv', name: 'Giá trị phân tách Tab' },
+  { ext: '.db', name: 'Cơ sở dữ liệu SQLite' },
 ];
 
 /**
@@ -54,7 +55,9 @@ function isFileSupported(filename: string): boolean {
  */
 export function ConverterInterface({
   onConversionComplete,
+  locale = 'vi',
 }: ConverterInterfaceProps) {
+  const isVi = locale === 'vi' || !locale || locale.startsWith('vi');
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [downloadReady, setDownloadReady] = useState(false);
@@ -198,17 +201,19 @@ export function ConverterInterface({
   const getStageLabel = (stage: string): string => {
     switch (stage) {
       case 'detecting':
-        return 'Detecting file format...';
+        return isVi
+          ? 'Đang nhận diện định dạng tệp...'
+          : 'Detecting file format...';
       case 'parsing':
-        return 'Parsing file...';
+        return isVi ? 'Đang đọc cấu trúc tệp...' : 'Parsing file...';
       case 'extracting':
-        return 'Extracting content...';
+        return isVi ? 'Đang trích xuất nội dung...' : 'Extracting content...';
       case 'transforming':
-        return 'Transforming data...';
+        return isVi ? 'Đang chuẩn hóa dữ liệu...' : 'Transforming data...';
       case 'building':
-        return 'Building JSON...';
+        return isVi ? 'Đang tạo tệp JSON...' : 'Building JSON...';
       default:
-        return 'Processing...';
+        return isVi ? 'Đang xử lý...' : 'Processing...';
     }
   };
 
@@ -230,8 +235,12 @@ export function ConverterInterface({
           />
         </svg>
         <p className='text-sm text-(--text-color)'>
-          <span className='font-medium'>100% Private:</span> All conversion
-          happens locally in your browser. Your files never leave your device.
+          <span className='font-medium'>
+            {isVi ? '100% Riêng tư:' : '100% Private:'}
+          </span>{' '}
+          {isVi
+            ? 'Toàn bộ quá trình chuyển đổi diễn ra trực tiếp trong trình duyệt của bạn. Tệp không bao giờ rời khỏi thiết bị.'
+            : 'All conversion happens locally in your browser. Your files never leave your device.'}
         </p>
       </div>
 
@@ -280,11 +289,17 @@ export function ConverterInterface({
             </svg>
             <p className='mb-2 text-lg font-medium text-(--text-color)'>
               {isDragOver
-                ? 'Drop your file here'
-                : 'Drag & drop your Anki file'}
+                ? isVi
+                  ? 'Thả tệp của bạn vào đây'
+                  : 'Drop your file here'
+                : isVi
+                  ? 'Kéo & thả tệp Anki vào đây'
+                  : 'Drag & drop your Anki file'}
             </p>
             <p className='mb-4 text-sm text-(--text-color)/70'>
-              or click to select a file
+              {isVi
+                ? 'hoặc bấm để chọn tệp từ máy tính'
+                : 'or click to select a file'}
             </p>
             <div className='flex flex-wrap justify-center gap-2'>
               {getSupportedExtensions()
@@ -348,12 +363,16 @@ export function ConverterInterface({
               />
             </svg>
             <p className='mb-2 text-lg font-medium text-(--text-color)'>
-              Conversion Complete!
+              {isVi ? 'Chuyển đổi thành công!' : 'Conversion Complete!'}
             </p>
             <div className='mb-4 flex gap-4 text-sm text-(--text-color)/70'>
-              <span>{state.result.metadata.totalCards} cards</span>
+              <span>
+                {state.result.metadata.totalCards} {isVi ? 'thẻ' : 'cards'}
+              </span>
               <span>•</span>
-              <span>{state.result.metadata.totalDecks} deck(s)</span>
+              <span>
+                {state.result.metadata.totalDecks} {isVi ? 'bộ thẻ' : 'deck(s)'}
+              </span>
               <span>•</span>
               <span>{state.result.metadata.processingTime}ms</span>
             </div>
@@ -377,15 +396,16 @@ export function ConverterInterface({
               />
             </svg>
             <p className='mb-2 text-lg font-medium text-red-500'>
-              Conversion Failed
+              {isVi ? 'Chuyển đổi thất bại' : 'Conversion Failed'}
             </p>
             <p className='mb-2 max-w-md text-center text-sm text-(--text-color)/70'>
               {state.error.message}
             </p>
             {state.error.recoverable && (
               <p className='text-xs text-(--text-color)/50'>
-                This error may be recoverable. Try again or use a different
-                file.
+                {isVi
+                  ? 'Lỗi này có thể thử lại được. Vui lòng bấm Thử lại hoặc chọn tệp khác.'
+                  : 'This error may be recoverable. Try again or use a different file.'}
               </p>
             )}
           </div>
@@ -410,7 +430,7 @@ export function ConverterInterface({
                 d='M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4'
               />
             </svg>
-            Download JSON
+            {isVi ? 'Tải xuống JSON' : 'Download JSON'}
           </Button>
         )}
 
@@ -430,14 +450,14 @@ export function ConverterInterface({
                 d='M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'
               />
             </svg>
-            Try Again
+            {isVi ? 'Thử lại' : 'Try Again'}
           </Button>
         )}
 
         {/* Reset button - shown after conversion or error */}
         {(state.result || state.error) && !state.isConverting && (
           <Button onClick={handleReset} variant='outline' size='lg'>
-            Convert Another File
+            {isVi ? 'Chuyển đổi tệp khác' : 'Convert Another File'}
           </Button>
         )}
       </div>
@@ -446,7 +466,7 @@ export function ConverterInterface({
       {!state.isConverting && !state.result && !state.error && (
         <div className='text-center'>
           <p className='mb-3 text-sm text-(--text-color)/70'>
-            Supported formats:
+            {isVi ? 'Định dạng được hỗ trợ:' : 'Supported formats:'}
           </p>
           <div className='flex flex-wrap justify-center gap-3'>
             {SUPPORTED_FORMATS.map(({ ext, name }) => (
@@ -467,12 +487,11 @@ export function ConverterInterface({
       {/* Worker support notice */}
       {!isWorkerSupported && (
         <p className='text-center text-xs text-(--text-color)/50'>
-          Note: Web Workers are not supported in your browser. Conversion will
-          run on the main thread, which may cause brief UI freezes for large
-          files.
+          {isVi
+            ? 'Lưu ý: Trình duyệt của bạn không hỗ trợ Web Worker. Quá trình chuyển đổi sẽ chạy trên luồng chính nên có thể hơi khựng với tệp dung lượng lớn.'
+            : 'Note: Web Workers are not supported in your browser. Conversion will run on the main thread, which may cause brief UI freezes for large files.'}
         </p>
       )}
     </div>
   );
 }
-
