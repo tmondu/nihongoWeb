@@ -21,6 +21,8 @@ export interface SearchBarProps {
   className?: string;
   /** ID for the search input (for aria-controls) */
   id?: string;
+  /** Current locale */
+  locale?: string;
 }
 
 // ============================================================================
@@ -33,11 +35,17 @@ export interface SearchBarProps {
 export function SearchBar({
   value,
   onChange,
-  placeholder = 'Search compendium...',
+  placeholder,
   resultCount,
   className,
   id,
+  locale = 'vi',
 }: SearchBarProps) {
+  const isVi = locale === 'vi';
+  const defaultPlaceholder = isVi
+    ? 'Tìm kiếm tài nguyên (VD: Anki, Genki, Từ điển...)...'
+    : 'Search compendium...';
+  const inputPlaceholder = placeholder || defaultPlaceholder;
   const inputRef = useRef<HTMLInputElement>(null);
   const generatedId = useId();
   const inputId = id || `search-input-${generatedId}`;
@@ -76,7 +84,7 @@ export function SearchBar({
         value={value}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        placeholder={placeholder}
+        placeholder={inputPlaceholder}
         className={cn(
           'w-full bg-transparent',
           'py-4 pr-12 pl-8 text-lg font-medium text-(--main-color) md:text-xl',
@@ -84,7 +92,7 @@ export function SearchBar({
           'transition-all duration-300',
           'focus:outline-none',
         )}
-        aria-label='Search resources'
+        aria-label={isVi ? 'Tìm kiếm tài nguyên' : 'Search resources'}
         aria-describedby={value.length > 0 ? resultsId : undefined}
         aria-controls='resource-grid'
       />
@@ -102,7 +110,7 @@ export function SearchBar({
             aria-live='polite'
             aria-atomic='true'
           >
-            {resultCount} found
+            {isVi ? `${resultCount} kết quả` : `${resultCount} found`}
           </span>
         )}
 
@@ -116,7 +124,7 @@ export function SearchBar({
               'text-(--secondary-color) transition-all',
               'hover:bg-(--main-color) hover:text-(--background-color)',
             )}
-            aria-label='Clear search'
+            aria-label={isVi ? 'Xóa tìm kiếm' : 'Clear search'}
           >
             <X size={16} aria-hidden='true' />
           </button>
@@ -127,4 +135,3 @@ export function SearchBar({
 }
 
 export default SearchBar;
-

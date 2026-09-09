@@ -27,6 +27,11 @@ export function generateStaticParams() {
   return params;
 }
 
+import {
+  CATEGORY_NAMES_VI,
+  CATEGORY_DESCRIPTIONS_VI,
+} from '@/features/Resources/lib/translations';
+
 // ISR: Revalidate daily
 export const revalidate = 86400;
 
@@ -35,7 +40,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; category: string }>;
 }): Promise<Metadata> {
-  const { category: categoryId } = await params;
+  const { locale, category: categoryId } = await params;
+  const isVi = locale === 'vi' || !locale;
   const category = getCategoryById(categoryId);
 
   if (!category) {
@@ -45,8 +51,23 @@ export async function generateMetadata({
   const resources = getResourcesByCategory(categoryId);
   const resourceCount = resources.length;
 
-  const title = `Best ${category.name} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
-  const description = `${category.description} Discover ${resourceCount}+ curated ${category.name.toLowerCase()} to help you learn Japanese effectively.`;
+  const categoryName =
+    isVi && CATEGORY_NAMES_VI[category.id]
+      ? CATEGORY_NAMES_VI[category.id]
+      : category.name;
+
+  const categoryDesc =
+    isVi && CATEGORY_DESCRIPTIONS_VI[category.id]
+      ? CATEGORY_DESCRIPTIONS_VI[category.id]
+      : category.description;
+
+  const title = isVi
+    ? `Top ${categoryName} học tiếng Nhật tốt nhất - ${resourceCount}+ tài nguyên | PThamSS`
+    : `Best ${category.name} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
+
+  const description = isVi
+    ? `${categoryDesc} Khám phá hơn ${resourceCount} ${categoryName.toLowerCase()} được tuyển chọn giúp bạn tự học tiếng Nhật hiệu quả.`
+    : `${category.description} Discover ${resourceCount}+ curated ${category.name.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
     title,
@@ -60,14 +81,14 @@ export async function generateMetadata({
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${category.name} for Learning Japanese | PThamSS`,
+      title,
       description,
       url: `https://www.pthamnihongo.site/resources/${categoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${category.name} for Learning Japanese | PThamSS`,
+      title,
       description,
     },
     alternates: {
@@ -81,11 +102,15 @@ function generateItemListSchema(
   categoryName: string,
   categoryDescription: string,
   resources: ReturnType<typeof getResourcesByCategory>,
+  locale: string,
 ) {
+  const isVi = locale === 'vi' || !locale;
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: `Best ${categoryName} for Learning Japanese`,
+    name: isVi
+      ? `Tài nguyên ${categoryName} học tiếng Nhật tốt nhất`
+      : `Best ${categoryName} for Learning Japanese`,
     description: categoryDescription,
     numberOfItems: resources.length,
     itemListOrder: 'https://schema.org/ItemListUnordered',
@@ -107,6 +132,7 @@ export default async function CategoryPage({
   params: Promise<{ locale: string; category: string }>;
 }) {
   const { locale, category: categoryId } = await params;
+  const isVi = locale === 'vi' || !locale;
 
   const category = getCategoryById(categoryId);
 
@@ -124,19 +150,33 @@ export default async function CategoryPage({
   );
   const availableFilters = getFilterOptions(categoryResources);
 
+  const categoryName =
+    isVi && CATEGORY_NAMES_VI[category.id]
+      ? CATEGORY_NAMES_VI[category.id]
+      : category.name;
+
+  const categoryDesc =
+    isVi && CATEGORY_DESCRIPTIONS_VI[category.id]
+      ? CATEGORY_DESCRIPTIONS_VI[category.id]
+      : category.description;
+
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://www.pthamnihongo.site' },
-    { name: 'Resources', url: 'https://www.pthamnihongo.site/resources' },
+    { name: isVi ? 'Trang chủ' : 'Home', url: 'https://www.pthamnihongo.site' },
     {
-      name: category.name,
+      name: isVi ? 'Tài nguyên' : 'Resources',
+      url: 'https://www.pthamnihongo.site/resources',
+    },
+    {
+      name: categoryName,
       url: `https://www.pthamnihongo.site/resources/${categoryId}`,
     },
   ];
 
   const itemListSchema = generateItemListSchema(
-    category.name,
-    category.description,
+    categoryName,
+    categoryDesc,
     categoryResources,
+    locale,
   );
 
   return (

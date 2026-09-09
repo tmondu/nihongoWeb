@@ -1,8 +1,10 @@
-'use client';
-
 import React from 'react';
 import { cn } from '@/shared/utils/utils';
 import type { Category, CategoryWithCount } from '../types';
+import {
+  CATEGORY_NAMES_VI,
+  CATEGORY_DESCRIPTIONS_VI,
+} from '../lib/translations';
 
 export interface CategoryHeaderProps {
   /** Category data (can be with or without count) */
@@ -13,6 +15,8 @@ export interface CategoryHeaderProps {
   className?: string;
   /** Whether to show the long description */
   showLongDescription?: boolean;
+  /** Current active locale */
+  locale?: string;
 }
 
 /**
@@ -23,46 +27,57 @@ export function CategoryHeader({
   resourceCount,
   className,
   showLongDescription = true,
+  locale = 'vi',
 }: CategoryHeaderProps) {
+  const isVi = locale === 'vi';
   const count =
     resourceCount ?? ('resourceCount' in category ? category.resourceCount : 0);
 
+  const displayName =
+    isVi && CATEGORY_NAMES_VI[category.id]
+      ? CATEGORY_NAMES_VI[category.id]
+      : category.name;
+
+  const displayDescription =
+    isVi && CATEGORY_DESCRIPTIONS_VI[category.id]
+      ? CATEGORY_DESCRIPTIONS_VI[category.id]
+      : category.description;
+
   return (
     <header
-      className={cn(
-        'mb-12 border-b border-(--border-color) pb-12',
-        className,
-      )}
+      className={cn('mb-12 border-b border-(--border-color) pb-12', className)}
       role='banner'
     >
       <div className='flex flex-col gap-6 md:flex-row md:items-end md:justify-between'>
         <div className='max-w-2xl'>
           <div className='mb-4 flex items-center gap-4'>
             <span className='text-[10px] font-bold tracking-[0.3em] text-(--secondary-color) uppercase opacity-40'>
-              Category Collection
+              {isVi ? 'Danh mục chọn lọc' : 'Category Collection'}
             </span>
             {count > 0 && (
               <span className='font-mono text-[10px] text-(--secondary-color) opacity-40'>
-                / {count} items
+                / {count} {isVi ? 'tài nguyên' : 'items'}
               </span>
             )}
           </div>
           <h1 className='text-5xl leading-none font-black tracking-tighter text-(--main-color) md:text-7xl'>
-            {category.name}
+            {displayName}
           </h1>
         </div>
       </div>
 
       {/* Short Description */}
       <p className='mt-8 max-w-2xl text-xl font-medium text-(--secondary-color) opacity-60 md:text-2xl'>
-        {category.description}
+        {displayDescription}
       </p>
 
       {/* Long-form Content */}
       {showLongDescription && category.descriptionLong && (
         <div
           className='prose prose-lg dark:prose-invert mt-12 max-w-3xl border-t border-(--border-color) pt-12'
-          aria-label='Detailed category description'
+          aria-label={
+            isVi ? 'Mô tả chi tiết danh mục' : 'Detailed category description'
+          }
         >
           <div
             className='leading-relaxed text-(--secondary-color) opacity-80'
@@ -73,4 +88,3 @@ export function CategoryHeader({
     </header>
   );
 }
-

@@ -13,8 +13,16 @@ import {
   ArrowUpRight,
   X,
 } from 'lucide-react';
-import type { Resource, DifficultyLevel, PriceType, Platform } from '../types';
+import type { Resource, Platform } from '../types';
 import { ResourceCard } from './ResourceCard';
+
+import {
+  CATEGORY_NAMES_VI,
+  DIFFICULTY_LABELS_VI,
+  DIFFICULTY_LABELS_EN,
+  PRICE_LABELS_VI,
+  PRICE_LABELS_EN,
+} from '../lib/translations';
 
 // ============================================================================
 // Types
@@ -31,6 +39,8 @@ export interface ResourceDetailModalProps {
   relatedResources?: Resource[];
   /** Callback when a related resource is selected */
   onRelatedSelect?: (resource: Resource) => void;
+  /** Current locale */
+  locale?: string;
 }
 
 // ============================================================================
@@ -80,34 +90,43 @@ const PlatformBadge = memo(function PlatformBadge({
 }) {
   const iconProps = {
     size: 14,
-    className: 'shrink-0 text-(--secondary-color) opacity-40',
+    className: 'text-(--main-color)',
   };
 
-  const platformConfig: Record<
-    Platform,
-    { icon: React.ReactNode; label: string }
-  > = {
-    web: { icon: <Globe {...iconProps} />, label: 'Web' },
-    ios: { icon: <Apple {...iconProps} />, label: 'iOS' },
-    android: { icon: <Smartphone {...iconProps} />, label: 'Android' },
-    windows: { icon: <Monitor {...iconProps} />, label: 'Windows' },
-    macos: { icon: <Apple {...iconProps} />, label: 'macOS' },
-    linux: { icon: <Monitor {...iconProps} />, label: 'Linux' },
-    physical: { icon: <BookOpen {...iconProps} />, label: 'Physical' },
-    'browser-extension': {
-      icon: <Puzzle {...iconProps} />,
-      label: 'Browser Extension',
-    },
-    api: { icon: <Globe {...iconProps} />, label: 'API' },
+  const getPlatformInfo = (p: Platform) => {
+    switch (p) {
+      case 'ios':
+        return { label: 'iOS', icon: <Apple {...iconProps} /> };
+      case 'android':
+        return { label: 'Android', icon: <Smartphone {...iconProps} /> };
+      case 'web':
+        return { label: 'Web', icon: <Globe {...iconProps} /> };
+      case 'windows':
+        return { label: 'Windows', icon: <Monitor {...iconProps} /> };
+      case 'macos':
+        return { label: 'macOS', icon: <Apple {...iconProps} /> };
+      case 'linux':
+        return { label: 'Linux', icon: <Monitor {...iconProps} /> };
+      case 'physical':
+        return { label: 'Print', icon: <BookOpen {...iconProps} /> };
+      case 'browser-extension':
+        return { label: 'Extension', icon: <Puzzle {...iconProps} /> };
+      case 'api':
+        return { label: 'API', icon: <Globe {...iconProps} /> };
+      default:
+        return { label: p, icon: null };
+    }
   };
 
-  const config = platformConfig[platform];
+  const info = getPlatformInfo(platform);
 
   return (
-    <span className='flex items-center gap-2 rounded-full border border-(--border-color) px-3 py-1.5 text-xs text-(--secondary-color)'>
-      {config.icon}
-      {config.label}
-    </span>
+    <div className='flex items-center gap-2 rounded-sm border border-(--border-color) px-3 py-1.5'>
+      {info.icon}
+      <span className='text-xs font-bold tracking-tight text-(--main-color) uppercase'>
+        {info.label}
+      </span>
+    </div>
   );
 });
 
@@ -115,33 +134,15 @@ const PlatformBadge = memo(function PlatformBadge({
 // ResourceDetailModal Component (Optimized)
 // ============================================================================
 
-const getDifficultyLabel = (difficulty: DifficultyLevel) => {
-  const labels: Record<DifficultyLevel, string> = {
-    beginner: 'Beginner',
-    intermediate: 'Intermediate',
-    advanced: 'Advanced',
-    'all-levels': 'All Levels',
-  };
-  return labels[difficulty];
-};
-
-const getPriceLabel = (priceType: PriceType) => {
-  const labels: Record<PriceType, string> = {
-    free: 'Free',
-    freemium: 'Freemium',
-    paid: 'Paid',
-    subscription: 'Subscription',
-  };
-  return labels[priceType];
-};
-
 export const ResourceDetailModal = memo(function ResourceDetailModal({
   resource,
   isOpen,
   onClose,
   relatedResources = [],
   onRelatedSelect,
+  locale = 'vi',
 }: ResourceDetailModalProps) {
+  const isVi = locale === 'vi';
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -149,6 +150,18 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
   if (!resource) return null;
 
   const description = resource.descriptionLong || resource.description;
+
+  const difficultyLabel = isVi
+    ? DIFFICULTY_LABELS_VI[resource.difficulty] || resource.difficulty
+    : DIFFICULTY_LABELS_EN[resource.difficulty] || resource.difficulty;
+
+  const priceLabel = isVi
+    ? PRICE_LABELS_VI[resource.priceType] || resource.priceType
+    : PRICE_LABELS_EN[resource.priceType] || resource.priceType;
+
+  const categoryLabel = isVi
+    ? CATEGORY_NAMES_VI[resource.category] || resource.category
+    : resource.category;
 
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={onClose}>
@@ -162,11 +175,11 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
           <div className='sticky top-0 z-10 flex flex-row items-center justify-between rounded-t-2xl border-b border-(--border-color) bg-(--background-color) px-6 pt-6 pb-4 sm:px-12'>
             <div className='flex items-center gap-4'>
               <span className='text-[10px] font-bold tracking-[0.3em] text-(--secondary-color) uppercase opacity-40'>
-                Resource Dossier
+                {isVi ? 'Hồ sơ tài nguyên' : 'Resource Dossier'}
               </span>
               <div className='hidden h-px w-12 bg-(--border-color) sm:block' />
               <Badge variant='generic' className='hidden sm:inline-flex'>
-                {resource.category}
+                {categoryLabel}
               </Badge>
             </div>
             <button
@@ -189,7 +202,7 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
               <div className='space-y-12 lg:col-span-8'>
                 <section>
                   <h3 className='mb-6 text-[10px] font-bold tracking-[0.2em] text-(--secondary-color) uppercase opacity-40'>
-                    Overview
+                    {isVi ? 'Tổng quan' : 'Overview'}
                   </h3>
                   <div className='space-y-6 text-lg leading-relaxed text-(--main-color) md:text-xl'>
                     {description.split('\n').map((para, i) => (
@@ -201,7 +214,7 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
                 {resource.notes && (
                   <section className='rounded-lg border-l-2 border-(--main-color) bg-(--main-color)/[0.02] p-8'>
                     <h3 className='mb-4 text-[10px] font-bold tracking-[0.2em] text-(--secondary-color) uppercase opacity-40'>
-                      Curator&apos;s Notes
+                      {isVi ? 'Ghi chú & Đánh giá' : "Curator's Notes"}
                     </h3>
                     <p className='text-sm leading-relaxed text-(--secondary-color) italic'>
                       {resource.notes}
@@ -211,7 +224,7 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
 
                 <section>
                   <h3 className='mb-6 text-[10px] font-bold tracking-[0.2em] text-(--secondary-color) uppercase opacity-40'>
-                    Architecture & Tags
+                    {isVi ? 'Chủ đề & Từ khóa' : 'Architecture & Tags'}
                   </h3>
                   <div className='flex flex-wrap gap-2'>
                     {resource.tags.map(tag => (
@@ -230,15 +243,11 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
                 <div className='space-y-8 lg:sticky lg:top-0'>
                   <section>
                     <h3 className='mb-4 text-[10px] font-bold tracking-[0.2em] text-(--secondary-color) uppercase opacity-40'>
-                      Credentials
+                      {isVi ? 'Thông tin phân loại' : 'Credentials'}
                     </h3>
                     <div className='flex flex-col gap-3'>
-                      <Badge variant='difficulty'>
-                        {getDifficultyLabel(resource.difficulty)}
-                      </Badge>
-                      <Badge variant='price'>
-                        {getPriceLabel(resource.priceType)}
-                      </Badge>
+                      <Badge variant='difficulty'>{difficultyLabel}</Badge>
+                      <Badge variant='price'>{priceLabel}</Badge>
                       {resource.priceDetails && (
                         <p className='font-mono text-[10px] tracking-tighter text-(--secondary-color) uppercase opacity-50'>
                           {resource.priceDetails}
@@ -249,7 +258,7 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
 
                   <section>
                     <h3 className='mb-4 text-[10px] font-bold tracking-[0.2em] text-(--secondary-color) uppercase opacity-40'>
-                      Deployments
+                      {isVi ? 'Nền tảng hỗ trợ' : 'Deployments'}
                     </h3>
                     <div className='flex flex-wrap gap-2'>
                       {resource.platforms.map(platform => (
@@ -268,7 +277,7 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
                     )}
                   >
                     <span className='text-sm font-bold tracking-tight uppercase'>
-                      Initialize Access
+                      {isVi ? 'Truy cập tài nguyên' : 'Initialize Access'}
                     </span>
                     <ArrowUpRight className='transition-colors group-hover:text-(--background-color)' />
                   </a>
@@ -280,7 +289,9 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
             {relatedResources.length > 0 && (
               <footer className='mt-24 border-t border-(--border-color) pt-12'>
                 <h3 className='mb-12 text-center text-[10px] font-bold tracking-[0.5em] text-(--secondary-color) uppercase opacity-30'>
-                  Secondary Connections
+                  {isVi
+                    ? 'Tài nguyên tương tự đề xuất'
+                    : 'Secondary Connections'}
                 </h3>
                 <div className='flex flex-col'>
                   {relatedResources.slice(0, 3).map(related => (
@@ -289,6 +300,7 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
                       resource={related}
                       onSelect={onRelatedSelect}
                       isCompact
+                      locale={locale}
                     />
                   ))}
                 </div>
@@ -302,4 +314,3 @@ export const ResourceDetailModal = memo(function ResourceDetailModal({
 });
 
 export default ResourceDetailModal;
-

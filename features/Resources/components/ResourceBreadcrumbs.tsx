@@ -37,6 +37,8 @@ export interface ResourceBreadcrumbsProps {
  * <ResourceBreadcrumbs locale="en" category={appsCategory} subcategory={flashcardsSubcategory} />
  * // Output: Home > Resources > Apps > Flashcards
  */
+import { CATEGORY_NAMES_VI } from '../lib/translations';
+
 export function ResourceBreadcrumbs({
   locale,
   category,
@@ -44,20 +46,27 @@ export function ResourceBreadcrumbs({
   className,
   includeSchema = true,
 }: ResourceBreadcrumbsProps) {
+  const isVi = locale === 'vi';
   // Build breadcrumb items based on current navigation level
   const items: BreadcrumbItem[] = [
-    { name: 'Home', url: `/${locale}` },
-    { name: 'Resources', url: `/${locale}/resources` },
+    { name: isVi ? 'Trang chủ' : 'Home', url: `/${locale}` },
+    { name: isVi ? 'Tài nguyên' : 'Resources', url: `/${locale}/resources` },
   ];
 
   // Add category if present
   if (category) {
+    const categoryName =
+      isVi && CATEGORY_NAMES_VI[category.id]
+        ? CATEGORY_NAMES_VI[category.id]
+        : category.name;
+
     items.push({
-      name: category.name,
+      name: categoryName,
       url: `/${locale}/resources/${category.id}`,
     });
 
     // Add subcategory if present
+
     if (subcategory) {
       items.push({
         name: subcategory.name,
@@ -74,4 +83,3 @@ export function ResourceBreadcrumbs({
     />
   );
 }
-

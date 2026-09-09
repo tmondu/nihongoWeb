@@ -134,6 +134,7 @@ export function CategoryPageClient({
           resourceCount={initialResources.length}
           showLongDescription={true}
           className='mb-8'
+          locale={locale}
         />
 
         {/* Search Bar */}
@@ -141,8 +142,13 @@ export function CategoryPageClient({
           <SearchBar
             value={filters.search}
             onChange={handleSearchChange}
-            placeholder={`Search ${category.name.toLowerCase()}...`}
+            placeholder={
+              locale === 'vi'
+                ? `Tìm kiếm trong ${category.name.toLowerCase()}...`
+                : `Search ${category.name.toLowerCase()}...`
+            }
             resultCount={filteredResources.length}
+            locale={locale}
           />
         </div>
 
@@ -153,12 +159,13 @@ export function CategoryPageClient({
             {/* Category Navigation */}
             <div className='mb-6 rounded-xl border border-(--border-color) bg-(--card-color) p-4'>
               <h2 className='mb-4 text-sm font-semibold tracking-wider text-(--secondary-color) uppercase'>
-                Categories
+                {locale === 'vi' ? 'Danh mục' : 'Categories'}
               </h2>
               <CategoryNav
                 categories={categoriesWithCounts}
                 activeCategory={category.id}
                 basePath={`/${locale}/resources`}
+                locale={locale}
               />
             </div>
 
@@ -167,6 +174,7 @@ export function CategoryPageClient({
               filters={filters}
               onFilterChange={handleFilterChange}
               availableFilters={filterOptions}
+              locale={locale}
             />
 
             {/* Related Categories for Internal Linking */}
@@ -182,14 +190,16 @@ export function CategoryPageClient({
           <main className='flex-1'>
             <div className='mb-4 flex items-center justify-between'>
               <p className='text-sm text-(--secondary-color)'>
-                Showing {filteredResources.length} of {initialResources.length}{' '}
-                {category.name.toLowerCase()}
+                {locale === 'vi'
+                  ? `Đang hiển thị ${filteredResources.length} trên ${initialResources.length} tài nguyên`
+                  : `Showing ${filteredResources.length} of ${initialResources.length} ${category.name.toLowerCase()}`}
               </p>
             </div>
 
             <ResourceGrid
               resources={filteredResources}
               onResourceSelect={handleResourceSelect}
+              locale={locale}
             />
           </main>
         </div>
@@ -201,6 +211,7 @@ export function CategoryPageClient({
           onClose={handleModalClose}
           relatedResources={relatedResources}
           onRelatedSelect={handleResourceSelect}
+          locale={locale}
         />
       </div>
     </div>

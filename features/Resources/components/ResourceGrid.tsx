@@ -22,6 +22,8 @@ export interface ResourceGridProps {
   className?: string;
   /** ID for the grid element (for aria-controls) */
   id?: string;
+  /** Current locale */
+  locale?: string;
 }
 
 // ============================================================================
@@ -74,7 +76,9 @@ export function ResourceGrid({
   skeletonCount = 6,
   className,
   id = 'resource-grid',
+  locale = 'vi',
 }: ResourceGridProps) {
+  const isVi = locale === 'vi';
   const gridRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = useCallback(
@@ -123,7 +127,7 @@ export function ResourceGrid({
         id={id}
         className={cn('flex flex-col', className)}
         role='list'
-        aria-label='Loading resources'
+        aria-label={isVi ? 'Đang tải tài nguyên...' : 'Loading resources'}
         aria-busy='true'
       >
         {Array.from({ length: skeletonCount }).map((_, index) => (
@@ -143,13 +147,17 @@ export function ResourceGrid({
         )}
         role='status'
         aria-live='polite'
-        aria-label='No resources found'
+        aria-label={
+          isVi ? 'Không tìm thấy tài nguyên nào' : 'No resources found'
+        }
       >
         <p className='text-xl font-medium text-(--main-color)'>
-          Empty Collections
+          {isVi ? 'Không tìm thấy tài nguyên nào' : 'Empty Collections'}
         </p>
         <p className='mt-2 text-(--secondary-color)'>
-          Refine your filters to discover specialized resources.
+          {isVi
+            ? 'Hãy thử điều chỉnh lại bộ lọc hoặc từ khóa tìm kiếm của bạn.'
+            : 'Refine your filters to discover specialized resources.'}
         </p>
       </div>
     );
@@ -179,6 +187,7 @@ export function ResourceGrid({
               resource={resource}
               onSelect={onResourceSelect}
               onKeyDown={e => handleKeyDown(e, index)}
+              locale={locale}
             />
           </div>
         ))}
@@ -188,4 +197,3 @@ export function ResourceGrid({
 }
 
 export default ResourceGrid;
-

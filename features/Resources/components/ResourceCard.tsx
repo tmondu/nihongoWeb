@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/shared/utils/utils';
-import type { Resource, DifficultyLevel, PriceType, Platform } from '../types';
+import type { Resource, Platform } from '../types';
 import {
   Smartphone,
   Globe,
@@ -12,6 +12,14 @@ import {
   Puzzle,
   ArrowUpRight,
 } from 'lucide-react';
+
+import {
+  CATEGORY_NAMES_VI,
+  DIFFICULTY_LABELS_VI,
+  DIFFICULTY_LABELS_EN,
+  PRICE_LABELS_VI,
+  PRICE_LABELS_EN,
+} from '../lib/translations';
 
 // ============================================================================
 // Types
@@ -26,6 +34,8 @@ export interface ResourceCardProps {
   isCompact?: boolean;
   /** Callback for keyboard navigation */
   onKeyDown?: (e: React.KeyboardEvent) => void;
+  /** Current locale */
+  locale?: string;
 }
 
 // ============================================================================
@@ -66,32 +76,6 @@ function Badge({ children, variant = 'default', className }: BadgeProps) {
 }
 
 /**
- * Get display text for difficulty level
- */
-function getDifficultyLabel(difficulty: DifficultyLevel): string {
-  const labels: Record<DifficultyLevel, string> = {
-    beginner: 'Beginner',
-    intermediate: 'Intermediate',
-    advanced: 'Advanced',
-    'all-levels': 'All Levels',
-  };
-  return labels[difficulty];
-}
-
-/**
- * Get display text for price type
- */
-function getPriceLabel(priceType: PriceType): string {
-  const labels: Record<PriceType, string> = {
-    free: 'Free',
-    freemium: 'Freemium',
-    paid: 'Paid',
-    subscription: 'Subs',
-  };
-  return labels[priceType];
-}
-
-/**
  * Platform icon component
  */
 interface PlatformIconProps {
@@ -102,31 +86,31 @@ interface PlatformIconProps {
 function PlatformIcon({ platform, className }: PlatformIconProps) {
   const iconProps = {
     size: 12,
-    className: cn(
-      'shrink-0 text-(--secondary-color) opacity-40',
-      className,
-    ),
+    className: cn('shrink-0 text-(--secondary-color) opacity-40', className),
   };
 
-  const icons: Record<Platform, React.ReactNode> = {
-    web: <Globe {...iconProps} aria-label='Web' />,
-    ios: <Apple {...iconProps} aria-label='iOS' />,
-    android: <Smartphone {...iconProps} aria-label='Android' />,
-    windows: <Monitor {...iconProps} aria-label='Windows' />,
-    macos: <Apple {...iconProps} aria-label='macOS' />,
-    linux: <Monitor {...iconProps} aria-label='Linux' />,
-    physical: <BookOpen {...iconProps} aria-label='Physical' />,
-    'browser-extension': (
-      <Puzzle {...iconProps} aria-label='Browser Extension' />
-    ),
-    api: <Globe {...iconProps} aria-label='API' />,
-  };
-
-  return icons[platform] || null;
+  switch (platform) {
+    case 'ios':
+      return <Apple {...iconProps} aria-label='iOS' />;
+    case 'android':
+      return <Smartphone {...iconProps} aria-label='Android' />;
+    case 'web':
+      return <Globe {...iconProps} aria-label='Web' />;
+    case 'windows':
+    case 'macos':
+    case 'linux':
+      return <Monitor {...iconProps} aria-label={platform} />;
+    case 'physical':
+      return <BookOpen {...iconProps} aria-label='Physical' />;
+    case 'browser-extension':
+      return <Puzzle {...iconProps} aria-label='Extension' />;
+    default:
+      return null;
+  }
 }
 
 // ============================================================================
-// ResourceCard Component (Editorial Row Style)
+// Main ResourceCard Component (Editorial Row Style)
 // ============================================================================
 
 /**
@@ -138,7 +122,9 @@ export function ResourceCard({
   onSelect,
   isCompact = false,
   onKeyDown,
+  locale = 'vi',
 }: ResourceCardProps) {
+  const isVi = locale === 'vi';
   const handleClick = () => {
     onSelect?.(resource);
   };
@@ -151,6 +137,19 @@ export function ResourceCard({
     }
     onKeyDown?.(e);
   };
+
+  const displayCategory = isVi
+    ? CATEGORY_NAMES_VI[resource.category] ||
+      formatCategoryName(resource.category)
+    : formatCategoryName(resource.category);
+
+  const difficultyLabel = isVi
+    ? DIFFICULTY_LABELS_VI[resource.difficulty] || resource.difficulty
+    : DIFFICULTY_LABELS_EN[resource.difficulty] || resource.difficulty;
+
+  const priceLabel = isVi
+    ? PRICE_LABELS_VI[resource.priceType] || resource.priceType
+    : PRICE_LABELS_EN[resource.priceType] || resource.priceType;
 
   return (
     <article
@@ -175,9 +174,7 @@ export function ResourceCard({
       {/* Primary Content Area */}
       <div className='min-w-0 flex-1'>
         <div className='mb-2 flex items-center gap-3'>
-          <Badge variant='category'>
-            {formatCategoryName(resource.category)}
-          </Badge>
+          <Badge variant='category'>{displayCategory}</Badge>
           <div className='flex items-center gap-1'>
             {resource.platforms.slice(0, 3).map(platform => (
               <PlatformIcon key={platform} platform={platform} />
@@ -209,10 +206,8 @@ export function ResourceCard({
       {/* Metadata & Actions Area */}
       <div className='flex shrink-0 flex-wrap items-center gap-4 sm:ml-auto sm:flex-nowrap'>
         <div className='flex items-center gap-2'>
-          <Badge variant='difficulty'>
-            {getDifficultyLabel(resource.difficulty)}
-          </Badge>
-          <Badge variant='price'>{getPriceLabel(resource.priceType)}</Badge>
+          <Badge variant='difficulty'>{difficultyLabel}</Badge>
+          <Badge variant='price'>{priceLabel}</Badge>
         </div>
 
         <button
@@ -256,4 +251,3 @@ function formatCategoryName(categoryId: string): string {
 }
 
 export default ResourceCard;
-

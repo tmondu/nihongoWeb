@@ -119,43 +119,47 @@ function CheckboxGroup<T extends string>({
   );
 }
 
+import {
+  DIFFICULTY_LABELS_VI,
+  DIFFICULTY_LABELS_EN,
+  PRICE_LABELS_VI,
+  PRICE_LABELS_EN,
+  PLATFORM_LABELS_VI,
+  PLATFORM_LABELS_EN,
+} from '../lib/translations';
+
 // ============================================================================
 // FilterPanel Component (Editorial Style)
 // ============================================================================
 
-const difficultyLabels: Record<DifficultyLevel, string> = {
-  beginner: 'Beginner',
-  intermediate: 'Intermediate',
-  advanced: 'Advanced',
-  'all-levels': 'All Levels',
-};
-
-const priceLabels: Record<PriceType, string> = {
-  free: 'Free',
-  freemium: 'Freemium',
-  paid: 'Paid',
-  subscription: 'Subs',
-};
-
-const platformLabels: Record<Platform, string> = {
-  web: 'Web',
-  ios: 'iOS',
-  android: 'Droid',
-  windows: 'Win',
-  macos: 'Mac',
-  linux: 'Linux',
-  physical: 'Print',
-  'browser-extension': 'Ext',
-  api: 'API',
-};
+export interface FilterPanelProps {
+  /** Current active filters */
+  filters: ActiveFilters;
+  /** Callback when filters change */
+  onFilterChange: (filters: ActiveFilters) => void;
+  /** Available filter options with counts */
+  availableFilters: FilterOptions;
+  /** Additional CSS classes */
+  className?: string;
+  /** ID for the filter panel (for aria-controls) */
+  id?: string;
+  /** Current locale */
+  locale?: string;
+}
 
 export function FilterPanel({
   filters,
   onFilterChange,
   availableFilters,
   className,
+  locale = 'vi',
 }: FilterPanelProps) {
   const [showMobile, setShowMobile] = useState(false);
+  const isVi = locale === 'vi';
+
+  const difficultyLabels = isVi ? DIFFICULTY_LABELS_VI : DIFFICULTY_LABELS_EN;
+  const priceLabels = isVi ? PRICE_LABELS_VI : PRICE_LABELS_EN;
+  const platformLabels = isVi ? PLATFORM_LABELS_VI : PLATFORM_LABELS_EN;
 
   const handleDifficultyChange = (difficulty: DifficultyLevel[]) => {
     onFilterChange({ ...filters, difficulty });
@@ -192,7 +196,7 @@ export function FilterPanel({
       >
         <span className='flex items-center gap-2 text-sm font-bold'>
           <Filter size={16} />
-          Refine
+          {isVi ? 'Bộ lọc' : 'Refine'}
           {activeCount > 0 && (
             <span className='font-mono text-[10px] opacity-40'>
               ({activeCount})
@@ -208,35 +212,35 @@ export function FilterPanel({
       <div className={cn('mt-2 lg:block', !showMobile && 'hidden')}>
         <div className='mb-2 flex items-center justify-between'>
           <h2 className='text-[10px] font-bold tracking-[0.2em] text-(--secondary-color) uppercase opacity-40'>
-            Filters
+            {isVi ? 'Bộ lọc' : 'Filters'}
           </h2>
           {activeCount > 0 && (
             <button
               onClick={handleClearAll}
               className='cursor-pointer text-[10px] font-bold tracking-widest text-(--secondary-color) uppercase transition-colors hover:text-(--main-color)'
             >
-              Reset
+              {isVi ? 'Đặt lại' : 'Reset'}
             </button>
           )}
         </div>
 
         <div className='flex flex-col'>
           <CheckboxGroup
-            title='Difficulty'
+            title={isVi ? 'Độ khó' : 'Difficulty'}
             options={availableFilters.difficulties}
             selected={filters.difficulty}
             onChange={handleDifficultyChange}
             labels={difficultyLabels}
           />
           <CheckboxGroup
-            title='Access'
+            title={isVi ? 'Chi phí' : 'Access'}
             options={availableFilters.priceTypes}
             selected={filters.priceType}
             onChange={handlePriceChange}
             labels={priceLabels}
           />
           <CheckboxGroup
-            title='Platform'
+            title={isVi ? 'Nền tảng' : 'Platform'}
             options={availableFilters.platforms}
             selected={filters.platforms}
             onChange={handlePlatformChange}
@@ -249,4 +253,3 @@ export function FilterPanel({
 }
 
 export default FilterPanel;
-

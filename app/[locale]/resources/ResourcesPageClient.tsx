@@ -100,6 +100,8 @@ export function ResourcesPageClient({
       .slice(0, 4);
   }, [selectedResource, initialResources]);
 
+  const isVi = locale === 'vi';
+
   return (
     <div className='min-h-screen bg-(--background-color) selection:bg-(--main-color) selection:text-(--background-color)'>
       {/* Editorial Header */}
@@ -109,23 +111,33 @@ export function ResourcesPageClient({
             <div className='max-w-3xl'>
               <div className='mb-8 flex items-center gap-4'>
                 <span className='text-[10px] font-bold tracking-[0.3em] text-(--secondary-color) uppercase opacity-40'>
-                  Resource Compendium
+                  {isVi ? 'Thư Viện Tài Nguyên' : 'Resource Compendium'}
                 </span>
                 <div className='h-px w-12 bg-(--border-color)' />
               </div>
               <h1 className='mb-8 text-6xl leading-[0.9] font-black tracking-tighter text-(--main-color) md:text-8xl'>
-                Learn <br className='hidden md:block' />
-                Japanese.
+                {isVi ? (
+                  <>
+                    Kho Tài Nguyên <br className='hidden md:block' />
+                    Tiếng Nhật.
+                  </>
+                ) : (
+                  <>
+                    Learn <br className='hidden md:block' />
+                    Japanese.
+                  </>
+                )}
               </h1>
               <p className='max-w-xl text-xl leading-relaxed font-medium text-(--secondary-color) opacity-60 md:text-2xl'>
-                A curated indexing of the most effective tools, texts, and
-                platforms for mastering the Japanese language.
+                {isVi
+                  ? 'Tuyển tập chọn lọc các công cụ, giáo trình, ứng dụng và nền tảng hiệu quả nhất giúp bạn tự học và chinh phục tiếng Nhật.'
+                  : 'A curated indexing of the most effective tools, texts, and platforms for mastering the Japanese language.'}
               </p>
             </div>
 
             <div className='shrink-0 pb-2'>
               <div className='mb-4 text-[10px] font-bold tracking-[0.2em] text-(--main-color) uppercase'>
-                Global Index
+                {isVi ? 'Tổng số tài nguyên' : 'Global Index'}
               </div>
               <div className='text-6xl font-black tracking-tighter text-(--main-color) tabular-nums'>
                 {initialResources.length}
@@ -142,12 +154,14 @@ export function ResourcesPageClient({
             <CategoryNav
               categories={categoriesWithCounts}
               basePath={`/${locale}/resources`}
+              locale={locale}
             />
             <div className='mt-12'>
               <FilterPanel
                 filters={filters}
                 onFilterChange={handleFilterChange}
                 availableFilters={filterOptions}
+                locale={locale}
               />
             </div>
           </aside>
@@ -159,18 +173,20 @@ export function ResourcesPageClient({
                 value={filters.search}
                 onChange={handleSearchChange}
                 resultCount={filteredResources.length}
+                locale={locale}
               />
             </div>
 
             <ResourceGrid
               resources={filteredResources}
               onResourceSelect={handleResourceSelect}
+              locale={locale}
             />
 
             {/* Footer indicator */}
             <div className='mt-24 flex flex-col items-center border-t border-(--border-color) pt-12 text-center opacity-20'>
               <div className='mb-4 text-[10px] font-bold tracking-[0.5em] text-(--secondary-color) uppercase'>
-                End of Index
+                {isVi ? 'Hết danh sách tài nguyên' : 'End of Index'}
               </div>
               <div className='h-1 w-1 rounded-full bg-(--main-color)' />
             </div>
@@ -184,6 +200,7 @@ export function ResourcesPageClient({
         onClose={handleModalClose}
         relatedResources={relatedResources}
         onRelatedSelect={handleResourceSelect}
+        locale={locale}
       />
     </div>
   );
