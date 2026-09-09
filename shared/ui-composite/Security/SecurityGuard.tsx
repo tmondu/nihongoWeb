@@ -33,14 +33,6 @@ export default function SecurityGuard() {
     let cleanupEvents: (() => void) | null = null;
 
     const initGuard = () => {
-      // Bỏ qua hoàn toàn thiết bị di động / máy tính bảng (iPhone, iPad, Android, touch devices)
-      const isMobile =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent,
-        ) ||
-        navigator.maxTouchPoints > 1 ||
-        window.innerWidth < 1024;
-
       // 1. Chặn tất cả phím tắt mở DevTools, View Source, Save page
       const handleKeyDown = (e: KeyboardEvent) => {
         const target = e.target as HTMLElement | null;
@@ -120,15 +112,48 @@ export default function SecurityGuard() {
       };
 
       const checkDevTools = () => {
-        if (isMobile) return;
+        // 1. Phân biệt thiết bị thật: Điện thoại thật có kích thước màn hình vật lý & outerWidth < 900px
+        const isRealMobile =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          ) &&
+          window.screen.width < 900 &&
+          window.outerWidth < 900;
 
-        // Khi DevTools mở (bên phải hoặc dưới đáy), kích thước inner sẽ bị hẹp đi rõ rệt
+        if (isRealMobile) return;
+
+        // 2. Phát hiện DevTools gắn bên phải hoặc dưới đáy
         const isWidthDocked = window.outerWidth - window.innerWidth > 180;
         const isHeightDocked = window.outerHeight - window.innerHeight > 280;
 
-        if (isWidthDocked || isHeightDocked) {
+        // 3. Phát hiện chế độ giả lập điện thoại trên PC (Device Toolbar / Responsive 395x811):
+        // Màn hình máy tính rộng (screen.width >= 1024 hoặc outerWidth >= 1024)
+        // nhưng viewport nội dung bị ép co nhỏ lại do bật Device Toolbar trong F12
+        const isDeviceEmulation =
+          (window.screen.width >= 1024 || window.outerWidth >= 1024) &&
+          window.outerWidth - window.innerWidth > 350;
+
+        // 4. Phát hiện DevTools mở qua debugger timing (bắt được cả khi DevTools tách thành cửa sổ riêng)
+        let isDebuggerPaused = false;
+        try {
+          const start = performance.now();
+           
+          new Function('debugger')();
+          if (performance.now() - start > 100) {
+            isDebuggerPaused = true;
+          }
+        } catch {
+          // Bỏ qua nếu môi trường chặn Function
+        }
+
+        if (
+          isWidthDocked ||
+          isHeightDocked ||
+          isDeviceEmulation ||
+          isDebuggerPaused
+        ) {
           openDuration += 250;
-          if (openDuration >= 1500) {
+          if (openDuration >= 1000) {
             killPage();
           }
         } else {
