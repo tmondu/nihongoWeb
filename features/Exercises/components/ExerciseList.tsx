@@ -38,7 +38,7 @@ export const ExerciseList: React.FC<ExerciseListProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredExercises = useMemo(() => {
-    return exercises.filter(ex => {
+    const list = exercises.filter(ex => {
       const matchLevel =
         selectedLevel === 'all' ||
         ex.level.toLowerCase() === selectedLevel.toLowerCase();
@@ -50,6 +50,24 @@ export const ExerciseList: React.FC<ExerciseListProps> = ({
           ex.description.toLowerCase().includes(searchQuery.toLowerCase()));
 
       return matchLevel && matchSearch;
+    });
+
+    const levelPriority: Record<string, number> = {
+      n5: 1,
+      n4: 2,
+      n3: 3,
+      n2: 4,
+      n1: 5,
+    };
+
+    return list.sort((a, b) => {
+      const pA = levelPriority[a.level?.toLowerCase()] ?? 99;
+      const pB = levelPriority[b.level?.toLowerCase()] ?? 99;
+      if (pA !== pB) return pA - pB;
+      return a.title.localeCompare(b.title, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
     });
   }, [exercises, selectedLevel, searchQuery]);
 

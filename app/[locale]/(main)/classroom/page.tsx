@@ -70,9 +70,9 @@ export default function ClassroomPage() {
     fetchLessons();
   }, []);
 
-  // Filter lessons by level & search query
+  // Filter lessons by level & search query and sort N5 -> N4 -> N3 -> N2 -> N1 then by order_num
   const filteredLessons = useMemo(() => {
-    return lessons.filter(l => {
+    const list = lessons.filter(l => {
       const matchLevel =
         selectedLevel === 'all' ||
         l.level?.toLowerCase() === selectedLevel.toLowerCase();
@@ -82,6 +82,24 @@ export default function ClassroomPage() {
         (l.description &&
           l.description.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchLevel && matchQuery;
+    });
+
+    const levelPriority: Record<string, number> = {
+      n5: 1,
+      n4: 2,
+      n3: 3,
+      n2: 4,
+      n1: 5,
+    };
+
+    return list.sort((a, b) => {
+      const pA = levelPriority[a.level?.toLowerCase()] ?? 99;
+      const pB = levelPriority[b.level?.toLowerCase()] ?? 99;
+      if (pA !== pB) return pA - pB;
+      const orderA = a.order_num ?? 0;
+      const orderB = b.order_num ?? 0;
+      if (orderA !== orderB) return orderA - orderB;
+      return a.id - b.id;
     });
   }, [lessons, selectedLevel, searchQuery]);
 

@@ -44,7 +44,16 @@ export async function GET(request: NextRequest) {
       params.push(`%${search}%`, `%${search}%`);
     }
 
-    query += ' GROUP BY e.id ORDER BY e.id DESC';
+    query += ` GROUP BY e.id ORDER BY 
+      CASE LOWER(e.level)
+        WHEN 'n5' THEN 1
+        WHEN 'n4' THEN 2
+        WHEN 'n3' THEN 3
+        WHEN 'n2' THEN 4
+        WHEN 'n1' THEN 5
+        ELSE 6
+      END ASC,
+      e.id ASC`;
 
     const [rows] = await pool.execute<ExerciseRow[]>(query, params);
 

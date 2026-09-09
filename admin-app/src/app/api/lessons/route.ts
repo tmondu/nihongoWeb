@@ -40,8 +40,17 @@ export async function GET(request: NextRequest) {
 
     const [rows] = await pool.execute<LessonRow[]>(
       `SELECT id, title, description, level, video_url, order_num, created_at 
-       FROM lessons ${whereClause} 
-       ORDER BY order_num ASC, id ASC`,
+       FROM lessons ${whereClause}        ORDER BY 
+          CASE LOWER(level)
+            WHEN 'n5' THEN 1
+            WHEN 'n4' THEN 2
+            WHEN 'n3' THEN 3
+            WHEN 'n2' THEN 4
+            WHEN 'n1' THEN 5
+            ELSE 6
+          END ASC,
+          order_num ASC, 
+          id ASC`,
       params,
     );
 

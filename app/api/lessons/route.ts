@@ -65,7 +65,17 @@ export async function GET(request: NextRequest) {
       params.push(level);
     }
 
-    query += ' ORDER BY order_num ASC, id ASC';
+    query += ` ORDER BY 
+      CASE LOWER(level)
+        WHEN 'n5' THEN 1
+        WHEN 'n4' THEN 2
+        WHEN 'n3' THEN 3
+        WHEN 'n2' THEN 4
+        WHEN 'n1' THEN 5
+        ELSE 6
+      END ASC,
+      order_num ASC, 
+      id ASC`;
 
     const [lessons] = await pool.execute<LessonRow[]>(query, params);
 
