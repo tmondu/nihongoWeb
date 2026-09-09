@@ -36,6 +36,8 @@ interface DriveVideoPlayerProps {
   fileId: string;
   title?: string;
   className?: string;
+  /** Optional watermark (e.g. user email) to discourage screen recording */
+  watermark?: string;
 }
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
@@ -63,6 +65,7 @@ export default function DriveVideoPlayer({
   fileId,
   title = 'Video bài giảng',
   className,
+  watermark,
 }: DriveVideoPlayerProps) {
   const uid = useId();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -279,6 +282,7 @@ export default function DriveVideoPlayer({
       onPointerMove={revealControls}
       onTouchStart={revealControls}
       onPointerLeave={() => scheduleHide()}
+      onContextMenu={e => e.preventDefault()}
     >
       {/* ── Video element ── */}
       <video
@@ -287,8 +291,10 @@ export default function DriveVideoPlayer({
         src={currentSrc}
         title={title}
         playsInline
+        controlsList='nodownload'
+        disablePictureInPicture
         preload='metadata'
-        className='h-full w-full object-contain'
+        className='h-full w-full object-contain select-none'
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
         onPlay={onPlay}
@@ -298,7 +304,15 @@ export default function DriveVideoPlayer({
         onCanPlay={onCanPlay}
         onError={onError}
         onClick={togglePlay}
+        onContextMenu={e => e.preventDefault()}
       />
+
+      {/* ── Anti-recording Watermark (Email/User ID) ── */}
+      {watermark && (
+        <div className='pointer-events-none absolute top-3 right-3 z-20 rounded bg-black/30 px-2 py-0.5 font-mono text-[11px] tracking-wider text-white/35 backdrop-blur-[1px] select-none'>
+          {watermark}
+        </div>
+      )}
 
       {/* ── Loading spinner ── */}
       {loading && !error && (

@@ -333,6 +333,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                   <DriveVideoPlayer
                     fileId={parsedVideo.driveId}
                     title={currentLesson.title}
+                    watermark={userEmail || undefined}
                     className={cn(
                       'w-full transition-all duration-300',
                       aspectRatio === '9:16'
