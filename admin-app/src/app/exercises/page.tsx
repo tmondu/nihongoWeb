@@ -173,6 +173,7 @@ export default function AdminExercisesPage() {
         options: ['', '', '', ''],
         correct_answer: 'A',
         explanation: '',
+        explanation_image: '',
       },
     ]);
     setSourceText('');
@@ -253,6 +254,7 @@ export default function AdminExercisesPage() {
         options: ['', '', '', ''],
         correct_answer: 'A',
         explanation: '',
+        explanation_image: '',
       },
     ]);
   };
@@ -1041,6 +1043,49 @@ export default function AdminExercisesPage() {
                         placeholder='Giải thích / dịch nghĩa khi chấm bài (tùy chọn)...'
                         className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
                       />
+
+                      {/* Explanation Image (Cloudflare R2 / URL) */}
+                      <div className='space-y-1.5'>
+                        <div className='flex items-center gap-2'>
+                          <input
+                            type='text'
+                            value={q.explanation_image || ''}
+                            onChange={e =>
+                              handleQuestionChange(
+                                qIdx,
+                                'explanation_image',
+                                e.target.value,
+                              )
+                            }
+                            placeholder='Link ảnh đáp án / bài giải R2 (tùy chọn, ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
+                            className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
+                          />
+                          {q.explanation_image && (
+                            <a
+                              href={q.explanation_image}
+                              target='_blank'
+                              rel='noreferrer'
+                              className='shrink-0 rounded-lg border border-purple-500/40 bg-purple-500/10 px-2.5 py-1.5 text-xs font-semibold text-purple-300 hover:bg-purple-500/20'
+                            >
+                              Xem ảnh
+                            </a>
+                          )}
+                        </div>
+
+                        {q.explanation_image && (
+                          <div className='relative inline-block overflow-hidden rounded-lg border border-[#262630] bg-black/40 p-1'>
+                            <img
+                              src={q.explanation_image}
+                              alt='Preview đáp án'
+                              className='h-20 w-auto rounded object-contain'
+                              onError={e => {
+                                (e.target as HTMLImageElement).style.display =
+                                  'none';
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
 

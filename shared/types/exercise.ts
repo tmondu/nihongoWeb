@@ -6,6 +6,7 @@ export interface ExerciseQuestion {
   options: string[]; // 4 options
   correct_answer: string; // 'A' | 'B' | 'C' | 'D' or option text
   explanation?: string;
+  explanation_image?: string; // Cloudflare R2 or public image URL
 }
 
 export type PublicQuestion = Omit<
@@ -64,6 +65,7 @@ export interface QuestionResultItem {
   correct_answer: string;
   is_correct: boolean;
   explanation?: string;
+  explanation_image?: string;
 }
 
 export interface SubmitExerciseResponse {

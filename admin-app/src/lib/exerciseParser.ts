@@ -6,6 +6,7 @@ export interface ExerciseQuestion {
   options: string[];
   correct_answer: string;
   explanation?: string;
+  explanation_image?: string;
 }
 
 export interface ExerciseRecord {
@@ -76,6 +77,7 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
       const options: string[] = [];
       let correctAnswer = '';
       let explanation = '';
+      let explanationImage = '';
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -93,6 +95,14 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
         );
         if (explMatch) {
           explanation = explMatch[1].trim();
+          continue;
+        }
+
+        const imgMatch = line.match(
+          /^(?:EXPLANATION_IMAGE|IMAGE|ẢNH ĐÁP ÁN|ANH DAP AN|HÌNH ẢNH|ẢNH)[:\s]+(https?:\/\/\S+|[^\s]+)/i,
+        );
+        if (imgMatch) {
+          explanationImage = imgMatch[1].trim();
           continue;
         }
 
@@ -134,6 +144,7 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
           options: options.slice(0, 4),
           correct_answer: normAnswer,
           explanation: explanation || undefined,
+          explanation_image: explanationImage || undefined,
         });
       }
     }
@@ -217,6 +228,9 @@ export function parseJsonFormat(jsonText: string): ExerciseQuestion[] {
       options: Array.isArray(item.options) ? item.options.map(String) : [],
       correct_answer: String(item.correct_answer || 'A').toUpperCase(),
       explanation: item.explanation ? String(item.explanation) : undefined,
+      explanation_image: item.explanation_image
+        ? String(item.explanation_image)
+        : undefined,
     }));
   } catch {
     return [];
@@ -372,6 +386,16 @@ export function questionsToAiken(rawQuestions: unknown): string {
           : String(q.explanation || '').trim();
       if (explText) {
         questionLines.push(`EXPLANATION: ${explText}`);
+      }
+    }
+
+    if (q.explanation_image !== undefined && q.explanation_image !== null) {
+      const imgText =
+        typeof q.explanation_image === 'string'
+          ? q.explanation_image.trim()
+          : String(q.explanation_image || '').trim();
+      if (imgText) {
+        questionLines.push(`EXPLANATION_IMAGE: ${imgText}`);
       }
     }
 

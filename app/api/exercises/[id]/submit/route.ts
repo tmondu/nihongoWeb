@@ -105,6 +105,7 @@ export async function POST(
         correct_answer: correct,
         is_correct: isCorrect,
         explanation: q.explanation,
+        explanation_image: q.explanation_image,
       });
     });
 

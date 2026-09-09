@@ -183,6 +183,7 @@ export default function AdminExercisesPage() {
         options: ['', '', '', ''],
         correct_answer: 'A',
         explanation: '',
+        explanation_image: '',
       },
     ]);
     setSourceText('');
@@ -265,6 +266,7 @@ export default function AdminExercisesPage() {
         options: ['', '', '', ''],
         correct_answer: 'A',
         explanation: '',
+        explanation_image: '',
       },
     ]);
   };
@@ -1088,6 +1090,49 @@ export default function AdminExercisesPage() {
                       placeholder='Giải thích / dịch nghĩa khi chấm bài (tùy chọn)...'
                       className='border-[#262630] bg-[#16161c] text-xs text-slate-300 placeholder:text-slate-500'
                     />
+
+                    {/* Link ảnh đáp án (Cloudflare R2) */}
+                    <div className='space-y-1.5'>
+                      <div className='flex items-center gap-2'>
+                        <Input
+                          value={q.explanation_image || ''}
+                          onChange={e =>
+                            handleQuestionChange(
+                              qIdx,
+                              'explanation_image',
+                              e.target.value,
+                            )
+                          }
+                          placeholder='Link ảnh đáp án / bài giải R2 (tùy chọn, ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
+                          className='border-[#262630] bg-[#16161c] text-xs text-slate-300 placeholder:text-slate-500'
+                        />
+                        {q.explanation_image && (
+                          <a
+                            href={q.explanation_image}
+                            target='_blank'
+                            rel='noreferrer'
+                            className='shrink-0 rounded-md border border-amber-500/40 bg-amber-500/10 px-2.5 py-1.5 text-xs font-semibold text-amber-300 hover:bg-amber-500/20'
+                          >
+                            Xem ảnh
+                          </a>
+                        )}
+                      </div>
+
+                      {q.explanation_image && (
+                        <div className='relative inline-block overflow-hidden rounded-lg border border-[#262630] bg-black/40 p-1'>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={q.explanation_image}
+                            alt='Preview đáp án'
+                            className='h-20 w-auto rounded object-contain'
+                            onError={e => {
+                              (e.target as HTMLImageElement).style.display =
+                                'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
 

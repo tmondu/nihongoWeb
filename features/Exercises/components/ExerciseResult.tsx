@@ -13,6 +13,9 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
+  ImageIcon,
+  Maximize2,
+  X,
 } from 'lucide-react';
 import {
   SubmitExerciseResponse,
@@ -91,6 +94,7 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
   renderPassageWithHighlights,
 }) => {
   const [showPassage, setShowPassage] = useState(false);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   return (
     <div
@@ -177,11 +181,69 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
         })}
       </div>
 
-      {/* Explanation */}
-      {q.explanation && (
-        <div className='mt-3.5 rounded-2xl border border-(--main-color)/30 bg-(--main-color)/5 p-3.5 text-xs leading-relaxed text-(--main-color)'>
-          <span className='font-bold'>💡 Giải thích: </span>
-          {q.explanation}
+      {/* Explanation & Image */}
+      {(q.explanation || q.explanation_image) && (
+        <div className='mt-3.5 space-y-2.5 rounded-2xl border border-(--main-color)/30 bg-(--main-color)/5 p-3.5 text-xs leading-relaxed text-(--main-color)'>
+          {q.explanation && (
+            <div>
+              <span className='font-bold'>💡 Giải thích: </span>
+              {q.explanation}
+            </div>
+          )}
+          {q.explanation_image && (
+            <div className='pt-1'>
+              <div className='mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-(--secondary-color)'>
+                <ImageIcon className='size-3.5 text-(--main-color)' />
+                <span>Ảnh giải thích đáp án:</span>
+              </div>
+              <div className='group relative inline-block overflow-hidden rounded-xl border border-(--border-color) bg-black/20'>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={q.explanation_image}
+                  alt={`Ảnh giải thích câu ${idx + 1}`}
+                  className='max-h-72 w-auto max-w-full cursor-pointer object-contain transition-transform duration-200 hover:scale-[1.01]'
+                  onClick={() => setIsZoomed(true)}
+                  loading='lazy'
+                />
+                <button
+                  type='button'
+                  onClick={() => setIsZoomed(true)}
+                  className='absolute right-2 bottom-2 inline-flex items-center gap-1 rounded-lg bg-black/75 px-2 py-1 text-[11px] font-medium text-white backdrop-blur-xs transition-opacity hover:bg-black'
+                >
+                  <Maximize2 className='size-3' />
+                  <span>Phóng to</span>
+                </button>
+              </div>
+
+              {/* Lightbox Zoom Modal */}
+              {isZoomed && (
+                <div
+                  className='fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-xs'
+                  onClick={() => setIsZoomed(false)}
+                >
+                  <div
+                    className='relative max-h-[90vh] max-w-4xl overflow-auto rounded-2xl bg-neutral-900 p-2 shadow-2xl'
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <button
+                      type='button'
+                      onClick={() => setIsZoomed(false)}
+                      className='absolute top-3 right-3 z-10 flex size-8 items-center justify-center rounded-full bg-black/70 text-white transition-transform hover:scale-110'
+                      aria-label='Đóng'
+                    >
+                      <X className='size-5' />
+                    </button>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={q.explanation_image}
+                      alt={`Ảnh giải thích câu ${idx + 1}`}
+                      className='h-auto max-h-[85vh] w-auto max-w-full rounded-xl object-contain'
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
