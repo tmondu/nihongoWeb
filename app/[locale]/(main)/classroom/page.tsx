@@ -40,6 +40,26 @@ const LEVELS = [
   { id: 'n1', label: 'JLPT N1' },
 ];
 
+const getLevelBadgeClasses = (level: string, isLocked?: boolean) => {
+  if (isLocked) {
+    return 'border-amber-500/30 bg-amber-500/10 text-amber-400';
+  }
+  switch (level?.toLowerCase()) {
+    case 'n5':
+      return 'border-sky-500/30 bg-sky-500/15 text-sky-400 group-hover:border-sky-500/50 group-hover:bg-sky-500/25';
+    case 'n4':
+      return 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400 group-hover:border-emerald-500/50 group-hover:bg-emerald-500/25';
+    case 'n3':
+      return 'border-purple-500/30 bg-purple-500/15 text-purple-400 group-hover:border-purple-500/50 group-hover:bg-purple-500/25';
+    case 'n2':
+      return 'border-amber-500/30 bg-amber-500/15 text-amber-400 group-hover:border-amber-500/50 group-hover:bg-amber-500/25';
+    case 'n1':
+      return 'border-rose-500/30 bg-rose-500/15 text-rose-400 group-hover:border-rose-500/50 group-hover:bg-rose-500/25';
+    default:
+      return 'border-blue-500/30 bg-blue-500/15 text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/25';
+  }
+};
+
 export default function ClassroomPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -239,22 +259,18 @@ export default function ClassroomPage() {
                         {/* Title and metadata */}
                         <div className='min-w-0 flex-1'>
                           <div className='mb-1 flex flex-wrap items-center gap-2'>
-                            {isLocked ? (
-                              <span className='flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-bold text-amber-400 uppercase'>
-                                <Lock className='h-2.5 w-2.5' /> Cần{' '}
-                                {item.level}
-                              </span>
-                            ) : (
-                              <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2 py-0.5 text-[10px] font-bold text-blue-400 uppercase'>
-                                {item.level}
-                              </span>
-                            )}
-                            <span className='text-muted-foreground flex items-center gap-1 text-[11px]'>
+                            <span className='text-muted-foreground flex items-center gap-1.5 text-[11px] font-medium'>
                               <Calendar className='h-3 w-3' />
                               {new Date(item.created_at).toLocaleDateString(
                                 'vi-VN',
                               )}
                             </span>
+                            {isLocked && (
+                              <span className='flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-400 uppercase'>
+                                <Lock className='h-2.5 w-2.5' /> Cần cấp độ cao
+                                hơn
+                              </span>
+                            )}
                           </div>
 
                           <h2
@@ -275,8 +291,19 @@ export default function ClassroomPage() {
                         </div>
                       </div>
 
-                      {/* Right Action Button */}
-                      <div className='flex shrink-0 items-center justify-end md:justify-center'>
+                      {/* Right Section: Large Level Badge & Action Button */}
+                      <div className='flex shrink-0 items-center justify-between gap-3 sm:gap-4 md:justify-end'>
+                        {/* Large Level Badge */}
+                        <div
+                          className={`flex min-w-[52px] items-center justify-center rounded-xl border px-3.5 py-1.5 text-xs font-black tracking-wider uppercase shadow-xs transition-all sm:text-sm ${getLevelBadgeClasses(
+                            item.level,
+                            isLocked,
+                          )}`}
+                        >
+                          {item.level?.toUpperCase()}
+                        </div>
+
+                        {/* Action Button */}
                         <div
                           className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold shadow-xs transition-all duration-200 ${
                             isLocked
