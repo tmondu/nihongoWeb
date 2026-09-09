@@ -23,6 +23,7 @@ import {
   BookOpen,
   Sparkles,
   X,
+  ImageIcon,
 } from 'lucide-react';
 import {
   ExerciseRecord,
@@ -1044,8 +1045,32 @@ export default function AdminExercisesPage() {
                         className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
                       />
 
-                      {/* Explanation Image (Cloudflare R2 / URL) */}
-                      <div className='space-y-1.5'>
+                      {/* Section: Ảnh giải thích đáp án */}
+                      <div className='space-y-2 rounded-xl border border-purple-500/25 bg-purple-500/5 p-3'>
+                        <div className='flex items-center justify-between'>
+                          <label className='flex items-center gap-1.5 text-xs font-bold text-purple-300'>
+                            <ImageIcon className='size-3.5 text-purple-400' />
+                            <span>
+                              Ảnh giải thích đáp án (Cloudflare R2 / URL)
+                            </span>
+                          </label>
+                          {q.explanation_image && (
+                            <button
+                              type='button'
+                              onClick={() =>
+                                handleQuestionChange(
+                                  qIdx,
+                                  'explanation_image',
+                                  '',
+                                )
+                              }
+                              className='text-[11px] font-semibold text-rose-400 hover:text-rose-300 hover:underline'
+                            >
+                              Xóa ảnh
+                            </button>
+                          )}
+                        </div>
+
                         <div className='flex items-center gap-2'>
                           <input
                             type='text'
@@ -1057,32 +1082,41 @@ export default function AdminExercisesPage() {
                                 e.target.value,
                               )
                             }
-                            placeholder='Link ảnh đáp án / bài giải R2 (tùy chọn, ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
-                            className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
+                            placeholder='Dán link ảnh từ Cloudflare R2 (ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
+                            className='w-full rounded-lg border border-[#262630] bg-[#16161c] px-3 py-2 text-xs text-slate-200 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
                           />
                           {q.explanation_image && (
                             <a
                               href={q.explanation_image}
                               target='_blank'
                               rel='noreferrer'
-                              className='shrink-0 rounded-lg border border-purple-500/40 bg-purple-500/10 px-2.5 py-1.5 text-xs font-semibold text-purple-300 hover:bg-purple-500/20'
+                              className='inline-flex shrink-0 items-center gap-1 rounded-lg border border-purple-500/40 bg-purple-500/20 px-3 py-2 text-xs font-semibold text-purple-200 hover:bg-purple-500/30'
                             >
-                              Xem ảnh
+                              <Eye className='size-3.5' />
+                              <span>Xem</span>
                             </a>
                           )}
                         </div>
 
                         {q.explanation_image && (
-                          <div className='relative inline-block overflow-hidden rounded-lg border border-[#262630] bg-black/40 p-1'>
+                          <div className='mt-2 flex items-center gap-3 rounded-lg border border-purple-500/20 bg-black/40 p-2.5'>
                             <img
                               src={q.explanation_image}
                               alt='Preview đáp án'
-                              className='h-20 w-auto rounded object-contain'
+                              className='h-20 max-w-[180px] rounded border border-[#333] bg-black/60 object-contain'
                               onError={e => {
                                 (e.target as HTMLImageElement).style.display =
                                   'none';
                               }}
                             />
+                            <div className='text-[11px] leading-relaxed text-slate-400'>
+                              <p className='font-semibold text-emerald-400'>
+                                ✓ Ảnh hợp lệ & đã được liên kết
+                              </p>
+                              <p className='line-clamp-2 max-w-md break-all text-slate-400'>
+                                {q.explanation_image}
+                              </p>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -1105,9 +1139,17 @@ export default function AdminExercisesPage() {
                 <div className='space-y-4'>
                   <div className='flex flex-wrap items-center justify-between gap-2'>
                     <p className='text-xs text-slate-400'>
-                      Nhập đề thi định dạng Aiken. Hỗ trợ bài đọc hiểu với thẻ{' '}
+                      Nhập đề thi định dạng Aiken. Hỗ trợ bài đọc hiểu{' '}
                       <code className='rounded bg-purple-500/20 px-1 py-0.5 text-[11px] text-purple-300'>
-                        [PASSAGE: Tiêu đề] ... [/PASSAGE]
+                        [PASSAGE]
+                      </code>
+                      , giải thích{' '}
+                      <code className='rounded bg-purple-500/20 px-1 py-0.5 text-[11px] text-purple-300'>
+                        EXPLANATION: ...
+                      </code>{' '}
+                      và ảnh đáp án{' '}
+                      <code className='rounded bg-purple-500/20 px-1 py-0.5 text-[11px] text-purple-300'>
+                        EXPLANATION_IMAGE: https://...
                       </code>
                       :
                     </p>
@@ -1139,7 +1181,7 @@ export default function AdminExercisesPage() {
                     value={sourceText}
                     onChange={e => setSourceText(e.target.value)}
                     rows={9}
-                    placeholder={`[PASSAGE: 初めての野球]\n日本に来る前に まんがで 野球という スポーツを 知って...\n[/PASSAGE]\n\nCâu 1: Từ nào sau đây có nghĩa là "Ngày mai"?\nA. きのう\nB. あした\nC. きょう\nD. あさって\nANSWER: B\nEXPLANATION: あした nghĩa là ngày mai.`}
+                    placeholder={`[PASSAGE: 初めての野球]\n日本に来る前に まんがで 野球という スポーツを 知って...\n[/PASSAGE]\n\nCâu 1: Từ nào sau đây có nghĩa là "Ngày mai"?\nA. きのう\nB. あした\nC. きょう\nD. あさって\nANSWER: B\nEXPLANATION: あした nghĩa là ngày mai.\nEXPLANATION_IMAGE: https://pub-xxx.r2.dev/giai-thich-bai1.png`}
                     className='w-full rounded-xl border border-[#262630] bg-[#14141a] p-4 font-mono text-xs text-slate-100 placeholder:text-slate-600 focus:border-purple-500 focus:outline-none'
                   />
 

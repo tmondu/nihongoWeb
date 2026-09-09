@@ -22,6 +22,7 @@ import {
   AlertCircle,
   BookOpen,
   Sparkles,
+  ImageIcon,
 } from 'lucide-react';
 import { Button } from '@/shared/ui/components/button';
 import { Input } from '@/shared/ui/components/input';
@@ -1091,8 +1092,32 @@ export default function AdminExercisesPage() {
                       className='border-[#262630] bg-[#16161c] text-xs text-slate-300 placeholder:text-slate-500'
                     />
 
-                    {/* Link ảnh đáp án (Cloudflare R2) */}
-                    <div className='space-y-1.5'>
+                    {/* Section: Ảnh giải thích đáp án */}
+                    <div className='space-y-2 rounded-xl border border-amber-500/25 bg-amber-500/5 p-3'>
+                      <div className='flex items-center justify-between'>
+                        <label className='flex items-center gap-1.5 text-xs font-bold text-amber-300'>
+                          <ImageIcon className='size-3.5 text-amber-400' />
+                          <span>
+                            Ảnh giải thích đáp án (Cloudflare R2 / URL)
+                          </span>
+                        </label>
+                        {q.explanation_image && (
+                          <button
+                            type='button'
+                            onClick={() =>
+                              handleQuestionChange(
+                                qIdx,
+                                'explanation_image',
+                                '',
+                              )
+                            }
+                            className='text-[11px] font-semibold text-rose-400 hover:text-rose-300 hover:underline'
+                          >
+                            Xóa ảnh
+                          </button>
+                        )}
+                      </div>
+
                       <div className='flex items-center gap-2'>
                         <Input
                           value={q.explanation_image || ''}
@@ -1103,33 +1128,42 @@ export default function AdminExercisesPage() {
                               e.target.value,
                             )
                           }
-                          placeholder='Link ảnh đáp án / bài giải R2 (tùy chọn, ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
-                          className='border-[#262630] bg-[#16161c] text-xs text-slate-300 placeholder:text-slate-500'
+                          placeholder='Dán link ảnh từ Cloudflare R2 (ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
+                          className='border-[#262630] bg-[#16161c] text-xs text-slate-200 placeholder:text-slate-500'
                         />
                         {q.explanation_image && (
                           <a
                             href={q.explanation_image}
                             target='_blank'
                             rel='noreferrer'
-                            className='shrink-0 rounded-md border border-amber-500/40 bg-amber-500/10 px-2.5 py-1.5 text-xs font-semibold text-amber-300 hover:bg-amber-500/20'
+                            className='inline-flex shrink-0 items-center gap-1 rounded-md border border-amber-500/40 bg-amber-500/20 px-3 py-2 text-xs font-semibold text-amber-200 hover:bg-amber-500/30'
                           >
-                            Xem ảnh
+                            <Eye className='size-3.5' />
+                            <span>Xem</span>
                           </a>
                         )}
                       </div>
 
                       {q.explanation_image && (
-                        <div className='relative inline-block overflow-hidden rounded-lg border border-[#262630] bg-black/40 p-1'>
+                        <div className='mt-2 flex items-center gap-3 rounded-lg border border-amber-500/20 bg-black/40 p-2.5'>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={q.explanation_image}
                             alt='Preview đáp án'
-                            className='h-20 w-auto rounded object-contain'
+                            className='h-20 max-w-[180px] rounded border border-[#333] bg-black/60 object-contain'
                             onError={e => {
                               (e.target as HTMLImageElement).style.display =
                                 'none';
                             }}
                           />
+                          <div className='text-[11px] leading-relaxed text-slate-400'>
+                            <p className='font-semibold text-emerald-400'>
+                              ✓ Ảnh hợp lệ & đã được liên kết
+                            </p>
+                            <p className='line-clamp-2 max-w-md break-all text-slate-400'>
+                              {q.explanation_image}
+                            </p>
+                          </div>
                         </div>
                       )}
                     </div>
