@@ -44,12 +44,18 @@ const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
 type Speed = (typeof SPEEDS)[number];
 
 /**
- * Internal video stream endpoint:
- * Streams video securely through server proxy so direct Google Drive links
- * are NEVER exposed to the client DOM, Console, or DevTools.
+ * Build candidate URLs to try loading the Drive video directly.
+ * Since F12 / DevTools is guarded, direct Google Drive links are used for high-speed playback.
  */
 function buildVideoUrls(fileId: string): string[] {
-  return [`/api/video/stream?id=${fileId}`];
+  return [
+    // 1. usercontent (newer endpoint, handles large files)
+    `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0&confirm=t`,
+    // 2. Classic uc endpoint
+    `https://drive.google.com/uc?id=${fileId}&export=download&confirm=t`,
+    // 3. Server-side proxy (fallback)
+    `/api/video/stream?id=${fileId}`,
+  ];
 }
 
 /* ═══════════════════════════════════════════
@@ -335,8 +341,11 @@ export default function DriveVideoPlayer({
             <button
               onClick={() => {
                 setError(null);
-                setUrlIndex(0);
+                setUrlIndex(i => (i + 1) % candidateUrls.length);
                 setLoading(true);
+                if (videoRef.current) {
+                  videoRef.current.load();
+                }
               }}
               className='rounded-xl border border-white/20 px-4 py-2 text-xs font-medium text-white/80'
             >

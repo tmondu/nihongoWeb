@@ -1,5 +1,3 @@
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import GoogleAnalytics from '@/core/analytics/GoogleAnalytics';
@@ -244,8 +242,6 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           <>
             <GoogleAnalytics />
             <MSClarity />
-            <Analytics />
-            <SpeedInsights />
           </>
         )}
         <SecurityGuard />

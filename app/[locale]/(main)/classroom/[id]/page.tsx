@@ -53,7 +53,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('9:16');
   const videoBoxRef = useRef<HTMLDivElement>(null);
 
-  const checkVideoStatus = async (url: string, fresh = false) => {
+  const checkVideoStatus = async (url: string, _fresh = false) => {
     if (!url) {
       setVideoAvailable(false);
       setVideoErrorReason('empty_url');
@@ -63,20 +63,9 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
     try {
       const driveInfo = parseVideoEmbedUrl(url);
       if (driveInfo.type === 'drive') {
-        const fileId = driveInfo.driveId;
-        const res = await fetch(
-          `/api/video/stream?id=${fileId}${fresh ? '&fresh=1' : ''}`,
-          {
-            method: 'HEAD',
-          },
-        );
-        if (res.ok) {
-          setVideoAvailable(true);
-          setVideoErrorReason(null);
-        } else {
-          setVideoAvailable(false);
-          setVideoErrorReason(`http_${res.status}`);
-        }
+        setVideoAvailable(true);
+        setVideoErrorReason(null);
+        return;
       } else {
         setVideoAvailable(true);
         setVideoErrorReason(null);
