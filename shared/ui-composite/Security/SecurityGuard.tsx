@@ -112,48 +112,27 @@ export default function SecurityGuard() {
       };
 
       const checkDevTools = () => {
-        // 1. Phân biệt thiết bị thật: Điện thoại thật có kích thước màn hình vật lý & outerWidth < 900px
-        const isRealMobile =
-          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-            navigator.userAgent,
-          ) &&
-          window.screen.width < 900 &&
-          window.outerWidth < 900;
+        // 1. Phân biệt thiết bị thật:
+        // Trên điện thoại thật (iPhone, iPad, Android), platform KHÔNG BAO GIỜ là Win32 / Windows.
+        const isDesktopPlatform =
+          /Win32|Win64|Windows|MacIntel|Linux x86_64/i.test(
+            navigator.platform || '',
+          );
 
-        if (isRealMobile) return;
+        // A. Nếu là máy tính PC/Mac nhưng bề rộng bị ép co xuống dưới 650px (như 395x811 trong F12)
+        // -> 100% ĐANG MỞ DEVTOOLS BẬT DEVICE TOOLBAR!
+        const isMobileEmulationOnDesktop =
+          isDesktopPlatform && window.innerWidth < 650;
 
-        // 2. Phát hiện DevTools gắn bên phải hoặc dưới đáy
-        const isWidthDocked = window.outerWidth - window.innerWidth > 180;
-        const isHeightDocked = window.outerHeight - window.innerHeight > 280;
+        // B. Phát hiện DevTools gắn bên phải hoặc dưới đáy trên Desktop
+        const isWidthDocked =
+          isDesktopPlatform && window.outerWidth - window.innerWidth > 160;
+        const isHeightDocked =
+          isDesktopPlatform && window.outerHeight - window.innerHeight > 250;
 
-        // 3. Phát hiện chế độ giả lập điện thoại trên PC (Device Toolbar / Responsive 395x811):
-        // Màn hình máy tính rộng (screen.width >= 1024 hoặc outerWidth >= 1024)
-        // nhưng viewport nội dung bị ép co nhỏ lại do bật Device Toolbar trong F12
-        const isDeviceEmulation =
-          (window.screen.width >= 1024 || window.outerWidth >= 1024) &&
-          window.outerWidth - window.innerWidth > 350;
-
-        // 4. Phát hiện DevTools mở qua debugger timing (bắt được cả khi DevTools tách thành cửa sổ riêng)
-        let isDebuggerPaused = false;
-        try {
-          const start = performance.now();
-           
-          new Function('debugger')();
-          if (performance.now() - start > 100) {
-            isDebuggerPaused = true;
-          }
-        } catch {
-          // Bỏ qua nếu môi trường chặn Function
-        }
-
-        if (
-          isWidthDocked ||
-          isHeightDocked ||
-          isDeviceEmulation ||
-          isDebuggerPaused
-        ) {
-          openDuration += 250;
-          if (openDuration >= 1000) {
+        if (isMobileEmulationOnDesktop || isWidthDocked || isHeightDocked) {
+          openDuration += 200;
+          if (openDuration >= 600) {
             killPage();
           }
         } else {
@@ -161,12 +140,24 @@ export default function SecurityGuard() {
         }
       };
 
+      // 3. Anti-Debugger Loop:
+      // Khi F12 mở (bất kể tab nào hay chế độ nào), lệnh này sẽ đóng băng DevTools và ép nhảy sang tab Sources
+      const antiDebugInterval = setInterval(() => {
+        try {
+           
+          new Function('debugger')();
+        } catch {
+          // Bỏ qua nếu môi trường chặn Function
+        }
+      }, 200);
+
       window.addEventListener('keydown', handleKeyDown, true);
-      const intervalId = setInterval(checkDevTools, 250);
+      const intervalId = setInterval(checkDevTools, 200);
 
       cleanupEvents = () => {
         window.removeEventListener('keydown', handleKeyDown, true);
         clearInterval(intervalId);
+        clearInterval(antiDebugInterval);
       };
     };
 
