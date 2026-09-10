@@ -8,6 +8,8 @@ export interface ParsedVideo {
   originalUrl: string;
   /** Google Drive file ID — present only when type === 'drive' */
   driveId?: string;
+  /** YouTube video ID — present only when type === 'youtube' */
+  youtubeId?: string;
 }
 
 export function parseVideoEmbedUrl(rawUrl: string): ParsedVideo {
@@ -40,8 +42,9 @@ export function parseVideoEmbedUrl(rawUrl: string): ParsedVideo {
   // - https://www.youtube.com/watch?v={VIDEO_ID}
   // - https://youtu.be/{VIDEO_ID}
   // - https://www.youtube.com/embed/{VIDEO_ID}
+  // - https://www.youtube.com/shorts/{VIDEO_ID}
   const youtubeMatch = url.match(
-    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i,
+    /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i,
   );
   const youtubeId = youtubeMatch?.[1];
 
@@ -50,6 +53,7 @@ export function parseVideoEmbedUrl(rawUrl: string): ParsedVideo {
       type: 'youtube',
       embedUrl: `https://www.youtube-nocookie.com/embed/${youtubeId}?rel=0`,
       originalUrl: url,
+      youtubeId,
     };
   }
 

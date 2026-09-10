@@ -18,6 +18,7 @@ import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
 import { cn } from '@/shared/utils';
 import DriveVideoPlayer from '@/features/Classroom/components/DriveVideoPlayer';
+import YouTubeVideoPlayer from '@/features/Classroom/components/YouTubeVideoPlayer';
 
 interface Lesson {
   id: number;
@@ -330,8 +331,21 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         : 'aspect-video',
                     )}
                   />
+                ) : parsedVideo?.type === 'youtube' && parsedVideo.youtubeId ? (
+                  /* YouTube Custom Video Player (Hides all YouTube UI/links & applies Drive-style UI) */
+                  <YouTubeVideoPlayer
+                    videoId={parsedVideo.youtubeId}
+                    title={currentLesson.title}
+                    watermark={userEmail || undefined}
+                    className={cn(
+                      'w-full transition-all duration-300',
+                      aspectRatio === '9:16'
+                        ? 'mx-auto aspect-[9/16] max-h-[85vh] max-w-[460px]'
+                        : 'aspect-video',
+                    )}
+                  />
                 ) : (
-                  /* Fallback: iframe for YouTube or generic */
+                  /* Fallback: iframe for generic */
                   <div
                     ref={videoBoxRef}
                     className={cn(
