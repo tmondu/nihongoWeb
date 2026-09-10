@@ -13,6 +13,7 @@ import {
   SkipBack,
   SkipForward,
   MonitorCog,
+  Check,
 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 
@@ -30,7 +31,7 @@ function fmt(s: number): string {
 }
 
 /* ─────────────────────────────────────────────
-   Props
+   Props & Constants
 ───────────────────────────────────────────── */
 interface YouTubeVideoPlayerProps {
   videoId: string;
@@ -41,6 +42,21 @@ interface YouTubeVideoPlayerProps {
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
 type Speed = (typeof SPEEDS)[number];
+
+const QUALITY_MAP: Record<string, { label: string; short: string }> = {
+  highres: { label: '4K / Siêu nét (High Res)', short: '4K' },
+  hd2160: { label: '2160p (4K)', short: '4K' },
+  hd1440: { label: '1440p (2K)', short: '2K' },
+  hd1080: { label: '1080p (Full HD)', short: '1080p' },
+  hd720: { label: '720p (HD)', short: '720p' },
+  large: { label: '480p', short: '480p' },
+  medium: { label: '360p', short: '360p' },
+  small: { label: '240p', short: '240p' },
+  tiny: { label: '144p', short: '144p' },
+  auto: { label: 'Tự động (Auto)', short: 'Auto' },
+};
+
+const DEFAULT_QUALITIES = ['hd1080', 'hd720', 'large', 'medium', 'auto'];
 
 /* ─────────────────────────────────────────────
    YouTube IFrame API Loader (Singleton)
@@ -98,6 +114,9 @@ export default function YouTubeVideoPlayer({
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const [speed, setSpeed] = useState<Speed>(1);
+  const [selectedQuality, setSelectedQuality] = useState<string>('hd1080');
+  const [availableQualities, setAvailableQualities] =
+    useState<string[]>(DEFAULT_QUALITIES);
   const [showControls, setShowControls] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showQualityMenu, setShowQualityMenu] = useState(false);
@@ -110,14 +129,47 @@ export default function YouTubeVideoPlayer({
   const scheduleHide = useCallback(() => {
     if (hideTimer.current) clearTimeout(hideTimer.current);
     hideTimer.current = setTimeout(() => {
-      if (!seeking && !showSpeedMenu) setShowControls(false);
+      if (!seeking && !showSpeedMenu && !showQualityMenu) {
+        setShowControls(false);
+      }
     }, 3000);
-  }, [seeking, showSpeedMenu]);
+  }, [seeking, showSpeedMenu, showQualityMenu]);
 
   const revealControls = useCallback(() => {
     setShowControls(true);
     scheduleHide();
   }, [scheduleHide]);
+
+  /* ─── query available qualities from player ─── */
+  const updateQualities = useCallback((p: any) => {
+    if (!p) return;
+    try {
+      if (typeof p.getAvailableQualityLevels === 'function') {
+        const lvls = p.getAvailableQualityLevels();
+        if (Array.isArray(lvls) && lvls.length > 0) {
+          const order = [
+            'highres',
+            'hd2160',
+            'hd1440',
+            'hd1080',
+            'hd720',
+            'large',
+            'medium',
+            'small',
+            'tiny',
+            'auto',
+          ];
+          const sorted = [...lvls].sort((a, b) => {
+            const ia = order.indexOf(a);
+            const ib = order.indexOf(b);
+            return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+          });
+          if (!sorted.includes('auto')) sorted.push('auto');
+          setAvailableQualities(sorted);
+        }
+      }
+    } catch {}
+  }, []);
 
   /* ─── initialize YouTube Player ─── */
   useEffect(() => {
@@ -131,6 +183,8 @@ export default function YouTubeVideoPlayer({
         if (!YT || !YT.Player) return;
 
         playerRef.current = new YT.Player(playerContainerId, {
+          width: '100%',
+          height: '100%',
           videoId,
           playerVars: {
             autoplay: 0,
@@ -153,6 +207,15 @@ export default function YouTubeVideoPlayer({
               setLoading(false);
               const d = e.target.getDuration();
               if (d && d > 0) setDuration(d);
+
+              // Proactively request 1080p so stream starts sharp
+              try {
+                if (typeof e.target.setPlaybackQuality === 'function') {
+                  e.target.setPlaybackQuality('hd1080');
+                }
+              } catch {}
+
+              updateQualities(e.target);
             },
             onStateChange: (e: any) => {
               if (isCancelled) return;
@@ -161,11 +224,15 @@ export default function YouTubeVideoPlayer({
               if (state === 1) {
                 setPlaying(true);
                 setLoading(false);
+                updateQualities(e.target);
               } else if (state === 2 || state === 0) {
                 setPlaying(false);
               } else if (state === 3) {
                 setLoading(true);
               }
+            },
+            onPlaybackQualityChange: () => {
+              // Player quality updated
             },
             onError: () => {
               if (isCancelled) return;
@@ -192,7 +259,7 @@ export default function YouTubeVideoPlayer({
         playerRef.current = null;
       }
     };
-  }, [videoId, playerContainerId]);
+  }, [videoId, playerContainerId, updateQualities]);
 
   /* ─── time & progress polling loop ─── */
   useEffect(() => {
@@ -365,6 +432,32 @@ export default function YouTubeVideoPlayer({
     setShowSpeedMenu(false);
   };
 
+  const changeQuality = (q: string) => {
+    setSelectedQuality(q);
+    setShowQualityMenu(false);
+    const p = playerRef.current;
+    if (!p) return;
+    try {
+      if (typeof p.setPlaybackQuality === 'function') {
+        p.setPlaybackQuality(q);
+      }
+      if (typeof p.setPlaybackQualityRange === 'function') {
+        p.setPlaybackQualityRange(q, q);
+      }
+      // Re-seek to force stream switch and refresh buffer
+      if (
+        typeof p.getCurrentTime === 'function' &&
+        typeof p.seekTo === 'function'
+      ) {
+        const cur = p.getCurrentTime();
+        p.seekTo(cur, true);
+      }
+    } catch (err) {
+      console.warn('Set playback quality failed:', err);
+    }
+    revealControls();
+  };
+
   const skip = (seconds: number) => {
     const p = playerRef.current;
     if (!p || typeof p.getCurrentTime !== 'function') return;
@@ -393,8 +486,8 @@ export default function YouTubeVideoPlayer({
       onPointerLeave={() => scheduleHide()}
       onContextMenu={e => e.preventDefault()}
     >
-      {/* ── YouTube Iframe Wrapper ── */}
-      <div className='pointer-events-none relative h-full w-full'>
+      {/* ── YouTube Iframe Wrapper (forced 100% dimensions to avoid 360p downscale) ── */}
+      <div className='pointer-events-none relative h-full w-full [&_iframe]:h-full [&_iframe]:w-full'>
         <div id={playerContainerId} className='h-full w-full' />
       </div>
 
@@ -573,6 +666,7 @@ export default function YouTubeVideoPlayer({
                 onClick={e => {
                   e.stopPropagation();
                   setShowSpeedMenu(v => !v);
+                  setShowQualityMenu(false);
                 }}
                 className='flex items-center gap-1 p-1 text-xs font-semibold text-white transition-colors hover:text-blue-300'
                 aria-label='Tốc độ phát'
@@ -603,7 +697,7 @@ export default function YouTubeVideoPlayer({
               )}
             </div>
 
-            {/* Quality Indicator */}
+            {/* Quality Selector */}
             <div className='relative'>
               <button
                 type='button'
@@ -616,26 +710,51 @@ export default function YouTubeVideoPlayer({
                 aria-label='Chất lượng video'
               >
                 <MonitorCog className='h-4 w-4' />
-                <span className='hidden sm:inline'>Auto</span>
+                <span className='hidden sm:inline'>
+                  {QUALITY_MAP[selectedQuality]?.short || '1080p'}
+                </span>
               </button>
 
               {showQualityMenu && (
                 <div
-                  className='absolute right-0 bottom-8 z-50 min-w-[160px] rounded-xl border border-white/10 bg-black/90 p-3 shadow-xl backdrop-blur-md'
+                  className='absolute right-0 bottom-8 z-50 flex min-w-[190px] flex-col rounded-xl border border-white/10 bg-black/95 py-1.5 shadow-2xl backdrop-blur-md'
                   onPointerDown={e => e.stopPropagation()}
                 >
-                  <p className='mb-1.5 text-[10px] font-semibold tracking-wider text-white/40 uppercase'>
-                    Chất lượng
-                  </p>
-                  <div className='flex flex-col gap-0.5'>
-                    <div className='flex items-center gap-2 rounded-lg bg-blue-500/15 px-3 py-1.5'>
-                      <span className='h-1.5 w-1.5 rounded-full bg-blue-400' />
-                      <span className='text-xs font-semibold text-blue-300'>
-                        Tự động (Auto)
-                      </span>
-                    </div>
-                    <p className='mt-1.5 text-[10px] leading-relaxed text-white/40'>
-                      Độ phân giải tự động tối ưu dựa trên tốc độ mạng của bạn.
+                  <div className='border-b border-white/10 px-3 py-1.5'>
+                    <p className='text-[10px] font-bold tracking-wider text-white/50 uppercase'>
+                      Chất lượng phát
+                    </p>
+                  </div>
+                  <div className='max-h-56 overflow-y-auto py-1'>
+                    {availableQualities.map(q => {
+                      const info = QUALITY_MAP[q] || {
+                        label: q.toUpperCase(),
+                        short: q,
+                      };
+                      const isSelected = selectedQuality === q;
+                      return (
+                        <button
+                          key={q}
+                          type='button'
+                          onClick={() => changeQuality(q)}
+                          className={cn(
+                            'flex w-full items-center justify-between px-3 py-1.5 text-left text-xs transition-colors hover:bg-white/10',
+                            isSelected
+                              ? 'bg-blue-500/15 font-semibold text-blue-400'
+                              : 'font-medium text-white/80',
+                          )}
+                        >
+                          <span>{info.label}</span>
+                          {isSelected && (
+                            <Check className='h-3.5 w-3.5 text-blue-400' />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className='border-t border-white/10 px-3 py-1.5'>
+                    <p className='text-[10px] leading-relaxed text-white/40'>
+                      Chọn 1080p hoặc 720p để bài giảng đạt độ nét cao nhất.
                     </p>
                   </div>
                 </div>

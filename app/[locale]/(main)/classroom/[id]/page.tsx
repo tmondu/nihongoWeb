@@ -51,7 +51,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const [videoChecking, setVideoChecking] = useState(false);
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
-  const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('9:16');
+  const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('16:9');
   const videoBoxRef = useRef<HTMLDivElement>(null);
 
   const checkVideoStatus = async (url: string, _fresh = false) => {
