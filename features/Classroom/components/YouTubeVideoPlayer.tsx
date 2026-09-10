@@ -13,9 +13,6 @@ import {
   SkipBack,
   SkipForward,
   MonitorCog,
-  Check,
-  Settings,
-  Shield,
 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 
@@ -44,29 +41,6 @@ interface YouTubeVideoPlayerProps {
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
 type Speed = (typeof SPEEDS)[number];
-
-const QUALITY_MAP: Record<string, { label: string; short: string }> = {
-  highres: { label: '4K / Siêu nét (High Res)', short: '4K' },
-  hd2160: { label: '2160p (4K)', short: '4K' },
-  hd1440: { label: '1440p (2K)', short: '2K' },
-  hd1080: { label: '1080p (Full HD)', short: '1080p' },
-  hd720: { label: '720p (HD)', short: '720p' },
-  large: { label: '480p', short: '480p' },
-  medium: { label: '360p', short: '360p' },
-  small: { label: '240p', short: '240p' },
-  tiny: { label: '144p', short: '144p' },
-  auto: { label: 'Tự động (Auto)', short: 'Auto' },
-};
-
-const DEFAULT_QUALITIES = [
-  'hd2160',
-  'hd1440',
-  'hd1080',
-  'hd720',
-  'large',
-  'medium',
-  'auto',
-];
 
 /* ─────────────────────────────────────────────
    YouTube IFrame API Loader (Singleton)
@@ -124,10 +98,6 @@ export default function YouTubeVideoPlayer({
   const [volume, setVolume] = useState(1);
   const [muted, setMuted] = useState(false);
   const [speed, setSpeed] = useState<Speed>(1);
-  const [selectedQuality, setSelectedQuality] = useState<string>('hd1080');
-  const [availableQualities, setAvailableQualities] =
-    useState<string[]>(DEFAULT_QUALITIES);
-  const [useNativeControls, setUseNativeControls] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showQualityMenu, setShowQualityMenu] = useState(false);
@@ -150,39 +120,6 @@ export default function YouTubeVideoPlayer({
     setShowControls(true);
     scheduleHide();
   }, [scheduleHide]);
-
-  /* ─── query available qualities from player ─── */
-  const updateQualities = useCallback((p: any) => {
-    if (!p) return;
-    try {
-      if (typeof p.getAvailableQualityLevels === 'function') {
-        const lvls = p.getAvailableQualityLevels();
-        if (Array.isArray(lvls) && lvls.length > 0) {
-          const canonical = [
-            'hd2160',
-            'hd1440',
-            'hd1080',
-            'hd720',
-            'large',
-            'medium',
-            'small',
-            'auto',
-          ];
-          const has4k = lvls.includes('highres') || lvls.includes('hd2160');
-          const has2k = lvls.includes('hd1440');
-          const filtered = canonical.filter(k => {
-            if (k === 'hd2160') return has4k;
-            if (k === 'hd1440') return has2k;
-            if (k === 'auto') return true;
-            return lvls.includes(k);
-          });
-          if (filtered.length >= 2) {
-            setAvailableQualities(filtered);
-          }
-        }
-      }
-    } catch {}
-  }, []);
 
   /* ─── initialize YouTube Player ─── */
   useEffect(() => {
@@ -221,14 +158,12 @@ export default function YouTubeVideoPlayer({
               const d = e.target.getDuration();
               if (d && d > 0) setDuration(d);
 
-              // Proactively request 1080p so stream starts sharp
+              // Proactively request 1080p on mount
               try {
                 if (typeof e.target.setPlaybackQuality === 'function') {
                   e.target.setPlaybackQuality('hd1080');
                 }
               } catch {}
-
-              updateQualities(e.target);
             },
             onStateChange: (e: any) => {
               if (isCancelled) return;
@@ -237,15 +172,11 @@ export default function YouTubeVideoPlayer({
               if (state === 1) {
                 setPlaying(true);
                 setLoading(false);
-                updateQualities(e.target);
               } else if (state === 2 || state === 0) {
                 setPlaying(false);
               } else if (state === 3) {
                 setLoading(true);
               }
-            },
-            onPlaybackQualityChange: () => {
-              // Player quality updated
             },
             onError: () => {
               if (isCancelled) return;
@@ -272,7 +203,7 @@ export default function YouTubeVideoPlayer({
         playerRef.current = null;
       }
     };
-  }, [videoId, playerContainerId, updateQualities]);
+  }, [videoId, playerContainerId]);
 
   /* ─── time & progress polling loop ─── */
   useEffect(() => {
@@ -445,35 +376,6 @@ export default function YouTubeVideoPlayer({
     setShowSpeedMenu(false);
   };
 
-  const changeQuality = (q: string) => {
-    setSelectedQuality(q);
-    setShowQualityMenu(false);
-    const p = playerRef.current;
-    if (!p) return;
-    try {
-      setLoading(true);
-      if (typeof p.setPlaybackQuality === 'function') {
-        p.setPlaybackQuality(q);
-      }
-      if (typeof p.setPlaybackQualityRange === 'function') {
-        p.setPlaybackQualityRange(q, q);
-      }
-      // Re-seek to force stream switch and refresh buffer
-      if (
-        typeof p.getCurrentTime === 'function' &&
-        typeof p.seekTo === 'function'
-      ) {
-        const cur = p.getCurrentTime();
-        p.seekTo(cur, true);
-      }
-      setTimeout(() => setLoading(false), 500);
-    } catch (err) {
-      console.warn('Set playback quality failed:', err);
-      setLoading(false);
-    }
-    revealControls();
-  };
-
   const skip = (seconds: number) => {
     const p = playerRef.current;
     if (!p || typeof p.getCurrentTime !== 'function') return;
@@ -489,43 +391,6 @@ export default function YouTubeVideoPlayer({
   /* ─── progress % helpers ─── */
   const pct = duration > 0 ? (currentTime / duration) * 100 : 0;
   const bufferedPct = duration > 0 ? (buffered / duration) * 100 : 0;
-
-  if (useNativeControls) {
-    return (
-      <div
-        ref={wrapperRef}
-        className={cn(
-          'group relative overflow-hidden rounded-2xl bg-black select-none',
-          className,
-        )}
-      >
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&rel=0&playsinline=1`}
-          title={_title}
-          className='h-full w-full border-0'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen'
-          allowFullScreen
-        />
-
-        {/* Floating switch back button */}
-        <button
-          type='button'
-          onClick={() => setUseNativeControls(false)}
-          className='absolute top-3 left-3 z-30 flex items-center gap-1.5 rounded-lg border border-white/20 bg-black/85 px-3 py-1.5 text-xs font-semibold text-white shadow-xl backdrop-blur-md transition-all hover:border-blue-500 hover:bg-blue-600'
-          title='Chuyển về giao diện bảo mật (ẩn link)'
-        >
-          <Shield className='h-3.5 w-3.5 text-blue-400' />
-          <span>Ẩn thanh YouTube (Giao diện riêng)</span>
-        </button>
-
-        {watermark && (
-          <div className='pointer-events-none absolute top-3 right-3 z-30 rounded bg-black/40 px-2 py-0.5 font-mono text-[11px] tracking-wider text-white/40 backdrop-blur-[1px] select-none'>
-            {watermark}
-          </div>
-        )}
-      </div>
-    );
-  }
 
   return (
     <div
@@ -750,7 +615,7 @@ export default function YouTubeVideoPlayer({
               )}
             </div>
 
-            {/* Quality Selector */}
+            {/* Quality Indicator */}
             <div className='relative'>
               <button
                 type='button'
@@ -763,63 +628,35 @@ export default function YouTubeVideoPlayer({
                 aria-label='Chất lượng video'
               >
                 <MonitorCog className='h-4 w-4' />
-                <span className='hidden sm:inline'>
-                  {QUALITY_MAP[selectedQuality]?.short || '1080p'}
-                </span>
+                <span className='hidden sm:inline'>Auto (HD)</span>
               </button>
 
               {showQualityMenu && (
                 <div
-                  className='absolute right-0 bottom-8 z-50 flex min-w-[190px] flex-col rounded-xl border border-white/10 bg-black/95 py-1.5 shadow-2xl backdrop-blur-md'
+                  className='absolute right-0 bottom-8 z-50 flex min-w-[220px] flex-col rounded-xl border border-white/10 bg-black/95 p-3 shadow-2xl backdrop-blur-md'
                   onPointerDown={e => e.stopPropagation()}
                 >
-                  <div className='border-b border-white/10 px-3 py-1.5'>
-                    <p className='text-[10px] font-bold tracking-wider text-white/50 uppercase'>
+                  <div className='flex items-center justify-between border-b border-white/10 pb-2'>
+                    <span className='text-[10px] font-bold tracking-wider text-white/50 uppercase'>
                       Chất lượng phát
+                    </span>
+                    <span className='rounded bg-blue-500/20 px-1.5 py-0.5 text-[10px] font-semibold text-blue-400'>
+                      Tự động tối ưu
+                    </span>
+                  </div>
+                  <div className='flex flex-col gap-1.5 py-2.5'>
+                    <div className='flex items-center gap-2 text-xs font-medium text-white'>
+                      <span className='h-2 w-2 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/50' />
+                      <span>Chuẩn sắc nét (1080p / 4K)</span>
+                    </div>
+                    <p className='text-[11px] leading-relaxed text-white/50'>
+                      Hệ thống tự động tải luồng sắc nét nhất dựa trên độ phân
+                      giải màn hình và đường truyền của bạn.
                     </p>
                   </div>
-                  <div className='max-h-56 overflow-y-auto py-1'>
-                    {availableQualities.map(q => {
-                      const info = QUALITY_MAP[q] || {
-                        label: q.toUpperCase(),
-                        short: q,
-                      };
-                      const isSelected = selectedQuality === q;
-                      return (
-                        <button
-                          key={q}
-                          type='button'
-                          onClick={() => changeQuality(q)}
-                          className={cn(
-                            'flex w-full items-center justify-between px-3 py-1.5 text-left text-xs transition-colors hover:bg-white/10',
-                            isSelected
-                              ? 'bg-blue-500/15 font-semibold text-blue-400'
-                              : 'font-medium text-white/80',
-                          )}
-                        >
-                          <span>{info.label}</span>
-                          {isSelected && (
-                            <Check className='h-3.5 w-3.5 text-blue-400' />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <div className='border-t border-white/10 p-2'>
-                    <button
-                      type='button'
-                      onClick={() => {
-                        setShowQualityMenu(false);
-                        setUseNativeControls(true);
-                      }}
-                      className='flex w-full items-center justify-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-2 py-1.5 text-[11px] font-semibold text-blue-300 transition-colors hover:bg-blue-500/25'
-                    >
-                      <Settings className='h-3.5 w-3.5' />
-                      <span>Mở bánh răng YouTube ⚙️</span>
-                    </button>
-                    <p className='mt-1 text-center text-[10px] leading-tight text-white/40'>
-                      Dùng cài đặt gốc YouTube để đổi độ phân giải ngay lập tức
-                    </p>
+                  <div className='border-t border-white/10 pt-2 text-[10px] leading-relaxed text-amber-300/80'>
+                    💡 <strong>Mẹo:</strong> Bật chế độ 16:9 hoặc Toàn màn hình
+                    để hình ảnh luôn đạt độ nét cao nhất.
                   </div>
                 </div>
               )}
