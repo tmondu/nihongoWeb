@@ -14,6 +14,8 @@ import {
   SkipForward,
   MonitorCog,
   Check,
+  Settings,
+  Shield,
 } from 'lucide-react';
 import { cn } from '@/shared/utils';
 
@@ -56,7 +58,15 @@ const QUALITY_MAP: Record<string, { label: string; short: string }> = {
   auto: { label: 'Tự động (Auto)', short: 'Auto' },
 };
 
-const DEFAULT_QUALITIES = ['hd1080', 'hd720', 'large', 'medium', 'auto'];
+const DEFAULT_QUALITIES = [
+  'hd2160',
+  'hd1440',
+  'hd1080',
+  'hd720',
+  'large',
+  'medium',
+  'auto',
+];
 
 /* ─────────────────────────────────────────────
    YouTube IFrame API Loader (Singleton)
@@ -117,6 +127,7 @@ export default function YouTubeVideoPlayer({
   const [selectedQuality, setSelectedQuality] = useState<string>('hd1080');
   const [availableQualities, setAvailableQualities] =
     useState<string[]>(DEFAULT_QUALITIES);
+  const [useNativeControls, setUseNativeControls] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showQualityMenu, setShowQualityMenu] = useState(false);
@@ -147,8 +158,7 @@ export default function YouTubeVideoPlayer({
       if (typeof p.getAvailableQualityLevels === 'function') {
         const lvls = p.getAvailableQualityLevels();
         if (Array.isArray(lvls) && lvls.length > 0) {
-          const order = [
-            'highres',
+          const canonical = [
             'hd2160',
             'hd1440',
             'hd1080',
@@ -156,16 +166,19 @@ export default function YouTubeVideoPlayer({
             'large',
             'medium',
             'small',
-            'tiny',
             'auto',
           ];
-          const sorted = [...lvls].sort((a, b) => {
-            const ia = order.indexOf(a);
-            const ib = order.indexOf(b);
-            return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+          const has4k = lvls.includes('highres') || lvls.includes('hd2160');
+          const has2k = lvls.includes('hd1440');
+          const filtered = canonical.filter(k => {
+            if (k === 'hd2160') return has4k;
+            if (k === 'hd1440') return has2k;
+            if (k === 'auto') return true;
+            return lvls.includes(k);
           });
-          if (!sorted.includes('auto')) sorted.push('auto');
-          setAvailableQualities(sorted);
+          if (filtered.length >= 2) {
+            setAvailableQualities(filtered);
+          }
         }
       }
     } catch {}
@@ -438,6 +451,7 @@ export default function YouTubeVideoPlayer({
     const p = playerRef.current;
     if (!p) return;
     try {
+      setLoading(true);
       if (typeof p.setPlaybackQuality === 'function') {
         p.setPlaybackQuality(q);
       }
@@ -452,8 +466,10 @@ export default function YouTubeVideoPlayer({
         const cur = p.getCurrentTime();
         p.seekTo(cur, true);
       }
+      setTimeout(() => setLoading(false), 500);
     } catch (err) {
       console.warn('Set playback quality failed:', err);
+      setLoading(false);
     }
     revealControls();
   };
@@ -473,6 +489,43 @@ export default function YouTubeVideoPlayer({
   /* ─── progress % helpers ─── */
   const pct = duration > 0 ? (currentTime / duration) * 100 : 0;
   const bufferedPct = duration > 0 ? (buffered / duration) * 100 : 0;
+
+  if (useNativeControls) {
+    return (
+      <div
+        ref={wrapperRef}
+        className={cn(
+          'group relative overflow-hidden rounded-2xl bg-black select-none',
+          className,
+        )}
+      >
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&rel=0&playsinline=1`}
+          title={_title}
+          className='h-full w-full border-0'
+          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen'
+          allowFullScreen
+        />
+
+        {/* Floating switch back button */}
+        <button
+          type='button'
+          onClick={() => setUseNativeControls(false)}
+          className='absolute top-3 left-3 z-30 flex items-center gap-1.5 rounded-lg border border-white/20 bg-black/85 px-3 py-1.5 text-xs font-semibold text-white shadow-xl backdrop-blur-md transition-all hover:border-blue-500 hover:bg-blue-600'
+          title='Chuyển về giao diện bảo mật (ẩn link)'
+        >
+          <Shield className='h-3.5 w-3.5 text-blue-400' />
+          <span>Ẩn thanh YouTube (Giao diện riêng)</span>
+        </button>
+
+        {watermark && (
+          <div className='pointer-events-none absolute top-3 right-3 z-30 rounded bg-black/40 px-2 py-0.5 font-mono text-[11px] tracking-wider text-white/40 backdrop-blur-[1px] select-none'>
+            {watermark}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -752,9 +805,20 @@ export default function YouTubeVideoPlayer({
                       );
                     })}
                   </div>
-                  <div className='border-t border-white/10 px-3 py-1.5'>
-                    <p className='text-[10px] leading-relaxed text-white/40'>
-                      Chọn 1080p hoặc 720p để bài giảng đạt độ nét cao nhất.
+                  <div className='border-t border-white/10 p-2'>
+                    <button
+                      type='button'
+                      onClick={() => {
+                        setShowQualityMenu(false);
+                        setUseNativeControls(true);
+                      }}
+                      className='flex w-full items-center justify-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-2 py-1.5 text-[11px] font-semibold text-blue-300 transition-colors hover:bg-blue-500/25'
+                    >
+                      <Settings className='h-3.5 w-3.5' />
+                      <span>Mở bánh răng YouTube ⚙️</span>
+                    </button>
+                    <p className='mt-1 text-center text-[10px] leading-tight text-white/40'>
+                      Dùng cài đặt gốc YouTube để đổi độ phân giải ngay lập tức
                     </p>
                   </div>
                 </div>
