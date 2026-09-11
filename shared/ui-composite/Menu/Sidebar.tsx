@@ -273,9 +273,12 @@ const NavLink = memo(
       return (
         <div
           className={clsx(
-            'relative lg:w-full',
+            'relative overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:w-full',
             item.isSubItem && 'max-lg:hidden',
-            item.isSubItem && isDesktopCollapsed && 'lg:hidden',
+            item.isSubItem &&
+              (isDesktopCollapsed
+                ? 'lg:pointer-events-none lg:max-h-0 lg:opacity-0'
+                : 'lg:max-h-12 lg:opacity-100'),
             item.isMobileOnly && 'lg:hidden',
             className,
           )}
@@ -302,15 +305,13 @@ const NavLink = memo(
             onClick={onClick}
             title={isDesktopCollapsed ? label : undefined}
             className={clsx(
-              'relative z-10 flex items-center gap-2 rounded-2xl',
+              'relative z-10 flex items-center rounded-2xl transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
               isMain ? 'text-2xl' : 'text-sm',
               item.isSubItem ? 'lg:text-lg' : undefined,
-              'max-lg:justify-center max-lg:px-1.5 sm:max-lg:px-2.5 lg:w-full lg:px-4',
-              item.isSubItem ? 'lg:pr-4 lg:pl-10' : undefined,
-              isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
+              'max-lg:justify-center max-lg:px-1.5 sm:max-lg:px-2.5 lg:w-full lg:px-2.5',
+              item.isSubItem && 'lg:pr-4 lg:pl-8',
               paddingClasses,
               (!isMain || item.isSubItem) && 'max-lg:hidden',
-              item.isSubItem && isDesktopCollapsed && 'lg:hidden',
               item.isMobileOnly && 'lg:hidden',
               isActive && SIDEBAR_ACTIVE_FLOAT_CLASSES,
               isActive
@@ -320,6 +321,7 @@ const NavLink = memo(
           >
             <span
               className={clsx(
+                'flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors duration-200',
                 !isActive &&
                   !(isDesktopCollapsed && isMain) &&
                   'lg:text-(--main-color)',
@@ -330,7 +332,10 @@ const NavLink = memo(
             <span
               className={clsx(
                 isMain && 'max-lg:hidden',
-                isMain && isDesktopCollapsed && 'lg:hidden',
+                'overflow-hidden text-left whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+                isDesktopCollapsed
+                  ? 'lg:pointer-events-none lg:max-w-0 lg:-translate-x-3 lg:opacity-0'
+                  : 'lg:ml-2.5 lg:max-w-[200px] lg:translate-x-0 lg:opacity-100',
               )}
             >
               {label}
@@ -346,19 +351,19 @@ const NavLink = memo(
         href={item.href}
         prefetch={false}
         title={isDesktopCollapsed ? label : undefined}
-        className={clsx(
-          baseClasses,
-          isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
-          inactiveClasses,
-          className,
-        )}
+        className={clsx(baseClasses, 'lg:px-2.5', inactiveClasses, className)}
         onClick={onClick}
       >
-        {renderIcon()}
+        <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-xl'>
+          {renderIcon()}
+        </span>
         <span
           className={clsx(
             isMain && 'max-lg:hidden',
-            isMain && isDesktopCollapsed && 'lg:hidden',
+            'overflow-hidden text-left whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+            isDesktopCollapsed
+              ? 'lg:pointer-events-none lg:max-w-0 lg:-translate-x-3 lg:opacity-0'
+              : 'lg:ml-2.5 lg:max-w-[200px] lg:translate-x-0 lg:opacity-100',
           )}
         >
           {label}
@@ -684,7 +689,7 @@ const Sidebar = () => {
       }}
       transition={{
         duration: 0.3,
-        ease: [0.4, 0, 0.2, 1],
+        ease: [0.32, 0.72, 0, 1],
       }}
       className={clsx(
         'flex lg:flex-col lg:items-start',
@@ -695,24 +700,22 @@ const Sidebar = () => {
         'z-50',
         'border-(--border-color) max-lg:items-center max-lg:justify-evenly max-lg:border-t-2 max-lg:py-2',
         'lg:border-r lg:px-3',
-        'lg:transition-[width] lg:duration-300 lg:ease-in-out',
+        'lg:transition-[width] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
         isDesktopSidebarCollapsed ? 'lg:w-20' : 'lg:w-80',
         'lg:pb-4',
       )}
       // style={{ scrollbarGutter: 'stable' }}
     >
       {/* Logo */}
-      <motion.div
-        className='hidden overflow-hidden lg:block'
-        initial={false}
-        animate={{
-          height: isDesktopSidebarCollapsed ? 0 : 'auto',
-          opacity: isDesktopSidebarCollapsed ? 0 : 1,
-          marginBottom: isDesktopSidebarCollapsed ? 0 : 8,
-        }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
+      <div
+        className={clsx(
+          'hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:block',
+          isDesktopSidebarCollapsed
+            ? 'pointer-events-none mb-0 max-h-0 opacity-0'
+            : 'mb-2 max-h-16 opacity-100',
+        )}
       >
-        <h1 className='max-3xl:flex-col max-3xl:items-start flex items-center gap-1.5 pl-4 text-3xl'>
+        <h1 className='flex items-center gap-1.5 pl-3 text-3xl whitespace-nowrap select-none'>
           {USE_AURORA_SIDEBAR_HEADING ? (
             <>
               <AuroraText className='font-bold'>PThamSS</AuroraText>
@@ -729,7 +732,7 @@ const Sidebar = () => {
             </>
           )}
         </h1>
-      </motion.div>
+      </div>
 
       {/* Scrollable Navigation Area */}
       <div
@@ -764,8 +767,15 @@ const Sidebar = () => {
         </div>
 
         {/* Secondary Navigation Sections */}
-        {!isDesktopSidebarCollapsed &&
-          secondaryNavSections.map(section => {
+        <div
+          className={clsx(
+            'hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:flex lg:flex-col',
+            isDesktopSidebarCollapsed
+              ? 'pointer-events-none max-h-0 opacity-0'
+              : 'max-h-[1200px] opacity-100',
+          )}
+        >
+          {secondaryNavSections.map(section => {
             // Determine which expand state and toggle function to use based on section title
             const sectionTitleKey = section.titleKey;
             const translatedTitle = t(sectionTitleKey as any);
@@ -816,6 +826,7 @@ const Sidebar = () => {
                             onClick={playClick}
                             variant='secondary'
                             useSlidingIndicator={true}
+                            isDesktopCollapsed={isDesktopSidebarCollapsed}
                           />
                         );
                       })}
@@ -824,10 +835,11 @@ const Sidebar = () => {
               </div>
             );
           })}
+        </div>
       </div>
 
       {/* Fixed Footer Area (Desktop Only) */}
-      <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-4 lg:pt-4'>
+      <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-3 lg:pt-3'>
         <NavLink
           item={{ href: '/profile', labelKey: 'profile', icon: User }}
           label={t('profile' as any)}
@@ -841,18 +853,33 @@ const Sidebar = () => {
         <button
           onClick={toggleDesktopSidebarCollapse}
           className={clsx(
-            'flex w-fit cursor-pointer items-center rounded-2xl px-3 py-1.5 text-(--secondary-color) transition-colors hover:bg-(--card-color) hover:text-(--main-color)',
-            isDesktopSidebarCollapsed ? 'mx-auto' : 'pl-4',
+            'flex cursor-pointer items-center rounded-2xl px-2.5 py-2 text-(--secondary-color) transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-(--card-color) hover:text-(--main-color)',
+            isDesktopSidebarCollapsed
+              ? 'mx-auto w-full justify-center'
+              : 'w-full gap-2.5',
           )}
           aria-label={
             isDesktopSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
           }
+          title={isDesktopSidebarCollapsed ? 'Mở rộng menu' : 'Thu gọn menu'}
         >
-          {isDesktopSidebarCollapsed ? (
-            <PanelLeftOpen className='h-5 w-5 shrink-0' />
-          ) : (
-            <PanelLeftClose className='h-5 w-5 shrink-0' />
-          )}
+          <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-xl'>
+            {isDesktopSidebarCollapsed ? (
+              <PanelLeftOpen className='h-5 w-5 shrink-0 transition-transform duration-300' />
+            ) : (
+              <PanelLeftClose className='h-5 w-5 shrink-0 transition-transform duration-300' />
+            )}
+          </span>
+          <span
+            className={clsx(
+              'overflow-hidden text-xs font-semibold whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+              isDesktopSidebarCollapsed
+                ? 'pointer-events-none max-w-0 -translate-x-3 opacity-0'
+                : 'max-w-[160px] translate-x-0 opacity-100',
+            )}
+          >
+            Thu gọn menu
+          </span>
         </button>
       </div>
     </motion.aside>
