@@ -102,6 +102,8 @@ export default function YouTubeVideoPlayer({
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showQualityMenu, setShowQualityMenu] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isPseudoFullscreen, setIsPseudoFullscreen] = useState(false);
+  const isFS = isFullscreen || isPseudoFullscreen;
   const [seeking, setSeeking] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -230,11 +232,48 @@ export default function YouTubeVideoPlayer({
     };
   }, [ready, seeking]);
 
+  /* ─── pseudo-fullscreen body scroll lock & Escape listener ─── */
+  useEffect(() => {
+    if (!isPseudoFullscreen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsPseudoFullscreen(false);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isPseudoFullscreen]);
+
   /* ─── fullscreen change ─── */
   useEffect(() => {
-    const onFSChange = () => setIsFullscreen(!!document.fullscreenElement);
+    const onFSChange = () => {
+      const doc = document as any;
+      const fsEl =
+        document.fullscreenElement ||
+        doc.webkitFullscreenElement ||
+        doc.mozFullScreenElement ||
+        doc.msFullscreenElement;
+      setIsFullscreen(!!fsEl);
+    };
+
     document.addEventListener('fullscreenchange', onFSChange);
-    return () => document.removeEventListener('fullscreenchange', onFSChange);
+    document.addEventListener('webkitfullscreenchange', onFSChange);
+    document.addEventListener('mozfullscreenchange', onFSChange);
+    document.addEventListener('MSFullscreenChange', onFSChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', onFSChange);
+      document.removeEventListener('webkitfullscreenchange', onFSChange);
+      document.removeEventListener('mozfullscreenchange', onFSChange);
+      document.removeEventListener('MSFullscreenChange', onFSChange);
+    };
   }, []);
 
   /* ─── close menus on outside click ─── */
@@ -249,15 +288,65 @@ export default function YouTubeVideoPlayer({
   }, [showSpeedMenu, showQualityMenu]);
 
   /* ─── toggleFullscreen ─── */
-  const toggleFullscreen = useCallback(() => {
+  const toggleFullscreen = useCallback(async () => {
     const el = wrapperRef.current;
     if (!el) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch(() => {});
-    } else {
-      el.requestFullscreen().catch(() => {});
+
+    // 1. If in CSS pseudo-fullscreen, exit it
+    if (isPseudoFullscreen) {
+      setIsPseudoFullscreen(false);
+      return;
     }
-  }, []);
+
+    // 2. If in native document fullscreen, exit it
+    const doc = document as any;
+    const isDocFS = Boolean(
+      document.fullscreenElement ||
+      doc.webkitFullscreenElement ||
+      doc.mozFullScreenElement ||
+      doc.msFullscreenElement,
+    );
+
+    if (isDocFS) {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (doc.webkitExitFullscreen) {
+          await doc.webkitExitFullscreen();
+        } else if (doc.mozCancelFullScreen) {
+          await doc.mozCancelFullScreen();
+        } else if (doc.msExitFullscreen) {
+          await doc.msExitFullscreen();
+        }
+      } catch (err) {
+        console.warn('Exit fullscreen failed:', err);
+      }
+      return;
+    }
+
+    // 3. Try native element Fullscreen API
+    const requestFs =
+      el.requestFullscreen ||
+      (el as any).webkitRequestFullscreen ||
+      (el as any).webkitRequestFullScreen ||
+      (el as any).mozRequestFullScreen ||
+      (el as any).msRequestFullscreen;
+
+    let nativeSuccess = false;
+    if (typeof requestFs === 'function') {
+      try {
+        await requestFs.call(el);
+        nativeSuccess = true;
+      } catch (err) {
+        console.warn('Native requestFullscreen failed or rejected:', err);
+      }
+    }
+
+    if (nativeSuccess) return;
+
+    // 4. Fallback: CSS Pseudo Fullscreen (works on iPhone Safari, Android in-app webview, etc.)
+    setIsPseudoFullscreen(true);
+  }, [isPseudoFullscreen]);
 
   /* ─── keyboard shortcuts ─── */
   useEffect(() => {
@@ -396,8 +485,12 @@ export default function YouTubeVideoPlayer({
     <div
       ref={wrapperRef}
       className={cn(
-        'group relative overflow-hidden rounded-2xl bg-black select-none',
-        className,
+        'group relative overflow-hidden bg-black select-none',
+        isPseudoFullscreen
+          ? 'fixed inset-0 z-[99999] m-0 h-[100dvh] max-h-none w-screen max-w-none rounded-none shadow-none'
+          : isFullscreen
+            ? 'h-full max-h-none w-full max-w-none rounded-none border-0'
+            : cn('rounded-2xl', className),
       )}
       onPointerMove={revealControls}
       onTouchStart={revealControls}
@@ -418,7 +511,13 @@ export default function YouTubeVideoPlayer({
 
       {/* ── Anti-recording Watermark (Email/User ID) ── */}
       {watermark && (
-        <div className='pointer-events-none absolute top-3 right-3 z-30 rounded bg-black/40 px-2 py-0.5 font-mono text-[11px] tracking-wider text-white/40 backdrop-blur-[1px] select-none'>
+        <div
+          className={cn(
+            'pointer-events-none absolute top-3 right-3 z-30 rounded bg-black/40 px-2 py-0.5 font-mono text-[11px] tracking-wider text-white/40 backdrop-blur-[1px] select-none',
+            isFS &&
+              'top-[max(0.75rem,env(safe-area-inset-top))] right-[max(0.75rem,env(safe-area-inset-right))]',
+          )}
+        >
           {watermark}
         </div>
       )}
@@ -475,7 +574,13 @@ export default function YouTubeVideoPlayer({
         {/* gradient bg */}
         <div className='pointer-events-none absolute inset-0 rounded-b-2xl bg-gradient-to-t from-black/85 via-black/35 to-transparent' />
 
-        <div className='relative flex flex-col gap-2 px-3 pt-6 pb-3'>
+        <div
+          className={cn(
+            'relative flex flex-col gap-2 px-3 pt-6 pb-3',
+            isFS &&
+              'px-[max(0.75rem,env(safe-area-inset-left))] pr-[max(0.75rem,env(safe-area-inset-right))] pb-[max(1rem,env(safe-area-inset-bottom))]',
+          )}
+        >
           {/* ── Seek bar ── */}
           <div className='relative flex h-5 items-center'>
             {/* buffered track */}
@@ -667,11 +772,9 @@ export default function YouTubeVideoPlayer({
               type='button'
               onClick={toggleFullscreen}
               className='p-1 text-white transition-colors hover:text-blue-300'
-              aria-label={
-                isFullscreen ? 'Thoát toàn màn hình' : 'Toàn màn hình'
-              }
+              aria-label={isFS ? 'Thoát toàn màn hình' : 'Toàn màn hình'}
             >
-              {isFullscreen ? (
+              {isFS ? (
                 <Minimize className='h-4.5 w-4.5' />
               ) : (
                 <Maximize className='h-4.5 w-4.5' />
