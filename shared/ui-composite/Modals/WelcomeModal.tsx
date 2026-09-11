@@ -1,7 +1,14 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useMemo, type ReactNode } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  type ReactNode,
+} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import {
@@ -84,6 +91,9 @@ function FloatingIcon({
   );
 }
 
+// Tạm thời tắt popup chào mừng khi mới vào web theo yêu cầu người dùng
+const DISABLE_WELCOME_MODAL = true;
+
 const WelcomeModal = () => {
   const t = useTranslations('welcome');
   const { playClick } = useClick();
@@ -115,6 +125,8 @@ const WelcomeModal = () => {
   );
 
   useEffect(() => {
+    if (DISABLE_WELCOME_MODAL) return;
+
     const isDev = process.env.NODE_ENV === 'development';
     // In Vercel preview deployments, NEXT_PUBLIC_VERCEL_ENV is 'preview' (not 'production')
     // This means analytics are disabled in previews, so we show the modal every time like in dev
@@ -232,10 +244,7 @@ const WelcomeModal = () => {
 
             <div className='space-y-4 text-left'>
               <div className='flex items-center gap-3 rounded-lg bg-(--background-color) p-3'>
-                <FloatingIcon
-                  size='md'
-                  tone='main'
-                >
+                <FloatingIcon size='md' tone='main'>
                   <Palette />
                 </FloatingIcon>
                 <div>
@@ -541,10 +550,10 @@ const WelcomeModal = () => {
 
                           const wallpaperStyles = wallpaper
                             ? getWallpaperStyles(
-                              wallpaper.url,
-                              false,
-                              wallpaper.urlWebp,
-                            )
+                                wallpaper.url,
+                                false,
+                                wallpaper.urlWebp,
+                              )
                             : {};
 
                           return (
@@ -783,7 +792,7 @@ const WelcomeModal = () => {
     }
   };
 
-  if (!isVisible) return null;
+  if (DISABLE_WELCOME_MODAL || !isVisible) return null;
 
   return (
     <AnimatePresence>
@@ -923,5 +932,3 @@ const WelcomeModal = () => {
 };
 
 export default WelcomeModal;
-
-
