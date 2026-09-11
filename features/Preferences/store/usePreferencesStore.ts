@@ -71,7 +71,7 @@ const usePreferencesStore = create<PreferencesState>()(
     set => ({
       displayKana: false,
       setDisplayKana: displayKana => set({ displayKana }),
-      theme: 'sapphire-bloom',
+      theme: 'mazii',
       setTheme: theme => set({ theme }),
       isGlassMode: false,
       setGlassMode: isGlassMode => set({ isGlassMode }),

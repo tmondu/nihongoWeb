@@ -16,12 +16,14 @@ import {
 } from 'lucide-react';
 import { GENERATED_WALLPAPERS } from '../wallpapers/wallpapers.generated';
 
-// Base theme definition - only essential colors, card/border are derived
+// Base theme definition - only essential colors, card/border are derived or can be explicitly defined
 export interface BaseTheme {
   id: string;
   displayName?: string;
   isLight?: boolean;
   backgroundColor: string;
+  cardColor?: string;
+  borderColor?: string;
   mainColor: string;
   secondaryColor: string;
   wallpaperId?: string; // Optional: default wallpaper for this theme
@@ -71,6 +73,16 @@ const baseThemeSets: BaseThemeGroup[] = [
         backgroundColor: 'oklch(23.44% 0.0432 267.85 / 1)',
         mainColor: 'oklch(79.09% 0.1242 299.66 / 1)',
         secondaryColor: 'oklch(89.39% 0.1672 171.49 / 1)',
+      },
+      {
+        id: 'mazii',
+        displayName: 'mazii',
+        isLight: true,
+        backgroundColor: 'oklch(97.85% 0.0045 258.32 / 1)',
+        cardColor: 'oklch(100.00% 0.0000 89.88 / 1)',
+        borderColor: 'oklch(91.50% 0.0080 258.00 / 1)',
+        mainColor: 'oklch(53.00% 0.2100 260.00 / 1)',
+        secondaryColor: 'oklch(45.00% 0.0350 260.00 / 1)',
       },
       {
         id: 'light',

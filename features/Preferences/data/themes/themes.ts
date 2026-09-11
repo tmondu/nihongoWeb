@@ -177,8 +177,10 @@ function buildTheme(base: BaseTheme, isLight: boolean): Theme {
     id: base.id,
     displayName: base.displayName,
     backgroundColor: base.backgroundColor,
-    cardColor: generateCardColor(base.backgroundColor, isLight),
-    borderColor: generateBorderColor(base.backgroundColor, isLight),
+    cardColor:
+      base.cardColor ?? generateCardColor(base.backgroundColor, isLight),
+    borderColor:
+      base.borderColor ?? generateBorderColor(base.backgroundColor, isLight),
     mainColor: base.mainColor,
     mainColorAccent: generateAccentColor(base.mainColor),
     secondaryColor: base.secondaryColor,
