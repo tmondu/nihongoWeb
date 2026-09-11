@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import DisplayNamePromptModal from '@/shared/ui-composite/User/DisplayNamePromptModal';
 
 interface TurnstileWindow extends Window {
   turnstile?: {
@@ -87,6 +88,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showDisplayNameModal, setShowDisplayNameModal] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get('redirect') || '/';
@@ -109,7 +111,7 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      // 1. Register User
+      // 1. Register User (server automatically logs in user by issuing auth_token cookie)
       const registerRes = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -121,14 +123,15 @@ export default function RegisterPage() {
         throw new Error(registerData.error || 'Đăng ký thất bại');
       }
 
-      setSuccess(
-        registerData.message ||
-          'Đăng ký tài khoản thành công! Hệ thống sẽ tự động chuyển về trang đăng nhập sau vài giây...',
-      );
+      // Mark user as logged in
+      sessionStorage.removeItem('vocab-cache');
+      sessionStorage.removeItem('kanji-cache');
+      sessionStorage.setItem('is_logged_in', 'true');
 
-      setTimeout(() => {
-        router.push(`/login?redirect=${encodeURIComponent(redirectPath)}`);
-      }, 3500);
+      setSuccess(
+        'Đăng ký tài khoản thành công! Vui lòng thiết lập tên hiển thị của bạn.',
+      );
+      setShowDisplayNameModal(true);
     } catch (err) {
       setError((err as Error).message);
       setLoading(false);
@@ -274,6 +277,16 @@ export default function RegisterPage() {
           </Link>
         </p>
       </div>
+
+      <DisplayNamePromptModal
+        forceOpen={showDisplayNameModal}
+        onSuccess={() => {
+          router.push(redirectPath);
+        }}
+        onClose={() => {
+          router.push(redirectPath);
+        }}
+      />
     </div>
   );
 }

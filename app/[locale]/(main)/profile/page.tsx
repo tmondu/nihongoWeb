@@ -13,6 +13,7 @@ import {
   AlertCircle,
   ShieldCheck,
   KeyRound,
+  User,
 } from 'lucide-react';
 import { Button } from '@/shared/ui/components/button';
 import { Input } from '@/shared/ui/components/input';
@@ -30,6 +31,8 @@ import {
 interface UserProfile {
   id: number;
   email: string;
+  display_name?: string | null;
+  name_updated_at?: string | null;
   is_approved: number;
   can_watch_video?: number;
   level?: string;
@@ -52,7 +55,8 @@ export default function ProfilePage() {
   const [sendingOtp, setSendingOtp] = useState(false);
   const [verifyingOtp, setVerifyingOtp] = useState(false);
 
-  // Email form
+  // Profile forms
+  const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
 
   // Password form
@@ -61,6 +65,22 @@ export default function ProfilePage() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [formLoading, setFormLoading] = useState(false);
+
+  // 7-day cooldown helper for changing display name
+  const getDisplayNameCooldown = () => {
+    if (!user?.name_updated_at || !user?.display_name) {
+      return { canEdit: true, daysLeft: 0, nextAllowedDate: null };
+    }
+    const lastUpdatedTime = new Date(user.name_updated_at).getTime();
+    const diffMs = Date.now() - lastUpdatedTime;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    if (diffDays >= 7) {
+      return { canEdit: true, daysLeft: 0, nextAllowedDate: null };
+    }
+    const daysLeft = Math.ceil(7 - diffDays);
+    const nextAllowedDate = new Date(lastUpdatedTime + 7 * 24 * 60 * 60 * 1000);
+    return { canEdit: false, daysLeft, nextAllowedDate };
+  };
 
   const fetchProfile = async () => {
     try {
@@ -77,6 +97,7 @@ export default function ProfilePage() {
       const data = await res.json();
       setUser(data);
       setEmail(data.email);
+      setDisplayName(data.display_name || '');
       setError('');
     } catch (err: any) {
       console.error(err);
@@ -190,12 +211,29 @@ export default function ProfilePage() {
       }
     }
 
+    // Validate Display Name if changing
+    const trimmedDisplayName = displayName.trim();
+    if (trimmedDisplayName && trimmedDisplayName !== user?.display_name) {
+      if (trimmedDisplayName.length < 2 || trimmedDisplayName.length > 30) {
+        setError('Tên hiển thị phải có độ dài từ 2 đến 30 ký tự.');
+        return;
+      }
+      const cooldown = getDisplayNameCooldown();
+      if (!cooldown.canEdit) {
+        setError(
+          `Bạn chỉ có thể đổi tên hiển thị 7 ngày một lần. Vui lòng quay lại sau ${cooldown.daysLeft} ngày.`,
+        );
+        return;
+      }
+    }
+
     try {
       setFormLoading(true);
       const res = await fetch('/api/auth/me', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          displayName: trimmedDisplayName || undefined,
           email,
           currentPassword: currentPassword || undefined,
           newPassword: newPassword || undefined,
@@ -280,11 +318,16 @@ export default function ProfilePage() {
               </div>
               <div>
                 <div
-                  className='max-w-[150px] truncate font-bold text-white'
-                  title={user?.email}
+                  className='max-w-[180px] truncate text-base font-bold text-white'
+                  title={user?.display_name || user?.email}
                 >
-                  {user?.email.split('@')[0]}
+                  {user?.display_name || user?.email.split('@')[0]}
                 </div>
+                {user?.display_name && (
+                  <div className='text-xs font-semibold text-amber-400/90'>
+                    @{user.display_name}
+                  </div>
+                )}
                 <div className='font-mono text-xs text-slate-500'>
                   ID: #{user?.id}
                 </div>
@@ -364,80 +407,140 @@ export default function ProfilePage() {
             Cập nhật tài khoản
           </h3>
 
-          <form onSubmit={handleUpdateProfile} className='space-y-6'>
-            <div className='space-y-1.5'>
-              <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
-                Email đăng nhập
-              </label>
-              <div className='relative'>
-                <Mail className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
-                <Input
-                  type='email'
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
-                />
-              </div>
-            </div>
+          {(() => {
+            const cooldown = getDisplayNameCooldown();
+            return (
+              <form onSubmit={handleUpdateProfile} className='space-y-6'>
+                {/* Tên hiển thị (Nickname) */}
+                <div className='space-y-2'>
+                  <div className='flex items-center justify-between'>
+                    <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                      Tên hiển thị (Nickname)
+                    </label>
+                    <span className='text-xs text-slate-500'>
+                      {displayName.trim().length}/30
+                    </span>
+                  </div>
+                  <div className='relative'>
+                    <User className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
+                    <Input
+                      type='text'
+                      value={displayName}
+                      maxLength={30}
+                      disabled={!cooldown.canEdit}
+                      onChange={e => setDisplayName(e.target.value)}
+                      placeholder='Nhập tên hiển thị dùng để bình luận...'
+                      className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60'
+                    />
+                  </div>
 
-            <div className='my-6 border-t border-[#1a1a1f]'></div>
-
-            <h4 className='flex items-center gap-2 text-sm font-semibold tracking-wider text-white uppercase'>
-              <Lock className='size-4 text-slate-500' /> Thay đổi mật khẩu
-            </h4>
-
-            <div className='space-y-4'>
-              <div className='space-y-1.5'>
-                <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
-                  Mật khẩu hiện tại
-                </label>
-                <Input
-                  type='password'
-                  placeholder='Nhập mật khẩu đang dùng...'
-                  value={currentPassword}
-                  onChange={e => setCurrentPassword(e.target.value)}
-                  className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
-                />
-              </div>
-
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                <div className='space-y-1.5'>
-                  <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
-                    Mật khẩu mới
-                  </label>
-                  <Input
-                    type='password'
-                    placeholder='Mật khẩu mới...'
-                    value={newPassword}
-                    onChange={e => setNewPassword(e.target.value)}
-                    className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
-                  />
+                  {!cooldown.canEdit ? (
+                    <div className='flex items-start gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-xs leading-relaxed text-amber-300'>
+                      <Lock className='mt-0.5 size-3.5 shrink-0 text-amber-400' />
+                      <div>
+                        <span>
+                          Bạn chỉ có thể đổi tên hiển thị{' '}
+                          <strong>7 ngày 1 lần</strong>. Lần đổi tiếp theo sau{' '}
+                          <strong>{cooldown.daysLeft} ngày nữa</strong>
+                          {cooldown.nextAllowedDate && (
+                            <>
+                              {' '}
+                              (ngày{' '}
+                              {cooldown.nextAllowedDate.toLocaleDateString(
+                                'vi-VN',
+                              )}
+                              )
+                            </>
+                          )}
+                          .
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className='text-[11px] text-slate-400'>
+                      Tên hiển thị dùng khi bạn bình luận bài giảng và trao đổi
+                      học tập (cho phép đổi 1 lần mỗi 7 ngày).
+                    </p>
+                  )}
                 </div>
 
+                <div className='my-6 border-t border-[#1a1a1f]'></div>
+
                 <div className='space-y-1.5'>
                   <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
-                    Xác nhận mật khẩu
+                    Email đăng nhập
                   </label>
-                  <Input
-                    type='password'
-                    placeholder='Nhập lại mật khẩu mới...'
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                    className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
-                  />
+                  <div className='relative'>
+                    <Mail className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
+                    <Input
+                      type='email'
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                    />
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <Button
-              type='submit'
-              disabled={formLoading}
-              className='flex h-10 w-fit cursor-pointer items-center justify-center gap-1.5 self-end rounded-xl bg-amber-500 px-6 font-semibold text-black transition-all hover:bg-amber-400'
-            >
-              {formLoading && <Loader2 className='size-4 animate-spin' />}
-              Lưu thay đổi
-            </Button>
-          </form>
+                <div className='my-6 border-t border-[#1a1a1f]'></div>
+
+                <h4 className='flex items-center gap-2 text-sm font-semibold tracking-wider text-white uppercase'>
+                  <Lock className='size-4 text-slate-500' /> Thay đổi mật khẩu
+                </h4>
+
+                <div className='space-y-4'>
+                  <div className='space-y-1.5'>
+                    <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                      Mật khẩu hiện tại
+                    </label>
+                    <Input
+                      type='password'
+                      placeholder='Nhập mật khẩu đang dùng...'
+                      value={currentPassword}
+                      onChange={e => setCurrentPassword(e.target.value)}
+                      className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                    />
+                  </div>
+
+                  <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                    <div className='space-y-1.5'>
+                      <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                        Mật khẩu mới
+                      </label>
+                      <Input
+                        type='password'
+                        placeholder='Mật khẩu mới...'
+                        value={newPassword}
+                        onChange={e => setNewPassword(e.target.value)}
+                        className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                      />
+                    </div>
+
+                    <div className='space-y-1.5'>
+                      <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                        Xác nhận mật khẩu
+                      </label>
+                      <Input
+                        type='password'
+                        placeholder='Nhập lại mật khẩu mới...'
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Button
+                  type='submit'
+                  disabled={formLoading}
+                  className='flex h-10 w-fit cursor-pointer items-center justify-center gap-1.5 self-end rounded-xl bg-amber-500 px-6 font-semibold text-black transition-all hover:bg-amber-400'
+                >
+                  {formLoading && <Loader2 className='size-4 animate-spin' />}
+                  Lưu thay đổi
+                </Button>
+              </form>
+            );
+          })()}
         </div>
       </div>
 

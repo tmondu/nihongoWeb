@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo, useRef, use } from 'react';
 import {
-  PlayCircle,
   Lock,
   BookOpen,
   Calendar,
@@ -19,6 +18,7 @@ import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
 import { cn } from '@/shared/utils';
 import DriveVideoPlayer from '@/features/Classroom/components/DriveVideoPlayer';
 import YouTubeVideoPlayer from '@/features/Classroom/components/YouTubeVideoPlayer';
+import LessonComments from '@/features/Classroom/components/LessonComments';
 
 interface Lesson {
   id: number;
@@ -47,6 +47,13 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   >(null);
   const [userEmail, setUserEmail] = useState('');
   const [currentUserLevel, setCurrentUserLevel] = useState('N5');
+  const [currentUser, setCurrentUser] = useState<{
+    id?: number;
+    email?: string;
+    display_name?: string | null;
+    level?: string;
+    is_admin?: boolean;
+  } | null>(null);
   const [requiredLevel, setRequiredLevel] = useState('');
   const [videoChecking, setVideoChecking] = useState(false);
   const [videoAvailable, setVideoAvailable] = useState<boolean | null>(null);
@@ -111,6 +118,13 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
       const userLvl = (data.user.level || 'n5').toUpperCase();
       setCurrentUserLevel(userLvl);
       setUserEmail(data.user.email || '');
+      setCurrentUser({
+        id: data.user.id,
+        email: data.user.email,
+        display_name: data.user.display_name,
+        level: userLvl,
+        is_admin: Boolean(data.user.is_admin),
+      });
 
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
@@ -503,89 +517,12 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                 </div>
               </div>
 
-              {/* Right Column: Playlist Sidebar (4 cols) */}
+              {/* Right Column: Comments & Discussion for students (4 cols) */}
               <div className='flex flex-col gap-3 lg:col-span-4'>
-                <div className='bg-card border-border/60 rounded-2xl border p-4 shadow-sm'>
-                  <div className='border-border/40 mb-3.5 flex items-center justify-between border-b pb-2.5'>
-                    <div className='flex items-center gap-2'>
-                      <PlayCircle className='h-5 w-5 text-blue-400' />
-                      <h2 className='text-foreground text-sm font-semibold'>
-                        Danh sách bài giảng
-                      </h2>
-                    </div>
-                    <span className='bg-muted text-muted-foreground rounded-full px-2 py-0.5 text-xs font-medium'>
-                      {lessons.length} buổi
-                    </span>
-                  </div>
-
-                  {/* Scrollable playlist list */}
-                  <div className='flex max-h-[620px] flex-col gap-2 overflow-y-auto pr-1'>
-                    {lessons.map((item, index) => {
-                      const isCurrent = item.id === currentLesson.id;
-                      const isLocked = Boolean(item.is_locked);
-                      return (
-                        <Link
-                          key={item.id}
-                          href={`/classroom/${item.id}`}
-                          className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-all ${
-                            isCurrent
-                              ? 'border-blue-500/40 bg-blue-600/10 shadow-sm'
-                              : isLocked
-                                ? 'bg-muted/20 hover:bg-muted/40 border-transparent opacity-75 hover:border-amber-500/30'
-                                : 'bg-muted/30 hover:border-border/40 hover:bg-muted/60 border-transparent'
-                          }`}
-                        >
-                          <div
-                            className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
-                              isCurrent
-                                ? 'bg-blue-600 text-white'
-                                : isLocked
-                                  ? 'bg-amber-500/10 text-amber-400'
-                                  : 'bg-muted text-muted-foreground'
-                            }`}
-                          >
-                            {isLocked ? (
-                              <Lock className='h-3.5 w-3.5' />
-                            ) : (
-                              item.order_num || index + 1
-                            )}
-                          </div>
-
-                          <div className='min-w-0 flex-1'>
-                            <p
-                              className={`line-clamp-2 text-xs leading-snug font-semibold ${
-                                isCurrent
-                                  ? 'text-blue-400'
-                                  : isLocked
-                                    ? 'text-foreground/80'
-                                    : 'text-foreground'
-                              }`}
-                            >
-                              {item.title}
-                            </p>
-                            <div className='mt-1 flex items-center gap-2'>
-                              <span className='text-muted-foreground text-[10px] font-bold uppercase'>
-                                {item.level}
-                              </span>
-                              {isLocked && (
-                                <span className='inline-flex items-center gap-0.5 text-[10px] font-medium text-amber-400'>
-                                  <Lock className='h-2.5 w-2.5' /> Cần cấp độ
-                                  cao hơn
-                                </span>
-                              )}
-                              {isCurrent && (
-                                <span className='flex items-center gap-1 text-[10px] font-medium text-blue-400'>
-                                  <span className='h-1.5 w-1.5 animate-ping rounded-full bg-blue-400' />
-                                  Đang phát
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
+                <LessonComments
+                  lessonId={currentLesson.id}
+                  currentUser={currentUser}
+                />
               </div>
             </div>
           )}

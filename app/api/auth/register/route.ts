@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
 import { env } from '@/shared/config/env';
-import { hashPassword } from '@/shared/utils/auth';
-import { RowDataPacket } from 'mysql2';
+import { hashPassword, signJwt } from '@/shared/utils/auth';
+import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
 // Memory store for registration limits (IP -> timestamp[])
 const registrationHistory = new Map<string, number[]>();
@@ -135,18 +135,33 @@ export async function POST(request: NextRequest) {
 
     // Hash password and insert with is_approved = 1
     const passwordHash = hashPassword(password);
-    await pool.execute(
+    const [result] = await pool.execute<ResultSetHeader>(
       'INSERT INTO users (email, password_hash, is_approved) VALUES (?, ?, 1)',
       [email, passwordHash],
     );
 
-    return NextResponse.json(
+    const userId = result.insertId;
+
+    // Issue auth token so user is logged in immediately
+    const token = await signJwt({ userId, email });
+
+    const response = NextResponse.json(
       {
         success: true,
         message: 'Đăng ký tài khoản thành công!',
+        user: { id: userId, email },
       },
       { status: 201 },
     );
+
+    response.cookies.set('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

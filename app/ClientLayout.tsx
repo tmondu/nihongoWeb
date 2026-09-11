@@ -29,6 +29,7 @@ import { useClick } from '@/shared/hooks/generic/useAudio';
 import ServiceWorkerRegistration from '@/shared/ui-composite/ServiceWorkerRegistration';
 import CursorTrailRenderer from '@/features/Preferences/components/renderers/CursorTrailRenderer';
 import ClickEffectRenderer from '@/features/Preferences/components/renderers/ClickEffectRenderer';
+import DisplayNamePromptModal from '@/shared/ui-composite/User/DisplayNamePromptModal';
 
 // Initialize adaptive selector early to load persisted weights from IndexedDB
 // This runs once at module load time, ensuring weights are ready before games start
@@ -393,6 +394,7 @@ export default function ClientLayout({
       {children}
       <ScrollRestoration />
       <WelcomeModal />
+      <DisplayNamePromptModal />
       <DonationModal
         open={isDonationModalOpen}
         onOpenChange={open => {

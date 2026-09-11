@@ -32,11 +32,29 @@ export function getDbPool(): mysql.Pool {
           \`id\` INT AUTO_INCREMENT PRIMARY KEY,
           \`email\` VARCHAR(255) UNIQUE NOT NULL,
           \`password_hash\` VARCHAR(255) NOT NULL,
+          \`display_name\` VARCHAR(100) NULL,
+          \`name_updated_at\` TIMESTAMP NULL,
           \`is_approved\` TINYINT(1) DEFAULT 0,
           \`is_admin\` TINYINT(1) DEFAULT 0,
           \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
+
+      try {
+        await pool.execute(
+          'ALTER TABLE `users` ADD COLUMN `display_name` VARCHAR(100) NULL AFTER `email`',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
+      try {
+        await pool.execute(
+          'ALTER TABLE `users` ADD COLUMN `name_updated_at` TIMESTAMP NULL AFTER `display_name`',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
 
       try {
         await pool.execute(
@@ -132,6 +150,36 @@ export function getDbPool(): mysql.Pool {
           FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
+
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`lesson_comments\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`lesson_id\` INT NOT NULL,
+          \`user_id\` INT NOT NULL,
+          \`parent_id\` INT NULL DEFAULT NULL,
+          \`content\` TEXT NOT NULL,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          INDEX \`idx_comments_lesson\` (\`lesson_id\`),
+          INDEX \`idx_comments_user\` (\`user_id\`),
+          INDEX \`idx_comments_parent\` (\`parent_id\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      try {
+        await pool.execute(
+          'ALTER TABLE `lesson_comments` ADD COLUMN `parent_id` INT NULL DEFAULT NULL AFTER `user_id`',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
+      try {
+        await pool.execute(
+          'ALTER TABLE `lesson_comments` ADD INDEX `idx_comments_parent` (`parent_id`)',
+        );
+      } catch {
+        // Ignore if index already exists
+      }
 
       // Seed default admin account
       const [existingAdmins] = await pool.execute<any[]>(

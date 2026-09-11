@@ -19,6 +19,7 @@ interface LessonRow extends RowDataPacket {
 interface UserRow extends RowDataPacket {
   id: number;
   email: string;
+  display_name?: string | null;
   is_approved: number;
   can_watch_video: number;
   level: string;
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
       try {
         const pool = getDbPool();
         const [users] = await pool.execute<UserRow[]>(
-          'SELECT id, email, is_approved, can_watch_video, level, is_admin FROM users WHERE id = ?',
+          'SELECT id, email, display_name, is_approved, can_watch_video, level, is_admin FROM users WHERE id = ?',
           [payload.userId as number],
         );
         if (users[0]) {
@@ -99,6 +100,7 @@ export async function GET(request: NextRequest) {
               'Tài khoản của bạn chưa được cấp quyền xem video bài giảng. Vui lòng liên hệ giáo viên để được kích hoạt quyền học.',
             user: {
               email: currentUser.email,
+              display_name: currentUser.display_name,
               can_watch_video: false,
               level: currentUser.level || 'n5',
             },
@@ -132,7 +134,9 @@ export async function GET(request: NextRequest) {
             requiredLevel: lessonLvl,
             userLevel: userLvl,
             user: {
+              id: currentUser.id,
               email: currentUser.email,
+              display_name: currentUser.display_name,
               can_watch_video: Boolean(currentUser.can_watch_video),
               level: currentUser.level || 'n5',
               is_admin: Boolean(currentUser.is_admin),
@@ -141,6 +145,20 @@ export async function GET(request: NextRequest) {
           { status: 403 },
         );
       }
+
+      return NextResponse.json({
+        success: true,
+        lessons: [targetLesson],
+        total: 1,
+        user: {
+          id: currentUser.id,
+          email: currentUser.email,
+          display_name: currentUser.display_name,
+          can_watch_video: Boolean(currentUser.can_watch_video),
+          level: currentUser.level || 'n5',
+          is_admin: Boolean(currentUser.is_admin),
+        },
+      });
     }
 
     // Sanitize lessons: only provide video_url if user has access to that specific lesson's level
@@ -165,7 +183,9 @@ export async function GET(request: NextRequest) {
       total: sanitizedLessons.length,
       user: currentUser
         ? {
+            id: currentUser.id,
             email: currentUser.email,
+            display_name: currentUser.display_name,
             can_watch_video: Boolean(currentUser.can_watch_video),
             level: currentUser.level || 'n5',
             is_admin: Boolean(currentUser.is_admin),

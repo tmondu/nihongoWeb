@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, email, is_approved, can_watch_video, level, is_admin, is_verified, created_at FROM users WHERE id = ?',
+      'SELECT id, email, display_name, name_updated_at, is_approved, can_watch_video, level, is_admin, is_verified, created_at FROM users WHERE id = ?',
       [payload.userId as number],
     );
 
@@ -48,13 +48,14 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    const { email, currentPassword, newPassword } = await request.json();
+    const { email, currentPassword, newPassword, displayName } =
+      await request.json();
     const userId = payload.userId as number;
     const pool = getDbPool();
 
     // Fetch user details first
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT email, password_hash FROM users WHERE id = ?',
+      'SELECT email, password_hash, display_name, name_updated_at FROM users WHERE id = ?',
       [userId],
     );
 
@@ -63,7 +64,45 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // 1. Handle email update if changing
+    // 1. Handle Display Name update with 7-day cooldown rule
+    if (displayName !== undefined) {
+      const trimmedName = String(displayName).trim();
+
+      if (trimmedName.length > 0) {
+        if (trimmedName.length < 2 || trimmedName.length > 50) {
+          return NextResponse.json(
+            { error: 'Tên hiển thị phải có độ dài từ 2 đến 50 ký tự.' },
+            { status: 400 },
+          );
+        }
+
+        // Only enforce cooldown if display_name is changing from an existing name
+        if (user.display_name && trimmedName !== user.display_name) {
+          if (user.name_updated_at) {
+            const lastUpdate = new Date(user.name_updated_at).getTime();
+            const diffDays = (Date.now() - lastUpdate) / (1000 * 60 * 60 * 24);
+            if (diffDays < 7) {
+              const daysLeft = Math.ceil(7 - diffDays);
+              return NextResponse.json(
+                {
+                  error: `Bạn chỉ có thể đổi tên hiển thị 7 ngày một lần. Vui lòng thử lại sau ${daysLeft} ngày.`,
+                },
+                { status: 400 },
+              );
+            }
+          }
+        }
+
+        if (trimmedName !== user.display_name) {
+          await pool.execute(
+            'UPDATE users SET display_name = ?, name_updated_at = NOW() WHERE id = ?',
+            [trimmedName, userId],
+          );
+        }
+      }
+    }
+
+    // 2. Handle email update if changing
     if (email && email !== user.email) {
       // Check duplicate email
       const [existing] = await pool.execute<RowDataPacket[]>(
@@ -84,7 +123,7 @@ export async function PUT(request: NextRequest) {
       ]);
     }
 
-    // 2. Handle password update
+    // 3. Handle password update
     if (newPassword) {
       if (!currentPassword) {
         return NextResponse.json(
