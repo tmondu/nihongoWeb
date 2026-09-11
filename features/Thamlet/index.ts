@@ -9,3 +9,4 @@ export { DeckForm } from './components/DeckEditor/DeckForm';
 export { ImportModal } from './components/DeckEditor/ImportModal';
 export { CardRowEditor } from './components/DeckEditor/CardRowEditor';
 export { ThamletHeader } from './components/Shared/ThamletHeader';
+export { WordDetailModal } from './components/Shared/WordDetailModal';

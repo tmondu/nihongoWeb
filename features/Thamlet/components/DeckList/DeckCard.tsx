@@ -5,7 +5,7 @@ import { Deck } from '../../types';
 import { Link } from '@/core/i18n/routing';
 import {
   Layers,
-  Sparkles,
+  BookOpen,
   Play,
   Grid,
   HelpCircle,
@@ -52,7 +52,7 @@ export const DeckCard: React.FC<DeckCardProps> = ({
           <div className='flex flex-wrap items-center gap-2'>
             {deck.isSample ? (
               <span className='inline-flex items-center gap-1 rounded-full bg-(--main-color)/15 px-2.5 py-0.5 text-xs font-semibold text-(--main-color)'>
-                <Sparkles className='size-3' />
+                <BookOpen className='size-3' />
                 Mẫu PThamSS
               </span>
             ) : null}

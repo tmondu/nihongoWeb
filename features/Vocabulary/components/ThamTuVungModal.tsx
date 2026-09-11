@@ -7,7 +7,6 @@ import {
   Copy,
   Check,
   BookOpen,
-  Sparkles,
   ExternalLink,
   Plus,
   BookmarkCheck,
@@ -321,7 +320,7 @@ export default function ThamTuVungModal() {
           {kanjiBreakdown.length > 0 && (
             <div className='space-y-3.5'>
               <div className='flex items-center gap-2 text-xs font-bold tracking-wider text-(--secondary-color) uppercase'>
-                <Sparkles className='size-4 text-amber-400' />
+                <Languages className='size-4 text-(--main-color)' />
                 <span>Phân tích Hán - Việt ({kanjiBreakdown.length} chữ)</span>
               </div>
 

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { use } from 'react';
-import { useThamletStore } from '@/features/Thamlet';
+import React, { use, useState } from 'react';
+import { useThamletStore, WordDetailModal } from '@/features/Thamlet';
 import { Link } from '@/core/i18n/routing';
 import {
   ArrowLeft,
@@ -13,7 +13,7 @@ import {
   Star,
   Edit,
   RotateCcw,
-  Sparkles,
+  BookOpen,
   Layers,
 } from 'lucide-react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
@@ -27,6 +27,7 @@ export default function DeckDetailPage({ params }: DeckDetailPageProps) {
   const { id } = use(params);
   const { playClick } = useClick();
   const { getDeck, toggleStarCard, resetDeckProgress } = useThamletStore();
+  const [selectedWord, setSelectedWord] = useState<string | null>(null);
 
   const deck = getDeck(id);
 
@@ -116,7 +117,7 @@ export default function DeckDetailPage({ params }: DeckDetailPageProps) {
         <div className='mb-3 flex flex-wrap items-center gap-2'>
           {deck.isSample && (
             <span className='inline-flex items-center gap-1 rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
-              <Sparkles className='size-3' />
+              <BookOpen className='size-3' />
               Mẫu PThamSS
             </span>
           )}
@@ -286,14 +287,36 @@ export default function DeckDetailPage({ params }: DeckDetailPageProps) {
                   >
                     <Volume2 className='size-4' />
                   </button>
-                  <span className='text-lg font-bold text-(--main-color)'>
+                  <button
+                    type='button'
+                    onClick={() => {
+                      playClick();
+                      setSelectedWord(card.term);
+                    }}
+                    className='font-japanese text-left text-lg font-bold text-(--main-color) transition-colors hover:text-blue-500'
+                    title='Bấm để xem ví dụ câu & ý kiến đóng góp'
+                  >
                     {card.term}
-                  </span>
+                  </button>
                   {card.reading && (
                     <span className='text-xs text-(--secondary-color)'>
                       [{card.reading}]
                     </span>
                   )}
+
+                  {/* Lookup Button */}
+                  <button
+                    type='button'
+                    onClick={() => {
+                      playClick();
+                      setSelectedWord(card.term);
+                    }}
+                    className='ml-1 inline-flex items-center gap-1 rounded-lg border border-(--border-color) bg-(--background-color) px-2 py-0.5 text-xs font-semibold text-(--secondary-color) transition-colors hover:border-(--main-color) hover:text-(--main-color)'
+                    title='Xem ví dụ theo câu & ý kiến đóng góp'
+                  >
+                    <BookOpen className='size-3.5' />
+                    <span className='hidden sm:inline'>Ví dụ & Góp ý</span>
+                  </button>
                 </div>
                 {card.example && (
                   <p className='mt-1 text-xs text-(--secondary-color) italic'>
@@ -326,6 +349,12 @@ export default function DeckDetailPage({ params }: DeckDetailPageProps) {
           ))}
         </div>
       </div>
+
+      {/* Word Detail Modal (Ví dụ câu & Ý kiến đóng góp) */}
+      <WordDetailModal
+        word={selectedWord}
+        onClose={() => setSelectedWord(null)}
+      />
     </div>
   );
 }

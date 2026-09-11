@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Plus, FileSpreadsheet, Layers } from 'lucide-react';
+import { BookOpen, Plus, FileSpreadsheet, Layers } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
@@ -26,7 +26,7 @@ export const ThamletHeader: React.FC<ThamletHeaderProps> = ({
               Thamlet
             </h1>
             <span className='inline-flex items-center gap-1 rounded-full bg-(--main-color)/15 px-2.5 py-0.5 text-xs font-bold text-(--main-color)'>
-              <Sparkles className='size-3' />
+              <BookOpen className='size-3' />
               Flashcards
             </span>
           </div>

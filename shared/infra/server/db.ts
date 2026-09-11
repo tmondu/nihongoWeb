@@ -181,6 +181,22 @@ export function getDbPool(): mysql.Pool {
         // Ignore if index already exists
       }
 
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`kanji_contributions\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`kanji_char\` VARCHAR(10) NOT NULL,
+          \`user_id\` INT NULL DEFAULT NULL,
+          \`username\` VARCHAR(100) NOT NULL,
+          \`mean\` TEXT NOT NULL,
+          \`likes\` INT DEFAULT 0,
+          \`dislikes\` INT DEFAULT 0,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          INDEX \`idx_kanji_char\` (\`kanji_char\`),
+          INDEX \`idx_kanji_user\` (\`user_id\`),
+          INDEX \`idx_kanji_created\` (\`kanji_char\`, \`created_at\` DESC)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
       // Seed default admin account
       const [existingAdmins] = await pool.execute<any[]>(
         'SELECT id FROM users WHERE email = ?',

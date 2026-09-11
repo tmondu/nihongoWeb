@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Deck } from '../../../types';
-import { ArrowLeft, RotateCcw, Timer, Trophy, Sparkles } from 'lucide-react';
+import { ArrowLeft, RotateCcw, Timer, Trophy } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
 import {
   useClick,
@@ -206,7 +206,7 @@ export const MatchBoard: React.FC<MatchBoardProps> = ({ deck }) => {
           </div>
           {bestTime && (
             <div className='mt-2 flex items-center justify-center gap-1 text-xs font-semibold text-emerald-500'>
-              <Sparkles className='size-3.5' />
+              <Trophy className='size-3.5' />
               <span>Kỷ lục tốt nhất: {bestTime.toFixed(1)} giây</span>
             </div>
           )}

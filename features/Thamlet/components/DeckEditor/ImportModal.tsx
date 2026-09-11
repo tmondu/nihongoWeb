@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Sparkles, AlertCircle, FileText } from 'lucide-react';
+import { X, AlertCircle, FileText } from 'lucide-react';
 import { parseQuizletText } from '../../lib/quizletParser';
 import { CreateCardInput } from '../../types';
 import { useClick } from '@/shared/hooks/generic/useAudio';
@@ -45,7 +45,7 @@ export const ImportModal: React.FC<ImportModalProps> = ({
         <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4'>
           <div className='flex items-center gap-2.5'>
             <div className='flex size-10 items-center justify-center rounded-2xl bg-(--main-color)/15 text-(--main-color)'>
-              <Sparkles className='size-5' />
+              <FileText className='size-5' />
             </div>
             <div>
               <h2 className='text-xl font-bold text-(--main-color)'>

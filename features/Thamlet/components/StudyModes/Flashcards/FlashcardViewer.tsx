@@ -9,14 +9,16 @@ import {
   RotateCcw,
   Check,
   X,
-  Sparkles,
+  Grid,
   Trophy,
   List,
   ChevronLeft,
+  BookOpen,
 } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { useThamletStore } from '../../../store/useThamletStore';
+import { WordDetailModal } from '../../Shared/WordDetailModal';
 import clsx from 'clsx';
 
 interface FlashcardViewerProps {
@@ -31,6 +33,7 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ deck }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showLookup, setShowLookup] = useState(false);
 
   // Thống kê phiên học
   const [learnedCardIds, setLearnedCardIds] = useState<Set<string>>(new Set());
@@ -167,7 +170,7 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ deck }) => {
             onClick={playClick}
             className='inline-flex items-center gap-2 rounded-2xl border border-(--border-color) bg-(--card-color) px-6 py-3 text-sm font-semibold text-(--main-color) hover:border-(--main-color)'
           >
-            <Sparkles className='size-4' />
+            <Grid className='size-4' />
             Chơi game ghép thẻ
           </Link>
 
@@ -236,6 +239,22 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ deck }) => {
         />
       </div>
 
+      {/* Quick Lookup Button (Ví dụ & Góp ý) */}
+      <div className='flex justify-center'>
+        <button
+          type='button'
+          onClick={() => {
+            playClick();
+            setShowLookup(true);
+          }}
+          className='inline-flex items-center gap-1.5 rounded-2xl border border-(--border-color) bg-(--card-color) px-4 py-2 text-xs font-bold text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) hover:shadow-sm active:scale-95'
+          title='Xem ví dụ theo câu & góp ý cộng đồng từ Mazii'
+        >
+          <BookOpen className='size-3.5' />
+          <span>Ví dụ câu & Ý kiến đóng góp</span>
+        </button>
+      </div>
+
       {/* Control Buttons */}
       <div className='flex items-center justify-center gap-2 pt-2 sm:gap-4'>
         {/* Nút Lùi lại thẻ trước */}
@@ -299,6 +318,12 @@ export const FlashcardViewer: React.FC<FlashcardViewerProps> = ({ deck }) => {
         <span>Phím [←]: Chưa thuộc</span>
         <span>Phím [→]: Đã thuộc</span>
       </div>
+
+      {/* Word Detail Modal */}
+      <WordDetailModal
+        word={showLookup && currentCard ? currentCard.term : null}
+        onClose={() => setShowLookup(false)}
+      />
     </div>
   );
 };
