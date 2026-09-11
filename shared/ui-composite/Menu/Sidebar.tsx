@@ -36,7 +36,6 @@ import type { Experiment } from '@/shared/data/experiments';
 import AuroraText from '@/shared/ui/components/magicui/AuroraText';
 
 const SIDEBAR_SECTION_STORAGE_PREFIX = 'sidebar-collapsible-';
-const SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY = 'sidebar-desktop-collapsed';
 const SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY = 'sidebar-preferences-visited';
 const SIDEBAR_ACTIVE_FLOAT_CLASSES =
   'motion-safe:animate-float [--float-distance:-3px]';
@@ -301,6 +300,7 @@ const NavLink = memo(
             href={item.href}
             prefetch={false}
             onClick={onClick}
+            title={isDesktopCollapsed ? label : undefined}
             className={clsx(
               'relative z-10 flex items-center gap-2 rounded-2xl',
               isMain ? 'text-2xl' : 'text-sm',
@@ -345,6 +345,7 @@ const NavLink = memo(
       <Link
         href={item.href}
         prefetch={false}
+        title={isDesktopCollapsed ? label : undefined}
         className={clsx(
           baseClasses,
           isDesktopCollapsed && isMain && 'lg:justify-center lg:px-3',
@@ -435,8 +436,9 @@ const Sidebar = () => {
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const isVisible = useScrollVisibility();
   const [hasMounted, setHasMounted] = useState(false);
+  // Mặc định thu sidebar lại khi vào các trang
   const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
-    useState(false);
+    useState(true);
   const [hasVisitedPreferences, setHasVisitedPreferences] = useState(false);
   const [isAcademyExpanded, setIsAcademyExpanded] = useState(false);
   const [isToolsExpanded, setIsToolsExpanded] = useState(false);
@@ -445,9 +447,6 @@ const Sidebar = () => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    setIsDesktopSidebarCollapsed(
-      sessionStorage.getItem(SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY) === 'true',
-    );
     setHasVisitedPreferences(
       localStorage.getItem(SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY) === 'true',
     );
@@ -561,13 +560,10 @@ const Sidebar = () => {
     );
   }, [isExperimentsExpanded, hasMounted]);
 
+  // Khi chuyển trang hoặc vào các trang thì mặc định thu sidebar lại
   useEffect(() => {
-    if (!hasMounted || typeof window === 'undefined') return;
-    sessionStorage.setItem(
-      SIDEBAR_DESKTOP_COLLAPSED_STORAGE_KEY,
-      String(isDesktopSidebarCollapsed),
-    );
-  }, [isDesktopSidebarCollapsed, hasMounted]);
+    setIsDesktopSidebarCollapsed(true);
+  }, [pathWithoutLocale]);
 
   useEffect(() => {
     if (!hasMounted || typeof window === 'undefined') return;
