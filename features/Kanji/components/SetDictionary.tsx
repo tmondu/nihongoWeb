@@ -91,17 +91,9 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
 
             <div className='flex w-full flex-col gap-1'>
               {kanjiObj.onyomi.length > 0 && kanjiObj.onyomi[0] !== '' && (
-                <a
-                  className='hover:text-underline w-full text-xs text-(--main-color)/80 hover:text-(--main-color)'
-                  href='https://lingopie.com/blog/onyomi-vs-kunyomi/'
-                  target='_blank'
-                  rel='noopener'
-                  onClick={() => {
-                    playClick();
-                  }}
-                >
-                  On{/* &apos;yomi */}
-                </a>
+                <span className='w-full text-xs font-semibold text-(--main-color)'>
+                  Âm On
+                </span>
               )}
               <div
                 className={clsx(
@@ -161,17 +153,9 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                 })}
               </div>
               {kanjiObj.kunyomi.length > 0 && kanjiObj.kunyomi[0] !== '' && (
-                <a
-                  className='hover:text-underline w-full text-xs text-(--main-color)/80 hover:text-(--main-color)'
-                  href='https://lingopie.com/blog/onyomi-vs-kunyomi/'
-                  target='_blank'
-                  rel='noopener'
-                  onClick={() => {
-                    playClick();
-                  }}
-                >
-                  Kun{/* &apos;yomi */}
-                </a>
+                <span className='w-full text-xs font-semibold text-(--main-color)'>
+                  Âm Kun
+                </span>
               )}
 
               <div

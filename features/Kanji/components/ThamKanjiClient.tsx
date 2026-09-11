@@ -15,6 +15,7 @@ import { KanjiLevel } from '@/entities/kanji';
 import useSetProgressHydration from '@/features/Progress/hooks/useSetProgress';
 import { useSetProgressStore } from '@/features/Progress';
 import KanjiSetDictionary from '@/features/Kanji/components/SetDictionary';
+import KanjiExamplesList from '@/features/Kanji/components/KanjiExamplesList';
 import type { IKanjiObj } from '@/entities/kanji';
 import hanvietMap from '@/shared/data/kanji_hanviet.json';
 import { useClick } from '@/shared/hooks/generic/useAudio';
@@ -255,6 +256,10 @@ export default function ThamKanjiClient({
           </div>
           <div className='w-full'>
             <KanjiSetDictionary words={[selectedKanji]} />
+          </div>
+
+          <div className='mt-2 border-t border-(--border-color) pt-4'>
+            <KanjiExamplesList kanjiChar={selectedKanji.kanjiChar} />
           </div>
         </div>
       </div>
