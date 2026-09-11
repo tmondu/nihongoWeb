@@ -60,6 +60,7 @@ export async function GET(
     // Sanitize questions: strip correct_answer and explanation to prevent cheating
     const publicQuestions = questionsList.map(q => ({
       id: q.id,
+      part_name: q.part_name || 'Bài 1',
       passage_title: q.passage_title,
       passage: q.passage,
       question: q.question,

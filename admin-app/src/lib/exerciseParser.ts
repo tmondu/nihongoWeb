@@ -1,5 +1,6 @@
 export interface ExerciseQuestion {
   id: number | string;
+  part_name?: string;
   passage_title?: string;
   passage?: string;
   question: string;
@@ -45,6 +46,7 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
   const segments = text.split(/(?=\[PASSAGE(?::[^\]]*)?\])/i);
   const questions: ExerciseQuestion[] = [];
   let questionCounter = 1;
+  let currentPartName = 'Bài 1';
 
   for (const segment of segments) {
     const trimmedSegment = segment.trim();
@@ -67,7 +69,24 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
     const rawBlocks = questionsText.split(/\n\s*\n+/);
 
     for (const block of rawBlocks) {
-      const lines = block
+      let trimmedBlock = block.trim();
+      if (!trimmedBlock) continue;
+
+      const partMatch =
+        trimmedBlock.match(
+          /^\[(?:PART|SECTION|BÀI|BAI|MONDAI)(?::\s*([^\]]*))?\]/i,
+        ) ||
+        trimmedBlock.match(
+          /^#{1,3}\s*(Bài\s*\d+[^:\n]*|Mondai\s*\d+[^:\n]*|Part\s*\d+[^:\n]*)/i,
+        );
+
+      if (partMatch) {
+        currentPartName = (partMatch[1] || 'Bài 1').trim();
+        trimmedBlock = trimmedBlock.replace(partMatch[0], '').trim();
+        if (!trimmedBlock) continue;
+      }
+
+      const lines = trimmedBlock
         .split('\n')
         .map(l => l.trim())
         .filter(Boolean);
@@ -81,6 +100,14 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
+
+        const inlinePartMatch = line.match(
+          /^\[(?:PART|SECTION|BÀI|BAI|MONDAI)(?::\s*([^\]]*))?\]/i,
+        );
+        if (inlinePartMatch) {
+          currentPartName = (inlinePartMatch[1] || 'Bài 1').trim();
+          continue;
+        }
 
         const answerMatch = line.match(
           /^(?:ANSWER|ĐÁP ÁN|DAP AN|KEY|ĐÁP ÁN ĐÚNG)[:\s]+([A-Da-d0-9]+|.+)/i,
@@ -138,6 +165,7 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
 
         questions.push({
           id: questionCounter++,
+          part_name: currentPartName || 'Bài 1',
           passage_title: passageTitle,
           passage: passageContent,
           question: questionText.trim(),
@@ -196,9 +224,7 @@ export function parseCsvFormat(csvText: string): ExerciseQuestion[] {
 
   for (let i = startIndex; i < lines.length; i++) {
     const cols = parseCsvLine(lines[i]);
-    if (cols.length < 6) continue;
-
-    const [qText, optA, optB, optC, optD, answerRaw, explRaw] = cols;
+    const [qText, optA, optB, optC, optD, answerRaw, explRaw, partRaw] = cols;
     if (!qText || !optA || !optB) continue;
 
     let ans = (answerRaw || 'A').trim().toUpperCase();
@@ -208,6 +234,7 @@ export function parseCsvFormat(csvText: string): ExerciseQuestion[] {
 
     questions.push({
       id: idCounter++,
+      part_name: (partRaw || 'Bài 1').trim() || 'Bài 1',
       question: qText,
       options: [optA, optB, optC || '', optD || ''].filter(Boolean),
       correct_answer: ans,
@@ -224,6 +251,11 @@ export function parseJsonFormat(jsonText: string): ExerciseQuestion[] {
     if (!Array.isArray(parsed)) return [];
     return parsed.map((item, idx) => ({
       id: item.id || idx + 1,
+      part_name: item.part_name ? String(item.part_name) : 'Bài 1',
+      passage_title: item.passage_title
+        ? String(item.passage_title)
+        : undefined,
+      passage: item.passage ? String(item.passage) : undefined,
       question: String(item.question || ''),
       options: Array.isArray(item.options) ? item.options.map(String) : [],
       correct_answer: String(item.correct_answer || 'A').toUpperCase(),
@@ -238,14 +270,15 @@ export function parseJsonFormat(jsonText: string): ExerciseQuestion[] {
 }
 
 export function generateSampleCsvTemplate(): string {
-  return `question,option_a,option_b,option_c,option_d,correct_answer,explanation
-"Từ nào sau đây có nghĩa là 'Ngày mai'?","きのう","あした","きょう","あさって","B","あした nghĩa là ngày mai, きのう là hôm qua."
-"Chọn cách đọc đúng của chữ Hán: 先生","せんせい","がくせい","いしゃ","かいしゃいん","A","先生 đọc là せんせい, có nghĩa là giáo viên."
-"Điền từ thích hợp vào chỗ trống: わたし___ ベトナム人です。","を","に","は","で","C","は là trợ từ chỉ chủ ngữ trong câu khẳng định cơ bản."`;
+  return `question,option_a,option_b,option_c,option_d,correct_answer,explanation,part_name
+"Từ nào sau đây có nghĩa là 'Ngày mai'?","きのう","あした","きょう","あさって","B","あした nghĩa là ngày mai, きのう là hôm qua.","Bài 1"
+"Chọn cách đọc đúng của chữ Hán: 先生","せんせい","gakuせい","いしゃ","かいしゃいん","A","先生 đọc là せんせい, có nghĩa là giáo viên.","Bài 1"
+"Điền từ thích hợp vào chỗ trống: わたし___ ベトナム人です。","を","に","は","で","C","は là trợ từ chỉ chủ ngữ trong câu khẳng định cơ bản.","Bài 2"`;
 }
 
 export function generateSampleAikenTemplate(): string {
-  return `Câu 1: Từ nào sau đây có nghĩa là "Ngày mai"?
+  return `[PART: Bài 1]
+Câu 1: Từ nào sau đây có nghĩa là "Ngày mai"?
 A. きのう
 B. あした
 C. きょう
@@ -261,6 +294,7 @@ D. かいしゃいん
 ANSWER: A
 EXPLANATION: 先生 đọc là せんせい (sensei), có nghĩa là giáo viên.
 
+[PART: Bài 2]
 Câu 3: Điền trợ từ thích hợp: わたし ___ ベトナム人です。
 A. を
 B. に
@@ -271,7 +305,8 @@ EXPLANATION: は là trợ từ chỉ chủ ngữ trong câu giới thiệu / kh
 }
 
 export function generateSampleReadingAikenTemplate(): string {
-  return `[PASSAGE: 初めての野球]
+  return `[PART: Bài 1: Đọc hiểu]
+[PASSAGE: 初めての野球]
 日本に来る前に まんがで 野球という スポーツを 知って、きょうみを もちました。
 でも、私の国では、野球をしている人を見たことがありません。道具もないので、野球はできませんでした。
 
@@ -328,10 +363,21 @@ export function questionsToAiken(rawQuestions: unknown): string {
   const chunks: string[] = [];
   let currentPassage: string | null = null;
   let currentPassageTitle: string | null = null;
+  let currentPart: string | null = null;
 
   for (let i = 0; i < questions.length; i++) {
     const q = questions[i];
     if (!q) continue;
+
+    const qPart =
+      typeof q.part_name === 'string' && q.part_name.trim().length > 0
+        ? q.part_name.trim()
+        : null;
+
+    if (qPart && qPart !== currentPart) {
+      chunks.push(`[PART: ${qPart}]`);
+      currentPart = qPart;
+    }
 
     const qPassage =
       typeof q.passage === 'string' && q.passage.trim().length > 0

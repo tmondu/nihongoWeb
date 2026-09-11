@@ -47,6 +47,78 @@ const LEVELS = [
   { id: 'n1', label: 'JLPT N1' },
 ];
 
+interface PartSectionHeaderProps {
+  partName: string;
+  partIdx: number;
+  questionCount: number;
+  canDelete: boolean;
+  onRename: (newName: string) => void;
+  onDelete: () => void;
+}
+
+function PartSectionHeader({
+  partName,
+  partIdx,
+  questionCount,
+  canDelete,
+  onRename,
+  onDelete,
+}: PartSectionHeaderProps) {
+  const [name, setName] = useState(partName);
+
+  useEffect(() => {
+    setName(partName);
+  }, [partName]);
+
+  return (
+    <div className='flex flex-wrap items-center justify-between gap-2 border-b border-[#242432] pb-3'>
+      <div className='flex items-center gap-2.5'>
+        <div className='flex size-7 items-center justify-center rounded-lg bg-purple-500/20 text-xs font-bold text-purple-300'>
+          {partIdx + 1}
+        </div>
+        <div className='flex items-center gap-2'>
+          <input
+            type='text'
+            value={name}
+            onChange={e => setName(e.target.value)}
+            onBlur={() => {
+              if (name.trim() && name.trim() !== partName) {
+                onRename(name.trim());
+              } else {
+                setName(partName);
+              }
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                (e.target as HTMLInputElement).blur();
+              }
+            }}
+            className='rounded-lg border border-[#2e2e3e] bg-[#16161f] px-2.5 py-1 text-sm font-bold text-purple-300 transition-colors focus:border-purple-500 focus:outline-none'
+            placeholder={`Bài ${partIdx + 1}`}
+            title='Nhấp để đổi tên bài tập con (ví dụ: Bài 1: Từ vựng, Bài 2: Ngữ pháp...)'
+          />
+          <span className='text-xs font-medium text-slate-400'>
+            ({questionCount} câu hỏi)
+          </span>
+        </div>
+      </div>
+
+      {canDelete && (
+        <button
+          type='button'
+          onClick={onDelete}
+          className='flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300'
+          title={`Xóa ${partName} và các câu hỏi trong phần này`}
+        >
+          <Trash2 className='size-3.5' />
+          <span>Xóa bài này</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function AdminExercisesPage() {
   const [activeTab, setActiveTab] = useState<'exercises' | 'submissions'>(
     'exercises',
@@ -88,6 +160,14 @@ export default function AdminExercisesPage() {
     ExerciseQuestion[]
   >([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Danh sách các Bài / Phần hiện có trong form
+  const allPartNames = Array.from(
+    new Set(
+      formQuestions.map(q => (q.part_name || 'Bài 1').trim()).filter(Boolean),
+    ),
+  );
+  if (allPartNames.length === 0) allPartNames.push('Bài 1');
 
   // Submissions states
   const [submissions, setSubmissions] = useState<ExerciseSubmissionRecord[]>(
@@ -170,6 +250,7 @@ export default function AdminExercisesPage() {
     setFormQuestions([
       {
         id: 1,
+        part_name: 'Bài 1',
         question: '',
         options: ['', '', '', ''],
         correct_answer: 'A',
@@ -203,6 +284,12 @@ export default function AdminExercisesPage() {
     } else if (Array.isArray(ex.questions)) {
       questions = ex.questions;
     }
+    // Ensure all questions have a part_name
+    questions = questions.map((q, idx) => ({
+      ...q,
+      id: q.id || idx + 1,
+      part_name: (q.part_name || 'Bài 1').trim() || 'Bài 1',
+    }));
     setFormQuestions(questions);
 
     // Pre-populate Aiken source text so user can view/edit in Source tab as well
@@ -245,19 +332,88 @@ export default function AdminExercisesPage() {
     }
   };
 
-  // Add question in manual mode
-  const handleAddQuestion = () => {
-    setFormQuestions(prev => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        question: '',
-        options: ['', '', '', ''],
-        correct_answer: 'A',
-        explanation: '',
-        explanation_image: '',
-      },
-    ]);
+  // Add question in manual mode (optionally into a specific part)
+  const handleAddQuestion = (targetPartName?: string) => {
+    setFormQuestions(prev => {
+      const defaultPart =
+        targetPartName ||
+        (prev.length > 0
+          ? (prev[prev.length - 1]?.part_name || 'Bài 1').trim()
+          : 'Bài 1');
+      return [
+        ...prev,
+        {
+          id: prev.length + 1,
+          part_name: defaultPart,
+          question: '',
+          options: ['', '', '', ''],
+          correct_answer: 'A',
+          explanation: '',
+          explanation_image: '',
+        },
+      ];
+    });
+  };
+
+  // Add a new sub-exercise / Part (e.g. Bài 2, Bài 3...)
+  const handleAddPart = () => {
+    const existingParts = Array.from(
+      new Set(formQuestions.map(q => (q.part_name || 'Bài 1').trim())),
+    );
+    let nextNum = existingParts.length + 1;
+    while (existingParts.includes(`Bài ${nextNum}`)) {
+      nextNum++;
+    }
+    const newPartName = `Bài ${nextNum}`;
+    handleAddQuestion(newPartName);
+  };
+
+  // Rename a part across all questions belonging to it
+  const handleRenamePart = (oldName: string, newName: string) => {
+    const trimmedNew = newName.trim();
+    if (!trimmedNew) return;
+    setFormQuestions(prev =>
+      prev.map(q => {
+        const current = (q.part_name || 'Bài 1').trim();
+        if (current === oldName.trim()) {
+          return { ...q, part_name: trimmedNew };
+        }
+        return q;
+      }),
+    );
+  };
+
+  // Delete an entire part and its questions
+  const handleDeletePart = (partName: string) => {
+    const count = formQuestions.filter(
+      q => (q.part_name || 'Bài 1').trim() === partName.trim(),
+    ).length;
+    if (
+      !confirm(
+        `Bạn có chắc muốn xóa "${partName}" cùng toàn bộ ${count} câu hỏi thuộc phần này?`,
+      )
+    ) {
+      return;
+    }
+    setFormQuestions(prev => {
+      const filtered = prev.filter(
+        q => (q.part_name || 'Bài 1').trim() !== partName.trim(),
+      );
+      if (filtered.length === 0) {
+        return [
+          {
+            id: 1,
+            part_name: 'Bài 1',
+            question: '',
+            options: ['', '', '', ''],
+            correct_answer: 'A',
+            explanation: '',
+            explanation_image: '',
+          },
+        ];
+      }
+      return filtered;
+    });
   };
 
   // Remove question in manual mode
@@ -402,6 +558,13 @@ export default function AdminExercisesPage() {
         return;
       }
     }
+
+    // Chuẩn hóa câu hỏi: gán ID tuần tự và bảo đảm có part_name
+    questionsToSave = questionsToSave.map((q, idx) => ({
+      ...q,
+      id: idx + 1,
+      part_name: (q.part_name || 'Bài 1').trim() || 'Bài 1',
+    }));
 
     setActionLoading('save');
     try {
@@ -935,201 +1098,285 @@ export default function AdminExercisesPage() {
 
               {/* 1. TẠO BẰNG TAY */}
               {builderTab === 'manual' && (
-                <div className='max-h-[50vh] space-y-4 overflow-y-auto pr-1'>
-                  {formQuestions.map((q, qIdx) => (
-                    <div
-                      key={qIdx}
-                      className='relative space-y-3 rounded-xl border border-[#262630] bg-[#14141a] p-4'
-                    >
-                      <div className='flex items-center justify-between'>
-                        <span className='flex items-center gap-2 text-xs font-bold text-purple-300'>
-                          <span className='flex size-5 items-center justify-center rounded-full bg-purple-500/20 text-[11px] text-purple-300'>
-                            {qIdx + 1}
-                          </span>
-                          Câu hỏi {qIdx + 1}
-                        </span>
+                <div className='max-h-[55vh] space-y-6 overflow-y-auto pr-1'>
+                  {allPartNames.map((partName, partIdx) => {
+                    const questionsInPart = formQuestions
+                      .map((q, idx) => ({ q, originalIndex: idx }))
+                      .filter(
+                        item =>
+                          (item.q.part_name || 'Bài 1').trim() ===
+                          partName.trim(),
+                      );
+
+                    return (
+                      <div
+                        key={partIdx}
+                        className='space-y-4 rounded-2xl border border-purple-500/25 bg-[#0f0f14] p-4 shadow-lg'
+                      >
+                        {/* Tiêu đề Bài / Phần */}
+                        <PartSectionHeader
+                          partName={partName}
+                          partIdx={partIdx}
+                          questionCount={questionsInPart.length}
+                          canDelete={allPartNames.length > 1}
+                          onRename={newName =>
+                            handleRenamePart(partName, newName)
+                          }
+                          onDelete={() => handleDeletePart(partName)}
+                        />
+
+                        {/* Danh sách câu hỏi trong phần này */}
+                        <div className='space-y-4'>
+                          {questionsInPart.map(({ q, originalIndex }) => (
+                            <div
+                              key={originalIndex}
+                              className='relative space-y-3 rounded-xl border border-[#262630] bg-[#14141a] p-4'
+                            >
+                              <div className='flex flex-wrap items-center justify-between gap-2'>
+                                <span className='flex items-center gap-2 text-xs font-bold text-purple-300'>
+                                  <span className='flex size-5 items-center justify-center rounded-full bg-purple-500/20 text-[11px] text-purple-300'>
+                                    {originalIndex + 1}
+                                  </span>
+                                  Câu hỏi {originalIndex + 1}
+                                </span>
+
+                                <div className='flex items-center gap-2'>
+                                  <div className='flex items-center gap-1.5'>
+                                    <span className='text-[11px] text-slate-400'>
+                                      Thuộc:
+                                    </span>
+                                    <select
+                                      value={q.part_name || 'Bài 1'}
+                                      onChange={e =>
+                                        handleQuestionChange(
+                                          originalIndex,
+                                          'part_name',
+                                          e.target.value,
+                                        )
+                                      }
+                                      className='rounded-md border border-[#2a2a36] bg-[#1e1e26] px-2 py-1 text-xs font-medium text-purple-300 focus:outline-none'
+                                    >
+                                      {allPartNames.map(p => (
+                                        <option key={p} value={p}>
+                                          {p}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+
+                                  <button
+                                    type='button'
+                                    onClick={() =>
+                                      handleRemoveQuestion(originalIndex)
+                                    }
+                                    className='inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300'
+                                  >
+                                    <Trash2 className='size-3.5' />
+                                    <span>Xóa</span>
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div className='grid grid-cols-1 gap-2 sm:grid-cols-3'>
+                                <input
+                                  type='text'
+                                  value={q.passage_title || ''}
+                                  onChange={e =>
+                                    handleQuestionChange(
+                                      originalIndex,
+                                      'passage_title',
+                                      e.target.value,
+                                    )
+                                  }
+                                  placeholder='Tiêu đề bài đọc (tùy chọn)...'
+                                  className='rounded-xl border border-[#262630] bg-[#14141a] px-3 py-1.5 text-xs text-indigo-300 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none'
+                                />
+                                <input
+                                  type='text'
+                                  value={q.passage || ''}
+                                  onChange={e =>
+                                    handleQuestionChange(
+                                      originalIndex,
+                                      'passage',
+                                      e.target.value,
+                                    )
+                                  }
+                                  placeholder='Bài đọc chung (Passage nếu có)...'
+                                  className='rounded-xl border border-[#262630] bg-[#14141a] px-3 py-1.5 text-xs text-indigo-300 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none sm:col-span-2'
+                                />
+                              </div>
+
+                              <input
+                                type='text'
+                                value={q.question}
+                                onChange={e =>
+                                  handleQuestionChange(
+                                    originalIndex,
+                                    'question',
+                                    e.target.value,
+                                  )
+                                }
+                                placeholder='Nhập nội dung câu hỏi (VD: Từ nào sau đây có nghĩa là Ngày mai?)...'
+                                className='w-full rounded-xl border border-[#262630] bg-[#1a1a22] px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none'
+                              />
+
+                              <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
+                                {['A', 'B', 'C', 'D'].map((letter, optIdx) => (
+                                  <div
+                                    key={letter}
+                                    className='flex items-center gap-2'
+                                  >
+                                    <button
+                                      type='button'
+                                      onClick={() =>
+                                        handleQuestionChange(
+                                          originalIndex,
+                                          'correct_answer',
+                                          letter,
+                                        )
+                                      }
+                                      className={`flex size-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-all ${
+                                        q.correct_answer === letter
+                                          ? 'bg-emerald-500 text-black shadow-md ring-2 shadow-emerald-500/20 ring-emerald-400'
+                                          : 'bg-[#1e1e26] text-slate-400 hover:bg-[#282834]'
+                                      }`}
+                                      title={`Chọn ${letter} làm đáp án đúng`}
+                                    >
+                                      {letter}
+                                    </button>
+                                    <input
+                                      type='text'
+                                      value={q.options[optIdx] || ''}
+                                      onChange={e =>
+                                        handleOptionChange(
+                                          originalIndex,
+                                          optIdx,
+                                          e.target.value,
+                                        )
+                                      }
+                                      placeholder={`Lựa chọn ${letter}...`}
+                                      className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-white focus:border-purple-500 focus:outline-none'
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+
+                              <input
+                                type='text'
+                                value={q.explanation || ''}
+                                onChange={e =>
+                                  handleQuestionChange(
+                                    originalIndex,
+                                    'explanation',
+                                    e.target.value,
+                                  )
+                                }
+                                placeholder='Giải thích / dịch nghĩa khi chấm bài (tùy chọn)...'
+                                className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
+                              />
+
+                              {/* Section: Ảnh giải thích đáp án */}
+                              <div className='space-y-2 rounded-xl border border-purple-500/25 bg-purple-500/5 p-3'>
+                                <div className='flex items-center justify-between'>
+                                  <label className='flex items-center gap-1.5 text-xs font-bold text-purple-300'>
+                                    <ImageIcon className='size-3.5 text-purple-400' />
+                                    <span>
+                                      Ảnh giải thích đáp án (Cloudflare R2 /
+                                      URL)
+                                    </span>
+                                  </label>
+                                  {q.explanation_image && (
+                                    <button
+                                      type='button'
+                                      onClick={() =>
+                                        handleQuestionChange(
+                                          originalIndex,
+                                          'explanation_image',
+                                          '',
+                                        )
+                                      }
+                                      className='text-[11px] font-semibold text-rose-400 hover:text-rose-300 hover:underline'
+                                    >
+                                      Xóa ảnh
+                                    </button>
+                                  )}
+                                </div>
+
+                                <div className='flex items-center gap-2'>
+                                  <input
+                                    type='text'
+                                    value={q.explanation_image || ''}
+                                    onChange={e =>
+                                      handleQuestionChange(
+                                        originalIndex,
+                                        'explanation_image',
+                                        e.target.value,
+                                      )
+                                    }
+                                    placeholder='Dán link ảnh từ Cloudflare R2 (ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
+                                    className='w-full rounded-lg border border-[#262630] bg-[#16161c] px-3 py-2 text-xs text-slate-200 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
+                                  />
+                                  {q.explanation_image && (
+                                    <a
+                                      href={q.explanation_image}
+                                      target='_blank'
+                                      rel='noreferrer'
+                                      className='inline-flex shrink-0 items-center gap-1 rounded-lg border border-purple-500/40 bg-purple-500/20 px-3 py-2 text-xs font-semibold text-purple-200 hover:bg-purple-500/30'
+                                    >
+                                      <Eye className='size-3.5' />
+                                      <span>Xem</span>
+                                    </a>
+                                  )}
+                                </div>
+
+                                {q.explanation_image && (
+                                  <div className='mt-2 flex items-center gap-3 rounded-lg border border-purple-500/20 bg-black/40 p-2.5'>
+                                    <img
+                                      src={q.explanation_image}
+                                      alt='Preview đáp án'
+                                      className='h-20 max-w-[180px] rounded border border-[#333] bg-black/60 object-contain'
+                                      onError={e => {
+                                        (
+                                          e.target as HTMLImageElement
+                                        ).style.display = 'none';
+                                      }}
+                                    />
+                                    <div className='text-[11px] leading-relaxed text-slate-400'>
+                                      <p className='font-semibold text-emerald-400'>
+                                        ✓ Ảnh hợp lệ & đã được liên kết
+                                      </p>
+                                      <p className='line-clamp-2 max-w-md break-all text-slate-400'>
+                                        {q.explanation_image}
+                                      </p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Thêm câu hỏi vào phần này */}
                         <button
                           type='button'
-                          onClick={() => handleRemoveQuestion(qIdx)}
-                          className='inline-flex items-center gap-1 text-xs text-rose-400 hover:text-rose-300'
+                          onClick={() => handleAddQuestion(partName)}
+                          className='flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-purple-500/30 bg-purple-500/5 py-2 text-xs font-semibold text-purple-300 hover:bg-purple-500/10'
                         >
-                          <Trash2 className='size-3.5' />
-                          <span>Xóa</span>
+                          <Plus className='size-3.5' />
+                          <span>Thêm câu hỏi vào {partName}</span>
                         </button>
                       </div>
+                    );
+                  })}
 
-                      <div className='grid grid-cols-1 gap-2 sm:grid-cols-3'>
-                        <input
-                          type='text'
-                          value={q.passage_title || ''}
-                          onChange={e =>
-                            handleQuestionChange(
-                              qIdx,
-                              'passage_title',
-                              e.target.value,
-                            )
-                          }
-                          placeholder='Tiêu đề bài đọc (tùy chọn)...'
-                          className='rounded-xl border border-[#262630] bg-[#14141a] px-3 py-1.5 text-xs text-indigo-300 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none'
-                        />
-                        <input
-                          type='text'
-                          value={q.passage || ''}
-                          onChange={e =>
-                            handleQuestionChange(
-                              qIdx,
-                              'passage',
-                              e.target.value,
-                            )
-                          }
-                          placeholder='Bài đọc chung (Passage nếu có)...'
-                          className='rounded-xl border border-[#262630] bg-[#14141a] px-3 py-1.5 text-xs text-indigo-300 placeholder:text-slate-600 focus:border-indigo-500 focus:outline-none sm:col-span-2'
-                        />
-                      </div>
-
-                      <input
-                        type='text'
-                        value={q.question}
-                        onChange={e =>
-                          handleQuestionChange(qIdx, 'question', e.target.value)
-                        }
-                        placeholder='Nhập nội dung câu hỏi (VD: Từ nào sau đây có nghĩa là Ngày mai?)...'
-                        className='w-full rounded-xl border border-[#262630] bg-[#1a1a22] px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none'
-                      />
-
-                      <div className='grid grid-cols-1 gap-2 sm:grid-cols-2'>
-                        {['A', 'B', 'C', 'D'].map((letter, optIdx) => (
-                          <div key={letter} className='flex items-center gap-2'>
-                            <button
-                              type='button'
-                              onClick={() =>
-                                handleQuestionChange(
-                                  qIdx,
-                                  'correct_answer',
-                                  letter,
-                                )
-                              }
-                              className={`flex size-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-all ${
-                                q.correct_answer === letter
-                                  ? 'bg-emerald-500 text-black shadow-md ring-2 shadow-emerald-500/20 ring-emerald-400'
-                                  : 'bg-[#1e1e26] text-slate-400 hover:bg-[#282834]'
-                              }`}
-                              title={`Chọn ${letter} làm đáp án đúng`}
-                            >
-                              {letter}
-                            </button>
-                            <input
-                              type='text'
-                              value={q.options[optIdx] || ''}
-                              onChange={e =>
-                                handleOptionChange(qIdx, optIdx, e.target.value)
-                              }
-                              placeholder={`Lựa chọn ${letter}...`}
-                              className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-white focus:border-purple-500 focus:outline-none'
-                            />
-                          </div>
-                        ))}
-                      </div>
-
-                      <input
-                        type='text'
-                        value={q.explanation || ''}
-                        onChange={e =>
-                          handleQuestionChange(
-                            qIdx,
-                            'explanation',
-                            e.target.value,
-                          )
-                        }
-                        placeholder='Giải thích / dịch nghĩa khi chấm bài (tùy chọn)...'
-                        className='w-full rounded-lg border border-[#262630] bg-[#1a1a22] px-3 py-1.5 text-xs text-slate-300 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
-                      />
-
-                      {/* Section: Ảnh giải thích đáp án */}
-                      <div className='space-y-2 rounded-xl border border-purple-500/25 bg-purple-500/5 p-3'>
-                        <div className='flex items-center justify-between'>
-                          <label className='flex items-center gap-1.5 text-xs font-bold text-purple-300'>
-                            <ImageIcon className='size-3.5 text-purple-400' />
-                            <span>
-                              Ảnh giải thích đáp án (Cloudflare R2 / URL)
-                            </span>
-                          </label>
-                          {q.explanation_image && (
-                            <button
-                              type='button'
-                              onClick={() =>
-                                handleQuestionChange(
-                                  qIdx,
-                                  'explanation_image',
-                                  '',
-                                )
-                              }
-                              className='text-[11px] font-semibold text-rose-400 hover:text-rose-300 hover:underline'
-                            >
-                              Xóa ảnh
-                            </button>
-                          )}
-                        </div>
-
-                        <div className='flex items-center gap-2'>
-                          <input
-                            type='text'
-                            value={q.explanation_image || ''}
-                            onChange={e =>
-                              handleQuestionChange(
-                                qIdx,
-                                'explanation_image',
-                                e.target.value,
-                              )
-                            }
-                            placeholder='Dán link ảnh từ Cloudflare R2 (ví dụ: https://pub-xxx.r2.dev/dapan.png)...'
-                            className='w-full rounded-lg border border-[#262630] bg-[#16161c] px-3 py-2 text-xs text-slate-200 placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
-                          />
-                          {q.explanation_image && (
-                            <a
-                              href={q.explanation_image}
-                              target='_blank'
-                              rel='noreferrer'
-                              className='inline-flex shrink-0 items-center gap-1 rounded-lg border border-purple-500/40 bg-purple-500/20 px-3 py-2 text-xs font-semibold text-purple-200 hover:bg-purple-500/30'
-                            >
-                              <Eye className='size-3.5' />
-                              <span>Xem</span>
-                            </a>
-                          )}
-                        </div>
-
-                        {q.explanation_image && (
-                          <div className='mt-2 flex items-center gap-3 rounded-lg border border-purple-500/20 bg-black/40 p-2.5'>
-                            <img
-                              src={q.explanation_image}
-                              alt='Preview đáp án'
-                              className='h-20 max-w-[180px] rounded border border-[#333] bg-black/60 object-contain'
-                              onError={e => {
-                                (e.target as HTMLImageElement).style.display =
-                                  'none';
-                              }}
-                            />
-                            <div className='text-[11px] leading-relaxed text-slate-400'>
-                              <p className='font-semibold text-emerald-400'>
-                                ✓ Ảnh hợp lệ & đã được liên kết
-                              </p>
-                              <p className='line-clamp-2 max-w-md break-all text-slate-400'>
-                                {q.explanation_image}
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-
+                  {/* Nút thêm phần bài mới (Bài 2, Bài 3...) */}
                   <button
                     type='button'
-                    onClick={handleAddQuestion}
-                    className='flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#333340] bg-[#14141a] py-3 text-xs font-semibold text-slate-300 hover:bg-[#1a1a24] hover:text-white'
+                    onClick={handleAddPart}
+                    className='flex w-full items-center justify-center gap-2 rounded-xl border border-purple-500/40 bg-gradient-to-r from-purple-600/20 via-purple-600/30 to-purple-600/20 py-3 text-xs font-bold text-purple-200 shadow hover:from-purple-600/30 hover:to-purple-600/40 hover:text-white'
                   >
                     <Plus className='size-4 text-purple-400' />
-                    <span>Thêm câu hỏi mới</span>
+                    <span>+ Thêm Bài Mới (Bài 2, Bài 3...)</span>
                   </button>
                 </div>
               )}

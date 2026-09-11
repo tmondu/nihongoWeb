@@ -1,5 +1,6 @@
 export interface ExerciseQuestion {
   id: number | string;
+  part_name?: string; // e.g. "Bài 1", "Bài 2", "Mondai 1"
   passage_title?: string;
   passage?: string;
   question: string;
@@ -57,6 +58,7 @@ export interface ExerciseSubmissionRecord {
 
 export interface QuestionResultItem {
   id: number | string;
+  part_name?: string;
   passage_title?: string;
   passage?: string;
   question: string;

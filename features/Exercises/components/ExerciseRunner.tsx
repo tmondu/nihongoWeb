@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { Link } from '@/core/i18n/routing';
 import {
   ArrowLeft,
@@ -103,9 +109,36 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   const startTimeRef = useRef<number>(Date.now());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const currentQ = questions[currentIndex];
+  const currentQ = questions[currentIndex] || questions[0];
   const totalQuestions = questions.length;
   const answeredCount = Object.keys(answers).length;
+
+  interface PartGroup {
+    partName: string;
+    questions: { q: PublicQuestion; idx: number }[];
+  }
+
+  // Group questions by part_name (Bài 1, Bài 2, Bài 3...)
+  const groupedParts = useMemo<PartGroup[]>(() => {
+    const partsMap = new Map<string, PartGroup>();
+
+    questions.forEach((q: PublicQuestion, idx: number) => {
+      const partName = q.part_name || 'Bài 1';
+      if (!partsMap.has(partName)) {
+        partsMap.set(partName, { partName, questions: [] });
+      }
+      partsMap.get(partName)!.questions.push({ q, idx });
+    });
+
+    return Array.from(partsMap.values());
+  }, [questions]);
+
+  // Sync state if questions change
+  useEffect(() => {
+    if (questions.length > 0 && currentIndex >= questions.length) {
+      setCurrentIndex(0);
+    }
+  }, [questions, currentIndex]);
 
   // Only display passage if the current question has a non-empty passage defined
   const effectivePassage = currentQ?.passage?.trim() || '';
@@ -331,10 +364,15 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               className={`space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${effectivePassage ? 'xl:col-span-6' : ''}`}
             >
               {/* Question Progress Header */}
-              <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-4 select-none'>
-                <span className='rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
-                  Câu hỏi {currentIndex + 1} / {totalQuestions}
-                </span>
+              <div className='flex flex-wrap items-center justify-between gap-2 border-b border-(--border-color)/60 pb-4 select-none'>
+                <div className='flex flex-wrap items-center gap-2'>
+                  <span className='rounded-full border border-amber-500/30 bg-amber-500/15 px-3 py-1 text-xs font-extrabold text-amber-500'>
+                    {currentQ.part_name || 'Bài 1'}
+                  </span>
+                  <span className='rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
+                    Câu hỏi {currentIndex + 1} / {totalQuestions}
+                  </span>
+                </div>
 
                 <span className='text-xs text-(--secondary-color)'>
                   Đã trả lời:{' '}
@@ -443,31 +481,54 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               Bảng câu hỏi
             </h3>
 
-            {/* Grid of Question Numbers */}
-            <div className='grid grid-cols-5 gap-2'>
-              {questions.map((q, idx) => {
-                const qKey = String(q.id || idx + 1);
-                const isAnswered = Boolean(answers[qKey]);
-                const isCurrent = idx === currentIndex;
+            {/* Grouped Question Palette by Part */}
+            <div className='max-h-[55vh] space-y-3.5 overflow-y-auto pr-1'>
+              {groupedParts.map(part => {
+                const partAnswered = part.questions.filter(({ q, idx }) =>
+                  Boolean(answers[String(q.id || idx + 1)]),
+                ).length;
 
                 return (
-                  <button
-                    key={idx}
-                    type='button'
-                    onClick={() => {
-                      playClick();
-                      setCurrentIndex(idx);
-                    }}
-                    className={`flex size-9 items-center justify-center rounded-xl text-xs font-bold transition-all select-none ${
-                      isCurrent
-                        ? 'scale-105 bg-(--main-color) text-(--background-color) shadow-md'
-                        : isAnswered
-                          ? 'border-2 border-(--main-color) bg-(--main-color)/20 text-(--main-color)'
-                          : 'border border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:border-(--main-color)'
-                    }`}
+                  <div
+                    key={part.partName}
+                    className='space-y-1.5 rounded-2xl border border-(--border-color)/50 bg-(--background-color)/40 p-2.5'
                   >
-                    {idx + 1}
-                  </button>
+                    <div className='flex items-center justify-between text-xs font-bold text-amber-500'>
+                      <span className='truncate'>{part.partName}</span>
+                      <span className='text-[10px] font-normal text-(--secondary-color)/70'>
+                        {partAnswered}/{part.questions.length}
+                      </span>
+                    </div>
+
+                    <div className='grid grid-cols-5 gap-1.5'>
+                      {part.questions.map(({ q, idx }) => {
+                        const qKey = String(q.id || idx + 1);
+                        const isAnswered = Boolean(answers[qKey]);
+                        const isCurrent = idx === currentIndex;
+
+                        return (
+                          <button
+                            key={idx}
+                            type='button'
+                            onClick={() => {
+                              playClick();
+                              setCurrentIndex(idx);
+                            }}
+                            className={`flex size-8 items-center justify-center rounded-lg text-xs font-bold transition-all select-none ${
+                              isCurrent
+                                ? 'scale-105 bg-(--main-color) text-(--background-color) shadow-md'
+                                : isAnswered
+                                  ? 'border-2 border-(--main-color) bg-(--main-color)/20 text-(--main-color)'
+                                  : 'border border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:border-(--main-color)'
+                            }`}
+                            title={`Câu ${idx + 1} (${part.partName})`}
+                          >
+                            {idx + 1}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 );
               })}
             </div>

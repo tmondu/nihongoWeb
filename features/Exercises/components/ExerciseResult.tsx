@@ -104,17 +104,24 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
     >
       {/* Question Review Header with Collapsible Passage Toggle */}
       <div className='flex items-center justify-between gap-3 border-b border-(--border-color)/50 pb-3'>
-        <span className='inline-flex items-center gap-1.5 text-xs font-bold'>
-          {q.is_correct ? (
-            <span className='flex items-center gap-1 text-(--main-color)'>
-              <CheckCircle2 className='size-4' /> Câu {idx + 1} - Đúng
-            </span>
-          ) : (
-            <span className='flex items-center gap-1 text-red-400'>
-              <XCircle className='size-4' /> Câu {idx + 1} - Sai
+        <div className='flex items-center gap-2'>
+          {q.part_name && (
+            <span className='rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[11px] font-bold text-amber-500'>
+              {q.part_name}
             </span>
           )}
-        </span>
+          <span className='inline-flex items-center gap-1.5 text-xs font-bold'>
+            {q.is_correct ? (
+              <span className='flex items-center gap-1 text-(--main-color)'>
+                <CheckCircle2 className='size-4' /> Câu {idx + 1} - Đúng
+              </span>
+            ) : (
+              <span className='flex items-center gap-1 text-red-400'>
+                <XCircle className='size-4' /> Câu {idx + 1} - Sai
+              </span>
+            )}
+          </span>
+        </div>
 
         {q.passage && (
           <button

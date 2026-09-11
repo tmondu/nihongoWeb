@@ -97,6 +97,7 @@ export async function POST(
 
       questionsResult.push({
         id: q.id,
+        part_name: q.part_name || 'Bài 1',
         passage_title: q.passage_title,
         passage: q.passage,
         question: q.question,
