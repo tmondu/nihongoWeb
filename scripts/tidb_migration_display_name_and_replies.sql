@@ -4,12 +4,14 @@
 -- Ngày tạo: 2026-09-11
 -- ==============================================================================
 
--- 1. Bổ sung cột cho bảng `users` (Tên hiển thị & thời gian đổi gần nhất)
+-- 1. Bổ sung cột cho bảng `users` (Chạy từng lệnh ALTER TABLE riêng biệt)
 ALTER TABLE `users` 
-  ADD COLUMN IF NOT EXISTS `display_name` VARCHAR(100) NULL DEFAULT NULL AFTER `email`,
+  ADD COLUMN IF NOT EXISTS `display_name` VARCHAR(100) NULL DEFAULT NULL AFTER `email`;
+
+ALTER TABLE `users` 
   ADD COLUMN IF NOT EXISTS `name_updated_at` TIMESTAMP NULL DEFAULT NULL AFTER `display_name`;
 
--- 2. Đảm bảo bảng `lesson_comments` tồn tại
+-- 2. Đảm bảo bảng `lesson_comments` tồn tại (nếu chưa có)
 CREATE TABLE IF NOT EXISTS `lesson_comments` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `lesson_id` INT NOT NULL,
@@ -26,7 +28,6 @@ CREATE TABLE IF NOT EXISTS `lesson_comments` (
 ALTER TABLE `lesson_comments` 
   ADD COLUMN IF NOT EXISTS `parent_id` INT NULL DEFAULT NULL AFTER `user_id`;
 
--- 4. Bổ sung index cho `parent_id` để tăng tốc độ load phản hồi
--- (Nếu TiDB / MySQL báo lỗi index đã tồn tại thì có thể bỏ qua dòng này)
+-- 4. Bổ sung index cho `parent_id` để tăng tốc truy vấn phản hồi lồng
 ALTER TABLE `lesson_comments` 
   ADD INDEX IF NOT EXISTS `idx_comments_parent` (`parent_id`);
