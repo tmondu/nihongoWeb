@@ -9,7 +9,6 @@ import {
   Clock,
   ShieldCheck,
   GraduationCap,
-  Sparkles,
   AlertCircle,
   CheckCircle2,
   CornerDownRight,
@@ -456,19 +455,14 @@ export default function LessonComments({
             <span className='text-xs'>Đang tải bình luận...</span>
           </div>
         ) : comments.length === 0 ? (
-          <div className='flex flex-1 flex-col items-center justify-center gap-3 py-12 text-center'>
-            <div className='flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-400'>
-              <Sparkles className='h-6 w-6' />
-            </div>
-            <div>
-              <p className='text-foreground text-xs font-semibold'>
-                Chưa có bình luận nào
-              </p>
-              <p className='text-muted-foreground mt-1 max-w-[240px] text-[11px] leading-relaxed'>
-                Hãy là người đầu tiên đặt câu hỏi hoặc chia sẻ cảm nghĩ về bài
-                giảng này nhé!
-              </p>
-            </div>
+          <div className='flex flex-1 flex-col items-center justify-center gap-2 py-12 text-center'>
+            <p className='text-foreground text-xs font-semibold'>
+              Chưa có bình luận nào
+            </p>
+            <p className='text-muted-foreground max-w-[240px] text-[11px] leading-relaxed'>
+              Hãy là người đầu tiên đặt câu hỏi hoặc chia sẻ cảm nghĩ về bài
+              giảng này nhé!
+            </p>
           </div>
         ) : (
           comments.map(c => {

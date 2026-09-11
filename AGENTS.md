@@ -62,11 +62,13 @@ PThamSS is organised by feature: app/, features/, shared/, core/. Keep business 
 
 - Keep logic in `features/`. No cross-feature internals.
 - Avoid circular deps. Use path aliases.
+- Tuyệt đối KHÔNG thêm icon Sparkles (logo Gemini/AI) hoặc các logo AI vào giao diện người dùng.
 
 ### Do's / Don'ts (short)
 
 - ✅ Use TypeScript types, path aliases, and translations.
 - ❌ Don't add business logic to `app/` or create circular deps.
+- ❌ Tuyệt đối KHÔNG dùng icon Sparkles (logo Gemini/AI) hay chèn logo AI vào giao diện người dùng.
 
 ### Common tasks
 
