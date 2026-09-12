@@ -16,6 +16,9 @@ interface PreferencesState {
   font: string;
   setFont: (fontName: string) => void;
 
+  vietnameseFont: string;
+  setVietnameseFont: (fontName: string) => void;
+
   silentMode: boolean;
   setSilentMode: (silent: boolean) => void;
 
@@ -77,6 +80,8 @@ const usePreferencesStore = create<PreferencesState>()(
       setGlassMode: isGlassMode => set({ isGlassMode }),
       font: 'Zen Maru Gothic',
       setFont: fontName => set({ font: fontName }),
+      vietnameseFont: 'Be Vietnam Pro',
+      setVietnameseFont: fontName => set({ vietnameseFont: fontName }),
       silentMode: false,
       setSilentMode: silent => set({ silentMode: silent }),
       hotkeysOn: true,

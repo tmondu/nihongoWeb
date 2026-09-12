@@ -22,6 +22,7 @@ import {
 import { getWallpaperById } from '@/features/Preferences/data/wallpapers/wallpapers';
 import BackToTop from '@/shared/ui-composite/navigation/BackToTop';
 import MobileBottomBar from '@/shared/ui-composite/layout/BottomBar';
+import vietnameseFonts from '@/features/Preferences/data/fonts/vietnameseFonts';
 import { useVisitTracker } from '@/features/Progress/hooks/useVisitTracker';
 import { getGlobalAdaptiveSelector } from '@/shared/utils/adaptiveSelection';
 import GlobalAudioController from '@/shared/ui-composite/layout/GlobalAudioController';
@@ -44,6 +45,9 @@ type FontObject = {
   name: string;
   font: {
     className: string;
+    style?: {
+      fontFamily?: string;
+    };
   };
 };
 
@@ -82,10 +86,11 @@ export default function ClientLayout({
   // Redeploy trigger - R2 wallpaper pipeline rollout, June 20, 2026
 
   // Redeploy trigger - second redundant comment to force redeploy (no-op)
-  const { theme, font, customCursor } = usePreferencesStore(
+  const { theme, font, vietnameseFont, customCursor } = usePreferencesStore(
     useShallow(state => ({
       theme: state.theme,
       font: state.font,
+      vietnameseFont: state.vietnameseFont || 'Be Vietnam Pro',
       customCursor: state.customCursor,
     })),
   );
@@ -111,12 +116,19 @@ export default function ClientLayout({
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const hasSeenWelcome = useOnboardingStore(state => state.hasSeenWelcome);
 
-  // Memoize fontClassName calculation to prevent recalculation on every render (5-10ms savings)
-  const fontClassName = useMemo(() => {
-    if (!fontsModule) return '';
+  // Memoize active font objects
+  const vietnameseFontObj = useMemo(() => {
     return (
-      fontsModule.find((fontObj: FontObject) => effectiveFont === fontObj.name)
-        ?.font.className || ''
+      vietnameseFonts.find(f => f.name === vietnameseFont) || vietnameseFonts[0]
+    );
+  }, [vietnameseFont]);
+
+  const japaneseFontObj = useMemo(() => {
+    if (!fontsModule) return null;
+    return (
+      fontsModule.find(
+        (fontObj: FontObject) => effectiveFont === fontObj.name,
+      ) || null
     );
   }, [fontsModule, effectiveFont]);
 
@@ -359,11 +371,25 @@ export default function ClientLayout({
       data-scroll-restoration-id='container'
       className={clsx(
         'min-h-[100dvh] max-w-[100dvw] bg-(--background-color) text-(--main-color)',
-        fontClassName,
+        vietnameseFontObj.font.className,
+        japaneseFontObj?.font.className,
       )}
       style={{
         height: '100dvh',
         overflowY: 'auto',
+        fontFamily: `var(--font-vietnamese), system-ui, sans-serif`,
+        ...(japaneseFontObj?.font.style?.fontFamily
+          ? {
+              ['--font-japanese' as string]:
+                japaneseFontObj.font.style.fontFamily,
+            }
+          : {}),
+        ...(vietnameseFontObj.font.style?.fontFamily
+          ? {
+              ['--font-vietnamese' as string]:
+                vietnameseFontObj.font.style.fontFamily,
+            }
+          : {}),
         ...(() => {
           if (!isPremiumThemeId(effectiveTheme)) return {};
 

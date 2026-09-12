@@ -228,7 +228,7 @@ export default function ThamKanjiClient({
   // Focus character detail view: only render the details card with a back button
   if (initialCharacter && selectedKanji) {
     return (
-      <div className='animate-fade-in mx-auto flex w-full max-w-4xl flex-col items-start gap-4 px-4 py-8'>
+      <div className='animate-fade-in mx-auto flex w-full max-w-6xl flex-col items-start gap-5 px-4 py-8 sm:px-6 lg:px-8'>
         <div className='self-start'>
           <button
             onClick={() => {
@@ -245,20 +245,20 @@ export default function ThamKanjiClient({
           </button>
         </div>
 
-        <div className='flex w-full flex-col gap-4 rounded-2xl border border-(--border-color) bg-(--card-color) p-6 shadow-sm'>
+        <div className='flex w-full flex-col gap-6 rounded-3xl border border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8'>
           <div className='flex items-center justify-between border-b border-(--border-color) pb-4'>
-            <h2 className='flex items-center gap-2 text-lg font-bold text-(--secondary-color)'>
+            <h2 className='flex items-center gap-3 text-xl font-bold text-(--secondary-color) sm:text-2xl'>
               Chi tiết chữ Kanji:{' '}
-              <span className='text-2xl font-extrabold text-(--main-color)'>
+              <span className='font-japanese text-3xl font-black text-(--main-color) sm:text-4xl'>
                 {selectedKanji.kanjiChar}
               </span>
             </h2>
           </div>
           <div className='w-full'>
-            <KanjiSetDictionary words={[selectedKanji]} />
+            <KanjiSetDictionary words={[selectedKanji]} large={true} />
           </div>
 
-          <div className='mt-4 border-t border-(--border-color) pt-4'>
+          <div className='mt-2 border-t border-(--border-color) pt-6'>
             <KanjiSentenceAndFeedback kanjiChar={selectedKanji.kanjiChar} />
           </div>
         </div>

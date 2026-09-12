@@ -1,4 +1,5 @@
-﻿import {
+import localFont from 'next/font/local';
+import {
   Noto_Sans_JP,
   Zen_Maru_Gothic,
   Rampart_One,
@@ -42,6 +43,13 @@ const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
   display: 'swap',
   preload: true,
+  fallback: ['system-ui', 'sans-serif'],
+});
+
+const udDigiKyokasho = localFont({
+  src: './UDDigiKyokashoN-R.ttf',
+  display: 'swap',
+  preload: false,
   fallback: ['system-ui', 'sans-serif'],
 });
 
@@ -317,6 +325,10 @@ const shipporiAntique = Shippori_Antique({
 });
 
 const fonts = [
+  {
+    name: 'UD Digi Kyokasho N-R',
+    font: udDigiKyokasho,
+  },
   {
     name: 'Zen Maru Gothic',
     font: zenMaruGothic,

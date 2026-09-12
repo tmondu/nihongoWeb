@@ -3,6 +3,7 @@
 // They provide the clearest representations of Japanese characters for learners
 
 export const RECOMMENDED_FONT_NAMES = [
+  'UD Digi Kyokasho N-R', // Modern digital textbook font (UD デジタル 教科書体)
   'Zen Maru Gothic', // Quintessential default - rounded, friendly
   'Noto Sans JP', // Google's standard, widely used
   'Klee One', // School textbook style (教科書体-like), designed for education

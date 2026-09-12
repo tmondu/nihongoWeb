@@ -669,23 +669,23 @@ export default function KanjiSentenceAndFeedback({
             Chưa có câu ví dụ nào cho chữ {kanjiChar}.
           </div>
         ) : (
-          <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+          <div className='flex flex-col gap-3.5'>
             {displayedExamples.map((ex, idx) => {
               const isSpeaking = speakingText === ex.content;
               return (
                 <div
                   key={idx}
-                  className='group flex flex-col justify-between rounded-2xl border border-(--border-color) bg-(--background-color)/60 p-4 transition-all hover:border-(--main-color)/60 hover:bg-(--background-color)'
+                  className='group flex flex-col justify-between rounded-2xl border border-(--border-color) bg-(--background-color)/70 p-5 shadow-xs transition-all hover:border-(--main-color)/60 hover:bg-(--background-color) sm:p-6'
                 >
                   <div>
-                    <div className='flex items-start justify-between gap-2.5'>
+                    <div className='flex items-start justify-between gap-4'>
                       <div className='flex-1'>
-                        <div className='font-japanese text-base font-bold text-(--main-color) sm:text-lg'>
+                        <div className='font-japanese text-xl leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-2xl'>
                           {ex.content}
                         </div>
                         {ex.transcription &&
                           ex.transcription !== ex.content && (
-                            <div className='font-japanese mt-0.5 text-xs text-(--secondary-color)'>
+                            <div className='font-japanese mt-1 text-sm leading-normal font-medium text-(--secondary-color)/90 sm:text-base'>
                               {ex.transcription}
                             </div>
                           )}
@@ -695,18 +695,18 @@ export default function KanjiSentenceAndFeedback({
                         type='button'
                         onClick={() => playSentenceAudio(ex.content)}
                         className={clsx(
-                          'rounded-xl border border-(--border-color) p-2 transition-colors',
+                          'rounded-2xl border border-(--border-color) p-2.5 shadow-xs transition-all sm:p-3',
                           isSpeaking
                             ? 'border-blue-500 bg-blue-500/15 text-blue-500'
-                            : 'bg-(--card-color) text-(--secondary-color) hover:text-(--main-color)',
+                            : 'bg-(--card-color) text-(--secondary-color) hover:border-(--main-color) hover:text-(--main-color)',
                         )}
                         title='Phát âm câu này'
                       >
-                        <Volume2 className='size-4' />
+                        <Volume2 className='size-5 sm:size-6' />
                       </button>
                     </div>
 
-                    <div className='mt-2.5 border-t border-(--border-color)/50 pt-2 text-xs font-medium text-(--secondary-color)'>
+                    <div className='mt-3.5 border-t border-(--border-color)/60 pt-3 text-sm leading-relaxed font-medium text-(--foreground-color) sm:text-base md:text-lg'>
                       {ex.mean}
                     </div>
                   </div>
@@ -898,12 +898,12 @@ export default function KanjiSentenceAndFeedback({
                         <img
                           src={fb.avatar}
                           alt={fb.username}
-                          className='size-7 rounded-full object-cover ring-1 ring-(--border-color)'
+                          className='size-8 rounded-full object-cover ring-1 ring-(--border-color)'
                         />
                       ) : (
                         <div
                           className={clsx(
-                            'flex size-7 items-center justify-center rounded-full text-xs font-bold',
+                            'flex size-8 items-center justify-center rounded-full text-xs font-bold',
                             fb.isUserContribution
                               ? 'bg-(--main-color) text-(--background-color)'
                               : 'bg-(--main-color)/15 text-(--main-color)',
@@ -914,12 +914,12 @@ export default function KanjiSentenceAndFeedback({
                       )}
 
                       <div className='flex min-w-0 items-center gap-1.5 sm:gap-2'>
-                        <span className='max-w-[110px] truncate text-xs font-bold text-(--main-color) sm:max-w-[180px]'>
+                        <span className='max-w-[140px] truncate text-sm font-bold text-(--main-color) sm:max-w-[220px] sm:text-base'>
                           {fb.username}
                         </span>
 
                         {fb.isUserContribution && (
-                          <span className='shrink-0 rounded-full bg-(--main-color)/15 px-2 py-0.5 text-[10px] font-bold text-(--main-color)'>
+                          <span className='shrink-0 rounded-full bg-(--main-color)/15 px-2 py-0.5 text-xs font-bold text-(--main-color)'>
                             Học viên
                           </span>
                         )}
@@ -927,19 +927,19 @@ export default function KanjiSentenceAndFeedback({
                     </div>
 
                     {/* Actions: Likes & Dislikes & Optional Delete if own contribution */}
-                    <div className='flex shrink-0 items-center gap-1.5 text-xs font-semibold sm:gap-2'>
+                    <div className='flex shrink-0 items-center gap-2 text-xs font-semibold sm:text-sm'>
                       <button
                         type='button'
                         onClick={() => handleToggleLike(fb.id)}
                         className={clsx(
-                          'inline-flex cursor-pointer touch-manipulation items-center gap-1 rounded-lg px-2 py-1 text-xs transition-colors active:scale-95 sm:px-2.5',
+                          'inline-flex cursor-pointer touch-manipulation items-center gap-1.5 rounded-xl px-2.5 py-1 text-xs font-bold transition-colors active:scale-95 sm:text-sm',
                           isLiked
                             ? 'bg-emerald-500 text-white'
                             : 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 dark:text-emerald-400',
                         )}
                         title={isLiked ? 'Bỏ thích' : 'Thích đóng góp này'}
                       >
-                        <ThumbsUp className='size-3' />
+                        <ThumbsUp className='size-3.5' />
                         <span>{fb.like}</span>
                       </button>
 
@@ -947,7 +947,7 @@ export default function KanjiSentenceAndFeedback({
                         type='button'
                         onClick={() => handleToggleDislike(fb.id)}
                         className={clsx(
-                          'inline-flex cursor-pointer touch-manipulation items-center gap-1 rounded-lg px-2 py-1 text-xs transition-colors active:scale-95 sm:px-2.5',
+                          'inline-flex cursor-pointer touch-manipulation items-center gap-1.5 rounded-xl px-2.5 py-1 text-xs font-bold transition-colors active:scale-95 sm:text-sm',
                           isDisliked
                             ? 'bg-rose-500 text-white'
                             : 'bg-rose-500/10 text-rose-600 hover:bg-rose-500/20 dark:text-rose-400',
@@ -958,7 +958,7 @@ export default function KanjiSentenceAndFeedback({
                             : 'Không thích đóng góp này'
                         }
                       >
-                        <ThumbsDown className='size-3' />
+                        <ThumbsDown className='size-3.5' />
                         <span>{fb.dislike}</span>
                       </button>
 
@@ -969,14 +969,14 @@ export default function KanjiSentenceAndFeedback({
                           className='touch-manipulation p-1 text-(--secondary-color)/60 transition-colors hover:text-red-500 active:scale-95'
                           title='Xóa đóng góp này'
                         >
-                          <Trash2 className='size-3.5' />
+                          <Trash2 className='size-4' />
                         </button>
                       )}
                     </div>
                   </div>
 
                   {/* Feedback text */}
-                  <div className='rounded-xl bg-(--card-color) p-3 text-xs leading-relaxed break-words whitespace-pre-line text-(--main-color) sm:text-sm'>
+                  <div className='font-japanese rounded-2xl bg-(--card-color) p-4 text-xl leading-relaxed font-bold tracking-wide break-words whitespace-pre-line text-(--main-color) sm:p-5 sm:text-2xl'>
                     {fb.mean}
                   </div>
                 </div>

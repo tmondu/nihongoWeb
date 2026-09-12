@@ -34,6 +34,11 @@ import { useInputPreferences } from '@/features/Preferences';
 import { removeLocaleFromPath } from '@/shared/utils/pathUtils';
 import type { Experiment } from '@/shared/data/experiments';
 import AuroraText from '@/shared/ui/components/magicui/AuroraText';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@/shared/ui/components/popover';
 
 const SIDEBAR_SECTION_STORAGE_PREFIX = 'sidebar-collapsible-';
 const SIDEBAR_PREFERENCES_VISITED_STORAGE_KEY = 'sidebar-preferences-visited';
@@ -56,6 +61,8 @@ type NavItem = {
   animateWhenInactive?: boolean;
   /** Whether this is a sub-item nested under a main parent */
   isSubItem?: boolean;
+  /** Sub-items nested under this parent item */
+  subItems?: NavItem[];
   /** Whether this item is only displayed on mobile BottomBar */
   isMobileOnly?: boolean;
 };
@@ -75,7 +82,25 @@ const mainNavItems: NavItem[] = [
   { href: '/progress', labelKey: 'progress', icon: Star },
   { href: '/kana', labelKey: 'kana', charIcon: 'あ' },
   { href: '/vocabulary', labelKey: 'vocabulary', charIcon: '語' },
-  { href: '/kanji', labelKey: 'kanji', charIcon: '字' },
+  {
+    href: '/kanji',
+    labelKey: 'kanji',
+    charIcon: '字',
+    subItems: [
+      {
+        href: '/kanji/search',
+        labelKey: 'kanjiSearch',
+        icon: Search,
+        isSubItem: true,
+      },
+      {
+        href: '/kanji/thamkanji',
+        labelKey: 'thamKanji',
+        icon: LayoutGrid,
+        isSubItem: true,
+      },
+    ],
+  },
   {
     href: '/kanji/search',
     labelKey: 'kanjiSearch',
@@ -182,6 +207,8 @@ type NavLinkProps = {
   isDesktopCollapsed?: boolean;
   /** Overrides whether the icon should bounce while inactive */
   animateIconWhenInactive?: boolean;
+  /** Function to check if a specific href is active */
+  checkIsActive?: (href: string) => boolean;
   className?: string;
 };
 
@@ -195,19 +222,40 @@ const NavLink = memo(
     useSlidingIndicator = false,
     isDesktopCollapsed = false,
     animateIconWhenInactive,
+    checkIsActive,
     className,
   }: NavLinkProps) => {
+    const t = useTranslations('navigation.menu');
     const Icon = item.icon;
     const isMain = variant === 'main';
     const shouldUseDesktopExpandedBadges =
       USE_NEW_SIDEBAR_ICON_BADGES && !isDesktopCollapsed;
+    const hasSubItems = Boolean(item.subItems && item.subItems.length > 0);
 
-    const baseClasses = clsx(
-      'flex items-center gap-2 rounded-2xl transition-all duration-250',
-      isMain ? 'text-2xl' : 'text-sm',
-      'max-lg:justify-center max-lg:px-3 max-lg:py-2 lg:w-full lg:px-4 lg:py-2',
-      !isMain && 'max-lg:hidden',
-    );
+    const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
+    const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleMouseEnter = () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+        closeTimeoutRef.current = null;
+      }
+      setIsFlyoutOpen(true);
+    };
+
+    const handleMouseLeave = () => {
+      closeTimeoutRef.current = setTimeout(() => {
+        setIsFlyoutOpen(false);
+      }, 180);
+    };
+
+    useEffect(() => {
+      return () => {
+        if (closeTimeoutRef.current) {
+          clearTimeout(closeTimeoutRef.current);
+        }
+      };
+    }, []);
 
     const inactiveClasses = 'text-(--secondary-color) hover:bg-(--card-color)';
 
@@ -216,8 +264,8 @@ const NavLink = memo(
         return (
           <span
             className={clsx(
-              'inline-flex items-center justify-center leading-none',
-              !isMain && 'text-sm',
+              'inline-flex items-center justify-center leading-none font-bold',
+              isDesktopCollapsed ? 'text-xl' : !isMain ? 'text-sm' : 'text-2xl',
               className,
             )}
           >
@@ -231,7 +279,11 @@ const NavLink = memo(
           <Icon
             className={clsx(
               'shrink-0',
-              !isMain && 'h-4 w-4',
+              isDesktopCollapsed
+                ? 'h-5 w-5 sm:h-5.5 sm:w-5.5'
+                : !isMain
+                  ? 'h-4 w-4'
+                  : 'h-6 w-6',
               (animateIconWhenInactive ?? item.animateWhenInactive) &&
                 !isActive &&
                 !(isDesktopCollapsed && isMain) &&
@@ -261,17 +313,109 @@ const NavLink = memo(
       );
     };
 
-    // Sliding indicator style - indicator is rendered separately and animates between items
-    if (useSlidingIndicator) {
-      const indicatorClasses =
-        'h-full w-full rounded-xl lg:rounded-2xl border-b-6 lg:border-b-8 border-(--main-color-accent) bg-(--main-color)';
-      const activeTextClass = 'text-(--background-color)';
-      const paddingClasses = isMain
-        ? 'max-lg:pt-1 max-lg:pb-2.5 lg:pt-2 lg:pb-3'
-        : 'max-lg:pt-1 max-lg:pb-2.5 lg:pt-1.5 lg:pb-2.5';
+    const renderFlyoutPopover = (triggerElement: ReactNode) => {
+      if (!isDesktopCollapsed || !hasSubItems || !item.subItems) {
+        return triggerElement;
+      }
 
       return (
+        <Popover open={isFlyoutOpen} onOpenChange={setIsFlyoutOpen}>
+          <PopoverTrigger asChild>{triggerElement}</PopoverTrigger>
+          <PopoverContent
+            side='right'
+            align='start'
+            sideOffset={8}
+            onOpenAutoFocus={e => e.preventDefault()}
+            onCloseAutoFocus={e => e.preventDefault()}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className='data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=right]:slide-in-from-left-2 z-50 w-52 rounded-2xl border border-(--border-color) bg-(--card-color)/95 p-2 text-(--foreground-color) shadow-2xl backdrop-blur-xl outline-none'
+          >
+            <div className='flex flex-col gap-1'>
+              {/* Category Header */}
+              <Link
+                href={item.href}
+                prefetch={false}
+                onClick={() => {
+                  setIsFlyoutOpen(false);
+                  onClick();
+                }}
+                className='mb-0.5 flex items-center gap-2 border-b border-(--border-color)/50 px-3 py-1.5 text-xs font-bold tracking-wider text-(--main-color) uppercase transition-colors hover:text-(--main-color-accent)'
+              >
+                <span className='flex h-4 w-4 shrink-0 items-center justify-center font-bold'>
+                  {item.charIcon || (Icon && <Icon className='h-3.5 w-3.5' />)}
+                </span>
+                <span>{label}</span>
+              </Link>
+
+              {/* Vertical Sub-Items List */}
+              {item.subItems.map(sub => {
+                const isSubActive = checkIsActive
+                  ? checkIsActive(sub.href)
+                  : false;
+                const SubIcon = sub.icon;
+                return (
+                  <Link
+                    key={sub.href}
+                    href={sub.href}
+                    prefetch={false}
+                    onClick={() => {
+                      setIsFlyoutOpen(false);
+                      onClick();
+                    }}
+                    className={clsx(
+                      'group/sub flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-200 sm:text-sm',
+                      isSubActive
+                        ? 'border-b-2 border-(--main-color-accent) bg-(--main-color) text-(--background-color) shadow-sm'
+                        : 'text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)',
+                    )}
+                  >
+                    <span
+                      className={clsx(
+                        'flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-colors',
+                        isSubActive
+                          ? 'text-(--background-color)'
+                          : 'text-(--secondary-color) group-hover/sub:text-(--main-color)',
+                      )}
+                    >
+                      {sub.charIcon ? (
+                        <span className='text-base leading-none font-bold'>
+                          {sub.charIcon}
+                        </span>
+                      ) : SubIcon ? (
+                        <SubIcon className='h-4 w-4 shrink-0' />
+                      ) : null}
+                    </span>
+                    <span className='font-medium whitespace-nowrap'>
+                      {t(sub.labelKey as any)}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </PopoverContent>
+        </Popover>
+      );
+    };
+
+    // Sliding indicator style - indicator is rendered separately and animates between items
+    if (useSlidingIndicator) {
+      const indicatorClasses = clsx(
+        'h-full w-full rounded-2xl bg-(--main-color)',
+        isDesktopCollapsed
+          ? 'border-b-4 border-(--main-color-accent)'
+          : 'border-b-6 lg:border-b-8 border-(--main-color-accent)',
+      );
+      const activeTextClass = 'text-(--background-color)';
+
+      const element = (
         <div
+          onMouseEnter={
+            isDesktopCollapsed && hasSubItems ? handleMouseEnter : undefined
+          }
+          onMouseLeave={
+            isDesktopCollapsed && hasSubItems ? handleMouseLeave : undefined
+          }
           className={clsx(
             'relative overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:w-full',
             item.isSubItem && 'max-lg:hidden',
@@ -303,28 +447,33 @@ const NavLink = memo(
             href={item.href}
             prefetch={false}
             onClick={onClick}
-            title={isDesktopCollapsed ? label : undefined}
+            title={label}
             className={clsx(
-              'relative z-10 flex items-center rounded-2xl transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
-              isMain ? 'text-2xl' : 'text-sm',
+              'group relative z-10 flex rounded-2xl transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+              isDesktopCollapsed
+                ? 'lg:w-full lg:flex-col lg:items-center lg:justify-center lg:px-1 lg:py-2'
+                : 'lg:w-full lg:flex-row lg:items-center lg:gap-2.5 lg:px-2.5 lg:py-2',
               item.isSubItem ? 'lg:text-lg' : undefined,
-              'max-lg:justify-center max-lg:px-1.5 sm:max-lg:px-2.5 lg:w-full lg:px-2.5',
+              'max-lg:justify-center max-lg:px-1.5 max-lg:pt-1 max-lg:pb-2.5 sm:max-lg:px-2.5',
               item.isSubItem && 'lg:pr-4 lg:pl-8',
-              paddingClasses,
               (!isMain || item.isSubItem) && 'max-lg:hidden',
               item.isMobileOnly && 'lg:hidden',
               isActive && SIDEBAR_ACTIVE_FLOAT_CLASSES,
               isActive
                 ? activeTextClass
-                : 'text-(--secondary-color) hover:bg-(--card-color)',
+                : 'text-(--secondary-color) hover:bg-(--card-color) hover:text-(--main-color)',
             )}
           >
             <span
               className={clsx(
-                'flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors duration-200',
+                'flex shrink-0 items-center justify-center rounded-xl transition-colors duration-200',
+                isDesktopCollapsed ? 'h-7 w-7' : 'h-9 w-9',
                 !isActive &&
                   !(isDesktopCollapsed && isMain) &&
                   'lg:text-(--main-color)',
+                !isActive &&
+                  isDesktopCollapsed &&
+                  'text-(--secondary-color) group-hover:text-(--main-color)',
               )}
             >
               {renderIcon()}
@@ -332,44 +481,92 @@ const NavLink = memo(
             <span
               className={clsx(
                 isMain && 'max-lg:hidden',
-                'overflow-hidden text-left whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+                'transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
                 isDesktopCollapsed
-                  ? 'lg:pointer-events-none lg:max-w-0 lg:-translate-x-3 lg:opacity-0'
-                  : 'lg:ml-2.5 lg:max-w-[200px] lg:translate-x-0 lg:opacity-100',
+                  ? 'lg:mt-0.5 lg:line-clamp-2 lg:block lg:w-full lg:px-0.5 lg:text-center lg:text-[11px] lg:leading-[1.15] lg:font-semibold lg:tracking-tight lg:break-words'
+                  : 'lg:ml-2.5 lg:max-w-[200px] lg:translate-x-0 lg:overflow-hidden lg:text-left lg:text-base lg:font-bold lg:whitespace-nowrap lg:opacity-100',
               )}
             >
               {label}
             </span>
+            {isDesktopCollapsed && hasSubItems && (
+              <ChevronRight
+                className={clsx(
+                  'mt-0.5 h-2.5 w-2.5 shrink-0 transition-transform duration-200 max-lg:hidden',
+                  isActive
+                    ? 'text-(--background-color)'
+                    : 'text-(--secondary-color)/70 group-hover:translate-x-0.5 group-hover:text-(--main-color)',
+                )}
+              />
+            )}
           </Link>
         </div>
       );
+
+      return renderFlyoutPopover(element);
     }
 
     // Default Link style (inactive)
-    return (
-      <Link
-        href={item.href}
-        prefetch={false}
-        title={isDesktopCollapsed ? label : undefined}
-        className={clsx(baseClasses, 'lg:px-2.5', inactiveClasses, className)}
-        onClick={onClick}
+    const defaultElement = (
+      <div
+        onMouseEnter={
+          isDesktopCollapsed && hasSubItems ? handleMouseEnter : undefined
+        }
+        onMouseLeave={
+          isDesktopCollapsed && hasSubItems ? handleMouseLeave : undefined
+        }
+        className='lg:w-full'
       >
-        <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-xl'>
-          {renderIcon()}
-        </span>
-        <span
+        <Link
+          href={item.href}
+          prefetch={false}
+          title={label}
           className={clsx(
-            isMain && 'max-lg:hidden',
-            'overflow-hidden text-left whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+            'group relative flex rounded-2xl transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
             isDesktopCollapsed
-              ? 'lg:pointer-events-none lg:max-w-0 lg:-translate-x-3 lg:opacity-0'
-              : 'lg:ml-2.5 lg:max-w-[200px] lg:translate-x-0 lg:opacity-100',
+              ? 'lg:w-full lg:flex-col lg:items-center lg:justify-center lg:px-1 lg:py-2'
+              : 'lg:w-full lg:flex-row lg:items-center lg:gap-2.5 lg:px-2.5 lg:py-2',
+            'max-lg:justify-center max-lg:px-3 max-lg:py-2',
+            !isMain && 'max-lg:hidden',
+            inactiveClasses,
+            className,
           )}
+          onClick={onClick}
         >
-          {label}
-        </span>
-      </Link>
+          <span
+            className={clsx(
+              'flex shrink-0 items-center justify-center rounded-xl transition-colors duration-200',
+              isDesktopCollapsed ? 'h-7 w-7' : 'h-9 w-9',
+            )}
+          >
+            {renderIcon()}
+          </span>
+          <span
+            className={clsx(
+              isMain && 'max-lg:hidden',
+              'transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+              isDesktopCollapsed
+                ? 'lg:mt-0.5 lg:line-clamp-2 lg:block lg:w-full lg:px-0.5 lg:text-center lg:text-[11px] lg:leading-[1.15] lg:font-semibold lg:tracking-tight lg:break-words'
+                : 'lg:ml-2.5 lg:max-w-[200px] lg:translate-x-0 lg:overflow-hidden lg:text-left lg:text-base lg:font-bold lg:whitespace-nowrap lg:opacity-100',
+            )}
+          >
+            {label}
+          </span>
+          {isDesktopCollapsed && hasSubItems && (
+            <ChevronRight
+              className={clsx(
+                'mt-0.5 h-2.5 w-2.5 shrink-0 transition-transform duration-200 max-lg:hidden',
+                isActive
+                  ? 'text-(--background-color)'
+                  : 'text-(--secondary-color)/70 group-hover:translate-x-0.5 group-hover:text-(--main-color)',
+              )}
+            />
+          )}
+        </Link>
+      </div>
     );
+
+    return renderFlyoutPopover(defaultElement);
   },
 );
 
@@ -671,6 +868,34 @@ const Sidebar = () => {
       );
     }
 
+    if (href === '/kanji') {
+      if (isDesktopSidebarCollapsed) {
+        return (
+          pathWithoutLocale === '/kanji' ||
+          pathWithoutLocale.startsWith('/kanji/')
+        );
+      }
+      return pathWithoutLocale === href;
+    }
+    if (href === '/vocabulary') {
+      return (
+        pathWithoutLocale === '/vocabulary' ||
+        pathWithoutLocale.startsWith('/vocabulary/')
+      );
+    }
+    if (href === '/classroom') {
+      return (
+        pathWithoutLocale === '/classroom' ||
+        pathWithoutLocale.startsWith('/classroom/')
+      );
+    }
+    if (href === '/exercises') {
+      return (
+        pathWithoutLocale === '/exercises' ||
+        pathWithoutLocale.startsWith('/exercises/')
+      );
+    }
+
     return pathWithoutLocale === href;
   };
 
@@ -694,15 +919,15 @@ const Sidebar = () => {
       className={clsx(
         'flex lg:flex-col lg:items-start',
         'lg:relative lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
-        'lg:pt-6',
         'max-lg:fixed max-lg:bottom-0 max-lg:w-full',
         'max-lg:bg-(--card-color)',
         'z-50',
         'border-(--border-color) max-lg:items-center max-lg:justify-evenly max-lg:border-t-2 max-lg:py-2',
-        'lg:border-r lg:px-3',
-        'lg:transition-[width] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
-        isDesktopSidebarCollapsed ? 'lg:w-20' : 'lg:w-80',
-        'lg:pb-4',
+        'lg:border-r',
+        'lg:transition-[width,padding] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
+        isDesktopSidebarCollapsed
+          ? 'lg:w-24 lg:px-1.5 lg:pt-3 lg:pb-3'
+          : 'lg:w-80 lg:px-3 lg:pt-6 lg:pb-4',
       )}
       // style={{ scrollbarGutter: 'stable' }}
     >
@@ -738,7 +963,7 @@ const Sidebar = () => {
       <div
         className={clsx(
           'max-lg:contents',
-          'lg:flex lg:w-full lg:flex-1 lg:flex-col lg:gap-1 lg:overflow-x-hidden lg:overflow-y-auto lg:pr-1',
+          'lg:flex lg:w-full lg:flex-1 lg:flex-col lg:gap-1 lg:overflow-x-hidden lg:overflow-y-auto lg:pr-0.5',
         )}
       >
         {/* Main Navigation - with sliding indicator */}
@@ -754,6 +979,7 @@ const Sidebar = () => {
               item={item}
               label={t(item.labelKey as any)}
               isActive={isActive(item.href)}
+              checkIsActive={isActive}
               onClick={playClick}
               variant='main'
               useSlidingIndicator={true}
@@ -839,7 +1065,7 @@ const Sidebar = () => {
       </div>
 
       {/* Fixed Footer Area (Desktop Only) */}
-      <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-3 lg:pt-3'>
+      <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-2 lg:pt-2'>
         <NavLink
           item={{ href: '/profile', labelKey: 'profile', icon: User }}
           label={t('profile' as any)}
@@ -853,17 +1079,17 @@ const Sidebar = () => {
         <button
           onClick={toggleDesktopSidebarCollapse}
           className={clsx(
-            'flex cursor-pointer items-center rounded-2xl px-2.5 py-2 text-(--secondary-color) transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-(--card-color) hover:text-(--main-color)',
+            'group flex cursor-pointer items-center rounded-2xl text-(--secondary-color) transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-(--card-color) hover:text-(--main-color)',
             isDesktopSidebarCollapsed
-              ? 'mx-auto w-full justify-center'
-              : 'w-full gap-2.5',
+              ? 'w-full flex-col justify-center gap-0.5 px-1 py-2'
+              : 'w-full gap-2.5 px-2.5 py-2',
           )}
           aria-label={
             isDesktopSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
           }
           title={isDesktopSidebarCollapsed ? 'Mở rộng menu' : 'Thu gọn menu'}
         >
-          <span className='flex h-9 w-9 shrink-0 items-center justify-center rounded-xl'>
+          <span className='flex h-7 w-7 shrink-0 items-center justify-center rounded-xl sm:h-8 sm:w-8'>
             {isDesktopSidebarCollapsed ? (
               <PanelLeftOpen className='h-5 w-5 shrink-0 transition-transform duration-300' />
             ) : (
@@ -872,13 +1098,13 @@ const Sidebar = () => {
           </span>
           <span
             className={clsx(
-              'overflow-hidden text-xs font-semibold whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+              'whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
               isDesktopSidebarCollapsed
-                ? 'pointer-events-none max-w-0 -translate-x-3 opacity-0'
-                : 'max-w-[160px] translate-x-0 opacity-100',
+                ? 'mt-0.5 text-center text-[10px] leading-none font-semibold'
+                : 'max-w-[160px] translate-x-0 overflow-hidden text-xs font-semibold opacity-100',
             )}
           >
-            Thu gọn menu
+            {isDesktopSidebarCollapsed ? 'Mở rộng' : 'Thu gọn menu'}
           </span>
         </button>
       </div>
