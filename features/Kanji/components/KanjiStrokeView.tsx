@@ -60,10 +60,16 @@ export default function KanjiStrokeView({
   const [strokes, setStrokes] = useState<ParsedStroke[]>([]);
   const [numbers, setNumbers] = useState<ParsedNumber[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [animProgress, setAnimProgress] = useState<number[]>([]); // 0 (hidden) to 1 (drawn)
 
+  // References to actual DOM SVG elements for high-performance direct animation
+  const svgRef = useRef<SVGSVGElement | null>(null);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
-  const animTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+  const numberRefs = useRef<(SVGTextElement | null)[]>([]);
+  const activeAnimationsRef = useRef<Animation[]>([]);
+  const finishTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Track the kanjiChar that was already auto-played to prevent duplicate/flashing runs in StrictMode or re-renders
+  const autoPlayedCharRef = useRef<string | null>(null);
 
   // Calculate 5-digit hex codepoint for KanjiVG
   const getUnicodeHex = useCallback((char: string) => {
@@ -71,42 +77,91 @@ export default function KanjiStrokeView({
     return char.charCodeAt(0).toString(16).toLowerCase().padStart(5, '0');
   }, []);
 
-  // Stroke animation logic
-  const triggerStrokeAnimation = useCallback((strokeList: ParsedStroke[]) => {
-    if (strokeList.length === 0) return;
+  // Smooth direct SVG animation using Web Animations API (runs on compositor thread, 0 React re-renders, no flashing)
+  const runDirectStrokeAnimation = useCallback(() => {
+    // Clear any previous finish timer
+    if (finishTimerRef.current) {
+      clearTimeout(finishTimerRef.current);
+      finishTimerRef.current = null;
+    }
+
+    // Cancel any running Web Animations
+    activeAnimationsRef.current.forEach(anim => {
+      try {
+        anim.cancel();
+      } catch {
+        // Ignore
+      }
+    });
+    activeAnimationsRef.current = [];
+
+    const paths = pathRefs.current.filter((p): p is SVGPathElement =>
+      Boolean(p),
+    );
+    if (paths.length === 0) return;
+
     setIsAnimating(true);
 
-    animTimeoutsRef.current.forEach(t => clearTimeout(t));
-    animTimeoutsRef.current = [];
-
-    // Hide all strokes initially
-    setAnimProgress(strokeList.map(() => 0));
-
-    const strokeDuration = 320; // ms per stroke
+    const baseDuration = 320; // ms per stroke
     const gap = 80; // ms between strokes
+    let accumulatedDelay = 80; // initial slight pause for smooth entry
 
-    strokeList.forEach((_, idx) => {
-      const timeout = setTimeout(
-        () => {
-          setAnimProgress(prev => {
-            const next = [...prev];
-            next[idx] = 1;
-            return next;
-          });
+    paths.forEach((path, idx) => {
+      const length = path.getTotalLength() || 300;
+      path.style.strokeDasharray = `${length}`;
+      path.style.strokeDashoffset = `${length}`;
 
-          // When the last stroke finishes
-          if (idx === strokeList.length - 1) {
-            setTimeout(() => {
-              setIsAnimating(false);
-            }, strokeDuration);
-          }
-        },
-        idx * (strokeDuration + gap) + 120,
+      // Dynamic duration based on stroke length: shorter strokes draw faster
+      const duration = Math.max(
+        220,
+        Math.min(420, baseDuration + length * 0.4),
       );
 
-      animTimeoutsRef.current.push(timeout);
+      // Animate the path stroke
+      const pathAnim = path.animate(
+        [{ strokeDashoffset: `${length}` }, { strokeDashoffset: '0' }],
+        {
+          duration,
+          delay: accumulatedDelay,
+          easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+          fill: 'forwards',
+        },
+      );
+      activeAnimationsRef.current.push(pathAnim);
+
+      // Animate the stroke number appearing in sync
+      const numEl = numberRefs.current[idx];
+      if (numEl) {
+        numEl.style.opacity = '0';
+        const numAnim = numEl.animate(
+          [
+            {
+              opacity: '0',
+              transform: `${numbers[idx]?.transform || ''} scale(0.7)`,
+            },
+            {
+              opacity: '1',
+              transform: `${numbers[idx]?.transform || ''} scale(1)`,
+            },
+          ],
+          {
+            duration: 180,
+            delay: accumulatedDelay,
+            easing: 'ease-out',
+            fill: 'forwards',
+          },
+        );
+        activeAnimationsRef.current.push(numAnim);
+      }
+
+      accumulatedDelay += duration + gap;
     });
-  }, []);
+
+    finishTimerRef.current = setTimeout(() => {
+      setIsAnimating(false);
+      finishTimerRef.current = null;
+    }, accumulatedDelay + 50);
+  }, [numbers]);
 
   // Fetch and parse KanjiVG SVG
   useEffect(() => {
@@ -114,14 +169,17 @@ export default function KanjiStrokeView({
     const hex = getUnicodeHex(kanjiChar);
     if (!hex) return;
 
+    // If character changes, reset autoPlayed status
+    if (autoPlayedCharRef.current !== kanjiChar) {
+      autoPlayedCharRef.current = null;
+    }
+
     if (svgCache.has(hex)) {
       const cached = svgCache.get(hex)!;
       setStrokes(cached.strokes);
       setNumbers(cached.numbers);
       setLoading(false);
       setError(false);
-      // Auto-play immediately when viewing Kanji
-      triggerStrokeAnimation(cached.strokes);
       return;
     }
 
@@ -172,14 +230,12 @@ export default function KanjiStrokeView({
           setStrokes(parsedStrokes);
           setNumbers(parsedNumbers);
           setLoading(false);
-          // Auto-play immediately upon entering Kanji view
-          triggerStrokeAnimation(parsedStrokes);
         }
       } catch {
         if (isMounted) {
           setError(true);
           setLoading(false);
-          setViewMode('font'); // Fallback to font if SVG not available
+          setViewMode('font');
         }
       }
     };
@@ -188,15 +244,31 @@ export default function KanjiStrokeView({
 
     return () => {
       isMounted = false;
-      animTimeoutsRef.current.forEach(t => clearTimeout(t));
-      animTimeoutsRef.current = [];
+      if (finishTimerRef.current) {
+        clearTimeout(finishTimerRef.current);
+      }
     };
-  }, [kanjiChar, getUnicodeHex, triggerStrokeAnimation]);
+  }, [kanjiChar, getUnicodeHex]);
+
+  // Trigger animation exactly once per kanjiChar when SVG DOM paths have mounted
+  useEffect(() => {
+    if (loading || error || strokes.length === 0 || viewMode !== 'stroke')
+      return;
+
+    if (autoPlayedCharRef.current !== kanjiChar) {
+      autoPlayedCharRef.current = kanjiChar;
+      // Slight tick so refs are attached to DOM
+      const timer = setTimeout(() => {
+        runDirectStrokeAnimation();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [loading, error, strokes, kanjiChar, viewMode, runDirectStrokeAnimation]);
 
   const handleManualReplay = useCallback(() => {
     playClick();
-    triggerStrokeAnimation(strokes);
-  }, [playClick, triggerStrokeAnimation, strokes]);
+    runDirectStrokeAnimation();
+  }, [playClick, runDirectStrokeAnimation]);
 
   return (
     <div className={clsx('flex flex-col items-center gap-3', className)}>
@@ -216,11 +288,14 @@ export default function KanjiStrokeView({
             {loading ? (
               <div className='flex flex-col items-center justify-center gap-2 text-(--secondary-color)/60'>
                 <Loader2 className='size-8 animate-spin text-(--main-color)' />
-                <span className='text-xs font-medium'>Đang vẽ nét chữ...</span>
+                <span className='text-xs font-medium'>
+                  Đang chuẩn bị nét vẽ...
+                </span>
               </div>
             ) : (
               <div className='relative flex h-full w-full items-center justify-center p-1 sm:p-2'>
                 <svg
+                  ref={svgRef}
                   viewBox='0 0 109 109'
                   className='h-full w-full select-none'
                   style={{ overflow: 'visible' }}
@@ -233,7 +308,7 @@ export default function KanjiStrokeView({
                       strokeWidth: 3.4,
                       strokeLinecap: 'round',
                       strokeLinejoin: 'round',
-                      opacity: 0.35,
+                      opacity: 0.3,
                     }}
                   >
                     {strokes.map(s => (
@@ -241,7 +316,7 @@ export default function KanjiStrokeView({
                     ))}
                   </g>
 
-                  {/* Active colored strokes with animation */}
+                  {/* Active colored strokes */}
                   <g
                     style={{
                       fill: 'none',
@@ -250,53 +325,36 @@ export default function KanjiStrokeView({
                       strokeLinejoin: 'round',
                     }}
                   >
-                    {strokes.map((s, idx) => {
-                      const isDrawn = animProgress[idx] === 1;
-                      const pathEl = pathRefs.current[idx];
-                      const totalLength = pathEl
-                        ? pathEl.getTotalLength()
-                        : 300;
-
-                      return (
-                        <path
-                          key={s.id}
-                          ref={el => {
-                            pathRefs.current[idx] = el;
-                          }}
-                          d={s.d}
-                          stroke={s.color}
-                          style={{
-                            strokeDasharray: totalLength,
-                            strokeDashoffset: isDrawn ? 0 : totalLength,
-                            transition: isAnimating
-                              ? 'stroke-dashoffset 320ms ease-in-out'
-                              : 'none',
-                          }}
-                        />
-                      );
-                    })}
+                    {strokes.map((s, idx) => (
+                      <path
+                        key={s.id}
+                        ref={el => {
+                          pathRefs.current[idx] = el;
+                        }}
+                        d={s.d}
+                        stroke={s.color}
+                      />
+                    ))}
                   </g>
 
                   {/* Stroke Numbers */}
                   {showNumbers && (
                     <g style={{ fontSize: 9, fontWeight: 'bold' }}>
-                      {numbers.map((n, idx) => {
-                        const isDrawn = animProgress[idx] === 1;
-                        return (
-                          <text
-                            key={`num-${idx}`}
-                            transform={n.transform}
-                            fill={n.color}
-                            className='transition-opacity duration-200'
-                            style={{
-                              opacity: isDrawn ? 1 : 0.25,
-                              filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.25))',
-                            }}
-                          >
-                            {n.text}
-                          </text>
-                        );
-                      })}
+                      {numbers.map((n, idx) => (
+                        <text
+                          key={`num-${idx}`}
+                          ref={el => {
+                            numberRefs.current[idx] = el;
+                          }}
+                          transform={n.transform}
+                          fill={n.color}
+                          style={{
+                            filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.25))',
+                          }}
+                        >
+                          {n.text}
+                        </text>
+                      ))}
                     </g>
                   )}
                 </svg>
