@@ -13,6 +13,7 @@ import { useClick } from '@/shared/hooks/generic/useAudio';
 import { removeVerbDuplicates } from '@/shared/utils/meanings';
 import { Volume2 } from 'lucide-react';
 import { memo, useCallback } from 'react';
+import KanjiStrokeView from '@/features/Kanji/components/KanjiStrokeView';
 
 type KanjiSetDictionaryProps = {
   words: IKanjiObj[];
@@ -64,26 +65,9 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
           return (
             <div key={kanjiObj.id} className='flex w-full flex-col gap-6 py-2'>
               <div className='flex w-full flex-col items-center gap-6 sm:flex-row sm:items-start lg:gap-10'>
-                {/* Cột trái: Ô chữ Kanji to + Nghĩa Hán Việt bên dưới */}
+                {/* Cột trái: Ô chữ Kanji nét vẽ hoạt ảnh */}
                 <div className='flex shrink-0 flex-col items-center gap-3'>
-                  <div className='relative flex h-36 w-36 items-center justify-center sm:h-44 sm:w-44 md:h-48 md:w-48'>
-                    <div className='absolute inset-0 grid grid-cols-2 grid-rows-2 rounded-2xl border-2 border-(--border-color) bg-(--background-color) shadow-inner'>
-                      <div className='border-r-2 border-b-2 border-(--border-color)/60'></div>
-                      <div className='border-b-2 border-(--border-color)/60'></div>
-                      <div className='border-r-2 border-(--border-color)/60'></div>
-                      <div></div>
-                    </div>
-
-                    <span className='font-japanese relative z-10 text-7xl leading-none font-bold text-(--main-color) select-none sm:text-8xl md:text-9xl'>
-                      {kanjiObj.kanjiChar}
-                    </span>
-                  </div>
-
-                  <div className='max-w-[240px] text-center'>
-                    <p className='text-2xl font-extrabold tracking-tight text-(--secondary-color) sm:text-3xl md:text-4xl'>
-                      {removeVerbDuplicates(kanjiObj.meanings).join(', ')}
-                    </p>
-                  </div>
+                  <KanjiStrokeView kanjiChar={kanjiObj.kanjiChar} />
                 </div>
 
                 {/* Cột phải: Âm On và Âm Kun to, rõ ràng */}
@@ -228,6 +212,13 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
                       </div>
                     )}
                 </div>
+              </div>
+
+              {/* Nghĩa tiếng Việt tràn nguyên 1 dòng bên dưới cả ô Kanji lẫn Âm Kun */}
+              <div className='w-full pt-1'>
+                <p className='text-2xl font-extrabold tracking-tight text-(--secondary-color) sm:text-3xl md:text-4xl'>
+                  {removeVerbDuplicates(kanjiObj.meanings).join(', ')}
+                </p>
               </div>
             </div>
           );
