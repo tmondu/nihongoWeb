@@ -3,21 +3,13 @@ import type { Metadata } from 'next';
 import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import { DojoRouteSchema } from '@/shared/ui-composite/SEO/DojoRouteSchema';
-import { routing } from '@/core/i18n/routing';
 import { KanjiLevel } from '@/entities/kanji';
 
 export const dynamicParams = true;
 
 export function generateStaticParams() {
-  const params: { locale: string; character: string }[] = [];
   const levels = ['jlptn5', 'jlptn4', 'jlptn3', 'jlptn2', 'jlptn1'];
-
-  for (const locale of routing.locales) {
-    for (const lvl of levels) {
-      params.push({ locale, character: lvl });
-    }
-  }
-  return params;
+  return levels.map(character => ({ character }));
 }
 
 // ISR: Revalidate every hour

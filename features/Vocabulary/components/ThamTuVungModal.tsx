@@ -7,6 +7,7 @@ import {
   Copy,
   Check,
   BookOpen,
+  Layers,
   ExternalLink,
   Plus,
   BookmarkCheck,
@@ -22,6 +23,7 @@ import { parseFuriganaSegments } from '@/shared/utils/furigana';
 import hanvietMapRaw from '@/shared/data/kanji_hanviet.json';
 import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import { cardBorderStyles, buttonBorderStyles } from '@/shared/utils/styles';
+import PitchAccentText from '@/shared/ui-composite/text/PitchAccentText';
 
 import type { IKanjiObj } from '@/entities/kanji';
 
@@ -43,11 +45,63 @@ export default function ThamTuVungModal() {
   const [copied, setCopied] = useState(false);
   const [isPlayingSlow, setIsPlayingSlow] = useState(false);
   const [isPlayingNormal, setIsPlayingNormal] = useState(false);
+  const [selectedPron, setSelectedPron] = useState<{
+    kana: string;
+    accent?: string;
+    tokenizedKana?: { value: string; type?: string }[];
+  } | null>(null);
+  const [showAllCompounds, setShowAllCompounds] = useState(false);
+  const [lookupData, setLookupData] = useState<{
+    pronunciations?: Array<{
+      kana: string;
+      accent?: string;
+      tokenizedKana?: { value: string; type?: string }[];
+    }>;
+    compounds?: Array<{
+      kanji: string;
+      kana: string;
+      hanViet?: string;
+      mean?: string;
+      accent?: string;
+      tokenizedKana?: { value: string; type?: string }[];
+    }>;
+  } | null>(null);
   const [kanjiList, setKanjiList] = useState<IKanjiObj[]>(() => {
     return Object.values(kanjiDataService.getAllCached())
       .flat()
       .filter(Boolean);
   });
+
+  const currentWord = activeDetailWord?.word;
+  const [prevWord, setPrevWord] = useState(currentWord);
+
+  if (currentWord !== prevWord) {
+    setPrevWord(currentWord);
+    setSelectedPron(null);
+    setShowAllCompounds(false);
+    setLookupData(null);
+  }
+
+  // Fetch word dictionary details (including pitch accent and compounds)
+  useEffect(() => {
+    if (!currentWord) return;
+    let isMounted = true;
+    const cleanWord =
+      currentWord.trim().split(/[\s(\[]/)[0] || currentWord.trim();
+
+    fetch(`/api/dictionary/lookup?word=${encodeURIComponent(cleanWord)}`)
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (isMounted && data) {
+          setLookupData(data);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentWord]);
 
   // Ensure Kanji data is fully preloaded in background for On/Kun and definitions
   useEffect(() => {
@@ -99,10 +153,13 @@ export default function ThamTuVungModal() {
   }, [activeDetailWord]);
 
   const handlePronounce = useCallback(
-    async (speed: number = 1.0) => {
+    async (speed: number = 1.0, customText?: string) => {
       if (!activeDetailWord) return;
       const reading =
-        activeDetailWord.reading?.trim() || activeDetailWord.word?.trim();
+        customText ||
+        selectedPron?.kana ||
+        activeDetailWord.reading?.trim() ||
+        activeDetailWord.word?.trim();
       if (!pronunciationEnabled || !reading) return;
 
       stop();
@@ -132,6 +189,7 @@ export default function ThamTuVungModal() {
     },
     [
       activeDetailWord,
+      selectedPron?.kana,
       pronunciationEnabled,
       pronunciationPitch,
       pronunciationSpeed,
@@ -168,15 +226,31 @@ export default function ThamTuVungModal() {
     });
   }, [activeDetailWord, kanjiList]);
 
-  if (!activeDetailWord) return null;
-
   const rawReading =
-    typeof activeDetailWord.reading === 'string'
+    typeof activeDetailWord?.reading === 'string'
       ? activeDetailWord.reading
       : '';
   const baseReading = rawReading.split(' ')[1] || rawReading;
   const kanaReading = toKana(baseReading);
   const romajiReading = toRomaji(baseReading);
+
+  const matchedPron = useMemo(() => {
+    if (!lookupData?.pronunciations || lookupData.pronunciations.length === 0)
+      return null;
+    return (
+      lookupData.pronunciations.find(
+        p =>
+          p.kana === kanaReading ||
+          kanaReading.includes(p.kana) ||
+          p.kana.includes(kanaReading),
+      ) || lookupData.pronunciations[0]
+    );
+  }, [lookupData, kanaReading]);
+
+  const activePron = selectedPron || matchedPron;
+
+  if (!activeDetailWord) return null;
+
   const segments = parseFuriganaSegments(
     activeDetailWord.word,
     activeDetailWord.reading,
@@ -261,13 +335,66 @@ export default function ThamTuVungModal() {
               ))}
             </div>
 
-            {/* Reading details: Hiragana & Romaji */}
-            <div className='mt-4 flex flex-wrap items-center justify-center gap-3 text-lg font-bold text-(--secondary-color)'>
-              <span className='rounded-xl bg-(--secondary-color)/10 px-3.5 py-1 text-(--main-color)'>
-                {kanaReading}
-              </span>
-              <span className='text-sm opacity-50'>•</span>
-              <span className='italic opacity-85'>{romajiReading}</span>
+            {/* Reading details: Hiragana (with Pitch Accent) & Romaji */}
+            <div className='mt-4 flex flex-col items-center justify-center gap-2'>
+              <div className='flex flex-wrap items-center justify-center gap-3 text-lg font-bold text-(--secondary-color)'>
+                <span className='inline-flex items-center gap-2 rounded-xl bg-(--secondary-color)/10 px-4 py-1.5 text-(--main-color) shadow-xs'>
+                  <PitchAccentText
+                    kana={activePron?.kana || kanaReading}
+                    accent={activePron?.accent}
+                    tokenizedKana={activePron?.tokenizedKana}
+                    className='text-xl font-bold sm:text-2xl'
+                  />
+                  {activePron?.accent && (
+                    <span className='rounded-md bg-amber-500/15 px-1.5 py-0.5 text-[11px] font-bold text-amber-600 dark:text-amber-400'>
+                      Trọng âm: {activePron.accent}
+                    </span>
+                  )}
+                </span>
+                <span className='text-sm opacity-50'>•</span>
+                <span className='italic opacity-85'>{romajiReading}</span>
+              </div>
+
+              {/* Multiple Pronunciations / Variations */}
+              {lookupData?.pronunciations &&
+                lookupData.pronunciations.length > 1 && (
+                  <div className='flex flex-wrap items-center justify-center gap-2 pt-0.5'>
+                    <span className='text-xs font-semibold text-(--secondary-color)/70'>
+                      Cách đọc khác:
+                    </span>
+                    {lookupData.pronunciations.map((pron, pIdx) => {
+                      const isCurrent = activePron === pron;
+                      return (
+                        <button
+                          key={pIdx}
+                          type='button'
+                          onClick={() => {
+                            playClick();
+                            setSelectedPron(pron);
+                          }}
+                          className={clsx(
+                            'inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-all',
+                            isCurrent
+                              ? 'border border-amber-500/40 bg-amber-500/15 text-amber-600 shadow-xs dark:text-amber-400'
+                              : 'bg-(--secondary-color)/10 text-(--secondary-color) hover:bg-(--secondary-color)/20 hover:text-(--main-color)',
+                          )}
+                          title={`Chọn cách đọc: ${pron.kana} (${pron.accent || 'Chưa rõ trọng âm'})`}
+                        >
+                          <PitchAccentText
+                            kana={pron.kana}
+                            accent={pron.accent}
+                            tokenizedKana={pron.tokenizedKana}
+                          />
+                          {pron.accent && (
+                            <span className='text-[10px] opacity-70'>
+                              [{pron.accent.split('-')[0]}]
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
             </div>
 
             {/* Audio Pronunciation & Copy Actions */}
@@ -395,6 +522,93 @@ export default function ThamTuVungModal() {
               )}
             </div>
           </div>
+
+          {/* Related Compounds with Pitch Accent (Từ vựng liên quan & Trọng âm) */}
+          {lookupData?.compounds && lookupData.compounds.length > 0 && (
+            <div className='space-y-3.5'>
+              <div className='flex items-center justify-between'>
+                <div className='flex items-center gap-2 text-xs font-bold tracking-wider text-(--secondary-color) uppercase'>
+                  <Layers className='size-4 text-(--main-color)' />
+                  <span>
+                    Từ vựng liên quan ({lookupData.compounds.length} từ)
+                  </span>
+                </div>
+                {lookupData.compounds.length > 6 && (
+                  <button
+                    type='button'
+                    onClick={() => {
+                      playClick();
+                      setShowAllCompounds(prev => !prev);
+                    }}
+                    className='text-xs font-semibold text-(--main-color) hover:underline'
+                  >
+                    {showAllCompounds ? 'Thu gọn' : 'Xem tất cả'}
+                  </button>
+                )}
+              </div>
+
+              <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-2'>
+                {(showAllCompounds
+                  ? lookupData.compounds
+                  : lookupData.compounds.slice(0, 6)
+                ).map((c, idx) => (
+                  <div
+                    key={`${c.kanji}-${idx}`}
+                    className='flex items-center justify-between gap-3 rounded-2xl border border-(--border-color) bg-(--card-color)/80 p-3.5 shadow-xs transition-colors hover:border-(--main-color)/40'
+                  >
+                    <div className='flex min-w-0 flex-1 items-center gap-2.5'>
+                      <button
+                        type='button'
+                        onClick={() => {
+                          playClick();
+                          handlePronounce(1.0, c.kana || c.kanji);
+                        }}
+                        className='flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-(--background-color) text-(--secondary-color) shadow-xs transition-all hover:bg-amber-500 hover:text-white'
+                        title={`Nghe: ${c.kanji}`}
+                        aria-label={`Nghe: ${c.kanji}`}
+                      >
+                        <Volume2 className='size-3.5' />
+                      </button>
+
+                      <div className='flex min-w-0 flex-wrap items-baseline gap-1.5'>
+                        <span
+                          onClick={() => {
+                            playClick();
+                            handlePronounce(1.0, c.kana || c.kanji);
+                          }}
+                          className='font-japanese cursor-pointer text-base font-black text-sky-600 transition-colors hover:underline dark:text-sky-400'
+                        >
+                          {c.kanji}
+                        </span>
+
+                        <span className='flex items-center text-xs font-medium text-(--secondary-color)/90'>
+                          (
+                          <PitchAccentText
+                            kana={c.kana}
+                            accent={c.accent}
+                            tokenizedKana={c.tokenizedKana}
+                          />
+                          )
+                        </span>
+
+                        {c.hanViet && (
+                          <span className='rounded-md border border-amber-500/20 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 uppercase dark:text-amber-300'>
+                            {c.hanViet}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {c.mean && (
+                      <div className='max-w-[45%] shrink-0 truncate text-right text-xs font-medium text-(--secondary-color)/80'>
+                        {c.mean}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer Actions */}

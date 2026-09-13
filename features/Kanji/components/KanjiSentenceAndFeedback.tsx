@@ -6,6 +6,7 @@ import {
   Volume2,
   Loader2,
   BookOpen,
+  Layers,
   MessageSquare,
   ThumbsUp,
   ThumbsDown,
@@ -24,6 +25,7 @@ import { Link } from '@/core/i18n/routing';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { useAudioPreferences } from '@/features/Preferences';
 import { useJapaneseTTS } from '@/features/Preferences/hooks/useJapaneseTTS';
+import PitchAccentText from '@/shared/ui-composite/text/PitchAccentText';
 
 export interface ExampleSentence {
   content: string;
@@ -42,12 +44,22 @@ export interface CommunityFeedback {
   createdAt?: string;
 }
 
+export interface KanjiCompoundWord {
+  kanji: string;
+  kana: string;
+  hanViet?: string;
+  mean?: string;
+  accent?: string;
+  tokenizedKana?: { value: string; type?: string }[];
+}
+
 interface LookupResponse {
   word: string;
   phonetic?: string;
   means?: { kind?: string; mean: string }[];
   examples: ExampleSentence[];
   feedbacks: CommunityFeedback[];
+  compounds?: KanjiCompoundWord[];
 }
 
 interface KanjiSentenceAndFeedbackProps {
@@ -72,6 +84,7 @@ export default function KanjiSentenceAndFeedback({
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<LookupResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showAllCompounds, setShowAllCompounds] = useState(false);
   const [showAllExamples, setShowAllExamples] = useState(false);
   const [feedbackPage, setFeedbackPage] = useState(1);
   const [speakingText, setSpeakingText] = useState<string | null>(null);
@@ -211,6 +224,7 @@ export default function KanjiSentenceAndFeedback({
     setLoading(true);
     setError(null);
     setFeedbackPage(1);
+    setShowAllCompounds(false);
     setShowAllExamples(false);
     setIsFormOpen(false);
     setSubmitSuccess(null);
@@ -590,6 +604,11 @@ export default function KanjiSentenceAndFeedback({
     });
   };
 
+  const compounds = data?.compounds || [];
+  const displayedCompounds = showAllCompounds
+    ? compounds
+    : compounds.slice(0, 6);
+
   const examples = data?.examples || [];
   const displayedExamples = showAllExamples ? examples : examples.slice(0, 2);
 
@@ -626,6 +645,100 @@ export default function KanjiSentenceAndFeedback({
 
   return (
     <div className={clsx('flex flex-col gap-6', className)}>
+      {/* 0. PHẦN TỪ VỰNG TRONG CHỮ HÁN (KUMI / TANGO) KÈM TRỌNG ÂM */}
+      {compounds.length > 0 && (
+        <div className='flex flex-col gap-3'>
+          <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-2.5'>
+            <div className='flex items-center gap-2'>
+              <Layers className='size-4 text-amber-500' />
+              <h3 className='text-base font-bold text-amber-600 dark:text-amber-400'>
+                Từ vựng trong chữ Hán (kumi / tango)
+              </h3>
+              <span className='rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-bold text-amber-600 dark:text-amber-400'>
+                {compounds.length} từ
+              </span>
+            </div>
+
+            {compounds.length > 6 && (
+              <button
+                type='button'
+                onClick={() => {
+                  playClick();
+                  setShowAllCompounds(prev => !prev);
+                }}
+                className='inline-flex cursor-pointer items-center gap-1 text-xs font-bold text-(--secondary-color)/80 transition-colors hover:text-(--main-color)'
+              >
+                <span>
+                  {showAllCompounds
+                    ? 'Thu gọn'
+                    : `Xem thêm (${compounds.length - 6} từ)`}
+                </span>
+                {showAllCompounds ? (
+                  <ChevronUp className='size-3.5' />
+                ) : (
+                  <ChevronDown className='size-3.5' />
+                )}
+              </button>
+            )}
+          </div>
+
+          <div className='flex flex-col gap-2'>
+            {displayedCompounds.map((item, index) => (
+              <div
+                key={`${index}-${item.kanji}-${item.kana}`}
+                className='group flex flex-wrap items-center justify-between gap-3 rounded-xl border border-(--border-color)/70 bg-(--background-color)/60 px-3.5 py-2.5 transition-all hover:border-amber-500/40 hover:bg-(--card-color)'
+              >
+                <div className='flex flex-wrap items-center gap-2.5 sm:gap-3.5'>
+                  {/* Play pronunciation button */}
+                  <button
+                    type='button'
+                    onClick={() => playSentenceAudio(item.kana || item.kanji)}
+                    className='flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-(--card-color) text-(--secondary-color)/70 shadow-xs transition-all hover:bg-amber-500 hover:text-white dark:hover:bg-amber-500'
+                    title={`Nghe phát âm: ${item.kanji}`}
+                    aria-label={`Nghe phát âm: ${item.kanji}`}
+                  >
+                    <Volume2 className='size-3.5' />
+                  </button>
+
+                  {/* Word (Kanji) */}
+                  <span
+                    onClick={() => playSentenceAudio(item.kana || item.kanji)}
+                    className='font-japanese cursor-pointer text-lg font-black text-sky-600 transition-colors hover:underline dark:text-sky-400'
+                  >
+                    {item.kanji}
+                  </span>
+
+                  {/* Reading with Pitch Accent contour */}
+                  <span className='flex items-center text-sm font-medium text-(--secondary-color)/90'>
+                    (
+                    <PitchAccentText
+                      kana={item.kana}
+                      accent={item.accent}
+                      tokenizedKana={item.tokenizedKana}
+                    />
+                    )
+                  </span>
+
+                  {/* Sino-Vietnamese (Hán Việt) */}
+                  {item.hanViet && (
+                    <span className='rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-xs font-bold tracking-wide text-amber-700 uppercase dark:text-amber-300'>
+                      {item.hanViet}
+                    </span>
+                  )}
+                </div>
+
+                {/* Vietnamese Meaning */}
+                {item.mean && (
+                  <div className='text-xs font-medium text-(--secondary-color)/80 sm:text-right sm:text-sm'>
+                    {item.mean}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* 1. PHẦN VÍ DỤ THEO CÂU (1 - 2 CÂU) */}
       <div className='flex flex-col gap-3'>
         <div className='flex items-center justify-between border-b border-(--border-color)/60 pb-2.5'>

@@ -65,15 +65,32 @@ export interface CommunityFeedback {
   createdAt?: string;
 }
 
+export interface KanjiCompoundWord {
+  kanji: string;
+  kana: string;
+  hanViet?: string;
+  mean?: string;
+  accent?: string;
+  tokenizedKana?: { value: string; type?: string }[];
+}
+
+export interface WordPronunciation {
+  kana: string;
+  accent?: string;
+  tokenizedKana?: { value: string; type?: string }[];
+}
+
 export interface WordLookupResult {
   word: string;
   phonetic?: string;
+  pronunciations?: WordPronunciation[];
   means?: {
     kind?: string;
     mean: string;
   }[];
   examples: ExampleSentence[];
   feedbacks: CommunityFeedback[];
+  compounds?: KanjiCompoundWord[];
 }
 
 interface MaziiWordExample {
@@ -94,6 +111,11 @@ interface MaziiWordItem {
   mobileId?: string;
   _id?: string;
   means?: MaziiWordMean[];
+  pronunciation?: Array<{
+    kana?: string;
+    accent?: string;
+    tokenizedKana?: { value: string; type?: string }[];
+  }>;
 }
 
 interface MaziiWordPayload {
@@ -150,13 +172,16 @@ export async function GET(request: NextRequest) {
 
   try {
     let phonetic = '';
+    const pronunciations: WordPronunciation[] = [];
     const means: { kind?: string; mean: string }[] = [];
     const examples: ExampleSentence[] = [];
     const feedbacks: CommunityFeedback[] = [];
     let wordMobileId: number | string | null = null;
 
-    // 1. Search Word & Example in parallel
-    const [wordRes, exampleRes] = await Promise.allSettled([
+    const hasKanji = /[\u4e00-\u9faf]/.test(word);
+
+    // 1. Search Word & Example in parallel (and Kanji if containing Kanji)
+    const [wordRes, exampleRes, kanjiRes] = await Promise.allSettled([
       fetch('https://mazii.net/api/search/word/v3', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -178,6 +203,18 @@ export async function GET(request: NextRequest) {
           query: word,
         }),
       }).then(r => r.json()),
+
+      hasKanji
+        ? fetch('https://mazii.net/api/search/kanji/v3', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              dict,
+              type: 'kanji',
+              query: word,
+            }),
+          }).then(r => r.json())
+        : Promise.resolve(null),
     ]);
 
     // Parse Word Response
@@ -199,6 +236,44 @@ export async function GET(request: NextRequest) {
 
           phonetic = matched?.phonetic || '';
           wordMobileId = matched?.mobileId || matched?._id || null;
+
+          if (Array.isArray(matched?.pronunciation)) {
+            for (const p of matched.pronunciation) {
+              if (
+                p.kana &&
+                !pronunciations.some(
+                  x => x.kana === p.kana && x.accent === p.accent,
+                )
+              ) {
+                pronunciations.push({
+                  kana: p.kana,
+                  accent: p.accent,
+                  tokenizedKana: p.tokenizedKana,
+                });
+              }
+            }
+          }
+
+          if (pronunciations.length === 0) {
+            for (const w of wordList) {
+              if (Array.isArray(w?.pronunciation)) {
+                for (const p of w.pronunciation) {
+                  if (
+                    p.kana &&
+                    !pronunciations.some(
+                      x => x.kana === p.kana && x.accent === p.accent,
+                    )
+                  ) {
+                    pronunciations.push({
+                      kana: p.kana,
+                      accent: p.accent,
+                      tokenizedKana: p.tokenizedKana,
+                    });
+                  }
+                }
+              }
+            }
+          }
 
           if (Array.isArray(matched?.means)) {
             for (const m of matched.means) {
@@ -258,7 +333,100 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // 2. Fetch Community Feedbacks using wordMobileId if found
+    // 2. Parse Kanji Compounds (tango) & Pitch Accent if Kanji search was performed
+    const compounds: KanjiCompoundWord[] = [];
+    if (kanjiRes && kanjiRes.status === 'fulfilled' && kanjiRes.value) {
+      try {
+        let kanjiPayload = kanjiRes.value as {
+          encryptedData?: string;
+          results?: Array<{
+            examples?: Array<{
+              w?: string;
+              m?: string;
+              h?: string;
+              p?: string;
+            }>;
+          }>;
+        };
+        if (kanjiPayload.encryptedData) {
+          kanjiPayload = decryptMaziiResponse(
+            kanjiPayload.encryptedData,
+          ) as typeof kanjiPayload;
+        }
+        const rawExamples = kanjiPayload?.results?.[0]?.examples || [];
+        if (Array.isArray(rawExamples) && rawExamples.length > 0) {
+          const topWords = rawExamples.slice(0, 15);
+          const enriched = await Promise.allSettled(
+            topWords.map(async item => {
+              if (!item.w) return null;
+              try {
+                const wRes = await fetch(
+                  'https://mazii.net/api/search/word/v3',
+                  {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      dict,
+                      type: 'word',
+                      query: item.w,
+                    }),
+                    signal: AbortSignal.timeout(3000),
+                  },
+                ).then(r => r.json());
+
+                if (wRes?.encryptedData) {
+                  const wDec = decryptMaziiResponse(
+                    wRes.encryptedData,
+                  ) as MaziiWordPayload;
+                  const wFirst = wDec?.data?.words?.[0];
+                  const wFirstTyped = wFirst as unknown as {
+                    pronunciation?: Array<{
+                      kana?: string;
+                      accent?: string;
+                      tokenizedKana?: { value: string; type?: string }[];
+                    }>;
+                    han?: string;
+                    short_mean?: string;
+                  };
+                  const pron = wFirstTyped?.pronunciation?.[0];
+
+                  return {
+                    kanji: item.w,
+                    kana: (item.p || pron?.kana || '').trim(),
+                    hanViet: item.h || wFirstTyped?.han || '',
+                    mean: item.m || wFirstTyped?.short_mean || '',
+                    accent: pron?.accent,
+                    tokenizedKana: pron?.tokenizedKana,
+                  } as KanjiCompoundWord;
+                }
+              } catch {
+                // Ignore individual word timeout or fetch error
+              }
+
+              return {
+                kanji: item.w,
+                kana: (item.p || '').trim(),
+                hanViet: item.h || '',
+                mean: item.m || '',
+              } as KanjiCompoundWord;
+            }),
+          );
+
+          for (const res of enriched) {
+            if (res.status === 'fulfilled' && res.value) {
+              compounds.push(res.value);
+            }
+          }
+        }
+      } catch (err) {
+        console.error(
+          'Error decrypting or parsing Mazii kanji compounds data:',
+          err,
+        );
+      }
+    }
+
+    // 3. Fetch Community Feedbacks using wordMobileId if found
     if (wordMobileId) {
       try {
         const fbRes = await fetch('https://api.mazii.net/api/get-mean', {
@@ -328,9 +496,11 @@ export async function GET(request: NextRequest) {
     const result: WordLookupResult = {
       word,
       phonetic,
+      pronunciations,
       means: means.slice(0, 10),
       examples: examples.slice(0, 25),
       feedbacks: allFeedbacks.slice(0, 50),
+      compounds: compounds.slice(0, 25),
     };
 
     lookupCache.set(cacheKey, { data: result, timestamp: now });
@@ -348,9 +518,11 @@ export async function GET(request: NextRequest) {
       {
         word,
         phonetic: '',
+        pronunciations: [],
         means: [],
         examples: [],
         feedbacks: userContribs,
+        compounds: [],
       },
       { status: 200 },
     );

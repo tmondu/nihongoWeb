@@ -5,6 +5,7 @@ import {
   X,
   Volume2,
   BookOpen,
+  Layers,
   MessageSquare,
   ThumbsUp,
   ThumbsDown,
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import clsx from 'clsx';
+import PitchAccentText from '@/shared/ui-composite/text/PitchAccentText';
 
 export interface ExampleSentence {
   content: string;
@@ -29,15 +31,32 @@ export interface CommunityFeedback {
   dislike: number;
 }
 
+export interface KanjiCompoundWord {
+  kanji: string;
+  kana: string;
+  hanViet?: string;
+  mean?: string;
+  accent?: string;
+  tokenizedKana?: { value: string; type?: string }[];
+}
+
+export interface WordPronunciation {
+  kana: string;
+  accent?: string;
+  tokenizedKana?: { value: string; type?: string }[];
+}
+
 export interface WordLookupData {
   word: string;
   phonetic?: string;
+  pronunciations?: WordPronunciation[];
   means?: {
     kind?: string;
     mean: string;
   }[];
   examples: ExampleSentence[];
   feedbacks: CommunityFeedback[];
+  compounds?: KanjiCompoundWord[];
 }
 
 interface WordDetailModalProps {
@@ -51,9 +70,9 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({
 }) => {
   const { playClick } = useClick();
   const titleId = useId();
-  const [activeTab, setActiveTab] = useState<'examples' | 'feedbacks'>(
-    'examples',
-  );
+  const [activeTab, setActiveTab] = useState<
+    'compounds' | 'examples' | 'feedbacks'
+  >('compounds');
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<WordLookupData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -99,8 +118,13 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({
         if (isMounted) {
           setData(resData);
           setLoading(false);
-          // If no examples but has feedbacks, default to feedbacks tab
-          if (resData.examples?.length === 0 && resData.feedbacks?.length > 0) {
+          // Default tab priority: compounds -> examples -> feedbacks
+          if (resData.compounds && resData.compounds.length > 0) {
+            setActiveTab('compounds');
+          } else if (
+            resData.examples?.length === 0 &&
+            resData.feedbacks?.length > 0
+          ) {
             setActiveTab('feedbacks');
           } else {
             setActiveTab('examples');
@@ -175,7 +199,11 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({
               </h2>
               {data?.phonetic && (
                 <span className='rounded-xl bg-(--background-color) px-2.5 py-1 text-sm font-semibold text-(--secondary-color)'>
-                  {data.phonetic}
+                  <PitchAccentText
+                    kana={data.pronunciations?.[0]?.kana || data.phonetic}
+                    accent={data.pronunciations?.[0]?.accent}
+                    tokenizedKana={data.pronunciations?.[0]?.tokenizedKana}
+                  />
                 </span>
               )}
               <button
@@ -233,6 +261,25 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({
 
         {/* Tab Navigation */}
         <div className='flex border-b border-(--border-color)/60 px-5 pt-2 sm:px-6'>
+          {data?.compounds && data.compounds.length > 0 && (
+            <button
+              type='button'
+              onClick={() => {
+                playClick();
+                setActiveTab('compounds');
+              }}
+              className={clsx(
+                'flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-bold transition-colors',
+                activeTab === 'compounds'
+                  ? 'border-amber-500 text-amber-500 dark:text-amber-400'
+                  : 'border-transparent text-(--secondary-color) hover:text-(--main-color)',
+              )}
+            >
+              <Layers className='size-4' />
+              <span>Từ ghép ({data.compounds.length})</span>
+            </button>
+          )}
+
           <button
             type='button'
             onClick={() => {
@@ -291,6 +338,68 @@ export const WordDetailModal: React.FC<WordDetailModalProps> = ({
             <div className='rounded-2xl border border-red-500/20 bg-red-500/5 p-6 text-center text-sm text-red-500'>
               <HelpCircle className='mx-auto size-8' />
               <p className='mt-2 font-medium'>{error}</p>
+            </div>
+          ) : activeTab === 'compounds' ? (
+            /* TAB 0: COMPOUNDS & PITCH ACCENT */
+            <div className='flex flex-col gap-2.5'>
+              {!data?.compounds || data.compounds.length === 0 ? (
+                <div className='py-12 text-center text-sm text-(--secondary-color)'>
+                  Không có từ ghép cho từ này.
+                </div>
+              ) : (
+                data.compounds.map((c, idx) => (
+                  <div
+                    key={idx}
+                    className='group flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-(--border-color)/70 bg-(--background-color)/50 p-3.5 transition-all hover:border-amber-500/50 hover:bg-(--background-color)'
+                  >
+                    <div className='flex flex-wrap items-center gap-2.5 sm:gap-3.5'>
+                      <button
+                        type='button'
+                        onClick={() => {
+                          playClick();
+                          playSpeech(c.kana || c.kanji);
+                        }}
+                        className='flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-(--card-color) text-(--secondary-color)/70 shadow-xs transition-all hover:bg-amber-500 hover:text-white'
+                        title={`Nghe: ${c.kanji}`}
+                      >
+                        <Volume2 className='size-3.5' />
+                      </button>
+
+                      <span
+                        onClick={() => {
+                          playClick();
+                          playSpeech(c.kana || c.kanji);
+                        }}
+                        className='font-japanese cursor-pointer text-lg font-black text-sky-600 transition-colors hover:underline dark:text-sky-400'
+                      >
+                        {c.kanji}
+                      </span>
+
+                      <span className='flex items-center text-sm font-medium text-(--secondary-color)/90'>
+                        (
+                        <PitchAccentText
+                          kana={c.kana}
+                          accent={c.accent}
+                          tokenizedKana={c.tokenizedKana}
+                        />
+                        )
+                      </span>
+
+                      {c.hanViet && (
+                        <span className='rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-xs font-bold tracking-wide text-amber-700 uppercase dark:text-amber-300'>
+                          {c.hanViet}
+                        </span>
+                      )}
+                    </div>
+
+                    {c.mean && (
+                      <div className='text-xs font-medium text-(--secondary-color)/80 sm:text-right sm:text-sm'>
+                        {c.mean}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           ) : activeTab === 'examples' ? (
             /* TAB 1: EXAMPLES */
