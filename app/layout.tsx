@@ -183,6 +183,17 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             __html: `
               (function() {
                 try {
+                  var obs = new MutationObserver(function(muts) {
+                    for (var i = 0; i < muts.length; i++) {
+                      var m = muts[i];
+                      if (m.type === 'attributes' && m.attributeName === 'bis_skin_checked') {
+                        m.target.removeAttribute('bis_skin_checked');
+                      }
+                    }
+                  });
+                  obs.observe(document.documentElement, { attributes: true, subtree: true, attributeFilter: ['bis_skin_checked'] });
+                } catch(e) {}
+                try {
                   var raw = localStorage.getItem('theme-css-cache');
                   var root = document.documentElement;
                   if (raw) {
@@ -221,7 +232,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           }}
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <Script id='audio-sw-migration' strategy='afterInteractive'>
           {`try {
   if ('serviceWorker' in navigator) {

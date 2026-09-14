@@ -5,7 +5,8 @@ import { useTranslations } from 'next-intl';
 import {
   House,
   Star,
-  Sparkles,
+  SlidersHorizontal,
+  Gamepad2,
   BookOpen,
   FlaskConical,
   Languages,
@@ -142,13 +143,12 @@ const mainNavItems: NavItem[] = [
   {
     href: '/experiments',
     labelKey: 'experiments',
-    icon: FlaskConical,
-    isMobileOnly: true,
+    icon: Gamepad2,
   },
   {
     href: '/preferences',
     labelKey: 'preferences',
-    icon: Sparkles,
+    icon: SlidersHorizontal,
     animateWhenInactive: true,
   },
   {

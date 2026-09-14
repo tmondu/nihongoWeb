@@ -1,7 +1,7 @@
 import {
   Wind,
   CloudRain,
-  Sparkles,
+  Swords,
   Volume2,
   BookOpen,
   Star,
@@ -48,6 +48,13 @@ export type Experiment = {
 };
 
 export const experiments: Experiment[] = [
+  {
+    name: 'Oni Escape',
+    description: 'Chạy trốn quái vật Oni trên nóc tàu Shinkansen',
+    href: '/oni-escape',
+    icon: Swords,
+    color: 'text-red-500',
+  },
   // Super Fun Experiments (2026-01-08 Evening)
   {
     name: 'Kana Wordle',
@@ -252,7 +259,7 @@ export const experiments: Experiment[] = [
     name: 'Ambient',
     description: 'Floating kana atmosphere',
     href: '/experiments/ambient',
-    icon: Sparkles,
+    icon: Orbit,
     color: 'text-purple-400',
   },
   {

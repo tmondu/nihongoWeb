@@ -103,7 +103,8 @@ export default async function proxy(request: NextRequest) {
     canonicalPath.startsWith('/exercises') ||
     canonicalPath.startsWith('/classroom') ||
     canonicalPath.startsWith('/glossary') ||
-    canonicalPath.startsWith('/security');
+    canonicalPath.startsWith('/security') ||
+    canonicalPath.startsWith('/oni-escape');
 
   // Redirect if not authenticated
   if (!user && !isAuthPage && !isPublicPage) {
