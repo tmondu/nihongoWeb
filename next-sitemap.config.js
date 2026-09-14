@@ -76,6 +76,12 @@ const sitemapConfig = {
       '/resources',
       '/anki-converter',
       '/kana-chart',
+      '/thamlet',
+      '/shadowing',
+      '/exercises',
+      '/classroom',
+      '/glossary',
+      '/security',
     ];
 
     const uniquePaths = [...new Set([...corePaths, ...academyPaths])];

@@ -90,7 +90,20 @@ export default async function proxy(request: NextRequest) {
     canonicalPath.startsWith('/preferences') ||
     canonicalPath.startsWith('/progress') ||
     canonicalPath.startsWith('/zen') ||
-    canonicalPath.startsWith('/anki-converter');
+    canonicalPath.startsWith('/anki-converter') ||
+    canonicalPath.startsWith('/thamlet') ||
+    canonicalPath.startsWith('/shadowing') ||
+    canonicalPath.startsWith('/hiragana-practice') ||
+    canonicalPath.startsWith('/katakana-practice') ||
+    canonicalPath.startsWith('/kanji-practice') ||
+    canonicalPath.startsWith('/learn-hiragana') ||
+    canonicalPath.startsWith('/learn-katakana') ||
+    canonicalPath.startsWith('/kana-chart') ||
+    canonicalPath.startsWith('/jlpt') ||
+    canonicalPath.startsWith('/exercises') ||
+    canonicalPath.startsWith('/classroom') ||
+    canonicalPath.startsWith('/glossary') ||
+    canonicalPath.startsWith('/security');
 
   // Redirect if not authenticated
   if (!user && !isAuthPage && !isPublicPage) {

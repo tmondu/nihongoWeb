@@ -10,3 +10,4 @@ export { ImportModal } from './components/DeckEditor/ImportModal';
 export { CardRowEditor } from './components/DeckEditor/CardRowEditor';
 export { ThamletHeader } from './components/Shared/ThamletHeader';
 export { WordDetailModal } from './components/Shared/WordDetailModal';
+export { ThamletLibraryView } from './components/DeckList/ThamletLibraryView';
