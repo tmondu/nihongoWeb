@@ -220,10 +220,7 @@ export default function FontsModal({ open, onOpenChange }: FontsModalProps) {
                         fontClassName={fontObj.font.className}
                         previewText='日本語 かな道場 漢字'
                         isSelected={selectedJapaneseFont === fontObj.name}
-                        isDefault={
-                          fontObj.name === 'UD Digi Kyokasho N-R' ||
-                          fontObj.name === 'Zen Maru Gothic'
-                        }
+                        isDefault={fontObj.name === 'UD Digi Kyokasho N-R'}
                         onClick={handleJapaneseFontClick}
                       />
                     ))}

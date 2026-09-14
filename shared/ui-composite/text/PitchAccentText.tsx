@@ -76,14 +76,24 @@ export default function PitchAccentText({
 
     // 1. Determine moras
     let mList: string[] = [];
+    const trimmedKana = kana.trim();
+    let hasMismatchedTokenized = false;
+
     if (Array.isArray(tokenizedKana) && tokenizedKana.length > 0) {
-      mList = tokenizedKana.map(item => item.value);
+      const tokenizedCombined = tokenizedKana.map(item => item.value).join('');
+      // Guard-rail: only use tokenizedKana if it matches the target kana
+      if (tokenizedCombined === trimmedKana) {
+        mList = tokenizedKana.map(item => item.value);
+      } else {
+        hasMismatchedTokenized = true;
+        mList = splitIntoMoras(trimmedKana);
+      }
     } else {
-      mList = splitIntoMoras(kana.trim());
+      mList = splitIntoMoras(trimmedKana);
     }
 
     // 2. Determine accent pattern
-    let rawAccent = accent?.trim();
+    let rawAccent = hasMismatchedTokenized ? undefined : accent?.trim();
     if (!rawAccent && typeof pitchNumber === 'number') {
       rawAccent = pitchNumberToAccentPattern(pitchNumber, mList.length);
     } else if (rawAccent && /^\d+$/.test(rawAccent)) {
@@ -142,13 +152,13 @@ export default function PitchAccentText({
               'inline-block px-[1.5px] pt-[2px] pb-[1px] text-[0.95em] transition-colors',
               // High pitch top overline
               isHigh &&
-                'border-t-2 border-amber-500 font-semibold dark:border-amber-400',
+                'border-t-2 border-red-500 font-semibold dark:border-red-400',
               // Rising pitch left border
               isRising &&
-                'rounded-tl-xs border-l-2 border-amber-500 dark:border-amber-400',
+                'rounded-tl-xs border-l-2 border-red-500 dark:border-red-400',
               // Downstep right border
               isDownstep &&
-                'rounded-tr-xs border-r-2 border-amber-500 dark:border-amber-400',
+                'rounded-tr-xs border-r-2 border-red-500 dark:border-red-400',
               // Low pitch styling
               !isHigh && 'border-t-2 border-transparent font-normal opacity-80',
               moraClassName,

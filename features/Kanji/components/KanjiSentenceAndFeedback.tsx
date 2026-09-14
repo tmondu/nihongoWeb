@@ -721,7 +721,7 @@ export default function KanjiSentenceAndFeedback({
 
                   {/* Sino-Vietnamese (Hán Việt) */}
                   {item.hanViet && (
-                    <span className='rounded-md border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-xs font-bold tracking-wide text-amber-700 uppercase dark:text-amber-300'>
+                    <span className='rounded-md border border-red-500/20 bg-red-500/10 px-2 py-0.5 text-xs font-bold tracking-wide text-red-600 uppercase dark:text-red-400'>
                       {item.hanViet}
                     </span>
                   )}

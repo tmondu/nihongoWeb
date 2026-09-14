@@ -378,25 +378,62 @@ export async function GET(request: NextRequest) {
                   const wDec = decryptMaziiResponse(
                     wRes.encryptedData,
                   ) as MaziiWordPayload;
-                  const wFirst = wDec?.data?.words?.[0];
-                  const wFirstTyped = wFirst as unknown as {
-                    pronunciation?: Array<{
-                      kana?: string;
-                      accent?: string;
-                      tokenizedKana?: { value: string; type?: string }[];
-                    }>;
+                  const words = wDec?.data?.words || [];
+                  const targetKana = (item.p || '').trim();
+
+                  let matchedPron:
+                    | {
+                        kana?: string;
+                        accent?: string;
+                        tokenizedKana?: { value: string; type?: string }[];
+                      }
+                    | undefined;
+                  let matchedWord: MaziiWordItem | undefined;
+
+                  if (targetKana) {
+                    for (const w of words) {
+                      if (Array.isArray(w.pronunciation)) {
+                        const found = w.pronunciation.find(
+                          p => p.kana?.trim() === targetKana,
+                        );
+                        if (found) {
+                          matchedPron = found;
+                          matchedWord = w;
+                          break;
+                        }
+                      }
+                    }
+                  }
+
+                  // Fallback: If no exact kana match, check if first word has a valid pronunciation
+                  const wFirst = words[0];
+                  if (!matchedPron && wFirst) {
+                    matchedWord = wFirst;
+                    // If targetKana was empty or had special marks like 々, allow wFirst's pronunciation
+                    if (!targetKana || targetKana.includes('々')) {
+                      matchedPron = wFirst.pronunciation?.[0];
+                    }
+                  }
+
+                  const wFirstTyped = (matchedWord || wFirst) as unknown as {
                     han?: string;
                     short_mean?: string;
                   };
-                  const pron = wFirstTyped?.pronunciation?.[0];
+
+                  const finalKana = (
+                    matchedPron?.kana ||
+                    targetKana ||
+                    wFirst?.phonetic ||
+                    ''
+                  ).trim();
 
                   return {
                     kanji: item.w,
-                    kana: (item.p || pron?.kana || '').trim(),
+                    kana: finalKana,
                     hanViet: item.h || wFirstTyped?.han || '',
                     mean: item.m || wFirstTyped?.short_mean || '',
-                    accent: pron?.accent,
-                    tokenizedKana: pron?.tokenizedKana,
+                    accent: matchedPron?.accent,
+                    tokenizedKana: matchedPron?.tokenizedKana,
                   } as KanjiCompoundWord;
                 }
               } catch {

@@ -696,7 +696,7 @@ const WelcomeModal = () => {
                       >
                         <span className='text-(--main-color)'>
                           {fontObj.name}
-                          {fontObj.name === 'Zen Maru Gothic' &&
+                          {fontObj.name === 'UD Digi Kyokasho N-R' &&
                             ` ${t('steps.fonts.default')}`}
                         </span>
                         <span className='ml-2 text-(--secondary-color)'>
@@ -743,7 +743,7 @@ const WelcomeModal = () => {
                       >
                         <span className='text-(--main-color)'>
                           {fontObj.name}
-                          {fontObj.name === 'Zen Maru Gothic' &&
+                          {fontObj.name === 'UD Digi Kyokasho N-R' &&
                             ` ${t('steps.fonts.default')}`}
                         </span>
                         <span className='ml-2 text-(--secondary-color)'>

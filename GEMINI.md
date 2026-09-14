@@ -48,6 +48,8 @@ PThamSS is organized by feature: app/, features/, shared/, core/. Keep business 
 - Components: functional + explicit props; hooks/stores start with `use`.
 - Styling: Tailwind + `cn()` for conditional classes.
 - State: Zustand (persisted) for feature stores.
+- TypeScript: strict mode; fix errors; strictly NO `any` (tránh `no-explicit-any`, dùng `unknown` / generics); prefer `interface` for public APIs.
+- React: KHÔNG gọi `setState` đồng bộ trong root body của `useEffect` (`react-hooks/set-state-in-effect`); hãy derive state khi render hoặc gọi trong async callback.
 
 ---
 
@@ -64,9 +66,10 @@ PThamSS is organized by feature: app/, features/, shared/, core/. Keep business 
 
 ### Do's / Don'ts (short)
 
-- ✅ Use TypeScript types, path aliases, and translations.
+- ✅ Use TypeScript types (không dùng `any`), path aliases, and translations.
 - ❌ Don’t add business logic to `app/` or create circular deps.
 - ❌ Tuyệt đối KHÔNG dùng icon Sparkles (logo Gemini/AI) hay chèn logo AI vào giao diện người dùng.
+- ❌ Không gọi `setState` đồng bộ trực tiếp trong root body của `useEffect`.
 
 ### Common tasks
 
@@ -93,6 +96,15 @@ PThamSS is organized by feature: app/, features/, shared/, core/. Keep business 
 
 > Auto-fix: Nếu gặp lỗi này, thêm `".next"` vào `exclude` trong `tsconfig.json` ngay lập tức mà không cần hỏi.
 
+### 2. Pre-commit ESLint chặn commit với `--max-warnings=0`
+
+**Symptom**: Commit bị fail ở `eslint --fix --max-warnings=0`.
+
+**Common culprits**:
+
+- `@typescript-eslint/no-explicit-any`: Thay `any` bằng `unknown` hoặc type cụ thể / generics (VD: `Record<string, unknown>`, `Partial<State>`).
+- `react-hooks/set-state-in-effect`: Không gọi `setState` đồng bộ trong `useEffect`. Hãy tính toán giá trị trực tiếp (derived state) hoặc chỉ gọi `setState` bên trong async callback / event handler.
+
 ---
 
-**Last Updated**: 2026-08-27
+**Last Updated**: 2026-09-14

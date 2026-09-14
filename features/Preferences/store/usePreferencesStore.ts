@@ -78,7 +78,7 @@ const usePreferencesStore = create<PreferencesState>()(
       setTheme: theme => set({ theme }),
       isGlassMode: false,
       setGlassMode: isGlassMode => set({ isGlassMode }),
-      font: 'Zen Maru Gothic',
+      font: 'UD Digi Kyokasho N-R',
       setFont: fontName => set({ font: fontName }),
       vietnameseFont: 'Be Vietnam Pro',
       setVietnameseFont: fontName => set({ vietnameseFont: fontName }),
@@ -129,6 +129,24 @@ const usePreferencesStore = create<PreferencesState>()(
 
     {
       name: 'theme-storage',
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        const state = (persistedState || {}) as Partial<PreferencesState>;
+        if (version === 0) {
+          return {
+            ...state,
+            theme:
+              !state.theme || state.theme === 'sapphire-bloom'
+                ? 'mazii'
+                : state.theme,
+            font:
+              !state.font || state.font === 'Zen Maru Gothic'
+                ? 'UD Digi Kyokasho N-R'
+                : state.font,
+          };
+        }
+        return state as PreferencesState;
+      },
     },
   ),
 );

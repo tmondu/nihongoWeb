@@ -46,7 +46,8 @@ PThamSS is organised by feature: app/, features/, shared/, core/. Keep business 
 ## Code style & state — quick rules
 
 - Imports: use path aliases (`@/...`), avoid cross-feature relative imports.
-- TypeScript: strict mode; fix errors; prefer `interface` for public APIs.
+- TypeScript: strict mode; fix errors; strictly NO `any` (tránh `no-explicit-any`, dùng `unknown` / generics); prefer `interface` for public APIs.
+- React: KHÔNG gọi `setState` đồng bộ trong root body của `useEffect` (`react-hooks/set-state-in-effect`); hãy derive state khi render hoặc gọi trong async callback.
 - Components: functional + explicit props; hooks/stores start with `use`.
 - Styling: Tailwind + `cn()` for conditional classes.
 - State: Zustand (persisted) for feature stores.
@@ -66,9 +67,10 @@ PThamSS is organised by feature: app/, features/, shared/, core/. Keep business 
 
 ### Do's / Don'ts (short)
 
-- ✅ Use TypeScript types, path aliases, and translations.
+- ✅ Use TypeScript types (không dùng `any`), path aliases, and translations.
 - ❌ Don't add business logic to `app/` or create circular deps.
 - ❌ Tuyệt đối KHÔNG dùng icon Sparkles (logo Gemini/AI) hay chèn logo AI vào giao diện người dùng.
+- ❌ Không gọi `setState` đồng bộ trực tiếp trong root body của `useEffect`.
 
 ### Common tasks
 

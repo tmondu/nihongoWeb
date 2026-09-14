@@ -30,6 +30,24 @@ import type { IKanjiObj } from '@/entities/kanji';
 const hanvietMap = hanvietMapRaw as Record<string, string>;
 const KANJI_REGEX = /[\u4e00-\u9faf\u3400-\u4dbf]/g;
 
+interface WordLookupData {
+  pronunciations?: Array<{
+    kana: string;
+    accent?: string;
+    tokenizedKana?: { value: string; type?: string }[];
+  }>;
+  compounds?: Array<{
+    kanji: string;
+    kana: string;
+    hanViet?: string;
+    mean?: string;
+    accent?: string;
+    tokenizedKana?: { value: string; type?: string }[];
+  }>;
+}
+
+const clientLookupCache = new Map<string, WordLookupData>();
+
 export default function ThamTuVungModal() {
   const activeDetailWord = useVocabStore(state => state.activeDetailWord);
   const setActiveDetailWord = useVocabStore(state => state.setActiveDetailWord);
@@ -51,6 +69,13 @@ export default function ThamTuVungModal() {
     tokenizedKana?: { value: string; type?: string }[];
   } | null>(null);
   const [showAllCompounds, setShowAllCompounds] = useState(false);
+
+  const currentWord = activeDetailWord?.word;
+  const cleanWord = currentWord
+    ? currentWord.trim().split(/[\s(\[]/)[0] || currentWord.trim()
+    : '';
+
+  const [prevWord, setPrevWord] = useState(currentWord);
   const [lookupData, setLookupData] = useState<{
     pronunciations?: Array<{
       kana: string;
@@ -65,43 +90,52 @@ export default function ThamTuVungModal() {
       accent?: string;
       tokenizedKana?: { value: string; type?: string }[];
     }>;
-  } | null>(null);
+  } | null>(() => {
+    return cleanWord ? clientLookupCache.get(cleanWord) || null : null;
+  });
+
+  const isLoadingLookup = Boolean(cleanWord && !lookupData);
+
   const [kanjiList, setKanjiList] = useState<IKanjiObj[]>(() => {
     return Object.values(kanjiDataService.getAllCached())
       .flat()
       .filter(Boolean);
   });
 
-  const currentWord = activeDetailWord?.word;
-  const [prevWord, setPrevWord] = useState(currentWord);
-
   if (currentWord !== prevWord) {
     setPrevWord(currentWord);
     setSelectedPron(null);
     setShowAllCompounds(false);
-    setLookupData(null);
+    setLookupData(cleanWord ? clientLookupCache.get(cleanWord) || null : null);
   }
 
   // Fetch word dictionary details (including pitch accent and compounds)
   useEffect(() => {
-    if (!currentWord) return;
+    if (!cleanWord || clientLookupCache.has(cleanWord)) return;
+
     let isMounted = true;
-    const cleanWord =
-      currentWord.trim().split(/[\s(\[]/)[0] || currentWord.trim();
 
     fetch(`/api/dictionary/lookup?word=${encodeURIComponent(cleanWord)}`)
       .then(res => (res.ok ? res.json() : null))
       .then(data => {
-        if (isMounted && data) {
-          setLookupData(data);
+        if (isMounted) {
+          const resolvedData = data || { pronunciations: [], compounds: [] };
+          clientLookupCache.set(cleanWord, resolvedData);
+          setLookupData(resolvedData);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (isMounted) {
+          const fallbackData = { pronunciations: [], compounds: [] };
+          clientLookupCache.set(cleanWord, fallbackData);
+          setLookupData(fallbackData);
+        }
+      });
 
     return () => {
       isMounted = false;
     };
-  }, [currentWord]);
+  }, [cleanWord]);
 
   // Ensure Kanji data is fully preloaded in background for On/Kun and definitions
   useEffect(() => {
@@ -152,14 +186,33 @@ export default function ThamTuVungModal() {
     };
   }, [activeDetailWord]);
 
+  const rawReading =
+    typeof activeDetailWord?.reading === 'string'
+      ? activeDetailWord.reading
+      : '';
+  const baseReading = rawReading.split(' ')[1] || rawReading;
+  const kanaReading = toKana(baseReading);
+  const romajiReading = toRomaji(baseReading);
+
+  const matchedPron = useMemo(() => {
+    if (!lookupData?.pronunciations || lookupData.pronunciations.length === 0)
+      return null;
+    return (
+      lookupData.pronunciations.find(
+        p =>
+          p.kana === kanaReading ||
+          kanaReading.includes(p.kana) ||
+          p.kana.includes(kanaReading),
+      ) || lookupData.pronunciations[0]
+    );
+  }, [lookupData, kanaReading]);
+
+  const activePron = selectedPron || matchedPron;
+
   const handlePronounce = useCallback(
     async (speed: number = 1.0, customText?: string) => {
       if (!activeDetailWord) return;
-      const reading =
-        customText ||
-        selectedPron?.kana ||
-        activeDetailWord.reading?.trim() ||
-        activeDetailWord.word?.trim();
+      const reading = customText || activePron?.kana || kanaReading;
       if (!pronunciationEnabled || !reading) return;
 
       stop();
@@ -189,7 +242,8 @@ export default function ThamTuVungModal() {
     },
     [
       activeDetailWord,
-      selectedPron?.kana,
+      activePron?.kana,
+      kanaReading,
       pronunciationEnabled,
       pronunciationPitch,
       pronunciationSpeed,
@@ -225,29 +279,6 @@ export default function ThamTuVungModal() {
       };
     });
   }, [activeDetailWord, kanjiList]);
-
-  const rawReading =
-    typeof activeDetailWord?.reading === 'string'
-      ? activeDetailWord.reading
-      : '';
-  const baseReading = rawReading.split(' ')[1] || rawReading;
-  const kanaReading = toKana(baseReading);
-  const romajiReading = toRomaji(baseReading);
-
-  const matchedPron = useMemo(() => {
-    if (!lookupData?.pronunciations || lookupData.pronunciations.length === 0)
-      return null;
-    return (
-      lookupData.pronunciations.find(
-        p =>
-          p.kana === kanaReading ||
-          kanaReading.includes(p.kana) ||
-          p.kana.includes(kanaReading),
-      ) || lookupData.pronunciations[0]
-    );
-  }, [lookupData, kanaReading]);
-
-  const activePron = selectedPron || matchedPron;
 
   if (!activeDetailWord) return null;
 
@@ -345,11 +376,16 @@ export default function ThamTuVungModal() {
                     tokenizedKana={activePron?.tokenizedKana}
                     className='text-xl font-bold sm:text-2xl'
                   />
-                  {activePron?.accent && (
-                    <span className='rounded-md bg-amber-500/15 px-1.5 py-0.5 text-[11px] font-bold text-amber-600 dark:text-amber-400'>
+                  {activePron?.accent ? (
+                    <span className='rounded-md bg-red-500/10 px-1.5 py-0.5 text-[11px] font-bold text-red-600 dark:bg-red-500/20 dark:text-red-400'>
                       Trọng âm: {activePron.accent}
                     </span>
-                  )}
+                  ) : isLoadingLookup ? (
+                    <span
+                      className='inline-block h-4 w-12 animate-pulse rounded-md bg-red-500/20'
+                      title='Đang tải trọng âm...'
+                    />
+                  ) : null}
                 </span>
                 <span className='text-sm opacity-50'>•</span>
                 <span className='italic opacity-85'>{romajiReading}</span>
@@ -375,7 +411,7 @@ export default function ThamTuVungModal() {
                           className={clsx(
                             'inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold transition-all',
                             isCurrent
-                              ? 'border border-amber-500/40 bg-amber-500/15 text-amber-600 shadow-xs dark:text-amber-400'
+                              ? 'border border-red-500/30 bg-red-500/10 text-red-600 shadow-xs dark:border-red-400/40 dark:bg-red-500/20 dark:text-red-400'
                               : 'bg-(--secondary-color)/10 text-(--secondary-color) hover:bg-(--secondary-color)/20 hover:text-(--main-color)',
                           )}
                           title={`Chọn cách đọc: ${pron.kana} (${pron.accent || 'Chưa rõ trọng âm'})`}
@@ -592,7 +628,7 @@ export default function ThamTuVungModal() {
                         </span>
 
                         {c.hanViet && (
-                          <span className='rounded-md border border-amber-500/20 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-700 uppercase dark:text-amber-300'>
+                          <span className='rounded-md border border-red-500/20 bg-red-500/10 px-1.5 py-0.5 text-[10px] font-bold text-red-600 uppercase dark:text-red-400'>
                             {c.hanViet}
                           </span>
                         )}

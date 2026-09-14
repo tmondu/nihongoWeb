@@ -187,24 +187,33 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   var root = document.documentElement;
                   if (raw) {
                     var theme = JSON.parse(raw);
-                    if (theme.id) {
-                      root.setAttribute('data-theme', theme.id);
+                    if (theme && theme.id === 'sapphire-bloom') {
+                      try { localStorage.removeItem('theme-css-cache'); } catch(err) {}
+                      theme = null;
                     }
-                    for (var k in theme) {
-                      if (k !== 'id' && theme[k]) {
-                        var cssKey = '--' + k.replace(/([A-Z])/g, '-$1').toLowerCase();
-                        root.style.setProperty(cssKey, theme[k]);
+                    if (theme) {
+                      if (theme.id) {
+                        root.setAttribute('data-theme', theme.id);
+                      }
+                      for (var k in theme) {
+                        if (k !== 'id' && theme[k]) {
+                          var cssKey = '--' + k.replace(/([A-Z])/g, '-$1').toLowerCase();
+                          root.style.setProperty(cssKey, theme[k]);
+                        }
                       }
                     }
-                  } else {
+                  }
+                  if (!root.getAttribute('data-theme')) {
                     var pref = localStorage.getItem('theme-storage');
+                    var themeId = 'mazii';
                     if (pref) {
                       var parsed = JSON.parse(pref);
-                      var themeId = parsed && parsed.state && parsed.state.theme;
-                      if (themeId) {
-                        root.setAttribute('data-theme', themeId);
+                      var tid = parsed && parsed.state && parsed.state.theme;
+                      if (tid && tid !== 'sapphire-bloom') {
+                        themeId = tid;
                       }
                     }
+                    root.setAttribute('data-theme', themeId);
                   }
                 } catch(e) {}
               })();

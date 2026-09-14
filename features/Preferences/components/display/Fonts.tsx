@@ -83,8 +83,7 @@ const Fonts = ({ useNewIconDesign = false }: FontsProps) => {
           }}
         >
           {fontObj.name}
-          {(fontObj.name === 'UD Digi Kyokasho N-R' ||
-            fontObj.name === 'Zen Maru Gothic') && (
+          {fontObj.name === 'UD Digi Kyokasho N-R' && (
             <span
               style={{
                 color:
