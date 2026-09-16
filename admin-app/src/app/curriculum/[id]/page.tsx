@@ -428,7 +428,7 @@ export default function AdminLessonDetailManagementPage({
                 >
                   <div className='flex items-start justify-between gap-3'>
                     <div>
-                      <h3 className='font-japanese text-base font-bold text-slate-100'>
+                      <h3 className='font-mixed text-base font-bold text-slate-100'>
                         {g.title}
                       </h3>
                       <p className='mt-0.5 text-xs font-medium text-sky-400'>
@@ -616,7 +616,7 @@ export default function AdminLessonDetailManagementPage({
                     onChange={e => setGrammarTitle(e.target.value)}
                     placeholder='VD: N1 は N2 です'
                     required
-                    className='font-japanese w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-sky-500 focus:outline-none'
+                    className='font-mixed w-full rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-slate-100 focus:border-sky-500 focus:outline-none'
                   />
                 </div>
                 <div>

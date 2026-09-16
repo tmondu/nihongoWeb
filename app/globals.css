@@ -38,6 +38,11 @@ body {
   font-family: var(--font-vietnamese), system-ui, sans-serif !important;
 }
 
+.font-mixed {
+  font-family:
+    var(--font-vietnamese), var(--font-japanese), sans-serif !important;
+}
+
 /* Custom Japanese Calligraphy Brush Cursors */
 :root[data-custom-cursor='true'],
 :root[data-custom-cursor='true'] body,

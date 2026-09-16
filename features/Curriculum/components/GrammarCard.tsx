@@ -41,7 +41,7 @@ export function GrammarCard({
               aria-label='Đã hoàn thành'
             />
           )}
-          <h3 className='font-japanese truncate text-base font-bold tracking-wide text-(--main-color) transition-colors group-hover:text-sky-500 sm:text-lg'>
+          <h3 className='font-mixed truncate text-base font-bold tracking-wide text-(--main-color) transition-colors group-hover:text-sky-500 sm:text-lg'>
             {grammar.title}
           </h3>
         </div>

@@ -55,7 +55,7 @@ export function GrammarDetailModal({
           <div className='flex items-start justify-between gap-4'>
             <div>
               <div className='flex items-center gap-3'>
-                <DialogTitle className='font-japanese text-xl font-extrabold tracking-wide text-(--main-color) sm:text-2xl'>
+                <DialogTitle className='font-mixed text-xl font-extrabold tracking-wide text-(--main-color) sm:text-2xl'>
                   {grammar.title}
                 </DialogTitle>
                 <button
@@ -98,7 +98,7 @@ export function GrammarDetailModal({
                 <Bookmark className='size-3.5 text-sky-500' />
                 <span>Cấu trúc ngữ pháp</span>
               </div>
-              <div className='font-japanese rounded-xl border border-sky-500/20 bg-sky-500/5 p-4 text-sm font-semibold text-(--main-color) sm:text-base'>
+              <div className='font-mixed rounded-xl border border-sky-500/20 bg-sky-500/5 p-4 text-sm font-semibold text-(--main-color) sm:text-base'>
                 {grammar.structure}
               </div>
             </div>
