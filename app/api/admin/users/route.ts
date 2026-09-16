@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, email, is_approved, is_admin, created_at FROM users ORDER BY created_at DESC',
+      'SELECT id, email, display_name, is_approved, is_admin, created_at FROM users ORDER BY created_at DESC',
     );
 
     return NextResponse.json(users);

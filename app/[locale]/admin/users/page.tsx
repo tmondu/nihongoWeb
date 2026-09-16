@@ -28,6 +28,7 @@ import {
 interface UserRecord {
   id: number;
   email: string;
+  display_name?: string | null;
   is_approved: number;
   is_admin: number;
   created_at: string;
@@ -225,9 +226,12 @@ export default function AdminUsers() {
     }
   };
 
-  // Filter users by email on frontend
-  const filteredUsers = users.filter(user =>
-    user.email.toLowerCase().includes(search.toLowerCase()),
+  // Filter users by email or display_name on frontend
+  const filteredUsers = users.filter(
+    user =>
+      user.email.toLowerCase().includes(search.toLowerCase()) ||
+      (user.display_name &&
+        user.display_name.toLowerCase().includes(search.toLowerCase())),
   );
 
   return (
@@ -262,7 +266,7 @@ export default function AdminUsers() {
         <div className='relative max-w-md flex-1'>
           <Search className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
           <Input
-            placeholder='Tìm thành viên theo email...'
+            placeholder='Tìm thành viên theo email, tên...'
             value={search}
             onChange={e => setSearch(e.target.value)}
             className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-500 focus-visible:ring-amber-500'
@@ -291,6 +295,7 @@ export default function AdminUsers() {
                 <tr className='border-b border-[#1a1a1f] bg-[#121215] text-xs font-semibold text-slate-400'>
                   <th className='px-6 py-3.5'>ID</th>
                   <th className='px-6 py-3.5'>Email</th>
+                  <th className='px-6 py-3.5'>Tên</th>
                   <th className='px-6 py-3.5'>Trạng thái duyệt</th>
                   <th className='px-6 py-3.5'>Quyền hạn</th>
                   <th className='px-6 py-3.5'>Ngày đăng ký</th>
@@ -308,6 +313,17 @@ export default function AdminUsers() {
                     </td>
                     <td className='px-6 py-4 font-medium text-white'>
                       {user.email}
+                    </td>
+                    <td className='px-6 py-4 text-sm text-slate-300'>
+                      {user.display_name ? (
+                        <span className='font-medium text-slate-200'>
+                          {user.display_name}
+                        </span>
+                      ) : (
+                        <span className='text-xs text-slate-500 italic'>
+                          Chưa đặt
+                        </span>
+                      )}
                     </td>
                     <td className='px-6 py-4'>
                       <button

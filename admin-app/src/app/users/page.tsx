@@ -19,6 +19,7 @@ import {
 interface UserRecord {
   id: number;
   email: string;
+  display_name: string | null;
   is_approved: number;
   can_watch_video: number;
   level: string;
@@ -59,11 +60,12 @@ export default function AdminUsersPage() {
   // Filter users by search query and filters
   const filteredUsers = useMemo(() => {
     return users.filter(user => {
-      // Search matching by email or id
+      // Search matching by email, display_name or id
       const q = searchQuery.trim().toLowerCase();
       const matchSearch =
         !q ||
         user.email.toLowerCase().includes(q) ||
+        (user.display_name && user.display_name.toLowerCase().includes(q)) ||
         user.id.toString().includes(q) ||
         `#${user.id}`.includes(q);
 
@@ -247,7 +249,7 @@ export default function AdminUsersPage() {
             type='text'
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder='Tìm kiếm theo email hoặc ID người dùng...'
+            placeholder='Tìm kiếm theo email, tên hoặc ID người dùng...'
             className='w-full rounded-xl border border-[#2d2d38] bg-[#16161c] py-2.5 pr-10 pl-10 text-xs text-white transition-colors placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
           />
           {searchQuery && (
@@ -346,6 +348,7 @@ export default function AdminUsersPage() {
                 <tr className='border-b border-[#1e1e24] bg-[#121215] text-xs font-semibold text-slate-400'>
                   <th className='px-5 py-3'>ID</th>
                   <th className='px-5 py-3'>Email</th>
+                  <th className='px-5 py-3'>Tên</th>
                   <th className='px-5 py-3'>Trạng Thái</th>
                   <th className='px-5 py-3'>Xem Video</th>
                   <th className='px-5 py-3'>Cấp Độ JLPT</th>
@@ -365,6 +368,15 @@ export default function AdminUsersPage() {
                     </td>
                     <td className='px-5 py-3.5 font-medium text-white'>
                       {user.email}
+                    </td>
+                    <td className='px-5 py-3.5 text-xs'>
+                      {user.display_name ? (
+                        <span className='font-medium text-slate-200'>
+                          {user.display_name}
+                        </span>
+                      ) : (
+                        <span className='text-slate-500 italic'>Chưa đặt</span>
+                      )}
                     </td>
                     <td className='px-5 py-3.5'>
                       {user.is_approved === 1 ? (

@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic';
 interface UserRow extends RowDataPacket {
   id: number;
   email: string;
+  display_name: string | null;
   is_approved: number;
   can_watch_video: number;
   level: string;
@@ -21,12 +22,13 @@ export async function GET(request: NextRequest) {
 
     const pool = getDbPool();
     let sql =
-      'SELECT id, email, is_approved, can_watch_video, level, is_admin, created_at FROM users';
+      'SELECT id, email, display_name, is_approved, can_watch_video, level, is_admin, created_at FROM users';
     const params: string[] = [];
 
     if (query) {
-      sql += ' WHERE email LIKE ? OR CAST(id AS CHAR) LIKE ?';
-      params.push(`%${query}%`, `%${query}%`);
+      sql +=
+        ' WHERE email LIKE ? OR display_name LIKE ? OR CAST(id AS CHAR) LIKE ?';
+      params.push(`%${query}%`, `%${query}%`, `%${query}%`);
     }
 
     sql += ' ORDER BY id DESC';
