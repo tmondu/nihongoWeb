@@ -19,9 +19,9 @@ export async function GET(
     const { id } = await props.params;
     const lessonNum = parseInt(id, 10);
 
-    if (isNaN(lessonNum) || lessonNum < 1 || lessonNum > 50) {
+    if (isNaN(lessonNum) || lessonNum < 1 || lessonNum > 110) {
       return NextResponse.json(
-        { error: 'Số bài học không hợp lệ (1 - 50)' },
+        { error: 'Số bài học không hợp lệ (1 - 110)' },
         { status: 400 },
       );
     }

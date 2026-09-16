@@ -126,9 +126,50 @@ export function LessonDetailView({ lessonId, level }: LessonDetailViewProps) {
 
   const lesson = detail;
   const { vocabularies, grammar_points } = detail;
-  const currentLevel = level || (lesson.lesson_num <= 25 ? 'n5' : 'n4');
-  const nextLessonNum = lesson.lesson_num < 50 ? lesson.lesson_num + 1 : null;
+  const currentLevel =
+    level ||
+    lesson.level ||
+    (lesson.lesson_num <= 25
+      ? 'n5'
+      : lesson.lesson_num <= 50
+        ? 'n4'
+        : lesson.lesson_num <= 70
+          ? 'n3'
+          : lesson.lesson_num <= 90
+            ? 'n2'
+            : 'n1');
+
+  const getLevelByNum = (num: number) => {
+    if (num <= 25) return 'n5';
+    if (num <= 50) return 'n4';
+    if (num <= 70) return 'n3';
+    if (num <= 90) return 'n2';
+    return 'n1';
+  };
+
+  const nextLessonNum = lesson.lesson_num < 110 ? lesson.lesson_num + 1 : null;
   const prevLessonNum = lesson.lesson_num > 1 ? lesson.lesson_num - 1 : null;
+
+  const getBookTitle = (vol: number | undefined, num: number) => {
+    switch (vol) {
+      case 1:
+        return `Minna no Nihongo I (第1-25課) - 第${num}課`;
+      case 2:
+        return `Minna no Nihongo II (第26-50課) - 第${num}課`;
+      case 3:
+        return `Trung Cấp Tổng Hợp N3 (第51-70課) - 第${num}課`;
+      case 4:
+        return `Trung Cao Cấp N2 (第71-90課) - 第${num}課`;
+      case 5:
+        return `Thượng Cấp N1 (第91-110課) - 第${num}課`;
+      default:
+        if (num <= 25) return `Minna no Nihongo I (第1-25課) - 第${num}課`;
+        if (num <= 50) return `Minna no Nihongo II (第26-50課) - 第${num}課`;
+        if (num <= 70) return `Trung Cấp Tổng Hợp N3 (第51-70課) - 第${num}課`;
+        if (num <= 90) return `Trung Cao Cấp N2 (第71-90課) - 第${num}課`;
+        return `Thượng Cấp N1 (第91-110課) - 第${num}課`;
+    }
+  };
 
   return (
     <div className='mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-8'>
@@ -147,7 +188,7 @@ export function LessonDetailView({ lessonId, level }: LessonDetailViewProps) {
           <div className='flex items-center gap-3'>
             {prevLessonNum && (
               <Link
-                href={`/giao-trinh/${prevLessonNum <= 25 ? 'n5' : 'n4'}/${prevLessonNum}`}
+                href={`/giao-trinh/${getLevelByNum(prevLessonNum)}/${prevLessonNum}`}
                 className='inline-flex items-center gap-1 text-xs font-semibold text-sky-600 transition-colors hover:text-sky-700 sm:text-sm dark:text-sky-400'
               >
                 <ChevronLeft className='size-4' />
@@ -157,7 +198,7 @@ export function LessonDetailView({ lessonId, level }: LessonDetailViewProps) {
 
             {nextLessonNum && (
               <Link
-                href={`/giao-trinh/${nextLessonNum <= 25 ? 'n5' : 'n4'}/${nextLessonNum}`}
+                href={`/giao-trinh/${getLevelByNum(nextLessonNum)}/${nextLessonNum}`}
                 className='inline-flex items-center gap-1 text-xs font-semibold text-sky-600 transition-colors hover:text-sky-700 sm:text-sm dark:text-sky-400'
               >
                 <span>Bài {nextLessonNum}</span>
@@ -199,9 +240,7 @@ export function LessonDetailView({ lessonId, level }: LessonDetailViewProps) {
               </div>
 
               <h1 className='text-xl font-extrabold tracking-tight text-(--main-color) sm:text-2xl'>
-                {lesson.book_vol === 1
-                  ? `Minna no Nihongo I (第1-25課) - 第${lesson.lesson_num}課`
-                  : `Minna no Nihongo II (第26-50課) - 第${lesson.lesson_num}課`}
+                {getBookTitle(lesson.book_vol, lesson.lesson_num)}
               </h1>
             </div>
 

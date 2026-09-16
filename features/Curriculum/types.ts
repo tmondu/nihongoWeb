@@ -1,11 +1,13 @@
+export type CurriculumLevel = 'n5' | 'n4' | 'n3' | 'n2' | 'n1';
+
 export interface ThamLesson {
   id: number;
   lesson_num: number;
   title_vi: string;
   title_ja: string;
   description?: string | null;
-  level: 'n5' | 'n4';
-  book_vol: 1 | 2;
+  level: CurriculumLevel;
+  book_vol: 1 | 2 | 3 | 4 | 5;
   vocab_count: number;
   grammar_count: number;
   order_num?: number;

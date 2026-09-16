@@ -14,7 +14,16 @@ export function LessonCard({ lesson }: LessonCardProps) {
   const isCompleted = Boolean(lesson.is_completed);
 
   const courseLevel =
-    lesson.book_vol === 2 || lesson.lesson_num > 25 ? 'n4' : 'n5';
+    lesson.level ||
+    (lesson.lesson_num <= 25
+      ? 'n5'
+      : lesson.lesson_num <= 50
+        ? 'n4'
+        : lesson.lesson_num <= 70
+          ? 'n3'
+          : lesson.lesson_num <= 90
+            ? 'n2'
+            : 'n1');
 
   return (
     <Link
