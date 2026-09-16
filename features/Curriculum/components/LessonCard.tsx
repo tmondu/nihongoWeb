@@ -13,9 +13,12 @@ export function LessonCard({ lesson }: LessonCardProps) {
   const isLocked = Boolean(lesson.is_locked);
   const isCompleted = Boolean(lesson.is_completed);
 
+  const courseLevel =
+    lesson.book_vol === 2 || lesson.lesson_num > 25 ? 'n4' : 'n5';
+
   return (
     <Link
-      href={`/giao-trinh/${lesson.lesson_num}`}
+      href={`/giao-trinh/${courseLevel}/${lesson.lesson_num}`}
       className={`group relative flex items-center justify-between rounded-xl border p-4 transition-all duration-200 ${
         isLocked
           ? 'border-(--border-color)/50 bg-(--card-color)/40 text-slate-400 hover:border-(--border-color)'

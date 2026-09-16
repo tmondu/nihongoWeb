@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from '@/core/i18n/routing';
 import {
   GraduationCap,
   CheckCircle2,
@@ -11,10 +12,11 @@ import {
   Compass,
 } from 'lucide-react';
 import type { ThamLesson } from '../types';
+import { LESSONS_METADATA } from '../data/curriculumData';
 
 export interface CourseSelectionViewProps {
-  onSelectCourse: (course: 'n5' | 'n4') => void;
-  lessons: ThamLesson[];
+  onSelectCourse?: (course: 'n5' | 'n4') => void;
+  lessons?: ThamLesson[];
 }
 
 interface CourseConfig {
@@ -149,8 +151,52 @@ const COURSES: CourseConfig[] = [
 
 export function CourseSelectionView({
   onSelectCourse,
-  lessons,
+  lessons: propLessons,
 }: CourseSelectionViewProps) {
+  const router = useRouter();
+  const [fetchedLessons, setFetchedLessons] = useState<ThamLesson[] | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (propLessons && propLessons.length > 0) {
+      return;
+    }
+
+    let isMounted = true;
+    async function loadLessons() {
+      try {
+        const res = await fetch('/api/tham/lessons');
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.lessons && Array.isArray(data.lessons)) {
+            setFetchedLessons(data.lessons);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load lessons for course selection:', err);
+      }
+    }
+
+    loadLessons();
+    return () => {
+      isMounted = false;
+    };
+  }, [propLessons]);
+
+  const lessons =
+    propLessons && propLessons.length > 0
+      ? propLessons
+      : fetchedLessons || LESSONS_METADATA;
+
+  const handleSelect = (courseId: 'n5' | 'n4') => {
+    if (onSelectCourse) {
+      onSelectCourse(courseId);
+    } else {
+      router.push(`/giao-trinh/${courseId}`);
+    }
+  };
+
   // Compute progress for N5 and N4
   const n5Completed = lessons.filter(
     l => l.book_vol === 1 && l.is_completed,
@@ -266,7 +312,7 @@ export function CourseSelectionView({
             return (
               <div
                 key={course.id}
-                onClick={() => onSelectCourse(course.id as 'n5' | 'n4')}
+                onClick={() => handleSelect(course.id as 'n5' | 'n4')}
                 className={`group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-(--border-color) bg-(--card-color) p-5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-sky-500/50 hover:shadow-lg sm:p-6 ${course.glowColor}`}
               >
                 {/* Top Badge & Level indicator */}
@@ -344,7 +390,7 @@ export function CourseSelectionView({
                     type='button'
                     onClick={e => {
                       e.stopPropagation();
-                      onSelectCourse(course.id as 'n5' | 'n4');
+                      handleSelect(course.id as 'n5' | 'n4');
                     }}
                     className={`flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-bold shadow-xs transition-all duration-200 group-hover:scale-[1.01] ${
                       isN5

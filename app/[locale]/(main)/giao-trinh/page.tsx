@@ -5,7 +5,7 @@ import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
 import { routing } from '@/core/i18n/routing';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
-import { CurriculumRoadmapView } from '@/features/Curriculum';
+import { CourseSelectionView } from '@/features/Curriculum';
 
 // Generate static pages for all locales at build time
 export function generateStaticParams() {
@@ -57,11 +57,11 @@ export default async function GiaoTrinhPage({
         fallback={
           <div className='flex min-h-[60vh] flex-col items-center justify-center text-(--secondary-color)'>
             <Loader2 className='mb-2 size-8 animate-spin text-sky-500' />
-            <p className='text-sm font-medium'>Đang tải giáo trình...</p>
+            <p className='text-sm font-medium'>Đang tải khóa học...</p>
           </div>
         }
       >
-        <CurriculumRoadmapView />
+        <CourseSelectionView />
       </Suspense>
     </>
   );

@@ -17,10 +17,17 @@ import { CourseSelectionView } from './CourseSelectionView';
 import { LESSONS_METADATA } from '../data/curriculumData';
 import { useRouter } from '@/core/i18n/routing';
 
-export function CurriculumRoadmapView() {
+export interface CurriculumRoadmapViewProps {
+  level?: 'n5' | 'n4';
+}
+
+export function CurriculumRoadmapView({
+  level,
+}: CurriculumRoadmapViewProps = {}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const courseParam = searchParams.get('course'); // 'n5' | 'n4' | null
+  const courseParam =
+    level || (searchParams.get('course') as 'n5' | 'n4' | null);
   const [lessons, setLessons] = useState<ThamLesson[]>(LESSONS_METADATA);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -99,7 +106,7 @@ export function CurriculumRoadmapView() {
 
   // Handlers for course selection & navigation
   const handleSelectCourse = (selected: 'n5' | 'n4') => {
-    router.push(`/giao-trinh?course=${selected}`);
+    router.push(`/giao-trinh/${selected}`);
   };
 
   const handleBackToCourses = () => {
@@ -176,7 +183,7 @@ export function CurriculumRoadmapView() {
         <div className='flex items-center gap-2 border-b border-(--border-color) pt-2'>
           <button
             type='button'
-            onClick={() => router.push('/giao-trinh?course=n5')}
+            onClick={() => router.push('/giao-trinh/n5')}
             className={`flex cursor-pointer items-center gap-2 border-b-2 px-3 pb-2.5 text-sm font-bold transition-all ${
               activeTab === 1
                 ? 'border-sky-500 text-sky-600 dark:text-sky-400'
@@ -189,7 +196,7 @@ export function CurriculumRoadmapView() {
 
           <button
             type='button'
-            onClick={() => router.push('/giao-trinh?course=n4')}
+            onClick={() => router.push('/giao-trinh/n4')}
             className={`flex cursor-pointer items-center gap-2 border-b-2 px-3 pb-2.5 text-sm font-bold transition-all ${
               activeTab === 2
                 ? 'border-sky-500 text-sky-600 dark:text-sky-400'

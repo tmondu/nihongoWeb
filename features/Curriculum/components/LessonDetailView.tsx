@@ -24,9 +24,10 @@ import { Link } from '@/core/i18n/routing';
 
 interface LessonDetailViewProps {
   lessonId: number;
+  level?: string;
 }
 
-export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
+export function LessonDetailView({ lessonId, level }: LessonDetailViewProps) {
   const [detail, setDetail] = useState<ThamLessonDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'grammar' | 'vocab' | 'practice'>(
@@ -113,7 +114,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
           Không tìm thấy bài học.
         </p>
         <Link
-          href={`/giao-trinh?course=${lessonId <= 25 ? 'n5' : 'n4'}`}
+          href={`/giao-trinh/${level || (lessonId <= 25 ? 'n5' : 'n4')}`}
           className='inline-flex items-center gap-2 rounded-xl bg-sky-500 px-4 py-2 text-sm font-medium text-white'
         >
           <ArrowLeft className='size-4' />
@@ -125,6 +126,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
 
   const lesson = detail;
   const { vocabularies, grammar_points } = detail;
+  const currentLevel = level || (lesson.lesson_num <= 25 ? 'n5' : 'n4');
   const nextLessonNum = lesson.lesson_num < 50 ? lesson.lesson_num + 1 : null;
   const prevLessonNum = lesson.lesson_num > 1 ? lesson.lesson_num - 1 : null;
 
@@ -135,7 +137,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
         {/* Back Link & Next Lesson Link Bar */}
         <div className='flex items-center justify-between gap-4'>
           <Link
-            href={`/giao-trinh?course=${lesson.lesson_num <= 25 ? 'n5' : 'n4'}`}
+            href={`/giao-trinh/${currentLevel}`}
             className='inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 transition-colors hover:text-sky-700 sm:text-sm dark:text-sky-400'
           >
             <ArrowLeft className='size-4' />
@@ -145,7 +147,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
           <div className='flex items-center gap-3'>
             {prevLessonNum && (
               <Link
-                href={`/giao-trinh/${prevLessonNum}`}
+                href={`/giao-trinh/${prevLessonNum <= 25 ? 'n5' : 'n4'}/${prevLessonNum}`}
                 className='inline-flex items-center gap-1 text-xs font-semibold text-sky-600 transition-colors hover:text-sky-700 sm:text-sm dark:text-sky-400'
               >
                 <ChevronLeft className='size-4' />
@@ -155,7 +157,7 @@ export function LessonDetailView({ lessonId }: LessonDetailViewProps) {
 
             {nextLessonNum && (
               <Link
-                href={`/giao-trinh/${nextLessonNum}`}
+                href={`/giao-trinh/${nextLessonNum <= 25 ? 'n5' : 'n4'}/${nextLessonNum}`}
                 className='inline-flex items-center gap-1 text-xs font-semibold text-sky-600 transition-colors hover:text-sky-700 sm:text-sm dark:text-sky-400'
               >
                 <span>Bài {nextLessonNum}</span>
