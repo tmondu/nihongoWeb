@@ -89,17 +89,32 @@ export default function ForgotPasswordPage() {
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get('redirect') || '/';
 
+  const cleanEmail = (val: string) => {
+    let cleaned = val.trim();
+    // Fix IME autofill glitch where uncommitted initial character gets appended to email (e.g. .comn -> .com)
+    cleaned = cleaned.replace(
+      /(\.(?:com|vn|net|org|edu|info|io|jp))([a-zA-Z])$/i,
+      '$1',
+    );
+    return cleaned;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
     setLoading(true);
 
+    const sanitizedEmail = cleanEmail(email);
+    if (sanitizedEmail !== email) {
+      setEmail(sanitizedEmail);
+    }
+
     try {
       const res = await fetch('/api/auth/forgot-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, turnstileToken }),
+        body: JSON.stringify({ email: sanitizedEmail, turnstileToken }),
       });
 
       const data = await res.json();
@@ -154,10 +169,17 @@ export default function ForgotPasswordPage() {
               </label>
               <input
                 id='email'
+                name='email'
                 type='email'
+                autoComplete='email'
+                inputMode='email'
+                autoCapitalize='off'
+                autoCorrect='off'
+                spellCheck={false}
                 required
                 value={email}
                 onChange={e => setEmail(e.target.value)}
+                onBlur={() => setEmail(prev => cleanEmail(prev))}
                 className='mt-2 block w-full rounded-xl border border-(--border-color) bg-(--background-color) px-4 py-3 text-sm text-(--main-color) placeholder-(--secondary-color)/40 shadow-sm transition-all duration-300 focus:border-(--main-color) focus:ring-1 focus:ring-(--main-color) focus:outline-none'
                 placeholder='@gmail.com'
               />

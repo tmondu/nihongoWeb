@@ -73,7 +73,12 @@ export default function AdminLoginPage() {
             <div className='relative mt-1.5'>
               <User className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
               <input
+                name='username'
                 type='text'
+                autoComplete='username'
+                autoCapitalize='off'
+                autoCorrect='off'
+                spellCheck={false}
                 placeholder='admin'
                 value={username}
                 onChange={e => setUsername(e.target.value)}
@@ -89,7 +94,9 @@ export default function AdminLoginPage() {
             <div className='relative mt-1.5'>
               <Lock className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
               <input
+                name='password'
                 type='password'
+                autoComplete='current-password'
                 placeholder='••••••••'
                 value={password}
                 onChange={e => setPassword(e.target.value)}
