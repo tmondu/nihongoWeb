@@ -177,6 +177,8 @@ export function TypingHUD({
           autoCorrect='off'
           autoCapitalize='off'
           spellCheck='false'
+          lang='en'
+          inputMode='text'
           className='absolute inset-0 size-full cursor-text opacity-0'
         />
       </div>

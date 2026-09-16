@@ -10,6 +10,7 @@ import type {
   WordHistoryItem,
 } from '../types';
 import { fetchGameWords, shuffleWords } from '../lib/wordProvider';
+import { decodeVietnameseToRomaji } from '../lib/vietnameseInputHelper';
 import { GameCanvas } from './GameCanvas';
 import { TypingHUD } from './TypingHUD';
 import { GameOverModal } from './GameOverModal';
@@ -127,8 +128,14 @@ export function OniEscapeGame() {
   const handleInputChange = (val: string) => {
     if (!currentWord || gameState !== 'PLAYING') return;
 
-    const cleanInput = val.toLowerCase().replace(/[^a-z]/g, '');
     const target = currentWord.romaji.toLowerCase();
+    const cleanInput = decodeVietnameseToRomaji(val, target);
+
+    // If input was cleared or backspaced to empty, simply update state without mistake penalty
+    if (cleanInput.length === 0) {
+      setInputRomaji('');
+      return;
+    }
 
     // Check if cleanInput is a valid prefix of target
     if (target.startsWith(cleanInput)) {
