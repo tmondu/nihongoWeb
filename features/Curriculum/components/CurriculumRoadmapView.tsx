@@ -7,13 +7,16 @@ import {
   BookMarked,
   CheckCircle2,
   Loader2,
+  ArrowLeft,
 } from 'lucide-react';
 
 import type { ThamLesson } from '../types';
 import { LessonCard } from './LessonCard';
 import { LESSONS_METADATA } from '../data/curriculumData';
+import { useRouter } from '@/core/i18n/routing';
 
 export function CurriculumRoadmapView() {
+  const router = useRouter();
   const [lessons, setLessons] = useState<ThamLesson[]>(LESSONS_METADATA);
   const [activeTab, setActiveTab] = useState<1 | 2>(1); // 1 = Minna I (1-25), 2 = Minna II (26-50)
   const [searchQuery, setSearchQuery] = useState('');
@@ -92,9 +95,23 @@ export function CurriculumRoadmapView() {
     <div className='mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-8'>
       {/* Header Section */}
       <div className='space-y-4'>
-        {/* Breadcrumb / Section Label */}
-        <div className='flex items-center gap-2 text-xs font-semibold text-sky-600 dark:text-sky-400'>
-          <span>– Ngữ pháp</span>
+        {/* Breadcrumb / Back Button */}
+        <div>
+          <button
+            type='button'
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.history.length > 1) {
+                router.back();
+              } else {
+                router.push('/');
+              }
+            }}
+            aria-label='Quay lại'
+            className='group -ml-1.5 inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold text-sky-600 transition-colors hover:bg-sky-500/10 hover:text-sky-700 sm:text-sm dark:text-sky-400 dark:hover:text-sky-300'
+          >
+            <ArrowLeft className='size-3.5 transition-transform group-hover:-translate-x-0.5 sm:size-4' />
+            <span>Ngữ pháp</span>
+          </button>
         </div>
 
         {/* Title & Level Badge */}
