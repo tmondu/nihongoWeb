@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   BookOpen,
   Search,
@@ -12,15 +13,20 @@ import {
 
 import type { ThamLesson } from '../types';
 import { LessonCard } from './LessonCard';
+import { CourseSelectionView } from './CourseSelectionView';
 import { LESSONS_METADATA } from '../data/curriculumData';
 import { useRouter } from '@/core/i18n/routing';
 
 export function CurriculumRoadmapView() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const courseParam = searchParams.get('course'); // 'n5' | 'n4' | null
   const [lessons, setLessons] = useState<ThamLesson[]>(LESSONS_METADATA);
-  const [activeTab, setActiveTab] = useState<1 | 2>(1); // 1 = Minna I (1-25), 2 = Minna II (26-50)
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  // Active tab: 1 for N5 (lessons 1-25), 2 for N4 (lessons 26-50)
+  const activeTab: 1 | 2 = courseParam === 'n4' ? 2 : 1;
 
   // Fetch live lessons & user progress from API
   useEffect(() => {
@@ -91,6 +97,25 @@ export function CurriculumRoadmapView() {
       ? Math.round((completedGrammarEstimate / totalGrammarCount) * 100)
       : 0;
 
+  // Handlers for course selection & navigation
+  const handleSelectCourse = (selected: 'n5' | 'n4') => {
+    router.push(`/giao-trinh?course=${selected}`);
+  };
+
+  const handleBackToCourses = () => {
+    router.push('/giao-trinh');
+  };
+
+  // If no course selected (or invalid), show CourseSelectionView
+  if (!courseParam || (courseParam !== 'n5' && courseParam !== 'n4')) {
+    return (
+      <CourseSelectionView
+        onSelectCourse={handleSelectCourse}
+        lessons={lessons}
+      />
+    );
+  }
+
   return (
     <div className='mx-auto w-full max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-8'>
       {/* Header Section */}
@@ -99,18 +124,12 @@ export function CurriculumRoadmapView() {
         <div>
           <button
             type='button'
-            onClick={() => {
-              if (typeof window !== 'undefined' && window.history.length > 1) {
-                router.back();
-              } else {
-                router.push('/');
-              }
-            }}
-            aria-label='Quay lại'
+            onClick={handleBackToCourses}
+            aria-label='Chọn khóa học'
             className='group -ml-1.5 inline-flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-semibold text-sky-600 transition-colors hover:bg-sky-500/10 hover:text-sky-700 sm:text-sm dark:text-sky-400 dark:hover:text-sky-300'
           >
             <ArrowLeft className='size-3.5 transition-transform group-hover:-translate-x-0.5 sm:size-4' />
-            <span>Ngữ pháp</span>
+            <span>Chọn khóa học</span>
           </button>
         </div>
 
@@ -157,7 +176,7 @@ export function CurriculumRoadmapView() {
         <div className='flex items-center gap-2 border-b border-(--border-color) pt-2'>
           <button
             type='button'
-            onClick={() => setActiveTab(1)}
+            onClick={() => router.push('/giao-trinh?course=n5')}
             className={`flex cursor-pointer items-center gap-2 border-b-2 px-3 pb-2.5 text-sm font-bold transition-all ${
               activeTab === 1
                 ? 'border-sky-500 text-sky-600 dark:text-sky-400'
@@ -170,7 +189,7 @@ export function CurriculumRoadmapView() {
 
           <button
             type='button'
-            onClick={() => setActiveTab(2)}
+            onClick={() => router.push('/giao-trinh?course=n4')}
             className={`flex cursor-pointer items-center gap-2 border-b-2 px-3 pb-2.5 text-sm font-bold transition-all ${
               activeTab === 2
                 ? 'border-sky-500 text-sky-600 dark:text-sky-400'

@@ -7,4 +7,5 @@ export * from './components/GrammarCard';
 export * from './components/GrammarDetailModal';
 export * from './components/VocabularyTab';
 export * from './components/PracticeTab';
+export * from './components/CourseSelectionView';
 export * from './components/FuriganaText';

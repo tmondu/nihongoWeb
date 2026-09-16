@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
+import { Loader2 } from 'lucide-react';
 import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
 import { routing } from '@/core/i18n/routing';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
@@ -51,7 +53,16 @@ export default async function GiaoTrinhPage({
         skillLevel='Beginner'
         learningResourceType='Interactive Course, Grammar and Vocabulary'
       />
-      <CurriculumRoadmapView />
+      <Suspense
+        fallback={
+          <div className='flex min-h-[60vh] flex-col items-center justify-center text-(--secondary-color)'>
+            <Loader2 className='mb-2 size-8 animate-spin text-sky-500' />
+            <p className='text-sm font-medium'>Đang tải giáo trình...</p>
+          </div>
+        }
+      >
+        <CurriculumRoadmapView />
+      </Suspense>
     </>
   );
 }
