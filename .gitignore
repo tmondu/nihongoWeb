@@ -78,3 +78,7 @@ next-env.d.ts
 # eslint cache
 .eslintcache
 
+
+# Bỏ qua tất cả file sql (hoặc chỉ trong thư mục scripts)
+*.sql
+scripts/*.sql
