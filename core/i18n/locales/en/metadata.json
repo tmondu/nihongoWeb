@@ -313,5 +313,11 @@
     "titleShort": "ThamKanji Explorer",
     "description": "Look up detailed Japanese Kanji information, Onyomi, Kunyomi, stroke order, radicals, and common vocabulary compounds by JLPT level.",
     "keywords": "kanji lookup, thamkanji, kanji dictionary, stroke order, radicals, jlpt kanji details"
+  },
+  "curriculum": {
+    "title": "Minna no Nihongo Curriculum (Elementary N5 - N4) | PThamSS",
+    "titleShort": "Curriculum",
+    "description": "Complete 50-lesson Minna no Nihongo Japanese curriculum for N5 and N4 levels. Grammar explanations, vocabulary lists, audio, and interactive quizzes.",
+    "keywords": "minna no nihongo, japanese curriculum, n5 n4 roadmap, elementary japanese lessons, japanese grammar lessons"
   }
 }

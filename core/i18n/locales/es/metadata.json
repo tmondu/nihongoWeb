@@ -309,9 +309,15 @@
     "keywords": "tabla kana, tabla hiragana, tabla katakana, alfabeto japones"
   },
   "thamkanji": {
-    "title": "Explorador ThamKanji - Detalles de Kanji y radicales | PThamSS",
+    "title": "Explorador ThamKanji - Detalles de Kanji japonés y radicales | PThamSS",
     "titleShort": "Explorador ThamKanji",
     "description": "Consulta información detallada de kanji japonés, Onyomi, Kunyomi, orden de trazos, radicales y palabras compuestas por nivel JLPT.",
-    "keywords": "buscar kanji, thamkanji, diccionario kanji, orden de trazos"
+    "keywords": "búsqueda kanji, thamkanji, diccionario kanji, orden de trazos, radicales, detalles kanji jlpt"
+  },
+  "curriculum": {
+    "title": "Plan de Estudios Minna no Nihongo (Elemental N5 - N4) | PThamSS",
+    "titleShort": "Plan de Estudios",
+    "description": "Plan completo de 50 lecciones de Minna no Nihongo para niveles N5 y N4. Gramática, vocabulario, audio y ejercicios interactivos.",
+    "keywords": "minna no nihongo, lecciones japones, gramatica japonesa, curso de japones n5 n4"
   }
 }

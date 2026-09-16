@@ -283,5 +283,11 @@
     "titleShort": "Pratique Kanji",
     "description": "Pratiquez les Kanji japonais par niveau JLPT avec des exercices interactifs. Améliorez la reconnaissance, les lectures et la rétention avec des exercices rapides et un suivi des progrès.",
     "keywords": "pratique kanji, pratiquer kanji, apprendre kanji, kanji jlpt, kanji par niveau, exercices kanji, quiz kanji, kanji japonais"
+  },
+  "curriculum": {
+    "title": "Programme Minna no Nihongo (Élémentaire N5 - N4) | PThamSS",
+    "titleShort": "Programme Minna",
+    "description": "Programme complet de 50 leçons de Minna no Nihongo pour les niveaux N5 et N4. Grammaire, vocabulaire, audio et exercices interactifs.",
+    "keywords": "minna no nihongo, leçons de japonais, grammaire japonaise, cours de japonais n5 n4"
   }
 }

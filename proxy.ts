@@ -104,6 +104,7 @@ export default async function proxy(request: NextRequest) {
     canonicalPath.startsWith('/classroom') ||
     canonicalPath.startsWith('/glossary') ||
     canonicalPath.startsWith('/security') ||
+    canonicalPath.startsWith('/giao-trinh') ||
     canonicalPath.startsWith('/oni-escape');
 
   // Redirect if not authenticated

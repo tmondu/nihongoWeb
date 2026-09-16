@@ -130,6 +130,11 @@ const mainNavItems: NavItem[] = [
     icon: GraduationCap,
   },
   {
+    href: '/giao-trinh',
+    labelKey: 'curriculum',
+    icon: BookOpen,
+  },
+  {
     href: '/exercises',
     labelKey: 'exercises',
     icon: ClipboardCheck,

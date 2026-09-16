@@ -11,6 +11,7 @@ import {
   Sparkles,
   GraduationCap,
   ClipboardCheck,
+  BookMarked,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -18,6 +19,11 @@ const NAV_ITEMS = [
     label: 'Tổng quan',
     href: '/',
     icon: LayoutDashboard,
+  },
+  {
+    label: 'Giáo Án (Curriculum)',
+    href: '/curriculum',
+    icon: BookMarked,
   },
   {
     label: 'Từ Vựng (Vocab)',

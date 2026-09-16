@@ -313,5 +313,11 @@
     "titleShort": "Tra cứu ThamKanji",
     "description": "Tra cứu chi tiết chữ Kanji tiếng Nhật, âm Hán Việt, Onyomi, Kunyomi, số nét, thứ tự nét viết, giải nghĩa bộ thủ và từ ghép theo cấp độ JLPT.",
     "keywords": "tra cứu kanji, thamkanji, chữ hán tiếng nhật, âm hán việt, onyomi kunyomi, thứ tự nét viết kanji, bộ thủ kanji"
+  },
+  "curriculum": {
+    "title": "Lộ Trình Minna no Nihongo (Sơ Cấp N5 - N4) | PThamSS",
+    "titleShort": "Giáo án Minna no Nihongo",
+    "description": "Lộ trình 50 bài học giáo trình Minna no Nihongo sơ cấp N5 - N4. Đầy đủ ngữ pháp, từ vựng, âm thanh phát âm và bài tập tương tác.",
+    "keywords": "minna no nihongo, giáo trình tiếng nhật, giáo án tiếng nhật, lộ trình học n5 n4, ngữ pháp tiếng nhật sơ cấp, từ vựng minna"
   }
 }

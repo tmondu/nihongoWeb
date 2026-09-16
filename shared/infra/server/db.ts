@@ -197,6 +197,72 @@ export function getDbPool(): mysql.Pool {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
 
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`tham_lessons\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`lesson_num\` INT UNIQUE NOT NULL,
+          \`title_vi\` VARCHAR(255) NOT NULL,
+          \`title_ja\` VARCHAR(255) NOT NULL,
+          \`level\` VARCHAR(10) NOT NULL DEFAULT 'n5',
+          \`book_vol\` INT NOT NULL DEFAULT 1,
+          \`vocab_count\` INT NOT NULL DEFAULT 0,
+          \`grammar_count\` INT NOT NULL DEFAULT 0,
+          \`order_num\` INT NOT NULL DEFAULT 0,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          INDEX \`idx_tham_level\` (\`level\`),
+          INDEX \`idx_tham_vol\` (\`book_vol\`),
+          INDEX \`idx_tham_num\` (\`lesson_num\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`tham_vocabularies\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`lesson_num\` INT NOT NULL,
+          \`kanji\` VARCHAR(100) NULL,
+          \`kana\` VARCHAR(100) NOT NULL,
+          \`romaji\` VARCHAR(100) NOT NULL,
+          \`meaning_vi\` TEXT NOT NULL,
+          \`word_type\` VARCHAR(50) NULL,
+          \`example_ja\` TEXT NULL,
+          \`example_vi\` TEXT NULL,
+          \`order_num\` INT NOT NULL DEFAULT 0,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          INDEX \`idx_tv_lesson\` (\`lesson_num\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`tham_grammar_points\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`lesson_num\` INT NOT NULL,
+          \`title\` VARCHAR(255) NOT NULL,
+          \`summary_vi\` VARCHAR(255) NOT NULL,
+          \`structure\` VARCHAR(255) NULL,
+          \`explanation_vi\` TEXT NOT NULL,
+          \`examples\` JSON NOT NULL,
+          \`order_num\` INT NOT NULL DEFAULT 0,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          INDEX \`idx_tg_lesson\` (\`lesson_num\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`tham_user_progress\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`user_id\` INT NOT NULL,
+          \`lesson_num\` INT NOT NULL,
+          \`grammar_completed\` INT DEFAULT 0,
+          \`vocab_completed\` TINYINT(1) DEFAULT 0,
+          \`quiz_score\` INT DEFAULT 0,
+          \`completed_at\` TIMESTAMP NULL,
+          \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          UNIQUE KEY \`uniq_user_lesson\` (\`user_id\`, \`lesson_num\`),
+          INDEX \`idx_tup_user\` (\`user_id\`),
+          FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
       // Seed default admin account
       const [existingAdmins] = await pool.execute<any[]>(
         'SELECT id FROM users WHERE email = ?',

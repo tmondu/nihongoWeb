@@ -1,0 +1,97 @@
+-- ==============================================================================;
+-- File: scripts/tidb_tham_curriculum_seed.sql
+-- Mục đích: Dữ liệu khởi tạo cho 50 bài học Minna no Nihongo (tham_lessons),
+--          ngữ pháp và từ vựng chi tiết bài 1.
+-- ==============================================================================;
+
+SET NAMES utf8mb4;
+
+-- 1. NẠP DANH MỤC 50 BÀI HỌC (MINNA I & II)
+INSERT INTO `tham_lessons` (`lesson_num`, `title_vi`, `title_ja`, `description`, `level`, `book_vol`, `vocab_count`, `grammar_count`, `order_num`) VALUES
+  (1, 'Giới thiệu bản thân', '第1課', 'Học cách chào hỏi, giới thiệu tên, nghề nghiệp, quốc tịch.', 'n5', 1, 42, 6, 1),
+  (2, 'Chỉ thị & lựa chọn', '第2課', 'Đại từ chỉ định đồ vật (これ, それ, あれ), hỏi đồ của ai.', 'n5', 1, 36, 4, 2),
+  (3, 'Nơi chốn & giá cả', '第3課', 'Hỏi địa điểm (ここ, そこ, あそこ), xuất xứ và giá cả (いくら).', 'n5', 1, 38, 6, 3),
+  (4, 'Thời gian & lịch biểu', '第4課', 'Cách nói giờ giấc, phút, ngày thứ, thời gian làm việc (から - まで).', 'n5', 1, 45, 5, 4),
+  (5, 'Di chuyển & phương tiện', '第5課', 'Đi đâu, đến đâu (へ), bằng phương tiện gì (で), đi cùng ai (と).', 'n5', 1, 40, 6, 5),
+  (6, 'Hoạt động & lời mời', '第6課', 'Tân ngữ (を), địa điểm hành động (で), rủ rê mời mọc (~ ませんか).', 'n5', 1, 42, 7, 6),
+  (7, 'Cho & nhận, công cụ', '第7課', 'Dụng cụ thực hiện (で), tặng cho (あげます), nhận (もらいます).', 'n5', 1, 38, 5, 7),
+  (8, 'Tính từ & miêu tả', '第8課', 'Tính từ đuôi い và tính từ đuôi な, miêu tả tính chất sự vật.', 'n5', 1, 44, 8, 8),
+  (9, 'Sở thích, khả năng & lý do', '第9課', 'Thích (すき), ghỏi (じょうず), hiểu (わかります), giải thích (から).', 'n5', 1, 37, 6, 9),
+  (10, 'Tồn tại & vị trí', '第10課', 'Sự hiện diện của người/vật (います/あります), vị trí không gian.', 'n5', 1, 35, 5, 10),
+  (11, 'Số lượng & tần suất', '第11課', 'Đếm đồ vật (ひとつ, ふたつ), đếm người, thời lượng thời gian.', 'n5', 1, 39, 5, 11),
+  (12, 'So sánh & quá khứ', '第12課', 'Quá khứ của tính từ/danh từ, so sánh hơn (より), so sánh nhất.', 'n5', 1, 36, 6, 12),
+  (13, 'Mong muốn & mục đích', '第13課', 'Muốn có cái gì (~ がほしい), muốn làm gì (~ たい), mục đích di chuyển.', 'n5', 1, 38, 5, 13),
+  (14, 'Thể Te & yêu cầu', '第14課', 'Chia động từ thể て, nhờ vả (~ てください), đang làm (~ ています).', 'n5', 1, 42, 6, 14),
+  (15, 'Cho phép & cấm đoán', '第15課', 'Được phép (~ てもいいです), cấm (~ てはいけません), trạng thái kết quả.', 'n5', 1, 36, 5, 15),
+  (16, 'Nối câu & trình tự', '第16課', 'Nối hành động (Vて, Vて), sau khi làm gì (Vてから), miêu tả tính chất.', 'n5', 1, 35, 6, 16),
+  (17, 'Thể Nai & nghĩa vụ', '第17課', 'Chia thể ない, xin đừng (~ ないでください), phải làm (~ なければなりません).', 'n5', 1, 37, 5, 17),
+  (18, 'Thể từ điển & khả năng', '第18課', 'Thể từ điển (辞書形), có thể làm gì (~ ことができます), sở thích (しゅみは).', 'n5', 1, 36, 5, 18),
+  (19, 'Thể Ta & trải nghiệm', '第19課', 'Thể た, từng làm gì (~ たことがあります), liệt kê hành động (~ たり ~ たり).', 'n5', 1, 34, 5, 19),
+  (20, 'Thể thông thường', '第20課', 'Thể ngắn / thân mật (普通形) trong giao tiếp hàng ngày với bạn bè.', 'n5', 1, 32, 4, 20),
+  (21, 'Ý kiến & trích dẫn', '第21課', 'Tôi nghĩ rằng (~ と思います), nói rằng (~ と言いました).', 'n5', 1, 35, 5, 21),
+  (22, 'Mệnh đề định ngữ', '第22課', 'Bổ nghĩa cho danh từ bằng mệnh đề động từ/tính từ.', 'n5', 1, 33, 4, 22),
+  (23, 'Thời điểm & chỉ dẫn', '第23課', 'Khi nào (~ とき), nếu làm thì sẽ dẫn đến hệ quả tự nhiên (~ と).', 'n5', 1, 36, 5, 23),
+  (24, 'Hành động cho nhận', '第24課', 'Làm việc gì cho ai (~ てあげます, ~ てもらいます, ~ てくれます).', 'n5', 1, 34, 5, 24),
+  (25, 'Điều kiện & giả định', '第25課', 'Nếu... thì (~ たら), mặc dù... nhưng (~ ても). Kết thúc Minna I (N5)!', 'n5', 1, 35, 4, 25),
+  (26, 'Giải thích & nhấn mạnh', '第26課', 'Cấu trúc ~ んです (nhấn mạnh lý do, giải thích, tò mò).', 'n4', 2, 36, 5, 26),
+  (27, 'Thể khả năng', '第27課', 'Động từ thể khả năng (可能動詞), phân biệt みえます và きこえます.', 'n4', 2, 35, 5, 27),
+  (28, 'Hành động đồng thời', '第28課', 'Vừa... vừa (~ ながら), thói quen, liệt kê lý do (~ し, ~ し).', 'n4', 2, 34, 4, 28),
+  (29, 'Tự động từ & trạng thái', '第29課', 'Tự động từ + ~ ています miêu tả trạng thái hiện trường của vật.', 'n4', 2, 36, 5, 29),
+  (30, 'Tha động từ & mục đích', '第30課', 'Cấu trúc ~ てあります (đã làm sẵn có chủ đích), ~ ておきます (chuẩn bị trước).', 'n4', 2, 35, 5, 30),
+  (31, 'Thể ý chí & dự định', '第31課', 'Động từ thể ý chí (意向形), dự định (~ つもりです, ~ よていです).', 'n4', 2, 35, 4, 31),
+  (32, 'Lời khuyên & phỏng đoán', '第32課', 'Nên/không nên (~ ほうがいいです), phỏng đoán (~ でしょう, ~ かもしれません).', 'n4', 2, 34, 5, 32),
+  (33, 'Thể mệnh lệnh & cấm chỉ', '第33課', 'Thể mệnh lệnh (命令形), thể cấm chỉ (禁止形), biển báo, truyền đạt lại.', 'n4', 2, 38, 5, 33),
+  (34, 'Làm theo chỉ dẫn', '第34課', 'Làm theo y hệt (~ とおりに), sau khi làm (~ あとで), làm mà không làm gì.', 'n4', 2, 33, 4, 34),
+  (35, 'Thể điều kiện Ba', '第35課', 'Thể điều kiện (ば形), càng... càng (~ ば ~ ほど).', 'n4', 2, 35, 5, 35),
+  (36, 'Mục đích & biến đổi', '第36課', 'Để có thể (~ ように), thay đổi thói quen/trạng thái (~ ようになりました).', 'n4', 2, 34, 5, 36),
+  (37, 'Thể bị động', '第37課', 'Động từ thể bị động (受身形), bị hại, được tạo ra bởi ai/vật gì.', 'n4', 2, 35, 5, 37),
+  (38, 'Danh từ hóa hành động', '第38課', 'Danh từ hóa bằng の (Vるのがすき, Vるのをわすれました).', 'n4', 2, 32, 4, 38),
+  (39, 'Nguyên nhân & cảm xúc', '第39課', 'Nguyên nhân dẫn đến cảm xúc/kết quả tự nhiên (~ て, ~ ので).', 'n4', 2, 34, 4, 39),
+  (40, 'Câu hỏi lồng trong câu', '第40課', 'Hỏi xem có hay không (~ かどうか), làm thử xem sao (~ てみます).', 'n4', 2, 33, 4, 40),
+  (41, 'Cho nhận kính ngữ', '第41課', 'Hành động cho nhận nâng cao (やる, いただく, くださる).', 'n4', 2, 32, 4, 41),
+  (42, 'Để làm gì & sử dụng', '第42課', 'Phục vụ cho mục đích (~ のために, ~ のにつかいます, ~ のに便利).', 'n4', 2, 33, 4, 42),
+  (43, 'Dường như & sắp sửa', '第43課', 'Trông có vẻ / sắp sửa xảy ra (~ そうです, ~ てきます).', 'n4', 2, 34, 4, 43),
+  (44, 'Quá mức & dễ khó', '第44課', 'Làm quá mức (~ すぎます), dễ làm (~ やすい), khó làm (~ にくい).', 'n4', 2, 32, 4, 44),
+  (45, 'Trường hợp & mặc dù', '第45課', 'Trong trường hợp (~ ばあいは), mặc dù thế mà (~ のに - bất mãn).', 'n4', 2, 31, 4, 45),
+  (46, 'Thời điểm hành động', '第46課', 'Sắp sửa, đang diễn ra, vừa mới xong (~ ところです, ~ たばかりです, ~ はずです).', 'n4', 2, 33, 5, 46),
+  (47, 'Nghe nói & hình như', '第47課', 'Nghe nói là (~ そうです), hình như phán đoán theo trực giác (~ ようです).', 'n4', 2, 32, 4, 47),
+  (48, 'Thể sai khiến', '第48課', 'Động từ thể sai khiến (使役形) - bắt ai làm gì, cho phép ai làm gì.', 'n4', 2, 32, 4, 48),
+  (49, 'Tôn kính ngữ', '第49課', 'Kính ngữ nâng người nghe (尊敬語: お/ご ~ になります, động từ đặc biệt).', 'n4', 2, 34, 5, 49),
+  (50, 'Khiêm nhường ngữ', '第50課', 'Hạ mình lịch thiệp (謙譲語: お/ご ~ します, động từ khiêm nhường đặc biệt).', 'n4', 2, 35, 5, 50);
+
+-- 2. NẠP CHI TIẾT NGỮ PHÁP BÀI 1
+INSERT INTO `tham_grammar_points` (`lesson_num`, `title`, `summary_vi`, `structure`, `explanation_vi`, `examples`, `order_num`) VALUES
+  (1, 'N1 は N2 です', 'N1 là N2', 'N1 [Danh từ 1] は N2 [Danh từ 2] です', 'Trợ từ 「は」 (đọc là "wa") đứng sau danh từ N1 để biểu thị N1 là chủ đề của câu. 「です」 đứng cuối câu thể hiện sự khẳng định lịch sự (tương đương "thì, là, ở").', '[{"ja":"わたしは マイク・ミラーです。","kana":"わたし は マイク・ミラー です。","romaji":"watashi wa maiku miraa desu.","vi":"Tôi là Mike Miller."},{"ja":"サントスさんは ブラジル人です。","kana":"サントスさん は ブラジルじん です。","romaji":"santosu-san wa burajiru-jin desu.","vi":"Anh Santos là người Brazil."},{"ja":"わたしは 学生です。","kana":"わたし は がくせい です。","romaji":"watashi wa gakusei desu.","vi":"Tôi là học sinh / sinh viên."}]', 1),
+  (1, 'N1 は N2 ではありません', 'N1 không phải là N2', 'N1 は N2 では ありません / じゃ ありません', 'Dạng phủ định của 「です」 là 「ではありません」 (trong văn nói thân mật hơn có thể dùng 「じゃありません」). Biểu thị N1 không phải là N2.', '[{"ja":"サントスさんは 学生じゃ ありません。","kana":"サントスさん は がくせい じゃ ありません。","romaji":"santosu-san wa gakusei ja arimasen.","vi":"Anh Santos không phải là sinh viên."},{"ja":"ミラーさんは 医者では ありません。","kana":"ミラーさん は いしゃ では ありません。","romaji":"miraa-san wa isha dewa arimasen.","vi":"Anh Miller không phải là bác sĩ."}]', 2),
+  (1, 'S か', 'Câu hỏi nghi vấn (Có phải ... không?)', 'Mệnh đề S ですか。', 'Trợ từ 「か」 đứng ở cuối câu dùng để biến câu khẳng định thành câu hỏi nghi vấn. Trả lời bằng 「はい、そうです」 (Vâng, đúng vậy) hoặc 「いいえ、ちがいます」 (Không, không phải).', '[{"ja":"ミラーさんは アメリカ人ですか。","kana":"ミラーさん は アメリカじん ですか。","romaji":"miraa-san wa amerika-jin desu ka.","vi":"Anh Miller có phải là người Mỹ không?"},{"ja":"はい、アメリカ人です。","kana":"はい、アメリカじん です。","romaji":"hai, amerika-jin desu.","vi":"Vâng, là người Mỹ."},{"ja":"いいえ、アメリカ人じゃ ありません。","kana":"いいえ、アメリカじん じゃ ありません。","romaji":"iie, amerika-jin ja arimasen.","vi":"Không, không phải người Mỹ."}]', 3),
+  (1, 'N は Từ để hỏi ですか', 'Câu hỏi có từ để hỏi (Ai, Bao nhiêu tuổi...)', 'N は [だれ / どなた / なんさい / おいくつ] ですか。', 'Câu hỏi chứa các từ nghi vấn như: だれ (ai - thân mật), どなた (vị nào - kính ngữ), なんさい / おいくつ (bao nhiêu tuổi). Khi trả lời không dùng はい hay いいえ mà trả lời trực tiếp thông tin.', '[{"ja":"あの方は どなたですか。","kana":"あのかた は どなた ですか。","romaji":"ano kata wa donata desu ka.","vi":"Vị kia là ai vậy ạ?"},{"ja":"ワット先生です。さくら大学の 先生です。","kana":"ワットせんせい です。さくらだいがく の せんせい です。","romaji":"watto sensei desu. sakura daigaku no sensei desu.","vi":"Là thầy Watt. Thầy là giảng viên trường đại học Sakura."},{"ja":"テレサちゃんは 何歳ですか。","kana":"テレサちゃん は なんさい ですか。","romaji":"teresa-chan wa nansai desu ka.","vi":"Bé Teresa mấy tuổi rồi?"}]', 4),
+  (1, 'N も', 'N cũng (Đồng nhất tính chất)', 'N1 は ... です。 N2 も ... です。', 'Trợ từ 「も」 thay thế cho trợ từ 「は」 khi muốn diễn đạt N2 cũng có cùng tính chất, danh tính tương tự như N1 đã nhắc trước đó (nghĩa là "cũng").', '[{"ja":"ミラーさんは 会社員です。グプタさんも 会社員です。","kana":"ミラーさん は かいしゃいん です。グプタさん も かいしゃいん です。","romaji":"miraa-san wa kaishain desu. guputa-san mo kaishain desu.","vi":"Anh Miller là nhân viên công ty. Anh Gupta cũng là nhân viên công ty."},{"ja":"わたしも ベトナム人です。","kana":"わたし も ベトナムじん です。","romaji":"watashi mo betonamu-jin desu.","vi":"Tôi cũng là người Việt Nam."}]', 5),
+  (1, 'N1 の N2', 'N2 của N1 (Sở hữu / Thuộc về)', 'N1 [Chủ sở hữu/Tổ chức] の N2 [Đối tượng/Người]', 'Trợ từ 「の」 kết nối hai danh từ. Danh từ N1 đứng trước để bổ nghĩa hoặc xác định quyền sở hữu, trực thuộc cho danh từ N2 đứng sau.', '[{"ja":"ミラーさんは IMCの 社員です。","kana":"ミラーさん は IMC の しゃいん です。","romaji":"miraa-san wa IMC no shain desu.","vi":"Anh Miller là nhân viên của công ty IMC."},{"ja":"これは わたしの 本です。","kana":"これ は わたし の ほん です。","romaji":"kore wa watashi no hon desu.","vi":"Đây là sách của tôi."}]', 6);
+
+-- 3. NẠP CHI TIẾT TỪ VỰNG BÀI 1
+INSERT INTO `tham_vocabularies` (`lesson_num`, `kanji`, `kana`, `romaji`, `meaning_vi`, `word_type`, `example_ja`, `example_vi`, `order_num`) VALUES
+  (1, '私', 'わたし', 'watashi', 'Tôi (ngôi thứ nhất số ít)', 'Đại từ', 'わたしは ベトナム人です。', 'Tôi là người Việt Nam.', 1),
+  (1, '貴方', 'あなた', 'anata', 'Bạn, anh, chị (ngôi thứ 2)', 'Đại từ', 'あなたは 学生ですか。', 'Bạn có phải là học sinh không?', 2),
+  (1, 'あの人', 'あのひと', 'ano hito', 'Người kia, người đó', 'Đại từ', 'あの人は だれですか。', 'Người kia là ai vậy?', 3),
+  (1, 'あの方', 'あのかた', 'ano kata', 'Vị kia (kính ngữ của あのひと)', 'Đại từ', 'あの方は どなたですか。', 'Vị kia là vị nào vậy ạ?', 4),
+  (1, NULL, '〜さん', 'san', 'Anh, chị, ông, bà (hậu tố xưng hô lịch sự)', 'Hậu tố', '田中さん', 'Anh Tanaka', 5),
+  (1, NULL, '〜ちゃん', 'chan', 'Bé, em (gọi thân mật trẻ em, con gái)', 'Hậu tố', 'テレサちゃん', 'Bé Teresa', 6),
+  (1, '〜人', '〜じん', 'jin', 'Người (nước...)', 'Hậu tố', 'ベトナム人、日本人', 'Người Việt Nam, người Nhật Bản', 7),
+  (1, '先生', 'せんせい', 'sensei', 'Thầy cô giáo, bác sĩ (dùng để gọi người khác)', 'Danh từ', 'ワット先生', 'Thầy Watt', 8),
+  (1, '教師', 'きょうし', 'kyoushi', 'Giáo viên (chỉ nghề nghiệp của bản thân)', 'Danh từ', 'わたしは 教師です。', 'Tôi là giáo viên.', 9),
+  (1, '学生', 'がくせい', 'gakusei', 'Học sinh, sinh viên', 'Danh từ', 'わたしは 学生です。', 'Tôi là học sinh / sinh viên.', 10),
+  (1, '会社員', 'かいしゃいん', 'kaishain', 'Nhân viên công ty', 'Danh từ', 'ミラーさんは 会社員です。', 'Anh Miller là nhân viên công ty.', 11),
+  (1, '社員', 'しゃいん', 'shain', 'Nhân viên (đi kèm tên công ty: ... の社員)', 'Danh từ', 'IMCの 社員', 'Nhân viên công ty IMC', 12),
+  (1, '銀行員', 'ぎんこういん', 'ginkouin', 'Nhân viên ngân hàng', 'Danh từ', '銀行員です。', 'Là nhân viên ngân hàng.', 13),
+  (1, '医者', 'いしゃ', 'isha', 'Bác sĩ', 'Danh từ', '医者では ありません。', 'Không phải là bác sĩ.', 14),
+  (1, '研究者', 'けんきゅうしゃ', 'kenkyuusha', 'Nhà nghiên cứu', 'Danh từ', '大学の 研究者です。', 'Là nhà nghiên cứu của trường đại học.', 15),
+  (1, '大学', 'だいがく', 'daigaku', 'Trường đại học', 'Danh từ', 'さくら大学', 'Đại học Sakura', 16),
+  (1, '病院', 'びょういん', 'byouin', 'Bệnh viện', 'Danh từ', '病院の 医者', 'Bác sĩ của bệnh viện', 17),
+  (1, '誰', 'だれ', 'dare', 'Ai (từ để hỏi thân mật)', 'Nghi vấn từ', 'あの人は だれですか。', 'Người kia là ai?', 18),
+  (1, '何方', 'どなた', 'donata', 'Vị nào (kính ngữ của だれ)', 'Nghi vấn từ', 'あの方は どなたですか。', 'Vị kia là vị nào ạ?', 19),
+  (1, '何歳', 'なんさい', 'nansai', 'Mấy tuổi', 'Nghi vấn từ', '何歳ですか。', 'Bạn bao nhiêu tuổi?', 20),
+  (1, 'お幾つ', 'おいくつ', 'oikutsu', 'Bao nhiêu tuổi (lịch sự hơn なんさい)', 'Nghi vấn từ', 'おいくつですか。', 'Bác bao nhiêu tuổi rồi ạ?', 21),
+  (1, NULL, 'はい', 'hai', 'Vâng, dạ, đúng vậy', 'Thán từ', 'はい、そうです。', 'Vâng, đúng vậy.', 22),
+  (1, NULL, 'いいえ', 'iie', 'Không, không phải', 'Thán từ', 'いいえ、ちがいます。', 'Không, không phải.', 23),
+  (1, '初めまして', 'はじめまして', 'hajimemashite', 'Rất hân hạnh được gặp bạn (lời chào khi gặp lần đầu)', 'Thành ngữ chào hỏi', '初めまして。ミラーです。', 'Rất hân hạnh được gặp bạn. Tôi là Miller.', 24),
+  (1, NULL, 'どうぞよろしくおねがいします', 'douzo yoroshiku onegaishimasu', 'Rất mong nhận được sự giúp đỡ của bạn', 'Thành ngữ chào hỏi', 'どうぞ よろしく お願いします。', 'Xin hãy giúp đỡ tôi nhé.', 25);
