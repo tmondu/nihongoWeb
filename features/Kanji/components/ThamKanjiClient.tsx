@@ -41,15 +41,7 @@ export default function ThamKanjiClient({
   const openParam = searchParams.get('open');
   const { playClick } = useClick();
 
-  const isAllCached =
-    typeof window !== 'undefined' &&
-    kanjiDataService.isCached('n5') &&
-    kanjiDataService.isCached('n4') &&
-    kanjiDataService.isCached('n3') &&
-    kanjiDataService.isCached('n2') &&
-    kanjiDataService.isCached('n1');
-
-  const [loading, setLoading] = useState(!isAllCached);
+  const [loading, setLoading] = useState(true);
   const [activeLevel, setActiveLevel] = useState<KanjiLevel>(
     initialLevel || 'n5',
   );
@@ -67,6 +59,18 @@ export default function ThamKanjiClient({
   // Preload all kanji data on mount
   useEffect(() => {
     let active = true;
+    const isAllCached =
+      kanjiDataService.isCached('n5') &&
+      kanjiDataService.isCached('n4') &&
+      kanjiDataService.isCached('n3') &&
+      kanjiDataService.isCached('n2') &&
+      kanjiDataService.isCached('n1');
+
+    if (isAllCached) {
+      setLoading(false);
+      return;
+    }
+
     void kanjiDataService.preloadAll().then(() => {
       if (active) {
         setLoading(false);
@@ -435,7 +439,7 @@ export default function ThamKanjiClient({
                   className='group relative flex justify-center'
                 >
                   <Link
-                    href={`/kanji/thamkanji/${kanji.kanjiChar}`}
+                    href={`/kanji/thamkanji/${encodeURIComponent(kanji.kanjiChar)}`}
                     prefetch={false}
                     onClick={() => {
                       playClick();

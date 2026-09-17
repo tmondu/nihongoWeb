@@ -32,12 +32,12 @@ const drawGrid = (ctx: CanvasRenderingContext2D) => {
   ctx.restore();
 };
 
-interface HandwritingSearchCardProps {
+export interface HandwritingSearchCardProps {
   onSelectKanji: (kanji: string) => void;
   className?: string;
 }
 
-function HandwritingSearchCard({
+export function HandwritingSearchCard({
   onSelectKanji,
   className,
 }: HandwritingSearchCardProps) {
@@ -241,10 +241,14 @@ function HandwritingSearchCard({
       const data = await response.json();
       if (data && data[0] === 'SUCCESS') {
         const parsedCandidates: string[] = data[1][0][1];
-        const latinOrDigitRegex = /[a-zA-Z0-9\u00C0-\u024F\u1E00-\u1EFF]/;
+        // Only accept Japanese characters (CJK Kanji, Hiragana, Katakana, iteration marks)
+        const japaneseCharRegex =
+          /^[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf々〆ヶ]+$/;
         setCandidates(
-          parsedCandidates.filter(
-            c => c.trim().length > 0 && !latinOrDigitRegex.test(c),
+          Array.from(
+            new Set(
+              parsedCandidates.filter(c => japaneseCharRegex.test(c.trim())),
+            ),
           ),
         );
       }

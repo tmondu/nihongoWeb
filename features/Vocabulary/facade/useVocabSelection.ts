@@ -18,6 +18,7 @@ export interface VocabSelection {
   totalSelected: number;
   isEmpty: boolean;
   gameMode: string;
+  activeDetailWord: IVocabObj | null;
 }
 
 export interface VocabSelectionActions {
@@ -29,6 +30,7 @@ export interface VocabSelectionActions {
   clearSets: () => void;
   setSubunitForUnit: (unit: string, subunitId: string) => void;
   setGameMode: (mode: string) => void;
+  setActiveDetailWord: (word: IVocabObj | null) => void;
 }
 
 export function useVocabSelection(): VocabSelection & VocabSelectionActions {
@@ -41,6 +43,7 @@ export function useVocabSelection(): VocabSelection & VocabSelectionActions {
     state => state.selectedSubunitByUnit,
   );
   const gameMode = useVocabStore(state => state.selectedGameModeVocab);
+  const activeDetailWord = useVocabStore(state => state.activeDetailWord);
   const addVocab = useVocabStore(state => state.addVocabObj);
   const addVocabList = useVocabStore(state => state.addVocabObjs);
   const clearVocab = useVocabStore(state => state.clearVocabObjs);
@@ -53,6 +56,7 @@ export function useVocabSelection(): VocabSelection & VocabSelectionActions {
     state => state.setSelectedSubunitForUnit,
   );
   const setGameMode = useVocabStore(state => state.setSelectedGameModeVocab);
+  const setActiveDetailWord = useVocabStore(state => state.setActiveDetailWord);
 
   return useMemo(
     () => ({
@@ -64,6 +68,7 @@ export function useVocabSelection(): VocabSelection & VocabSelectionActions {
       totalSelected: selectedVocab.length,
       isEmpty: selectedVocab.length === 0,
       gameMode,
+      activeDetailWord,
 
       // Actions
       addVocab,
@@ -74,6 +79,7 @@ export function useVocabSelection(): VocabSelection & VocabSelectionActions {
       clearSets,
       setSubunitForUnit,
       setGameMode,
+      setActiveDetailWord,
     }),
     [
       selectedVocab,
@@ -81,6 +87,7 @@ export function useVocabSelection(): VocabSelection & VocabSelectionActions {
       selectedCollection,
       selectedSubunitByUnit,
       gameMode,
+      activeDetailWord,
       addVocab,
       addVocabList,
       clearVocab,
@@ -89,6 +96,7 @@ export function useVocabSelection(): VocabSelection & VocabSelectionActions {
       clearSets,
       setSubunitForUnit,
       setGameMode,
+      setActiveDetailWord,
     ],
   );
 }

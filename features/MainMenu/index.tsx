@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, react-hooks/set-state-in-effect */
 'use client';
-import { Fragment, lazy, Suspense, useState, useEffect } from 'react';
+
+import React from 'react';
 import { Link } from '@/core/i18n/routing';
-import PThamSSBanner from './PThamSSBanner';
-import Info from '@/shared/ui-composite/Menu/Info';
-import NightlyBanner from '@/shared/ui-composite/Modals/NightlyBanner';
 import {
   ScrollText,
   FileLock2,
@@ -12,329 +9,92 @@ import {
   Sun,
   Moon,
   Heart,
-  Sparkle,
   FileDiff,
-  CircleHelp,
 } from 'lucide-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiscord, faGithub } from '@fortawesome/free-brands-svg-icons';
 import clsx from 'clsx';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { useThemePreferences } from '@/features/Preferences';
-import useDecorationsStore from '@/shared/store/useDecorationsStore';
-import { useMediaQuery } from 'react-responsive';
+import HomeSearchHub from './components/HomeSearchHub';
 
-const Decorations = lazy(
-  () => import('@/shared/ui-composite/Decorations/Decorations'),
-);
+const legalLinks = [
+  { name: 'terms', href: '/terms', icon: ScrollText },
+  { name: 'privacy', href: '/privacy', icon: Cookie },
+  { name: 'security', href: '/security', icon: FileLock2 },
+  { name: 'patch notes', href: '/patch-notes', icon: FileDiff },
+];
 
-const USE_NEW_DESIGN = false;
-
-const MainMenu = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const isLG = useMediaQuery({ minWidth: 1024 });
-
-  const { theme, setTheme, isGlassMode } = useThemePreferences();
-
-  const characterTileClassName = (delay?: string, floatDistance?: string) =>
-    clsx(
-      'inline-flex size-9 sm:size-10 md:size-11 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl text-base sm:text-lg md:text-xl font-bold',
-      'bg-(--secondary-color) group-hover:bg-(--main-color) text-(--background-color)',
-      'border-b-4 sm:border-b-6 border-(--secondary-color-accent) group-hover:border-(--main-color-accent)',
-      'transition-all duration-200',
-      'active:border-b-0 active:translate-y-[4px] active:mb-[4px]',
-      'motion-safe:animate-float',
-      delay,
-      `[--float-distance:-4px]`,
-    );
-
+export default function MainMenu() {
+  const { theme, setTheme } = useThemePreferences();
   const { playClick } = useClick();
 
-  const expandDecorations = useDecorationsStore(
-    state => state.expandDecorations,
-  );
-  const toggleExpandDecorations = useDecorationsStore(
-    state => state.toggleExpandDecorations,
-  );
-
-  const [showBanner, setShowBanner] = useState(false);
-
-  useEffect(() => {
-    // 1. Check if the user has already dismissed the banner
-    const hasDismissed = localStorage.getItem('nightly_banner_dismissed');
-
-    // Only show if they haven't dismissed it yet
-    if (!hasDismissed) {
-      setShowBanner(true);
-    }
-  }, []);
-
-  const handleDismiss = () => {
-    localStorage.setItem('nightly_banner_dismissed', 'true');
-  };
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  const links = [
-    {
-      name_en: 'Kana',
-      name_ja: 'あ',
-      href: '/kana',
-    },
-    {
-      name_en: 'Vocabulary',
-      name_ja: '語',
-      href: '/vocabulary',
-    },
-    {
-      name_en: 'Kanji',
-      name_ja: '字',
-      href: '/kanji',
-    },
-    {
-      name_en: 'Thamlet',
-      name_ja: '札',
-      href: '/thamlet',
-    },
-    {
-      name_en: 'Shadowing',
-      name_ja: '影',
-      href: '/shadowing',
-    },
-
-    // {
-    //   name_en: 'Sentences',
-    //   name_ja: 'цЦЗ',
-    //   href: '/sentences'
-    // }
-  ];
-
-  const legalLinks = [
-    { name: 'terms', href: '/terms', icon: ScrollText },
-    { name: 'privacy', href: '/privacy', icon: Cookie },
-    { name: 'security', href: '/security', icon: FileLock2 },
-    { name: 'patch notes', href: '/patch-notes', icon: FileDiff },
-    //{ name: 'credits', href: '/credits', icon: Sparkle },
-    //{ name: 'about', href: '/about', icon: CircleHelp },
-  ];
-
-  const mobileLabelInset = 'pl-[max(30%,calc(50%-5.5rem))]';
-
   return (
-    <div
-      className={clsx(
-        'flex min-h-[100dvh] max-w-[100dvw] flex-row justify-center',
-      )}
-    >
-      {isMounted && isLG && (
-        <Suspense fallback={<></>}>
-          {!isGlassMode && (
-            <Decorations
-              expandDecorations={expandDecorations}
-              forceShow={true}
-              interactive={true}
-            />
-          )}
+    <div className='flex w-full flex-col items-center gap-6 px-1 pt-2 pb-12 sm:px-2 md:pt-4'>
+      {/* Top Header: Brand identity right next to sidebar */}
+      <header className='flex w-full max-w-4xl items-center justify-between border-b border-(--border-color)/50 pb-4'>
+        <div className='flex items-center gap-3'>
+          <Link
+            href='/'
+            className='group flex items-center gap-2 select-none'
+            title='PThamSS Trang chủ'
+          >
+            <h1 className='flex items-center gap-1.5 text-2xl font-black tracking-tight text-(--main-color) sm:text-3xl'>
+              PThamSS
+              <Heart className='inline-block size-5 fill-current text-red-500 transition-transform group-hover:scale-110 sm:size-6' />
+            </h1>
+          </Link>
+          <span className='hidden h-5 w-[1px] bg-(--border-color) md:inline-block' />
+        </div>
+
+        {/* Theme Toggle Button */}
+        <div className='flex items-center gap-2'>
           <button
-            className={clsx(
-              'fixed top-4 right-4 z-50 hover:cursor-pointer',
-              'inline-flex h-12 w-12 items-center justify-center rounded-2xl',
-              'bg-(--main-color) text-(--background-color)',
-              'border-b-8 border-(--main-color-accent)',
-              'transition-all duration-200',
-              'active:mb-[6px] active:translate-y-[6px] active:border-b-0',
-              'motion-safe:animate-float [--float-distance:-3px]',
-              '[animation-delay:400ms]',
-              !isGlassMode && 'opacity-90',
-            )}
+            type='button'
             onClick={() => {
               playClick();
-              toggleExpandDecorations();
+              setTheme(theme === 'dark' ? 'light' : 'dark');
             }}
+            className={clsx(
+              'flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border border-(--border-color) bg-(--card-color)',
+              'text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) active:scale-95',
+            )}
+            aria-label='Toggle theme'
+            title={
+              theme === 'dark'
+                ? 'Chuyển giao diện sáng'
+                : 'Chuyển giao diện tối'
+            }
           >
-            <Sparkle />
+            {theme === 'dark' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
+        </div>
+      </header>
 
-          {/* <Button
-            variant='secondary'
-            size='icon'
-            className={clsx(
-              'fixed top-4 left-4 z-50 opacity-90',
-              buttonBorderStyles,
-              'transition-transform duration-250 active:scale-95'
-            )}
-            onClick={() => {
-              playClick();
-            }}
-          >
-            <a href='https://monkeytype.com/' rel='noopener' target='_blank'>
-              <Keyboard />
-            </a>
-          </Button>
- */}
-        </Suspense>
-      )}
-      <div
-        className={clsx(
-          'flex w-full max-w-5xl flex-col items-center gap-4 px-4 pb-16 max-md:pt-4 sm:w-11/12 md:justify-center lg:w-4/5 xl:w-3/4',
-          'pointer-events-none z-50',
-          !isGlassMode && 'opacity-90',
-          expandDecorations && 'hidden',
-        )}
-      >
-        <div className='pointer-events-none flex w-full flex-row items-center justify-between gap-2 px-1'>
-          <div className='pointer-events-auto'>
-            <PThamSSBanner />
-          </div>
-          <div className='pointer-events-none flex w-1/2 flex-row justify-end gap-2 md:w-1/3'>
-            <button
-              type='button'
-              onClick={() => {
-                playClick();
-                setTheme(theme === 'dark' ? 'light' : 'dark');
-              }}
-              className={clsx(
-                'pointer-events-auto hidden sm:inline-flex',
-                'duration-250 hover:cursor-pointer',
-                'active:scale-100 active:duration-225',
-                'text-(--secondary-color) hover:text-(--main-color)',
-              )}
-              aria-label='Toggle theme'
-            >
-              {theme === 'dark' ? <Moon size={32} /> : <Sun size={32} />}
-            </button>
-          </div>
-        </div>
-        <div className='pointer-events-auto w-full'>
-          <Info />
-        </div>
-        <div
-          className={clsx(
-            'pointer-events-auto w-full rounded-2xl',
-            USE_NEW_DESIGN
-              ? 'overflow-hidden border-4 border-(--border-color) bg-(--card-color)'
-              : 'border-1 border-(--border-color) bg-(--background-color) p-1',
-          )}
-        >
-          <div
-            className={clsx(
-              'w-full rounded-2xl',
-              USE_NEW_DESIGN
-                ? 'flex flex-col md:flex-row'
-                : 'flex flex-col bg-(--card-color) transition-all duration-250 ease-in-out md:flex-row',
-            )}
-          >
-            {links.map((link, i) => (
-              <Fragment key={i}>
-                <Link
-                  href={link.href}
-                  prefetch={false}
-                  className={clsx(
-                    'group w-full min-w-0',
-                    !USE_NEW_DESIGN && 'overflow-hidden',
-                  )}
-                >
-                  <button
-                    className={clsx(
-                      'flex h-full w-full text-sm font-bold sm:text-base md:text-lg lg:text-xl',
-                      'items-center gap-2 sm:gap-2.5',
-                      'justify-start md:justify-center',
-                      'px-2 py-6 sm:px-3 sm:py-7',
-                      mobileLabelInset,
-                      'md:pl-0',
-                      'group',
-                      'hover:cursor-pointer',
-                      USE_NEW_DESIGN
-                        ? 'hover:bg-(--border-color)'
-                        : 'border-(--border-color) hover:bg-(--border-color) md:border-b-4 md:hover:border-(--main-color)/80',
-                      !USE_NEW_DESIGN &&
-                        i === 0 &&
-                        'rounded-tl-2xl rounded-bl-2xl',
-                      !USE_NEW_DESIGN &&
-                        i === links.length - 1 &&
-                        'rounded-tr-2xl rounded-br-2xl',
-                    )}
-                    onClick={() => playClick()}
-                  >
-                    <span
-                      lang='ja'
-                      className={characterTileClassName(
-                        i === 0
-                          ? '[animation-delay:0ms]'
-                          : i === 1
-                            ? '[animation-delay:800ms]'
-                            : '[animation-delay:1600ms]',
-                      )}
-                    >
-                      {link.name_ja}
-                    </span>
-                    <span lang='en' className='truncate leading-none font-bold'>
-                      {link.name_en}
-                    </span>
-                  </button>
-                </Link>
+      {/* Center Search Hub & Handwriting Canvas */}
+      <main className='flex w-full justify-center'>
+        <HomeSearchHub />
+      </main>
 
-                {i < links.length - 1 && (
-                  <div
-                    className={clsx(
-                      'md:h-auto md:w-0 md:border-l-1',
-                      'border-(--border-color)',
-                      'w-full border-t-1 border-(--border-color)',
-                    )}
-                  />
-                )}
-              </Fragment>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div
-        className={clsx(
-          'pointer-events-none fixed right-0 bottom-0 left-0 z-50 md:bottom-6',
-          'justify-center gap-2 max-md:flex',
-          'border-(--border-color) max-md:border-t-2',
-          'px-2 py-2 sm:px-4',
-          'flex items-center justify-between max-md:bg-(--background-color)',
-          expandDecorations && 'hidden',
-        )}
-      >
-        <div className='pointer-events-auto flex w-full items-center justify-evenly lg:w-2/5'>
+      {/* Subtle Footer Links */}
+      <footer className='mt-8 flex w-full max-w-4xl flex-wrap items-center justify-center gap-4 border-t border-(--border-color)/40 pt-6 text-xs text-(--secondary-color) sm:justify-between'>
+        <span className='text-xs opacity-70'>
+          © {new Date().getFullYear()} PThamSS. Đồng hành học tiếng Nhật mỗi
+          ngày.
+        </span>
+        <div className='flex items-center gap-4'>
           {legalLinks.map((link, i) => (
             <Link
               href={link.href}
               prefetch={false}
               key={i}
-              className={clsx(
-                'flex flex-row items-center gap-1 text-(--secondary-color) hover:cursor-pointer hover:text-(--main-color)',
-                (link.name === 'credits' || link.name === 'about') &&
-                  'hidden sm:flex',
-              )}
+              className='flex items-center gap-1.5 transition-colors hover:text-(--main-color)'
               onClick={() => playClick()}
             >
-              <link.icon className='size-4' />
-              <span className='text-xs'>{link.name}</span>
+              <link.icon className='size-3.5' />
+              <span className='capitalize'>{link.name}</span>
             </Link>
           ))}
         </div>
-      </div>
-      {/* <a
-        href='https://vercel.com/oss'
-        target='_blank'
-        rel='noopener'
-        className='fixed right-5 bottom-10 z-50 hidden rounded-lg p-1 backdrop-blur-xs transition-opacity hover:opacity-80 lg:block'
-        aria-label='Vercel OSS Program'
-      >
-        <img
-          alt='Vercel OSS Program'
-          src='https://vercel.com/oss/program-badge.svg'
-          className='h-8 w-auto p-1'
-        />
-      </a> */}
-      {/* {showBanner && (
-        <NightlyBanner onSwitch={handleSwitch} onDismiss={handleDismiss} />
-      )} */}
+      </footer>
     </div>
   );
-};
-
-export default MainMenu;
+}

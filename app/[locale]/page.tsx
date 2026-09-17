@@ -1,5 +1,5 @@
-// Trigger Vercel redeployment - 2026-01-21
 import MainMenu from '@/features/MainMenu';
+import SidebarLayout from '@/shared/ui-composite/layout/SidebarLayout';
 import type { Metadata } from 'next';
 import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
 import { routing } from '@/core/i18n/routing';
@@ -22,5 +22,9 @@ export async function generateMetadata({
 }
 
 export default function Home() {
-  return <MainMenu />;
+  return (
+    <SidebarLayout showBanner={false}>
+      <MainMenu />
+    </SidebarLayout>
+  );
 }

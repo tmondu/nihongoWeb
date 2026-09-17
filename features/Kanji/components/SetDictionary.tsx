@@ -236,7 +236,7 @@ const KanjiSetDictionary = memo(function KanjiSetDictionary({
             <div className='flex w-full flex-row gap-4'>
               <Link
                 className='group relative flex aspect-square w-full max-w-[100px] items-center justify-center hover:cursor-pointer'
-                href={`/kanji/thamkanji/${kanjiObj.kanjiChar}`}
+                href={`/kanji/thamkanji/${encodeURIComponent(kanjiObj.kanjiChar)}`}
                 prefetch={false}
                 onClick={() => {
                   playClick();

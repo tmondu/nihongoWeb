@@ -1,6 +1,7 @@
 import { ThamKanjiClient } from '@/features/Kanji';
 import type { Metadata } from 'next';
 import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
+import { routing, redirect } from '@/core/i18n/routing';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import { DojoRouteSchema } from '@/shared/ui-composite/SEO/DojoRouteSchema';
 import { KanjiLevel } from '@/entities/kanji';
@@ -9,7 +10,9 @@ export const dynamicParams = true;
 
 export function generateStaticParams() {
   const levels = ['jlptn5', 'jlptn4', 'jlptn3', 'jlptn2', 'jlptn1'];
-  return levels.map(character => ({ character }));
+  return routing.locales.flatMap(locale =>
+    levels.map(character => ({ locale, character })),
+  );
 }
 
 // ISR: Revalidate every hour
@@ -23,6 +26,12 @@ export async function generateMetadata({
   const { locale, character } = await params;
   const decoded = decodeURIComponent(character);
   const pathname = `/kanji/thamkanji/${character}`;
+
+  if (decoded === '+' || decoded === '%2B') {
+    return {
+      title: 'Tham Kanji - PThamSS',
+    };
+  }
 
   if (decoded.startsWith('jlpt')) {
     const levelStr = decoded.replace('jlpt', '').toUpperCase();
@@ -53,6 +62,10 @@ export default async function ThamKanjiDetailPage({
 }) {
   const { locale, character } = await params;
   const decoded = decodeURIComponent(character);
+
+  if (decoded === '+' || decoded === '%2B') {
+    redirect({ href: `/kanji/thamkanji/${encodeURIComponent('十')}`, locale });
+  }
 
   if (decoded.startsWith('jlpt')) {
     const activeLevel = decoded.replace('jlpt', '').toLowerCase() as KanjiLevel;
