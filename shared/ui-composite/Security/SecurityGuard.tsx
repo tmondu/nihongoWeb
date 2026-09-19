@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 // Đặt là true để BẬT tính năng chặn DevTools / F12 trên Production
 // Đặt là false để TẠM NGƯNG tính năng chặn DevTools
-const ENABLE_SECURITY_GUARD = true;
+const ENABLE_SECURITY_GUARD = false;
 
 export default function SecurityGuard() {
   const pathname = usePathname();
@@ -144,7 +144,6 @@ export default function SecurityGuard() {
       // Khi F12 mở (bất kể tab nào hay chế độ nào), lệnh này sẽ đóng băng DevTools và ép nhảy sang tab Sources
       const antiDebugInterval = setInterval(() => {
         try {
-           
           new Function('debugger')();
         } catch {
           // Bỏ qua nếu môi trường chặn Function
