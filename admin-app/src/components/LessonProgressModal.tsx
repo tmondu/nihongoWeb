@@ -132,12 +132,28 @@ export default function LessonProgressModal({
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className='flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-800 hover:text-white'
-          >
-            <X className='h-5 w-5' />
-          </button>
+          <div className='flex items-center gap-2'>
+            <button
+              type='button'
+              onClick={fetchProgress}
+              disabled={loading}
+              title='Làm mới dữ liệu'
+              className='flex h-8 items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-2.5 text-xs font-medium text-slate-300 transition-colors hover:border-slate-600 hover:bg-slate-700 hover:text-white disabled:opacity-50'
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${loading ? 'animate-spin text-blue-400' : ''}`}
+              />
+              <span className='hidden sm:inline'>Làm mới</span>
+            </button>
+
+            <button
+              type='button'
+              onClick={onClose}
+              className='flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-800 hover:text-white'
+            >
+              <X className='h-5 w-5' />
+            </button>
+          </div>
         </div>
 
         {/* Content Body */}
@@ -397,12 +413,26 @@ export default function LessonProgressModal({
           <span>
             Hiển thị <strong>{filteredStudents.length}</strong> học viên
           </span>
-          <button
-            onClick={onClose}
-            className='rounded-lg bg-slate-800 px-4 py-1.5 font-semibold text-white transition-colors hover:bg-slate-700'
-          >
-            Đóng
-          </button>
+          <div className='flex items-center gap-2'>
+            <button
+              type='button'
+              onClick={fetchProgress}
+              disabled={loading}
+              className='flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white disabled:opacity-50'
+            >
+              <RefreshCw
+                className={`h-3.5 w-3.5 ${loading ? 'animate-spin text-blue-400' : ''}`}
+              />
+              <span>Tải lại</span>
+            </button>
+            <button
+              type='button'
+              onClick={onClose}
+              className='rounded-lg bg-slate-800 px-4 py-1.5 font-semibold text-white transition-colors hover:bg-slate-700'
+            >
+              Đóng
+            </button>
+          </div>
         </div>
       </div>
     </div>
