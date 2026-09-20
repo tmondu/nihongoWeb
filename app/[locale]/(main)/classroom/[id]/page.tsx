@@ -12,6 +12,7 @@ import {
   VideoOff,
   Smartphone,
   Tv,
+  CheckCircle,
 } from 'lucide-react';
 import { Link, useRouter } from '@/core/i18n/routing';
 import { parseVideoEmbedUrl } from '@/shared/utils/videoUrlParser';
@@ -19,6 +20,7 @@ import { cn } from '@/shared/utils';
 import DriveVideoPlayer from '@/features/Classroom/components/DriveVideoPlayer';
 import YouTubeVideoPlayer from '@/features/Classroom/components/YouTubeVideoPlayer';
 import LessonComments from '@/features/Classroom/components/LessonComments';
+import { useVideoProgress } from '@/features/Classroom/hooks/useVideoProgress';
 
 interface Lesson {
   id: number;
@@ -60,6 +62,17 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   const [videoErrorReason, setVideoErrorReason] = useState<string | null>(null);
   const [aspectRatio, setAspectRatio] = useState<'9:16' | '16:9'>('16:9');
   const videoBoxRef = useRef<HTMLDivElement>(null);
+
+  const {
+    initialProgress,
+    handlePlay,
+    handlePause,
+    handleEnded,
+    handleTimeUpdate,
+  } = useVideoProgress({
+    lessonId,
+    enabled: Boolean(!loading && !authError && lessonId),
+  });
 
   const checkVideoStatus = async (url: string, _fresh = false) => {
     if (!url) {
@@ -338,6 +351,11 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                     fileId={parsedVideo.driveId}
                     title={currentLesson.title}
                     watermark={userEmail || undefined}
+                    initialTime={initialProgress?.last_position_seconds}
+                    onPlayEvent={handlePlay}
+                    onPauseEvent={handlePause}
+                    onEndedEvent={handleEnded}
+                    onTimeUpdateEvent={handleTimeUpdate}
                     className={cn(
                       'w-full transition-all duration-300',
                       aspectRatio === '9:16'
@@ -351,6 +369,11 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                     videoId={parsedVideo.youtubeId}
                     title={currentLesson.title}
                     watermark={userEmail || undefined}
+                    initialTime={initialProgress?.last_position_seconds}
+                    onPlayEvent={handlePlay}
+                    onPauseEvent={handlePause}
+                    onEndedEvent={handleEnded}
+                    onTimeUpdateEvent={handleTimeUpdate}
                     className={cn(
                       'w-full transition-all duration-300',
                       aspectRatio === '9:16'
@@ -474,6 +497,31 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         )}
                       </span>
                     </div>
+
+                    {/* Watching Progress badge */}
+                    {initialProgress &&
+                      (initialProgress.progress_percent > 0 ||
+                        initialProgress.is_completed) && (
+                        <div
+                          className={cn(
+                            'flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold',
+                            initialProgress.is_completed
+                              ? 'border border-emerald-500/30 bg-emerald-500/15 text-emerald-400'
+                              : 'border border-blue-500/30 bg-blue-500/15 text-blue-400',
+                          )}
+                        >
+                          {initialProgress.is_completed ? (
+                            <>
+                              <CheckCircle className='h-3.5 w-3.5' />
+                              <span>Đã xem xong</span>
+                            </>
+                          ) : (
+                            <span>
+                              Đã học {initialProgress.progress_percent}%
+                            </span>
+                          )}
+                        </div>
+                      )}
                   </div>
 
                   <h1 className='text-foreground text-xl leading-snug font-bold md:text-2xl'>

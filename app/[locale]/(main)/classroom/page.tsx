@@ -10,6 +10,7 @@ import {
   Search,
   ChevronRight,
   Lock,
+  CheckCircle,
 } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
 
@@ -22,6 +23,9 @@ interface Lesson {
   order_num: number;
   created_at: string;
   is_locked?: boolean;
+  progress_percent?: number;
+  is_completed?: boolean;
+  last_position?: number;
 }
 
 interface UserInfo {
@@ -265,6 +269,17 @@ export default function ClassroomPage() {
                                 'vi-VN',
                               )}
                             </span>
+                            {!isLocked && item.is_completed ? (
+                              <span className='flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400'>
+                                <CheckCircle className='h-2.5 w-2.5' /> Đã học
+                              </span>
+                            ) : !isLocked &&
+                              item.progress_percent &&
+                              item.progress_percent > 0 ? (
+                              <span className='flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] font-bold text-blue-400'>
+                                Đang học {item.progress_percent}%
+                              </span>
+                            ) : null}
                             {isLocked && (
                               <span className='flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-400 uppercase'>
                                 <Lock className='h-2.5 w-2.5' /> Cần cấp độ cao

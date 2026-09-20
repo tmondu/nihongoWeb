@@ -39,6 +39,11 @@ interface DriveVideoPlayerProps {
   className?: string;
   /** Optional watermark (e.g. user email) to discourage screen recording */
   watermark?: string;
+  initialTime?: number;
+  onPlayEvent?: () => void;
+  onPauseEvent?: (currentTime: number, duration: number) => void;
+  onEndedEvent?: (duration: number) => void;
+  onTimeUpdateEvent?: (currentTime: number, duration: number) => void;
 }
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
@@ -67,6 +72,11 @@ export default function DriveVideoPlayer({
   title = 'Video bài giảng',
   className,
   watermark,
+  initialTime,
+  onPlayEvent,
+  onPauseEvent,
+  onEndedEvent,
+  onTimeUpdateEvent,
 }: DriveVideoPlayerProps) {
   const uid = useId();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -92,6 +102,8 @@ export default function DriveVideoPlayer({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [urlIndex, setUrlIndex] = useState(0);
+  const [showResumePrompt, setShowResumePrompt] = useState(false);
+  const initialTimeAppliedRef = useRef(false);
 
   const candidateUrls = buildVideoUrls(fileId);
   const currentSrc = candidateUrls[urlIndex];
@@ -109,11 +121,21 @@ export default function DriveVideoPlayer({
     scheduleHide();
   }, [scheduleHide]);
 
+  const handleResumeClick = () => {
+    const v = videoRef.current;
+    if (v && initialTime) {
+      v.currentTime = initialTime;
+      setCurrentTime(initialTime);
+    }
+    setShowResumePrompt(false);
+  };
+
   /* ─── video event handlers ─── */
   const onTimeUpdate = () => {
     const v = videoRef.current;
     if (!v || seeking) return;
     setCurrentTime(v.currentTime);
+    onTimeUpdateEvent?.(v.currentTime, v.duration);
     // update buffered
     if (v.buffered.length > 0) {
       setBuffered(v.buffered.end(v.buffered.length - 1));
@@ -125,11 +147,30 @@ export default function DriveVideoPlayer({
     if (!v) return;
     setDuration(v.duration);
     setLoading(false);
+
+    if (initialTime && initialTime > 15 && !initialTimeAppliedRef.current) {
+      initialTimeAppliedRef.current = true;
+      setShowResumePrompt(true);
+    }
   };
 
-  const onPlay = () => setPlaying(true);
-  const onPause = () => setPlaying(false);
-  const onEnded = () => setPlaying(false);
+  const onPlay = () => {
+    setPlaying(true);
+    setShowResumePrompt(false);
+    onPlayEvent?.();
+  };
+
+  const onPause = () => {
+    setPlaying(false);
+    const v = videoRef.current;
+    if (v) onPauseEvent?.(v.currentTime, v.duration);
+  };
+
+  const onEnded = () => {
+    setPlaying(false);
+    const v = videoRef.current;
+    if (v) onEndedEvent?.(v.duration);
+  };
   const onWaiting = () => setLoading(true);
   const onCanPlay = () => setLoading(false);
   const onError = () => {
@@ -432,6 +473,35 @@ export default function DriveVideoPlayer({
         onClick={togglePlay}
         onContextMenu={e => e.preventDefault()}
       />
+
+      {/* ── Resume prompt banner ── */}
+      {showResumePrompt && Boolean(initialTime) && (
+        <div
+          className={cn(
+            'absolute top-3 left-3 z-30 flex items-center gap-3 rounded-xl border border-blue-500/40 bg-slate-950/85 px-3.5 py-2 text-xs text-white shadow-xl backdrop-blur-md',
+            isFS &&
+              'top-[max(0.75rem,env(safe-area-inset-top))] left-[max(0.75rem,env(safe-area-inset-left))]',
+          )}
+        >
+          <span>
+            Bạn đã xem đến <strong>{fmt(initialTime ?? 0)}</strong>
+          </span>
+          <button
+            type='button'
+            onClick={handleResumeClick}
+            className='rounded-lg bg-blue-600 px-2.5 py-1 text-xs font-bold text-white transition-all hover:bg-blue-500 active:scale-95'
+          >
+            Xem tiếp
+          </button>
+          <button
+            type='button'
+            onClick={() => setShowResumePrompt(false)}
+            className='text-xs text-slate-400 hover:text-white'
+          >
+            Bỏ qua
+          </button>
+        </div>
+      )}
 
       {/* ── Anti-recording Watermark (Email/User ID) ── */}
       {watermark && (

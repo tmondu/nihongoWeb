@@ -13,7 +13,9 @@ import {
   Video,
   Play,
   CheckCircle,
+  Users,
 } from 'lucide-react';
+import LessonProgressModal from '@/components/LessonProgressModal';
 
 interface LessonRecord {
   id: number;
@@ -39,6 +41,9 @@ export default function AdminLessonsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<'add' | 'edit'>('add');
   const [currentId, setCurrentId] = useState<number | null>(null);
+  const [viewingProgressLessonId, setViewingProgressLessonId] = useState<
+    number | null
+  >(null);
 
   // Form states
   const [formTitle, setFormTitle] = useState('');
@@ -328,6 +333,13 @@ export default function AdminLessonsPage() {
                       <td className='px-4 py-3 text-right'>
                         <div className='flex items-center justify-end gap-2'>
                           <button
+                            onClick={() => setViewingProgressLessonId(item.id)}
+                            className='rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-emerald-500/10 hover:text-emerald-400'
+                            title='Xem tiến độ học viên'
+                          >
+                            <Users className='h-4 w-4' />
+                          </button>
+                          <button
                             onClick={() => openEditDialog(item)}
                             className='rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-blue-500/10 hover:text-blue-400'
                             title='Chỉnh sửa'
@@ -475,6 +487,14 @@ export default function AdminLessonsPage() {
             </form>
           </div>
         </div>
+      )}
+
+      {/* Lesson Progress Modal */}
+      {viewingProgressLessonId && (
+        <LessonProgressModal
+          lessonId={viewingProgressLessonId}
+          onClose={() => setViewingProgressLessonId(null)}
+        />
       )}
     </div>
   );

@@ -37,6 +37,11 @@ interface YouTubeVideoPlayerProps {
   title?: string;
   className?: string;
   watermark?: string;
+  initialTime?: number;
+  onPlayEvent?: () => void;
+  onPauseEvent?: (currentTime: number, duration: number) => void;
+  onEndedEvent?: (duration: number) => void;
+  onTimeUpdateEvent?: (currentTime: number, duration: number) => void;
 }
 
 const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2] as const;
@@ -80,6 +85,11 @@ export default function YouTubeVideoPlayer({
   title: _title = 'Video bài giảng',
   className,
   watermark,
+  initialTime,
+  onPlayEvent,
+  onPauseEvent,
+  onEndedEvent,
+  onTimeUpdateEvent,
 }: YouTubeVideoPlayerProps) {
   const uid = useId();
   const playerContainerId = `yt-player-${uid.replace(/:/g, '-')}`;
@@ -107,6 +117,32 @@ export default function YouTubeVideoPlayer({
   const [seeking, setSeeking] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showResumePrompt, setShowResumePrompt] = useState(false);
+  const initialTimeAppliedRef = useRef(false);
+
+  const onPlayEventRef = useRef(onPlayEvent);
+  const onPauseEventRef = useRef(onPauseEvent);
+  const onEndedEventRef = useRef(onEndedEvent);
+  const onTimeUpdateEventRef = useRef(onTimeUpdateEvent);
+  const initialTimeRef = useRef(initialTime);
+
+  useEffect(() => {
+    onPlayEventRef.current = onPlayEvent;
+    onPauseEventRef.current = onPauseEvent;
+    onEndedEventRef.current = onEndedEvent;
+    onTimeUpdateEventRef.current = onTimeUpdateEvent;
+    initialTimeRef.current = initialTime;
+  });
+
+  const handleResumeClick = () => {
+    const p = playerRef.current;
+    const timeToSeek = initialTimeRef.current;
+    if (p && timeToSeek && typeof p.seekTo === 'function') {
+      p.seekTo(timeToSeek, true);
+      setCurrentTime(timeToSeek);
+    }
+    setShowResumePrompt(false);
+  };
 
   /* ─── auto-hide controls ─── */
   const scheduleHide = useCallback(() => {
@@ -160,6 +196,16 @@ export default function YouTubeVideoPlayer({
               const d = e.target.getDuration();
               if (d && d > 0) setDuration(d);
 
+              const savedTime = initialTimeRef.current;
+              if (
+                savedTime &&
+                savedTime > 15 &&
+                !initialTimeAppliedRef.current
+              ) {
+                initialTimeAppliedRef.current = true;
+                setShowResumePrompt(true);
+              }
+
               // Proactively request 1080p on mount
               try {
                 if (typeof e.target.setPlaybackQuality === 'function') {
@@ -174,8 +220,26 @@ export default function YouTubeVideoPlayer({
               if (state === 1) {
                 setPlaying(true);
                 setLoading(false);
-              } else if (state === 2 || state === 0) {
+                setShowResumePrompt(false);
+                onPlayEventRef.current?.();
+              } else if (state === 2) {
                 setPlaying(false);
+                const cur =
+                  typeof e.target.getCurrentTime === 'function'
+                    ? e.target.getCurrentTime()
+                    : 0;
+                const dur =
+                  typeof e.target.getDuration === 'function'
+                    ? e.target.getDuration()
+                    : 0;
+                onPauseEventRef.current?.(cur, dur);
+              } else if (state === 0) {
+                setPlaying(false);
+                const dur =
+                  typeof e.target.getDuration === 'function'
+                    ? e.target.getDuration()
+                    : 0;
+                onEndedEventRef.current?.(dur);
               } else if (state === 3) {
                 setLoading(true);
               }
@@ -215,13 +279,19 @@ export default function YouTubeVideoPlayer({
       const p = playerRef.current;
       if (!p || typeof p.getCurrentTime !== 'function') return;
 
-      if (!seeking) {
-        const cur = p.getCurrentTime();
-        if (typeof cur === 'number') setCurrentTime(cur);
-      }
-
       const dur = p.getDuration();
       if (typeof dur === 'number' && dur > 0) setDuration(dur);
+
+      if (!seeking) {
+        const cur = p.getCurrentTime();
+        if (typeof cur === 'number') {
+          setCurrentTime(cur);
+          onTimeUpdateEventRef.current?.(
+            cur,
+            typeof dur === 'number' ? dur : 0,
+          );
+        }
+      }
 
       const frac = p.getVideoLoadedFraction();
       if (typeof frac === 'number') setBuffered(frac * (dur || 100));
@@ -508,6 +578,35 @@ export default function YouTubeVideoPlayer({
         onClick={togglePlay}
         onContextMenu={e => e.preventDefault()}
       />
+
+      {/* ── Resume prompt banner ── */}
+      {showResumePrompt && Boolean(initialTime) && (
+        <div
+          className={cn(
+            'absolute top-3 left-3 z-30 flex items-center gap-3 rounded-xl border border-blue-500/40 bg-slate-950/85 px-3.5 py-2 text-xs text-white shadow-xl backdrop-blur-md',
+            isFS &&
+              'top-[max(0.75rem,env(safe-area-inset-top))] left-[max(0.75rem,env(safe-area-inset-left))]',
+          )}
+        >
+          <span>
+            Bạn đã xem đến <strong>{fmt(initialTime ?? 0)}</strong>
+          </span>
+          <button
+            type='button'
+            onClick={handleResumeClick}
+            className='rounded-lg bg-blue-600 px-2.5 py-1 text-xs font-bold text-white transition-all hover:bg-blue-500 active:scale-95'
+          >
+            Xem tiếp
+          </button>
+          <button
+            type='button'
+            onClick={() => setShowResumePrompt(false)}
+            className='text-xs text-slate-400 hover:text-white'
+          >
+            Bỏ qua
+          </button>
+        </div>
+      )}
 
       {/* ── Anti-recording Watermark (Email/User ID) ── */}
       {watermark && (

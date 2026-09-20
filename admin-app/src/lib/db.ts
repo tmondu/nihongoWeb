@@ -60,6 +60,29 @@ export function getDbPool(): Pool {
       enableKeepAlive: true,
       keepAliveInitialDelay: 0,
     });
+
+    pool
+      .execute(
+        `CREATE TABLE IF NOT EXISTS \`lesson_video_progress\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`user_id\` INT NOT NULL,
+          \`lesson_id\` INT NOT NULL,
+          \`watched_seconds\` INT NOT NULL DEFAULT 0,
+          \`last_position_seconds\` INT NOT NULL DEFAULT 0,
+          \`duration_seconds\` INT NOT NULL DEFAULT 0,
+          \`progress_percent\` INT NOT NULL DEFAULT 0,
+          \`is_completed\` TINYINT(1) NOT NULL DEFAULT 0,
+          \`last_watched_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE KEY \`uniq_user_video_lesson\` (\`user_id\`, \`lesson_id\`),
+          INDEX \`idx_lvp_user\` (\`user_id\`),
+          INDEX \`idx_lvp_lesson\` (\`lesson_id\`),
+          FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
+      )
+      .catch(() => {
+        // ignore initialization errors
+      });
   }
 
   return pool;

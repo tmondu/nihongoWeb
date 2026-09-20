@@ -161,6 +161,41 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    // Query progress for currentUser if logged in
+    const progressMap = new Map<
+      number,
+      {
+        progress_percent: number;
+        is_completed: number;
+        last_position_seconds: number;
+      }
+    >();
+
+    if (currentUser) {
+      try {
+        const [progressRows] = await pool.execute<
+          (RowDataPacket & {
+            lesson_id: number;
+            progress_percent: number;
+            is_completed: number;
+            last_position_seconds: number;
+          })[]
+        >(
+          'SELECT lesson_id, progress_percent, is_completed, last_position_seconds FROM lesson_video_progress WHERE user_id = ?',
+          [currentUser.id],
+        );
+        for (const row of progressRows) {
+          progressMap.set(row.lesson_id, {
+            progress_percent: row.progress_percent,
+            is_completed: row.is_completed,
+            last_position_seconds: row.last_position_seconds,
+          });
+        }
+      } catch (err) {
+        console.error('Error querying lesson progress in /api/lessons:', err);
+      }
+    }
+
     // Sanitize lessons: only provide video_url if user has access to that specific lesson's level
     const sanitizedLessons = lessons.map(l => {
       const isAllowed = canAccessLesson({
@@ -170,10 +205,15 @@ export async function GET(request: NextRequest) {
         canWatchVideo: currentUser?.can_watch_video,
       });
 
+      const prog = progressMap.get(l.id);
+
       return {
         ...l,
         video_url: isAllowed ? l.video_url : '',
         is_locked: !isAllowed,
+        progress_percent: prog?.progress_percent ?? 0,
+        is_completed: Boolean(prog?.is_completed),
+        last_position: prog?.last_position_seconds ?? 0,
       };
     });
 
