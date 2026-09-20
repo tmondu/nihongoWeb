@@ -154,9 +154,10 @@ const SelectionStatusBar = () => {
   useEffect(() => {
     const updateLayout = () => {
       const sidebar = document.getElementById('main-sidebar');
+      const mobileHeader = document.getElementById('mobile-header');
       const width = window.innerWidth;
 
-      const top = 0;
+      const top = width < 1024 && mobileHeader ? mobileHeader.offsetHeight : 0;
       let left: number | string = 0;
       let barWidth: number | string = '100%';
 
@@ -281,7 +282,7 @@ const SelectionStatusBar = () => {
               borderColorScheme='main'
               borderRadius='3xl'
               borderBottomThickness={10}
-              className='w-auto bg-(--main-color)/80 px-4 py-3 lg:px-6 motion-safe:animate-float [--float-distance:-3px] sm:[--float-distance:-5px]'
+              className='motion-safe:animate-float w-auto bg-(--main-color)/80 px-4 py-3 [--float-distance:-3px] sm:[--float-distance:-5px] lg:px-6'
               onClick={handleClear}
               aria-label='Clear selected levels'
             >

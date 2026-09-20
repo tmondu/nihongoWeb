@@ -25,11 +25,12 @@ import {
   Video,
   GraduationCap,
   ClipboardCheck,
+  Menu,
+  X,
 } from 'lucide-react';
 import clsx from 'clsx';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useClick } from '@/shared/hooks/generic/useAudio';
-import { useScrollVisibility } from '@/shared/hooks/generic/useScrollVisibility';
 import { ReactNode, useEffect, useRef, memo, useState } from 'react';
 import { useInputPreferences } from '@/features/Preferences';
 import { removeLocaleFromPath } from '@/shared/utils/pathUtils';
@@ -640,8 +641,6 @@ const Sidebar = () => {
 
   // Lazy load experiments
   const [loadedExperiments, setLoadedExperiments] = useState<Experiment[]>([]);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const isVisible = useScrollVisibility();
   const [hasMounted, setHasMounted] = useState(false);
   // Mặc định thu sidebar lại khi vào các trang
   const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
@@ -650,6 +649,36 @@ const Sidebar = () => {
   const [isAcademyExpanded, setIsAcademyExpanded] = useState(false);
   const [isToolsExpanded, setIsToolsExpanded] = useState(false);
   const [isExperimentsExpanded, setIsExperimentsExpanded] = useState(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setIsMobileDrawerOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (isMobileDrawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileDrawerOpen]);
+
+  // Close mobile drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileDrawerOpen) {
+        setIsMobileDrawerOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileDrawerOpen]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -786,18 +815,6 @@ const Sidebar = () => {
     }
   }, [pathWithoutLocale]);
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 1023px)');
-    const updateViewport = () => setIsMobileViewport(mediaQuery.matches);
-
-    updateViewport();
-    mediaQuery.addEventListener('change', updateViewport);
-
-    return () => {
-      mediaQuery.removeEventListener('change', updateViewport);
-    };
-  }, []);
-
   // Build secondary nav sections with lazy-loaded experiments
   const secondaryNavSections: NavSection[] = [
     ...staticSecondaryNavSections,
@@ -910,210 +927,490 @@ const Sidebar = () => {
   };
 
   return (
-    <motion.aside
-      id='main-sidebar'
-      initial={false}
-      animate={{
-        y: isMobileViewport ? (isVisible ? 0 : '100%') : 0,
-        opacity: isMobileViewport ? (isVisible ? 1 : 0) : 1,
-      }}
-      transition={{
-        duration: 0.3,
-        ease: [0.32, 0.72, 0, 1],
-      }}
-      className={clsx(
-        'flex lg:flex-col lg:items-start',
-        'lg:relative lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
-        'max-lg:fixed max-lg:bottom-0 max-lg:w-full',
-        'max-lg:bg-(--card-color)',
-        'z-50',
-        'border-(--border-color) max-lg:items-center max-lg:justify-evenly max-lg:border-t-2 max-lg:py-2',
-        'lg:border-r',
-        'lg:transition-[width,padding] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
-        isDesktopSidebarCollapsed
-          ? 'lg:w-24 lg:px-1.5 lg:pt-3 lg:pb-3'
-          : 'lg:w-80 lg:px-3 lg:pt-6 lg:pb-4',
-      )}
-      // style={{ scrollbarGutter: 'stable' }}
-    >
-      {/* Logo */}
-      <div
-        className={clsx(
-          'hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:block',
-          isDesktopSidebarCollapsed
-            ? 'pointer-events-none mb-0 max-h-0 opacity-0'
-            : 'mb-2 max-h-16 opacity-100',
-        )}
+    <>
+      {/* Mobile Top Header - Fixed/Sticky at top with 3-bar Hamburger Button on mobile */}
+      <header
+        id='mobile-header'
+        className='sticky top-0 z-40 flex h-14 w-full shrink-0 items-center justify-between border-b border-(--border-color) bg-(--background-color)/90 px-4 backdrop-blur-md lg:hidden'
       >
-        <h1 className='flex items-center gap-1.5 pl-3 text-3xl whitespace-nowrap select-none'>
-          {USE_AURORA_SIDEBAR_HEADING ? (
-            <>
-              <AuroraText className='font-bold'>PThamSS</AuroraText>
-              <AuroraText className='font-normal'>
-                <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
-              </AuroraText>
-            </>
-          ) : (
-            <>
-              <span className='font-bold'> PThamSS</span>
-              <span className='font-normal text-(--secondary-color)'>
-                <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
-              </span>
-            </>
-          )}
-        </h1>
-      </div>
-
-      {/* Scrollable Navigation Area */}
-      <div
-        className={clsx(
-          'max-lg:contents',
-          'lg:flex lg:w-full lg:flex-1 lg:flex-col lg:gap-1 lg:overflow-x-hidden lg:overflow-y-auto lg:pr-0.5',
-        )}
-      >
-        {/* Main Navigation - with sliding indicator */}
-        <div
-          className={clsx(
-            'max-lg:flex max-lg:w-full max-lg:items-center max-lg:justify-evenly',
-            'lg:flex lg:w-full lg:flex-col lg:gap-1',
-          )}
-        >
-          {mainNavItems.map(item => (
-            <NavLink
-              key={item.href}
-              item={item}
-              label={t(item.labelKey as any)}
-              isActive={isActive(item.href)}
-              checkIsActive={isActive}
-              onClick={playClick}
-              variant='main'
-              useSlidingIndicator={true}
-              isDesktopCollapsed={isDesktopSidebarCollapsed}
-              animateIconWhenInactive={
-                !hasVisitedPreferences && item.href === '/preferences'
-              }
-              className={item.href === '/profile' ? 'lg:hidden' : undefined}
-            />
-          ))}
+        <div className='flex items-center gap-3'>
+          <button
+            type='button'
+            onClick={() => {
+              playClick();
+              setIsMobileDrawerOpen(true);
+            }}
+            className='flex size-10 cursor-pointer items-center justify-center rounded-xl border border-(--border-color) bg-(--card-color) text-(--main-color) transition-all hover:bg-(--card-color)/80 active:scale-95'
+            aria-label='Mở menu điều hướng'
+            title='Menu điều hướng'
+          >
+            <Menu className='size-5.5' />
+          </button>
+          <Link
+            href='/'
+            prefetch={false}
+            onClick={playClick}
+            className='flex items-center gap-1.5 text-xl font-black tracking-tight text-(--main-color) select-none'
+          >
+            <span>PThamSS</span>
+            <Heart className='size-5 fill-current text-red-500' />
+          </Link>
         </div>
 
-        {/* Secondary Navigation Sections */}
-        <div
-          className={clsx(
-            'hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:flex lg:flex-col',
-            isDesktopSidebarCollapsed
-              ? 'pointer-events-none max-h-0 opacity-0'
-              : 'max-h-[1200px] opacity-100',
-          )}
-        >
-          {secondaryNavSections.map(section => {
-            // Determine which expand state and toggle function to use based on section title
-            const sectionTitleKey = section.titleKey;
-            const translatedTitle = t(sectionTitleKey as any);
-            const isExpanded =
-              sectionTitleKey === 'academy'
-                ? isAcademyExpanded
-                : sectionTitleKey === 'tools'
-                  ? isToolsExpanded
-                  : isExperimentsExpanded;
-            const onToggle =
-              sectionTitleKey === 'academy'
-                ? () => setIsAcademyExpanded(prev => !prev)
-                : sectionTitleKey === 'tools'
-                  ? () => setIsToolsExpanded(prev => !prev)
-                  : () => setIsExperimentsExpanded(prev => !prev);
+        <div className='flex items-center gap-2'>
+          <Link
+            href='/profile'
+            prefetch={false}
+            onClick={playClick}
+            className='flex size-10 cursor-pointer items-center justify-center rounded-xl border border-(--border-color) bg-(--card-color) text-(--secondary-color) transition-all hover:text-(--main-color) active:scale-95'
+            aria-label='Tài khoản cá nhân'
+            title='Tài khoản cá nhân'
+          >
+            <User className='size-5' />
+          </Link>
+        </div>
+      </header>
 
-            return (
-              <div key={section.titleKey} className='contents'>
-                <SectionHeader
-                  title={translatedTitle}
-                  icon={
+      {/* Mobile Slide-in Drawer */}
+      <AnimatePresence>
+        {isMobileDrawerOpen && (
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className='fixed inset-0 z-50 bg-black/60 backdrop-blur-xs lg:hidden'
+            />
+
+            {/* Slide-in Drawer panel */}
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 26, stiffness: 280 }}
+              className='fixed inset-y-0 left-0 z-50 flex w-76 max-w-[85vw] flex-col border-r border-(--border-color) bg-(--card-color) shadow-2xl lg:hidden'
+            >
+              {/* Drawer Header */}
+              <div className='flex h-16 shrink-0 items-center justify-between border-b border-(--border-color) px-4'>
+                <Link
+                  href='/'
+                  prefetch={false}
+                  onClick={() => {
+                    playClick();
+                    setIsMobileDrawerOpen(false);
+                  }}
+                  className='flex items-center gap-1.5 text-2xl font-black tracking-tight text-(--main-color) select-none'
+                >
+                  <span>PThamSS</span>
+                  <Heart className='size-6 fill-current text-red-500' />
+                </Link>
+
+                <button
+                  type='button'
+                  onClick={() => {
+                    playClick();
+                    setIsMobileDrawerOpen(false);
+                  }}
+                  className='flex size-9 cursor-pointer items-center justify-center rounded-xl border border-(--border-color)/60 bg-(--background-color)/50 text-(--secondary-color) transition-colors hover:text-(--main-color) active:scale-95'
+                  aria-label='Đóng menu'
+                >
+                  <X className='size-5' />
+                </button>
+              </div>
+
+              {/* Drawer Scrollable Content */}
+              <div className='flex-1 space-y-1 overflow-y-auto px-3 py-3'>
+                {/* Main Navigation Items */}
+                <div className='space-y-1'>
+                  {mainNavItems
+                    .filter(item => !item.isSubItem && !item.isMobileOnly)
+                    .map(item => {
+                      const active = isActive(item.href);
+                      const hasSub = item.subItems && item.subItems.length > 0;
+                      return (
+                        <div key={item.href} className='space-y-1'>
+                          <Link
+                            href={item.href}
+                            prefetch={false}
+                            onClick={() => {
+                              playClick();
+                              setIsMobileDrawerOpen(false);
+                            }}
+                            className={clsx(
+                              'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold transition-all',
+                              active
+                                ? 'border-b-2 border-(--main-color-accent) bg-(--main-color) text-(--background-color) shadow-sm'
+                                : 'text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)',
+                            )}
+                          >
+                            <span
+                              className={clsx(
+                                'flex size-8 shrink-0 items-center justify-center rounded-lg font-bold',
+                                active
+                                  ? 'text-(--background-color)'
+                                  : 'text-(--main-color)',
+                              )}
+                            >
+                              {item.charIcon ? (
+                                <span className='text-lg leading-none font-bold'>
+                                  {item.charIcon}
+                                </span>
+                              ) : item.icon ? (
+                                <item.icon className='size-5 shrink-0' />
+                              ) : null}
+                            </span>
+                            <span className='truncate'>
+                              {t(item.labelKey as any)}
+                            </span>
+                          </Link>
+
+                          {/* Sub-items if available (e.g. Kanji Search, ThamKanji) */}
+                          {hasSub && (
+                            <div className='ml-6 space-y-1 border-l-2 border-(--border-color)/50 pl-3'>
+                              {item.subItems!.map(sub => {
+                                const subActive = isActive(sub.href);
+                                const SubIcon = sub.icon;
+                                return (
+                                  <Link
+                                    key={sub.href}
+                                    href={sub.href}
+                                    prefetch={false}
+                                    onClick={() => {
+                                      playClick();
+                                      setIsMobileDrawerOpen(false);
+                                    }}
+                                    className={clsx(
+                                      'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-xs font-semibold transition-all',
+                                      subActive
+                                        ? 'border-b-2 border-(--main-color-accent) bg-(--main-color) text-(--background-color)'
+                                        : 'text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)',
+                                    )}
+                                  >
+                                    {sub.charIcon ? (
+                                      <span className='font-bold'>
+                                        {sub.charIcon}
+                                      </span>
+                                    ) : SubIcon ? (
+                                      <SubIcon className='size-4 shrink-0' />
+                                    ) : null}
+                                    <span className='truncate'>
+                                      {t(sub.labelKey as any)}
+                                    </span>
+                                  </Link>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+
+                {/* Secondary Navigation Sections */}
+                {secondaryNavSections.map(section => {
+                  const sectionTitle = t(section.titleKey as any);
+                  const isExpanded =
+                    section.titleKey === 'academy'
+                      ? isAcademyExpanded
+                      : section.titleKey === 'tools'
+                        ? isToolsExpanded
+                        : isExperimentsExpanded;
+                  const onToggle =
+                    section.titleKey === 'academy'
+                      ? () => setIsAcademyExpanded(prev => !prev)
+                      : section.titleKey === 'tools'
+                        ? () => setIsToolsExpanded(prev => !prev)
+                        : () => setIsExperimentsExpanded(prev => !prev);
+                  const SectionIcon =
                     section.titleKey === 'academy'
                       ? BookOpen
                       : section.titleKey === 'tools'
                         ? Languages
-                        : FlaskConical
-                  }
-                  collapsible={section.collapsible}
-                  isExpanded={isExpanded}
-                  onToggle={onToggle}
-                />
-                {/* Only show items if section is expanded or not collapsible */}
-                {(!section.collapsible || isExpanded) &&
-                  section.items.length > 0 && (
-                    <div className='flex w-full flex-col gap-0 max-lg:hidden'>
-                      {section.items.map(item => {
-                        // Experiments might not have translations, so we fallback to labelKey directly
-                        const itemLabel =
-                          section.titleKey === 'experiments'
-                            ? item.labelKey
-                            : t(item.labelKey as any);
-                        return (
-                          <NavLink
-                            key={item.href}
-                            item={item}
-                            label={itemLabel}
-                            isActive={isActive(item.href)}
-                            onClick={playClick}
-                            variant='secondary'
-                            useSlidingIndicator={true}
-                            isDesktopCollapsed={isDesktopSidebarCollapsed}
+                        : FlaskConical;
+
+                  return (
+                    <div key={section.titleKey} className='space-y-1 pt-3'>
+                      <button
+                        type='button'
+                        onClick={onToggle}
+                        className='flex w-full cursor-pointer items-center justify-between px-3 py-1.5 text-xs font-bold tracking-wider text-(--secondary-color)/70 uppercase transition-colors hover:text-(--main-color)'
+                      >
+                        <span className='flex items-center gap-2'>
+                          <SectionIcon className='size-3.5' />
+                          <span>{sectionTitle}</span>
+                        </span>
+                        {section.collapsible && (
+                          <ChevronDown
+                            className={clsx(
+                              'size-3.5 transition-transform duration-200',
+                              isExpanded && 'rotate-180',
+                            )}
                           />
-                        );
-                      })}
+                        )}
+                      </button>
+
+                      {(!section.collapsible || isExpanded) && (
+                        <div className='space-y-1 pl-1'>
+                          {section.items.map(item => {
+                            const active = isActive(item.href);
+                            const ItemIcon = item.icon;
+                            const itemLabel =
+                              section.titleKey === 'experiments'
+                                ? item.labelKey
+                                : t(item.labelKey as any);
+
+                            return (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                prefetch={false}
+                                onClick={() => {
+                                  playClick();
+                                  setIsMobileDrawerOpen(false);
+                                }}
+                                className={clsx(
+                                  'flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold transition-all',
+                                  active
+                                    ? 'border-b-2 border-(--main-color-accent) bg-(--main-color) text-(--background-color) shadow-sm'
+                                    : 'text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)',
+                                )}
+                              >
+                                <span className='flex size-7 shrink-0 items-center justify-center rounded-lg'>
+                                  {ItemIcon && <ItemIcon className='size-4' />}
+                                </span>
+                                <span className='truncate'>{itemLabel}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
-                  )}
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* Fixed Footer Area (Desktop Only) */}
-      <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-2 lg:pt-2'>
-        <NavLink
-          item={{ href: '/profile', labelKey: 'profile', icon: User }}
-          label={t('profile' as any)}
-          isActive={isActive('/profile')}
-          onClick={playClick}
-          variant='main'
-          useSlidingIndicator={true}
-          isDesktopCollapsed={isDesktopSidebarCollapsed}
-        />
+              {/* Drawer Footer - User Profile */}
+              <div className='shrink-0 border-t border-(--border-color) p-3'>
+                <Link
+                  href='/profile'
+                  prefetch={false}
+                  onClick={() => {
+                    playClick();
+                    setIsMobileDrawerOpen(false);
+                  }}
+                  className={clsx(
+                    'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-bold transition-all',
+                    isActive('/profile')
+                      ? 'border-b-2 border-(--main-color-accent) bg-(--main-color) text-(--background-color)'
+                      : 'text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)',
+                  )}
+                >
+                  <span className='flex size-8 shrink-0 items-center justify-center rounded-lg text-(--main-color)'>
+                    <User className='size-5' />
+                  </span>
+                  <span>{t('profile' as any)}</span>
+                </Link>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
-        <button
-          onClick={toggleDesktopSidebarCollapse}
+      {/* Desktop Sidebar (Only visible on lg: and up) */}
+      <aside
+        id='main-sidebar'
+        className={clsx(
+          'hidden lg:flex lg:flex-col lg:items-start',
+          'lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
+          'z-30 border-(--border-color) lg:border-r',
+          'lg:transition-[width,padding] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
+          isDesktopSidebarCollapsed
+            ? 'lg:w-24 lg:px-1.5 lg:pt-3 lg:pb-3'
+            : 'lg:w-80 lg:px-3 lg:pt-6 lg:pb-4',
+        )}
+      >
+        {/* Logo */}
+        <div
           className={clsx(
-            'group flex cursor-pointer items-center rounded-2xl text-(--secondary-color) transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-(--card-color) hover:text-(--main-color)',
+            'hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:block',
             isDesktopSidebarCollapsed
-              ? 'w-full flex-col justify-center gap-0.5 px-1 py-2'
-              : 'w-full gap-2.5 px-2.5 py-2',
+              ? 'pointer-events-none mb-0 max-h-0 opacity-0'
+              : 'mb-2 max-h-16 opacity-100',
           )}
-          aria-label={
-            isDesktopSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
-          }
-          title={isDesktopSidebarCollapsed ? 'Mở rộng menu' : 'Thu gọn menu'}
         >
-          <span className='flex h-7 w-7 shrink-0 items-center justify-center rounded-xl sm:h-8 sm:w-8'>
-            {isDesktopSidebarCollapsed ? (
-              <PanelLeftOpen className='h-5 w-5 shrink-0 transition-transform duration-300' />
+          <h1 className='flex items-center gap-1.5 pl-3 text-3xl whitespace-nowrap select-none'>
+            {USE_AURORA_SIDEBAR_HEADING ? (
+              <>
+                <AuroraText className='font-bold'>PThamSS</AuroraText>
+                <AuroraText className='font-normal'>
+                  <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
+                </AuroraText>
+              </>
             ) : (
-              <PanelLeftClose className='h-5 w-5 shrink-0 transition-transform duration-300' />
+              <>
+                <span className='font-bold'> PThamSS</span>
+                <span className='font-normal text-(--secondary-color)'>
+                  <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
+                </span>
+              </>
             )}
-          </span>
-          <span
+          </h1>
+        </div>
+
+        {/* Scrollable Navigation Area */}
+        <div
+          className={clsx(
+            'max-lg:contents',
+            'lg:flex lg:w-full lg:flex-1 lg:flex-col lg:gap-1 lg:overflow-x-hidden lg:overflow-y-auto lg:pr-0.5',
+          )}
+        >
+          {/* Main Navigation - with sliding indicator */}
+          <div
             className={clsx(
-              'whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
-              isDesktopSidebarCollapsed
-                ? 'mt-0.5 text-center text-[10px] leading-none font-semibold'
-                : 'max-w-[160px] translate-x-0 overflow-hidden text-xs font-semibold opacity-100',
+              'max-lg:flex max-lg:w-full max-lg:items-center max-lg:justify-evenly',
+              'lg:flex lg:w-full lg:flex-col lg:gap-1',
             )}
           >
-            {isDesktopSidebarCollapsed ? 'Mở rộng' : 'Thu gọn menu'}
-          </span>
-        </button>
-      </div>
-    </motion.aside>
+            {mainNavItems.map(item => (
+              <NavLink
+                key={item.href}
+                item={item}
+                label={t(item.labelKey as any)}
+                isActive={isActive(item.href)}
+                checkIsActive={isActive}
+                onClick={playClick}
+                variant='main'
+                useSlidingIndicator={true}
+                isDesktopCollapsed={isDesktopSidebarCollapsed}
+                animateIconWhenInactive={
+                  !hasVisitedPreferences && item.href === '/preferences'
+                }
+                className={item.href === '/profile' ? 'lg:hidden' : undefined}
+              />
+            ))}
+          </div>
+
+          {/* Secondary Navigation Sections */}
+          <div
+            className={clsx(
+              'hidden overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] lg:flex lg:flex-col',
+              isDesktopSidebarCollapsed
+                ? 'pointer-events-none max-h-0 opacity-0'
+                : 'max-h-[1200px] opacity-100',
+            )}
+          >
+            {secondaryNavSections.map(section => {
+              // Determine which expand state and toggle function to use based on section title
+              const sectionTitleKey = section.titleKey;
+              const translatedTitle = t(sectionTitleKey as any);
+              const isExpanded =
+                sectionTitleKey === 'academy'
+                  ? isAcademyExpanded
+                  : sectionTitleKey === 'tools'
+                    ? isToolsExpanded
+                    : isExperimentsExpanded;
+              const onToggle =
+                sectionTitleKey === 'academy'
+                  ? () => setIsAcademyExpanded(prev => !prev)
+                  : sectionTitleKey === 'tools'
+                    ? () => setIsToolsExpanded(prev => !prev)
+                    : () => setIsExperimentsExpanded(prev => !prev);
+
+              return (
+                <div key={section.titleKey} className='contents'>
+                  <SectionHeader
+                    title={translatedTitle}
+                    icon={
+                      section.titleKey === 'academy'
+                        ? BookOpen
+                        : section.titleKey === 'tools'
+                          ? Languages
+                          : FlaskConical
+                    }
+                    collapsible={section.collapsible}
+                    isExpanded={isExpanded}
+                    onToggle={onToggle}
+                  />
+                  {/* Only show items if section is expanded or not collapsible */}
+                  {(!section.collapsible || isExpanded) &&
+                    section.items.length > 0 && (
+                      <div className='flex w-full flex-col gap-0 max-lg:hidden'>
+                        {section.items.map(item => {
+                          // Experiments might not have translations, so we fallback to labelKey directly
+                          const itemLabel =
+                            section.titleKey === 'experiments'
+                              ? item.labelKey
+                              : t(item.labelKey as any);
+                          return (
+                            <NavLink
+                              key={item.href}
+                              item={item}
+                              label={itemLabel}
+                              isActive={isActive(item.href)}
+                              onClick={playClick}
+                              variant='secondary'
+                              useSlidingIndicator={true}
+                              isDesktopCollapsed={isDesktopSidebarCollapsed}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Fixed Footer Area (Desktop Only) */}
+        <div className='hidden lg:mt-auto lg:flex lg:w-full lg:shrink-0 lg:flex-col lg:gap-2 lg:pt-2'>
+          <NavLink
+            item={{ href: '/profile', labelKey: 'profile', icon: User }}
+            label={t('profile' as any)}
+            isActive={isActive('/profile')}
+            onClick={playClick}
+            variant='main'
+            useSlidingIndicator={true}
+            isDesktopCollapsed={isDesktopSidebarCollapsed}
+          />
+
+          <button
+            onClick={toggleDesktopSidebarCollapse}
+            className={clsx(
+              'group flex cursor-pointer items-center rounded-2xl text-(--secondary-color) transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-(--card-color) hover:text-(--main-color)',
+              isDesktopSidebarCollapsed
+                ? 'w-full flex-col justify-center gap-0.5 px-1 py-2'
+                : 'w-full gap-2.5 px-2.5 py-2',
+            )}
+            aria-label={
+              isDesktopSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+            }
+            title={isDesktopSidebarCollapsed ? 'Mở rộng menu' : 'Thu gọn menu'}
+          >
+            <span className='flex h-7 w-7 shrink-0 items-center justify-center rounded-xl sm:h-8 sm:w-8'>
+              {isDesktopSidebarCollapsed ? (
+                <PanelLeftOpen className='h-5 w-5 shrink-0 transition-transform duration-300' />
+              ) : (
+                <PanelLeftClose className='h-5 w-5 shrink-0 transition-transform duration-300' />
+              )}
+            </span>
+            <span
+              className={clsx(
+                'whitespace-nowrap transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+                isDesktopSidebarCollapsed
+                  ? 'mt-0.5 text-center text-[10px] leading-none font-semibold'
+                  : 'max-w-[160px] translate-x-0 overflow-hidden text-xs font-semibold opacity-100',
+              )}
+            >
+              {isDesktopSidebarCollapsed ? 'Mở rộng' : 'Thu gọn menu'}
+            </span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 

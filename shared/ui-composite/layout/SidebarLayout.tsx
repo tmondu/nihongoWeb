@@ -26,8 +26,8 @@ const SidebarLayout = ({
   return (
     <div
       className={clsx(
-        'flex min-h-[100dvh] max-w-[100dvw]',
-        !isThamKanji && 'gap-4 lg:gap-4 lg:pr-6',
+        'flex min-h-[100dvh] max-w-[100dvw] flex-col lg:flex-row',
+        !isThamKanji && 'lg:gap-4 lg:pr-6',
       )}
     >
       {!isThamKanji && <Sidebar />}
@@ -37,7 +37,7 @@ const SidebarLayout = ({
           isThamKanji
             ? 'w-full px-4 md:px-8'
             : 'w-full px-4 md:px-8 lg:flex-1 lg:px-0',
-          'pb-20',
+          'max-lg:pb-10 lg:pb-20',
           className,
         )}
       >
