@@ -139,6 +139,9 @@ export function getWallpaperStyles(
 
 const legacyThemeAliases = new Map<string, string>([
   ['neon-city-glass', 'neon-city'],
+  ['sakura', 'mazii-pink'],
+  ['mazii-rose', 'mazii-pink'],
+  ['pink-white', 'mazii-pink'],
 ]);
 
 const resolveThemeId = (themeId: string): string =>

@@ -85,6 +85,16 @@ const baseThemeSets: BaseThemeGroup[] = [
         secondaryColor: 'oklch(45.00% 0.0350 260.00 / 1)',
       },
       {
+        id: 'mazii-pink',
+        displayName: 'mazii pink',
+        isLight: true,
+        backgroundColor: 'oklch(98.00% 0.0060 12.00 / 1)',
+        cardColor: 'oklch(100.00% 0.0000 89.88 / 1)',
+        borderColor: 'oklch(92.00% 0.0100 12.00 / 1)',
+        mainColor: 'oklch(54.00% 0.1650 358.00 / 1)',
+        secondaryColor: 'oklch(45.00% 0.0280 10.00 / 1)',
+      },
+      {
         id: 'light',
         isLight: true,
         backgroundColor: 'oklch(100.00% 0.0000 89.88 / 1)',
