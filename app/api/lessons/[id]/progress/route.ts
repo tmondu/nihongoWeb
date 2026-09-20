@@ -128,6 +128,7 @@ export async function POST(
     currentTime?: number;
     duration?: number;
     watchedDelta?: number;
+    coveragePercent?: number;
   } = {};
 
   try {
@@ -153,16 +154,15 @@ export async function POST(
     Math.max(0, Math.floor(body.watchedDelta ?? 0)),
   );
 
-  // Calculate percentage:
-  let percent = 0;
-  if (duration > 0) {
-    // Percentage can be calculated from current position vs duration
-    const positionPercent = Math.round((currentTime / duration) * 100);
-    percent = Math.min(100, Math.max(0, positionPercent));
-  }
+  // Calculate percentage: strictly derived from coveragePercent (union of watched intervals).
+  // Seeking/scrubbing forward will NOT increase coveragePercent!
+  const coveragePercent = Math.min(
+    100,
+    Math.max(0, Math.floor(body.coveragePercent ?? 0)),
+  );
 
-  // If student reaches 85% or more, mark as completed
-  const isCompleted = percent >= 85 ? 1 : 0;
+  // If student reaches 85% or more coverage, mark as completed
+  const isCompleted = coveragePercent >= 85 ? 1 : 0;
 
   try {
     const pool = getDbPool();
@@ -184,7 +184,7 @@ export async function POST(
         watchedDelta,
         currentTime,
         duration,
-        percent,
+        coveragePercent,
         isCompleted,
       ],
     );
@@ -192,7 +192,7 @@ export async function POST(
     return NextResponse.json({
       success: true,
       last_position_seconds: currentTime,
-      progress_percent: percent,
+      progress_percent: coveragePercent,
       is_completed: Boolean(isCompleted),
     });
   } catch (err) {

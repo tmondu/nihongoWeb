@@ -15,6 +15,42 @@ interface UseVideoProgressOptions {
   enabled?: boolean;
 }
 
+export type TimeInterval = [number, number]; // [startSeconds, endSeconds]
+
+/**
+ * Merges overlapping or near-contiguous intervals (within 1s tolerance)
+ */
+export function mergeIntervals(intervals: TimeInterval[]): TimeInterval[] {
+  if (intervals.length <= 1) return intervals;
+  const sorted = [...intervals].sort((a, b) => a[0] - b[0]);
+  const merged: TimeInterval[] = [sorted[0]];
+
+  for (let i = 1; i < sorted.length; i++) {
+    const current = sorted[i];
+    const last = merged[merged.length - 1];
+
+    // If current starts within last interval or at most 1 second after last ends
+    if (current[0] <= last[1] + 1) {
+      last[1] = Math.max(last[1], current[1]);
+    } else {
+      merged.push(current);
+    }
+  }
+
+  return merged;
+}
+
+/**
+ * Calculates total unique seconds covered by merged intervals
+ */
+export function calculateCoverageSeconds(intervals: TimeInterval[]): number {
+  const merged = mergeIntervals(intervals);
+  return merged.reduce(
+    (acc, [start, end]) => acc + Math.max(0, end - start),
+    0,
+  );
+}
+
 export function useVideoProgress({
   lessonId,
   enabled = true,
@@ -25,18 +61,67 @@ export function useVideoProgress({
   const [loading, setLoading] = useState(true);
 
   // Active tracking refs to avoid re-renders and closure staleness
-  const lastSentTimeRef = useRef<number>(0);
   const lastPlaybackPosRef = useRef<number>(0);
   const durationRef = useRef<number>(0);
   const lastActiveTimestampRef = useRef<number>(Date.now());
   const intervalTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isPlayingRef = useRef<boolean>(false);
 
-  // 1. Fetch initial saved progress for this lesson
+  // Watched intervals for coverage tracking (Method 3)
+  const intervalsRef = useRef<TimeInterval[]>([]);
+  const currentSegmentStartRef = useRef<number | null>(null);
+
+  // LocalStorage storage key for intervals cache
+  const storageKey = `lesson_progress_intervals_${lessonId}`;
+
+  // Helper to commit active playing segment into intervalsRef
+  const commitCurrentSegment = useCallback(
+    (currentPos: number) => {
+      if (currentSegmentStartRef.current === null) return;
+      const start = Math.min(currentSegmentStartRef.current, currentPos);
+      const end = Math.max(currentSegmentStartRef.current, currentPos);
+      if (end - start >= 0.5) {
+        intervalsRef.current = mergeIntervals([
+          ...intervalsRef.current,
+          [Math.floor(start), Math.ceil(end)],
+        ]);
+        // Persist to localStorage
+        try {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(
+              storageKey,
+              JSON.stringify(intervalsRef.current),
+            );
+          }
+        } catch {
+          // ignore localStorage quota errors
+        }
+      }
+      currentSegmentStartRef.current = currentPos;
+    },
+    [storageKey],
+  );
+
+  // 1. Fetch initial saved progress for this lesson & restore intervals
   useEffect(() => {
     if (!enabled || !lessonId || isNaN(lessonId)) {
       setLoading(false);
       return;
+    }
+
+    // Try loading intervals from localStorage
+    try {
+      if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem(storageKey);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed)) {
+            intervalsRef.current = mergeIntervals(parsed);
+          }
+        }
+      }
+    } catch {
+      // ignore
     }
 
     let isMounted = true;
@@ -48,6 +133,9 @@ export function useVideoProgress({
         if (data.progress && isMounted) {
           setInitialProgress(data.progress);
           lastPlaybackPosRef.current = data.progress.last_position_seconds || 0;
+          if (data.progress.duration_seconds > 0) {
+            durationRef.current = data.progress.duration_seconds;
+          }
         }
       } catch (err) {
         console.error('Failed to load video progress:', err);
@@ -61,7 +149,7 @@ export function useVideoProgress({
     return () => {
       isMounted = false;
     };
-  }, [lessonId, enabled]);
+  }, [lessonId, enabled, storageKey]);
 
   // 2. Core send function (supports beacon for page unload)
   const sendProgress = useCallback(
@@ -71,22 +159,37 @@ export function useVideoProgress({
 
       const effectiveDuration = duration > 0 ? duration : durationRef.current;
       const now = Date.now();
-      const deltaMs = now - lastActiveTimestampRef.current;
-      // Calculate active seconds watched (max capped at 120s)
-      const watchedDelta = Math.min(
-        120,
-        Math.max(0, Math.round(deltaMs / 1000)),
-      );
 
+      // Commit any active playing segment up to currentTime
+      if (isPlayingRef.current) {
+        commitCurrentSegment(currentTime);
+      }
+
+      // 1. Calculate watchedDelta (Method 1 - Actual Playtime)
+      let watchedDelta = 0;
+      if (isPlayingRef.current) {
+        const deltaMs = now - lastActiveTimestampRef.current;
+        watchedDelta = Math.min(120, Math.max(0, Math.round(deltaMs / 1000)));
+      }
       lastActiveTimestampRef.current = now;
-      lastSentTimeRef.current = currentTime;
       lastPlaybackPosRef.current = currentTime;
       durationRef.current = effectiveDuration;
+
+      // 2. Calculate Coverage % (Method 3 - Merged Intervals)
+      const coveredSeconds = calculateCoverageSeconds(intervalsRef.current);
+      const coveragePercent =
+        effectiveDuration > 0
+          ? Math.min(
+              100,
+              Math.round((coveredSeconds / effectiveDuration) * 100),
+            )
+          : 0;
 
       const payload = JSON.stringify({
         currentTime: Math.floor(currentTime),
         duration: Math.floor(effectiveDuration),
-        watchedDelta: isPlayingRef.current ? watchedDelta : 0,
+        watchedDelta,
+        coveragePercent,
       });
 
       const url = `/api/lessons/${lessonId}/progress`;
@@ -117,7 +220,7 @@ export function useVideoProgress({
         console.warn('Could not update video progress:', err);
       });
     },
-    [lessonId, enabled],
+    [lessonId, enabled, commitCurrentSegment],
   );
 
   // 3. Periodic fallback check every 60s while playing
@@ -160,30 +263,55 @@ export function useVideoProgress({
   const handlePlay = useCallback(() => {
     isPlayingRef.current = true;
     lastActiveTimestampRef.current = Date.now();
+    currentSegmentStartRef.current = lastPlaybackPosRef.current;
   }, []);
 
   const handlePause = useCallback(
     (currentTime: number, duration: number) => {
+      if (isPlayingRef.current) {
+        commitCurrentSegment(currentTime);
+      }
       isPlayingRef.current = false;
+      currentSegmentStartRef.current = null;
       sendProgress(currentTime, duration, false);
     },
-    [sendProgress],
+    [commitCurrentSegment, sendProgress],
   );
 
   const handleEnded = useCallback(
     (duration: number) => {
+      if (isPlayingRef.current) {
+        commitCurrentSegment(duration);
+      }
       isPlayingRef.current = false;
+      currentSegmentStartRef.current = null;
       sendProgress(duration, duration, false);
     },
-    [sendProgress],
+    [commitCurrentSegment, sendProgress],
   );
 
   const handleTimeUpdate = useCallback(
     (currentTime: number, duration: number) => {
-      lastPlaybackPosRef.current = currentTime;
       if (duration > 0) durationRef.current = duration;
+
+      // Detect seeking jumps while playing
+      if (isPlayingRef.current) {
+        const prevPos = lastPlaybackPosRef.current;
+        const timeDiff = currentTime - prevPos;
+
+        // Normal progression is ~0.2s to 2s. If jump backwards (< -0.5s) or forward (> 3s),
+        // it means the user scrubbed/seeked the video!
+        if (timeDiff < -0.5 || timeDiff > 3) {
+          // Commit the segment watched before the seek
+          commitCurrentSegment(prevPos);
+          // Start a new segment at the new seek location
+          currentSegmentStartRef.current = currentTime;
+        }
+      }
+
+      lastPlaybackPosRef.current = currentTime;
     },
-    [],
+    [commitCurrentSegment],
   );
 
   return {

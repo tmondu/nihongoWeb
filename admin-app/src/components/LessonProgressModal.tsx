@@ -346,16 +346,19 @@ export default function LessonProgressModal({
 
                         {/* Watched time */}
                         <td className='px-4 py-3 font-mono text-slate-300'>
-                          {hasProgress ? (
-                            <span>
-                              {formatDuration(s.last_position_seconds)}
-                              {s.duration_seconds > 0 ? (
-                                <span className='text-slate-500'>
-                                  {' '}
-                                  / {formatDuration(s.duration_seconds)}
-                                </span>
-                              ) : null}
-                            </span>
+                          {hasProgress || s.watched_seconds > 0 ? (
+                            <div>
+                              <div className='font-semibold text-white'>
+                                {formatDuration(s.watched_seconds)}
+                              </div>
+                              <div className='text-[10px] text-slate-400'>
+                                Dừng ở:{' '}
+                                {formatDuration(s.last_position_seconds)}
+                                {s.duration_seconds > 0
+                                  ? ` / ${formatDuration(s.duration_seconds)}`
+                                  : ''}
+                              </div>
+                            </div>
                           ) : (
                             <span className='text-slate-600'>0:00</span>
                           )}
