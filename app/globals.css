@@ -14,9 +14,14 @@
   --font-vietnamese: 'Be Vietnam Pro', system-ui, sans-serif;
 }
 
+html,
 body {
   touch-action: manipulation; /* Prevents pinch-to-zoom */
-  overscroll-behavior: none; /* Prevents zooming on iOS */
+  overscroll-behavior: none; /* Prevents bounce on iOS */
+  overscroll-behavior-x: none; /* Disables horizontal swipe-to-back/forward gesture on iOS Safari & WKWebView */
+}
+
+body {
   font-family: var(--font-vietnamese), system-ui, sans-serif;
   scroll-behavior: smooth;
   background-color: var(--background-color);

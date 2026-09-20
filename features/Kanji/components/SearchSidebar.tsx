@@ -42,14 +42,20 @@ export function HandwritingSearchCard({
   className,
 }: HandwritingSearchCardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
   const [strokes, setStrokes] = useState<Stroke[]>([]);
-  const [currentStroke, setCurrentStroke] = useState<Stroke>([]);
   const [candidates, setCandidates] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const recognitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { playClick } = useClick();
   const { theme } = useThemePreferences();
+
+  const isDrawingRef = useRef(false);
+  const strokesRef = useRef<Stroke[]>([]);
+  const currentStrokeRef = useRef<Stroke>([]);
+
+  useEffect(() => {
+    strokesRef.current = strokes;
+  }, [strokes]);
 
   const redrawStrokes = useCallback(
     (ctx: CanvasRenderingContext2D, allStrokes: Stroke[]) => {
@@ -108,90 +114,7 @@ export function HandwritingSearchCard({
     return () => window.removeEventListener('resize', resizeCanvas);
   }, [strokes, theme, redrawStrokes]);
 
-  const getCoordinates = (
-    e: React.MouseEvent | React.TouchEvent,
-  ): [number, number] => {
-    const canvas = canvasRef.current;
-    if (!canvas) return [0, 0];
-    const rect = canvas.getBoundingClientRect();
-
-    let clientX, clientY;
-    if ('touches' in e) {
-      if (e.touches.length === 0) return [0, 0];
-      clientX = e.touches[0].clientX;
-      clientY = e.touches[0].clientY;
-    } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
-    }
-
-    return [clientX - rect.left, clientY - rect.top];
-  };
-
-  const handleStartDrawing = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    if (recognitionTimeoutRef.current) {
-      clearTimeout(recognitionTimeoutRef.current);
-    }
-
-    const [x, y] = getCoordinates(e);
-    const point: Point = [x, y, Date.now()];
-
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        const resolvedColor = getComputedStyle(document.documentElement)
-          .getPropertyValue('--main-color')
-          .trim();
-        ctx.strokeStyle = resolvedColor || '#ff4e50';
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-      }
-    }
-
-    setIsDrawing(true);
-    setCurrentStroke([point]);
-  };
-
-  const handleDrawing = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDrawing) return;
-    e.preventDefault();
-
-    const [x, y] = getCoordinates(e);
-    const point: Point = [x, y, Date.now()];
-    setCurrentStroke(prev => [...prev, point]);
-
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        const resolvedColor = getComputedStyle(document.documentElement)
-          .getPropertyValue('--main-color')
-          .trim();
-        ctx.strokeStyle = resolvedColor || '#ff4e50';
-        ctx.lineTo(x, y);
-        ctx.stroke();
-      }
-    }
-  };
-
-  const handleStopDrawing = () => {
-    if (!isDrawing) return;
-    setIsDrawing(false);
-
-    const updatedStrokes = [...strokes, currentStroke];
-    setStrokes(updatedStrokes);
-    setCurrentStroke([]);
-
-    if (recognitionTimeoutRef.current)
-      clearTimeout(recognitionTimeoutRef.current);
-    recognitionTimeoutRef.current = setTimeout(() => {
-      void recognizeHandwriting(updatedStrokes);
-    }, 600);
-  };
-
-  const recognizeHandwriting = async (currentStrokes: Stroke[]) => {
+  const recognizeHandwriting = useCallback(async (currentStrokes: Stroke[]) => {
     if (currentStrokes.length === 0) return;
     setLoading(true);
 
@@ -257,12 +180,125 @@ export function HandwritingSearchCard({
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const startDrawingPoint = useCallback((clientX: number, clientY: number) => {
+    if (recognitionTimeoutRef.current) {
+      clearTimeout(recognitionTimeoutRef.current);
+    }
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const point: Point = [x, y, Date.now()];
+
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const resolvedColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--main-color')
+        .trim();
+      ctx.strokeStyle = resolvedColor || '#ff4e50';
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    isDrawingRef.current = true;
+    currentStrokeRef.current = [point];
+  }, []);
+
+  const drawPoint = useCallback((clientX: number, clientY: number) => {
+    if (!isDrawingRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+    const point: Point = [x, y, Date.now()];
+
+    currentStrokeRef.current.push(point);
+
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const resolvedColor = getComputedStyle(document.documentElement)
+        .getPropertyValue('--main-color')
+        .trim();
+      ctx.strokeStyle = resolvedColor || '#ff4e50';
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+  }, []);
+
+  const stopDrawingPoint = useCallback(() => {
+    if (!isDrawingRef.current) return;
+    isDrawingRef.current = false;
+
+    if (currentStrokeRef.current.length > 0) {
+      const updatedStrokes = [...strokesRef.current, currentStrokeRef.current];
+      strokesRef.current = updatedStrokes;
+      setStrokes(updatedStrokes);
+      currentStrokeRef.current = [];
+
+      if (recognitionTimeoutRef.current)
+        clearTimeout(recognitionTimeoutRef.current);
+      recognitionTimeoutRef.current = setTimeout(() => {
+        void recognizeHandwriting(updatedStrokes);
+      }, 600);
+    }
+  }, [recognizeHandwriting]);
+
+  // Attach non-passive touch listeners directly to prevent iOS Safari edge-swipe back navigation
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const onTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.touches.length > 0) {
+        startDrawingPoint(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.touches.length > 0) {
+        drawPoint(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stopDrawingPoint();
+    };
+
+    const onTouchCancel = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stopDrawingPoint();
+    };
+
+    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', onTouchEnd, { passive: false });
+    canvas.addEventListener('touchcancel', onTouchCancel, { passive: false });
+
+    return () => {
+      canvas.removeEventListener('touchstart', onTouchStart);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', onTouchEnd);
+      canvas.removeEventListener('touchcancel', onTouchCancel);
+    };
+  }, [startDrawingPoint, drawPoint, stopDrawingPoint]);
 
   const handleClear = () => {
     playClick();
     setStrokes([]);
-    setCurrentStroke([]);
+    strokesRef.current = [];
+    currentStrokeRef.current = [];
     setCandidates([]);
     if (recognitionTimeoutRef.current)
       clearTimeout(recognitionTimeoutRef.current);
@@ -279,8 +315,9 @@ export function HandwritingSearchCard({
 
   const handleUndo = () => {
     playClick();
-    if (strokes.length === 0) return;
-    const updated = strokes.slice(0, -1);
+    if (strokesRef.current.length === 0) return;
+    const updated = strokesRef.current.slice(0, -1);
+    strokesRef.current = updated;
     setStrokes(updated);
 
     const canvas = canvasRef.current;
@@ -306,10 +343,11 @@ export function HandwritingSearchCard({
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 p-4 shadow-sm',
+        'flex flex-col gap-3 p-4 shadow-sm select-none',
         'rounded-2xl border-2 border-(--border-color) bg-(--card-color)',
         className,
       )}
+      style={{ touchAction: 'pan-y', overscrollBehaviorX: 'none' }}
     >
       <div className='flex items-center justify-between'>
         <span className='flex items-center gap-1.5 text-sm font-bold text-(--secondary-color)'>
@@ -322,7 +360,7 @@ export function HandwritingSearchCard({
             disabled={strokes.length === 0}
             className={cn(
               'rounded-xl border border-(--border-color) bg-(--background-color) p-2 text-(--secondary-color)',
-              'transition-all hover:border-(--main-color) hover:text-(--main-color) disabled:opacity-40',
+              'transition-all hover:bg-(--main-color)/10 hover:text-(--main-color) disabled:opacity-40',
               'cursor-pointer duration-275 active:scale-95',
             )}
             title='Undo'
@@ -344,17 +382,18 @@ export function HandwritingSearchCard({
         </div>
       </div>
 
-      <div className='relative h-[280px] w-full cursor-crosshair overflow-hidden rounded-xl border-2 border-(--border-color) bg-(--background-color)'>
+      <div
+        className='relative h-[280px] w-full cursor-crosshair overflow-hidden overscroll-none rounded-xl border-2 border-(--border-color) bg-(--background-color) select-none'
+        style={{ touchAction: 'none', overscrollBehavior: 'none' }}
+      >
         <canvas
           ref={canvasRef}
-          onMouseDown={handleStartDrawing}
-          onMouseMove={handleDrawing}
-          onMouseUp={handleStopDrawing}
-          onMouseLeave={handleStopDrawing}
-          onTouchStart={handleStartDrawing}
-          onTouchMove={handleDrawing}
-          onTouchEnd={handleStopDrawing}
-          className='absolute inset-0 z-10 cursor-crosshair touch-none'
+          onMouseDown={e => startDrawingPoint(e.clientX, e.clientY)}
+          onMouseMove={e => drawPoint(e.clientX, e.clientY)}
+          onMouseUp={stopDrawingPoint}
+          onMouseLeave={stopDrawingPoint}
+          className='absolute inset-0 z-10 cursor-crosshair touch-none overscroll-none select-none'
+          style={{ touchAction: 'none' }}
         />
         {strokes.length === 0 && (
           <div className='pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center gap-1 text-xs text-(--secondary-color)/40 select-none'>

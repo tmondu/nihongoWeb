@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { allKana } from '../data/kanaData';
@@ -9,7 +9,7 @@ import clsx from 'clsx';
 export default function KanaTrace() {
   const t = useTranslations('experiments.kanaTrace');
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
+  const isDrawingRef = useRef(false);
   const [currentColor, setCurrentColor] = useState('#ff4e50');
   const [brushSize, setBrushSize] = useState(8);
   const [targetKana, setTargetKana] = useState(allKana[0]);
@@ -39,51 +39,84 @@ export default function KanaTrace() {
     ctx.lineWidth = brushSize;
   }, [currentColor, brushSize]);
 
-  const startDrawing = (e: React.MouseEvent | React.TouchEvent) => {
+  const startDrawingPoint = useCallback((clientX: number, clientY: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
-    let x, y;
-    if ('touches' in e) {
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
-    } else {
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
-    }
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     ctx.beginPath();
     ctx.moveTo(x, y);
-    setIsDrawing(true);
-  };
+    isDrawingRef.current = true;
+  }, []);
 
-  const draw = (e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDrawing) return;
+  const drawPoint = useCallback((clientX: number, clientY: number) => {
+    if (!isDrawingRef.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
-    let x, y;
-    if ('touches' in e) {
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
-    } else {
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
-    }
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     ctx.lineTo(x, y);
     ctx.stroke();
-  };
+  }, []);
 
-  const stopDrawing = () => {
-    setIsDrawing(false);
-  };
+  const stopDrawingPoint = useCallback(() => {
+    isDrawingRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const onTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.touches.length > 0) {
+        startDrawingPoint(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.touches.length > 0) {
+        drawPoint(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stopDrawingPoint();
+    };
+
+    const onTouchCancel = (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      stopDrawingPoint();
+    };
+
+    canvas.addEventListener('touchstart', onTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', onTouchMove, { passive: false });
+    canvas.addEventListener('touchend', onTouchEnd, { passive: false });
+    canvas.addEventListener('touchcancel', onTouchCancel, { passive: false });
+
+    return () => {
+      canvas.removeEventListener('touchstart', onTouchStart);
+      canvas.removeEventListener('touchmove', onTouchMove);
+      canvas.removeEventListener('touchend', onTouchEnd);
+      canvas.removeEventListener('touchcancel', onTouchCancel);
+    };
+  }, [startDrawingPoint, drawPoint, stopDrawingPoint]);
 
   const clearCanvas = () => {
     playClick();
@@ -151,7 +184,10 @@ export default function KanaTrace() {
 
       <div className='flex flex-1 flex-col gap-6 lg:flex-row'>
         {/* Main Canvas Area */}
-        <div className='relative flex-1 cursor-crosshair overflow-hidden rounded-3xl border-2 border-dashed border-(--border-color) bg-(--card-color)'>
+        <div
+          className='relative flex-1 cursor-crosshair overflow-hidden overscroll-none rounded-3xl border-2 border-dashed border-(--border-color) bg-(--card-color) select-none'
+          style={{ touchAction: 'none', overscrollBehavior: 'none' }}
+        >
           {/* Reference Kana (Background) */}
           {showReference && (
             <div className='pointer-events-none absolute inset-0 flex items-center justify-center opacity-10 select-none'>
@@ -163,14 +199,12 @@ export default function KanaTrace() {
 
           <canvas
             ref={canvasRef}
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={stopDrawing}
-            onMouseLeave={stopDrawing}
-            onTouchStart={startDrawing}
-            onTouchMove={draw}
-            onTouchEnd={stopDrawing}
-            className='relative z-10 h-full w-full cursor-crosshair touch-none'
+            onMouseDown={e => startDrawingPoint(e.clientX, e.clientY)}
+            onMouseMove={e => drawPoint(e.clientX, e.clientY)}
+            onMouseUp={stopDrawingPoint}
+            onMouseLeave={stopDrawingPoint}
+            className='relative z-10 h-full w-full cursor-crosshair touch-none overscroll-none select-none'
+            style={{ touchAction: 'none' }}
           />
         </div>
 
