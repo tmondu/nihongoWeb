@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { email, password, isApproved, isAdmin } = await request.json();
+    const { email, password, isApproved, isAdmin, sbd } = await request.json();
 
     if (!email || !password) {
       return NextResponse.json(
@@ -38,8 +38,14 @@ export async function POST(request: NextRequest) {
     const hashedPassword = hashPassword(password);
 
     await pool.execute(
-      'INSERT INTO users (email, password_hash, is_approved, is_admin) VALUES (?, ?, ?, ?)',
-      [email, hashedPassword, isApproved ? 1 : 0, isAdmin ? 1 : 0],
+      'INSERT INTO users (sbd, email, password_hash, is_approved, is_admin) VALUES (?, ?, ?, ?, ?)',
+      [
+        sbd ? String(sbd).trim() : null,
+        email,
+        hashedPassword,
+        isApproved ? 1 : 0,
+        isAdmin ? 1 : 0,
+      ],
     );
 
     return NextResponse.json({ success: true });
@@ -61,7 +67,7 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, email, display_name, is_approved, is_admin, created_at FROM users ORDER BY created_at DESC',
+      'SELECT id, sbd, email, display_name, is_approved, is_admin, created_at FROM users ORDER BY created_at DESC',
     );
 
     return NextResponse.json(users);
@@ -81,7 +87,7 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    const { userId, email, password, isApproved, isAdmin } =
+    const { userId, email, password, isApproved, isAdmin, sbd } =
       await request.json();
 
     if (
@@ -125,17 +131,41 @@ export async function PUT(request: NextRequest) {
       }
     }
 
+    const sbdVal =
+      sbd !== undefined ? (sbd ? String(sbd).trim() : null) : undefined;
+
     if (password) {
       const hashedPassword = hashPassword(password);
-      await pool.execute(
-        'UPDATE users SET email = ?, password_hash = ?, is_approved = ?, is_admin = ? WHERE id = ?',
-        [email, hashedPassword, isApproved ? 1 : 0, isAdmin ? 1 : 0, userId],
-      );
+      if (sbdVal !== undefined) {
+        await pool.execute(
+          'UPDATE users SET email = ?, password_hash = ?, is_approved = ?, is_admin = ?, sbd = ? WHERE id = ?',
+          [
+            email,
+            hashedPassword,
+            isApproved ? 1 : 0,
+            isAdmin ? 1 : 0,
+            sbdVal,
+            userId,
+          ],
+        );
+      } else {
+        await pool.execute(
+          'UPDATE users SET email = ?, password_hash = ?, is_approved = ?, is_admin = ? WHERE id = ?',
+          [email, hashedPassword, isApproved ? 1 : 0, isAdmin ? 1 : 0, userId],
+        );
+      }
     } else {
-      await pool.execute(
-        'UPDATE users SET email = ?, is_approved = ?, is_admin = ? WHERE id = ?',
-        [email, isApproved ? 1 : 0, isAdmin ? 1 : 0, userId],
-      );
+      if (sbdVal !== undefined) {
+        await pool.execute(
+          'UPDATE users SET email = ?, is_approved = ?, is_admin = ?, sbd = ? WHERE id = ?',
+          [email, isApproved ? 1 : 0, isAdmin ? 1 : 0, sbdVal, userId],
+        );
+      } else {
+        await pool.execute(
+          'UPDATE users SET email = ?, is_approved = ?, is_admin = ? WHERE id = ?',
+          [email, isApproved ? 1 : 0, isAdmin ? 1 : 0, userId],
+        );
+      }
     }
 
     return NextResponse.json({ success: true });

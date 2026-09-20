@@ -27,6 +27,7 @@ import {
 
 interface UserRecord {
   id: number;
+  sbd?: string | null;
   email: string;
   display_name?: string | null;
   is_approved: number;
@@ -45,6 +46,7 @@ export default function AdminUsers() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<'add' | 'edit'>('add');
   const [currentId, setCurrentId] = useState<number | null>(null);
+  const [formSbd, setFormSbd] = useState('');
   const [formEmail, setFormEmail] = useState('');
   const [formPassword, setFormPassword] = useState('');
   const [formApproved, setFormApproved] = useState(true);
@@ -55,6 +57,7 @@ export default function AdminUsers() {
   const openAddDialog = () => {
     setDialogMode('add');
     setCurrentId(null);
+    setFormSbd('');
     setFormEmail('');
     setFormPassword('');
     setFormApproved(true);
@@ -66,6 +69,7 @@ export default function AdminUsers() {
   const openEditDialog = (user: UserRecord) => {
     setDialogMode('edit');
     setCurrentId(user.id);
+    setFormSbd(user.sbd || '');
     setFormEmail(user.email);
     setFormPassword('');
     setFormApproved(user.is_approved === 1);
@@ -93,6 +97,7 @@ export default function AdminUsers() {
           ? {
               email: formEmail,
               password: formPassword,
+              sbd: formSbd,
               isApproved: formApproved,
               isAdmin: formAdmin,
             }
@@ -100,6 +105,7 @@ export default function AdminUsers() {
               userId: currentId,
               email: formEmail,
               password: formPassword || undefined,
+              sbd: formSbd,
               isApproved: formApproved,
               isAdmin: formAdmin,
             };
@@ -226,12 +232,13 @@ export default function AdminUsers() {
     }
   };
 
-  // Filter users by email or display_name on frontend
+  // Filter users by email, display_name or sbd on frontend
   const filteredUsers = users.filter(
     user =>
       user.email.toLowerCase().includes(search.toLowerCase()) ||
       (user.display_name &&
-        user.display_name.toLowerCase().includes(search.toLowerCase())),
+        user.display_name.toLowerCase().includes(search.toLowerCase())) ||
+      (user.sbd && user.sbd.toLowerCase().includes(search.toLowerCase())),
   );
 
   return (
@@ -266,7 +273,7 @@ export default function AdminUsers() {
         <div className='relative max-w-md flex-1'>
           <Search className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
           <Input
-            placeholder='Tìm thành viên theo email, tên...'
+            placeholder='Tìm thành viên theo email, tên, SBD...'
             value={search}
             onChange={e => setSearch(e.target.value)}
             className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-500 focus-visible:ring-amber-500'
@@ -293,7 +300,7 @@ export default function AdminUsers() {
             <table className='w-full border-collapse text-left'>
               <thead>
                 <tr className='border-b border-[#1a1a1f] bg-[#121215] text-xs font-semibold text-slate-400'>
-                  <th className='px-6 py-3.5'>ID</th>
+                  <th className='px-6 py-3.5'>SBD</th>
                   <th className='px-6 py-3.5'>Email</th>
                   <th className='px-6 py-3.5'>Tên</th>
                   <th className='px-6 py-3.5'>Trạng thái duyệt</th>
@@ -308,8 +315,10 @@ export default function AdminUsers() {
                     key={user.id}
                     className='text-sm text-slate-300 transition-colors hover:bg-[#121215]/50'
                   >
-                    <td className='px-6 py-4 font-mono text-xs text-slate-500'>
-                      #{user.id}
+                    <td className='px-6 py-4 font-mono text-xs text-amber-400'>
+                      {user.sbd || (
+                        <span className='text-slate-500 italic'>Chưa đặt</span>
+                      )}
                     </td>
                     <td className='px-6 py-4 font-medium text-white'>
                       {user.email}
@@ -422,6 +431,19 @@ export default function AdminUsers() {
                 <span>{formError}</span>
               </div>
             )}
+
+            <div className='space-y-1.5'>
+              <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                Số Báo Danh (SBD)
+              </label>
+              <Input
+                type='text'
+                placeholder='Ví dụ: N2-001...'
+                value={formSbd}
+                onChange={e => setFormSbd(e.target.value)}
+                className='border-[#1a1a1f] bg-[#121215] font-mono text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+              />
+            </div>
 
             <div className='space-y-1.5'>
               <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>

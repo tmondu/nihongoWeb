@@ -30,6 +30,7 @@ export function getDbPool(): mysql.Pool {
       await pool.execute(`
         CREATE TABLE IF NOT EXISTS \`users\` (
           \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`sbd\` VARCHAR(50) NULL,
           \`email\` VARCHAR(255) UNIQUE NOT NULL,
           \`password_hash\` VARCHAR(255) NOT NULL,
           \`display_name\` VARCHAR(100) NULL,
@@ -39,6 +40,14 @@ export function getDbPool(): mysql.Pool {
           \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
+
+      try {
+        await pool.execute(
+          'ALTER TABLE `users` ADD COLUMN `sbd` VARCHAR(50) NULL AFTER `id`',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
 
       try {
         await pool.execute(

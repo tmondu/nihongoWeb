@@ -26,6 +26,7 @@ interface Stats {
 
 interface UserRecord {
   id: number;
+  sbd?: string | null;
   email: string;
   is_approved: number;
   is_admin: number;
@@ -217,7 +218,7 @@ export default function AdminDashboardPage() {
             <table className='w-full border-collapse text-left text-sm'>
               <thead>
                 <tr className='border-b border-[#1e1e24] bg-[#121215] text-xs font-semibold text-slate-400'>
-                  <th className='px-5 py-3'>ID</th>
+                  <th className='px-5 py-3'>SBD</th>
                   <th className='px-5 py-3'>Email</th>
                   <th className='px-5 py-3'>Ngày Đăng Ký</th>
                   <th className='px-5 py-3 text-right'>Thao Tác</th>
@@ -229,8 +230,10 @@ export default function AdminDashboardPage() {
                     key={user.id}
                     className='text-slate-300 transition-colors hover:bg-[#16161a]'
                   >
-                    <td className='px-5 py-3.5 font-mono text-xs text-slate-500'>
-                      #{user.id}
+                    <td className='px-5 py-3.5 font-mono text-xs text-purple-300'>
+                      {user.sbd || (
+                        <span className='text-slate-600 italic'>Chưa có</span>
+                      )}
                     </td>
                     <td className='px-5 py-3.5 font-medium text-white'>
                       {user.email}

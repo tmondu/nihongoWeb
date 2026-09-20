@@ -14,10 +14,12 @@ import {
   Video,
   Filter,
   RotateCcw,
+  Check,
 } from 'lucide-react';
 
 interface UserRecord {
   id: number;
+  sbd: string | null;
   email: string;
   display_name: string | null;
   is_approved: number;
@@ -31,6 +33,11 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<UserRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+
+  // SBD manual entry states
+  const [sbdInputs, setSbdInputs] = useState<Record<number, string>>({});
+  const [savingSbdId, setSavingSbdId] = useState<number | null>(null);
+  const [savedSbdId, setSavedSbdId] = useState<number | null>(null);
 
   // Search and filter states
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,14 +67,16 @@ export default function AdminUsersPage() {
   // Filter users by search query and filters
   const filteredUsers = useMemo(() => {
     return users.filter(user => {
-      // Search matching by email, display_name or id
+      // Search matching by email, display_name or sbd
       const q = searchQuery.trim().toLowerCase();
+      const currentSbd =
+        sbdInputs[user.id] !== undefined ? sbdInputs[user.id] : user.sbd || '';
+
       const matchSearch =
         !q ||
         user.email.toLowerCase().includes(q) ||
         (user.display_name && user.display_name.toLowerCase().includes(q)) ||
-        user.id.toString().includes(q) ||
-        `#${user.id}`.includes(q);
+        currentSbd.toLowerCase().includes(q);
 
       // Status filter
       let matchStatus = true;
@@ -88,7 +97,7 @@ export default function AdminUsersPage() {
 
       return matchSearch && matchStatus && matchLevel;
     });
-  }, [users, searchQuery, statusFilter, levelFilter]);
+  }, [users, searchQuery, statusFilter, levelFilter, sbdInputs]);
 
   // Quick stats
   const stats = useMemo(() => {
@@ -104,6 +113,47 @@ export default function AdminUsersPage() {
     setSearchQuery('');
     setStatusFilter('all');
     setLevelFilter('all');
+  };
+
+  const handleSaveSbd = async (user: UserRecord) => {
+    const inputVal = sbdInputs[user.id];
+    if (inputVal === undefined) return;
+
+    const trimmed = inputVal.trim();
+    const currentVal = (user.sbd || '').trim();
+    if (trimmed === currentVal) return;
+
+    try {
+      setSavingSbdId(user.id);
+      const res = await fetch('/api/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          sbd: trimmed,
+        }),
+      });
+
+      if (res.ok) {
+        setUsers(prev =>
+          prev.map(u =>
+            u.id === user.id ? { ...u, sbd: trimmed || null } : u,
+          ),
+        );
+        setSavedSbdId(user.id);
+        setTimeout(() => {
+          setSavedSbdId(prev => (prev === user.id ? null : prev));
+        }, 2000);
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Lỗi khi lưu SBD');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Không thể kết nối đến máy chủ để lưu SBD');
+    } finally {
+      setSavingSbdId(null);
+    }
   };
 
   const handleToggleApprove = async (user: UserRecord) => {
@@ -249,7 +299,7 @@ export default function AdminUsersPage() {
             type='text'
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            placeholder='Tìm kiếm theo email, tên hoặc ID người dùng...'
+            placeholder='Tìm kiếm theo email, tên hoặc SBD...'
             className='w-full rounded-xl border border-[#2d2d38] bg-[#16161c] py-2.5 pr-10 pl-10 text-xs text-white transition-colors placeholder:text-slate-500 focus:border-purple-500 focus:outline-none'
           />
           {searchQuery && (
@@ -346,7 +396,7 @@ export default function AdminUsersPage() {
             <table className='w-full border-collapse text-left text-sm'>
               <thead>
                 <tr className='border-b border-[#1e1e24] bg-[#121215] text-xs font-semibold text-slate-400'>
-                  <th className='px-5 py-3'>ID</th>
+                  <th className='px-5 py-3'>SBD</th>
                   <th className='px-5 py-3'>Email</th>
                   <th className='px-5 py-3'>Tên</th>
                   <th className='px-5 py-3'>Trạng Thái</th>
@@ -363,8 +413,31 @@ export default function AdminUsersPage() {
                     key={user.id}
                     className='text-slate-300 transition-colors hover:bg-[#16161a]'
                   >
-                    <td className='px-5 py-3.5 font-mono text-xs text-slate-500'>
-                      #{user.id}
+                    <td className='px-5 py-3.5'>
+                      <div className='flex items-center gap-1.5'>
+                        <input
+                          type='text'
+                          value={sbdInputs[user.id] ?? user.sbd ?? ''}
+                          onChange={e => {
+                            const val = e.target.value;
+                            setSbdInputs(prev => ({ ...prev, [user.id]: val }));
+                          }}
+                          onBlur={() => handleSaveSbd(user)}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter') {
+                              e.currentTarget.blur();
+                            }
+                          }}
+                          placeholder='Nhập SBD...'
+                          title='Nhập số báo danh và bấm Enter hoặc click ra ngoài để lưu'
+                          className='w-28 rounded-lg border border-[#2d2d38] bg-[#16161c] px-2.5 py-1 font-mono text-xs font-semibold text-purple-300 transition-colors placeholder:text-slate-600 hover:border-purple-500/40 focus:border-purple-500 focus:bg-[#1c1c24] focus:outline-none'
+                        />
+                        {savingSbdId === user.id ? (
+                          <Loader2 className='size-3.5 shrink-0 animate-spin text-purple-400' />
+                        ) : savedSbdId === user.id ? (
+                          <Check className='size-3.5 shrink-0 text-emerald-400' />
+                        ) : null}
+                      </div>
                     </td>
                     <td className='px-5 py-3.5 font-medium text-white'>
                       {user.email}

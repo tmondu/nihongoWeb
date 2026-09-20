@@ -6,6 +6,7 @@ export const dynamic = 'force-dynamic';
 
 interface UserRow extends RowDataPacket {
   id: number;
+  sbd: string | null;
   email: string;
   display_name: string | null;
   is_approved: number;
@@ -22,12 +23,11 @@ export async function GET(request: NextRequest) {
 
     const pool = getDbPool();
     let sql =
-      'SELECT id, email, display_name, is_approved, can_watch_video, level, is_admin, created_at FROM users';
+      'SELECT id, sbd, email, display_name, is_approved, can_watch_video, level, is_admin, created_at FROM users';
     const params: string[] = [];
 
     if (query) {
-      sql +=
-        ' WHERE email LIKE ? OR display_name LIKE ? OR CAST(id AS CHAR) LIKE ?';
+      sql += ' WHERE email LIKE ? OR display_name LIKE ? OR sbd LIKE ?';
       params.push(`%${query}%`, `%${query}%`, `%${query}%`);
     }
 
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, isApproved, isAdmin, canWatchVideo, level } = body;
+    const { userId, isApproved, isAdmin, canWatchVideo, level, sbd } = body;
 
     if (userId === undefined) {
       return NextResponse.json(
@@ -56,7 +56,7 @@ export async function PUT(request: NextRequest) {
 
     const pool = getDbPool();
     const updates: string[] = [];
-    const values: (number | string)[] = [];
+    const values: (number | string | null)[] = [];
 
     if (isApproved !== undefined) {
       updates.push('is_approved = ?');
@@ -73,6 +73,10 @@ export async function PUT(request: NextRequest) {
     if (level !== undefined) {
       updates.push('level = ?');
       values.push(String(level).toLowerCase().trim());
+    }
+    if (sbd !== undefined) {
+      updates.push('sbd = ?');
+      values.push(sbd === null || sbd === '' ? null : String(sbd).trim());
     }
 
     if (updates.length === 0) {
