@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  GraduationCap,
+  Video,
   PlayCircle,
   BookOpen,
   Calendar,
@@ -130,7 +130,7 @@ export default function ClassroomPage() {
         <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
           <div className='flex items-center gap-3.5'>
             <div className='rounded-2xl border border-blue-500/20 bg-blue-500/10 p-3 text-blue-400'>
-              <GraduationCap className='h-8 w-8' />
+              <Video className='h-8 w-8' />
             </div>
             <div>
               <h1 className='text-foreground text-2xl font-bold tracking-tight md:text-3xl'>

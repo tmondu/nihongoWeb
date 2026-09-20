@@ -23,10 +23,10 @@ import {
   LayoutGrid,
   Layers,
   Video,
-  GraduationCap,
   ClipboardCheck,
   Menu,
   X,
+  Mic,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -123,12 +123,12 @@ const mainNavItems: NavItem[] = [
   {
     href: '/shadowing',
     labelKey: 'shadowing',
-    icon: Video,
+    icon: Mic,
   },
   {
     href: '/classroom',
     labelKey: 'classroom',
-    icon: GraduationCap,
+    icon: Video,
   },
   {
     href: '/giao-trinh',
