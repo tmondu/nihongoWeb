@@ -344,7 +344,7 @@ export function HandwritingSearchCard({
         </div>
       </div>
 
-      <div className='relative h-[280px] w-full overflow-hidden rounded-xl border-2 border-(--border-color) bg-(--background-color)'>
+      <div className='relative h-[280px] w-full cursor-crosshair overflow-hidden rounded-xl border-2 border-(--border-color) bg-(--background-color)'>
         <canvas
           ref={canvasRef}
           onMouseDown={handleStartDrawing}

@@ -151,7 +151,7 @@ export default function KanaTrace() {
 
       <div className='flex flex-1 flex-col gap-6 lg:flex-row'>
         {/* Main Canvas Area */}
-        <div className='relative flex-1 overflow-hidden rounded-3xl border-2 border-dashed border-(--border-color) bg-(--card-color)'>
+        <div className='relative flex-1 cursor-crosshair overflow-hidden rounded-3xl border-2 border-dashed border-(--border-color) bg-(--card-color)'>
           {/* Reference Kana (Background) */}
           {showReference && (
             <div className='pointer-events-none absolute inset-0 flex items-center justify-center opacity-10 select-none'>
