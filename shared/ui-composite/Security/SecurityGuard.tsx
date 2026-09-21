@@ -16,7 +16,16 @@ export default function SecurityGuard() {
       return;
     }
 
-    // 2. Tự động bỏ qua khi đang ở trang /admin (hoặc /vi/admin, /en/admin, ...)
+    // 2. Tự động bỏ qua trên tất cả điện thoại / máy tính bảng (iPhone, iPad, Android, thiết bị cảm ứng)
+    const isMobileOrTouch =
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    if (isMobileOrTouch) {
+      return;
+    }
+
+    // 3. Tự động bỏ qua khi đang ở trang /admin (hoặc /vi/admin, /en/admin, ...)
     if (
       pathname &&
       (pathname.includes('/admin') || pathname.startsWith('/admin'))
@@ -24,7 +33,7 @@ export default function SecurityGuard() {
       return;
     }
 
-    // 3. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin
+    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin
     if (sessionStorage.getItem('is_admin') === '1') {
       return;
     }
