@@ -18,7 +18,7 @@
 
 </details>
 
-<a href="#tentang-kanadojo">Tentang PThamSS</a> | <a href="#tangkapan-layar">Tangkapan Layar</a> | <a href="#ui-dan-filosofi-desain">UI &amp; Filosofi Desain</a> | <a href="#teknologi">Teknologi</a> | <a href="#memulai">Memulai</a> | <a href="#struktur-proyek">Struktur Proyek</a> | <a href="#berkontribusi">Berkontribusi</a> | <a href="#lisensi">Lisensi</a> | <a href="#penghargaan">Penghargaan</a> | <a href="#kontak-tautan">Kontak &amp; Tautan</a>
+<a href="#tentang-pthamss">Tentang PThamSS</a> | <a href="#tangkapan-layar">Tangkapan Layar</a> | <a href="#ui-dan-filosofi-desain">UI &amp; Filosofi Desain</a> | <a href="#teknologi">Teknologi</a> | <a href="#memulai">Memulai</a> | <a href="#struktur-proyek">Struktur Proyek</a> | <a href="#berkontribusi">Berkontribusi</a> | <a href="#lisensi">Lisensi</a> | <a href="#penghargaan">Penghargaan</a> | <a href="#kontak-tautan">Kontak &amp; Tautan</a>
 
 # PThamSS かな道場
 
@@ -41,7 +41,7 @@
 
 </div>
 
-<a id="tentang-kanadojo"></a>
+<a id="tentang-pthamss"></a>
 
 ## 📖 Tentang PThamSS
 

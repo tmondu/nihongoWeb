@@ -5,7 +5,7 @@
 
 ## 1. The Core Hypothesis: Does the Issue Author Matter?
 
-The current Kanadojo implementation uses a Personal Access Token (PAT) belonging to a specific user (the owner) to create the automated community issues every 15-30 minutes.
+The current PThamSS implementation uses a Personal Access Token (PAT) belonging to a specific user (the owner) to create the automated community issues every 15-30 minutes.
 
 **Hypothesis:** Alternating the creation of these issues between the GitHub Actions bot (`github-actions[bot]`), the owner's account, and a secondary "alt" account will "hack" the GitHub algorithm, avoiding spam filters and increasing global search visibility.
 

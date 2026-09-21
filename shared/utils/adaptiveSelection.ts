@@ -17,7 +17,6 @@ const random = new Random();
 
 // Storage key prefix for localforage
 const STORAGE_KEY = 'pthamss-adaptive-weights';
-const LEGACY_STORAGE_KEY = 'kanadojo-adaptive-weights';
 
 export interface CharacterWeight {
   historicalCorrect: number;
@@ -68,9 +67,6 @@ export function createAdaptiveSelector(storageKey?: string) {
   let isLoaded = false;
   let loadPromise: Promise<void> | null = null;
   const persistKey = storageKey ? `${STORAGE_KEY}-${storageKey}` : STORAGE_KEY;
-  const legacyPersistKey = storageKey
-    ? `${LEGACY_STORAGE_KEY}-${storageKey}`
-    : LEGACY_STORAGE_KEY;
   let currentSessionToken: string | null = null;
 
   // Track a selection event counter for session recency/frequency.
@@ -197,24 +193,9 @@ export function createAdaptiveSelector(storageKey?: string) {
 
     loadPromise = (async () => {
       try {
-        let stored = await localforage.getItem<
+        const stored = await localforage.getItem<
           StoredWeights | LegacyStoredWeights
         >(persistKey);
-
-        if (!stored) {
-          const legacyStored = await localforage.getItem<
-            StoredWeights | LegacyStoredWeights
-          >(legacyPersistKey);
-          if (legacyStored) {
-            stored = legacyStored;
-            await localforage.setItem(persistKey, legacyStored);
-            try {
-              await localforage.removeItem(legacyPersistKey);
-            } catch {
-              // Ignore
-            }
-          }
-        }
 
         if (stored && typeof stored === 'object' && stored.weights) {
           Object.entries(stored.weights).forEach(([char, raw]) => {
@@ -460,11 +441,6 @@ export function createAdaptiveSelector(storageKey?: string) {
     currentSessionToken = null;
     try {
       await localforage.removeItem(persistKey);
-      try {
-        await localforage.removeItem(legacyPersistKey);
-      } catch {
-        // Ignore
-      }
     } catch (error) {
       console.warn('[AdaptiveSelection] Failed to clear storage:', error);
     }

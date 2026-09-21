@@ -54,13 +54,12 @@ interface CustomWallpaperStore {
 // ============================================================================
 
 const DB_NAME = 'pthamss-custom-wallpapers';
-const LEGACY_DB_NAME = 'kanadojo-custom-wallpapers';
 const DB_VERSION = 1;
 const STORE_NAME = 'images';
 
-function openDB(dbName = DB_NAME): Promise<IDBDatabase> {
+function openDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(dbName, DB_VERSION);
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
     request.onupgradeneeded = () => {
       const db = request.result;
       if (!db.objectStoreNames.contains(STORE_NAME)) {
@@ -88,7 +87,7 @@ async function saveBlob(id: string, blob: Blob): Promise<void> {
 
 async function loadBlob(id: string): Promise<Blob | undefined> {
   const db = await openDB();
-  const blob = await new Promise<Blob | undefined>((resolve, reject) => {
+  return new Promise<Blob | undefined>((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readonly');
     const store = tx.objectStore(STORE_NAME);
     const request = store.get(id);
@@ -97,33 +96,6 @@ async function loadBlob(id: string): Promise<Blob | undefined> {
       reject(new Error('Failed to load image: ' + request.error?.message));
     tx.oncomplete = () => db.close();
   });
-
-  if (blob) return blob;
-
-  // Try migrating from legacy DB if it exists
-  try {
-    const legacyDb = await openDB(LEGACY_DB_NAME);
-    const legacyBlob = await new Promise<Blob | undefined>(resolve => {
-      if (!legacyDb.objectStoreNames.contains(STORE_NAME)) {
-        return resolve(undefined);
-      }
-      const tx = legacyDb.transaction(STORE_NAME, 'readonly');
-      const store = tx.objectStore(STORE_NAME);
-      const request = store.get(id);
-      request.onsuccess = () => resolve(request.result as Blob | undefined);
-      request.onerror = () => resolve(undefined);
-      tx.oncomplete = () => legacyDb.close();
-    });
-
-    if (legacyBlob) {
-      await saveBlob(id, legacyBlob);
-      return legacyBlob;
-    }
-  } catch {
-    // Ignore legacy read errors
-  }
-
-  return undefined;
 }
 
 async function deleteBlob(id: string): Promise<void> {
@@ -241,35 +213,7 @@ export const useCustomWallpaperStore = create<CustomWallpaperStore>()(
     }),
     {
       name: 'pthamss-custom-wallpapers-meta',
-      storage: createJSONStorage(() => ({
-        getItem: (key: string) => {
-          const val = localStorage.getItem(key);
-          if (val) return val;
-          const legacy = localStorage.getItem(
-            'kanadojo-custom-wallpapers-meta',
-          );
-          if (legacy) {
-            localStorage.setItem(key, legacy);
-            try {
-              localStorage.removeItem('kanadojo-custom-wallpapers-meta');
-            } catch {
-              // Ignore
-            }
-            return legacy;
-          }
-          return null;
-        },
-        setItem: (key: string, value: string) =>
-          localStorage.setItem(key, value),
-        removeItem: (key: string) => {
-          localStorage.removeItem(key);
-          try {
-            localStorage.removeItem('kanadojo-custom-wallpapers-meta');
-          } catch {
-            // Ignore
-          }
-        },
-      })),
+      storage: createJSONStorage(() => localStorage),
       // Only persist wallpaper metadata (not runtime object URLs)
       partialize: state => ({
         wallpapers: state.wallpapers,

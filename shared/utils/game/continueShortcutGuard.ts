@@ -3,7 +3,6 @@ const DEFAULT_SUPPRESSION_MS = 500;
 declare global {
   interface Window {
     __pthamssContinueShortcutSuppressedUntil?: number;
-    __kanaDojoContinueShortcutSuppressedUntil?: number;
   }
 }
 
@@ -17,9 +16,6 @@ export const suppressContinueKeyboardShortcuts = (
 
 export const shouldSuppressContinueKeyboardShortcut = (): boolean => {
   if (typeof window === 'undefined') return false;
-  const suppressedUntil =
-    window.__pthamssContinueShortcutSuppressedUntil ??
-    window.__kanaDojoContinueShortcutSuppressedUntil ??
-    0;
+  const suppressedUntil = window.__pthamssContinueShortcutSuppressedUntil ?? 0;
   return performance.now() < suppressedUntil;
 };

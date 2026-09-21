@@ -89,8 +89,8 @@ core/i18n/locales/
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/kanadojo.git
-   cd kanadojo
+   git clone https://github.com/yourusername/nihongoWeb.git
+   cd nihongoWeb
    ```
 
 2. **Find your language folder**

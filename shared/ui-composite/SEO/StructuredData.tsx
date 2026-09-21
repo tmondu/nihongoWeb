@@ -213,6 +213,3 @@ export const pthamssSchema = {
     },
   ],
 };
-
-// Backward-compatibility alias
-export const kanaDojoSchema = pthamssSchema;

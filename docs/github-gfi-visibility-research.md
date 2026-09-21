@@ -46,7 +46,7 @@ This is a **research + strategy dossier**, not an implementation changelog.
 
 - `route.ts` currently contains:
   - `REPO_OWNER = 'lingdojo'`
-  - `REPO_NAME = 'kanadojo'`
+  - `REPO_NAME = 'pthamss'`
 - Active repository and workflow conditions consistently use: `lingdojo/kana-dojo`.
 - This mismatch can produce silent dispatch drift/failures depending on where token points.
 
@@ -523,7 +523,7 @@ Guardrail KPIs:
 
 ## 8) Immediate high-leverage fixes (before advanced algorithm games)
 
-1. Validate and correct repo slug mismatch in trigger route (`kanadojo` vs `kana-dojo`).
+1. Validate and correct repo slug mismatch in trigger route (`pthamss` vs `kana-dojo`).
 2. Fix push race in community workflows (pull/rebase/retry or branch-PR writeback).
 3. Add JSON validity prechecks for all content files used in issue generation.
 4. Add “max open community issue” guard in creation workflow.

@@ -95,7 +95,7 @@ For each pull request:
 
 ### Setting Environment Variables
 
-1. Go to [Vercel Dashboard](https://vercel.com/lingdojo/kanadojo)
+1. Go to [Vercel Dashboard](https://vercel.com/tmondu/nihongoWeb)
 2. Navigate to **Settings** → **Environment Variables**
 3. Add variables for each environment (Production, Preview, Development)
 4. Redeploy to apply changes
@@ -249,7 +249,7 @@ After a successful build, Vercel produces:
 
 ### Deployment Stuck
 
-1. Check [Vercel Dashboard](https://vercel.com/lingdojo/kanadojo) for status
+1. Check [Vercel Dashboard](https://vercel.com/tmondu/nihongoWeb) for status
 2. View build logs for errors
 3. Try manual redeploy from dashboard
 
@@ -263,7 +263,7 @@ After a successful build, Vercel produces:
 
 To rollback to a previous deployment:
 
-1. Go to [Vercel Dashboard](https://vercel.com/lingdojo/kanadojo)
+1. Go to [Vercel Dashboard](https://vercel.com/tmondu/nihongoWeb)
 2. Navigate to **Deployments**
 3. Find the working deployment
 4. Click **...** → **Redeploy**

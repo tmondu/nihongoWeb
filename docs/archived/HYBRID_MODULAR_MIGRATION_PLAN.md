@@ -86,7 +86,7 @@
 ### New Directory Structure
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                    # Next.js App Router (unchanged)
 │
 ├── widgets/                # ✨ NEW: Complex UI compositions

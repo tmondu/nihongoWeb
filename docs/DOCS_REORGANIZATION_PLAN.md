@@ -91,8 +91,8 @@ PThamSS is a web-based Japanese learning platform for mastering Hiragana, Kataka
 ## Quick Start
 
 \`\`\`bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 npm install
 npm run dev
 \`\`\`

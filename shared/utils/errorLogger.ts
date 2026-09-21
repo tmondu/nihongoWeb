@@ -48,9 +48,7 @@ export function logError(
 
   // Save to localStorage for debugging (keep last 10 errors)
   try {
-    const savedErrors =
-      localStorage.getItem('pthamss_error_logs') ??
-      localStorage.getItem('kanadojo_error_logs');
+    const savedErrors = localStorage.getItem('pthamss_error_logs');
     const errorLogs: ErrorLog[] = savedErrors ? JSON.parse(savedErrors) : [];
 
     // Add new error and keep only last 10
@@ -58,11 +56,6 @@ export function logError(
     const trimmedLogs = errorLogs.slice(0, 10);
 
     localStorage.setItem('pthamss_error_logs', JSON.stringify(trimmedLogs));
-    try {
-      localStorage.removeItem('kanadojo_error_logs');
-    } catch {
-      // Ignore
-    }
   } catch (storageError) {
     // Ignore localStorage errors
     console.warn('Could not save error to localStorage:', storageError);
@@ -79,9 +72,7 @@ export function logError(
  */
 export function getErrorLogs(): ErrorLog[] {
   try {
-    const savedErrors =
-      localStorage.getItem('pthamss_error_logs') ??
-      localStorage.getItem('kanadojo_error_logs');
+    const savedErrors = localStorage.getItem('pthamss_error_logs');
     return savedErrors ? JSON.parse(savedErrors) : [];
   } catch {
     return [];
@@ -94,7 +85,6 @@ export function getErrorLogs(): ErrorLog[] {
 export function clearErrorLogs(): void {
   try {
     localStorage.removeItem('pthamss_error_logs');
-    localStorage.removeItem('kanadojo_error_logs');
   } catch (error) {
     console.warn('Could not clear error logs:', error);
   }

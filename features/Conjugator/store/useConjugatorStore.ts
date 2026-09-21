@@ -29,7 +29,6 @@ const MAX_HISTORY_ENTRIES = 50;
 
 /** Storage key for persisted state */
 const STORAGE_KEY = 'pthamss-conjugator';
-const LEGACY_STORAGE_KEY = 'kanadojo-conjugator';
 
 // ============================================================================
 // Store Interface
@@ -322,33 +321,7 @@ const useConjugatorStore = create<ConjugatorState>()(
     }),
     {
       name: STORAGE_KEY,
-      storage: createJSONStorage(() => ({
-        getItem: (key: string) => {
-          const val = localStorage.getItem(key);
-          if (val) return val;
-          const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
-          if (legacy) {
-            localStorage.setItem(key, legacy);
-            try {
-              localStorage.removeItem(LEGACY_STORAGE_KEY);
-            } catch {
-              // Ignore
-            }
-            return legacy;
-          }
-          return null;
-        },
-        setItem: (key: string, value: string) =>
-          localStorage.setItem(key, value),
-        removeItem: (key: string) => {
-          localStorage.removeItem(key);
-          try {
-            localStorage.removeItem(LEGACY_STORAGE_KEY);
-          } catch {
-            // Ignore
-          }
-        },
-      })),
+      storage: createJSONStorage(() => localStorage),
       // Only persist history
       partialize: state => ({
         history: state.history,

@@ -8,7 +8,7 @@ This document summarizes the complete implementation for:
 2. In-route (non-route-changing) session summary UX after session end/quit.
 3. Manual quit (`X`) behavior consistency across game modes.
 
-All work was implemented in `C:\Users\reser\kanadojo`.
+All work was implemented in `C:\Users\reser\nihongoWeb`.
 
 ---
 

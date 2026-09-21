@@ -35,7 +35,7 @@ With the new feature-based architecture, these problems have been systematically
 ### Unstructured Organization (Before)
 
 ```
-kanadojo/ (OLD STRUCTURE - DO NOT USE)
+nihongoWeb/ (OLD STRUCTURE - DO NOT USE)
 ├── components/
 │   ├── Dojo/
 │   │   ├── Kana/           # Mixed Kana components
@@ -126,7 +126,7 @@ The current architecture is based on three key principles:
 ### Overview
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                    # Next.js App Router
 ├── widgets/                # Cross-feature UI composition
 ├── features/               # Feature modules

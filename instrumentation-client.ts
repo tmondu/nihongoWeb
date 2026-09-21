@@ -23,11 +23,7 @@ export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
 const RELOAD_FLAG = 'pthamss_chunk_reload';
 
 // Only attempt one auto-reload per session to prevent infinite loops
-if (
-  typeof window !== 'undefined' &&
-  !sessionStorage.getItem(RELOAD_FLAG) &&
-  !sessionStorage.getItem('kanadojo_chunk_reload')
-) {
+if (typeof window !== 'undefined' && !sessionStorage.getItem(RELOAD_FLAG)) {
   window.addEventListener('error', event => {
     const error = event.error;
     const message = event.message || '';

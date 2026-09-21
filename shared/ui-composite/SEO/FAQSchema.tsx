@@ -105,9 +105,6 @@ export const commonPThamSSFAQs: FAQItem[] = [
   },
 ];
 
-// Backward-compatibility alias
-export const commonKanaDOJOFAQs = commonPThamSSFAQs;
-
 export const hiraganaFAQs: FAQItem[] = [
   {
     question: 'What is Hiragana?',

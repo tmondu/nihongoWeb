@@ -15,7 +15,7 @@ Only files listed in `uploadFiles` are uploaded. Unchanged staged files are not
 re-uploaded. Each planned file is uploaded to:
 
 ```txt
-kanadojo-wallpapers/wallpapers/<filename>
+pthamss-wallpapers/wallpapers/<filename>
 ```
 
 The public URL is then:

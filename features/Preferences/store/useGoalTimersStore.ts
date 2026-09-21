@@ -230,33 +230,7 @@ export const useGoalTimersStore = create<GoalTimersStore>()(
     }),
     {
       name: 'pthamss-goal-timers', // localStorage key
-      storage: createJSONStorage(() => ({
-        getItem: (key: string) => {
-          const val = localStorage.getItem(key);
-          if (val) return val;
-          const legacy = localStorage.getItem('kanadojo-goal-timers');
-          if (legacy) {
-            localStorage.setItem(key, legacy);
-            try {
-              localStorage.removeItem('kanadojo-goal-timers');
-            } catch {
-              // Ignore
-            }
-            return legacy;
-          }
-          return null;
-        },
-        setItem: (key: string, value: string) =>
-          localStorage.setItem(key, value),
-        removeItem: (key: string) => {
-          localStorage.removeItem(key);
-          try {
-            localStorage.removeItem('kanadojo-goal-timers');
-          } catch {
-            // Ignore
-          }
-        },
-      })),
+      storage: createJSONStorage(() => localStorage),
       // Only persist templates, history, and settings
       partialize: state => ({
         templates: state.templates,

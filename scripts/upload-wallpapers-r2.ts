@@ -9,7 +9,8 @@ import { mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 
-const STAGING_DIR = process.env.WALLPAPER_STAGING_DIR || '.generated/wallpapers';
+const STAGING_DIR =
+  process.env.WALLPAPER_STAGING_DIR || '.generated/wallpapers';
 const PLAN_PATH =
   process.env.WALLPAPER_UPLOAD_PLAN_PATH ||
   join(STAGING_DIR, 'wallpaper-upload-plan.json');
@@ -17,7 +18,7 @@ const REPORT_PATH =
   process.env.WALLPAPER_UPLOAD_REPORT_PATH ||
   join(STAGING_DIR, 'wallpaper-upload-report.json');
 const VERIFY_DIR = join(STAGING_DIR, '.r2-verify');
-const R2_BUCKET = process.env.WALLPAPER_R2_BUCKET || 'kanadojo-wallpapers';
+const R2_BUCKET = process.env.WALLPAPER_R2_BUCKET || 'pthamss-wallpapers';
 const CACHE_CONTROL =
   process.env.WALLPAPER_R2_CACHE_CONTROL ||
   'public, max-age=31536000, immutable';
@@ -365,7 +366,9 @@ async function main() {
   }
 
   const failedCount = uploaded.filter(item => !item.remoteVerified).length;
-  const manifestUrlFailureCount = manifestUrlChecks.filter(item => !item.ok).length;
+  const manifestUrlFailureCount = manifestUrlChecks.filter(
+    item => !item.ok,
+  ).length;
 
   for (const item of uploaded) {
     item.publicVerified = manifestUrlChecks.some(

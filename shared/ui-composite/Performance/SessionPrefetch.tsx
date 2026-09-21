@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 
 const PREFETCH_KEY = 'pthamss_prefetch_v1';
-const LEGACY_PREFETCH_KEY = 'kanadojo_prefetch_v1';
 
 const PREFETCH_URLS = [
   '/data-kanji/decorations.json',
@@ -17,11 +16,7 @@ export default function SessionPrefetch() {
     if (typeof window === 'undefined') return;
 
     try {
-      if (
-        sessionStorage.getItem(PREFETCH_KEY) ||
-        sessionStorage.getItem(LEGACY_PREFETCH_KEY)
-      )
-        return;
+      if (sessionStorage.getItem(PREFETCH_KEY)) return;
       sessionStorage.setItem(PREFETCH_KEY, '1');
 
       PREFETCH_URLS.forEach(url => {

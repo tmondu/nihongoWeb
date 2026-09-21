@@ -45,7 +45,7 @@ URLs.
 ## Cloudflare Resources
 
 - Cloudflare account: the account that owns the active `www.pthamnihongo.site` zone.
-- R2 bucket: `kanadojo-wallpapers`.
+- R2 bucket: `pthamss-wallpapers`.
 - Custom domain: `assets.www.pthamnihongo.site`.
 - Object prefix: `wallpapers/`.
 - Cache header: `public, max-age=31536000, immutable`.
@@ -56,7 +56,7 @@ The defaults are production-ready, but these env vars can override them:
 
 ```txt
 WALLPAPER_ASSET_BASE_URL=https://assets.www.pthamnihongo.site
-WALLPAPER_R2_BUCKET=kanadojo-wallpapers
+WALLPAPER_R2_BUCKET=pthamss-wallpapers
 WALLPAPER_R2_PREFIX=wallpapers
 WALLPAPER_STAGING_DIR=.generated/wallpapers
 WALLPAPER_R2_CACHE_CONTROL=public, max-age=31536000, immutable

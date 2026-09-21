@@ -162,8 +162,8 @@ wsl --install
 # After restart, open Ubuntu from Start Menu
 # Clone your repo and set up in WSL2
 cd ~
-git clone https://github.com/<your-username>/kanadojo.git
-cd kanadojo
+git clone https://github.com/<your-username>/nihongoWeb.git
+cd nihongoWeb
 npm install
 npm run dev
 ```
@@ -332,7 +332,7 @@ curl -I https://fonts.googleapis.com
 
 If none of these solutions work:
 
-1. **Check existing issues:** [GitHub Issues](https://github.com/lingdojo/kanadojo/issues)
+1. **Check existing issues:** [GitHub Issues](https://github.com/tmondu/nihongoWeb/issues)
 2. **Open a new issue:**
    - Include your OS and versions (Node, npm)
    - Copy full error messages

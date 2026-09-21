@@ -24,7 +24,7 @@
 ### New Directory Structure
 
 ```
-kanadojo/
+nihongoWeb/
 ├── widgets/          ✨ NEW - Complex UI compositions
 │   ├── TrainingGame/ - Unified game engine (eliminates 540 lines duplication)
 │   ├── MenuSystem/   - Content selection widgets

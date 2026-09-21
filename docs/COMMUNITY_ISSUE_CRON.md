@@ -19,7 +19,7 @@ remains as a fallback.
 ```
 Vercel Cron (every 15 min)
   → POST /api/trigger-community-issue   (app/api/trigger-community-issue/route.ts)
-    → GitHub API: POST /repos/lingdojo/kanadojo/actions/workflows/hourly-community-issue.yml/dispatches
+    → GitHub API: POST /repos/tmondu/nihongoWeb/actions/workflows/hourly-community-issue.yml/dispatches
       → GitHub Actions runs the workflow normally
 ```
 
@@ -32,7 +32,7 @@ automatically.
 ## Required setup (one-time, manual)
 
 You need to configure **two environment variables** in the
-[Vercel project settings](https://vercel.com/lingdojo/kanadojo/settings/environment-variables)
+[Vercel project settings](https://vercel.com/tmondu/nihongoWeb/settings/environment-variables)
 under **Production** (and optionally Preview/Development).
 
 ### 1. `CRON_SECRET`
@@ -61,8 +61,8 @@ workflows on this repository.
 
 1. Go to **GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens**
 2. Click **Generate new token**
-3. Set **Resource owner** to `lingdojo`
-4. Under **Repository access** select `lingdojo/kanadojo` only
+3. Set **Resource owner** to `tmondu`
+4. Under **Repository access** select `tmondu/nihongoWeb` only
 5. Under **Permissions → Repository permissions** set **Actions** to `Read and write`
 6. Generate and copy the token
 
@@ -90,7 +90,7 @@ matching the original GitHub Actions schedule.
 
 > Vercel Cron Jobs require a **Pro plan or above**. On the Hobby plan crons
 > are limited to one per day. Check your plan at
-> <https://vercel.com/lingdojo/kanadojo/settings/billing>.
+> <https://vercel.com/tmondu/nihongoWeb/settings/billing>.
 
 ---
 

@@ -85,9 +85,7 @@ self.addEventListener('activate', function (event) {
                   name !== AUDIO_CACHE_NAME) ||
                 (name.startsWith('pthamss-api-') && name !== API_CACHE_NAME) ||
                 (name.startsWith('pthamss-static-') &&
-                  name !== STATIC_CACHE_NAME) ||
-                name.startsWith('kanadojo-api-') ||
-                name.startsWith('kanadojo-static-')
+                  name !== STATIC_CACHE_NAME)
               );
             })
             .map(function (name) {

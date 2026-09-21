@@ -78,7 +78,6 @@ interface SessionHistoryStore {
 }
 
 const STORAGE_KEY = 'pthamss-session-history-v1';
-const LEGACY_STORAGE_KEY = 'kanadojo-session-history-v1';
 
 const getDefaultStore = (): SessionHistoryStore => {
   const now = Date.now();
@@ -95,20 +94,7 @@ const getDefaultStore = (): SessionHistoryStore => {
 
 async function loadStore(): Promise<SessionHistoryStore> {
   try {
-    let data = await localforage.getItem<SessionHistoryStore>(STORAGE_KEY);
-    if (!data) {
-      const legacyData =
-        await localforage.getItem<SessionHistoryStore>(LEGACY_STORAGE_KEY);
-      if (legacyData && legacyData.version === 1) {
-        data = legacyData;
-        await localforage.setItem(STORAGE_KEY, legacyData);
-        try {
-          await localforage.removeItem(LEGACY_STORAGE_KEY);
-        } catch {
-          // Ignore
-        }
-      }
-    }
+    const data = await localforage.getItem<SessionHistoryStore>(STORAGE_KEY);
     if (!data || data.version !== 1) return getDefaultStore();
     return data;
   } catch {
