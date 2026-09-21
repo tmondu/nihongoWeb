@@ -733,7 +733,7 @@ While not directly related to the GitHub algorithm, creating awareness drives tr
 | Discussions        | ✅     | Enabled                          |
 | Wiki               | ✅     | Enabled                          |
 | Description        | ✅     | Well-optimized                   |
-| Homepage URL       | ✅     | kanadojo.com                     |
+| Homepage URL       | ✅     | www.pthamnihongo.site            |
 
 ### 12.2 Missing Health Signals
 

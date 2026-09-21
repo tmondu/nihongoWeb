@@ -57,7 +57,7 @@ await notifyPageUpdateAllLocales('/academy/new-post');
 The endpoint is automatically called by `metadata-helpers.ts`:
 
 ```
-https://kanadojo.com/api/og?title=...&description=...&type=kana
+https://www.pthamnihongo.site/api/og?title=...&description=...&type=kana
 ```
 
 **Note:** Package `@vercel/og` was installed
@@ -223,7 +223,7 @@ const alt = generateKanaAltText('あ', 'hiragana', 'a', {
 
 4. **Submit to Bing Webmaster Tools**
    - Visit https://www.bing.com/webmasters
-   - Add/verify kanadojo.com
+   - Add/verify www.pthamnihongo.site
    - Submit IndexNow API key
    - Submit all sitemaps
    - Enable IndexNow protocol
@@ -237,10 +237,10 @@ const alt = generateKanaAltText('あ', 'hiragana', 'a', {
    ```
 
 6. **Verify After Deployment**
-   - Check OG images: https://kanadojo.com/api/og?title=Test&description=Test&type=kana
-   - Check IndexNow: https://kanadojo.com/api/indexnow (GET request)
-   - Check browserconfig: https://kanadojo.com/browserconfig.xml
-   - Check key file: https://kanadojo.com/[your-key].txt
+   - Check OG images: https://www.pthamnihongo.site/api/og?title=Test&description=Test&type=kana
+   - Check IndexNow: https://www.pthamnihongo.site/api/indexnow (GET request)
+   - Check browserconfig: https://www.pthamnihongo.site/browserconfig.xml
+   - Check key file: https://www.pthamnihongo.site/[your-key].txt
 
 ---
 
@@ -363,10 +363,10 @@ Consider adding IndexNow notifications to:
    ```typescript
    // When adding new pages
    await submitUrlsToIndexNow([
-     'https://kanadojo.com/new-feature',
-     'https://kanadojo.com/en/new-feature',
-     'https://kanadojo.com/es/new-feature',
-     'https://kanadojo.com/ja/new-feature',
+     'https://www.pthamnihongo.site/new-feature',
+     'https://www.pthamnihongo.site/en/new-feature',
+     'https://www.pthamnihongo.site/es/new-feature',
+     'https://www.pthamnihongo.site/ja/new-feature',
    ]);
    ```
 
@@ -395,14 +395,14 @@ Consider adding IndexNow notifications to:
 
 ### IndexNow not working?
 
-- Verify key file is accessible: `https://kanadojo.com/[key].txt`
+- Verify key file is accessible: `https://www.pthamnihongo.site/[key].txt`
 - Check environment variable is set in production
-- Ensure URLs use `https://kanadojo.com` domain
+- Ensure URLs use `https://www.pthamnihongo.site` domain
 - Check Bing Webmaster Tools for error messages
 
 ### OG Images not generating?
 
-- Check endpoint: `https://kanadojo.com/api/og?title=Test&type=kana`
+- Check endpoint: `https://www.pthamnihongo.site/api/og?title=Test&type=kana`
 - Verify `@vercel/og` package installed
 - Check Edge runtime support on your hosting
 

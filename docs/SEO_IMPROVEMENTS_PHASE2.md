@@ -74,7 +74,7 @@ import { HowToSchema } from '@/shared/ui-composite/SEO';
     {
       name: 'Learn the 5 vowels',
       text: 'Start with the basic vowels: あいうえお (a-i-u-e-o). Practice writing each character 10 times.',
-      image: 'https://kanadojo.com/images/hiragana-vowels.jpg',
+      image: 'https://www.pthamnihongo.site/images/hiragana-vowels.jpg',
     },
     {
       name: 'Master K-row characters',
@@ -120,8 +120,8 @@ import { AuthorSchema } from '@/shared/ui-composite/SEO';
 
 <AuthorSchema
   name='Tanaka Sensei'
-  url='https://kanadojo.com/authors/tanaka-sensei'
-  image='https://kanadojo.com/images/authors/tanaka.jpg'
+  url='https://www.pthamnihongo.site/authors/tanaka-sensei'
+  image='https://www.pthamnihongo.site/images/authors/tanaka.jpg'
   jobTitle='Japanese Language Instructor'
   affiliation='PThamSS'
   expertise='Japanese Language Education, JLPT Preparation, Hiragana and Katakana instruction'
@@ -167,7 +167,7 @@ import { LearningResourceSchema } from '@/shared/ui-composite/SEO';
 <LearningResourceSchema
   name='Hiragana Speed Recognition Game'
   description='Test and improve your Hiragana reading speed with this interactive game'
-  url='https://kanadojo.com/kana/blitz'
+  url='https://www.pthamnihongo.site/kana/blitz'
   learningResourceType='Game'
   educationalLevel={['Beginner', 'Intermediate']}
   teaches='Japanese Hiragana Character Recognition'
@@ -177,7 +177,7 @@ import { LearningResourceSchema } from '@/shared/ui-composite/SEO';
   isAccessibleForFree={true}
   provider={{
     name: 'PThamSS',
-    url: 'https://kanadojo.com',
+    url: 'https://www.pthamnihongo.site',
   }}
   educationalAlignment={{
     alignmentType: 'educationalLevel',
@@ -220,15 +220,15 @@ import { VideoSchema } from '@/shared/ui-composite/SEO';
 <VideoSchema
   name='How to Write Hiragana あ - Stroke Order Tutorial'
   description='Learn the correct stroke order for the Hiragana character あ with this detailed video guide'
-  contentUrl='https://cdn.kanadojo.com/videos/hiragana-a.mp4'
-  thumbnailUrl='https://cdn.kanadojo.com/thumbnails/hiragana-a.jpg'
+  contentUrl='https://assets.www.pthamnihongo.site/videos/hiragana-a.mp4'
+  thumbnailUrl='https://assets.www.pthamnihongo.site/thumbnails/hiragana-a.jpg'
   uploadDate='2025-01-15'
   duration='PT2M30S'
   educationalUse='Instruction'
   inLanguage='ja'
   publisher={{
     name: 'PThamSS',
-    logo: 'https://kanadojo.com/logo.png',
+    logo: 'https://www.pthamnihongo.site/logo.png',
   }}
 />;
 ```
@@ -393,7 +393,7 @@ Example test:
 
 ```bash
 # View generated JSON-LD on a page
-curl https://kanadojo.com/academy/post | grep -A 50 "application/ld+json"
+curl https://www.pthamnihongo.site/academy/post | grep -A 50 "application/ld+json"
 ```
 
 ### 3. Monitor in Search Console

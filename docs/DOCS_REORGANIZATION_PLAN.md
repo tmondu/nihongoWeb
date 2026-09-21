@@ -131,7 +131,7 @@ AGPL 3.0 - see [LICENSE.md](./LICENSE.md)
 
 ## Links
 
-- **Website**: [kanadojo.com](https://kanadojo.com)
+- **Website**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
 - **Repository**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **Email**: nduc120201@gmail.com
 ```

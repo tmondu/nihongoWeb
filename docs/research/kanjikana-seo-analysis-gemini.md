@@ -70,7 +70,7 @@ Kanjikana consistently ranks at the top for "english to japanese" despite being 
 
 1.  **"Kanji Details" Differentiator**: By adding this to the title, they target _learners_ rather than just _tourists_. This niche is less competitive but higher value.
 2.  **Reverse Switch Linking**: The "Switch" button isn't just a UI feature; it provides a crawlable internal link to the reverse pair (`/ja/en`).
-3.  **Entity-Based Authority**: The domain `kanjikana.com` is an exact-match-ish for the topic. PThamSS has a similar advantage with `kanadojo.com`.
+3.  **Entity-Based Authority**: The domain `kanjikana.com` is an exact-match-ish for the topic. PThamSS has a similar advantage with `www.pthamnihongo.site`.
 
 ---
 

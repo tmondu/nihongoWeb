@@ -56,15 +56,15 @@ For each pull request:
 
 ## Environments
 
-| Environment     | Branch      | URL            | Purpose              |
-| --------------- | ----------- | -------------- | -------------------- |
-| **Production**  | `main`      | kanadojo.com   | Live application     |
-| **Preview**     | PR branches | `*.vercel.app` | Testing before merge |
-| **Development** | Any branch  | Local          | Development          |
+| Environment     | Branch      | URL                   | Purpose              |
+| --------------- | ----------- | --------------------- | -------------------- |
+| **Production**  | `main`      | www.pthamnihongo.site | Live application     |
+| **Preview**     | PR branches | `*.vercel.app`        | Testing before merge |
+| **Development** | Any branch  | Local                 | Development          |
 
 ### Production Environment
 
-- **URL**: https://kanadojo.com
+- **URL**: https://www.pthamnihongo.site
 - **Region**: Vercel's default (typicallyiad1 - Washington, D.C.)
 - **Framework**: Next.js 15 with Turbopack
 - **Edge Functions**: Enabled for API routes
@@ -106,10 +106,10 @@ For each pull request:
 
 PThamSS uses the following custom domains:
 
-| Domain             | Type       | Configuration               |
-| ------------------ | ---------- | --------------------------- |
-| `kanadojo.com`     | Production | A record pointing to Vercel |
-| `www.kanadojo.com` | Redirect   | CNAME to main domain        |
+| Domain                  | Type       | Configuration               |
+| ----------------------- | ---------- | --------------------------- |
+| `www.pthamnihongo.site` | Production | A record pointing to Vercel |
+| `www.pthamnihongo.site` | Redirect   | CNAME to main domain        |
 
 ### Domain Settings
 
@@ -155,7 +155,7 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    domains: ['kanadojo.com'],
+    domains: ['www.pthamnihongo.site'],
     formats: ['image/avif', 'image/webp'],
   },
 
