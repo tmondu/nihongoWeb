@@ -21,13 +21,13 @@ kanadojo-wallpapers/wallpapers/<filename>
 The public URL is then:
 
 ```txt
-https://assets.kanadojo.com/wallpapers/<filename>
+https://assets.www.pthamnihongo.site/wallpapers/<filename>
 ```
 
 ## Required Setup
 
 Wrangler must be authenticated to the Cloudflare account that owns the active
-`kanadojo.com` zone:
+`pthamnihongo.site` zone:
 
 ```powershell
 wrangler login
@@ -36,8 +36,8 @@ wrangler login
 The production bucket and custom domain are:
 
 ```txt
-Bucket: kanadojo-wallpapers
-Domain: assets.kanadojo.com
+Bucket: pthamss-wallpapers
+Domain: assets.www.pthamnihongo.site
 ```
 
 ## Command
@@ -75,7 +75,7 @@ For each planned upload, the script:
 3. Downloads the exact R2 object into `.generated/wallpapers/.r2-verify`.
 4. Compares the remote object size and SHA-256 hash with the local file.
 5. Retries failed upload or verification attempts up to three times.
-6. Checks the exact public manifest URLs through `assets.kanadojo.com`.
+6. Checks the exact public manifest URLs through `assets.www.pthamnihongo.site`.
 
 The public URL checks use exact URLs, not query-string cache busting. R2 custom
 domain behavior can differ for query-string URLs, while the app uses exact

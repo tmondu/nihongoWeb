@@ -69,7 +69,7 @@ The app does not serve these from `public/wallpapers`. Built-in Premium wallpape
 assets are uploaded to Cloudflare R2 and served from:
 
 ```txt
-https://assets.kanadojo.com/wallpapers/*
+https://assets.www.pthamnihongo.site/wallpapers/*
 ```
 
 The tracked manifest is:

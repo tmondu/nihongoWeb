@@ -74,7 +74,7 @@ The current README.md is 657 lines and contains extensive duplicate content that
 
 **An aesthetic, minimalist and highly customizable platform for mastering Japanese inspired by Monkeytype**
 
-[Live Demo](https://kanadojo.com) | [Documentation](./docs/) | [Contributing](./CONTRIBUTING.md)
+[Live Demo](https://www.pthamnihongo.site) | [Documentation](./docs/)
 
 ## About
 
