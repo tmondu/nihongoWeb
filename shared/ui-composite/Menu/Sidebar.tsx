@@ -27,6 +27,7 @@ import {
   Menu,
   X,
   Mic,
+  BookMarked,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -124,6 +125,11 @@ const mainNavItems: NavItem[] = [
     href: '/shadowing',
     labelKey: 'shadowing',
     icon: Mic,
+  },
+  {
+    href: '/reader',
+    labelKey: 'reader',
+    icon: BookMarked,
   },
   {
     href: '/classroom',
