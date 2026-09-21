@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 // Đặt là true để BẬT tính năng chặn DevTools / F12 trên Production
 // Đặt là false để TẠM NGƯNG tính năng chặn DevTools
-const ENABLE_SECURITY_GUARD = false;
+const ENABLE_SECURITY_GUARD = true;
 
 export default function SecurityGuard() {
   const pathname = usePathname();
@@ -20,7 +20,8 @@ export default function SecurityGuard() {
     const isMobileOrTouch =
       'ontouchstart' in window ||
       navigator.maxTouchPoints > 0 ||
-      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+      (typeof window.screen !== 'undefined' && window.screen.width < 900);
     if (isMobileOrTouch) {
       return;
     }
