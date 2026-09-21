@@ -16,6 +16,7 @@ import useSetProgressHydration from '@/features/Progress/hooks/useSetProgress';
 import { useSetProgressStore } from '@/features/Progress';
 import KanjiSetDictionary from '@/features/Kanji/components/SetDictionary';
 import KanjiSentenceAndFeedback from '@/features/Kanji/components/KanjiSentenceAndFeedback';
+import KanjiHanVietNetwork from '@/features/Kanji/components/KanjiHanVietNetwork';
 import type { IKanjiObj } from '@/entities/kanji';
 import hanvietMap from '@/shared/data/kanji_hanviet.json';
 import { useClick } from '@/shared/hooks/generic/useAudio';
@@ -262,7 +263,12 @@ export default function ThamKanjiClient({
             <KanjiSetDictionary words={[selectedKanji]} large={true} />
           </div>
 
-          <div className='mt-2 border-t border-(--border-color) pt-6'>
+          {/* Hán-Việt Family Network */}
+          <div className='border-t border-(--border-color) pt-6'>
+            <KanjiHanVietNetwork kanjiChar={selectedKanji.kanjiChar} />
+          </div>
+
+          <div className='border-t border-(--border-color) pt-6'>
             <KanjiSentenceAndFeedback kanjiChar={selectedKanji.kanjiChar} />
           </div>
         </div>

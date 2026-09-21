@@ -24,6 +24,7 @@ import hanvietMapRaw from '@/shared/data/kanji_hanviet.json';
 import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import { cardBorderStyles, buttonBorderStyles } from '@/shared/utils/styles';
 import PitchAccentText from '@/shared/ui-composite/text/PitchAccentText';
+import PitchAccentChart from '@/shared/ui-composite/text/PitchAccentChart';
 
 import type { IKanjiObj } from '@/entities/kanji';
 
@@ -433,7 +434,25 @@ export default function ThamTuVungModal() {
                 )}
             </div>
 
-            {/* Audio Pronunciation & Copy Actions */}
+            {/* Pitch Accent Visual Chart */}
+            {(activePron?.accent || activePron?.kana) && (
+              <div className='mt-3 flex flex-col items-center gap-1.5'>
+                <span className='text-[10px] font-bold tracking-widest text-(--secondary-color)/40 uppercase'>
+                  Biểu đồ trọng âm
+                </span>
+                <div className='rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3 shadow-inner'>
+                  <PitchAccentChart
+                    kana={activePron?.kana || kanaReading}
+                    accent={activePron?.accent}
+                    tokenizedKana={activePron?.tokenizedKana}
+                  />
+                </div>
+                <span className='text-[10px] text-(--secondary-color)/40'>
+                  — Âm thấp     — Âm cao
+                </span>
+              </div>
+            )}
+
             <div className='mt-6 flex flex-wrap items-center justify-center gap-3'>
               <button
                 type='button'
