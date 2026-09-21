@@ -91,7 +91,7 @@ const baseThemeSets: BaseThemeGroup[] = [
         backgroundColor: 'oklch(98.00% 0.0060 12.00 / 1)',
         cardColor: 'oklch(100.00% 0.0000 89.88 / 1)',
         borderColor: 'oklch(92.00% 0.0100 12.00 / 1)',
-        mainColor: 'oklch(54.00% 0.1650 358.00 / 1)',
+        mainColor: 'oklch(64.00% 0.1250 358.00 / 1)',
         secondaryColor: 'oklch(45.00% 0.0280 10.00 / 1)',
       },
       {
