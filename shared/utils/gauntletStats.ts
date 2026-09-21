@@ -5,7 +5,8 @@ import type {
   GauntletGameMode,
 } from '@/shared/ui-composite/Gauntlet/types';
 
-const STORAGE_KEY = 'kanadojo-gauntlet-stats';
+const STORAGE_KEY = 'pthamss-gauntlet-stats';
+const LEGACY_STORAGE_KEY = 'kanadojo-gauntlet-stats';
 
 interface LifetimeTotals {
   totalSessions: number;
@@ -71,7 +72,20 @@ const getBestTimeKey = (
  */
 const loadData = async (): Promise<StoredGauntletData> => {
   try {
-    const data = await localforage.getItem<StoredGauntletData>(STORAGE_KEY);
+    let data = await localforage.getItem<StoredGauntletData>(STORAGE_KEY);
+    if (!data) {
+      const legacyData =
+        await localforage.getItem<StoredGauntletData>(LEGACY_STORAGE_KEY);
+      if (legacyData) {
+        data = legacyData;
+        await localforage.setItem(STORAGE_KEY, legacyData);
+        try {
+          await localforage.removeItem(LEGACY_STORAGE_KEY);
+        } catch {
+          // Ignore
+        }
+      }
+    }
     if (data && data.version === 1) {
       // Migrate: add lifetimeTotals if missing (existing installs)
       if (!data.lifetimeTotals) {
@@ -262,6 +276,11 @@ export const getOverallStats = async (
  */
 export const clearAllStats = async (): Promise<void> => {
   await localforage.removeItem(STORAGE_KEY);
+  try {
+    await localforage.removeItem(LEGACY_STORAGE_KEY);
+  } catch {
+    // Ignore
+  }
 };
 
 /**
@@ -278,4 +297,3 @@ export const formatTime = (ms: number): string => {
   }
   return `${seconds}.${centis.toString().padStart(2, '0')}s`;
 };
-

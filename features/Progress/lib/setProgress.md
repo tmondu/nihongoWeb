@@ -8,17 +8,17 @@ Both progress and stars are **derived mathematically** from the same stored coun
 
 ## Constants
 
-| Constant | Location | Value | Purpose |
-|---|---|---|---|---|
-| `MAX_STARS_PER_SET` | `features/Progress/lib/setProgress.ts:1` | 3 | Max stars per level |
-| `KANJI_SET_PROGRESS_TARGET` | `features/Progress/lib/setProgress.ts:3` | 15 | Correct answers to master one kanji character |
-| `KANJI_SET_PROGRESS_CAP` | `features/Progress/lib/setProgress.ts:9` | 15 × 3 = 45 | Stored counter cap (target × max stars) |
-| `VOCAB_MEANING_PROGRESS_TARGET` | `features/Progress/lib/setProgress.ts:4` | 15 | Correct meaning answers to master one word |
-| `VOCAB_MEANING_PROGRESS_CAP` | `features/Progress/lib/setProgress.ts:11` | 15 × 3 = 45 | Stored counter cap |
-| `VOCAB_READING_PROGRESS_TARGET` | `features/Progress/lib/setProgress.ts:5` | 15 | Correct reading answers to master one word |
-| `VOCAB_READING_PROGRESS_CAP` | `features/Progress/lib/setProgress.ts:13` | 15 × 3 = 45 | Stored counter cap |
-| `KANA_ROW_MASTERY_TARGET` | `features/Kana/components/KanaCards/SubsetNew.tsx:18` | 35 | Correct answers to master one kana character |
-| `KANA_ROW_MASTERY_CAP` | `features/Kana/components/KanaCards/SubsetNew.tsx:20` | 35 × 3 = 105 | Effective display cap |
+| Constant                        | Location                                              | Value        | Purpose                                       |
+| ------------------------------- | ----------------------------------------------------- | ------------ | --------------------------------------------- |
+| `MAX_STARS_PER_SET`             | `features/Progress/lib/setProgress.ts:1`              | 3            | Max stars per level                           |
+| `KANJI_SET_PROGRESS_TARGET`     | `features/Progress/lib/setProgress.ts:3`              | 15           | Correct answers to master one kanji character |
+| `KANJI_SET_PROGRESS_CAP`        | `features/Progress/lib/setProgress.ts:9`              | 15 × 3 = 45  | Stored counter cap (target × max stars)       |
+| `VOCAB_MEANING_PROGRESS_TARGET` | `features/Progress/lib/setProgress.ts:4`              | 15           | Correct meaning answers to master one word    |
+| `VOCAB_MEANING_PROGRESS_CAP`    | `features/Progress/lib/setProgress.ts:11`             | 15 × 3 = 45  | Stored counter cap                            |
+| `VOCAB_READING_PROGRESS_TARGET` | `features/Progress/lib/setProgress.ts:5`              | 15           | Correct reading answers to master one word    |
+| `VOCAB_READING_PROGRESS_CAP`    | `features/Progress/lib/setProgress.ts:13`             | 15 × 3 = 45  | Stored counter cap                            |
+| `KANA_ROW_MASTERY_TARGET`       | `features/Kana/components/KanaCards/SubsetNew.tsx:18` | 35           | Correct answers to master one kana character  |
+| `KANA_ROW_MASTERY_CAP`          | `features/Kana/components/KanaCards/SubsetNew.tsx:20` | 35 × 3 = 105 | Effective display cap                         |
 
 All caps use `TARGET × MAX_STARS_PER_SET`. Changing a target value automatically adjusts the cap.
 
@@ -49,15 +49,15 @@ The denominator `cycleTarget = N × target` never changes — the number of corr
 
 ### Example (Kanji, 10 characters, target=15)
 
-| Total correct earned | stars | Display progress |
-|---|---|---|
-| 0 | 0 | 0% |
-| 75 | 0 | 50% |
-| 150 | 1 | 0% (wraps, star awarded) |
-| 225 | 1 | 50% |
-| 300 | 2 | 0% (wraps, star awarded) |
-| 375 | 2 | 50% |
-| 450 | 3 | 100% (fully mastered) |
+| Total correct earned | stars | Display progress         |
+| -------------------- | ----- | ------------------------ |
+| 0                    | 0     | 0%                       |
+| 75                   | 0     | 50%                      |
+| 150                  | 1     | 0% (wraps, star awarded) |
+| 225                  | 1     | 50%                      |
+| 300                  | 2     | 0% (wraps, star awarded) |
+| 375                  | 2     | 50%                      |
+| 450                  | 3     | 100% (fully mastered)    |
 
 ## Storage
 
@@ -65,7 +65,7 @@ The denominator `cycleTarget = N × target` never changes — the number of corr
 
 File: `features/Progress/store/useSetProgressStore.ts`
 
-- Persisted via **localforage** (IndexedDB) under key `kanadojo-set-progress-v1`
+- Persisted via **localforage** (IndexedDB) under key `pthamss-set-progress-v1`
 - Shape: `{ kanji: Record<string, { correct }>, vocabulary: Record<string, { meaningCorrect, readingCorrect }> }`
 - The `recordKanjiProgress` / `recordVocabularyProgress` actions cap at `TARGET × MAX_STARS_PER_SET` (e.g., 30 for kanji)
 - Hydrated on app boot via `useSetProgressHydration()`
@@ -75,7 +75,7 @@ File: `features/Progress/store/useSetProgressStore.ts`
 
 File: `features/Progress/store/useStatsStore.ts`
 
-- Persisted via **Zustand persist** (localStorage) under key `kanadojo-stats`
+- Persisted via **Zustand persist** (localStorage) under key `pthamss-stats`
 - Shape in `allTimeStats.characterMastery`: `Record<string, { correct, incorrect }>`
 - Correct counts are unbounded — no cap in storage, only in display math
 - **Live persistence**: `incrementCharacterScore` updates `characterMastery` immediately (reactive), persisted by Zustand persist with `debounceTimeout: 2000` (2 seconds). Progress is no longer batched on session end — closing the browser mid-session no longer loses progress.
@@ -119,12 +119,12 @@ MasteryBar renders bar at `percent`% + `stars` Star icons below
 
 File: `features/Progress/lib/setProgress.ts`
 
-| Function | Input | Returns | Used by |
-|---|---|---|---|
-| `calculateKanjiSetProgress` | `KanjiSetProgressEntry[]` | `number` (0–1) | Legacy (unchanged) |
-| `calculateVocabularySetProgress` | `VocabularySetProgressEntry[]` | `number` (0–1) | Legacy (unchanged) |
-| `calculateKanjiSetProgressAndStars` | `KanjiSetProgressEntry[]` | `{ progress, stars }` | KanjiCards |
-| `calculateVocabularySetProgressAndStars` | `VocabularySetProgressEntry[]` | `{ progress, stars }` | VocabCards |
+| Function                                 | Input                          | Returns               | Used by            |
+| ---------------------------------------- | ------------------------------ | --------------------- | ------------------ |
+| `calculateKanjiSetProgress`              | `KanjiSetProgressEntry[]`      | `number` (0–1)        | Legacy (unchanged) |
+| `calculateVocabularySetProgress`         | `VocabularySetProgressEntry[]` | `number` (0–1)        | Legacy (unchanged) |
+| `calculateKanjiSetProgressAndStars`      | `KanjiSetProgressEntry[]`      | `{ progress, stars }` | KanjiCards         |
+| `calculateVocabularySetProgressAndStars` | `VocabularySetProgressEntry[]` | `{ progress, stars }` | VocabCards         |
 
 Kana uses an inline equivalent `getRowProgressAndStars` in `SubsetNew.tsx`.
 
@@ -133,9 +133,9 @@ Kana uses an inline equivalent `getRowProgressAndStars` in `SubsetNew.tsx`.
 In `development` mode only, `LevelSetCards.tsx` hardcodes the star display for levels 1–3:
 
 | `levelNumber` | Stars shown |
-|---|---|
-| 1 | 1 star |
-| 2 | 2 stars |
-| 3 | 3 stars |
+| ------------- | ----------- |
+| 1             | 1 star      |
+| 2             | 2 stars     |
+| 3             | 3 stars     |
 
 This override happens at render time in `LevelSetCards.tsx` via a `process.env.NODE_ENV` check on the `setTemp.levelNumber`. It is completely independent of actual progress stats. All other levels use real progress data normally.

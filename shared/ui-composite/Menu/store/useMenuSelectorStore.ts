@@ -117,10 +117,38 @@ export const useMenuSelectorStore = create<MenuSelectorState>()(
         })),
     }),
     {
-      name: 'kanadojo-menu-selector-session',
+      name: 'pthamss-menu-selector-session',
       storage:
         typeof window !== 'undefined'
-          ? createJSONStorage(() => sessionStorage)
+          ? createJSONStorage(() => ({
+              getItem: (key: string) => {
+                const val = sessionStorage.getItem(key);
+                if (val) return val;
+                const legacy = sessionStorage.getItem(
+                  'kanadojo-menu-selector-session',
+                );
+                if (legacy) {
+                  sessionStorage.setItem(key, legacy);
+                  try {
+                    sessionStorage.removeItem('kanadojo-menu-selector-session');
+                  } catch {
+                    // Ignore
+                  }
+                  return legacy;
+                }
+                return null;
+              },
+              setItem: (key: string, value: string) =>
+                sessionStorage.setItem(key, value),
+              removeItem: (key: string) => {
+                sessionStorage.removeItem(key);
+                try {
+                  sessionStorage.removeItem('kanadojo-menu-selector-session');
+                } catch {
+                  // Ignore
+                }
+              },
+            }))
           : undefined,
       partialize: state => ({
         kana: state.kana,

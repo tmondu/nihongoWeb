@@ -66,8 +66,34 @@ export const useCustomThemeStore = create<ThemeStore>()(
       },
     }),
     {
-      name: 'kanadojo-custom-themes', // localStorage key
-      storage: createJSONStorage(() => localStorage),
+      name: 'pthamss-custom-themes', // localStorage key
+      storage: createJSONStorage(() => ({
+        getItem: (key: string) => {
+          const val = localStorage.getItem(key);
+          if (val) return val;
+          const legacy = localStorage.getItem('kanadojo-custom-themes');
+          if (legacy) {
+            localStorage.setItem(key, legacy);
+            try {
+              localStorage.removeItem('kanadojo-custom-themes');
+            } catch {
+              // Ignore
+            }
+            return legacy;
+          }
+          return null;
+        },
+        setItem: (key: string, value: string) =>
+          localStorage.setItem(key, value),
+        removeItem: (key: string) => {
+          localStorage.removeItem(key);
+          try {
+            localStorage.removeItem('kanadojo-custom-themes');
+          } catch {
+            // Ignore
+          }
+        },
+      })),
       // Only persist themes
       partialize: state => ({
         themes: state.themes,

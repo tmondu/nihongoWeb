@@ -13,7 +13,7 @@ The new model keeps:
 
 ## Storage shape
 
-The localforage record is stored under `kanadojo-set-progress-v1`.
+The localforage record is stored under `pthamss-set-progress-v1`.
 
 ```ts
 {

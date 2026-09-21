@@ -16,7 +16,8 @@ import localforage from 'localforage';
 const random = new Random();
 
 // Storage key prefix for localforage
-const STORAGE_KEY = 'kanadojo-adaptive-weights';
+const STORAGE_KEY = 'pthamss-adaptive-weights';
+const LEGACY_STORAGE_KEY = 'kanadojo-adaptive-weights';
 
 export interface CharacterWeight {
   historicalCorrect: number;
@@ -67,6 +68,9 @@ export function createAdaptiveSelector(storageKey?: string) {
   let isLoaded = false;
   let loadPromise: Promise<void> | null = null;
   const persistKey = storageKey ? `${STORAGE_KEY}-${storageKey}` : STORAGE_KEY;
+  const legacyPersistKey = storageKey
+    ? `${LEGACY_STORAGE_KEY}-${storageKey}`
+    : LEGACY_STORAGE_KEY;
   let currentSessionToken: string | null = null;
 
   // Track a selection event counter for session recency/frequency.
@@ -80,8 +84,10 @@ export function createAdaptiveSelector(storageKey?: string) {
 
   // Prevent immediate duplicates.
   let lastSelectedCharacter: string | null = null;
-  const sessionFormatPerformance: Map<string, Map<string, FormatPerformance>> =
-    new Map();
+  const sessionFormatPerformance: Map<
+    string,
+    Map<string, FormatPerformance>
+  > = new Map();
 
   // Coalesced persistence without timers.
   let persistInFlight: Promise<void> | null = null;
@@ -141,7 +147,11 @@ export function createAdaptiveSelector(storageKey?: string) {
     const existing = formatMap.get(normalizedFormat);
     if (existing) return existing;
 
-    const initial: FormatPerformance = { correct: 0, wrong: 0, pendingWrong: false };
+    const initial: FormatPerformance = {
+      correct: 0,
+      wrong: 0,
+      pendingWrong: false,
+    };
     formatMap.set(normalizedFormat, initial);
     return initial;
   };
@@ -187,9 +197,24 @@ export function createAdaptiveSelector(storageKey?: string) {
 
     loadPromise = (async () => {
       try {
-        const stored = await localforage.getItem<
+        let stored = await localforage.getItem<
           StoredWeights | LegacyStoredWeights
         >(persistKey);
+
+        if (!stored) {
+          const legacyStored = await localforage.getItem<
+            StoredWeights | LegacyStoredWeights
+          >(legacyPersistKey);
+          if (legacyStored) {
+            stored = legacyStored;
+            await localforage.setItem(persistKey, legacyStored);
+            try {
+              await localforage.removeItem(legacyPersistKey);
+            } catch {
+              // Ignore
+            }
+          }
+        }
 
         if (stored && typeof stored === 'object' && stored.weights) {
           Object.entries(stored.weights).forEach(([char, raw]) => {
@@ -234,7 +259,11 @@ export function createAdaptiveSelector(storageKey?: string) {
     const attempts = correct + wrong;
     const accuracy =
       (correct + priorCorrect) / (attempts + priorCorrect + priorWrong);
-    return clamp(1 + (neutralAccuracy - accuracy) * scale, minWeight, maxWeight);
+    return clamp(
+      1 + (neutralAccuracy - accuracy) * scale,
+      minWeight,
+      maxWeight,
+    );
   };
 
   // Calculate adaptive weight for a character
@@ -256,14 +285,18 @@ export function createAdaptiveSelector(storageKey?: string) {
     } = weight;
 
     // Factor 1: Historical difficulty (persisted all-time signal)
-    const historicalWeight = toAccuracyWeight(historicalCorrect, historicalWrong, {
-      minWeight: 0.65,
-      maxWeight: 2.0,
-      priorCorrect: 2,
-      priorWrong: 2,
-      scale: 1.4,
-      neutralAccuracy: 0.74,
-    });
+    const historicalWeight = toAccuracyWeight(
+      historicalCorrect,
+      historicalWrong,
+      {
+        minWeight: 0.65,
+        maxWeight: 2.0,
+        priorCorrect: 2,
+        priorWrong: 2,
+        scale: 1.4,
+        neutralAccuracy: 0.74,
+      },
+    );
 
     // Factor 2: Session difficulty (short-term adaptation signal)
     const sessionAttempts = sessionCorrect + sessionWrong;
@@ -427,6 +460,11 @@ export function createAdaptiveSelector(storageKey?: string) {
     currentSessionToken = null;
     try {
       await localforage.removeItem(persistKey);
+      try {
+        await localforage.removeItem(legacyPersistKey);
+      } catch {
+        // Ignore
+      }
     } catch (error) {
       console.warn('[AdaptiveSelection] Failed to clear storage:', error);
     }

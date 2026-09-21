@@ -9,8 +9,8 @@
  */
 
 const AUDIO_CACHE_NAME = 'audio-cache-v3';
-const API_CACHE_NAME = 'kanadojo-api-v1';
-const STATIC_CACHE_NAME = 'kanadojo-static-v1';
+const API_CACHE_NAME = 'pthamss-api-v1';
+const STATIC_CACHE_NAME = 'pthamss-static-v1';
 
 // Common translations for offline fallback
 const OFFLINE_TRANSLATIONS = {
@@ -83,9 +83,11 @@ self.addEventListener('activate', function (event) {
               return (
                 (name.startsWith('audio-cache-') &&
                   name !== AUDIO_CACHE_NAME) ||
-                (name.startsWith('kanadojo-api-') && name !== API_CACHE_NAME) ||
-                (name.startsWith('kanadojo-static-') &&
-                  name !== STATIC_CACHE_NAME)
+                (name.startsWith('pthamss-api-') && name !== API_CACHE_NAME) ||
+                (name.startsWith('pthamss-static-') &&
+                  name !== STATIC_CACHE_NAME) ||
+                name.startsWith('kanadojo-api-') ||
+                name.startsWith('kanadojo-static-')
               );
             })
             .map(function (name) {

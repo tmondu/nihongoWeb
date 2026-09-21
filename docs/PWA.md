@@ -40,11 +40,11 @@ The service worker is located at `public/sw.js`.
 
 ### Cache Names
 
-| Cache                | Purpose       | Version |
-| -------------------- | ------------- | ------- |
-| `audio-cache-v2`     | Audio files   | v2      |
-| `kanadojo-api-v1`    | API responses | v1      |
-| `kanadojo-static-v1` | Static assets | v1      |
+| Cache               | Purpose       | Version |
+| ------------------- | ------------- | ------- |
+| `audio-cache-v2`    | Audio files   | v2      |
+| `pthamss-api-v1`    | API responses | v1      |
+| `pthamss-static-v1` | Static assets | v1      |
 
 ---
 
@@ -182,7 +182,7 @@ Update `public/sw.js` to cache static assets:
 
 ```javascript
 // Add after API_CACHE_NAME
-const STATIC_CACHE_NAME = 'kanadojo-static-v1';
+const STATIC_CACHE_NAME = 'pthamss-static-v1';
 
 // Add to fetch handler
 if (isStaticAsset(url.pathname)) {

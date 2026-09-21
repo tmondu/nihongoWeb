@@ -1,10 +1,16 @@
 import localforage from 'localforage';
 import type { TranslationEntry } from '../types';
 
-const STORAGE_KEY = 'kanadojo-translation-history';
+const STORAGE_KEY = 'pthamss-translation-history';
+const LEGACY_STORAGE_KEY = 'kanadojo-translation-history';
 
 // Configure localforage instance for translation history
 const historyStore = localforage.createInstance({
+  name: 'pthamss',
+  storeName: 'translation_history',
+});
+
+const legacyHistoryStore = localforage.createInstance({
   name: 'kanadojo',
   storeName: 'translation_history',
 });
@@ -15,7 +21,22 @@ const historyStore = localforage.createInstance({
  */
 export async function loadHistory(): Promise<TranslationEntry[]> {
   try {
-    const history = await historyStore.getItem<TranslationEntry[]>(STORAGE_KEY);
+    let history = await historyStore.getItem<TranslationEntry[]>(STORAGE_KEY);
+    if (!history || history.length === 0) {
+      const legacyHistory =
+        await legacyHistoryStore.getItem<TranslationEntry[]>(
+          LEGACY_STORAGE_KEY,
+        );
+      if (legacyHistory && legacyHistory.length > 0) {
+        history = legacyHistory;
+        await historyStore.setItem(STORAGE_KEY, legacyHistory);
+        try {
+          await legacyHistoryStore.removeItem(LEGACY_STORAGE_KEY);
+        } catch {
+          // Ignore cleanup error
+        }
+      }
+    }
     if (!history) {
       return [];
     }
@@ -70,6 +91,11 @@ export async function deleteEntry(id: string): Promise<TranslationEntry[]> {
 export async function clearAll(): Promise<void> {
   try {
     await historyStore.setItem(STORAGE_KEY, []);
+    try {
+      await legacyHistoryStore.removeItem(LEGACY_STORAGE_KEY);
+    } catch {
+      // Ignore
+    }
   } catch (error) {
     console.error('Failed to clear translation history:', error);
     throw error;

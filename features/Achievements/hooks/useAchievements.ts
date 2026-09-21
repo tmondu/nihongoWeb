@@ -5,6 +5,8 @@ import useAchievementStore, {
 import { useStatsStore } from '@/features/Progress';
 
 const FIRST_VISIT_ACHIEVEMENT_GATE_KEY =
+  'pthamss-achievements-initial-visit-complete';
+const LEGACY_FIRST_VISIT_ACHIEVEMENT_GATE_KEY =
   'kanadojo-achievements-initial-visit-complete';
 
 interface UseAchievementsReturn {
@@ -27,7 +29,9 @@ export const useAchievements = (): UseAchievementsReturn => {
     try {
       const hasCompletedInitialVisitGate =
         window.localStorage.getItem(FIRST_VISIT_ACHIEVEMENT_GATE_KEY) ===
-        'true';
+          'true' ||
+        window.localStorage.getItem(LEGACY_FIRST_VISIT_ACHIEVEMENT_GATE_KEY) ===
+          'true';
 
       if (!hasCompletedInitialVisitGate) {
         window.localStorage.setItem(FIRST_VISIT_ACHIEVEMENT_GATE_KEY, 'true');

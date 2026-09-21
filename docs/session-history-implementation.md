@@ -19,7 +19,7 @@ All work was implemented in `C:\Users\reser\kanadojo`.
 A new persistent session-history module was added to store game sessions in one centralized localforage object.
 
 - File added: `shared/lib/sessionHistory.ts`
-- Storage key: `kanadojo-session-history-v1`
+- Storage key: `pthamss-session-history-v1`
 - Supports:
   - Session lifecycle: start -> append attempts -> finalize
   - Modes: `classic | blitz | gauntlet`

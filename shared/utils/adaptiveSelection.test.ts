@@ -30,7 +30,7 @@ describe('adaptiveSelection v2', () => {
     selector.updateCharacterWeight('a', true);
     await selector.forceSave();
 
-    const payload = storage.get('kanadojo-adaptive-weights-test-persist') as {
+    const payload = storage.get('pthamss-adaptive-weights-test-persist') as {
       version: number;
       weights: Record<string, unknown>;
     };
@@ -123,12 +123,18 @@ describe('adaptiveSelection v2', () => {
     selector.registerQuestionFormatResult('食べる', 'meaning-normal', true);
 
     expect(
-      selector.getPreferredLockedFormat('食べる', ['meaning-normal', 'reading']),
+      selector.getPreferredLockedFormat('食べる', [
+        'meaning-normal',
+        'reading',
+      ]),
     ).toBe('reading');
 
     selector.registerQuestionFormatResult('食べる', 'reading', true);
     expect(
-      selector.getPreferredLockedFormat('食べる', ['meaning-normal', 'reading']),
+      selector.getPreferredLockedFormat('食べる', [
+        'meaning-normal',
+        'reading',
+      ]),
     ).toBeNull();
   });
 });

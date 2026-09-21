@@ -202,7 +202,7 @@ interface StatsState {
 }
 ```
 
-**Persistence**: Yes (`kanadojo-stats`)
+**Persistence**: Yes (`pthamss-stats`)
 
 ---
 
@@ -222,7 +222,7 @@ interface VisitState {
 }
 ```
 
-**Persistence**: Yes (`kanadojo-visits`)
+**Persistence**: Yes (`pthamss-visits`)
 
 ---
 
@@ -248,7 +248,7 @@ interface PreferencesState {
 }
 ```
 
-**Persistence**: Yes (`kanadojo-prefs`)
+**Persistence**: Yes (`pthamss-prefs`)
 
 ---
 
@@ -343,9 +343,9 @@ interface CrazyModeState {
 
 | Store         | Key                  | Data                 |
 | ------------- | -------------------- | -------------------- |
-| Stats         | `kanadojo-stats`     | Learning statistics  |
-| Visits        | `kanadojo-visits`    | Visit tracking       |
-| Preferences   | `kanadojo-prefs`     | User preferences     |
+| Stats         | `pthamss-stats`      | Learning statistics  |
+| Visits        | `pthamss-visits`     | Visit tracking       |
+| Preferences   | `pthamss-prefs`      | User preferences     |
 | Custom Themes | `custom-themes`      | Custom themes        |
 | Goals         | `goal-timers`        | Daily goals          |
 | Kana          | `kana-settings`      | Kana settings        |

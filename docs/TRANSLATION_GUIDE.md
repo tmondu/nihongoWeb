@@ -529,7 +529,7 @@ All translators will be credited in:
 ## Need Help?
 
 - **GitHub Issues**: [Report a problem or ask questions](https://github.com/tmondu/nihongoWeb/issues)
-- **Email**: dev@www.pthamnihongo.site
+- **Email**: nduc120201@gmail.com
 
 ---
 

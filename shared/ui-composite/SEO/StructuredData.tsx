@@ -30,7 +30,7 @@ export const pthamssSchema = {
       sameAs: ['https://github.com/tmondu/nihongoWeb'],
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'dev@www.pthamnihongo.site',
+        email: 'nduc120201@gmail.com',
         contactType: 'Customer Support',
       },
     },
