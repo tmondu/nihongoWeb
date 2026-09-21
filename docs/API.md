@@ -68,7 +68,7 @@ interface AnalyzedToken {
 **Example Request**:
 
 ```bash
-curl -X POST https://kanadojo.com/api/analyze-text \
+curl -X POST https://www.pthamnihongo.site/api/analyze-text \
   -H "Content-Type: application/json" \
   -d '{"text": "こんにちは"}'
 ```
@@ -158,7 +158,7 @@ Translates text between English and Japanese using Google Cloud Translation API.
 **Example Request**:
 
 ```bash
-curl -X POST https://kanadojo.com/api/translate \
+curl -X POST https://www.pthamnihongo.site/api/translate \
   -H "Content-Type: application/json" \
   -d '{"text": "Hello", "sourceLanguage": "en", "targetLanguage": "ja"}'
 ```

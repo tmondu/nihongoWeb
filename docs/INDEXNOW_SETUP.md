@@ -44,7 +44,7 @@ The file should contain ONLY the key (no extra whitespace or newlines).
 After deployment, verify the key file is accessible:
 
 ```
-https://kanadojo.com/[your-key].txt
+https://www.pthamnihongo.site/[your-key].txt
 ```
 
 It should return your key as plain text.
@@ -85,14 +85,14 @@ Submit URLs via the API endpoint:
 
 ```bash
 # Single URL
-curl -X POST https://kanadojo.com/api/indexnow \
+curl -X POST https://www.pthamnihongo.site/api/indexnow \
   -H "Content-Type: application/json" \
-  -d '{"url": "https://kanadojo.com/kana"}'
+  -d '{"url": "https://www.pthamnihongo.site/kana"}'
 
 # Multiple URLs
-curl -X POST https://kanadojo.com/api/indexnow \
+curl -X POST https://www.pthamnihongo.site/api/indexnow \
   -H "Content-Type: application/json" \
-  -d '{"urls": ["https://kanadojo.com/kana", "https://kanadojo.com/kanji"]}'
+  -d '{"urls": ["https://www.pthamnihongo.site/kana", "https://www.pthamnihongo.site/kanji"]}'
 ```
 
 ## Integration Points
@@ -111,7 +111,7 @@ Track IndexNow submissions:
 
 1. Check **Bing Webmaster Tools** → **URL Inspection** → **IndexNow**
 2. Monitor API responses in your logs
-3. Verify indexed pages in Bing search: `site:kanadojo.com [your-new-page]`
+3. Verify indexed pages in Bing search: `site:www.pthamnihongo.site [your-new-page]`
 
 ## Benefits
 
@@ -133,7 +133,7 @@ Track IndexNow submissions:
 ### Submissions Failing
 
 - Verify `INDEXNOW_KEY` environment variable is set in production
-- Check that URLs are using `https://kanadojo.com` domain
+- Check that URLs are using `https://www.pthamnihongo.site` domain
 - Ensure the key matches the public key file
 - Review API error responses in logs
 
@@ -149,4 +149,3 @@ Track IndexNow submissions:
 - [IndexNow Official Documentation](https://www.indexnow.org/)
 - [Bing IndexNow Guide](https://www.bing.com/indexnow)
 - [IndexNow API Specification](https://www.indexnow.org/documentation)
-

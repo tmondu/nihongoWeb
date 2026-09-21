@@ -33,8 +33,8 @@ This document outlines the Phase 3 SEO improvements implemented for PThamSS, com
 
 **Accessible at:**
 
-- `https://kanadojo.com/.well-known/security.txt`
-- `https://kanadojo.com/security.txt`
+- `https://www.pthamnihongo.site/.well-known/security.txt`
+- `https://www.pthamnihongo.site/security.txt`
 
 ---
 
@@ -176,7 +176,7 @@ getUpdateRecommendation(new Date('2023-01-01'));
 # Submit sitemap to Google and Bing
 POST /api/sitemap/submit
 {
-  "sitemapUrl": "https://kanadojo.com/sitemap.xml"
+  "sitemapUrl": "https://www.pthamnihongo.site/sitemap.xml"
 }
 
 # Response:
@@ -347,8 +347,8 @@ export const viewport: Viewport = {
 
 ```tsx
 // On /faq page
-import { FAQSchema, commonKanaDOJOFAQs } from '@/shared/ui-composite/SEO';
-<FAQSchema faqs={commonKanaDOJOFAQs} />;
+import { FAQSchema, commonPThamSSFAQs } from '@/shared/ui-composite/SEO';
+<FAQSchema faqs={commonPThamSSFAQs} />;
 
 // On /kana page
 import { FAQSchema, hiraganaFAQs } from '@/shared/ui-composite/SEO';
@@ -408,15 +408,15 @@ const breadcrumbItems = generateBreadcrumbLinks(pathname, locale);
 import { submitSitemapToSearchEngines } from '@/shared/utils/sitemap-utils';
 
 // In your content publishing workflow
-await submitSitemapToSearchEngines('https://kanadojo.com/sitemap.xml');
+await submitSitemapToSearchEngines('https://www.pthamnihongo.site/sitemap.xml');
 ```
 
 **Via API:**
 
 ```bash
-curl -X POST https://kanadojo.com/api/sitemap/submit \
+curl -X POST https://www.pthamnihongo.site/api/sitemap/submit \
   -H "Content-Type: application/json" \
-  -d '{"sitemapUrl": "https://kanadojo.com/sitemap.xml"}'
+  -d '{"sitemapUrl": "https://www.pthamnihongo.site/sitemap.xml"}'
 ```
 
 ---
@@ -452,8 +452,8 @@ curl -X POST https://kanadojo.com/api/sitemap/submit \
 
 ```bash
 # Verify accessibility
-curl https://kanadojo.com/.well-known/security.txt
-curl https://kanadojo.com/security.txt
+curl https://www.pthamnihongo.site/.well-known/security.txt
+curl https://www.pthamnihongo.site/security.txt
 
 # Should return security policy content
 ```
@@ -468,12 +468,12 @@ curl https://kanadojo.com/security.txt
 
 ```bash
 # Test API endpoint
-curl https://kanadojo.com/api/sitemap/submit
+curl https://www.pthamnihongo.site/api/sitemap/submit
 
 # Submit sitemap
-curl -X POST https://kanadojo.com/api/sitemap/submit \
+curl -X POST https://www.pthamnihongo.site/api/sitemap/submit \
   -H "Content-Type: application/json" \
-  -d '{"sitemapUrl": "https://kanadojo.com/sitemap.xml"}'
+  -d '{"sitemapUrl": "https://www.pthamnihongo.site/sitemap.xml"}'
 ```
 
 ### 4. Verify Content Freshness Display

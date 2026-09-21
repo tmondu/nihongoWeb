@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: 'Twitter description',
   },
   alternates: {
-    canonical: 'https://kanadojo.com/your-page',
+    canonical: 'https://www.pthamnihongo.site/your-page',
   },
 };
 ```

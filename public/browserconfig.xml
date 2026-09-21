@@ -9,16 +9,16 @@
       <TileColor>#667eea</TileColor>
     </tile>
     <notification>
-      <polling-uri src="https://kanadojo.com/api/notifications/poll1"/>
-      <polling-uri2 src="https://kanadojo.com/api/notifications/poll2"/>
-      <polling-uri3 src="https://kanadojo.com/api/notifications/poll3"/>
-      <polling-uri4 src="https://kanadojo.com/api/notifications/poll4"/>
-      <polling-uri5 src="https://kanadojo.com/api/notifications/poll5"/>
+      <polling-uri src="https://www.pthamnihongo.site/api/notifications/poll1"/>
+      <polling-uri2 src="https://www.pthamnihongo.site/api/notifications/poll2"/>
+      <polling-uri3 src="https://www.pthamnihongo.site/api/notifications/poll3"/>
+      <polling-uri4 src="https://www.pthamnihongo.site/api/notifications/poll4"/>
+      <polling-uri5 src="https://www.pthamnihongo.site/api/notifications/poll5"/>
       <frequency>30</frequency>
       <cycle>1</cycle>
     </notification>
     <badge>
-      <polling-uri src="https://kanadojo.com/api/badge"/>
+      <polling-uri src="https://www.pthamnihongo.site/api/badge"/>
       <frequency>30</frequency>
     </badge>
   </msapplication>
