@@ -1,6 +1,6 @@
 ---
 name: 🐛 Bug Report
-about: Report a bug or issue you've encountered in KanaDojo
+about: Report a bug or issue you've encountered in PThamSS
 title: '[BUG] '
 labels: bug
 ---
@@ -45,4 +45,4 @@ Add any other context about the problem here.
 
 ---
 
-**Thank you for helping improve KanaDojo! 🙏**
+**Thank you for helping improve PThamSS! 🙏**

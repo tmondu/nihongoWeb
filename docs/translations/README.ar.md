@@ -1,17 +1,17 @@
 <div id="top"></div>
 
-<a href="#about-kanadojo">عن KanaDojo</a> | <a href="#screenshots">لقطات الشاشة</a> | <a href="#ui-design-philosophy">واجهة المستخدم وفلسفة التصميم</a> | <a href="#tech-stack">مجموعة التقنيات</a> | <a href="#getting-started">البدء</a> | <a href="#project-structure">هيكل المشروع</a> | <a href="#contributing">المساهمة</a> | <a href="#license">رخصة </a> | <a href="#acknowledgments">الشكر</a> | <a href="#contact-links">الاتصال والروابط</a>
+<a href="#about-pthamss">عن PThamSS</a> | <a href="#screenshots">لقطات الشاشة</a> | <a href="#ui-design-philosophy">واجهة المستخدم وفلسفة التصميم</a> | <a href="#tech-stack">مجموعة التقنيات</a> | <a href="#getting-started">البدء</a> | <a href="#project-structure">هيكل المشروع</a> | <a href="#contributing">المساهمة</a> | <a href="#license">رخصة </a> | <a href="#acknowledgments">الشكر</a> | <a href="#contact-links">الاتصال والروابط</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 ![GitHub Stars](https://github.com/user-attachments/assets/de26975d-ce19-4a56-be00-84470d4607e2)
 
 **منصة جمالية، بسيطة، وقابلة للتخصيص بشكل كبير لإتقان اللغة اليابانية**
 
-[![عرض توضيحي مباشر](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
+[![عرض توضيحي مباشر](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
 [![الترخيص](https://img.shields.io/badge/license-AGPL--v3-blue)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -19,13 +19,13 @@
 
 </div>
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 عن KanaDojo
+## 📖 عن PThamSS
 
-KanaDojo هي منصة تعليمية يابانية تفاعلية عبر الويب تجعل إتقان الهيراغانا، الكاتاكانا، الكانجي، والمفردات ممتعًا وبديهيًا. تم بناؤها مع التركيز على الجماليات، التخصيص، والتعلم الفعّال، توفر KanaDojo بيئة تدريب غامرة لمتعلمي اللغة اليابانية في جميع المستويات.
+PThamSS هي منصة تعليمية يابانية تفاعلية عبر الويب تجعل إتقان الهيراغانا، الكاتاكانا، الكانجي، والمفردات ممتعًا وبديهيًا. تم بناؤها مع التركيز على الجماليات، التخصيص، والتعلم الفعّال، توفر PThamSS بيئة تدريب غامرة لمتعلمي اللغة اليابانية في جميع المستويات.
 
-سواء كنت تبدأ للتو بالمقاطع الأساسية للكانا أو تستعد لاختبارات JLPT مع كانجي متقدم ومفردات، تقدم KanaDojo تجربة تعليمية مبسطة خالية من التشتيت تتكيف مع تفضيلاتك وأسلوب تعلمك.
+سواء كنت تبدأ للتو بالمقاطع الأساسية للكانا أو تستعد لاختبارات JLPT مع كانجي متقدم ومفردات، تقدم PThamSS تجربة تعليمية مبسطة خالية من التشتيت تتكيف مع تفضيلاتك وأسلوب تعلمك.
 
 ### ✨ الميزات الرئيسية
 
@@ -95,7 +95,7 @@ KanaDojo هي منصة تعليمية يابانية تفاعلية عبر ال�
 
 ## 🎨 واجهة المستخدم وفلسفة التصميم
 
-تتبنى KanaDojo **جمالية بسيطة** مع **مرونة قصوى**. تركز فلسفة التصميم على:
+تتبنى PThamSS **جمالية بسيطة** مع **مرونة قصوى**. تركز فلسفة التصميم على:
 
 ### البساطة أولاً
 
@@ -129,7 +129,7 @@ KanaDojo هي منصة تعليمية يابانية تفاعلية عبر ال�
 
 ## 🛠️ مجموعة التقنيات
 
-تم بناء KanaDojo بتقنيات ويب حديثة لأداء مثالي وتجربة مطور ممتازة:
+تم بناء PThamSS بتقنيات ويب حديثة لأداء مثالي وتجربة مطور ممتازة:
 
 ### الإطار الأساسي
 
@@ -183,8 +183,8 @@ KanaDojo هي منصة تعليمية يابانية تفاعلية عبر ال�
 1. **استنساخ المستودع**
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 ```
 
 2. **تثبيت التبعيات**
@@ -338,7 +338,7 @@ PORT=3001 npm run dev
 ## 📁 هيكل المشروع
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # صفحات Next.js App Router
 │   ├── kana/                   # صفحات دوجو الكانا
 │   │   └── train/[gameMode]/   # صفحات التدريب لكل وضع لعب
@@ -438,7 +438,7 @@ kanadojo/
 
 ## 🤝 المساهمة
 
-لمساهمات مرحب بها! KanaDojo هو مشروع مفتوح المصدر يبنيه المجتمع، من أجل المجتمع. اطلع على [CONTRIBUTING.md](CONTRIBUTING.md) للحصول على معلومات مفصلة
+لمساهمات مرحب بها! PThamSS هو مشروع مفتوح المصدر يبنيه المجتمع، من أجل المجتمع. اطلع على [CONTRIBUTING.md](CONTRIBUTING.md) للحصول على معلومات مفصلة
 حول كيفية المساهمة.كيفية المساهمةفرّع المستودع
 
 1. شوكة المستودع
@@ -467,14 +467,14 @@ kanadojo/
 
 - بيانات اللغة اليابانية ومعلومات الأحرف
 - مجتمع المصادر المفتوحة على الأدوات والمكتبات الرائعة
-- جميع المساهمين الذين ساعدوا في تحسين KanaDojo
+- جميع المساهمين الذين ساعدوا في تحسين PThamSS
 
 <a id="contact-links"></a>
 
 ## 📞 الاتصال والروابط
 
-الاتصال والروابطالموقع الإلكتروني: [kanadojo.com](https://kanadojo.com)
-المستودع: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+الاتصال والروابطالموقع الإلكتروني: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+المستودع: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 البريد الإلكتروني: nduc120201@gmail.com
 
 ---

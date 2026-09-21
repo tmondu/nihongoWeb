@@ -103,9 +103,7 @@ ${changelogSection}
 `;
     }
 
-    releaseNotes += `---
-
-**Full Changelog**: https://github.com/lingdojo/kanadojo/blob/main/CHANGELOG.md`;
+    releaseNotes += `\n\n**Full Changelog**: https://github.com/tmondu/nihongoWeb/blob/master/CHANGELOG.md`;
 
     // Create annotated tag
     const tagMessage = `Release v${version}: ${latest.changes[0] || 'New release'}`;
@@ -118,7 +116,7 @@ ${changelogSection}
     const notesFile = '/tmp/release-notes.md';
     fs.writeFileSync(notesFile, releaseNotes);
 
-    execFileSync('gh', ['release', 'create', tagName, '--title', `KanaDojo v${version}`, '--notes-file', notesFile], { stdio: 'inherit' });
+    execFileSync('gh', ['release', 'create', tagName, '--title', `PThamSS v${version}`, '--notes-file', notesFile], { stdio: 'inherit' });
 
     console.log(`GitHub Release v${version} created successfully!`);
     console.log(`  Version: ${version}`);

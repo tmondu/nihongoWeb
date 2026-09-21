@@ -1,21 +1,21 @@
 <div id="top"></div>
 
-<a href="#about-kanadojo">关于 KanaDojo</a> | <a href="#screenshots">截图</a> | <a href="#ui-design-philosophy">UI 与设计理念</a> | <a href="#tech-stack">技术栈</a> | <a href="#getting-started">快速开始</a> | <a href="#project-structure">项目结构</a> | <a href="#contributing">参与贡献</a> | <a href="#license">许可证</a> | <a href="#acknowledgments">致谢</a> | <a href="#contact-links">联系与链接</a>
+<a href="#about-pthamss">关于 PThamSS</a> | <a href="#screenshots">截图</a> | <a href="#ui-design-philosophy">UI 与设计理念</a> | <a href="#tech-stack">技术栈</a> | <a href="#getting-started">快速开始</a> | <a href="#project-structure">项目结构</a> | <a href="#contributing">参与贡献</a> | <a href="#license">许可证</a> | <a href="#acknowledgments">致谢</a> | <a href="#contact-links">联系与链接</a>
 
-**KanaDojo 支持多语言，感谢社区贡献：**
+**PThamSS 支持多语言，感谢社区贡献：**
 
 [English](../../README.md) **/** [Español](docs/translations/README.es.md) **/** [Français (in progress)](docs/translations/README.fr.md) **/** [Deutsch](docs/translations/README.de.md) **/** [Português](docs/translations/README.pt-br.md) **/** [Türkçe](docs/translations/README.tr.md) **/** 中文（简体）**/** [中文（繁體）](docs/translations/README.zh-tw.md) **/** [हिन्दी](docs/translations/README.hin.md) **/** <span dir="ltr">[العربية](docs/translations/README.ar.md)</span> **/** [Русский](docs/translations/README.ru.md)
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 ![GitHub Stars](https://github.com/user-attachments/assets/7524bec9-5fa8-438e-8df6-ee9e3de5f2f9)
 
 **一个美学化、极简且高度可定制的日语学习平台**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -25,13 +25,13 @@
 
 ---
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 关于 KanaDojo
+## 📖 关于 PThamSS
 
-KanaDojo 是一款有趣的 Web 端日语学习平台，帮助你直观且高效地掌握平假名、片假名、汉字与词汇。它注重美观、可定制性与有效学习，致力于为各个水平的日语学习者提供沉浸式的训练体验。
+PThamSS 是一款有趣的 Web 端日语学习平台，帮助你直观且高效地掌握平假名、片假名、汉字与词汇。它注重美观、可定制性与有效学习，致力于为各个水平的日语学习者提供沉浸式的训练体验。
 
-无论你刚开始学习基础假名，还是在为 JLPT 考试做高级汉字与词汇的准备，KanaDojo 都能根据你的偏好与学习风格，提供简洁、无干扰且高度自适应的学习体验。
+无论你刚开始学习基础假名，还是在为 JLPT 考试做高级汉字与词汇的准备，PThamSS 都能根据你的偏好与学习风格，提供简洁、无干扰且高度自适应的学习体验。
 
 ### ✨ 关键特性
 
@@ -105,7 +105,7 @@ KanaDojo 是一款有趣的 Web 端日语学习平台，帮助你直观且高效
 
 ## 🎨 UI 与设计理念
 
-KanaDojo 结合了**极简美学**与**最大化的灵活性**。其设计理念包括：
+PThamSS 结合了**极简美学**与**最大化的灵活性**。其设计理念包括：
 
 ### 极简优先
 
@@ -141,7 +141,7 @@ KanaDojo 结合了**极简美学**与**最大化的灵活性**。其设计理念
 
 ## 🛠️ 技术栈
 
-KanaDojo 采用现代 Web 技术，兼顾性能与开发体验：
+PThamSS 采用现代 Web 技术，兼顾性能与开发体验：
 
 ### 核心框架
 
@@ -197,8 +197,8 @@ KanaDojo 采用现代 Web 技术，兼顾性能与开发体验：
 1. 克隆仓库
 
    ```bash
-   git clone https://github.com/lingdojo/kanadojo.git
-   cd kanadojo
+   git clone https://github.com/tmondu/nihongoWeb.git
+   cd nihongoWeb
    ```
 
 2. 安装依赖
@@ -355,7 +355,7 @@ PORT=3001 npm run dev
 ## 📁 项目结构
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Next.js App Router 页面
 │   ├── kana/                   # 假名道场页面
 │   │   └── train/[gameMode]/   # 各游戏模式的训练页面
@@ -455,7 +455,7 @@ kanadojo/
 
 ## 🤝 参与贡献
 
-欢迎贡献！KanaDojo 是由社区构建、服务社区的开源项目。查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解更多贡献指南。
+欢迎贡献！PThamSS 是由社区构建、服务社区的开源项目。查看 [CONTRIBUTING.md](CONTRIBUTING.md) 了解更多贡献指南。
 
 ### 如何贡献
 
@@ -489,7 +489,7 @@ kanadojo/
 
 - 日语语言数据与字符信息
 - 开源社区提供的优秀工具与库
-- 所有为 KanaDojo 贡献的伙伴
+- 所有为 PThamSS 贡献的伙伴
 
 ---
 
@@ -497,8 +497,8 @@ kanadojo/
 
 ## 📞 联系与链接
 
-- **网站**： [kanadojo.com](https://kanadojo.com)
-- **仓库**： [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **网站**： [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **仓库**： [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **邮箱**： nduc120201@gmail.com
 
 ---

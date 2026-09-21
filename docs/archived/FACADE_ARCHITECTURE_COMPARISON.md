@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-The KanaDojo codebase underwent a critical architectural fix to resolve infinite render loops in facade hooks while maintaining type safety and improving performance. This document compares the old and new implementations.
+The PThamSS codebase underwent a critical architectural fix to resolve infinite render loops in facade hooks while maintaining type safety and improving performance. This document compares the old and new implementations.
 
 ---
 

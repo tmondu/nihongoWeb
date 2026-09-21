@@ -1,6 +1,6 @@
-# Adding New Languages to KanaDojo
+# Adding New Languages to PThamSS
 
-This guide explains how to add new language support to KanaDojo with full SEO optimization.
+This guide explains how to add new language support to PThamSS with full SEO optimization.
 
 ## 🌍 Current Language Support
 
@@ -203,16 +203,16 @@ Your metadata file should include these sections:
 **❌ Bad:**
 
 ```json
-"title": "KanaDojo - Learn Japanese Hiragana, Katakana..."
+"title": "PThamSS - Learn Japanese Hiragana, Katakana..."
 ```
 
 **✅ Good:**
 
 ```json
 // Portuguese
-"title": "KanaDojo - Aprenda Japonês Hiragana, Katakana..."
+"title": "PThamSS - Aprenda Japonês Hiragana, Katakana..."
 // French
-"title": "KanaDojo - Apprendre le Japonais Hiragana, Katakana..."
+"title": "PThamSS - Apprendre le Japonais Hiragana, Katakana..."
 ```
 
 ### 3. Research Local Search Terms

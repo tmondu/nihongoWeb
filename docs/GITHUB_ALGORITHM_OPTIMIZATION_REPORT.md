@@ -32,7 +32,7 @@
 
 ## 1. Executive Summary
 
-KanaDojo has built an impressive automated community contribution pipeline: 14 content types, every-15-minute issue creation, auto-assignment, stale management, and auto-merge. You're already doing many things right. This report identifies **every conceivable optimization** to further game GitHub's recommendation algorithm for maximum "good first issue" visibility.
+PThamSS has built an impressive automated community contribution pipeline: 14 content types, every-15-minute issue creation, auto-assignment, stale management, and auto-merge. You're already doing many things right. This report identifies **every conceivable optimization** to further game GitHub's recommendation algorithm for maximum "good first issue" visibility.
 
 **Key findings:**
 
@@ -481,7 +481,7 @@ And use the PAT for the `actions/checkout@v4` step:
 
 ### 8.6 Alternative: GitHub App
 
-Instead of a personal PAT, you could create a **GitHub App** with a custom identity (e.g., "KanaDojo Bot"). This:
+Instead of a personal PAT, you could create a **GitHub App** with a custom identity (e.g., "PThamSS Bot"). This:
 
 - Has its own identity (not `github-actions[bot]`)
 - Can have specific permissions
@@ -704,7 +704,7 @@ CodeTriage sends daily emails to subscribers with open issues from projects they
 
 **URL:** https://github.com/MunGell/awesome-first-pr-opportunities
 
-This is a curated list of repos on GitHub. Submit a PR to add KanaDojo.
+This is a curated list of repos on GitHub. Submit a PR to add PThamSS.
 
 ### 11.3 External Blogging / Social
 
@@ -1153,4 +1153,4 @@ Everything else is for third-party aggregators or internal organization.
 
 ---
 
-_This report was generated through analysis of the KanaDojo repository's GitHub Actions workflows, issue configuration, repository metadata, and research into GitHub's recommendation algorithm behavior._
+_This report was generated through analysis of the PThamSS repository's GitHub Actions workflows, issue configuration, repository metadata, and research into GitHub's recommendation algorithm behavior._

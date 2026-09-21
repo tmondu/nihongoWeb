@@ -5,9 +5,9 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const KANADOJO_ROOT = path.resolve(__dirname, '..');
+const PROJECT_ROOT = path.resolve(__dirname, '..');
 const MONKEYTYPE_SOUND_ROOT = path.resolve(
-  KANADOJO_ROOT,
+  PROJECT_ROOT,
   '..',
   'monkeytype',
   'frontend',
@@ -15,7 +15,7 @@ const MONKEYTYPE_SOUND_ROOT = path.resolve(
   'sound',
 );
 const TARGET_ROOT = path.join(
-  KANADOJO_ROOT,
+  PROJECT_ROOT,
   'public',
   'sounds',
   'monkeytype-pack',

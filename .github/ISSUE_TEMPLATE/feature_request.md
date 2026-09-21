@@ -1,6 +1,6 @@
 ---
 name: 💡 Feature Request
-about: Suggest a new feature or improvement for KanaDojo
+about: Suggest a new feature or improvement for PThamSS
 title: '[FEATURE] '
 labels: enhancement
 ---
@@ -44,4 +44,4 @@ Are there any existing issues, discussions, or external resources related to thi
 
 ---
 
-**Thank you for helping make KanaDojo better! 🙏**
+**Thank you for helping make PThamSS better! 🙏**

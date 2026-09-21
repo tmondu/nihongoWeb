@@ -1,6 +1,6 @@
 # PWA Configuration Guide
 
-This document describes KanaDojo's Progressive Web App (PWA) configuration and service worker implementation.
+This document describes PThamSS's Progressive Web App (PWA) configuration and service worker implementation.
 
 ---
 
@@ -17,7 +17,7 @@ This document describes KanaDojo's Progressive Web App (PWA) configuration and s
 
 ## Overview
 
-KanaDojo is configured as a Progressive Web App (PWA) with:
+PThamSS is configured as a Progressive Web App (PWA) with:
 
 - **Offline support**: Audio files and translations cached for offline use
 - **Fast loading**: Service worker caches assets and API responses
@@ -115,8 +115,8 @@ const OFFLINE_TRANSLATIONS = {
 
 ```json
 {
-  "name": "KanaDojo",
-  "short_name": "KanaDojo",
+  "name": "PThamSS",
+  "short_name": "PThamSS",
   "description": "Learn Japanese with gamified training",
   "start_url": "/",
   "display": "standalone",
@@ -253,7 +253,7 @@ export function PWAInstallPrompt() {
 
   return (
     <button onClick={handleInstall}>
-      Install KanaDojo App
+      Install PThamSS App
     </button>
   );
 }
@@ -261,7 +261,7 @@ export function PWAInstallPrompt() {
 
 ### 5. Add Share Target
 
-For sharing content to KanaDojo:
+For sharing content to PThamSS:
 
 ```json
 {

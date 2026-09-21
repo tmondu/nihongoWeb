@@ -56,7 +56,7 @@ const messages = {
   ffmpegNotFoundJP: 'Could not find ffmpeg after setup',
   convertFailed: 'Failed to convert',
   convertFailedJP: 'Failed to convert',
-  kanaDojo: 'PThamSS',
+  pthamss: 'PThamSS',
   hiragana: 'Hiragana',
   katakana: 'Katakana',
   kanji: 'Kanji',
@@ -93,15 +93,15 @@ async function downloadFile(url, dest) {
 }
 
 async function setupFFmpeg() {
-  console.log(`${messages.kanaDojo} ${messages.settingUpFFmpegJP}\n`);
+  console.log(`${messages.pthamss} ${messages.settingUpFFmpegJP}\n`);
 
   const zipPath = path.join(__dirname, 'ffmpeg.zip');
 
   try {
-    console.log(`${messages.kanaDojo} ${messages.downloadingJP}`);
+    console.log(`${messages.pthamss} ${messages.downloadingJP}`);
     await downloadFile(FFMPEG_URL, zipPath);
 
-    console.log(`${messages.kanaDojo} ${messages.extractingJP}`);
+    console.log(`${messages.pthamss} ${messages.extractingJP}`);
 
     // Use PowerShell to extract on Windows
     execSync(
@@ -110,10 +110,10 @@ async function setupFFmpeg() {
     );
 
     fs.unlinkSync(zipPath);
-    console.log(`${messages.kanaDojo} ${messages.ffmpegReadyJP}\n`);
+    console.log(`${messages.pthamss} ${messages.ffmpegReadyJP}\n`);
   } catch (error) {
     console.error(
-      `${messages.kanaDojo} ${messages.ffmpegSetupFailedJP}`,
+      `${messages.pthamss} ${messages.ffmpegSetupFailedJP}`,
       error.message,
     );
     process.exit(1);
@@ -159,7 +159,7 @@ function compressFile(wavPath, ffmpegPath) {
 
   if (fs.existsSync(mp3Path)) {
     console.log(
-      ` ${messages.kanaDojo} ${messages.skippingJP} ${path.basename(wavPath)} ${messages.mp3ExistsJP}`,
+      ` ${messages.pthamss} ${messages.skippingJP} ${path.basename(wavPath)} ${messages.mp3ExistsJP}`,
     );
     return;
   }
@@ -168,7 +168,7 @@ function compressFile(wavPath, ffmpegPath) {
 
   try {
     console.log(
-      ` ${messages.kanaDojo} ${messages.convertingJP} ${path.basename(wavPath)}...`,
+      ` ${messages.pthamss} ${messages.convertingJP} ${path.basename(wavPath)}...`,
     );
 
     execSync(
@@ -180,13 +180,13 @@ function compressFile(wavPath, ffmpegPath) {
     const savings = ((1 - newSize / originalSize) * 100).toFixed(1);
 
     console.log(
-      ` ${messages.kanaDojo} ${path.basename(wavPath)}: ${(originalSize / 1024).toFixed(1)}KB -> ${(
+      ` ${messages.pthamss} ${path.basename(wavPath)}: ${(originalSize / 1024).toFixed(1)}KB -> ${(
         newSize / 1024
       ).toFixed(1)}KB (${savings}% smaller)`,
     );
   } catch (error) {
     console.error(
-      `${messages.kanaDojo} ${messages.convertFailedJP} ${path.basename(wavPath)}:`,
+      `${messages.pthamss} ${messages.convertFailedJP} ${path.basename(wavPath)}:`,
       error.message,
     );
   }
@@ -195,7 +195,7 @@ function compressFile(wavPath, ffmpegPath) {
 async function main() {
   // console.log(' Audio Compression Script\n');
   // console.log('🎵 Audio Compression Script\n');
-  console.log(` ${messages.kanaDojo} ${messages.titleJP}\n`);
+  console.log(` ${messages.pthamss} ${messages.titleJP}\n`);
   console.log(
     ` ${messages.hiragana} | ${messages.katakana} | ${messages.kanji} | ${messages.vocabulary}\n`,
   );
@@ -207,30 +207,30 @@ async function main() {
     ffmpegPath = findFFmpegExe();
 
     if (!ffmpegPath) {
-      console.error(`${messages.kanaDojo} ${messages.ffmpegNotFoundJP}`);
+      console.error(`${messages.pthamss} ${messages.ffmpegNotFoundJP}`);
       process.exit(1);
     }
   }
 
-  console.log(`${messages.kanaDojo} ${messages.usingJP} ${ffmpegPath}\n`);
+  console.log(`${messages.pthamss} ${messages.usingJP} ${ffmpegPath}\n`);
 
   const wavFiles = findWavFiles(SOUNDS_DIR);
 
   if (wavFiles.length === 0) {
-    console.log(`${messages.kanaDojo} ${messages.noWavFilesJP}`);
+    console.log(`${messages.pthamss} ${messages.noWavFilesJP}`);
     return;
   }
 
   console.log(
-    `${messages.kanaDojo} ${messages.foundWavFilesJP} ${wavFiles.length} ${messages.wavFilesJP}\n`,
+    `${messages.pthamss} ${messages.foundWavFilesJP} ${wavFiles.length} ${messages.wavFilesJP}\n`,
   );
 
   for (const file of wavFiles) {
     compressFile(file, ffmpegPath);
   }
 
-  console.log(`\n ${messages.kanaDojo} ${messages.compressionCompleteJP}`);
-  console.log(`\n ${messages.kanaDojo} ${messages.nextStepsJP}`);
+  console.log(`\n ${messages.pthamss} ${messages.compressionCompleteJP}`);
+  console.log(`\n ${messages.pthamss} ${messages.nextStepsJP}`);
   console.log(`  1. ${messages.step1JP}`);
   console.log(`  2. ${messages.step2JP}`);
   console.log(`  3. ${messages.step3JP}`);

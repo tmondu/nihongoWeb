@@ -67,7 +67,7 @@ The current README.md is 657 lines and contains extensive duplicate content that
 ### 1. New README.md Structure (~120 lines)
 
 ```markdown
-# KanaDojo かな道場
+# PThamSS かな道場
 
 [Banner image]
 [Badges]
@@ -78,7 +78,7 @@ The current README.md is 657 lines and contains extensive duplicate content that
 
 ## About
 
-KanaDojo is a web-based Japanese learning platform for mastering Hiragana, Katakana, Kanji, and Vocabulary through gamified training.
+PThamSS is a web-based Japanese learning platform for mastering Hiragana, Katakana, Kanji, and Vocabulary through gamified training.
 
 ## Key Features
 
@@ -148,7 +148,7 @@ Move the detailed "Getting Started" setup instructions from README to CONTRIBUTI
 Create a central index for all documentation:
 
 ```markdown
-# KanaDojo Documentation
+# PThamSS Documentation
 
 ## Getting Started
 

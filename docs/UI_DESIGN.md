@@ -1,6 +1,6 @@
 # UI Design Guidelines
 
-> **Design System Documentation for KanaDojo**  
+> **Design System Documentation for PThamSS**  
 > A comprehensive guide to UI development, theming, and best practices for our TypeScript Next.js application using Tailwind CSS.
 
 ---
@@ -20,7 +20,7 @@
 
 ## 🛠️ Project Stack
 
-KanaDojo is built with modern web technologies optimized for performance and developer experience:
+PThamSS is built with modern web technologies optimized for performance and developer experience:
 
 - **TypeScript** - Type-safe development
 - **Next.js 15** - App Router with React 19
@@ -42,7 +42,7 @@ KanaDojo is built with modern web technologies optimized for performance and dev
 
 ### How We Use Tailwind CSS
 
-KanaDojo leverages Tailwind CSS as the primary styling solution with a heavy emphasis on **CSS custom properties (CSS variables)** for theming. This approach provides:
+PThamSS leverages Tailwind CSS as the primary styling solution with a heavy emphasis on **CSS custom properties (CSS variables)** for theming. This approach provides:
 
 1. **Dynamic theming** - Runtime theme switching without rebuilding styles
 2. **Consistency** - Centralized color and spacing values
@@ -135,7 +135,7 @@ Use Tailwind's responsive prefixes consistently:
 
 ### Core Theme Variables
 
-KanaDojo uses a **5-variable color system** defined in `app/globals.css`:
+PThamSS uses a **5-variable color system** defined in `app/globals.css`:
 
 ```css
 :root {
@@ -561,7 +561,7 @@ Use Tailwind transitions for simple interactions:
 
 ## 🚀 shadcn/ui Adoption Strategy
 
-KanaDojo is gradually adopting [shadcn/ui](https://ui.shadcn.com/) for consistent, accessible components.
+PThamSS is gradually adopting [shadcn/ui](https://ui.shadcn.com/) for consistent, accessible components.
 
 ### Current shadcn/ui Components
 
@@ -1150,10 +1150,9 @@ This document should be updated whenever:
 - Major design system changes are implemented
 
 **Last Updated:** January 2025
-**Maintained By:** KanaDojo Team
+**Maintained By:** PThamSS Team
 
 ---
 
 **Questions or Suggestions?**  
 Please open an issue or discussion on GitHub to improve this documentation.
-

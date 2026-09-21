@@ -1,16 +1,16 @@
 <div id="top"></div>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 **Một nền tảng thẩm mỹ, tối giản và có tính tùy biến cao để làm chủ tiếng Nhật, lấy cảm hứng từ Monkeytype**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
-[![Good First Issues](https://img.shields.io/github/issues-search/lingdojo/kana-dojo?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/lingdojo/kana-dojo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
+[![Good First Issues](https://img.shields.io/github/issues-search/tmondu/nihongoWeb?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org/)
@@ -30,21 +30,21 @@ Nếu bạn fork dự án này, hãy thêm các huy hiệu này vào README củ
 [![Contributors](https://img.shields.io/github/contributors/YOUR_USERNAME/kana-dojo)](https://github.com/YOUR_USERNAME/kana-dojo/graphs/contributors)
 ```
 
-[Demo Trực tiếp](https://kanadojo.com) · [Tài liệu](./docs/) · [Đóng góp](./CONTRIBUTING.md)
+[Demo Trực tiếp](https://www.pthamnihongo.site) · [Tài liệu](./docs/) · [Đóng góp](./CONTRIBUTING.md)
 
 </div>
 
 ## Giới thiệu
 
-KanaDojo là một nền tảng học tiếng Nhật trên web đầy lôi cuốn, giúp việc làm chủ Hiragana, Katakana, Kanji và Từ vựng trở nên thú vị và trực quan. Được xây dựng với trọng tâm vào tính thẩm mỹ, khả năng tùy biến và hiệu quả học tập, nó cung cấp một môi trường luyện tập nhập vai cho người học tiếng Nhật ở mọi trình độ.
+PThamSS là một nền tảng học tiếng Nhật trên web đầy lôi cuốn, giúp việc làm chủ Hiragana, Katakana, Kanji và Từ vựng trở nên thú vị và trực quan. Được xây dựng với trọng tâm vào tính thẩm mỹ, khả năng tùy biến và hiệu quả học tập, nó cung cấp một môi trường luyện tập nhập vai cho người học tiếng Nhật ở mọi trình độ.
 
 ## Liên kết nhanh
 
-- **Ứng dụng**: https://kanadojo.com
-- **Thực hành**: https://kanadojo.com/en/hiragana-practice · https://kanadojo.com/en/katakana-practice · https://kanadojo.com/en/kanji-practice
-- **Tài liệu**: https://deepwiki.com/lingdojo/kana-dojo · ./docs/
+- **Ứng dụng**: https://www.pthamnihongo.site
+- **Thực hành**: https://www.pthamnihongo.site/en/hiragana-practice · https://www.pthamnihongo.site/en/katakana-practice · https://www.pthamnihongo.site/en/kanji-practice
+- **Tài liệu**: https://deepwiki.com/tmondu/nihongoWeb · ./docs/
 - **Đóng góp**: ./CONTRIBUTING.md
-- **Vấn đề tốt cho người mới**: https://github.com/lingdojo/kana-dojo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
+- **Vấn đề tốt cho người mới**: https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
 
 ## Tính năng chính
 
@@ -57,8 +57,8 @@ KanaDojo là một nền tảng học tiếng Nhật trên web đầy lôi cuố
 ## Bắt đầu nhanh
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 npm install
 npm run dev
 ```
@@ -115,7 +115,7 @@ Hoan nghênh mọi đóng góp! Cho dù bạn đang sửa lỗi, thêm tính nă
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=Date)](https://star-history.com/#lingdojo/kana-dojo&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=Date)](https://star-history.com/#tmondu/nihongoWeb&Date)
 
 </div>
 
@@ -125,8 +125,8 @@ Dự án này được cấp phép theo Giấy phép AGPL 3.0 — xem [LICENSE.m
 
 ## Liên kết
 
-- **Trang web**: [kanadojo.com](https://kanadojo.com)
-- **Kho lưu trữ**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Trang web**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Kho lưu trữ**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **Email**: nduc120201@gmail.com
 
 ---

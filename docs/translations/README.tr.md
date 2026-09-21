@@ -1,17 +1,17 @@
 <div id="top"></div>
 
-<a href="#about-kanadojo">KanaDojo Hakkında</a> | <a href="#screenshots">Ekran Görüntüleri</a> | <a href="#ui-design-philosophy">Arayüz &amp; Tasarım Felsefesi</a> | <a href="#tech-stack">Kullanılan Teknolojiler</a> | <a href="#getting-started">Başlangıç</a> | <a href="#project-structure">Proje Yapısı</a> | <a href="#contributing">Katkıda Bulunma</a> | <a href="#license">Lisans</a> | <a href="#acknowledgments">Teşekkürler</a> | <a href="#contact-links">İletişim &amp; Bağlantılar</a>
+<a href="#about-pthamss">PThamSS Hakkında</a> | <a href="#screenshots">Ekran Görüntüleri</a> | <a href="#ui-design-philosophy">Arayüz &amp; Tasarım Felsefesi</a> | <a href="#tech-stack">Kullanılan Teknolojiler</a> | <a href="#getting-started">Başlangıç</a> | <a href="#project-structure">Proje Yapısı</a> | <a href="#contributing">Katkıda Bulunma</a> | <a href="#license">Lisans</a> | <a href="#acknowledgments">Teşekkürler</a> | <a href="#contact-links">İletişim &amp; Bağlantılar</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 ![GitHub Stars](https://github.com/user-attachments/assets/de26975d-ce19-4a56-be00-84470d4607e2)
 
 **Japonca öğrenmek için estetik, minimalist ve son derece özelleştirilebilir bir platform**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -19,13 +19,13 @@
 
 </div>
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 KanaDojo Hakkında
+## 📖 PThamSS Hakkında
 
-KanaDojo, Hiragana, Katakana, Kanji ve kelime bilgisinde ustalaşmayı eğlenceli ve kolay hale getiren etkileşimli bir web tabanlı Japonca öğrenme platformudur. Estetiğe, özelleştirilebilirliğe ve etkili öğrenmeye odaklanılarak tasarlanan KanaDojo, her seviyeden Japonca öğrencisi için kapsamlı bir eğitim ortamı sunar.
+PThamSS, Hiragana, Katakana, Kanji ve kelime bilgisinde ustalaşmayı eğlenceli ve kolay hale getiren etkileşimli bir web tabanlı Japonca öğrenme platformudur. Estetiğe, özelleştirilebilirliğe ve etkili öğrenmeye odaklanılarak tasarlanan PThamSS, her seviyeden Japonca öğrencisi için kapsamlı bir eğitim ortamı sunar.
 
-İster daha yeni kana hecelerini öğrenmeye başlıyor olun, isterseniz de ileri düzey kanji ve kelimeler ile JLPT sınavlarına hazırlanıyor olun, KanaDojo akıcı, dikkat dağıtıcı öğelerden uzak sizin tercihlerinize ve öğrenme tarzınıza uyum sağlayan bir öğrenme deneyimi sunar.
+İster daha yeni kana hecelerini öğrenmeye başlıyor olun, isterseniz de ileri düzey kanji ve kelimeler ile JLPT sınavlarına hazırlanıyor olun, PThamSS akıcı, dikkat dağıtıcı öğelerden uzak sizin tercihlerinize ve öğrenme tarzınıza uyum sağlayan bir öğrenme deneyimi sunar.
 
 ### ✨ Öne Çıkan Özellikler
 
@@ -95,7 +95,7 @@ Her dojo, öğrenmeyi pekiştirmek için dört ilgi çekici eğitim modunu deste
 
 ## 🎨 Arayüz & Tasarım Felsefesi
 
-KanaDojo, maksimum esneklikle birleştirilmiş minimalist bir estetiği benimser. Tasarım felsefesinin merkezinde şunlar yer alır:
+PThamSS, maksimum esneklikle birleştirilmiş minimalist bir estetiği benimser. Tasarım felsefesinin merkezinde şunlar yer alır:
 
 ### Minimalizm Öncelikli
 
@@ -129,7 +129,7 @@ KanaDojo, maksimum esneklikle birleştirilmiş minimalist bir estetiği benimser
 
 ## 🛠️ Kullanılan Teknolojiler
 
-KanaDojo, en iyi performans ve geliştirici deneyimi için modern web teknolojileri ile geliştirilmiştir:
+PThamSS, en iyi performans ve geliştirici deneyimi için modern web teknolojileri ile geliştirilmiştir:
 
 ### Çekirdek Framework
 
@@ -183,8 +183,8 @@ KanaDojo, en iyi performans ve geliştirici deneyimi için modern web teknolojil
 1. **Depoyu klonlayın**
 
    ```bash
-   git clone https://github.com/lingdojo/kanadojo.git
-   cd kanadojo
+   git clone https://github.com/tmondu/nihongoWeb.git
+   cd nihongoWeb
    ```
 
 2. **Bağımlılıkları yükleyin**
@@ -340,7 +340,7 @@ PORT=3001 npm run dev
 ## 📁 Proje Yapısı
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Next.js App Router sayfaları
 │   ├── kana/                   # Kana dojo sayfaları
 │   │   └── train/[gameMode]/   # Her oyun modu için eğitim sayfaları
@@ -435,7 +435,7 @@ Her oyun modu, aşağıdaki işlevleri yerine getiren dinamik bir yoldur (`/[con
 
 ## 🤝 Katkıda Bulunma
 
-Katkılarınızı bekliyoruz! KanaDojo, topluluk tarafından topluluk için geliştirilen açık kaynaklı bir projedir. Nasıl katkıda bulunacağınıza dair daha ayrıntılı bilgi için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına göz atın.
+Katkılarınızı bekliyoruz! PThamSS, topluluk tarafından topluluk için geliştirilen açık kaynaklı bir projedir. Nasıl katkıda bulunacağınıza dair daha ayrıntılı bilgi için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına göz atın.
 
 ### Nasıl Katkıda Bulunulur?
 
@@ -465,14 +465,14 @@ Bu proje AGPL 3.0 Lisansı altında lisanslanmıştır - ayrıntılar için [LIC
 
 - Japonca dil verileri ve karakter bilgileri
 - Harika araçlar ve kütüphaneler için açık kaynak topluluğu
-- KanaDojo'yu daha iyi hale getirmek için katkı katkıda bulunanlar
+- PThamSS'yu daha iyi hale getirmek için katkı katkıda bulunanlar
 
 <a id="contact-links"></a>
 
 ## 📞 İletişim & Bağlantılar
 
-- **Web sitesi**: [kanadojo.com](https://kanadojo.com)
-- **Depo**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Web sitesi**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Depo**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **E-posta**: nduc120201@gmail.com
 
 ---

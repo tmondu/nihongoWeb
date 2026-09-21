@@ -1,16 +1,16 @@
 <div id="top"></div>
 
-<a href="#about-kanadojo">Über KanaDojo</a> | <a href="#screenshots">Screenshots</a> | <a href="#ui-design-philosophy">UI &amp; Design-Philosophie</a> | <a href="#tech-stack">Technischer Stack</a> | <a href="#getting-started">Erste Schritte</a> | <a href="#project-structure">Projektstruktur</a> | <a href="#contributing">Mitwirken</a> | <a href="#license">Lizenz</a> | <a href="#acknowledgments">Danksagungen</a> | <a href="#contact-links">Kontakt &amp; Links</a>
+<a href="#about-pthamss">Über PThamSS</a> | <a href="#screenshots">Screenshots</a> | <a href="#ui-design-philosophy">UI &amp; Design-Philosophie</a> | <a href="#tech-stack">Technischer Stack</a> | <a href="#getting-started">Erste Schritte</a> | <a href="#project-structure">Projektstruktur</a> | <a href="#contributing">Mitwirken</a> | <a href="#license">Lizenz</a> | <a href="#acknowledgments">Danksagungen</a> | <a href="#contact-links">Kontakt &amp; Links</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 Eine ästhetische, minimalistische und hochgradig anpassbare Plattform zur Beherrschung der japanischen Sprache
 
-[![Live Demo](https://img.shields.io/badge/demo-live-success?style=for-the-badge)](https://kanadojo.com)
+[![Live Demo](https://img.shields.io/badge/demo-live-success?style=for-the-badge)](https://www.pthamnihongo.site)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/agpl-3.0)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
@@ -20,13 +20,13 @@ Eine ästhetische, minimalistische und hochgradig anpassbare Plattform zur Beher
 
 ---
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 Über KanaDojo
+## 📖 Über PThamSS
 
-**KanaDojo** ist eine fesselnde, webbasierte Lernplattform für Japanisch, die das Meistern von Hiragana, Katakana, Kanji und Vokabeln spaßig und intuitiv gestaltet. Entwickelt mit Fokus auf **Ästhetik**, **Anpassbarkeit** und **effektives Lernen**, bietet KanaDojo eine immersive Trainingsumgebung für Japanischlernende aller Niveaus.
+**PThamSS** ist eine fesselnde, webbasierte Lernplattform für Japanisch, die das Meistern von Hiragana, Katakana, Kanji und Vokabeln spaßig und intuitiv gestaltet. Entwickelt mit Fokus auf **Ästhetik**, **Anpassbarkeit** und **effektives Lernen**, bietet PThamSS eine immersive Trainingsumgebung für Japanischlernende aller Niveaus.
 
-Ob Sie gerade mit den grundlegenden Kana-Silbenschriften beginnen oder sich mit fortgeschrittenen Kanji und Vokabeln auf die JLPT-Prüfungen vorbereiten, KanaDojo bietet ein optimiertes, ablenkungsfreies Lernerlebnis, das sich an Ihre Präferenzen und Ihren Lernstil anpasst.
+Ob Sie gerade mit den grundlegenden Kana-Silbenschriften beginnen oder sich mit fortgeschrittenen Kanji und Vokabeln auf die JLPT-Prüfungen vorbereiten, PThamSS bietet ein optimiertes, ablenkungsfreies Lernerlebnis, das sich an Ihre Präferenzen und Ihren Lernstil anpasst.
 
 ---
 
@@ -100,7 +100,7 @@ Jedes Dojo unterstützt **vier fesselnde Trainingsmodi** zur Lernverstärkung:
 
 ## 🎨 UI & Design-Philosophie
 
-KanaDojo verbindet eine **minimalistische Ästhetik** mit **maximaler Flexibilität**. Die Design-Philosophie konzentriert sich auf:
+PThamSS verbindet eine **minimalistische Ästhetik** mit **maximaler Flexibilität**. Die Design-Philosophie konzentriert sich auf:
 
 ### Minimalismus Zuerst
 
@@ -136,7 +136,7 @@ KanaDojo verbindet eine **minimalistische Ästhetik** mit **maximaler Flexibilit
 
 ## 🛠️ Technischer Stack
 
-KanaDojo wurde mit modernen Web-Technologien für optimale Leistung und Entwicklererfahrung erstellt:
+PThamSS wurde mit modernen Web-Technologien für optimale Leistung und Entwicklererfahrung erstellt:
 
 ### Kern-Framework
 
@@ -192,8 +192,8 @@ KanaDojo wurde mit modernen Web-Technologien für optimale Leistung und Entwickl
 1. **Das Repository klonen**
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 ```
 
 2. **Abhängigkeiten installieren**
@@ -349,7 +349,7 @@ PORT=3001 npm run dev
 ## 📁 Projektstruktur
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Next.js App Router Seiten
 │   ├── kana/                   # Kana Dojo Seiten
 │   │   └── train/[gameMode]/   # Trainingsseiten für jeden Spielmodus
@@ -442,7 +442,7 @@ Jeder Spielmodus ist eine dynamische Route (`/[contentType]/train/[gameMode]`), 
 
 ## 🤝 Mitwirken (Contributing)
 
-Beiträge sind willkommen! KanaDojo ist ein Open-Source-Projekt, das von der Community für die Community entwickelt wurde. Lesen Sie [CONTRIBUTING.md](CONTRIBUTING.md) für detailliertere Informationen zum Mitwirken.
+Beiträge sind willkommen! PThamSS ist ein Open-Source-Projekt, das von der Community für die Community entwickelt wurde. Lesen Sie [CONTRIBUTING.md](CONTRIBUTING.md) für detailliertere Informationen zum Mitwirken.
 
 ### So können Sie beitragen
 
@@ -476,7 +476,7 @@ Dieses Projekt ist unter der **AGPL 3.0 Lizenz** lizenziert – Details finden S
 
 - Japanische Sprachdaten und Zeicheninformationen.
 - Die Open-Source-Community für die großartigen Tools und Bibliotheken.
-- Alle Mitwirkenden, die helfen, KanaDojo besser zu machen.
+- Alle Mitwirkenden, die helfen, PThamSS besser zu machen.
 
 ---
 
@@ -484,8 +484,8 @@ Dieses Projekt ist unter der **AGPL 3.0 Lizenz** lizenziert – Details finden S
 
 ## 📞 Kontakt & Links
 
-- **Webseite**: [https://kanadojo.com](https://kanadojo.com)
-- **Repository**: [https://github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Webseite**: [https://www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Repository**: [https://github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **E-Mail**: nduc120201@gmail.com
 
 ---

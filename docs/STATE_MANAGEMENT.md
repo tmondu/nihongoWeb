@@ -1,6 +1,6 @@
 # State Management Documentation
 
-This document describes KanaDojo's state management using Zustand.
+This document describes PThamSS's state management using Zustand.
 
 ---
 
@@ -17,7 +17,7 @@ This document describes KanaDojo's state management using Zustand.
 
 ## Overview
 
-KanaDojo uses **Zustand** for state management with the following features:
+PThamSS uses **Zustand** for state management with the following features:
 
 - **Simple API**: Minimal boilerplate compared to Redux
 - **TypeScript support**: Full type inference

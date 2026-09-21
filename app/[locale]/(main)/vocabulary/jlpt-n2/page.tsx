@@ -5,7 +5,7 @@ import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import {
   FAQSchema,
-  commonKanaDOJOFAQs,
+  commonPThamSSFAQs,
 } from '@/shared/ui-composite/SEO/FAQSchema';
 import { LearningResourceSchema } from '@/shared/ui-composite/SEO/LearningResourceSchema';
 import { routing } from '@/core/i18n/routing';
@@ -75,7 +75,7 @@ export default async function VocabularyJlptN2Page({
           targetName: 'N2',
         }}
       />
-      <FAQSchema faqs={commonKanaDOJOFAQs} />
+      <FAQSchema faqs={commonPThamSSFAQs} />
       <VocabMenu fixedCollection='n2' hideUnitSelector />
     </>
   );

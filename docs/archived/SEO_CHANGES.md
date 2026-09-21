@@ -3,13 +3,13 @@
 **Date Completed**: November 2025
 **Status**: Archived
 
-> This document records SEO improvements made to KanaDojo. For current SEO documentation, see [docs/SEO.md](../SEO.md).
+> This document records SEO improvements made to PThamSS. For current SEO documentation, see [docs/SEO.md](../SEO.md).
 
 ---
 
 ## Summary
 
-Performed a comprehensive SEO health check and implemented enterprise-level SEO improvements across the entire KanaDojo project.
+Performed a comprehensive SEO health check and implemented enterprise-level SEO improvements across the entire PThamSS project.
 
 ### Key Achievements
 

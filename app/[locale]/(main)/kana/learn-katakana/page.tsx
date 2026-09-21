@@ -6,7 +6,7 @@ import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import { LearningResourceSchema } from '@/shared/ui-composite/SEO/LearningResourceSchema';
 import {
   FAQSchema,
-  commonKanaDOJOFAQs,
+  commonPThamSSFAQs,
 } from '@/shared/ui-composite/SEO/FAQSchema';
 import { routing } from '@/core/i18n/routing';
 
@@ -67,7 +67,7 @@ export default async function LearnKatakanaPage({
         isAccessibleForFree={true}
         provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
       />
-      <FAQSchema faqs={commonKanaDOJOFAQs} />
+      <FAQSchema faqs={commonPThamSSFAQs} />
       <KanaMenu filter='katakana' />
     </>
   );

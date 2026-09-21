@@ -1,6 +1,6 @@
 # GitHub Workflows Documentation
 
-This document describes the CI/CD pipelines that automate development, testing, and deployment for KanaDojo.
+This document describes the CI/CD pipelines that automate development, testing, and deployment for PThamSS.
 
 ---
 
@@ -17,7 +17,7 @@ This document describes the CI/CD pipelines that automate development, testing, 
 
 ## Overview
 
-KanaDojo uses GitHub Actions for automation across the development lifecycle. Workflows are defined in `.github/workflows/` and cover:
+PThamSS uses GitHub Actions for automation across the development lifecycle. Workflows are defined in `.github/workflows/` and cover:
 
 - **Code Quality**: Running linters, type checks, and tests
 - **Pull Requests**: Automated checks and contributor onboarding
@@ -211,7 +211,7 @@ KanaDojo uses GitHub Actions for automation across the development lifecycle. Wo
 
 ## Other Workflows
 
-### `patch-notes.yml` - KanaDojo Patch Notes
+### `patch-notes.yml` - PThamSS Patch Notes
 
 **Trigger**: On push to `main` when `features/PatchNotes/patchNotesData.json` changes
 

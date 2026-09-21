@@ -1,6 +1,6 @@
 # 🛠️ Troubleshooting Guide
 
-This guide helps you resolve common issues when setting up and running KanaDojo locally.
+This guide helps you resolve common issues when setting up and running PThamSS locally.
 
 ---
 

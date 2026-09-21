@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-Successfully migrated KanaDojo from a feature-based architecture to a **Hybrid Modular Architecture**, combining the best aspects of Feature-Sliced Design with pragmatic modularity suited for the project's scale.
+Successfully migrated PThamSS from a feature-based architecture to a **Hybrid Modular Architecture**, combining the best aspects of Feature-Sliced Design with pragmatic modularity suited for the project's scale.
 
 ### Key Achievements
 

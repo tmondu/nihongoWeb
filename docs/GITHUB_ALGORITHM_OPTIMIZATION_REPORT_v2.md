@@ -1,7 +1,7 @@
 # GitHub Algorithm Research: "Good First Issue" Visibility & Ranking Optimization
 
 **Date:** March 2, 2026
-**Target:** KanaDojo Community Issue Pipeline
+**Target:** PThamSS Community Issue Pipeline
 
 ## 1. The Core Hypothesis: Does the Issue Author Matter?
 
@@ -27,7 +27,7 @@ Here is why alternating accounts **will not** yield the massive visibility boost
 
 ## 2. How to Actually "Hack" the GitHub Algorithm
 
-If changing the author won't work, how do we get KanaDojo's issues to the top of the global `label:"good first issue"` feed?
+If changing the author won't work, how do we get PThamSS's issues to the top of the global `label:"good first issue"` feed?
 
 GitHub's algorithm uses a multi-layered approach to rank these issues. You must optimize for the three main pillars: **Recency, Engagement, and ML Confidence.**
 
@@ -35,7 +35,7 @@ GitHub's algorithm uses a multi-layered approach to rank these issues. You must 
 
 GitHub applies a heavy "decay penalty" to older issues. A "good first issue" created 5 minutes ago will almost always rank higher than one created 5 days ago, assuming all other factors are equal.
 
-- **Current Status:** Excellent. By dripping issues every 30 minutes, KanaDojo is constantly sitting at the top of the `sort:updated-desc` and `sort:created-desc` feeds.
+- **Current Status:** Excellent. By dripping issues every 30 minutes, PThamSS is constantly sitting at the top of the `sort:updated-desc` and `sort:created-desc` feeds.
 
 ### Pillar 2: The Engagement Signal (The Missing Link)
 
@@ -72,7 +72,7 @@ When users search `label:"good first issue" react` or `label:"good first issue" 
 
 ---
 
-## 3. Actionable Recommendations for KanaDojo
+## 3. Actionable Recommendations for PThamSS
 
 1. **Keep the PAT:** Continue using your main Personal Access Token. Do not introduce alt accounts or bot alternation; it risks triggering the Simhash spam filters.
 2. **Increase the Drip Rate During Peak Hours:** Instead of a strict 30-minute cron, adjust the cron job to fire every 15 minutes during peak open-source hours (e.g., Saturday and Sunday mornings EST/GMT) to maximize recency dominance.

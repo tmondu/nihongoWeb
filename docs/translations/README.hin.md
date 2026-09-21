@@ -1,16 +1,16 @@
 <div id="top"></div>
 
-<a href="#about-kanadojo">KanaDojo के बारे में</a> | <a href="#screenshots">स्क्रीनशॉट</a> | <a href="#ui-design-philosophy">UI और डिज़ाइन दर्शन</a> | <a href="#tech-stack">टेक स्टैक</a> | <a href="#getting-started">आरंभ करें</a> | <a href="#project-structure">प्रोजेक्ट संरचना</a> | <a href="#contributing">योगदान</a> | <a href="#license">लाइसेंस</a> | <a href="#acknowledgments">आभार</a> | <a href="#contact-links">संपर्क और लिंक</a>
+<a href="#about-pthamss">PThamSS के बारे में</a> | <a href="#screenshots">स्क्रीनशॉट</a> | <a href="#ui-design-philosophy">UI और डिज़ाइन दर्शन</a> | <a href="#tech-stack">टेक स्टैक</a> | <a href="#getting-started">आरंभ करें</a> | <a href="#project-structure">प्रोजेक्ट संरचना</a> | <a href="#contributing">योगदान</a> | <a href="#license">लाइसेंस</a> | <a href="#acknowledgments">आभार</a> | <a href="#contact-links">संपर्क और लिंक</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo बैनर](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS बैनर](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 **जापानी भाषा में महारत हासिल करने के लिए एक सुंदर, न्यूनतम और अत्यधिक अनुकूलन योग्य प्लेटफ़ॉर्म**
 
-[![लाइव डेमो](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
+[![लाइव डेमो](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
 [![लाइसेंस](https://img.shields.io/badge/license-AGPL--v3-blue)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](ht tps://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -20,11 +20,11 @@
 
 ---
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 KanaDojo के बारे में
+## 📖 PThamSS के बारे में
 
-KanaDojo एक आकर्षक वेब-आधारित जापानी शिक्षण प्लेटफ़ॉर्म है जो हिरागाना, कटकाना, कांजी और शब्दावली में महारत हासिल करना मज़ेदार और सहज बनाता है। सौंदर्यबोध, अनुकूलन और प्रभावी शिक्षण पर केंद्रित, KanaDojo सभी स्तरों के जापानी भाषा सीखने वालों के लिए एक गहन प्रशिक्षण वातावरण प्रदान करता है।
+PThamSS एक आकर्षक वेब-आधारित जापानी शिक्षण प्लेटफ़ॉर्म है जो हिरागाना, कटकाना, कांजी और शब्दावली में महारत हासिल करना मज़ेदार और सहज बनाता है। सौंदर्यबोध, अनुकूलन और प्रभावी शिक्षण पर केंद्रित, PThamSS सभी स्तरों के जापानी भाषा सीखने वालों के लिए एक गहन प्रशिक्षण वातावरण प्रदान करता है।
 
 चाहे आप बुनियादी काना शब्दावली से शुरुआत कर रहे हों या उन्नत कांजी और शब्दावली के साथ जेएलपीटी परीक्षा की तैयारी कर रहे हों, कानाडोजो एक सुव्यवस्थित, विकर्षण-मुक्त शिक्षण अनुभव प्रदान करता है जो आपकी प्राथमिकताओं और सीखने की शैली के अनुकूल होता है।
 
@@ -98,7 +98,7 @@ KanaDojo एक आकर्षक वेब-आधारित जापान�
 
 ## 🎨 UI और डिज़ाइन दर्शन
 
-KanaDojo **न्यूनतम सौंदर्यशास्त्र** को **अधिकतम** के साथ जोड़ता है लचीलापन\*\*। डिज़ाइन दर्शन इस पर केंद्रित है:
+PThamSS **न्यूनतम सौंदर्यशास्त्र** को **अधिकतम** के साथ जोड़ता है लचीलापन\*\*। डिज़ाइन दर्शन इस पर केंद्रित है:
 
 ### अतिसूक्ष्मवाद सर्वप्रथम
 
@@ -134,7 +134,7 @@ KanaDojo **न्यूनतम सौंदर्यशास्त्र** �
 
 ## 🛠️ टेक स्टैक
 
-KanaDojo को बेहतरीन प्रदर्शन और डेवलपर अनुभव के लिए आधुनिक वेब तकनीकों के साथ बनाया गया है:
+PThamSS को बेहतरीन प्रदर्शन और डेवलपर अनुभव के लिए आधुनिक वेब तकनीकों के साथ बनाया गया है:
 
 ### कोर फ्रेमवर्क
 
@@ -190,8 +190,8 @@ KanaDojo को बेहतरीन प्रदर्शन और डेव�
 1. **रिपॉजिटरी क्लोन करें**
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 ```
 
 2. **निर्भरताएँ स्थापित करें**
@@ -347,7 +347,7 @@ PORT=3001 npm run dev
 ## 📁 प्रोजेक्ट संरचना
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Next.js App Router पृष्ठ
 │   ├── kana/                   # Kana dojo पृष्ठ
 │   │   └── train/[gameMode]/   # प्रत्येक गेम मोड के लिए प्रशिक्षण पृष्ठ
@@ -476,7 +476,7 @@ kanadojo/
 
 - जापानी भाषा डेटा और वर्ण जानकारी
 - अद्भुत टूल और लाइब्रेरी के लिए ओपन-सोर्स समुदाय
-- सभी योगदानकर्ता जो KanaDojo को बेहतर बनाने में मदद करते हैं
+- सभी योगदानकर्ता जो PThamSS को बेहतर बनाने में मदद करते हैं
 
 ---
 
@@ -484,8 +484,8 @@ kanadojo/
 
 ## 📞 संपर्क और लिंक
 
-- **वेबसाइट**: [kanadojo.com](https://kanadojo.com)
-- **रिपॉजिटरी**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **वेबसाइट**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **रिपॉजिटरी**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **ईमेल**: nduc120201@gmail.com
 
 ---

@@ -1,16 +1,16 @@
 <div id="top"></div>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 **Monkeytypeにインスパイアされた、美しくミニマルでカスタマイズ可能な日本語学習プラットフォーム**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
-[![Good First Issues](https://img.shields.io/github/issues-search/lingdojo/kana-dojo?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/lingdojo/kana-dojo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
+[![Good First Issues](https://img.shields.io/github/issues-search/tmondu/nihongoWeb?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org/)
@@ -30,13 +30,13 @@
 [![Contributors](https://img.shields.io/github/contributors/YOUR_USERNAME/kana-dojo)](https://github.com/YOUR_USERNAME/kana-dojo/graphs/contributors)
 ```
 
-[ライブデモ](https://kanadojo.com) · [ドキュメント](./docs/) · [貢献方法](./CONTRIBUTING.md)
+[ライブデモ](https://www.pthamnihongo.site) · [ドキュメント](./docs/) · [貢献方法](./CONTRIBUTING.md)
 
 </div>
 
 ## 概要
 
-KanaDojoは、ひらがな、カタカナ、漢字、語彙を楽しく直感的に学べる、魅力的なウェブベースの日本語学習プラットフォームです。美しいデザインとカスタマイズ性、学習効率に重点を置いて構築されており、あらゆるレベルの日本語学習者に没入型トレーニング環境を提供します。
+PThamSSは、ひらがな、カタカナ、漢字、語彙を楽しく直感的に学べる、魅力的なウェブベースの日本語学習プラットフォームです。美しいデザインとカスタマイズ性、学習効率に重点を置いて構築されており、あらゆるレベルの日本語学習者に没入型トレーニング環境を提供します。
 
 ## 主な機能
 
@@ -49,8 +49,8 @@ KanaDojoは、ひらがな、カタカナ、漢字、語彙を楽しく直感的
 ## クイックスタート
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 npm install
 npm run dev
 ```
@@ -101,7 +101,7 @@ Next.js 15 · React 19 · TypeScript · Tailwind CSS · shadcn/ui · Zustand · 
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=Date)](https://star-history.com/#lingdojo/kana-dojo&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=Date)](https://star-history.com/#tmondu/nihongoWeb&Date)
 
 </div>
 
@@ -111,8 +111,8 @@ Next.js 15 · React 19 · TypeScript · Tailwind CSS · shadcn/ui · Zustand · 
 
 ## リンク
 
-- **ウェブサイト**: [kanadojo.com](https://kanadojo.com)
-- **リポジトリ**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **ウェブサイト**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **リポジトリ**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **メール**: nduc120201@gmail.com
 
 ---

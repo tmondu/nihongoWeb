@@ -1,16 +1,16 @@
 <div id="top"></div>
 
-<a href="#about-kanadojo">Sobre o KanaDojo</a> | <a href="#screenshots">Capturas de Tela</a> | <a href="#ui-design-philosophy">UI &amp; Filosofia de Design</a> | <a href="#tech-stack">Stack Tecnológico</a> | <a href="#getting-started">Começando</a> | <a href="#project-structure">Estrutura do Projeto</a> | <a href="#contributing">Contribuindo</a> | <a href="#license">Licença</a> | <a href="#acknowledgments">Agradecimentos</a> | <a href="#contact-links">Contato e Links</a>
+<a href="#about-pthamss">Sobre o PThamSS</a> | <a href="#screenshots">Capturas de Tela</a> | <a href="#ui-design-philosophy">UI &amp; Filosofia de Design</a> | <a href="#tech-stack">Stack Tecnológico</a> | <a href="#getting-started">Começando</a> | <a href="#project-structure">Estrutura do Projeto</a> | <a href="#contributing">Contribuindo</a> | <a href="#license">Licença</a> | <a href="#acknowledgments">Agradecimentos</a> | <a href="#contact-links">Contato e Links</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 **Uma plataforma estética, minimalista e altamente personalizável para dominar o japonês**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -20,13 +20,13 @@
 
 ---
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 Sobre o KanaDojo
+## 📖 Sobre o PThamSS
 
-KanaDojo é uma plataforma web envolvente de aprendizado de japonês que torna o domínio de Hiragana, Katakana, Kanji e Vocabulário divertido e intuitivo. Construída com foco em estética, personalização e aprendizado eficaz, KanaDojo oferece um ambiente de treinamento imersivo para estudantes de japonês de todos os níveis.
+PThamSS é uma plataforma web envolvente de aprendizado de japonês que torna o domínio de Hiragana, Katakana, Kanji e Vocabulário divertido e intuitivo. Construída com foco em estética, personalização e aprendizado eficaz, PThamSS oferece um ambiente de treinamento imersivo para estudantes de japonês de todos os níveis.
 
-Seja você apenas começando com os silabários kana básicos ou se preparando para os exames JLPT com kanji e vocabulário avançados, KanaDojo oferece uma experiência de aprendizado simplificada e livre de distrações que se adapta às suas preferências e estilo de aprendizagem.
+Seja você apenas começando com os silabários kana básicos ou se preparando para os exames JLPT com kanji e vocabulário avançados, PThamSS oferece uma experiência de aprendizado simplificada e livre de distrações que se adapta às suas preferências e estilo de aprendizagem.
 
 ### ✨ Recursos Principais
 
@@ -98,7 +98,7 @@ Cada dojo suporta quatro modos de treinamento envolventes para reforçar o apren
 
 ## 🎨 UI & Filosofia de Design
 
-KanaDojo abraça uma **estética minimalista** combinada com **máxima flexibilidade**. A filosofia de design se concentra em:
+PThamSS abraça uma **estética minimalista** combinada com **máxima flexibilidade**. A filosofia de design se concentra em:
 
 ### Minimalismo em Primeiro Lugar
 
@@ -134,7 +134,7 @@ KanaDojo abraça uma **estética minimalista** combinada com **máxima flexibili
 
 ## 🛠️ Stack Tecnológico
 
-KanaDojo é construído com tecnologias web modernas para desempenho ideal e experiência do desenvolvedor:
+PThamSS é construído com tecnologias web modernas para desempenho ideal e experiência do desenvolvedor:
 
 ### Framework Principal
 
@@ -190,8 +190,8 @@ KanaDojo é construído com tecnologias web modernas para desempenho ideal e exp
 1. **Clone o repositório**
 
    ```bash
-   git clone https://github.com/lingdojo/kanadojo.git
-   cd kanadojo
+   git clone https://github.com/tmondu/nihongoWeb.git
+   cd nihongoWeb
    ```
 
 2. **Instale as dependências**
@@ -347,7 +347,7 @@ PORT=3001 npm run dev
 ## 📁 Estrutura do Projeto
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Páginas do Next.js App Router
 │   ├── kana/                   # Páginas do dojo de Kana
 │   │   └── train/[gameMode]/   # Páginas de treinamento para cada modo de jogo
@@ -440,7 +440,7 @@ Cada modo de jogo é uma rota dinâmica (`/[contentType]/train/[gameMode]`) que:
 
 ## 🤝 Contribuindo
 
-Contribuições são bem-vindas! KanaDojo é um projeto de código aberto construído pela comunidade, para a comunidade.
+Contribuições são bem-vindas! PThamSS é um projeto de código aberto construído pela comunidade, para a comunidade.
 
 ### Como Contribuir
 
@@ -474,7 +474,7 @@ Este projeto está licenciado sob a Licença AGPL 3.0 - veja o arquivo [LICENSE.
 
 - Dados do idioma japonês e informações de caracteres
 - Comunidade de código aberto pelas ferramentas e bibliotecas incríveis
-- Todos os contribuidores que ajudam a tornar o KanaDojo melhor
+- Todos os contribuidores que ajudam a tornar o PThamSS melhor
 
 ---
 
@@ -482,8 +482,8 @@ Este projeto está licenciado sob a Licença AGPL 3.0 - veja o arquivo [LICENSE.
 
 ## 📞 Contato e Links
 
-- **Website**: [kanadojo.com](https://kanadojo.com)
-- **Repositório**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Website**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Repositório**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **Email**: nduc120201@gmail.com
 
 ---

@@ -1,19 +1,19 @@
-<a href="#about-kanadojo">Riguardo KanaDojo</a> | <a href="#screenshots">Schermate</a> | <a href="#ui-design-philosophy">UI &amp; Filosofia di Design</a> | <a href="#tech-stack">Stack Tecnologico</a> | <a href="#getting-started">Come Iniziare</a> | <a href="#project-structure">Struttura del Progetto</a> | <a href="#contributing">Contribuire</a> | <a href="#license">Licenza</a> | <a href="#acknowledgments">Riconoscimenti</a> | <a href="#contact-links">Contatti &amp; Collegamenti</a>
+<a href="#about-pthamss">Riguardo PThamSS</a> | <a href="#screenshots">Schermate</a> | <a href="#ui-design-philosophy">UI &amp; Filosofia di Design</a> | <a href="#tech-stack">Stack Tecnologico</a> | <a href="#getting-started">Come Iniziare</a> | <a href="#project-structure">Struttura del Progetto</a> | <a href="#contributing">Contribuire</a> | <a href="#license">Licenza</a> | <a href="#acknowledgments">Riconoscimenti</a> | <a href="#contact-links">Contatti &amp; Collegamenti</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 ## Storico Stelle
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=date&legend=top-left)](https://www.star-history.com/#lingdojo/kana-dojo&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=date&legend=top-left)](https://www.star-history.com/#tmondu/nihongoWeb&type=date&legend=top-left)
 
 **Una piattaforma esteticamente bella e minimalista per padroneggiare il Giapponese ispirata a MonkeyType**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -21,13 +21,13 @@
 
 </div>
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 Cos'è KanaDojo
+## 📖 Cos'è PThamSS
 
-KanaDojo è una piattaforma web interattiva per l'apprendimento del giapponese che rende lo studio di Hiragana, Katakana, Kanji e vocaboli in modo intuitivo e coinvolgente. Progettata ed orientata all'estetica, alla personalizzazione e all'efficacia didattica, KanaDojo offre un ambiente di allenamento immersivo adatto a studenti di qualsiasi livello.
+PThamSS è una piattaforma web interattiva per l'apprendimento del giapponese che rende lo studio di Hiragana, Katakana, Kanji e vocaboli in modo intuitivo e coinvolgente. Progettata ed orientata all'estetica, alla personalizzazione e all'efficacia didattica, PThamSS offre un ambiente di allenamento immersivo adatto a studenti di qualsiasi livello.
 
-Che tu stia muovendo i primi passi con i sillabari di base o ti stia preparando agli esami JLPT con kanji e vocaboli avanzati, KanaDojo offre un'esperienza di apprendimento fluida, senza distrazioni, e adattabile alle tue preferenze e al tuo stile di studio.
+Che tu stia muovendo i primi passi con i sillabari di base o ti stia preparando agli esami JLPT con kanji e vocaboli avanzati, PThamSS offre un'esperienza di apprendimento fluida, senza distrazioni, e adattabile alle tue preferenze e al tuo stile di studio.
 
 ### ✨ Funzionalità Principali
 
@@ -97,7 +97,7 @@ Ogni dojo supporta quattro modalità di allenamento:
 
 ## 🎨 UI & Filosofia di Design
 
-KanaDojo adotta un'**estetica minimalista** combinata la massima **flessibilità di configurazione**. La filosofia progettuale si basa su alcuni principi chiave:
+PThamSS adotta un'**estetica minimalista** combinata la massima **flessibilità di configurazione**. La filosofia progettuale si basa su alcuni principi chiave:
 
 ### Minimalismo come Priorità
 
@@ -131,7 +131,7 @@ KanaDojo adotta un'**estetica minimalista** combinata la massima **flessibilità
 
 ## 🛠️ Stack Tecnologico
 
-KanaDojo è sviluppato utilizzando tecnologie web moderne, con particolare attenzione a performance ed esperienza di sviluppo.
+PThamSS è sviluppato utilizzando tecnologie web moderne, con particolare attenzione a performance ed esperienza di sviluppo.
 
 ### Framework Principali
 
@@ -175,7 +175,7 @@ KanaDojo è sviluppato utilizzando tecnologie web moderne, con particolare atten
 
 ## 🏗️ Architettura
 
-KanaDojo utilizza un'**architettura feature-based**, organizzando il codice per funzionalità anziché per tipo di file. Questo approccio migliora manutenibilità, scalabilità e leggibilità.
+PThamSS utilizza un'**architettura feature-based**, organizzando il codice per funzionalità anziché per tipo di file. Questo approccio migliora manutenibilità, scalabilità e leggibilità.
 
 ### Struttura Principale
 
@@ -201,8 +201,8 @@ Per maggiori dettagli: [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md).
 1.  **Clona il repository**
 
     ```bash
-    git clone https://github.com/lingdojo/kanadojo.git
-    cd kanadojo
+    git clone https://github.com/tmondu/nihongoWeb.git
+    cd nihongoWeb
     ```
 
 2.  **Installa le dipendenze**
@@ -360,7 +360,7 @@ PORT=3001 npm run dev
 ## 📁 Struttura del Progetto
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Next.js App Router
 │   ├── [locale]/               # Internationalized routes
 │   │   ├── kana/               # Kana dojo pages
@@ -428,7 +428,7 @@ kanadojo/
 
 #### Architettura Feature-Based
 
-KanaDojo usa un'architettura dove ogni funzionalità è indipendente:
+PThamSS usa un'architettura dove ogni funzionalità è indipendente:
 
 - **Incapsulamento**: Ogni feature include tutto ciò che serve (componenti, stato, dati, logica)
 - **Barrel export**: Ogni modulo esporta la propria API pubblica tramite `index.ts`
@@ -468,11 +468,11 @@ Ogni modalità è una route dinamica (`/[contentType]/train/[gameMode]`) che:
 
 ## 🤝 Contribuire
 
-I contributi sono ben accetti. KanaDojo è un progetto open-source costruito dalla community per la community. Consulta [CONTRIBUTING.md](CONTRIBUTING.md) per più dettagli.
+I contributi sono ben accetti. PThamSS è un progetto open-source costruito dalla community per la community. Consulta [CONTRIBUTING.md](CONTRIBUTING.md) per più dettagli.
 
 ### 🌍 Traduzioni
 
-Stiamo lavorando attivamente per rendere KanaDojo disponibile in diverse lingue! Se vuoi contribuire alle traduzioni:
+Stiamo lavorando attivamente per rendere PThamSS disponibile in diverse lingue! Se vuoi contribuire alle traduzioni:
 
 1. **Leggi la guida:** [docs/TRANSLATION_GUIDE.md](docs/TRANSLATION_GUIDE.md)
 2. **Modifica i file JSON in** `core/i18n/locales/{lang}/`
@@ -543,7 +543,7 @@ core/i18n/locales/
 
 #### 🌐 Espansione Linguistica per SEO
 
-Vuoi aiutare KanaDojo ad essere più visibile globalmente?
+Vuoi aiutare PThamSS ad essere più visibile globalmente?
 
 **Infrastruttura**: ✅ Completa
 
@@ -614,14 +614,14 @@ Il progetto è distribuito sotto licenza AGPL 3.0 - vedi [LICENSE.md](LICENSE.md
 
 - Dati linguistici ed informazioni sui caratteri giapponesi
 - Community open-source per i fantastici strumenti e librerie
-- Tutti i contributori del progetto che migliorano KanaDojo
+- Tutti i contributori del progetto che migliorano PThamSS
 
 <a id="contact-links"></a>
 
 ## 📞 Contatti & Link
 
-- **Sito Web**: [kanadojo.com](https://kanadojo.com)
-- **Repository**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Sito Web**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Repository**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **Email**: nduc120201@gmail.com
 
 ---

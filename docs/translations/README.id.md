@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-**KanaDojo tersedia dalam berbagai bahasa berkat kontribusi komunitas:**
+**PThamSS tersedia dalam berbagai bahasa berkat kontribusi komunitas:**
 
 <details>
 <summary>README Bahasa Indonesia</summary>
@@ -18,22 +18,22 @@
 
 </details>
 
-<a href="#tentang-kanadojo">Tentang KanaDojo</a> | <a href="#tangkapan-layar">Tangkapan Layar</a> | <a href="#ui-dan-filosofi-desain">UI &amp; Filosofi Desain</a> | <a href="#teknologi">Teknologi</a> | <a href="#memulai">Memulai</a> | <a href="#struktur-proyek">Struktur Proyek</a> | <a href="#berkontribusi">Berkontribusi</a> | <a href="#lisensi">Lisensi</a> | <a href="#penghargaan">Penghargaan</a> | <a href="#kontak-tautan">Kontak &amp; Tautan</a>
+<a href="#tentang-kanadojo">Tentang PThamSS</a> | <a href="#tangkapan-layar">Tangkapan Layar</a> | <a href="#ui-dan-filosofi-desain">UI &amp; Filosofi Desain</a> | <a href="#teknologi">Teknologi</a> | <a href="#memulai">Memulai</a> | <a href="#struktur-proyek">Struktur Proyek</a> | <a href="#berkontribusi">Berkontribusi</a> | <a href="#lisensi">Lisensi</a> | <a href="#penghargaan">Penghargaan</a> | <a href="#kontak-tautan">Kontak &amp; Tautan</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 ## Riwayat Bintang
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=date&legend=top-left)](https://www.star-history.com/#lingdojo/kana-dojo&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=date&legend=top-left)](https://www.star-history.com/#tmondu/nihongoWeb&type=date&legend=top-left)
 
 **Platform estetis, minimalis, dan sangat dapat disesuaikan untuk menguasai bahasa Jepang yang terinspirasi oleh Monkeytype**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -43,11 +43,11 @@
 
 <a id="tentang-kanadojo"></a>
 
-## 📖 Tentang KanaDojo
+## 📖 Tentang PThamSS
 
-KanaDojo adalah platform pembelajaran bahasa Jepang berbasis web yang menarik yang membuat penguasaan Hiragana, Katakana, Kanji, dan Kosakata menjadi menyenangkan dan intuitif. Dibangun dengan fokus pada estetika, kustomisasi, dan pembelajaran efektif, KanaDojo menyediakan lingkungan pelatihan yang imersif untuk pembelajar bahasa Jepang di semua tingkat.
+PThamSS adalah platform pembelajaran bahasa Jepang berbasis web yang menarik yang membuat penguasaan Hiragana, Katakana, Kanji, dan Kosakata menjadi menyenangkan dan intuitif. Dibangun dengan fokus pada estetika, kustomisasi, dan pembelajaran efektif, PThamSS menyediakan lingkungan pelatihan yang imersif untuk pembelajar bahasa Jepang di semua tingkat.
 
-Baik Anda baru memulai dengan suku kata kana dasar atau mempersiapkan ujian JLPT dengan kanji dan kosakata tingkat lanjut, KanaDojo menawarkan pengalaman belajar yang efisien dan bebas gangguan yang beradaptasi dengan preferensi dan gaya belajar Anda.
+Baik Anda baru memulai dengan suku kata kana dasar atau mempersiapkan ujian JLPT dengan kanji dan kosakata tingkat lanjut, PThamSS menawarkan pengalaman belajar yang efisien dan bebas gangguan yang beradaptasi dengan preferensi dan gaya belajar Anda.
 
 ### ✨ Fitur Utama
 
@@ -117,7 +117,7 @@ Setiap dojo mendukung empat mode pelatihan yang menarik untuk memperkuat pembela
 
 ## 🎨 UI & Filosofi Desain
 
-KanaDojo menganut **estetika minimalis** yang dikombinasikan dengan **fleksibilitas maksimum**. Filosofi desain berpusat pada:
+PThamSS menganut **estetika minimalis** yang dikombinasikan dengan **fleksibilitas maksimum**. Filosofi desain berpusat pada:
 
 ### Minimalisme Pertama
 
@@ -151,7 +151,7 @@ KanaDojo menganut **estetika minimalis** yang dikombinasikan dengan **fleksibili
 
 ## 🛠️ Teknologi
 
-KanaDojo dibangun dengan teknologi web modern untuk kinerja optimal dan pengalaman pengembang:
+PThamSS dibangun dengan teknologi web modern untuk kinerja optimal dan pengalaman pengembang:
 
 ### Framework Inti
 
@@ -195,7 +195,7 @@ KanaDojo dibangun dengan teknologi web modern untuk kinerja optimal dan pengalam
 
 ## 🏗️ Arsitektur
 
-KanaDojo mengikuti **arsitektur berbasis fitur** yang mengorganisir kode berdasarkan fungsionalitas daripada berdasarkan jenis file. Pendekatan modular ini meningkatkan maintainability, skalabilitas, dan pengalaman pengembang.
+PThamSS mengikuti **arsitektur berbasis fitur** yang mengorganisir kode berdasarkan fungsionalitas daripada berdasarkan jenis file. Pendekatan modular ini meningkatkan maintainability, skalabilitas, dan pengalaman pengembang.
 
 ### Struktur Utama
 
@@ -220,8 +220,8 @@ Setiap fitur berisi komponen, store, data, tipe, dan logika bisnis sendiri, memu
 1. **Clone repositori**
 
    ```bash
-   git clone https://github.com/lingdojo/kanadojo.git
-   cd kanadojo
+   git clone https://github.com/tmondu/nihongoWeb.git
+   cd nihongoWeb
    ```
 
 2. **Instal dependensi**
@@ -379,7 +379,7 @@ PORT=3001 npm run dev
 ## 📁 Struktur Proyek
 
 ```
-kanadojo/
+nihongoWeb/
 ├── app/                        # Next.js App Router
 │   ├── [locale]/               # Rute terinternasionalisasi
 │   │   ├── kana/               # Halaman dojo kana
@@ -447,7 +447,7 @@ kanadojo/
 
 #### Arsitektur Berbasis Fitur
 
-KanaDojo menggunakan pola arsitektur modular di mana setiap fungsionalitas bersifat independen:
+PThamSS menggunakan pola arsitektur modular di mana setiap fungsionalitas bersifat independen:
 
 - **Enkapsulasi**: Setiap fitur berisi semua yang dibutuhkan (komponen, state, data, logika)
 - **Barrel Exports**: Setiap modul mengekspor API publik melalui `index.ts`
@@ -487,11 +487,11 @@ Setiap mode permainan adalah rute dinamis (`/[contentType]/train/[gameMode]`) ya
 
 ## 🤝 Berkontribusi
 
-Kontribusi sangat diterima! KanaDojo adalah proyek open-source yang dibangun oleh komunitas, untuk komunitas. Lihat [CONTRIBUTING.md](../../CONTRIBUTING.md) untuk informasi lebih rinci tentang cara berkontribusi.
+Kontribusi sangat diterima! PThamSS adalah proyek open-source yang dibangun oleh komunitas, untuk komunitas. Lihat [CONTRIBUTING.md](../../CONTRIBUTING.md) untuk informasi lebih rinci tentang cara berkontribusi.
 
 ### 🌍 Kontribusi Terjemahan
 
-Kami secara aktif bekerja untuk membuat KanaDojo tersedia dalam berbagai bahasa! Jika Anda ingin membantu menerjemahkan:
+Kami secara aktif bekerja untuk membuat PThamSS tersedia dalam berbagai bahasa! Jika Anda ingin membantu menerjemahkan:
 
 1. **Baca panduan**: Tinjau [docs/TRANSLATION_GUIDE.md](../TRANSLATION_GUIDE.md)
 2. **Edit terjemahan**: Modifikasi file JSON di `core/i18n/locales/{lang}/`
@@ -562,7 +562,7 @@ core/i18n/locales/
 
 #### 🌐 Ekspansi Bahasa untuk SEO
 
-Ingin membantu memperluas KanaDojo ke bahasa baru untuk visibilitas SEO global yang lebih baik?
+Ingin membantu memperluas PThamSS ke bahasa baru untuk visibilitas SEO global yang lebih baik?
 
 **Infrastruktur**: ✅ Lengkap
 
@@ -633,14 +633,14 @@ Proyek ini dilisensikan di bawah Lisensi AGPL 3.0 - lihat file [LICENSE.md](../.
 
 - Data bahasa Jepang dan informasi karakter
 - Komunitas open-source untuk alat dan pustaka yang luar biasa
-- Semua kontributor yang membantu membuat KanaDojo lebih baik
+- Semua kontributor yang membantu membuat PThamSS lebih baik
 
 <a id="kontak-tautan"></a>
 
 ## 📞 Kontak & Tautan
 
-- **Website**: [kanadojo.com](https://kanadojo.com)
-- **Repositori**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Website**: [www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Repositori**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **Email**: nduc120201@gmail.com
 
 ---

@@ -1,9 +1,9 @@
-name: KanaDojo Patch Notes
+name: PThamSS Patch Notes
 
 on:
   push:
     branches:
-      - main
+      - master
       - feature/discord-patch-notes
     paths:
       - features/PatchNotes/patchNotesData.json
@@ -90,19 +90,19 @@ jobs:
               }
 
               const embed = {
-                title: `🎌 KanaDojo ${latest.version}`,
+                title: `🎌 PThamSS ${latest.version}`,
                 description: description.trim(),
                 color: embedColor,
                 timestamp: new Date().toISOString(),
-                footer: { text: `かな道場 • ${latest.date}`, icon_url: 'https://raw.githubusercontent.com/lingdojo/kana-dojo/main/public/kanadojo.png' },
-                author: { name: 'KanaDojo Release', url: 'https://kanadojo.com', icon_url: 'https://raw.githubusercontent.com/lingdojo/kana-dojo/main/public/kanadojo.png' }
+                footer: { text: `PThamSS • ${latest.date}`, icon_url: 'https://www.pthamnihongo.site/favicon.ico' },
+                author: { name: 'PThamSS Release', url: 'https://www.pthamnihongo.site', icon_url: 'https://www.pthamnihongo.site/favicon.ico' }
               };
 
               const payload = {
-                content: `🎊 @everyone **New update available!** KanaDojo ${latest.version} is now live.`,
+                content: `🎊 @everyone **New update available!** PThamSS ${latest.version} is now live.`,
                 embeds: [embed],
-                username: 'KanaDojo',
-                avatar_url: 'https://raw.githubusercontent.com/lingdojo/kana-dojo/main/public/kanadojo.png'
+                username: 'PThamSS',
+                avatar_url: 'https://www.pthamnihongo.site/favicon.ico'
               };
 
               const webhookUrl = new URL(process.env.WEBHOOK_URL);

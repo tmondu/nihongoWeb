@@ -1,6 +1,6 @@
 <div id="top"></div>
 
-**KanaDojo доступний багатьма мовами завдяки внескам спільноти:**
+**PThamSS доступний багатьма мовами завдяки внескам спільноти:**
 
 <details>
 <summary>README англійською (за замовчуванням)</summary>
@@ -18,22 +18,22 @@
 
 </details>
 
-<a href="#about-kanadojo">Про KanaDojo</a> | <a href="#screenshots">Скріншоти</a> | <a href="#ui-design-philosophy">UI та філософія дизайну</a> | <a href="#tech-stack">Технологічний стек</a> | <a href="#getting-started">Початок роботи</a> | <a href="#project-structure">Структура проєкту</a> | <a href="#contributing">Участь у розробці</a> | <a href="#license">Ліцензія</a> | <a href="#acknowledgments">Подяки</a> | <a href="#contact-links">Контакти та посилання</a>
+<a href="#about-pthamss">Про PThamSS</a> | <a href="#screenshots">Скріншоти</a> | <a href="#ui-design-philosophy">UI та філософія дизайну</a> | <a href="#tech-stack">Технологічний стек</a> | <a href="#getting-started">Початок роботи</a> | <a href="#project-structure">Структура проєкту</a> | <a href="#contributing">Участь у розробці</a> | <a href="#license">Ліцензія</a> | <a href="#acknowledgments">Подяки</a> | <a href="#contact-links">Контакти та посилання</a>
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
+![PThamSS Banner](https://github.com/user-attachments/assets/b7931764-be5e-43c7-b1b3-9d2568b2fecf)
 
 ## Історія зірок
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=date&legend=top-left)](https://www.star-history.com/#lingdojo/kana-dojo&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=date&legend=top-left)](https://www.star-history.com/#tmondu/nihongoWeb&type=date&legend=top-left)
 
 **Естетична, мінімалістична та надзвичайно гнучка платформа для опанування японської мови, натхненна Monkeytype**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
@@ -41,13 +41,13 @@
 
 </div>
 
-<a id="about-kanadojo"></a>
+<a id="about-pthamss"></a>
 
-## 📖 Про KanaDojo
+## 📖 Про PThamSS
 
-KanaDojo — це захоплива вебплатформа для вивчення японської мови, яка робить опанування хіраґани, катакани, кандзі та лексики веселим і інтуїтивно зрозумілим. Побудована з фокусом на естетику, кастомізацію та ефективне навчання, KanaDojo забезпечує глибоке занурення у процес навчання для користувачів будь-якого рівня.
+PThamSS — це захоплива вебплатформа для вивчення японської мови, яка робить опанування хіраґани, катакани, кандзі та лексики веселим і інтуїтивно зрозумілим. Побудована з фокусом на естетику, кастомізацію та ефективне навчання, PThamSS забезпечує глибоке занурення у процес навчання для користувачів будь-якого рівня.
 
-Незалежно від того, чи ви лише починаєте знайомство з базовими складовими абетками, чи готуєтеся до іспитів JLPT з використанням просунутих кандзі та словникового запасу, KanaDojo пропонує структурований, безвідволікаючий навчальний досвід, який адаптується до ваших уподобань та стилю навчання.
+Незалежно від того, чи ви лише починаєте знайомство з базовими складовими абетками, чи готуєтеся до іспитів JLPT з використанням просунутих кандзі та словникового запасу, PThamSS пропонує структурований, безвідволікаючий навчальний досвід, який адаптується до ваших уподобань та стилю навчання.
 
 ### ✨ Ключові можливості
 
@@ -117,7 +117,7 @@ KanaDojo — це захоплива вебплатформа для вивче�
 
 ## 🎨 UI та філософія дизайну
 
-KanaDojo поєднує **мінімалістичну естетику** з **максимальною гнучкістю**. Філософія дизайну зосереджена на:
+PThamSS поєднує **мінімалістичну естетику** з **максимальною гнучкістю**. Філософія дизайну зосереджена на:
 
 ### Мінімалізм понад усе
 
@@ -151,7 +151,7 @@ KanaDojo поєднує **мінімалістичну естетику** з **�
 
 ## 🛠️ Технологічний стек
 
-KanaDojo побудований на сучасних вебтехнологіях для максимальної продуктивності та зручності розробки.
+PThamSS побудований на сучасних вебтехнологіях для максимальної продуктивності та зручності розробки.
 
 ### Основні фреймворки
 
@@ -195,7 +195,7 @@ KanaDojo побудований на сучасних вебтехнологія
 
 ## 🏗️ Архітектура
 
-KanaDojo використовує **архітектуру, орієнтовану на функціональність**, де код організований за можливостями, а не за типами файлів.
+PThamSS використовує **архітектуру, орієнтовану на функціональність**, де код організований за можливостями, а не за типами файлів.
 
 ### Основна структура
 
@@ -218,8 +218,8 @@ KanaDojo використовує **архітектуру, орієнтован
 ### Встановлення
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 npm install
 npm run dev
 ```
@@ -230,7 +230,7 @@ npm run dev
 
 ## 📁 Структура проєкту
 
-kanadojo/
+nihongoWeb/
 ├── app/ # Next.js App Router
 │ ├── [locale]/ # Інтернаціоналізовані маршрути
 │ │ ├── kana/ # Сторінки доодзьо для кани
@@ -295,7 +295,7 @@ kanadojo/
 
 ## 🤝 Участь у розробці
 
-Ми раді будь-якому внеску! KanaDojo — це open-source проєкт, створений спільнотою.
+Ми раді будь-якому внеску! PThamSS — це open-source проєкт, створений спільнотою.
 
 1. Зробіть fork репозиторію
 2. Створіть гілку (`git checkout -b feature/YourFeature`)
@@ -317,14 +317,14 @@ kanadojo/
 
 - Дані та матеріали японської мови
 - Open-source спільноті за неймовірні інструменти
-- Усім контрибʼюторам KanaDojo
+- Усім контрибʼюторам PThamSS
 
 <a id="contact-links"></a>
 
 ## 📞 Контакти та посилання
 
-- **Сайт**: [https://kanadojo.com](https://kanadojo.com)
-- **Репозиторій**: [https://github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
+- **Сайт**: [https://www.pthamnihongo.site](https://www.pthamnihongo.site)
+- **Репозиторій**: [https://github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
 - **Email**: [nduc120201@gmail.com](mailto:nduc120201@gmail.com)
 
 ---

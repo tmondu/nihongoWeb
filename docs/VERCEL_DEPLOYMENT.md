@@ -1,6 +1,6 @@
 # Vercel Deployment Documentation
 
-This guide explains how KanaDojo is deployed to Vercel and how the deployment pipeline works.
+This guide explains how PThamSS is deployed to Vercel and how the deployment pipeline works.
 
 ---
 
@@ -19,7 +19,7 @@ This guide explains how KanaDojo is deployed to Vercel and how the deployment pi
 
 ## Overview
 
-KanaDojo is deployed to **Vercel**, a platform optimized for Next.js applications. The deployment pipeline is fully automated through GitHub Actions and includes:
+PThamSS is deployed to **Vercel**, a platform optimized for Next.js applications. The deployment pipeline is fully automated through GitHub Actions and includes:
 
 - Automatic deployments on push to `main`
 - Preview deployments for pull requests
@@ -75,15 +75,15 @@ For each pull request:
 
 ### Required Variables
 
-| Variable                        | Description                      | Where to Get                                              |
-| ------------------------------- | -------------------------------- | --------------------------------------------------------- |
-| `GOOGLE_TRANSLATE_API_KEY`      | Google Cloud Translation API key | [Google Cloud Console](https://console.cloud.google.com/) |
-| `NEXT_PUBLIC_GA_ID`             | Google Analytics measurement ID  | [Google Analytics](https://analytics.google.com/)         |
-| `NEXT_PUBLIC_POSTHOG_KEY`       | PostHog API key (client)         | [PostHog](https://posthog.com/)                           |
-| `POSTHOG_API_KEY`               | PostHog API key (server, optional; falls back to `NEXT_PUBLIC_POSTHOG_KEY`) | [PostHog](https://posthog.com/)                 |
-| `POSTHOG_HOST`                  | PostHog host (optional; falls back to `NEXT_PUBLIC_POSTHOG_HOST`) | [PostHog](https://posthog.com/)                           |
-| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase project URL             | [Supabase](https://supabase.com/)                         |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key           | [Supabase](https://supabase.com/)                         |
+| Variable                        | Description                                                                 | Where to Get                                              |
+| ------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `GOOGLE_TRANSLATE_API_KEY`      | Google Cloud Translation API key                                            | [Google Cloud Console](https://console.cloud.google.com/) |
+| `NEXT_PUBLIC_GA_ID`             | Google Analytics measurement ID                                             | [Google Analytics](https://analytics.google.com/)         |
+| `NEXT_PUBLIC_POSTHOG_KEY`       | PostHog API key (client)                                                    | [PostHog](https://posthog.com/)                           |
+| `POSTHOG_API_KEY`               | PostHog API key (server, optional; falls back to `NEXT_PUBLIC_POSTHOG_KEY`) | [PostHog](https://posthog.com/)                           |
+| `POSTHOG_HOST`                  | PostHog host (optional; falls back to `NEXT_PUBLIC_POSTHOG_HOST`)           | [PostHog](https://posthog.com/)                           |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase project URL                                                        | [Supabase](https://supabase.com/)                         |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous key                                                      | [Supabase](https://supabase.com/)                         |
 
 ### Optional Variables
 
@@ -104,7 +104,7 @@ For each pull request:
 
 ## Custom Domains
 
-KanaDojo uses the following custom domains:
+PThamSS uses the following custom domains:
 
 | Domain             | Type       | Configuration               |
 | ------------------ | ---------- | --------------------------- |

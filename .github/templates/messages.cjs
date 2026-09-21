@@ -75,7 +75,7 @@ module.exports = {
   // =============================================================================
   prWelcome: {
     greeting: '## 🎉 Thanks for your Pull Request, @{author}!',
-    body: 'We appreciate your contribution to KanaDojo!',
+    body: 'We appreciate your contribution to PThamSS!',
     checklist: {
       title: '**Pre-merge checklist:**',
       items: [
@@ -91,7 +91,7 @@ module.exports = {
     thanks: 'ありがとうございます! 🙏',
     firstTimeContributor: {
       separator: '---',
-      title: '🎴🗻 **Welcome to KanaDojo!**',
+      title: '🎴🗻 **Welcome to PThamSS!**',
       body: "This appears to be your first contribution—that's awesome! We're thrilled to have you here. If you have any questions, don't hesitate to ask. 🏯",
     },
   },
@@ -202,7 +202,7 @@ module.exports = {
       reason: 'due to 12 hours after the stale warning.',
       reassurance:
         "Don't worry—the contribution opportunity will be re-posted for someone else to claim.",
-      footer: 'Thanks for your interest in contributing to KanaDojo! 🙏',
+      footer: 'Thanks for your interest in contributing to PThamSS! 🙏',
     },
     unassignedClosed: {
       title: '🕐 **This unassigned issue has been automatically closed**',
@@ -318,7 +318,7 @@ module.exports = {
       header: '## 🎨 Add New Color Theme: "{name}"',
       category: 'Community Contribution - Theme',
       estimatedTime: '<1 min',
-      taskDescription: 'Add this beautiful new theme to KanaDojo!',
+      taskDescription: 'Add this beautiful new theme to PThamSS!',
       detailsHeader: '### Theme Details',
       vibeLabel: '💡 **Vibe:**',
       file: 'community/content/community-themes.json',

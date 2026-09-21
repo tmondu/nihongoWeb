@@ -30,4 +30,4 @@ What are some ways this could be implemented?
 
 ---
 
-**Note:** If you've already researched this and want to formally propose it, consider submitting a [Feature Request](https://github.com/lingdojo/kanadojo/issues/new?template=feature_request.md) instead.
+**Note:** If you've already researched this and want to formally propose it, consider submitting a [Feature Request](https://github.com/tmondu/nihongoWeb/issues/new?template=feature_request.md) instead.

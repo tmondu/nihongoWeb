@@ -4,17 +4,17 @@
 > 최신 정보 및 공식 내용은 항상 **[English README](../../README.md)** 를 확인해 주세요.  
 > 번역이 최신 상태를 반영하지 않을 수 있습니다.
 
-# KanaDojo かな道場
+# PThamSS かな道場
 
 <div align="center">
 
-![KanaDojo Banner](https://github.com/user-attachments/assets/56716ee9-9347-4224-9fe2-ef1beb93e286)
+![PThamSS Banner](https://github.com/user-attachments/assets/56716ee9-9347-4224-9fe2-ef1beb93e286)
 
 **Monkeytype에서 영감을 받은 아름답고 미니멀하며 고도로 커스터마이징 가능한 일본어 학습 플랫폼**
 
-[![Live Demo](https://img.shields.io/badge/demo-kanadojo.com-blue?style=for-the-badge)](https://kanadojo.com)
-[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/lingdojo/kana-dojo)
-[![Good First Issues](https://img.shields.io/github/issues-search/lingdojo/kana-dojo?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/lingdojo/kana-dojo/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
+[![Live Demo](https://img.shields.io/badge/demo-pthamnihongo.site-blue?style=for-the-badge)](https://www.pthamnihongo.site)
+[![DeepWiki](https://img.shields.io/badge/docs-DeepWiki-purple?style=for-the-badge)](https://deepwiki.com/tmondu/nihongoWeb)
+[![Good First Issues](https://img.shields.io/github/issues-search/tmondu/nihongoWeb?query=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22&style=for-the-badge&label=good%20first%20issues&color=brightgreen)](https://github.com/tmondu/nihongoWeb/issues?q=is%3Aissue+is%3Aopen+label%3A%22good%20first%20issue%22)
 [![License](https://img.shields.io/badge/license-AGPL--v3-blue?style=for-the-badge)](../../LICENSE.md)
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org/)
@@ -25,7 +25,7 @@
 
 ## 소개
 
-KanaDojo는 히라가나, 가타카나, 한자, 어휘를 재미있고 직관적으로 마스터할 수 있도록 돕는 매력적인 웹 기반 일본어 학습 플랫폼입니다. 미학, 커스터마이징, 효과적인 학습에 중점을 두고 구축되어 모든 수준의 일본어 학습자를 위한 몰입형 훈련 환경을 제공합니다.
+PThamSS는 히라가나, 가타카나, 한자, 어휘를 재미있고 직관적으로 마스터할 수 있도록 돕는 매력적인 웹 기반 일본어 학습 플랫폼입니다. 미학, 커스터마이징, 효과적인 학습에 중점을 두고 구축되어 모든 수준의 일본어 학습자를 위한 몰입형 훈련 환경을 제공합니다.
 
 ## 기여하기
 
@@ -37,7 +37,7 @@ KanaDojo는 히라가나, 가타카나, 한자, 어휘를 재미있고 직관적
 
 모든 기여를 환영합니다! 버그 수정, 기능 추가, 문서 개선, 번역 등 어떤 형태든 [CONTRIBUTING.md](../../CONTRIBUTING.md)를 확인하여 시작하세요.
 
-[라이브 데모](https://kanadojo.com) · [문서](../)
+[라이브 데모](https://www.pthamnihongo.site) · [문서](../)
 
 </div>
 
@@ -52,8 +52,8 @@ KanaDojo는 히라가나, 가타카나, 한자, 어휘를 재미있고 직관적
 ## 빠른 시작
 
 ```bash
-git clone https://github.com/lingdojo/kanadojo.git
-cd kanadojo
+git clone https://github.com/tmondu/nihongoWeb.git
+cd nihongoWeb
 npm install
 npm run dev
 ```
@@ -109,7 +109,7 @@ Next.js 15 · React 19 · TypeScript · Tailwind CSS · shadcn/ui · Zustand · 
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=lingdojo/kana-dojo&type=Date)](https://star-history.com/#lingdojo/kana-dojo&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=tmondu/nihongoWeb&type=Date)](https://star-history.com/#tmondu/nihongoWeb&Date)
 
 </div>
 

@@ -16,7 +16,7 @@ Kanjikana ranks at the top for "English to Japanese" by executing a masterclass 
 4. **Lean, fast pages** — Minimal UI friction, immediate utility
 5. **Unique differentiation** — "Translate with Kanji details" sets them apart from generic translators
 
-They win on **relevance density**, not domain authority. This is replicable by KanaDojo.
+They win on **relevance density**, not domain authority. This is replicable by PThamSS.
 
 ---
 
@@ -24,13 +24,13 @@ They win on **relevance density**, not domain authority. This is replicable by K
 
 ### Verified Meta Tags (from HTML source)
 
-| Element | Value |
-|---------|-------|
-| **Title** | `English to Japanese Translator \| Translate with Kanji details` |
+| Element              | Value                                                                                                                               |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Title**            | `English to Japanese Translator \| Translate with Kanji details`                                                                    |
 | **Meta Description** | `Highly accurate English to Japanese translator. Translate any English text instantly and get detailed information for each kanji.` |
-| **H1** | `English → Japanese` |
-| **Canonical** | `https://kanjikana.com/en/tools/translator/en/ja` |
-| **Language** | `lang="en"` on `<html>` element |
+| **H1**               | `English → Japanese`                                                                                                                |
+| **Canonical**        | `https://kanjikana.com/en/tools/translator/en/ja`                                                                                   |
+| **Language**         | `lang="en"` on `<html>` element                                                                                                     |
 
 ### Hreflang Implementation (7 Languages)
 
@@ -49,6 +49,7 @@ They win on **relevance density**, not domain authority. This is replicable by K
 ### Structured Data (JSON-LD)
 
 **Organization Schema:**
+
 ```json
 {
   "@context": "http://schema.org",
@@ -60,13 +61,24 @@ They win on **relevance density**, not domain authority. This is replicable by K
 ```
 
 **BreadcrumbList Schema:**
+
 ```json
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Kanjikana", "item": "https://kanjikana.com/en"},
-    {"@type": "ListItem", "position": 2, "name": "Translator", "item": "https://kanjikana.com/en/tools/translator/en/ja"}
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Kanjikana",
+      "item": "https://kanjikana.com/en"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Translator",
+      "item": "https://kanjikana.com/en/tools/translator/en/ja"
+    }
   ]
 }
 ```
@@ -77,14 +89,15 @@ They win on **relevance density**, not domain authority. This is replicable by K
 
 **Pattern:** `/{ui-locale}/tools/translator/{source-lang}/{target-lang}`
 
-| Component | Value | Purpose |
-|-----------|-------|---------|
-| `/en/` | UI language | Localizes the interface |
-| `/tools/` | Category | Groups utility features |
-| `/translator/` | Tool type | Clear tool identification |
-| `/en/ja` | Direction | Source→Target encoding |
+| Component      | Value       | Purpose                   |
+| -------------- | ----------- | ------------------------- |
+| `/en/`         | UI language | Localizes the interface   |
+| `/tools/`      | Category    | Groups utility features   |
+| `/translator/` | Tool type   | Clear tool identification |
+| `/en/ja`       | Direction   | Source→Target encoding    |
 
 **Strengths:**
+
 - Highly predictable, machine-readable pattern
 - Enables programmatic expansion to any language pair
 - Clean separation of UI language vs translation direction
@@ -92,14 +105,14 @@ They win on **relevance density**, not domain authority. This is replicable by K
 
 ### Semantic HTML Structure
 
-| Element | Present | Notes |
-|---------|---------|-------|
-| `<nav>` | ✓ | Sitewide navigation |
-| `<footer>` | ✓ | Standard footer |
-| `<section>` | ✓ | Content sections |
-| `<main>` | ✗ | Not used |
-| `<header>` | ✗ | Not used |
-| `<article>` | ✗ | Not used (appropriate - this is a tool, not article) |
+| Element     | Present | Notes                                                |
+| ----------- | ------- | ---------------------------------------------------- |
+| `<nav>`     | ✓       | Sitewide navigation                                  |
+| `<footer>`  | ✓       | Standard footer                                      |
+| `<section>` | ✓       | Content sections                                     |
+| `<main>`    | ✗       | Not used                                             |
+| `<header>`  | ✗       | Not used                                             |
+| `<article>` | ✗       | Not used (appropriate - this is a tool, not article) |
 
 ### Heading Hierarchy
 
@@ -122,12 +135,12 @@ H2: About (navigation section)
 
 ### Performance Optimization
 
-| Technique | Implemented |
-|-----------|-------------|
-| Lazy loading images | ✓ |
-| Resource preloading | ✓ |
-| Fetch priority hints | ✗ |
-| DNS preconnect | ✗ |
+| Technique            | Implemented |
+| -------------------- | ----------- |
+| Lazy loading images  | ✓           |
+| Resource preloading  | ✓           |
+| Fetch priority hints | ✗           |
+| DNS preconnect       | ✗           |
 
 ### Framework Detection
 
@@ -155,15 +168,16 @@ Sitemap: https://kanjikana.com/sitemap.xml
 
 **Primary Keyword:** "English to Japanese Translator"
 
-| Placement | Implementation |
-|-----------|----------------|
-| Title (start) | ✓ `English to Japanese Translator \| ...` |
-| Meta description | ✓ "English to Japanese translator" |
-| H1 | ✓ `English → Japanese` |
-| URL | ✓ `/translator/en/ja` |
-| UI labels | ✓ Source/target language labels |
+| Placement        | Implementation                            |
+| ---------------- | ----------------------------------------- |
+| Title (start)    | ✓ `English to Japanese Translator \| ...` |
+| Meta description | ✓ "English to Japanese translator"        |
+| H1               | ✓ `English → Japanese`                    |
+| URL              | ✓ `/translator/en/ja`                     |
+| UI labels        | ✓ Source/target language labels           |
 
 **Secondary Keywords:**
+
 - "kanji" (in title differentiator)
 - "translate" (CTA button)
 - Related: hiragana, katakana, JLPT (via internal links)
@@ -173,6 +187,7 @@ Sitemap: https://kanjikana.com/sitemap.xml
 The translator page is **intentionally thin on text content**:
 
 **Visible elements:**
+
 - H1 heading
 - Language swap control
 - Source text input (textarea)
@@ -182,12 +197,14 @@ The translator page is **intentionally thin on text content**:
 - Navigation links
 
 **What's NOT there:**
+
 - Long explanatory paragraphs
 - FAQ sections
 - "How to use" instructions
 - SEO filler content
 
 **Why this works:**
+
 1. Users searching "English to Japanese" want to **translate immediately**
 2. The page delivers instant utility, matching transactional intent
 3. Topical authority comes from the surrounding site, not this specific page
@@ -196,14 +213,15 @@ The translator page is **intentionally thin on text content**:
 
 **Navigation links from translator page:**
 
-| Section | Links |
-|---------|-------|
+| Section   | Links                                     |
+| --------- | ----------------------------------------- |
 | **Kanji** | All Kanji, JLPT (N1-N5), Kanken, Radicals |
-| **Kana** | Hiragana, Katakana |
-| **Tools** | Translator (EN↔JA), Furigana |
-| **About** | About, Credits |
+| **Kana**  | Hiragana, Katakana                        |
+| **Tools** | Translator (EN↔JA), Furigana              |
+| **About** | About, Credits                            |
 
 **Cross-linking:**
+
 - Translator → Reverse translator (`ja/en`)
 - Translator → Furigana tool
 - All pages → Kanji detail pages
@@ -217,6 +235,7 @@ The translator page is **intentionally thin on text content**:
 **Title differentiator:** "Translate with Kanji details"
 
 This phrase is strategically brilliant:
+
 1. Sets them apart from Google Translate / DeepL
 2. Appeals to Japanese learners, not just casual translators
 3. Creates a reason for Google to rank them for educational translation intent
@@ -228,11 +247,13 @@ This phrase is strategically brilliant:
 ### Backlink Profile (Third-party estimates)
 
 Per HypeStat:
+
 - ~59 referring domains
 - ~81 total backlinks
 - Low authority metrics
 
 **Interpretation:** They're NOT winning on backlink strength. This proves you can rank for competitive terms with:
+
 - Perfect on-page optimization
 - Strong topical authority
 - Clean technical implementation
@@ -240,6 +261,7 @@ Per HypeStat:
 ### Entity/Brand Signals
 
 **About page signals:**
+
 - Named creator: François Grante (software developer, Tokyo-based Japanese learner)
 - Transparent credits page citing:
   - JMdict (Japanese dictionary)
@@ -249,6 +271,7 @@ Per HypeStat:
   - Kuromoji/MeCab (Japanese tokenizers)
 
 **Why this matters:**
+
 - Establishes E-E-A-T (Experience, Expertise, Authority, Trust)
 - Citing authoritative Japanese language resources builds credibility
 - Personal brand creates entity relationships
@@ -261,13 +284,13 @@ Per HypeStat:
 
 **Why the page is easy for AI systems to understand:**
 
-| Factor | Score | Notes |
-|--------|-------|-------|
-| Intent clarity | ★★★★★ | Unambiguous from title, URL, H1 |
-| Structural consistency | ★★★★★ | Title = H1 = URL = function |
-| Entity relationships | ★★★★☆ | Connected to kanji, kana, JLPT entities |
-| Content noise | ★★★★★ | Minimal—very clean signal |
-| Schema markup | ★★★☆☆ | Basic but clean |
+| Factor                 | Score | Notes                                   |
+| ---------------------- | ----- | --------------------------------------- |
+| Intent clarity         | ★★★★★ | Unambiguous from title, URL, H1         |
+| Structural consistency | ★★★★★ | Title = H1 = URL = function             |
+| Entity relationships   | ★★★★☆ | Connected to kanji, kana, JLPT entities |
+| Content noise          | ★★★★★ | Minimal—very clean signal               |
+| Schema markup          | ★★★☆☆ | Basic but clean                         |
 
 ### Entity Graph Strength
 
@@ -295,6 +318,7 @@ Japanese Language
 ### Featured Snippet Optimization
 
 The page itself doesn't target FAQ-style snippets, but it IS well-positioned for:
+
 - Direct answer boxes ("English to Japanese translator")
 - Tool/utility results
 - AI Overview citations when discussing translation tools
@@ -313,16 +337,16 @@ The page itself doesn't target FAQ-style snippets, but it IS well-positioned for
 
 ### Interaction Elements
 
-| Element | Count |
-|---------|-------|
-| Input fields | 2 |
-| Textarea | 1 |
-| Buttons | 0 visible (likely JS-rendered) |
+| Element      | Count                          |
+| ------------ | ------------------------------ |
+| Input fields | 2                              |
+| Textarea     | 1                              |
+| Buttons      | 0 visible (likely JS-rendered) |
 
 ### User Journey Optimization
 
 ```
-Search "english to japanese" 
+Search "english to japanese"
     → Land on exact-match page
     → Input text immediately
     → Get translation + kanji details
@@ -382,23 +406,24 @@ The funnel is optimized for **repeat usage**, building habits and direct traffic
 
 ## Why Kanjikana Beats Google Translate in Rankings
 
-| Factor | Google Translate | Kanjikana |
-|--------|------------------|-----------|
-| Domain Authority | ★★★★★ | ★★☆☆☆ |
-| Exact Intent Match | ★★★☆☆ | ★★★★★ |
-| Japanese Learning Context | ☆☆☆☆☆ | ★★★★★ |
-| Topical Concentration | ☆☆☆☆☆ | ★★★★★ |
-| URL Specificity | ★★☆☆☆ (generic) | ★★★★★ |
-| Page Simplicity | ★★★☆☆ | ★★★★★ |
+| Factor                    | Google Translate | Kanjikana |
+| ------------------------- | ---------------- | --------- |
+| Domain Authority          | ★★★★★            | ★★☆☆☆     |
+| Exact Intent Match        | ★★★☆☆            | ★★★★★     |
+| Japanese Learning Context | ☆☆☆☆☆            | ★★★★★     |
+| Topical Concentration     | ☆☆☆☆☆            | ★★★★★     |
+| URL Specificity           | ★★☆☆☆ (generic)  | ★★★★★     |
+| Page Simplicity           | ★★★☆☆            | ★★★★★     |
 
 **Google wants to show the BEST result for the query, not the biggest brand.** Kanjikana wins by being:
+
 - More specific to the exact query
 - More connected to Japanese learning intent
 - Faster and simpler for the task
 
 ---
 
-## Actionable Recommendations for KanaDojo
+## Actionable Recommendations for PThamSS
 
 ### Priority 1: URL & Title Alignment
 
@@ -406,17 +431,19 @@ The funnel is optimized for **repeat usage**, building habits and direct traffic
 Current (assumed): /en/tools/translate or /translate
 Recommended: /en/tools/translator/en/ja
 
-Current title (assumed): "Translator - KanaDojo"
-Recommended: "English to Japanese Translator | [Differentiator] | KanaDojo"
+Current title (assumed): "Translator - PThamSS"
+Recommended: "English to Japanese Translator | [Differentiator] | PThamSS"
 ```
 
 ### Priority 2: Create Dedicated Direction Pages
 
 Instead of one `/translate` page, create:
+
 - `/en/tools/translator/en/ja` — English to Japanese
 - `/en/tools/translator/ja/en` — Japanese to English
 
 Each page gets its own:
+
 - Exact-match title
 - Direction-specific H1
 - Proper canonical
@@ -424,6 +451,7 @@ Each page gets its own:
 ### Priority 3: Strengthen Internal Links
 
 Add translator links from:
+
 - Kanji detail pages
 - Kana learning pages
 - Vocabulary pages
@@ -433,7 +461,8 @@ Add translator links from:
 
 Kanjikana: "with Kanji details"
 
-KanaDojo options:
+PThamSS options:
+
 - "with Romaji readings"
 - "with pronunciation guide"
 - "for Japanese learners"
@@ -442,6 +471,7 @@ KanaDojo options:
 ### Priority 5: Implement Proper Schema
 
 Add to translator pages:
+
 ```json
 {
   "@type": "WebApplication",
@@ -454,6 +484,7 @@ Add to translator pages:
 ### Priority 6: Ensure Clean Hreflang
 
 If supporting multiple UI languages:
+
 ```html
 <link rel="alternate" hreflang="en" href="/en/tools/translator/en/ja" />
 <link rel="alternate" hreflang="ja" href="/ja/tools/translator/en/ja" />
@@ -464,14 +495,17 @@ If supporting multiple UI languages:
 ## Data Sources
 
 ### Primary (Direct HTML Analysis)
+
 - Wayback Machine archive: `https://web.archive.org/web/20251011010253/https://kanjikana.com/en/tools/translator/en/ja`
 - Archive date: October 11, 2025
 
 ### Supplemental (Third-party)
+
 - HypeStat domain analysis
 - Google SERP observations
 
 ### Files Generated
+
 - `research/kanjikana-archive.html` — Full HTML source
 - `research/kanjikana-home.html` — Homepage HTML
 - `research/kanjikana-robots.txt` — Robots configuration
@@ -486,7 +520,8 @@ Kanjikana's translator page succeeds through **disciplined simplicity**:
 2. **One site, one topic** — Japanese learning authority
 3. **One user need, immediate delivery** — Zero-friction utility
 
-KanaDojo can replicate this success by:
+PThamSS can replicate this success by:
+
 - Creating dedicated translator direction pages
 - Perfecting title/H1/URL alignment
 - Leveraging existing Japanese learning content for topical authority

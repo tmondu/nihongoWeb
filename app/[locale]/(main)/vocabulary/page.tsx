@@ -5,7 +5,7 @@ import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import {
   FAQSchema,
-  commonKanaDOJOFAQs,
+  commonPThamSSFAQs,
 } from '@/shared/ui-composite/SEO/FAQSchema';
 import { LearningResourceSchema } from '@/shared/ui-composite/SEO/LearningResourceSchema';
 import { DojoRouteSchema } from '@/shared/ui-composite/SEO/DojoRouteSchema';
@@ -88,7 +88,7 @@ export default async function VocabularyPage({
           targetName: 'N5-N1',
         }}
       />
-      <FAQSchema faqs={commonKanaDOJOFAQs} />
+      <FAQSchema faqs={commonPThamSSFAQs} />
       <VocabMenu />
     </>
   );
