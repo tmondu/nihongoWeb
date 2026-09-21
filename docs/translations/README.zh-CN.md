@@ -499,7 +499,7 @@ kanadojo/
 
 - **网站**： [kanadojo.com](https://kanadojo.com)
 - **仓库**： [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **邮箱**： dev@kanadojo.com
+- **邮箱**： nduc120201@gmail.com
 
 ---
 

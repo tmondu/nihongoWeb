@@ -483,7 +483,7 @@ kanadojo/
 
 - **Сайт**: [kanadojo.com](https://kanadojo.com)
 - **Репозиторий**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 
 ---
 

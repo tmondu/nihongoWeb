@@ -486,7 +486,7 @@ kanadojo/
 
 - **वेबसाइट**: [kanadojo.com](https://kanadojo.com)
 - **रिपॉजिटरी**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **ईमेल**: dev@kanadojo.com
+- **ईमेल**: nduc120201@gmail.com
 
 ---
 

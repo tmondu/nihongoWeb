@@ -127,7 +127,7 @@ Dự án này được cấp phép theo Giấy phép AGPL 3.0 — xem [LICENSE.m
 
 - **Trang web**: [kanadojo.com](https://kanadojo.com)
 - **Kho lưu trữ**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 
 ---
 

@@ -473,7 +473,7 @@ Bu proje AGPL 3.0 Lisansı altında lisanslanmıştır - ayrıntılar için [LIC
 
 - **Web sitesi**: [kanadojo.com](https://kanadojo.com)
 - **Depo**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **E-posta**: dev@kanadojo.com
+- **E-posta**: nduc120201@gmail.com
 
 ---
 

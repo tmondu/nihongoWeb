@@ -18,10 +18,10 @@ KanaDojo takes security seriously. This document describes how to report vulnera
 
 ### How to Report
 
-If you believe you've found a security vulnerability in KanaDojo, please report it responsibly:
+If you believe you've found a security vulnerability in PThamSS, please report it responsibly:
 
 1. **Do NOT** open a public issue
-2. Email: **dev@kanadojo.com**
+2. Email: **nduc120201@gmail.com**
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
@@ -212,7 +212,7 @@ KanaDojo collects minimal user data:
 
 ## Attribution
 
-Thank you to security researchers who help keep KanaDojo safe!
+Thank you to security researchers who help keep PThamSS safe!
 
 **Hall of Fame** (with permission):
 
@@ -224,15 +224,14 @@ Thank you to security researchers who help keep KanaDojo safe!
 
 For security concerns:
 
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 - **PGP Key**: [Coming soon]
 
 For non-security issues:
 
-- **GitHub Issues**: https://github.com/lingdojo/kanadojo/issues
+- **GitHub Issues**: https://github.com/tmondu/nihongoWeb/issues
 - **Discord**: [Link coming soon]
 
 ---
 
 **Last Updated**: January 2025
-

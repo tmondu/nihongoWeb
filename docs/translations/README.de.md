@@ -486,7 +486,7 @@ Dieses Projekt ist unter der **AGPL 3.0 Lizenz** lizenziert – Details finden S
 
 - **Webseite**: [https://kanadojo.com](https://kanadojo.com)
 - **Repository**: [https://github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **E-Mail**: dev@kanadojo.com
+- **E-Mail**: nduc120201@gmail.com
 
 ---
 

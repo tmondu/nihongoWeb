@@ -443,7 +443,7 @@ Ce projet est sous licence AGPL 3.0 - voir le fichier [LICENSE.md](LICENSE.md) p
 
 - **Site Web** : [kanadojo.com](https://kanadojo.com)
 - **Dépôt** : [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email** : dev@kanadojo.com
+- **Email** : nduc120201@gmail.com
 
 ---
 

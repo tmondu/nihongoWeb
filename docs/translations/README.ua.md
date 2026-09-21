@@ -325,7 +325,7 @@ kanadojo/
 
 - **Сайт**: [https://kanadojo.com](https://kanadojo.com)
 - **Репозиторій**: [https://github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: [dev@kanadojo.com](mailto:dev@kanadojo.com)
+- **Email**: [nduc120201@gmail.com](mailto:nduc120201@gmail.com)
 
 ---
 

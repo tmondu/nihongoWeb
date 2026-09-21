@@ -641,7 +641,7 @@ Proyek ini dilisensikan di bawah Lisensi AGPL 3.0 - lihat file [LICENSE.md](../.
 
 - **Website**: [kanadojo.com](https://kanadojo.com)
 - **Repositori**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 
 ---
 

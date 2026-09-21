@@ -113,7 +113,7 @@ Next.js 15 · React 19 · TypeScript · Tailwind CSS · shadcn/ui · Zustand · 
 
 - **ウェブサイト**: [kanadojo.com](https://kanadojo.com)
 - **リポジトリ**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **メール**: dev@kanadojo.com
+- **メール**: nduc120201@gmail.com
 
 ---
 

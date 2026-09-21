@@ -475,7 +475,7 @@ kanadojo/
 
 الاتصال والروابطالموقع الإلكتروني: [kanadojo.com](https://kanadojo.com)
 المستودع: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-البريد الإلكتروني: dev@kanadojo.com
+البريد الإلكتروني: nduc120201@gmail.com
 
 ---
 

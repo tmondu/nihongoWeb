@@ -479,7 +479,7 @@ kanadojo/
 
 - **網站**：[kanadojo.com](https://kanadojo.com)
 - **儲存庫**：[github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **電子郵件**: dev@kanadojo.com
+- **電子郵件**: nduc120201@gmail.com
 
 ---
 

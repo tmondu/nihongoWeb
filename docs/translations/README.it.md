@@ -622,7 +622,7 @@ Il progetto è distribuito sotto licenza AGPL 3.0 - vedi [LICENSE.md](LICENSE.md
 
 - **Sito Web**: [kanadojo.com](https://kanadojo.com)
 - **Repository**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 
 ---
 

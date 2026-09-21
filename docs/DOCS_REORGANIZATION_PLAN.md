@@ -132,8 +132,8 @@ AGPL 3.0 - see [LICENSE.md](./LICENSE.md)
 ## Links
 
 - **Website**: [kanadojo.com](https://kanadojo.com)
-- **Repository**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: dev@kanadojo.com
+- **Repository**: [github.com/tmondu/nihongoWeb](https://github.com/tmondu/nihongoWeb)
+- **Email**: nduc120201@gmail.com
 ```
 
 ### 2. Update CONTRIBUTING.md

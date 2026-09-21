@@ -484,7 +484,7 @@ Este projeto está licenciado sob a Licença AGPL 3.0 - veja o arquivo [LICENSE.
 
 - **Website**: [kanadojo.com](https://kanadojo.com)
 - **Repositório**: [github.com/lingdojo/kanadojo](https://github.com/lingdojo/kanadojo)
-- **Email**: dev@kanadojo.com
+- **Email**: nduc120201@gmail.com
 
 ---
 

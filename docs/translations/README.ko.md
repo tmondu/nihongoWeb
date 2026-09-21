@@ -120,7 +120,7 @@ Next.js 15 · React 19 · TypeScript · Tailwind CSS · shadcn/ui · Zustand · 
 ## 연락처
 
 - **Discord**: https://discord.gg/CyvBNNrSmb
-- **이메일**: dev@kanadojo.com
+- **이메일**: nduc120201@gmail.com
 
 ---
 

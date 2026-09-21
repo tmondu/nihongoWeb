@@ -358,8 +358,8 @@ If PThamSS expands to physical locations or local services:
 
 For SEO-related questions or suggestions:
 
-- Email: dev@kanadojo.com
-- GitHub: https://github.com/lingdojo/kanadojo
+- Email: nduc120201@gmail.com
+- GitHub: https://github.com/tmondu/nihongoWeb
 
 ---
 
