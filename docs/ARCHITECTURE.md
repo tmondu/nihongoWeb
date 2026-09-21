@@ -1,4 +1,4 @@
-# 🏗️ KanaDojo Architecture
+# 🏗️ PThamSS Architecture
 
 ## 📋 Table of Contents
 
@@ -14,11 +14,11 @@
 
 ## Introduction
 
-This document describes KanaDojo's architecture, a Japanese learning platform built with Next.js 15, React 19, and TypeScript. The current architecture is based on a **feature-based pattern**, which organizes code by functionality rather than by file type.
+This document describes PThamSS's architecture, a Japanese learning platform built with Next.js 15, React 19, and TypeScript. The current architecture is based on a **feature-based pattern**, which organizes code by functionality rather than by file type.
 
 ### Why This Document?
 
-KanaDojo has undergone a complete architectural transformation. Previously, the project **had no defined architecture**, which resulted in:
+PThamSS has undergone a complete architectural transformation. Previously, the project **had no defined architecture**, which resulted in:
 
 - 🔴 **Blind development**: Developers didn't know where to place new code
 - 🔴 **Scattered code**: Components, logic, and data mixed without clear structure
@@ -343,12 +343,12 @@ shared/
 
 **Ownership matrix:**
 
-| Layer | Owns | Must not own |
-| --- | --- | --- |
-| `shared/` | primitives, technical infra, generic hooks/utils | domain models, page orchestration, feature-specific workflows |
-| `entities/` | domain models, domain selectors, reusable domain types | route ownership, page sections, app wiring |
-| `features/` | business workflows, feature state, feature UI | cross-feature page composition, unrelated domain reuse buckets |
-| `widgets/` | cross-feature page-section composition | feature internals, domain source of truth |
+| Layer       | Owns                                                   | Must not own                                                   |
+| ----------- | ------------------------------------------------------ | -------------------------------------------------------------- |
+| `shared/`   | primitives, technical infra, generic hooks/utils       | domain models, page orchestration, feature-specific workflows  |
+| `entities/` | domain models, domain selectors, reusable domain types | route ownership, page sections, app wiring                     |
+| `features/` | business workflows, feature state, feature UI          | cross-feature page composition, unrelated domain reuse buckets |
+| `widgets/`  | cross-feature page-section composition                 | feature internals, domain source of truth                      |
 
 **Rules for Shared:**
 
@@ -367,23 +367,23 @@ shared/
 
 **Shared component triage guide:**
 
-| Current area | Target home | Rationale |
-| --- | --- | --- |
-| `shared/components/ui/*` | `shared/ui/components/*` | Primitive UI surface for all layers |
-| `shared/components/Menu/*` | `widgets/menu/*` | Page-section orchestration across features |
-| `shared/components/*` (non-primitive reusable) | `shared/ui-composite/*` | Generic composite UI blocks |
-| workflow-specific composite blocks | `widgets/*` or `features/*` | Keep shared free from feature/page orchestration |
+| Current area                                   | Target home                 | Rationale                                        |
+| ---------------------------------------------- | --------------------------- | ------------------------------------------------ |
+| `shared/components/ui/*`                       | `shared/ui/components/*`    | Primitive UI surface for all layers              |
+| `shared/components/Menu/*`                     | `widgets/menu/*`            | Page-section orchestration across features       |
+| `shared/components/*` (non-primitive reusable) | `shared/ui-composite/*`     | Generic composite UI blocks                      |
+| workflow-specific composite blocks             | `widgets/*` or `features/*` | Keep shared free from feature/page orchestration |
 
 **Shared utility segmentation guide:**
 
-| Legacy path | Preferred entrypoint |
-| --- | --- |
-| `shared/lib/rateLimit` | `shared/infra/server/rateLimit` |
-| `shared/lib/redis` | `shared/infra/server/redis` |
-| `shared/lib/server/*` | `shared/infra/server/*` |
-| `shared/lib/apiCache` | `shared/infra/client/apiCache` |
-| `shared/lib/constants` | `shared/config/constants` |
-| `shared/lib/*` (pure helpers) | `shared/utils/*` |
+| Legacy path                   | Preferred entrypoint            |
+| ----------------------------- | ------------------------------- |
+| `shared/lib/rateLimit`        | `shared/infra/server/rateLimit` |
+| `shared/lib/redis`            | `shared/infra/server/redis`     |
+| `shared/lib/server/*`         | `shared/infra/server/*`         |
+| `shared/lib/apiCache`         | `shared/infra/client/apiCache`  |
+| `shared/lib/constants`        | `shared/config/constants`       |
+| `shared/lib/*` (pure helpers) | `shared/utils/*`                |
 
 ### 🧱 `core/` - Fundamental Infrastructure
 
@@ -752,7 +752,7 @@ grep -r "from '\.\./\.\./features" app/
 
 ### Summary of Transformation
 
-The migration of KanaDojo from an unstructured codebase to a feature-based architecture was a systematic process that involved:
+The migration of PThamSS from an unstructured codebase to a feature-based architecture was a systematic process that involved:
 
 - ✅ **8 features migrated**: kana, kanji, vocabulary, statistics, achievements, themes, academy, cloze
 - ✅ **100+ imports updated** across the entire codebase
@@ -831,7 +831,7 @@ During migration, obsolete files were removed:
 
 ## Conclusion
 
-KanaDojo's feature-based architecture represents a fundamental shift in how the project is organized and developed. What was once an unstructured codebase where developers worked "blindly" is now a modular, scalable, and easy-to-maintain system.
+PThamSS's feature-based architecture represents a fundamental shift in how the project is organized and developed. What was once an unstructured codebase where developers worked "blindly" is now a modular, scalable, and easy-to-maintain system.
 
 ### Achieved Benefits
 

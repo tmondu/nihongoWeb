@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to KanaDojo are documented here.
+All notable changes to PThamSS are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -64,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Achievement system with 80+ achievements
-- KanaDojo Stats tracking
+- PThamSS Stats tracking
 - Custom theme support
 - Japanese text analysis API
 - Translation API with offline fallback

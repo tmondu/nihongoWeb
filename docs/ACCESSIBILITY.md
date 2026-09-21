@@ -1,6 +1,6 @@
 # Accessibility Guide
 
-This document outlines KanaDojo's accessibility (a11y) standards, testing procedures, and best practices.
+This document outlines PThamSS's accessibility (a11y) standards, testing procedures, and best practices.
 
 ---
 
@@ -18,7 +18,7 @@ This document outlines KanaDojo's accessibility (a11y) standards, testing proced
 
 ## Overview
 
-KanaDojo is committed to making the application accessible to all users, including those with disabilities. We aim to comply with:
+PThamSS is committed to making the application accessible to all users, including those with disabilities. We aim to comply with:
 
 - **WCAG 2.1 Level AA** as our target standard
 - **Section 508** (for US federal agencies)

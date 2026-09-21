@@ -1,6 +1,6 @@
 # Storybook Setup Guide
 
-This guide explains how to set up and use Storybook for KanaDojo UI component development.
+This guide explains how to set up and use Storybook for PThamSS UI component development.
 
 ---
 

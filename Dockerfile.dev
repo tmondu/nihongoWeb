@@ -1,4 +1,4 @@
-# KanaDojo Development Dockerfile
+# PThamSS Development Dockerfile
 # For local development with hot reloading
 
 FROM node:20-alpine

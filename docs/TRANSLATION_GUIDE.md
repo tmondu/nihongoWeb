@@ -1,24 +1,25 @@
 # Translation Guide
 
-Welcome to the KanaDojo translation project! This guide will help you contribute translations to make the app accessible to more learners worldwide.
+Welcome to the PThamSS translation project! This guide will help you contribute translations to make the app accessible to more learners worldwide.
+
+---
 
 ## 📋 Table of Contents
 
 - [Overview](#overview)
-- [Translation Structure](#translation-structure)
-- [Getting Started](#getting-started)
-- [Translation Workflow](#translation-workflow)
-- [Naming Conventions](#naming-conventions)
-- [Interpolation Variables](#interpolation-variables)
-- [Best Practices](#best-practices)
-- [Tools & Scripts](#tools--scripts)
-- [FAQ](#faq)
+- [How Translations Work](#how-translations-work)
+- [Directory Structure](#directory-structure)
+- [Adding a New Language](#adding-a-new-language)
+- [Updating Existing Translations](#updating-existing-translations)
+- [Translation Best Practices](#best-practices)
+- [Testing Translations](#testing-translations)
+- [Submitting Changes](#submitting-changes)
 
 ---
 
 ## Overview
 
-KanaDojo uses **namespace-based JSON files** for translations. Each feature has its own translation file, making it easy to:
+PThamSS uses **namespace-based JSON files** for translations. Each feature has its own translation file, making it easy to:
 
 - **Work independently**: Multiple translators can work on different files without conflicts
 - **Stay organized**: Related translations are grouped together
@@ -339,7 +340,7 @@ Examples:
 1. **Be consistent**: Use the same terms throughout the app
    - Example: If you translate "submit" as "Enviar", use it everywhere
 
-2. **Match the tone**: KanaDojo is educational and friendly
+2. **Match the tone**: PThamSS is educational and friendly
    - Use polite, encouraging language
    - Avoid overly formal or casual tone
 
@@ -362,7 +363,7 @@ Examples:
    "success": "Success!"
 
    // ✅ Keep HTML entities if present
-   "copyright": "&copy; 2024 KanaDojo"
+   "copyright": "&copy; 2026 PThamSS"
    ```
 
 2. **Don't add extra whitespace**
@@ -527,10 +528,9 @@ All translators will be credited in:
 
 ## Need Help?
 
-- **GitHub Issues**: [Report a problem or ask questions](https://github.com/yourusername/kanadojo/issues)
-- **Email**: dev@kanadojo.com
-- **Discord**: [Join our community](https://discord.gg/kanadojo) _(if available)_
+- **GitHub Issues**: [Report a problem or ask questions](https://github.com/tmondu/nihongoWeb/issues)
+- **Email**: dev@www.pthamnihongo.site
 
 ---
 
-Thank you for helping make KanaDojo accessible to learners worldwide! 🌍✨
+Thank you for helping make PThamSS accessible to learners worldwide! 🌍✨

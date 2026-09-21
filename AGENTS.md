@@ -31,7 +31,7 @@ This file provides comprehensive guidance for AI coding assistants (GitHub Copil
 | i18n      | next-intl (namespace-based)              |
 | Testing   | Vitest with jsdom                        |
 
-**URLs**: [www.pthamnihongo.site](https://www.pthamnihongo.site) · [GitHub](https://github.com/lingdojo/kanadojo)
+**URLs**: [www.pthamnihongo.site](https://www.pthamnihongo.site) · [GitHub](https://github.com/tmondu/nihongoWeb)
 
 ---
 

@@ -1,6 +1,6 @@
 # Release Process
 
-KanaDojo release versions are driven by `features/PatchNotes/patchNotesData.json` and the app version in `package.json`.
+PThamSS release versions are driven by `features/PatchNotes/patchNotesData.json` and the app version in `package.json`.
 
 ## How a release is created
 
@@ -12,6 +12,7 @@ KanaDojo release versions are driven by `features/PatchNotes/patchNotesData.json
 ## Community content
 
 Any changes or commits touching files inside `community/` (both `community/content/` and `community/backlog/`) are **ignored entirely** for release purposes:
+
 - They must **never** be listed in patch notes.
 - They must **never** trigger a version bump or release creation.
 - Community-only pushes and PRs should be considered neutral noise from the release process's perspective.

@@ -5,7 +5,7 @@ import { cn } from '@/shared/utils/utils';
 
 interface Feature {
   name: string;
-  kanadojo: boolean;
+  pthamss: boolean;
   googleTranslate: boolean;
   deepl: boolean;
   microsoft: boolean;
@@ -14,84 +14,84 @@ interface Feature {
 const features: Feature[] = [
   {
     name: 'Free to use',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: true,
     deepl: true,
     microsoft: true,
   },
   {
     name: 'No registration required',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: true,
     deepl: false,
     microsoft: true,
   },
   {
     name: 'Romanization (Romaji)',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Translation history',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Keyboard shortcuts',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Offline detection',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Privacy-focused (local storage)',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Clean, distraction-free UI',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: true,
     microsoft: false,
   },
   {
     name: 'Integrated learning platform',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Japanese learning tools',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'JLPT preparation support',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Mobile optimized',
-    kanadojo: true,
+    pthamss: true,
     googleTranslate: true,
     deepl: true,
     microsoft: true,
@@ -172,7 +172,7 @@ export default function ComparisonTable() {
                     'bg-(--main-color)/5 px-3 py-3 text-center sm:px-6',
                   )}
                 >
-                  {feature.kanadojo ? <CheckIcon /> : <XIcon />}
+                  {feature.pthamss ? <CheckIcon /> : <XIcon />}
                 </td>
                 <td className='px-3 py-3 text-center sm:px-6'>
                   {feature.googleTranslate ? <CheckIcon /> : <XIcon />}
@@ -196,9 +196,7 @@ export default function ComparisonTable() {
         )}
       >
         <p className='text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
-          <strong className='text-(--main-color)'>
-            When to use each:
-          </strong>{' '}
+          <strong className='text-(--main-color)'>When to use each:</strong>{' '}
           <span className='font-medium'>PThamSS</span> is best for Japanese
           learners who need romanization, history, and integrated learning
           tools. <span className='font-medium'>Google Translate</span> excels at
@@ -212,4 +210,3 @@ export default function ComparisonTable() {
     </div>
   );
 }
-

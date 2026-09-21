@@ -1,8 +1,7 @@
-/* eslint-disable no-console */
 /**
  * SEO Health Check Script
  *
- * Validates SEO implementation across the KanaDojo app:
+ * Validates SEO implementation across the PThamSS app:
  * - Sitemap URL accessibility (status codes)
  * - Structured data presence on key pages
  * - Meta tag completeness
@@ -433,7 +432,7 @@ async function checkLlmsTxt(): Promise<void> {
 }
 
 async function main() {
-  console.log('\n🔍 KanaDojo SEO Health Check');
+  console.log('\n🔍 PThamSS SEO Health Check');
   console.log(`📍 Target: ${BASE_URL}`);
   console.log('═'.repeat(60));
 

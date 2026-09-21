@@ -56,11 +56,11 @@ const messages = {
   ffmpegNotFoundJP: 'Could not find ffmpeg after setup',
   convertFailed: 'Failed to convert',
   convertFailedJP: 'Failed to convert',
-  kanaDojo: 'KanaDojo',
+  kanaDojo: 'PThamSS',
   hiragana: 'Hiragana',
   katakana: 'Katakana',
   kanji: 'Kanji',
-  vocabulary: 'Vocabulary'
+  vocabulary: 'Vocabulary',
 };
 
 const SOUNDS_DIR = path.join(__dirname, '../public/sounds');
@@ -86,7 +86,7 @@ async function downloadFile(url, dest) {
         });
       })
       .on('error', err => {
-        fs.unlink(dest, () => { });
+        fs.unlink(dest, () => {});
         reject(err);
       });
   });
@@ -112,7 +112,10 @@ async function setupFFmpeg() {
     fs.unlinkSync(zipPath);
     console.log(`${messages.kanaDojo} ${messages.ffmpegReadyJP}\n`);
   } catch (error) {
-    console.error(`${messages.kanaDojo} ${messages.ffmpegSetupFailedJP}`, error.message);
+    console.error(
+      `${messages.kanaDojo} ${messages.ffmpegSetupFailedJP}`,
+      error.message,
+    );
     process.exit(1);
   }
 }
@@ -155,14 +158,18 @@ function compressFile(wavPath, ffmpegPath) {
   const mp3Path = wavPath.replace('.wav', '.mp3');
 
   if (fs.existsSync(mp3Path)) {
-    console.log(` ${messages.kanaDojo} ${messages.skippingJP} ${path.basename(wavPath)} ${messages.mp3ExistsJP}`);
+    console.log(
+      ` ${messages.kanaDojo} ${messages.skippingJP} ${path.basename(wavPath)} ${messages.mp3ExistsJP}`,
+    );
     return;
   }
 
   const originalSize = fs.statSync(wavPath).size;
 
   try {
-    console.log(` ${messages.kanaDojo} ${messages.convertingJP} ${path.basename(wavPath)}...`);
+    console.log(
+      ` ${messages.kanaDojo} ${messages.convertingJP} ${path.basename(wavPath)}...`,
+    );
 
     execSync(
       `"${ffmpegPath}" -i "${wavPath}" -codec:a libmp3lame -qscale:a 2 "${mp3Path}" -y`,
@@ -189,7 +196,9 @@ async function main() {
   // console.log(' Audio Compression Script\n');
   // console.log('🎵 Audio Compression Script\n');
   console.log(` ${messages.kanaDojo} ${messages.titleJP}\n`);
-  console.log(` ${messages.hiragana} | ${messages.katakana} | ${messages.kanji} | ${messages.vocabulary}\n`);
+  console.log(
+    ` ${messages.hiragana} | ${messages.katakana} | ${messages.kanji} | ${messages.vocabulary}\n`,
+  );
 
   let ffmpegPath = findFFmpegExe();
 
@@ -212,7 +221,9 @@ async function main() {
     return;
   }
 
-  console.log(`${messages.kanaDojo} ${messages.foundWavFilesJP} ${wavFiles.length} ${messages.wavFilesJP}\n`);
+  console.log(
+    `${messages.kanaDojo} ${messages.foundWavFilesJP} ${wavFiles.length} ${messages.wavFilesJP}\n`,
+  );
 
   for (const file of wavFiles) {
     compressFile(file, ffmpegPath);

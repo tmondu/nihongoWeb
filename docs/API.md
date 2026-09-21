@@ -1,6 +1,6 @@
 # API Routes Documentation
 
-This document describes the API endpoints in KanaDojo.
+This document describes the API endpoints in PThamSS.
 
 ---
 
@@ -19,7 +19,7 @@ This document describes the API endpoints in KanaDojo.
 
 ## Overview
 
-KanaDojo provides serverless API endpoints for:
+PThamSS provides serverless API endpoints for:
 
 - **Text Analysis**: Japanese text tokenization using Kuromoji
 - **OG Images**: Dynamic social card generation
@@ -107,7 +107,7 @@ Generates Open Graph social card images.
 
 | Parameter     | Type   | Default                 | Description                                                         |
 | ------------- | ------ | ----------------------- | ------------------------------------------------------------------- |
-| `title`       | string | `KanaDojo`              | Title text                                                          |
+| `title`       | string | `PThamSS`               | Title text                                                          |
 | `description` | string | `Learn Japanese Online` | Description text                                                    |
 | `type`        | string | `default`               | Gradient theme: `default`, `kana`, `kanji`, `vocabulary`, `academy` |
 
@@ -116,7 +116,7 @@ Generates Open Graph social card images.
 **Example**:
 
 ```
-https://kanadojo.com/api/og?title=Learn%20Hiragana&type=kana
+https://www.pthamnihongo.site/api/og?title=Learn%20Hiragana&type=kana
 ```
 
 **Caching**:

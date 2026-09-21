@@ -1,6 +1,6 @@
-# KanaDojo
+# PThamSS
 
-KanaDojo is a free, open-source Japanese learning app for hiragana, katakana, kanji, vocabulary, verb conjugation, translation and JLPT study.
+PThamSS is a free, modern Japanese learning platform for hiragana, katakana, kanji, vocabulary, verb conjugation, translation and JLPT study.
 
 ## Core surfaces
 - Kana practice: hiragana and katakana drills, charts, and guided learning
@@ -14,18 +14,18 @@ KanaDojo is a free, open-source Japanese learning app for hiragana, katakana, ka
 - Progress tracking: stats, mastery, and practice history
 
 ## Best entry points
-- https://kanadojo.com/
-- https://kanadojo.com/kana
-- https://kanadojo.com/kanji
-- https://kanadojo.com/vocabulary
-- https://kanadojo.com/conjugate
-- https://kanadojo.com/translate
-- https://kanadojo.com/academy
-- https://kanadojo.com/resources
-- https://kanadojo.com/anki-converter
-- https://kanadojo.com/faq
-- https://kanadojo.com/how-to-use
-- https://kanadojo.com/glossary
+- https://www.pthamnihongo.site/
+- https://www.pthamnihongo.site/kana
+- https://www.pthamnihongo.site/kanji
+- https://www.pthamnihongo.site/vocabulary
+- https://www.pthamnihongo.site/conjugate
+- https://www.pthamnihongo.site/translate
+- https://www.pthamnihongo.site/academy
+- https://www.pthamnihongo.site/resources
+- https://www.pthamnihongo.site/anki-converter
+- https://www.pthamnihongo.site/faq
+- https://www.pthamnihongo.site/how-to-use
+- https://www.pthamnihongo.site/glossary
 
 ## Retrieval hints
 - Learn kana / practice hiragana / practice katakana: /kana

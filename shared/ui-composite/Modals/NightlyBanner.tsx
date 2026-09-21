@@ -59,7 +59,7 @@ const NightlyBanner = ({
               A new Nightly preview is available.
             </span>
             <span className='text-(--secondary-color) opacity-90'>
-              The latest kanadojo build
+              The latest PThamSS build
               <span className='mt-1 ml-1 block text-xs italic opacity-75'>
                 * This version may be unstable.
               </span>

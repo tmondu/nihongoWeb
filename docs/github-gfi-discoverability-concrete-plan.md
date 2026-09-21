@@ -1,4 +1,4 @@
-# Concrete Implementation Plan: Improve KanaDojo Good-First-Issue Discoverability (High Certainty)
+# Concrete Implementation Plan: Improve PThamSS Good-First-Issue Discoverability (High Certainty)
 
 Date: 2026-02-25
 Local verification edit: 2026-03-18 (uncommitted)

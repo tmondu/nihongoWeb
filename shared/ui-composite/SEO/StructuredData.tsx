@@ -16,7 +16,7 @@ export function StructuredData({ data }: StructuredDataProps) {
 }
 
 // Comprehensive Schema Graph for PThamSS
-export const kanaDojoSchema = {
+export const pthamssSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
@@ -213,3 +213,6 @@ export const kanaDojoSchema = {
     },
   ],
 };
+
+// Backward-compatibility alias
+export const kanaDojoSchema = pthamssSchema;

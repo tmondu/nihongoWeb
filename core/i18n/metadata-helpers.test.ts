@@ -9,14 +9,16 @@ vi.mock('@/core/i18n/routing', () => ({
 }));
 
 vi.mock('next-intl/server', () => ({
-  getTranslations: vi.fn(async () =>
-    ((key: string) => {
-      if (key.endsWith('.title')) return 'Sample Title';
-      if (key.endsWith('.titleShort')) return 'Sample Title Short';
-      if (key.endsWith('.description')) return 'Sample description for metadata';
-      if (key.endsWith('.keywords')) return 'kana, kanji, vocabulary';
-      return key;
-    }) as (key: string) => string,
+  getTranslations: vi.fn(
+    async () =>
+      ((key: string) => {
+        if (key.endsWith('.title')) return 'Sample Title';
+        if (key.endsWith('.titleShort')) return 'Sample Title Short';
+        if (key.endsWith('.description'))
+          return 'Sample description for metadata';
+        if (key.endsWith('.keywords')) return 'kana, kanji, vocabulary';
+        return key;
+      }) as (key: string) => string,
   ),
 }));
 
@@ -27,24 +29,26 @@ describe('generatePageMetadata canonical + hreflang', () => {
     const metadata = await generatePageMetadata('kana', {
       locale: 'es',
       pathname: '/kana',
-      baseUrl: 'https://kanadojo.com/',
+      baseUrl: 'https://www.pthamnihongo.site/',
     });
 
-    expect(metadata.alternates?.canonical).toBe('https://kanadojo.com/kana');
+    expect(metadata.alternates?.canonical).toBe(
+      'https://www.pthamnihongo.site/kana',
+    );
   });
 
   it('keeps locale alternates reciprocal and stable in no-prefix routing', async () => {
     const metadata = await generatePageMetadata('kanjiJlptN5', {
       locale: 'en',
       pathname: '/kanji/jlpt-n5',
-      baseUrl: 'https://kanadojo.com',
+      baseUrl: 'https://www.pthamnihongo.site',
     });
 
     expect(metadata.alternates?.languages).toEqual({
-      vi: 'https://kanadojo.com/kanji/jlpt-n5',
-      en: 'https://kanadojo.com/kanji/jlpt-n5',
-      es: 'https://kanadojo.com/kanji/jlpt-n5',
-      'x-default': 'https://kanadojo.com/kanji/jlpt-n5',
+      vi: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
+      en: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
+      es: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
+      'x-default': 'https://www.pthamnihongo.site/kanji/jlpt-n5',
     });
   });
 
@@ -52,10 +56,14 @@ describe('generatePageMetadata canonical + hreflang', () => {
     const metadata = await generatePageMetadata('vocabulary', {
       locale: 'fr',
       pathname: '/vocabulary',
-      baseUrl: 'https://kanadojo.com',
+      baseUrl: 'https://www.pthamnihongo.site',
     });
 
-    expect(metadata.alternates?.canonical).toBe('https://kanadojo.com/vocabulary');
-    expect(metadata.openGraph?.url).toBe('https://kanadojo.com/vocabulary');
+    expect(metadata.alternates?.canonical).toBe(
+      'https://www.pthamnihongo.site/vocabulary',
+    );
+    expect(metadata.openGraph?.url).toBe(
+      'https://www.pthamnihongo.site/vocabulary',
+    );
   });
 });

@@ -1,4 +1,4 @@
-# KanaDojo Dockerfile
+# PThamSS Dockerfile
 # Multi-stage build for optimized production image
 
 # Stage 1: Dependencies

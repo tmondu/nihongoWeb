@@ -1,6 +1,6 @@
 # Glass Mode Theme - Walkthrough & Documentation
 
-This document provides a comprehensive guide to the **Glass Mode** (Transparent) theme implementation in KanaDojo. This "Special" theme uses a wallpaper-based background with semi-transparent, blurred UI layers to create a premium, modern aesthetic inspired by high-end gaming and chess platforms.
+This document provides a comprehensive guide to the **Glass Mode** (Transparent) theme implementation in PThamSS. This "Special" theme uses a wallpaper-based background with semi-transparent, blurred UI layers to create a premium, modern aesthetic inspired by high-end gaming and chess platforms.
 
 ---
 

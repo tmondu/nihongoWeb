@@ -2,7 +2,7 @@
   "generatedAt": "2026-03-05T15:58:16.721Z",
   "source": {
     "monkeytypeSoundRoot": "C:\\Users\\reser\\monkeytype\\frontend\\static\\sound",
-    "notes": "Names follow Monkeytype click sound labels plus KanaDojo synthetic expansion pack."
+    "notes": "Names follow Monkeytype click sound labels plus PThamSS synthetic expansion pack."
   },
   "sounds": [
     {
@@ -11,11 +11,7 @@
       "slug": "click",
       "sourceType": "file",
       "monkeytypeSourceFolder": "click1",
-      "variants": [
-        "click1_1",
-        "click1_2",
-        "click1_3"
-      ]
+      "variants": ["click1_1", "click1_2", "click1_3"]
     },
     {
       "id": "2",
@@ -23,11 +19,7 @@
       "slug": "beep",
       "sourceType": "file",
       "monkeytypeSourceFolder": "click2",
-      "variants": [
-        "click2_1",
-        "click2_2",
-        "click2_3"
-      ]
+      "variants": ["click2_1", "click2_2", "click2_3"]
     },
     {
       "id": "3",
@@ -35,11 +27,7 @@
       "slug": "pop",
       "sourceType": "file",
       "monkeytypeSourceFolder": "click3",
-      "variants": [
-        "click3_1",
-        "click3_2",
-        "click3_3"
-      ]
+      "variants": ["click3_1", "click3_2", "click3_3"]
     },
     {
       "id": "4",

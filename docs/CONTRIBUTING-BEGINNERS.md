@@ -1,4 +1,4 @@
-# KanaDojo Beginner Contribution Guide
+# PThamSS Beginner Contribution Guide
 
 > **Who is this for?** Someone who has never coded, never used Git, and is opening GitHub for the very first time. Follow every step in order, don’t worry if it feels basic.
 
@@ -28,11 +28,11 @@
 
 ---
 
-## 1. Fork the KanaDojo repository
+## 1. Fork the PThamSS repository
 
-1. Go to the project page: <https://github.com/lingdojo/kana-dojo>.
+1. Go to the project page: <https://github.com/tmondu/nihongoWeb>.
 2. Click the **Fork** button in the top-right corner.
-3. Choose your account and create the fork (no need to change settings). This creates **your own copy** of KanaDojo under `https://github.com/YOUR_USERNAME/kana-dojo`.
+3. Choose your account and create the fork (no need to change settings). This creates **your own copy** of PThamSS under `https://github.com/YOUR_USERNAME/nihongoWeb`.
 
 ---
 
@@ -99,7 +99,7 @@ Inside the cloned repo:
 npm install
 ```
 
-This downloads everything needed to run KanaDojo locally (may take a few minutes).
+This downloads everything needed to run PThamSS locally (may take a few minutes).
 
 ---
 
@@ -276,6 +276,6 @@ The first push may prompt you to sign in to GitHub via browser—follow the prom
 - [ ] Opened PR and filled template
 - [ ] Responded to review feedback
 
-Congratulations, you’ve now officially contributed to KanaDojo. Welcome! 🌸
+Congratulations, you’ve now officially contributed to PThamSS. Welcome! 🌸
 
 </details>

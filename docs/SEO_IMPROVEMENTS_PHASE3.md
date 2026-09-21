@@ -1,6 +1,6 @@
 # SEO Improvements Phase 3 - January 2025
 
-This document outlines the Phase 3 SEO improvements implemented for KanaDojo, completing the comprehensive SEO optimization project.
+This document outlines the Phase 3 SEO improvements implemented for PThamSS, completing the comprehensive SEO optimization project.
 
 ---
 
@@ -55,23 +55,23 @@ This document outlines the Phase 3 SEO improvements implemented for KanaDojo, co
 
 **Pre-built FAQ sets:**
 
-- `commonKanaDOJOFAQs` - General KanaDojo questions (8 FAQs)
+- `commonPThamSSFAQs` - General PThamSS questions (8 FAQs)
 - `hiraganaFAQs` - Hiragana-specific questions (4 FAQs)
 - `kanjiFAQs` - Kanji-specific questions (3 FAQs)
 
 **Usage Example:**
 
 ```tsx
-import { FAQSchema, commonKanaDOJOFAQs } from '@/shared/ui-composite/SEO';
+import { FAQSchema, commonPThamSSFAQs } from '@/shared/ui-composite/SEO';
 
 // Use pre-built FAQs
-<FAQSchema faqs={commonKanaDOJOFAQs} />
+<FAQSchema faqs={commonPThamSSFAQs} />
 
 // Or create custom FAQs
 <FAQSchema faqs={[
   {
-    question: "How do I get started with KanaDojo?",
-    answer: "Simply visit kanadojo.com and start practicing..."
+    question: "How do I get started with PThamSS?",
+    answer: "Simply visit www.pthamnihongo.site and start practicing..."
   }
 ]} />
 ```
@@ -552,7 +552,7 @@ curl -X POST https://kanadojo.com/api/sitemap/submit \
 
 ## 🎉 Project Complete!
 
-All three phases of SEO improvements have been successfully implemented. KanaDojo now has:
+All three phases of SEO improvements have been successfully implemented. PThamSS now has:
 
 - Instant indexing capability (IndexNow)
 - Professional social media presence (OG images)
@@ -564,4 +564,3 @@ All three phases of SEO improvements have been successfully implemented. KanaDoj
 - Mobile optimization
 
 **Don't forget:** Complete the IndexNow setup (see `TODO_INDEXNOW_SETUP.md`) to activate instant Bing indexing!
-

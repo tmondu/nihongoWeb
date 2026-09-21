@@ -879,7 +879,7 @@ function main() {
     generatedAt: new Date().toISOString(),
     source: {
       monkeytypeSoundRoot: MONKEYTYPE_SOUND_ROOT,
-      notes: 'Names follow Monkeytype click sound labels plus KanaDojo synthetic expansion pack.',
+      notes: 'Names follow Monkeytype click sound labels plus PThamSS synthetic expansion pack.',
     },
     sounds: all,
   };

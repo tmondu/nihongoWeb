@@ -1,6 +1,6 @@
 # i18n Scripts Documentation
 
-This document describes the internationalization (i18n) scripts used to manage translations in KanaDojo.
+This document describes the internationalization (i18n) scripts used to manage translations in PThamSS.
 
 ---
 
@@ -16,7 +16,7 @@ This document describes the internationalization (i18n) scripts used to manage t
 
 ## Overview
 
-KanaDojo uses **next-intl** for internationalization with namespace-based translation files. The i18n scripts provide tools for:
+PThamSS uses **next-intl** for internationalization with namespace-based translation files. The i18n scripts provide tools for:
 
 - **Validation**: Ensuring all languages have complete translations
 - **Type Generation**: Creating TypeScript types for translation keys

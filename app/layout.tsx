@@ -4,7 +4,7 @@ import GoogleAnalytics from '@/core/analytics/GoogleAnalytics';
 import MSClarity from '@/core/analytics/MSClarity';
 import {
   StructuredData,
-  kanaDojoSchema,
+  pthamssSchema,
 } from '@/shared/ui-composite/SEO/StructuredData';
 import { Metadata, Viewport } from 'next';
 import Script from 'next/script';
@@ -137,7 +137,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <StructuredData data={kanaDojoSchema} />
+        <StructuredData data={pthamssSchema} />
         {/* DNS prefetch for external domains - resolve DNS early */}
         {isAnalyticsEnabled && (
           <>

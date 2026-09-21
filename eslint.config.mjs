@@ -268,6 +268,17 @@ const eslintConfig = [
       ],
     },
   },
+  {
+    files: [
+      'scripts/**/*.{js,ts,mjs}',
+      '*.config.{js,mjs,ts}',
+      '*.mjs',
+    ],
+    rules: {
+      'no-console': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
   ...(storybook ? storybook.configs['flat/recommended'] : []),
 ];
 

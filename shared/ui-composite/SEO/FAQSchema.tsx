@@ -13,7 +13,7 @@ export function generateFAQSchema(faqs: FAQItem[]) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
+    mainEntity: faqs.map(faq => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {
@@ -62,7 +62,7 @@ export function FAQSchema({ faqs }: FAQSchemaProps) {
 /**
  * Pre-built FAQ data for common PThamSS questions
  */
-export const commonKanaDOJOFAQs: FAQItem[] = [
+export const commonPThamSSFAQs: FAQItem[] = [
   {
     question: 'Is PThamSS free to use?',
     answer:
@@ -104,6 +104,9 @@ export const commonKanaDOJOFAQs: FAQItem[] = [
       'Yes! PThamSS offers 100+ themes and multiple font options to personalize your learning experience. Find the style that works best for you in the Preferences section.',
   },
 ];
+
+// Backward-compatibility alias
+export const commonKanaDOJOFAQs = commonPThamSSFAQs;
 
 export const hiraganaFAQs: FAQItem[] = [
   {

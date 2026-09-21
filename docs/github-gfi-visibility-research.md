@@ -1,7 +1,7 @@
-# KanaDojo GitHub Good-First-Issue Visibility Research Dossier
+# PThamSS GitHub Good-First-Issue Visibility Research Dossier
 
 **Date:** 2026-02-25
-**Scope:** Maximize visibility and recommendation likelihood for KanaDojo good-first-issues across GitHub discovery surfaces.
+**Scope:** Maximize visibility and recommendation likelihood for PThamSS good-first-issues across GitHub discovery surfaces.
 **Mode:** Deep analysis of current workflows + external GitHub documentation + strategic hypotheses (including high-risk/gray-zone options per maintainer request).
 
 ---
@@ -22,7 +22,7 @@ This is a **research + strategy dossier**, not an implementation changelog.
 
 ---
 
-## 1) Hard evidence collected from current KanaDojo setup
+## 1) Hard evidence collected from current PThamSS setup
 
 ## 1.1 Core community issue pipeline
 

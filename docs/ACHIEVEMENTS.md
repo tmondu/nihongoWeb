@@ -385,7 +385,7 @@ Major achievements that require significant dedication.
 
 ### 🟠 Legendary Achievements (Hardest)
 
-Exceptional feats that represent mastery of KanaDojo.
+Exceptional feats that represent mastery of PThamSS.
 
 | Achievement                | Category    | Points | Requirement                                       |
 | -------------------------- | ----------- | ------ | ------------------------------------------------- |
@@ -675,4 +675,4 @@ When adding new achievements:
 5. Consider performance impact
 6. Add property tests for new requirement types
 
-The achievement system is designed to be extensible and maintainable, encouraging continued learning and engagement with the KanaDojo platform.
+The achievement system is designed to be extensible and maintainable, encouraging continued learning and engagement with the PThamSS platform.

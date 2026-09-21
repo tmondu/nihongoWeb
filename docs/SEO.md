@@ -2,7 +2,7 @@
 
 ## Overview
 
-KanaDojo implements comprehensive SEO best practices to ensure maximum visibility in search engines and provide the best user experience.
+PThamSS implements comprehensive SEO best practices to ensure maximum visibility in search engines and provide the best user experience.
 
 ---
 
@@ -20,13 +20,13 @@ import type { Metadata } from 'next';
 
 ```typescript
 export const metadata: Metadata = {
-  title: 'Your Page Title - KanaDojo',
+  title: 'Your Page Title - PThamSS',
   description: 'Your compelling description here (150-160 chars)',
   keywords: ['keyword1', 'keyword2', 'keyword3'],
   openGraph: {
     title: 'Your Page Title',
     description: 'Social media description',
-    url: 'https://kanadojo.com/your-page',
+    url: 'https://www.pthamnihongo.site/your-page',
     type: 'website',
   },
   twitter: {
@@ -66,7 +66,7 @@ npm run build    # Generate sitemap
 
 #### Root Layout (`app/layout.tsx`)
 
-- **Title Template**: Dynamic titles with `%s | KanaDojo` pattern
+- **Title Template**: Dynamic titles with `%s | PThamSS` pattern
 - **Description**: Comprehensive description with key features
 - **Keywords**: Array of relevant Japanese learning keywords
 - **Open Graph**: Full OG tags for social media sharing
@@ -286,7 +286,7 @@ Enhanced `manifest.json` with:
 
 ## Local SEO (If Applicable)
 
-If KanaDojo expands to physical locations or local services:
+If PThamSS expands to physical locations or local services:
 
 - Add LocalBusiness schema
 - Google My Business listing

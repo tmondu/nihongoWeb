@@ -1,6 +1,6 @@
 # Wallpaper Source Image Guide
 
-This directory contains the original source images for KanaDojo built-in Premium
+This directory contains the original source images for PThamSS built-in Premium
 wallpapers.
 
 For the full pipeline, start here:
