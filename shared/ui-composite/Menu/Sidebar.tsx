@@ -142,9 +142,13 @@ const mainNavItems: NavItem[] = [
   },
   {
     href: '/translate',
-    labelKey: 'tools',
+    labelKey: 'translate',
     icon: Languages,
-    isMobileOnly: true,
+  },
+  {
+    href: '/conjugate',
+    labelKey: 'conjugate',
+    icon: Repeat,
   },
   {
     href: '/experiments',
@@ -176,11 +180,7 @@ const staticSecondaryNavSections: NavSection[] = [
   // },
   {
     titleKey: 'tools',
-    items: [
-      { href: '/translate', labelKey: 'translate', icon: Languages },
-      { href: '/conjugate', labelKey: 'conjugate', icon: Repeat },
-      { href: '/anki-converter', labelKey: 'converter', icon: Package },
-    ],
+    items: [{ href: '/anki-converter', labelKey: 'converter', icon: Package }],
     collapsible: true,
   },
 ];
@@ -871,8 +871,19 @@ const Sidebar = () => {
     if (href === '/translate') {
       return (
         pathWithoutLocale === '/translate' ||
+        pathWithoutLocale.startsWith('/translate/')
+      );
+    }
+    if (href === '/conjugate') {
+      return (
         pathWithoutLocale === '/conjugate' ||
-        pathWithoutLocale === '/anki-converter'
+        pathWithoutLocale.startsWith('/conjugate/')
+      );
+    }
+    if (href === '/anki-converter') {
+      return (
+        pathWithoutLocale === '/anki-converter' ||
+        pathWithoutLocale.startsWith('/anki-converter/')
       );
     }
     if (href === '/experiments') {

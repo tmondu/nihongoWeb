@@ -100,6 +100,9 @@ export interface NavigationTranslations {
     experiments: string;
     thamlet: string;
     shadowing: string;
+    classroom: string;
+    curriculum: string;
+    exercises: string;
   };
   breadcrumbs: {
     home: string;
@@ -1038,6 +1041,12 @@ export interface MetadataTranslations {
     keywords: string;
   };
   thamkanji: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  curriculum: {
     title: string;
     titleShort: string;
     description: string;
