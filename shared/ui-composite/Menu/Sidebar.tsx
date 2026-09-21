@@ -28,6 +28,7 @@ import {
   X,
   Mic,
   BookMarked,
+  Puzzle,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -102,6 +103,12 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
         isSubItem: true,
       },
+      {
+        href: '/kanji/radicals',
+        labelKey: 'kanjiRadicals',
+        icon: Puzzle,
+        isSubItem: true,
+      },
     ],
   },
   {
@@ -114,6 +121,12 @@ const mainNavItems: NavItem[] = [
     href: '/kanji/thamkanji',
     labelKey: 'thamKanji',
     icon: LayoutGrid,
+    isSubItem: true,
+  },
+  {
+    href: '/kanji/radicals',
+    labelKey: 'kanjiRadicals',
+    icon: Puzzle,
     isSubItem: true,
   },
   {

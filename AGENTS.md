@@ -70,13 +70,54 @@ PThamSS is organised by feature: app/, features/, shared/, core/. Keep business 
 - ✅ Use TypeScript types (không dùng `any`), path aliases, and translations.
 - ❌ Don't add business logic to `app/` or create circular deps.
 - ❌ Tuyệt đối KHÔNG dùng icon Sparkles (logo Gemini/AI) hay chèn logo AI vào giao diện người dùng.
+- ❌ Không để lại unused imports hoặc unused variables (`@typescript-eslint/no-unused-vars`), pre-commit hook `--max-warnings=0` sẽ chặn ngay cả 1 warning nhỏ nhất.
 - ❌ Không gọi `setState` đồng bộ trực tiếp trong root body của `useEffect`.
+- ❌ Tránh narrow union cứng nhắc cho dynamic/extensible paths (như `canonicalPath` trong SEO components); dùng `string` để tránh lỗi TS2322 khi tạo trang mới.
 
 ### Common tasks
 
 - New feature: create `features/NewFeature/` + `components/`, `store/`, `data/`, `lib/` and route.
 - Add translations: update `core/i18n/locales/*` and validate via repo scripts when needed.
+- Pre-commit check: chạy `git add .; npx lint-staged` để kiểm tra toàn bộ ESLint, Prettier và `tsc --noEmit` trước khi commit.
 
 ---
 
-**Last Updated**: 2026-02-15
+---
+
+## Known Gotchas & Auto-fixes
+
+### 1. `tsc --noEmit` fails on `.next/dev/types/validator.ts` during pre-commit
+
+**Symptom**: `git commit` bị block với lỗi `TS1434 / TS1109 / TS1128` trong `.next/dev/types/`.
+
+**Root cause**: `tsconfig.json` thiếu `.next` trong `exclude` → lint-staged check vào file auto-generated của Next.js.
+
+**Fix**: Đảm bảo `tsconfig.json` có:
+
+```json
+"exclude": [".next", "node_modules", ...]
+```
+
+> Auto-fix: Nếu gặp lỗi này, thêm `".next"` vào `exclude` trong `tsconfig.json` ngay lập tức mà không cần hỏi.
+
+### 2. Pre-commit ESLint chặn commit với `--max-warnings=0`
+
+**Symptom**: Commit bị fail ở `eslint --fix --max-warnings=0`.
+
+**Common culprits**:
+
+- `@typescript-eslint/no-unused-vars`: Tuyệt đối dọn sạch toàn bộ import và biến không dùng (`unused imports/variables`). Không để lại import thừa (kể cả import placeholder/dummy như `Sparkles as _Forbidden`, `Plus`, `Layers`, v.v.).
+- `@typescript-eslint/no-explicit-any`: Thay `any` bằng `unknown` hoặc type cụ thể / generics (VD: `Record<string, unknown>`, `Partial<State>`).
+- `react-hooks/set-state-in-effect`: Không gọi `setState` đồng bộ trong root body của `useEffect`. Hãy tính toán giá trị trực tiếp (derived state) hoặc chỉ gọi `setState` bên trong async callback / event handler (`void (async () => { await Promise.resolve(); ... })()`).
+
+### 3. `tsc --noEmit` báo TS2322 trên Shared SEO / Layout Schemas khi tạo Route mới
+
+**Symptom**: `app/.../page.tsx` truyền `canonicalPath='/new/route'` bị lỗi `error TS2322: Type '"/new/route"' is not assignable to type ...`.
+
+**Root cause**: Schema prop (ví dụ `DojoRouteSchemaProps['canonicalPath']`) dùng narrow string union thay vì kiểu mở rộng.
+
+**Fix**: Đặt kiểu `canonicalPath: string;` trong shared component để các feature route mới không làm gãy toàn bộ build của dự án.
+
+---
+
+**Last Updated**: 2026-09-21

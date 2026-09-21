@@ -84,6 +84,12 @@
     "description": "Master every Kanji character with the Kanji Gauntlet. Comprehensive practice for all JLPT levels.",
     "keywords": "kanji mastery, comprehensive kanji practice, all JLPT kanji"
   },
+  "kanjiRadicals": {
+    "title": "Learn Kanji by Radicals - 214 Kangxi Radicals & Decomposition | PThamSS",
+    "titleShort": "Kanji by Radicals",
+    "description": "Master Japanese Kanji through 214 Kangxi radicals with pedagogical layering (Core 50, Extended 80). Decompose Kanji like Lego bricks and synthesize new characters interactively.",
+    "keywords": "kanji radicals, 214 kangxi radicals, learn kanji by radicals, kanji decomposition, kanji synthesis, radical explorer"
+  },
   "vocabulary": {
     "title": "Vocabulary Dojo - Learn Japanese Words & Vocabulary by JLPT Level",
     "titleShort": "Vocabulary Dojo - Learn Japanese Words",

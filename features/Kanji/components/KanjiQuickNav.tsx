@@ -2,7 +2,7 @@
 
 import { Link } from '@/core/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
-import { Search, LayoutGrid, ArrowRight } from 'lucide-react';
+import { Search, LayoutGrid, ArrowRight, Puzzle } from 'lucide-react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { cardBorderStyles } from '@/shared/utils/styles';
 import clsx from 'clsx';
@@ -38,11 +38,22 @@ export const KanjiQuickNav = () => {
       icon: LayoutGrid,
       badgeColor: 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20',
     },
+    {
+      href: '/kanji/radicals',
+      title: t('kanjiRadicals'),
+      description: isVi
+        ? '214 bộ thủ, chiết tự & ghép chữ'
+        : isEs
+          ? '214 radicales y descomposición'
+          : '214 radicals & decomposition',
+      icon: Puzzle,
+      badgeColor: 'text-rose-400 bg-rose-400/10 border-rose-400/20',
+    },
   ];
 
   return (
     <div className='flex w-full flex-col gap-2.5 lg:hidden'>
-      <div className='grid grid-cols-2 gap-2.5'>
+      <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-3'>
         {navItems.map(item => {
           const Icon = item.icon;
           return (
