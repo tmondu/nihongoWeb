@@ -20,7 +20,14 @@ import KanjiHanVietNetwork from '@/features/Kanji/components/KanjiHanVietNetwork
 import type { IKanjiObj } from '@/entities/kanji';
 import hanvietMap from '@/shared/data/kanji_hanviet.json';
 import { useClick } from '@/shared/hooks/generic/useAudio';
-import { Loader2, Info, Star, ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  Loader2,
+  Info,
+  Star,
+  ChevronDown,
+  ChevronUp,
+  ExternalLink,
+} from 'lucide-react';
 import clsx from 'clsx';
 
 const levelOrder: KanjiLevel[] = ['n5', 'n4', 'n3', 'n2', 'n1'];
@@ -258,6 +265,13 @@ export default function ThamKanjiClient({
                 {selectedKanji.kanjiChar}
               </span>
             </h2>
+            <Link
+              href={`/kanji-card/${encodeURIComponent(selectedKanji.kanjiChar)}`}
+              className='flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-bold text-emerald-600 transition-colors hover:bg-emerald-500/20 dark:text-emerald-400'
+            >
+              <span>Thử giao diện Thẻ Kanji mới</span>
+              <ExternalLink className='size-3.5' />
+            </Link>
           </div>
           <div className='w-full'>
             <KanjiSetDictionary words={[selectedKanji]} large={true} />

@@ -1,4 +1,8 @@
-import type { IKanjiObj, KanjiLevel } from '@/entities/kanji';
+import type {
+  IKanjiObj,
+  KanjiLevel,
+  IKanjiExample,
+} from '@/entities/kanji/types';
 import { useKanjiCacheStore } from '@/features/Kanji/store/useKanjiCacheStore';
 
 type RawKanjiEntry = {
@@ -7,6 +11,8 @@ type RawKanjiEntry = {
   onyomi: string[];
   kunyomi: string[];
   meanings: string[];
+  hanviet?: string;
+  examples?: IKanjiExample[];
 };
 
 // Module-level cache - persists across component mounts

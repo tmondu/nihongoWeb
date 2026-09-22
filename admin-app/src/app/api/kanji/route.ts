@@ -4,6 +4,12 @@ import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
 export const dynamic = 'force-dynamic';
 
+export interface KanjiExample {
+  japanese: string;
+  reading?: string;
+  meaning: string;
+}
+
 interface KanjiRow extends RowDataPacket {
   id: number;
   level: string;
@@ -12,7 +18,9 @@ interface KanjiRow extends RowDataPacket {
   onyomi: string | string[];
   kunyomi: string | string[];
   meanings: string | string[];
+  hanviet?: string | null;
   is_decoration: number;
+  examples?: string | KanjiExample[] | null;
 }
 
 interface CountRow extends RowDataPacket {
@@ -43,10 +51,16 @@ export async function GET(request: NextRequest) {
 
     if (query) {
       conditions.push(
-        '(kanji_char LIKE ? OR onyomi LIKE ? OR kunyomi LIKE ? OR meanings LIKE ?)',
+        '(kanji_char LIKE ? OR hanviet LIKE ? OR onyomi LIKE ? OR kunyomi LIKE ? OR meanings LIKE ?)',
       );
       const searchPattern = `%${query}%`;
-      params.push(searchPattern, searchPattern, searchPattern, searchPattern);
+      params.push(
+        searchPattern,
+        searchPattern,
+        searchPattern,
+        searchPattern,
+        searchPattern,
+      );
     }
 
     const whereClause =
@@ -59,28 +73,42 @@ export async function GET(request: NextRequest) {
     const total = countRows[0]?.total ?? 0;
 
     const [rows] = await pool.execute<KanjiRow[]>(
-      `SELECT id, level, original_id, kanji_char, onyomi, kunyomi, hanviet, meanings, is_decoration 
+      `SELECT id, level, original_id, kanji_char, onyomi, kunyomi, hanviet, meanings, is_decoration, examples 
        FROM kanjis ${whereClause} 
        ORDER BY id ASC 
        LIMIT ${Number(limit)} OFFSET ${Number(offset)}`,
       params,
     );
 
-    const kanjis = rows.map(row => ({
-      ...row,
-      onyomi:
-        typeof row.onyomi === 'string'
-          ? JSON.parse(row.onyomi || '[]')
-          : row.onyomi || [],
-      kunyomi:
-        typeof row.kunyomi === 'string'
-          ? JSON.parse(row.kunyomi || '[]')
-          : row.kunyomi || [],
-      meanings:
-        typeof row.meanings === 'string'
-          ? JSON.parse(row.meanings || '[]')
-          : row.meanings || [],
-    }));
+    const kanjis = rows.map(row => {
+      let parsedExamples: KanjiExample[] = [];
+      if (typeof row.examples === 'string') {
+        try {
+          parsedExamples = JSON.parse(row.examples || '[]');
+        } catch {
+          parsedExamples = [];
+        }
+      } else if (Array.isArray(row.examples)) {
+        parsedExamples = row.examples;
+      }
+
+      return {
+        ...row,
+        onyomi:
+          typeof row.onyomi === 'string'
+            ? JSON.parse(row.onyomi || '[]')
+            : row.onyomi || [],
+        kunyomi:
+          typeof row.kunyomi === 'string'
+            ? JSON.parse(row.kunyomi || '[]')
+            : row.kunyomi || [],
+        meanings:
+          typeof row.meanings === 'string'
+            ? JSON.parse(row.meanings || '[]')
+            : row.meanings || [],
+        examples: parsedExamples,
+      };
+    });
 
     return NextResponse.json({
       kanjis,
@@ -105,7 +133,9 @@ export async function POST(request: NextRequest) {
       onyomi,
       kunyomi,
       meanings,
+      hanviet,
       is_decoration,
+      examples,
     } = body;
 
     if (!level || !kanji_char || !meanings) {
@@ -117,16 +147,18 @@ export async function POST(request: NextRequest) {
 
     const pool = getDbPool();
     const [result] = await pool.execute<ResultSetHeader>(
-      `INSERT INTO kanjis (level, original_id, kanji_char, onyomi, kunyomi, meanings, is_decoration) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO kanjis (level, original_id, kanji_char, onyomi, kunyomi, hanviet, meanings, is_decoration, examples) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         level.toLowerCase(),
         original_id || 0,
         kanji_char,
         JSON.stringify(onyomi || []),
         JSON.stringify(kunyomi || []),
+        hanviet || '',
         JSON.stringify(meanings || []),
         is_decoration ? 1 : 0,
+        JSON.stringify(examples || []),
       ],
     );
 
@@ -135,12 +167,11 @@ export async function POST(request: NextRequest) {
       id: result.insertId,
       message: 'Thêm chữ Kanji mới thành công',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating kanji:', error);
-    return NextResponse.json(
-      { error: error.message || 'Lỗi khi thêm chữ Kanji' },
-      { status: 500 },
-    );
+    const msg =
+      error instanceof Error ? error.message : 'Lỗi khi thêm chữ Kanji';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
 
@@ -155,7 +186,9 @@ export async function PUT(request: NextRequest) {
       onyomi,
       kunyomi,
       meanings,
+      hanviet,
       is_decoration,
+      examples,
     } = body;
 
     if (!id || !level || !kanji_char) {
@@ -168,7 +201,7 @@ export async function PUT(request: NextRequest) {
     const pool = getDbPool();
     const [result] = await pool.execute<ResultSetHeader>(
       `UPDATE kanjis 
-       SET level = ?, original_id = ?, kanji_char = ?, onyomi = ?, kunyomi = ?, meanings = ?, is_decoration = ? 
+       SET level = ?, original_id = ?, kanji_char = ?, onyomi = ?, kunyomi = ?, hanviet = ?, meanings = ?, is_decoration = ?, examples = ? 
        WHERE id = ?`,
       [
         level.toLowerCase(),
@@ -176,8 +209,10 @@ export async function PUT(request: NextRequest) {
         kanji_char,
         JSON.stringify(onyomi || []),
         JSON.stringify(kunyomi || []),
+        hanviet || '',
         JSON.stringify(meanings || []),
         is_decoration ? 1 : 0,
+        JSON.stringify(examples || []),
         id,
       ],
     );
@@ -193,12 +228,11 @@ export async function PUT(request: NextRequest) {
       success: true,
       message: 'Cập nhật chữ Kanji thành công',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating kanji:', error);
-    return NextResponse.json(
-      { error: error.message || 'Lỗi khi cập nhật chữ Kanji' },
-      { status: 500 },
-    );
+    const msg =
+      error instanceof Error ? error.message : 'Lỗi khi cập nhật chữ Kanji';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
 
@@ -231,11 +265,10 @@ export async function DELETE(request: NextRequest) {
       success: true,
       message: 'Đã xóa chữ Kanji thành công',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting kanji:', error);
-    return NextResponse.json(
-      { error: error.message || 'Lỗi khi xóa chữ Kanji' },
-      { status: 500 },
-    );
+    const msg =
+      error instanceof Error ? error.message : 'Lỗi khi xóa chữ Kanji';
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

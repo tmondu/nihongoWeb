@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
 import { RowDataPacket } from 'mysql2';
 
+export interface KanjiExample {
+  japanese: string;
+  reading?: string;
+  meaning: string;
+}
+
 interface KanjiRow extends RowDataPacket {
   id: number;
   kanjiChar: string;
@@ -9,15 +15,17 @@ interface KanjiRow extends RowDataPacket {
   kunyomi: string | string[];
   meanings: string | string[];
   hanviet?: string | null;
+  examples?: string | KanjiExample[] | null;
 }
 
-interface KanjiItem {
+export interface KanjiItem {
   id: number;
   kanjiChar: string;
   onyomi: string[];
   kunyomi: string[];
   meanings: string[];
   hanviet: string;
+  examples?: KanjiExample[];
 }
 
 // Server-side in-memory cache to prevent repeated queries to Railway MySQL
@@ -58,23 +66,41 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [rows] = await pool.execute(
-      'SELECT original_id AS id, kanji_char AS kanjiChar, onyomi, kunyomi, meanings, hanviet FROM kanjis WHERE level = ? ORDER BY original_id ASC',
+      'SELECT original_id AS id, kanji_char AS kanjiChar, onyomi, kunyomi, meanings, hanviet, examples FROM kanjis WHERE level = ? ORDER BY original_id ASC',
       [level],
     );
 
-    const kanjiList: KanjiItem[] = (rows as KanjiRow[]).map(row => ({
-      id: row.id,
-      kanjiChar: row.kanjiChar,
-      onyomi:
-        typeof row.onyomi === 'string' ? JSON.parse(row.onyomi) : row.onyomi,
-      kunyomi:
-        typeof row.kunyomi === 'string' ? JSON.parse(row.kunyomi) : row.kunyomi,
-      meanings:
-        typeof row.meanings === 'string'
-          ? JSON.parse(row.meanings)
-          : row.meanings,
-      hanviet: row.hanviet || '',
-    }));
+    const kanjiList: KanjiItem[] = (rows as KanjiRow[]).map(row => {
+      let parsedExamples: KanjiExample[] = [];
+      if (typeof row.examples === 'string') {
+        try {
+          parsedExamples = JSON.parse(row.examples || '[]');
+        } catch {
+          parsedExamples = [];
+        }
+      } else if (Array.isArray(row.examples)) {
+        parsedExamples = row.examples;
+      }
+
+      return {
+        id: row.id,
+        kanjiChar: row.kanjiChar,
+        onyomi:
+          typeof row.onyomi === 'string'
+            ? JSON.parse(row.onyomi || '[]')
+            : row.onyomi || [],
+        kunyomi:
+          typeof row.kunyomi === 'string'
+            ? JSON.parse(row.kunyomi || '[]')
+            : row.kunyomi || [],
+        meanings:
+          typeof row.meanings === 'string'
+            ? JSON.parse(row.meanings || '[]')
+            : row.meanings || [],
+        hanviet: row.hanviet || '',
+        examples: parsedExamples,
+      };
+    });
 
     // Update in-memory cache
     kanjiMemoryCache.set(level, { data: kanjiList, timestamp: now });

@@ -1,1 +1,1 @@
-export type { IKanjiObj, KanjiLevel } from './types';
+export type { IKanjiObj, KanjiLevel, IKanjiExample } from './types';

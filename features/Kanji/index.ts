@@ -22,6 +22,8 @@ export {
 } from './components/SearchSidebar';
 export { default as SearchClient } from './components/SearchClient';
 export { default as ThamKanjiClient } from './components/ThamKanjiClient';
+export { default as KanjiCardDetailView } from './components/KanjiCardDetailView';
+export { default as KanjiCardStudyClient } from './components/KanjiCardStudyClient';
 export { default as KanjiQuickNav } from './components/KanjiQuickNav';
 export { default as KanjiSentenceAndFeedback } from './components/KanjiSentenceAndFeedback';
 
