@@ -260,7 +260,7 @@ export default function KanjiCardDetailView({
                 Chưa có ví dụ nào cho chữ Kanji này.
               </p>
               <p className='mt-1 text-[11px] text-(--secondary-color)/60'>
-                Bạn có thể vào trang Admin để thêm ví dụ bất cứ lúc nào!
+                Liên hệ SS để đóng góp nha!
               </p>
             </div>
           )}
