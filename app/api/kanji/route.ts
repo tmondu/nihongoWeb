@@ -33,7 +33,7 @@ const kanjiMemoryCache = new Map<
   string,
   { data: KanjiItem[]; timestamp: number }
 >();
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour TTL
+const CACHE_TTL_MS = 15 * 1000; // 15s short TTL to support quick admin updates
 
 export const dynamic = 'force-dynamic';
 
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(cached.data, {
       headers: {
         'Cache-Control':
-          'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+          'public, max-age=15, s-maxage=30, stale-while-revalidate=60',
         'X-Cache': 'HIT',
       },
     });
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(kanjiList, {
       headers: {
         'Cache-Control':
-          'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+          'public, max-age=15, s-maxage=30, stale-while-revalidate=60',
         'X-Cache': 'MISS',
       },
     });

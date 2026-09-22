@@ -48,7 +48,7 @@ export default function KanjiCardStudyClient({
       setLoading(true);
 
       try {
-        const data = await kanjiDataService.getKanjiByLevel(activeLevel);
+        const data = await kanjiDataService.getKanjiByLevel(activeLevel, true);
         if (!active) return;
         setKanjiList(data);
 

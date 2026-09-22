@@ -35,18 +35,27 @@ export const kanjiDataService = {
    * Get kanji data for a specific level. Returns cached data if available,
    * otherwise fetches and caches it.
    */
-  async getKanjiByLevel(level: KanjiLevel): Promise<IKanjiObj[]> {
-    // Return cached data immediately if available
-    const cached = getCachedLevel(level);
-    if (cached) return cached;
+  async getKanjiByLevel(
+    level: KanjiLevel,
+    forceRefresh = false,
+  ): Promise<IKanjiObj[]> {
+    // Return cached data immediately if available and not forcing refresh
+    if (!forceRefresh) {
+      const cached = getCachedLevel(level);
+      if (cached) return cached;
+    }
 
     // If there's already a pending request for this level, wait for it
-    if (pendingRequests[level]) {
+    if (pendingRequests[level] && !forceRefresh) {
       return pendingRequests[level];
     }
 
+    const url = forceRefresh
+      ? `/api/kanji?level=${level}&refresh=true`
+      : `/api/kanji?level=${level}`;
+
     // Create new request and store the promise to prevent duplicate fetches
-    pendingRequests[level] = fetch(`/api/kanji?level=${level}`)
+    pendingRequests[level] = fetch(url)
       .then(async res => {
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
