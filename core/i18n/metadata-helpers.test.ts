@@ -1,8 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
+import { generatePageMetadata } from './metadata-helpers';
 
-vi.mock('@/core/i18n/routing', () => ({
+vi.mock('./routing', () => ({
   routing: {
-    locales: ['vi', 'en', 'es'],
+    locales: ['vi', 'en'],
     defaultLocale: 'vi',
     localePrefix: 'never',
   },
@@ -22,12 +23,10 @@ vi.mock('next-intl/server', () => ({
   ),
 }));
 
-import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
-
 describe('generatePageMetadata canonical + hreflang', () => {
   it('uses no locale prefix in canonical for localePrefix=never', async () => {
     const metadata = await generatePageMetadata('kana', {
-      locale: 'es',
+      locale: 'en',
       pathname: '/kana',
       baseUrl: 'https://www.pthamnihongo.site/',
     });
@@ -47,7 +46,6 @@ describe('generatePageMetadata canonical + hreflang', () => {
     expect(metadata.alternates?.languages).toEqual({
       vi: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
       en: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
-      es: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
       'x-default': 'https://www.pthamnihongo.site/kanji/jlpt-n5',
     });
   });
