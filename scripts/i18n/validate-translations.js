@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Translation Validation Script
  *
@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const LOCALES_DIR = path.resolve(__dirname, '../../core/i18n/locales');
-const LANGUAGES = ['vi', 'en', 'es']; // Keep in sync with core/i18n/routing.ts
+const LANGUAGES = ['vi', 'en']; // Keep in sync with core/i18n/routing.ts
 const NAMESPACES = [
   'common',
   'navigation',

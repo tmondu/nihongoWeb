@@ -80,6 +80,7 @@ export interface NavigationTranslations {
     kanji: string;
     kanjiSearch: string;
     thamKanji: string;
+    kanjiRadicals: string;
     vocabulary: string;
     academy: string;
     achievements: string;
@@ -100,6 +101,7 @@ export interface NavigationTranslations {
     experiments: string;
     thamlet: string;
     shadowing: string;
+    reader: string;
     classroom: string;
     curriculum: string;
     exercises: string;
@@ -811,6 +813,12 @@ export interface MetadataTranslations {
     keywords: string;
   };
   kanjiGauntlet: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  kanjiRadicals: {
     title: string;
     titleShort: string;
     description: string;
