@@ -83,6 +83,12 @@ export function getDbPool(): Pool {
       .catch(() => {
         // ignore initialization errors
       });
+
+    pool
+      .execute('ALTER TABLE `kanjis` ADD COLUMN `examples` JSON DEFAULT NULL')
+      .catch(() => {
+        // ignore if column already exists
+      });
   }
 
   return pool;

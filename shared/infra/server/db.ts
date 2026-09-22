@@ -206,6 +206,14 @@ export function getDbPool(): mysql.Pool {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
 
+      try {
+        await pool.execute(
+          'ALTER TABLE `kanjis` ADD COLUMN `examples` JSON DEFAULT NULL',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
       await pool.execute(`
         CREATE TABLE IF NOT EXISTS \`tham_lessons\` (
           \`id\` INT AUTO_INCREMENT PRIMARY KEY,
