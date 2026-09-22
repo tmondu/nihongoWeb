@@ -20,7 +20,8 @@ export const env = {
   resend: {
     apiKey: process.env.RESEND_API_KEY || '',
     fromEmail:
-      process.env.RESEND_FROM_EMAIL || 'PThamSS <onboarding@resend.dev>',
+      process.env.RESEND_FROM_EMAIL ||
+      'PThamSS <noreply@mail.pthamnihongo.site>',
   },
   turnstile: {
     siteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
