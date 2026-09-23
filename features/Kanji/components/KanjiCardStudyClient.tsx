@@ -5,6 +5,12 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { KanjiLevel, IKanjiObj } from '@/entities/kanji';
 import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import KanjiCardDetailView from './KanjiCardDetailView';
+import KanjiProLessonSheet from './KanjiProLessonSheet';
+import KanjiProLessonList from './KanjiProLessonList';
+import {
+  getLessonDetail,
+  type KanjiProLesson,
+} from '../data/kanjiProCurriculum';
 import hanvietMap from '@/shared/data/kanji_hanviet.json';
 import {
   Search,
@@ -13,6 +19,10 @@ import {
   Loader2,
   ExternalLink,
   Layers,
+  BookOpen,
+  LayoutGrid,
+  CreditCard,
+  ArrowLeft,
 } from 'lucide-react';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -32,7 +42,7 @@ interface KanjiCardStudyClientProps {
 }
 
 export default function KanjiCardStudyClient({
-  initialLevel = 'n5',
+  initialLevel = 'n4',
   initialCharacter,
 }: KanjiCardStudyClientProps) {
   const searchParams = useSearchParams();
@@ -43,6 +53,7 @@ export default function KanjiCardStudyClient({
   const levelParam = searchParams.get('level')?.toLowerCase() as
     | KanjiLevel
     | undefined;
+  const lessonParam = searchParams.get('lesson');
 
   const validLevel: KanjiLevel =
     levelParam && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(levelParam)
@@ -50,12 +61,30 @@ export default function KanjiCardStudyClient({
       : initialLevel;
 
   const [activeLevel, setActiveLevel] = useState<KanjiLevel>(validLevel);
+
+  // Lesson state
+  const initialLessonNum = lessonParam ? parseInt(lessonParam, 10) : null;
+  const [selectedLessonNum, setSelectedLessonNum] = useState<number | null>(
+    initialLessonNum,
+  );
+
+  // View mode: 'sheet' (Bảng sách giống ảnh) | 'flashcards' (Thẻ học)
+  const [lessonViewMode, setLessonViewMode] = useState<'sheet' | 'flashcards'>(
+    'sheet',
+  );
+
+  // Tab: 'curriculum' (Bài học theo bậc N) | 'all' (Tất cả Kanji tra cứu)
+  const [activeTab, setActiveTab] = useState<'curriculum' | 'all'>(
+    'curriculum',
+  );
+
+  // General Kanji list (for 'all' tab or flashcards)
   const [kanjiList, setKanjiList] = useState<IKanjiObj[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Sync if URL levelParam changes
+  // Sync state if URL search params change
   useEffect(() => {
     if (
       levelParam &&
@@ -63,12 +92,48 @@ export default function KanjiCardStudyClient({
       levelParam !== activeLevel
     ) {
       setActiveLevel(levelParam);
-      setSelectedIndex(0);
     }
   }, [levelParam, activeLevel]);
 
-  // Load kanji data for active level
   useEffect(() => {
+    if (lessonParam) {
+      const parsed = parseInt(lessonParam, 10);
+      if (!Number.isNaN(parsed) && parsed !== selectedLessonNum) {
+        setSelectedLessonNum(parsed);
+      }
+    } else if (lessonParam === null && selectedLessonNum !== null) {
+      // Intentionally keep or allow null if navigated back
+    }
+  }, [lessonParam, selectedLessonNum]);
+
+  // Current Lesson object
+  const currentLesson: KanjiProLesson | null = useMemo(() => {
+    if (selectedLessonNum === null) return null;
+    return getLessonDetail(activeLevel, selectedLessonNum);
+  }, [activeLevel, selectedLessonNum]);
+
+  // Convert current lesson's Kanji list to IKanjiObj format for Flashcard mode
+  const lessonKanjiAsObjList: IKanjiObj[] = useMemo(() => {
+    if (!currentLesson || currentLesson.kanjiList.length === 0) return [];
+    return currentLesson.kanjiList.map((word, idx) => ({
+      id: 2400 + idx,
+      kanjiChar: word.kanjiChar,
+      onyomi: [word.onyomi],
+      kunyomi: [word.kunyomi],
+      meanings: [word.meaning],
+      hanviet: word.hanviet,
+      examples: word.examples.map(ex => ({
+        japanese: ex.japanese,
+        reading: ex.reading,
+        meaning: ex.meaning,
+      })),
+    }));
+  }, [currentLesson]);
+
+  // Load general kanji data when in 'all' tab or if initialCharacter is present
+  useEffect(() => {
+    if (activeTab !== 'all' && !initialCharacter) return;
+
     let active = true;
 
     void (async () => {
@@ -81,7 +146,6 @@ export default function KanjiCardStudyClient({
         if (!active) return;
         setKanjiList(data);
 
-        // Find initial index if initialCharacter or openParam provided
         const target = initialCharacter || openParam;
         if (target) {
           const idx = data.findIndex(k => k.kanjiChar === target);
@@ -99,27 +163,59 @@ export default function KanjiCardStudyClient({
     return () => {
       active = false;
     };
-  }, [activeLevel, initialCharacter, openParam]);
+  }, [activeLevel, initialCharacter, openParam, activeTab]);
 
-  // Handle switching level
+  // Update URL helper
+  const updateUrl = useCallback(
+    (lvl: KanjiLevel, lessonNum: number | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('level', lvl);
+      if (lessonNum !== null) {
+        params.set('lesson', lessonNum.toString());
+      } else {
+        params.delete('lesson');
+      }
+      params.delete('open');
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    },
+    [pathname, router, searchParams],
+  );
+
+  // Handle level change
   const handleSelectLevel = (lvl: KanjiLevel) => {
     setActiveLevel(lvl);
+    setSelectedLessonNum(null);
     setSearchQuery('');
     setSelectedIndex(0);
-
-    // Update query string smoothly without reload
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('level', lvl);
-    params.delete('open');
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    updateUrl(lvl, null);
   };
 
-  // Filter list by search query
+  // Handle lesson click from list
+  const handleSelectLesson = (lesson: KanjiProLesson) => {
+    setSelectedLessonNum(lesson.lessonNum);
+    setSelectedIndex(0);
+    updateUrl(activeLevel, lesson.lessonNum);
+  };
+
+  // Handle back to lessons
+  const handleBackToLessons = () => {
+    setSelectedLessonNum(null);
+    updateUrl(activeLevel, null);
+  };
+
+  // Filter list by search query (for 'all' tab or flashcards)
+  const currentList =
+    activeTab === 'curriculum' &&
+    currentLesson &&
+    currentLesson.kanjiList.length > 0
+      ? lessonKanjiAsObjList
+      : kanjiList;
+
   const filteredList = useMemo(() => {
-    if (!searchQuery.trim()) return kanjiList;
+    if (!searchQuery.trim()) return currentList;
     const q = searchQuery.toLowerCase().trim();
 
-    return kanjiList.filter(k => {
+    return currentList.filter(k => {
       const hv = (k.hanviet || hanVietDict[k.kanjiChar] || '').toLowerCase();
       const meanings = k.meanings.join(' ').toLowerCase();
       const on = (k.onyomi || []).join(' ').toLowerCase();
@@ -133,12 +229,12 @@ export default function KanjiCardStudyClient({
         kun.includes(q)
       );
     });
-  }, [kanjiList, searchQuery]);
+  }, [currentList, searchQuery]);
 
   // Selected Kanji object
   const selectedKanji = filteredList[selectedIndex] || filteredList[0] || null;
 
-  // Keyboard navigation (ArrowLeft / ArrowRight)
+  // Keyboard navigation
   const handlePrev = useCallback(() => {
     if (filteredList.length === 0) return;
     setSelectedIndex(prev => (prev > 0 ? prev - 1 : filteredList.length - 1));
@@ -180,15 +276,15 @@ export default function KanjiCardStudyClient({
             <div>
               <div className='flex flex-wrap items-center gap-2'>
                 <h1 className='text-xl font-black tracking-tight text-(--main-color) sm:text-2xl'>
-                  Kanji Pro (Thẻ Học Kanji)
+                  Kanji Pro (Giáo Trình Hán Tự)
                 </h1>
                 <span className='rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400'>
                   JLPT N5 - N1
                 </span>
               </div>
               <p className='mt-0.5 text-xs text-(--secondary-color) sm:text-sm'>
-                Học Hán tự chuyên sâu dạng bảng 3 khối: Âm Hán-Việt ➔ Âm On/Kun
-                ➔ Ví dụ Furigana.
+                Học Hán tự theo từng bài giáo trình Minna no Nihongo &amp; bảng
+                tổng hợp chuẩn mực.
               </p>
             </div>
           </div>
@@ -199,7 +295,7 @@ export default function KanjiCardStudyClient({
               href={`/kanji/thamkanji/${encodeURIComponent(selectedKanji.kanjiChar)}`}
               className='flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-(--border-color) bg-(--background-color) px-3.5 py-2 text-xs font-bold text-(--secondary-color) hover:text-(--main-color)'
             >
-              <span>Xem trang Tham Kanji</span>
+              <span>Trang tra cứu</span>
               <ExternalLink className='size-3.5' />
             </Link>
           )}
@@ -232,131 +328,322 @@ export default function KanjiCardStudyClient({
           })}
         </div>
 
-        {/* Search Bar & Sub info */}
+        {/* Tab switch: Bài học theo bậc N vs Toàn bộ danh mục */}
         <div className='flex flex-wrap items-center justify-between gap-3 border-t border-(--border-color)/60 pt-3'>
-          <div className='text-xs font-bold text-(--secondary-color)'>
-            Đang xem cấp độ:{' '}
-            <span className='font-black text-(--main-color)'>
-              {activeLevel.toUpperCase()}
-            </span>{' '}
-            ({filteredList.length} chữ)
+          <div className='flex items-center gap-2'>
+            <button
+              type='button'
+              onClick={() => {
+                setActiveTab('curriculum');
+              }}
+              className={clsx(
+                'flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all',
+                activeTab === 'curriculum'
+                  ? 'bg-sky-500 text-white shadow-xs dark:bg-sky-600'
+                  : 'bg-(--background-color) text-(--secondary-color) hover:text-(--main-color)',
+              )}
+            >
+              <BookOpen className='size-3.5' />
+              <span>Bài học theo bài ({activeLevel.toUpperCase()})</span>
+            </button>
+
+            <button
+              type='button'
+              onClick={() => {
+                setActiveTab('all');
+                setSelectedLessonNum(null);
+              }}
+              className={clsx(
+                'flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all',
+                activeTab === 'all'
+                  ? 'bg-sky-500 text-white shadow-xs dark:bg-sky-600'
+                  : 'bg-(--background-color) text-(--secondary-color) hover:text-(--main-color)',
+              )}
+            >
+              <LayoutGrid className='size-3.5' />
+              <span>Tất cả chữ Hán</span>
+            </button>
           </div>
 
-          {/* Search Box */}
-          <div className='relative min-w-[220px] flex-1 sm:max-w-xs'>
-            <Search className='absolute top-2.5 left-3 size-3.5 text-(--secondary-color)' />
+          {/* Breadcrumb if inside lesson */}
+          {selectedLessonNum !== null && activeTab === 'curriculum' && (
+            <div className='flex items-center gap-2'>
+              <button
+                type='button'
+                onClick={handleBackToLessons}
+                className='flex items-center gap-1 text-xs font-bold text-sky-600 hover:underline dark:text-sky-400'
+              >
+                <ArrowLeft className='size-3' />
+                <span>Chọn bài khác</span>
+              </button>
+
+              {/* View mode toggle: Bảng sách vs Thẻ Flashcard */}
+              <div className='flex items-center rounded-lg border border-(--border-color) bg-(--background-color) p-0.5 text-xs'>
+                <button
+                  type='button'
+                  onClick={() => setLessonViewMode('sheet')}
+                  className={clsx(
+                    'flex items-center gap-1 rounded-md px-2.5 py-1 font-bold transition-all',
+                    lessonViewMode === 'sheet'
+                      ? 'bg-sky-500 text-white shadow-xs dark:bg-sky-600'
+                      : 'text-(--secondary-color) hover:text-(--main-color)',
+                  )}
+                >
+                  <BookOpen className='size-3' />
+                  <span>Bảng sách (Giống ảnh)</span>
+                </button>
+                <button
+                  type='button'
+                  onClick={() => setLessonViewMode('flashcards')}
+                  className={clsx(
+                    'flex items-center gap-1 rounded-md px-2.5 py-1 font-bold transition-all',
+                    lessonViewMode === 'flashcards'
+                      ? 'bg-sky-500 text-white shadow-xs dark:bg-sky-600'
+                      : 'text-(--secondary-color) hover:text-(--main-color)',
+                  )}
+                >
+                  <CreditCard className='size-3' />
+                  <span>Thẻ Flashcard Pro</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* =================================================================== */}
+      {/* CASE 1: CURRICULUM VIEW (BÀI HỌC THEO BẬC N)                        */}
+      {/* =================================================================== */}
+      {activeTab === 'curriculum' ? (
+        selectedLessonNum === null ? (
+          /* Sub-case 1A: Lesson list for the active level (e.g. N4) */
+          <div className='rounded-3xl border border-(--border-color) bg-(--card-color) p-5 sm:p-7'>
+            <KanjiProLessonList
+              level={activeLevel}
+              selectedLessonNum={selectedLessonNum}
+              onSelectLesson={handleSelectLesson}
+            />
+          </div>
+        ) : currentLesson && currentLesson.isAvailable ? (
+          /* Sub-case 1B: Lesson with full content (e.g. Bài 24 of N4) */
+          lessonViewMode === 'sheet' ? (
+            /* Mode 1: Minna Sheet (100% faithful to textbook photo) */
+            <KanjiProLessonSheet
+              lesson={currentLesson}
+              onBackToLessons={handleBackToLessons}
+            />
+          ) : (
+            /* Mode 2: Flashcard Detail View for this lesson */
+            <div className='space-y-4'>
+              <div className='flex items-center justify-between rounded-2xl border border-(--border-color)/50 bg-(--card-color)/60 px-4 py-2 text-xs'>
+                <button
+                  type='button'
+                  onClick={handlePrev}
+                  className='flex items-center gap-1 rounded-lg px-2.5 py-1 font-bold text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)'
+                  title='Phím tắt: Mũi tên trái (←)'
+                >
+                  <ChevronLeft className='size-4' />
+                  <span>Chữ trước</span>
+                </button>
+
+                <span className='font-mono font-bold text-(--main-color)'>
+                  Chữ {selectedIndex + 1} / {filteredList.length} (
+                  {currentLesson.title} - {activeLevel.toUpperCase()})
+                </span>
+
+                <button
+                  type='button'
+                  onClick={handleNext}
+                  className='flex items-center gap-1 rounded-lg px-2.5 py-1 font-bold text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)'
+                  title='Phím tắt: Mũi tên phải (→)'
+                >
+                  <span>Tiếp theo</span>
+                  <ChevronRight className='size-4' />
+                </button>
+              </div>
+
+              {selectedKanji && <KanjiCardDetailView kanji={selectedKanji} />}
+
+              {/* Quick Kanji Grid for this lesson */}
+              <div className='rounded-3xl border border-(--border-color) bg-(--card-color) p-5'>
+                <h3 className='mb-3 text-xs font-bold text-(--secondary-color) uppercase'>
+                  9 chữ Hán trong {currentLesson.title}:
+                </h3>
+                <div className='grid grid-cols-3 gap-2 sm:grid-cols-5 md:grid-cols-9'>
+                  {filteredList.map((k, idx) => {
+                    const isSelected = idx === selectedIndex;
+                    return (
+                      <button
+                        key={k.kanjiChar}
+                        type='button'
+                        onClick={() => setSelectedIndex(idx)}
+                        className={clsx(
+                          'flex flex-col items-center justify-center rounded-2xl border p-2.5 text-center transition-all',
+                          isSelected
+                            ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 shadow-sm ring-2 ring-emerald-500/30 dark:text-emerald-400'
+                            : 'border-(--border-color) bg-(--background-color)/50 hover:border-(--main-color)/50',
+                        )}
+                      >
+                        <span className='font-japanese text-2xl font-black text-(--main-color)'>
+                          {k.kanjiChar}
+                        </span>
+                        <span className='mt-1 text-[11px] font-bold text-rose-600 uppercase dark:text-rose-400'>
+                          {k.hanviet}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )
+        ) : (
+          /* Sub-case 1C: Lesson clicked without data yet */
+          <div className='rounded-3xl border border-dashed border-(--border-color) bg-(--card-color) p-10 text-center'>
+            <BookOpen className='mx-auto size-10 text-sky-500 opacity-70' />
+            <h3 className='mt-3 text-base font-black text-(--main-color)'>
+              {currentLesson ? currentLesson.title : `Bài ${selectedLessonNum}`}{' '}
+              ({activeLevel.toUpperCase()})
+            </h3>
+            <p className='mt-1 text-xs text-(--secondary-color)'>
+              Nội dung bài học này đang được chuẩn bị. Bạn có thể xem ngay{' '}
+              <strong>Bài 24</strong> (N4) đã có sẵn đầy đủ 9 chữ Hán!
+            </p>
+            <div className='mt-5 flex justify-center gap-3'>
+              <button
+                type='button'
+                onClick={() => {
+                  setActiveLevel('n4');
+                  setSelectedLessonNum(24);
+                  updateUrl('n4', 24);
+                }}
+                className='rounded-xl bg-sky-500 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all hover:bg-sky-600'
+              >
+                Học Bài 24 (N4) ngay
+              </button>
+              <button
+                type='button'
+                onClick={handleBackToLessons}
+                className='rounded-xl border border-(--border-color) bg-(--background-color) px-4 py-2 text-xs font-bold text-(--main-color) hover:bg-(--card-color)'
+              >
+                Quay lại danh sách
+              </button>
+            </div>
+          </div>
+        )
+      ) : (
+        /* =================================================================== */
+        /* CASE 2: ALL KANJI BROWSE TAB (TRA CỨU TOÀN BỘ CHỮ HÁN CỦA CẤP ĐỘ)   */
+        /* =================================================================== */
+        <div className='space-y-6'>
+          {/* Search bar */}
+          <div className='relative'>
+            <Search className='absolute top-3 left-3 size-4 text-(--secondary-color)' />
             <input
               type='text'
-              placeholder='Tìm chữ Kanji, Hán-Việt, nghĩa...'
+              placeholder={`Tìm chữ Kanji, âm Hán-Việt, nghĩa trong cấp ${activeLevel.toUpperCase()}...`}
               value={searchQuery}
               onChange={e => {
                 setSearchQuery(e.target.value);
                 setSelectedIndex(0);
               }}
-              className='w-full rounded-xl border border-(--border-color) bg-(--background-color) py-1.5 pr-3 pl-8 text-xs text-(--main-color) placeholder:text-(--secondary-color)/50 focus:border-(--main-color) focus:outline-none'
+              className='w-full rounded-2xl border border-(--border-color) bg-(--card-color) py-2.5 pr-4 pl-9 text-xs text-(--main-color) placeholder:text-(--secondary-color)/50 focus:border-(--main-color) focus:outline-none'
             />
           </div>
-        </div>
-      </div>
 
-      {/* Main Flashcard Display */}
-      {loading ? (
-        <div className='flex flex-col items-center justify-center rounded-3xl border border-(--border-color) bg-(--card-color) py-20 text-center'>
-          <Loader2 className='size-8 animate-spin text-(--main-color)' />
-          <p className='mt-3 text-xs text-(--secondary-color)'>
-            Đang tải dữ liệu chữ Kanji cấp {activeLevel.toUpperCase()}...
-          </p>
-        </div>
-      ) : selectedKanji ? (
-        <div className='space-y-4'>
-          {/* Navigation bar above card */}
-          <div className='flex items-center justify-between rounded-2xl border border-(--border-color)/50 bg-(--card-color)/60 px-4 py-2 text-xs'>
-            <button
-              type='button'
-              onClick={handlePrev}
-              className='flex items-center gap-1 rounded-lg px-2.5 py-1 font-bold text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)'
-              title='Phím tắt: Mũi tên trái (←)'
-            >
-              <ChevronLeft className='size-4' />
-              <span>Chữ trước</span>
-            </button>
-
-            <span className='font-mono font-bold text-(--main-color)'>
-              {selectedIndex + 1} / {filteredList.length} chữ (
-              {activeLevel.toUpperCase()})
-            </span>
-
-            <button
-              type='button'
-              onClick={handleNext}
-              className='flex items-center gap-1 rounded-lg px-2.5 py-1 font-bold text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)'
-              title='Phím tắt: Mũi tên phải (→)'
-            >
-              <span>Tiếp theo</span>
-              <ChevronRight className='size-4' />
-            </button>
-          </div>
-
-          {/* The New Card View Component */}
-          <KanjiCardDetailView kanji={selectedKanji} />
-        </div>
-      ) : (
-        <div className='rounded-3xl border border-dashed border-(--border-color) bg-(--card-color) p-12 text-center'>
-          <p className='text-sm font-bold text-(--main-color)'>
-            Không tìm thấy chữ Kanji phù hợp trong cấp{' '}
-            {activeLevel.toUpperCase()}
-          </p>
-          <p className='mt-1 text-xs text-(--secondary-color)'>
-            Thử thay đổi từ khóa tìm kiếm hoặc chọn cấp độ khác.
-          </p>
-        </div>
-      )}
-
-      {/* Quick Select Kanji Grid */}
-      {!loading && filteredList.length > 0 && (
-        <div className='rounded-3xl border border-(--border-color) bg-(--card-color) p-5 sm:p-6'>
-          <div className='mb-3 flex items-center justify-between'>
-            <h2 className='text-xs font-bold tracking-wider text-(--secondary-color) uppercase'>
-              Danh sách chữ Kanji {activeLevel.toUpperCase()} (
-              {filteredList.length} chữ):
-            </h2>
-            <span className='text-[11px] text-(--secondary-color)/60'>
-              Bấm vào chữ để xem thẻ chi tiết
-            </span>
-          </div>
-
-          <div className='grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10'>
-            {filteredList.map((k, idx) => {
-              const isSelected = idx === selectedIndex;
-              const hv = k.hanviet || hanVietDict[k.kanjiChar] || '';
-
-              return (
+          {loading ? (
+            <div className='flex flex-col items-center justify-center rounded-3xl border border-(--border-color) bg-(--card-color) py-20 text-center'>
+              <Loader2 className='size-8 animate-spin text-(--main-color)' />
+              <p className='mt-3 text-xs text-(--secondary-color)'>
+                Đang tải dữ liệu chữ Kanji cấp {activeLevel.toUpperCase()}...
+              </p>
+            </div>
+          ) : selectedKanji ? (
+            <div className='space-y-4'>
+              {/* Navigation bar above card */}
+              <div className='flex items-center justify-between rounded-2xl border border-(--border-color)/50 bg-(--card-color)/60 px-4 py-2 text-xs'>
                 <button
-                  key={k.id || k.kanjiChar}
                   type='button'
-                  onClick={() => setSelectedIndex(idx)}
-                  className={clsx(
-                    'group flex flex-col items-center justify-center rounded-2xl border p-2.5 text-center transition-all',
-                    isSelected
-                      ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 shadow-sm ring-2 ring-emerald-500/30 dark:text-emerald-400'
-                      : 'border-(--border-color) bg-(--background-color)/50 hover:border-(--main-color)/50 hover:bg-(--background-color)',
-                  )}
+                  onClick={handlePrev}
+                  className='flex items-center gap-1 rounded-lg px-2.5 py-1 font-bold text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)'
                 >
-                  <span className='font-japanese text-xl font-black text-(--main-color) transition-transform group-hover:scale-110'>
-                    {k.kanjiChar}
-                  </span>
-                  {hv && (
-                    <span className='mt-0.5 max-w-full truncate text-[10px] font-bold text-rose-600 uppercase dark:text-rose-400'>
-                      {hv.split(',')[0]}
-                    </span>
-                  )}
-                  <span className='max-w-full truncate text-[9px] text-(--secondary-color)'>
-                    {k.meanings[0] || ''}
-                  </span>
+                  <ChevronLeft className='size-4' />
+                  <span>Chữ trước</span>
                 </button>
-              );
-            })}
-          </div>
+
+                <span className='font-mono font-bold text-(--main-color)'>
+                  {selectedIndex + 1} / {filteredList.length} chữ (
+                  {activeLevel.toUpperCase()})
+                </span>
+
+                <button
+                  type='button'
+                  onClick={handleNext}
+                  className='flex items-center gap-1 rounded-lg px-2.5 py-1 font-bold text-(--secondary-color) hover:bg-(--background-color) hover:text-(--main-color)'
+                >
+                  <span>Tiếp theo</span>
+                  <ChevronRight className='size-4' />
+                </button>
+              </div>
+
+              <KanjiCardDetailView kanji={selectedKanji} />
+            </div>
+          ) : (
+            <div className='rounded-3xl border border-dashed border-(--border-color) bg-(--card-color) p-12 text-center'>
+              <p className='text-sm font-bold text-(--main-color)'>
+                Không tìm thấy chữ Kanji phù hợp trong cấp{' '}
+                {activeLevel.toUpperCase()}
+              </p>
+            </div>
+          )}
+
+          {/* Quick Select Kanji Grid */}
+          {!loading && filteredList.length > 0 && (
+            <div className='rounded-3xl border border-(--border-color) bg-(--card-color) p-5 sm:p-6'>
+              <div className='mb-3 flex items-center justify-between'>
+                <h2 className='text-xs font-bold tracking-wider text-(--secondary-color) uppercase'>
+                  Danh sách chữ Kanji {activeLevel.toUpperCase()} (
+                  {filteredList.length} chữ):
+                </h2>
+                <span className='text-[11px] text-(--secondary-color)/60'>
+                  Bấm vào chữ để xem thẻ chi tiết
+                </span>
+              </div>
+
+              <div className='grid grid-cols-4 gap-2 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10'>
+                {filteredList.map((k, idx) => {
+                  const isSelected = idx === selectedIndex;
+                  const hv = k.hanviet || hanVietDict[k.kanjiChar] || '';
+
+                  return (
+                    <button
+                      key={k.id || k.kanjiChar}
+                      type='button'
+                      onClick={() => setSelectedIndex(idx)}
+                      className={clsx(
+                        'group flex flex-col items-center justify-center rounded-2xl border p-2.5 text-center transition-all',
+                        isSelected
+                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 shadow-sm ring-2 ring-emerald-500/30 dark:text-emerald-400'
+                          : 'border-(--border-color) bg-(--background-color)/50 hover:border-(--main-color)/50 hover:bg-(--background-color)',
+                      )}
+                    >
+                      <span className='font-japanese text-xl font-black text-(--main-color) transition-transform group-hover:scale-110'>
+                        {k.kanjiChar}
+                      </span>
+                      {hv && (
+                        <span className='mt-0.5 max-w-full truncate text-[10px] font-bold text-rose-600 uppercase dark:text-rose-400'>
+                          {hv.split(',')[0]}
+                        </span>
+                      )}
+                      <span className='max-w-full truncate text-[9px] text-(--secondary-color)'>
+                        {k.meanings[0] || ''}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
