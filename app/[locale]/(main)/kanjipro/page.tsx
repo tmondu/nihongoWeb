@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import { KanjiCardStudyClient } from '@/features/Kanji';
 
-export default function KanjiCardPage() {
+export default function KanjiProPage() {
   return (
     <Suspense>
       <KanjiCardStudyClient />

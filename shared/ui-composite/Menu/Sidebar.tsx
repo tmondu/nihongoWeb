@@ -109,6 +109,12 @@ const mainNavItems: NavItem[] = [
         icon: Puzzle,
         isSubItem: true,
       },
+      {
+        href: '/kanjipro',
+        labelKey: 'kanjiPro',
+        icon: Layers,
+        isSubItem: true,
+      },
     ],
   },
   {
@@ -127,6 +133,12 @@ const mainNavItems: NavItem[] = [
     href: '/kanji/radicals',
     labelKey: 'kanjiRadicals',
     icon: Puzzle,
+    isSubItem: true,
+  },
+  {
+    href: '/kanjipro',
+    labelKey: 'kanjiPro',
+    icon: Layers,
     isSubItem: true,
   },
   {

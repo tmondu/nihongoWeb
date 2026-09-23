@@ -81,6 +81,7 @@ export interface NavigationTranslations {
     kanjiSearch: string;
     thamKanji: string;
     kanjiRadicals: string;
+    kanjiPro: string;
     vocabulary: string;
     academy: string;
     achievements: string;

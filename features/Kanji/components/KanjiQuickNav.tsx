@@ -2,7 +2,7 @@
 
 import { Link } from '@/core/i18n/routing';
 import { useLocale, useTranslations } from 'next-intl';
-import { Search, LayoutGrid, ArrowRight, Puzzle } from 'lucide-react';
+import { Search, LayoutGrid, ArrowRight, Puzzle, Layers } from 'lucide-react';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { cardBorderStyles } from '@/shared/utils/styles';
 import clsx from 'clsx';
@@ -49,11 +49,22 @@ export const KanjiQuickNav = () => {
       icon: Puzzle,
       badgeColor: 'text-rose-400 bg-rose-400/10 border-rose-400/20',
     },
+    {
+      href: '/kanjipro',
+      title: t('kanjiPro'),
+      description: isVi
+        ? 'Thẻ học Kanji Pro chia theo N5 - N1'
+        : isEs
+          ? 'Tarjetas Kanji Pro por N5 - N1'
+          : 'Kanji Pro Flashcards by N5 - N1',
+      icon: Layers,
+      badgeColor: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+    },
   ];
 
   return (
     <div className='flex w-full flex-col gap-2.5 lg:hidden'>
-      <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-3'>
+      <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4'>
         {navItems.map(item => {
           const Icon = item.icon;
           return (

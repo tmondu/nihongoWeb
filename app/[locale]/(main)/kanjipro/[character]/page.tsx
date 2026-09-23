@@ -3,7 +3,7 @@
 import { use, Suspense } from 'react';
 import { KanjiCardStudyClient } from '@/features/Kanji';
 
-export default function KanjiCardCharacterPage({
+export default function KanjiProCharacterPage({
   params,
 }: {
   params: Promise<{ character: string }>;

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { KanjiLevel, IKanjiObj } from '@/entities/kanji';
 import { kanjiDataService } from '@/features/Kanji/services/kanjiDataService';
 import KanjiCardDetailView from './KanjiCardDetailView';
@@ -18,7 +18,13 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 const hanVietDict = hanvietMap as Record<string, string>;
-const levels: KanjiLevel[] = ['n5', 'n4', 'n3', 'n2', 'n1'];
+const levels: { key: KanjiLevel; label: string; desc: string }[] = [
+  { key: 'n5', label: 'N5', desc: 'Cơ bản' },
+  { key: 'n4', label: 'N4', desc: 'Sơ cấp' },
+  { key: 'n3', label: 'N3', desc: 'Trung cấp' },
+  { key: 'n2', label: 'N2', desc: 'Thượng cấp' },
+  { key: 'n1', label: 'N1', desc: 'Cao cấp' },
+];
 
 interface KanjiCardStudyClientProps {
   initialLevel?: KanjiLevel;
@@ -30,13 +36,36 @@ export default function KanjiCardStudyClient({
   initialCharacter,
 }: KanjiCardStudyClientProps) {
   const searchParams = useSearchParams();
-  const openParam = searchParams.get('open');
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const [activeLevel, setActiveLevel] = useState<KanjiLevel>(initialLevel);
+  const openParam = searchParams.get('open');
+  const levelParam = searchParams.get('level')?.toLowerCase() as
+    | KanjiLevel
+    | undefined;
+
+  const validLevel: KanjiLevel =
+    levelParam && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(levelParam)
+      ? levelParam
+      : initialLevel;
+
+  const [activeLevel, setActiveLevel] = useState<KanjiLevel>(validLevel);
   const [kanjiList, setKanjiList] = useState<IKanjiObj[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Sync if URL levelParam changes
+  useEffect(() => {
+    if (
+      levelParam &&
+      ['n5', 'n4', 'n3', 'n2', 'n1'].includes(levelParam) &&
+      levelParam !== activeLevel
+    ) {
+      setActiveLevel(levelParam);
+      setSelectedIndex(0);
+    }
+  }, [levelParam, activeLevel]);
 
   // Load kanji data for active level
   useEffect(() => {
@@ -71,6 +100,19 @@ export default function KanjiCardStudyClient({
       active = false;
     };
   }, [activeLevel, initialCharacter, openParam]);
+
+  // Handle switching level
+  const handleSelectLevel = (lvl: KanjiLevel) => {
+    setActiveLevel(lvl);
+    setSearchQuery('');
+    setSelectedIndex(0);
+
+    // Update query string smoothly without reload
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('level', lvl);
+    params.delete('open');
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   // Filter list by search query
   const filteredList = useMemo(() => {
@@ -129,8 +171,8 @@ export default function KanjiCardStudyClient({
   return (
     <div className='mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-8'>
       {/* Top Banner / Header */}
-      <div className='flex flex-col gap-4 rounded-3xl border border-(--border-color) bg-(--card-color)/90 p-5 shadow-sm backdrop-blur-sm sm:p-6'>
-        <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+      <div className='flex flex-col gap-5 rounded-3xl border border-(--border-color) bg-(--card-color)/90 p-5 shadow-sm backdrop-blur-sm sm:p-6'>
+        <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
           <div className='flex items-center gap-3.5'>
             <div className='flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-b-4 border-(--main-color-accent) bg-(--main-color) text-(--background-color) shadow-md'>
               <Layers className='h-6 w-6' />
@@ -138,57 +180,66 @@ export default function KanjiCardStudyClient({
             <div>
               <div className='flex flex-wrap items-center gap-2'>
                 <h1 className='text-xl font-black tracking-tight text-(--main-color) sm:text-2xl'>
-                  Thẻ Học Kanji (Giao diện Mới)
+                  Kanji Pro (Thẻ Học Kanji)
                 </h1>
                 <span className='rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400'>
-                  Chế độ thử nghiệm
+                  JLPT N5 - N1
                 </span>
               </div>
               <p className='mt-0.5 text-xs text-(--secondary-color) sm:text-sm'>
-                Giao diện thẻ bảng 3 khối: Âm Hán-Việt ➔ Âm On/Kun ➔ Ví dụ
-                Furigana.
+                Học Hán tự chuyên sâu dạng bảng 3 khối: Âm Hán-Việt ➔ Âm On/Kun
+                ➔ Ví dụ Furigana.
               </p>
             </div>
           </div>
 
-          {/* Link back to old ThamKanji detail page */}
+          {/* Link back to ThamKanji detail page */}
           {selectedKanji && (
             <Link
               href={`/kanji/thamkanji/${encodeURIComponent(selectedKanji.kanjiChar)}`}
-              className='flex items-center justify-center gap-1.5 rounded-xl border border-(--border-color) bg-(--background-color) px-3.5 py-2 text-xs font-bold text-(--secondary-color) hover:text-(--main-color)'
+              className='flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-(--border-color) bg-(--background-color) px-3.5 py-2 text-xs font-bold text-(--secondary-color) hover:text-(--main-color)'
             >
-              <span>Xem trang cũ</span>
+              <span>Xem trang Tham Kanji</span>
               <ExternalLink className='size-3.5' />
             </Link>
           )}
         </div>
 
-        {/* Level Selector & Search Bar */}
-        <div className='flex flex-wrap items-center justify-between gap-3 border-t border-(--border-color)/60 pt-3'>
-          {/* Level Pills */}
-          <div className='flex items-center gap-1.5 overflow-x-auto pb-0.5 text-xs'>
-            <span className='mr-1 font-semibold text-(--secondary-color)'>
-              Cấp độ:
-            </span>
-            {levels.map(lvl => (
+        {/* Level Tabs (N5 -> N1) */}
+        <div className='grid grid-cols-5 gap-1.5 rounded-2xl border border-(--border-color) bg-(--background-color)/60 p-1 sm:gap-2 sm:p-1.5'>
+          {levels.map(lvl => {
+            const isActive = activeLevel === lvl.key;
+            return (
               <button
-                key={lvl}
+                key={lvl.key}
                 type='button'
-                onClick={() => {
-                  setActiveLevel(lvl);
-                  setSearchQuery('');
-                  setSelectedIndex(0);
-                }}
+                onClick={() => handleSelectLevel(lvl.key)}
                 className={clsx(
-                  'rounded-full px-3.5 py-1.5 font-bold transition-all',
-                  activeLevel === lvl
-                    ? 'bg-(--main-color) text-(--background-color) shadow-sm'
-                    : 'border border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:text-(--main-color)',
+                  'flex flex-col items-center justify-center rounded-xl px-1 py-2 transition-all',
+                  isActive
+                    ? 'border-b-2 border-emerald-600 bg-emerald-500/15 font-black text-emerald-600 shadow-sm dark:border-emerald-400 dark:text-emerald-400'
+                    : 'font-bold text-(--secondary-color) hover:bg-(--card-color) hover:text-(--main-color)',
                 )}
               >
-                {lvl.toUpperCase()}
+                <span className='text-sm font-black sm:text-base'>
+                  {lvl.label}
+                </span>
+                <span className='text-[10px] opacity-80 max-sm:hidden'>
+                  {lvl.desc}
+                </span>
               </button>
-            ))}
+            );
+          })}
+        </div>
+
+        {/* Search Bar & Sub info */}
+        <div className='flex flex-wrap items-center justify-between gap-3 border-t border-(--border-color)/60 pt-3'>
+          <div className='text-xs font-bold text-(--secondary-color)'>
+            Đang xem cấp độ:{' '}
+            <span className='font-black text-(--main-color)'>
+              {activeLevel.toUpperCase()}
+            </span>{' '}
+            ({filteredList.length} chữ)
           </div>
 
           {/* Search Box */}
@@ -213,7 +264,7 @@ export default function KanjiCardStudyClient({
         <div className='flex flex-col items-center justify-center rounded-3xl border border-(--border-color) bg-(--card-color) py-20 text-center'>
           <Loader2 className='size-8 animate-spin text-(--main-color)' />
           <p className='mt-3 text-xs text-(--secondary-color)'>
-            Đang tải dữ liệu chữ Kanji...
+            Đang tải dữ liệu chữ Kanji cấp {activeLevel.toUpperCase()}...
           </p>
         </div>
       ) : selectedKanji ? (
@@ -252,7 +303,8 @@ export default function KanjiCardStudyClient({
       ) : (
         <div className='rounded-3xl border border-dashed border-(--border-color) bg-(--card-color) p-12 text-center'>
           <p className='text-sm font-bold text-(--main-color)'>
-            Không tìm thấy chữ Kanji phù hợp
+            Không tìm thấy chữ Kanji phù hợp trong cấp{' '}
+            {activeLevel.toUpperCase()}
           </p>
           <p className='mt-1 text-xs text-(--secondary-color)'>
             Thử thay đổi từ khóa tìm kiếm hoặc chọn cấp độ khác.
