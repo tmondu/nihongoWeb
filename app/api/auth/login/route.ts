@@ -18,14 +18,17 @@ export async function POST(request: NextRequest) {
 
     // Query user by email
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, email, password_hash, is_approved FROM users WHERE email = ?',
+      'SELECT id, email, password_hash, is_approved, deleted_at FROM users WHERE email = ?',
       [email],
     );
 
     const user = users[0];
-    if (!user) {
+    if (!user || user.deleted_at) {
       return NextResponse.json(
-        { error: 'Invalid email or password' },
+        {
+          error:
+            'Email hoặc mật khẩu không chính xác hoặc tài khoản đã bị khóa/xóa.',
+        },
         { status: 400 },
       );
     }

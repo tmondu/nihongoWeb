@@ -83,6 +83,13 @@ export default function ClassroomPage() {
       const list: Lesson[] = data.lessons || [];
       setLessons(list);
       setUserInfo(data.user || null);
+
+      if (
+        data.user &&
+        (!data.user.display_name || data.user.display_name.trim() === '')
+      ) {
+        window.dispatchEvent(new CustomEvent('open-display-name-prompt'));
+      }
     } catch (err) {
       console.error('Fetch lessons failed:', err);
     } finally {
@@ -92,6 +99,15 @@ export default function ClassroomPage() {
 
   useEffect(() => {
     fetchLessons();
+
+    const handleNameUpdated = () => {
+      fetchLessons();
+    };
+
+    window.addEventListener('display-name-updated', handleNameUpdated);
+    return () => {
+      window.removeEventListener('display-name-updated', handleNameUpdated);
+    };
   }, []);
 
   // Filter lessons by level & search query and sort N5 -> N4 -> N3 -> N2 -> N1 then by order_num

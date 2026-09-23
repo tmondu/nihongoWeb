@@ -105,6 +105,14 @@ export function getDbPool(): mysql.Pool {
         // Ignore if column already exists
       }
 
+      try {
+        await pool.execute(
+          'ALTER TABLE `users` ADD COLUMN `deleted_at` TIMESTAMP NULL DEFAULT NULL',
+        );
+      } catch {
+        // Ignore if column already exists
+      }
+
       await pool.execute(`
         CREATE TABLE IF NOT EXISTS \`email_verification_codes\` (
           \`id\` INT AUTO_INCREMENT PRIMARY KEY,

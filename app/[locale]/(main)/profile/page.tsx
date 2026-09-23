@@ -277,32 +277,32 @@ export default function ProfilePage() {
   if (loading && !user) {
     return (
       <div className='flex min-h-[70vh] items-center justify-center'>
-        <Loader2 className='size-8 animate-spin text-amber-500' />
+        <Loader2 className='size-8 animate-spin text-blue-500' />
       </div>
     );
   }
 
   return (
-    <div className='mx-auto max-w-4xl space-y-8 px-4 py-8 text-slate-100'>
+    <div className='mx-auto max-w-4xl space-y-8 px-4 py-8 text-(--main-color)'>
       {/* Title */}
       <div>
-        <h2 className='flex items-center gap-2 text-3xl font-extrabold tracking-tight text-white'>
+        <h2 className='flex items-center gap-2 text-2xl font-black tracking-tight text-(--main-color) sm:text-3xl'>
           Hồ sơ Cá nhân
         </h2>
-        <p className='mt-1 text-sm text-slate-400'>
+        <p className='mt-1 text-xs text-(--secondary-color) sm:text-sm'>
           Quản lý thông tin tài khoản và bảo mật mật khẩu của bạn.
         </p>
       </div>
 
       {successMsg && (
-        <div className='flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-950/10 p-4 text-sm text-emerald-400'>
+        <div className='flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm font-semibold text-emerald-600 dark:text-emerald-400'>
           <CheckCircle2 className='size-5 shrink-0' />
           <span>{successMsg}</span>
         </div>
       )}
 
       {error && (
-        <div className='flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-950/10 p-4 text-sm text-red-400'>
+        <div className='flex items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm font-semibold text-red-600 dark:text-red-400'>
           <AlertCircle className='size-5 shrink-0' />
           <span>{error}</span>
         </div>
@@ -310,48 +310,48 @@ export default function ProfilePage() {
 
       <div className='grid grid-cols-1 gap-6 md:grid-cols-3'>
         {/* Info Sidebar card */}
-        <div className='flex flex-col justify-between space-y-6 rounded-2xl border border-[#1a1a1f] bg-[#09090b] p-6 md:col-span-1'>
+        <div className='flex flex-col justify-between space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm md:col-span-1'>
           <div className='space-y-6'>
             <div className='flex items-center gap-3.5'>
-              <div className='flex size-12 items-center justify-center rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-400'>
+              <div className='flex size-12 items-center justify-center rounded-2xl border border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400'>
                 <KeyRound className='size-6' />
               </div>
               <div>
                 <div
-                  className='max-w-[180px] truncate text-base font-bold text-white'
+                  className='max-w-[180px] truncate text-base font-bold text-(--main-color)'
                   title={user?.display_name || user?.email}
                 >
                   {user?.display_name || user?.email.split('@')[0]}
                 </div>
                 {user?.display_name && (
-                  <div className='text-xs font-semibold text-amber-400/90'>
+                  <div className='text-xs font-bold text-blue-600 dark:text-blue-400'>
                     @{user.display_name}
                   </div>
                 )}
-                <div className='font-mono text-xs text-slate-500'>
+                <div className='font-mono text-xs text-(--secondary-color)/70'>
                   ID: #{user?.id}
                 </div>
               </div>
             </div>
 
-            <div className='space-y-3.5 border-t border-[#1a1a1f] pt-4 text-xs text-slate-400'>
+            <div className='space-y-3.5 border-t border-(--border-color) pt-4 text-xs text-(--secondary-color)'>
               <div className='flex flex-wrap items-center gap-2'>
-                <Mail className='size-4 text-slate-500' />
+                <Mail className='size-4 text-(--secondary-color)/70' />
                 <span className='mr-1 truncate' title={user?.email}>
                   {user?.email}
                 </span>
                 {user?.is_verified === 1 ? (
-                  <span className='inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400'>
+                  <span className='inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400'>
                     <CheckCircle2 className='size-3' /> Đã xác thực
                   </span>
                 ) : (
-                  <span className='inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-400'>
+                  <span className='inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-600 dark:text-amber-400'>
                     Chưa xác thực
                   </span>
                 )}
               </div>
               <div className='flex items-center gap-2'>
-                <Calendar className='size-4 text-slate-500' />
+                <Calendar className='size-4 text-(--secondary-color)/70' />
                 <span>
                   Tham gia:{' '}
                   {user?.created_at
@@ -360,21 +360,21 @@ export default function ProfilePage() {
                 </span>
               </div>
               <div className='flex flex-wrap items-center gap-2 pt-1'>
-                <span className='inline-flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/10 px-2.5 py-1 text-xs font-semibold text-blue-400 uppercase'>
+                <span className='inline-flex items-center gap-1 rounded-lg border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 text-xs font-bold text-blue-600 uppercase dark:text-blue-400'>
                   Khóa học: {user?.level || 'N5'}
                 </span>
                 {user?.can_watch_video === 1 ? (
-                  <span className='inline-flex items-center gap-1 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-400'>
+                  <span className='inline-flex items-center gap-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400'>
                     Đã mở quyền video
                   </span>
                 ) : (
-                  <span className='inline-flex items-center gap-1 rounded-lg border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold text-amber-400'>
+                  <span className='inline-flex items-center gap-1 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-bold text-amber-600 dark:text-amber-400'>
                     Chưa kích hoạt video
                   </span>
                 )}
               </div>
               {user?.is_admin === 1 && (
-                <div className='flex w-fit items-center gap-2 rounded-lg border border-purple-500/20 bg-purple-500/10 px-2.5 py-1 font-medium text-purple-400'>
+                <div className='flex w-fit items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/10 px-2.5 py-1 font-bold text-purple-600 dark:text-purple-400'>
                   <ShieldCheck className='size-3.5' />
                   <span>Quản trị viên</span>
                 </div>
@@ -386,7 +386,7 @@ export default function ProfilePage() {
             {user && !user.is_verified && (
               <Button
                 onClick={handleStartVerification}
-                className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-500/20 bg-blue-950/20 font-semibold text-blue-400 transition-colors hover:bg-blue-900/20'
+                className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 font-bold text-blue-600 transition-colors hover:bg-blue-500/20 dark:text-blue-400'
               >
                 Xác thực tài khoản
               </Button>
@@ -394,7 +394,7 @@ export default function ProfilePage() {
 
             <Button
               onClick={handleLogout}
-              className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-500/20 bg-red-950/20 font-semibold text-red-400 transition-colors hover:bg-red-900/20'
+              className='flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 font-bold text-red-600 transition-colors hover:bg-red-500/20 dark:text-red-400'
             >
               <LogOut className='size-4' /> Đăng xuất tài khoản
             </Button>
@@ -402,8 +402,8 @@ export default function ProfilePage() {
         </div>
 
         {/* Update Form card */}
-        <div className='rounded-2xl border border-[#1a1a1f] bg-[#09090b] p-6 md:col-span-2'>
-          <h3 className='mb-6 border-b border-[#1a1a1f] pb-3.5 text-lg font-bold text-white'>
+        <div className='rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm md:col-span-2'>
+          <h3 className='mb-6 border-b border-(--border-color) pb-3.5 text-lg font-black text-(--main-color)'>
             Cập nhật tài khoản
           </h3>
 
@@ -414,15 +414,15 @@ export default function ProfilePage() {
                 {/* Tên hiển thị (Nickname) */}
                 <div className='space-y-2'>
                   <div className='flex items-center justify-between'>
-                    <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                    <label className='text-xs font-bold tracking-wider text-(--main-color) uppercase'>
                       Tên hiển thị (Nickname)
                     </label>
-                    <span className='text-xs text-slate-500'>
+                    <span className='font-mono text-xs text-(--secondary-color)/70'>
                       {displayName.trim().length}/30
                     </span>
                   </div>
                   <div className='relative'>
-                    <User className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
+                    <User className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-(--secondary-color)' />
                     <Input
                       type='text'
                       value={displayName}
@@ -430,13 +430,13 @@ export default function ProfilePage() {
                       disabled={!cooldown.canEdit}
                       onChange={e => setDisplayName(e.target.value)}
                       placeholder='Nhập tên hiển thị dùng để bình luận...'
-                      className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500 disabled:cursor-not-allowed disabled:opacity-60'
+                      className='border border-(--border-color) bg-(--background-color) pl-9 text-(--main-color) placeholder:text-(--secondary-color)/50 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-60'
                     />
                   </div>
 
                   {!cooldown.canEdit ? (
-                    <div className='flex items-start gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-xs leading-relaxed text-amber-300'>
-                      <Lock className='mt-0.5 size-3.5 shrink-0 text-amber-400' />
+                    <div className='flex items-start gap-2 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs leading-relaxed text-amber-700 dark:text-amber-300'>
+                      <Lock className='mt-0.5 size-3.5 shrink-0 text-amber-500' />
                       <div>
                         <span>
                           Bạn chỉ có thể đổi tên hiển thị{' '}
@@ -457,39 +457,39 @@ export default function ProfilePage() {
                       </div>
                     </div>
                   ) : (
-                    <p className='text-[11px] text-slate-400'>
-                      Tên hiển thị dùng khi bạn bình luận bài giảng và trao đổi
-                      học tập (cho phép đổi 1 lần mỗi 7 ngày).
+                    <p className='text-[11px] text-(--secondary-color)'>
+                      Tên hiển thị dùng khi bạn xem video bài giảng, bình luận
+                      và trao đổi học tập (cho phép đổi 1 lần mỗi 7 ngày).
                     </p>
                   )}
                 </div>
 
-                <div className='my-6 border-t border-[#1a1a1f]'></div>
+                <div className='my-6 border-t border-(--border-color)'></div>
 
                 <div className='space-y-1.5'>
-                  <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                  <label className='text-xs font-bold tracking-wider text-(--main-color) uppercase'>
                     Email đăng nhập
                   </label>
                   <div className='relative'>
-                    <Mail className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500' />
+                    <Mail className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-(--secondary-color)' />
                     <Input
                       type='email'
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className='border-[#1a1a1f] bg-[#121215] pl-9 text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                      className='border border-(--border-color) bg-(--background-color) pl-9 text-(--main-color) placeholder:text-(--secondary-color)/50 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500'
                     />
                   </div>
                 </div>
 
-                <div className='my-6 border-t border-[#1a1a1f]'></div>
+                <div className='my-6 border-t border-(--border-color)'></div>
 
-                <h4 className='flex items-center gap-2 text-sm font-semibold tracking-wider text-white uppercase'>
-                  <Lock className='size-4 text-slate-500' /> Thay đổi mật khẩu
+                <h4 className='flex items-center gap-2 text-sm font-black tracking-wider text-(--main-color) uppercase'>
+                  <Lock className='size-4 text-blue-500' /> Thay đổi mật khẩu
                 </h4>
 
                 <div className='space-y-4'>
                   <div className='space-y-1.5'>
-                    <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                    <label className='text-xs font-bold tracking-wider text-(--main-color) uppercase'>
                       Mật khẩu hiện tại
                     </label>
                     <Input
@@ -497,13 +497,13 @@ export default function ProfilePage() {
                       placeholder='Nhập mật khẩu đang dùng...'
                       value={currentPassword}
                       onChange={e => setCurrentPassword(e.target.value)}
-                      className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                      className='border border-(--border-color) bg-(--background-color) text-(--main-color) placeholder:text-(--secondary-color)/50 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500'
                     />
                   </div>
 
                   <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                     <div className='space-y-1.5'>
-                      <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                      <label className='text-xs font-bold tracking-wider text-(--main-color) uppercase'>
                         Mật khẩu mới
                       </label>
                       <Input
@@ -511,12 +511,12 @@ export default function ProfilePage() {
                         placeholder='Mật khẩu mới...'
                         value={newPassword}
                         onChange={e => setNewPassword(e.target.value)}
-                        className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                        className='border border-(--border-color) bg-(--background-color) text-(--main-color) placeholder:text-(--secondary-color)/50 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500'
                       />
                     </div>
 
                     <div className='space-y-1.5'>
-                      <label className='text-xs font-semibold tracking-wider text-slate-400 uppercase'>
+                      <label className='text-xs font-bold tracking-wider text-(--main-color) uppercase'>
                         Xác nhận mật khẩu
                       </label>
                       <Input
@@ -524,7 +524,7 @@ export default function ProfilePage() {
                         placeholder='Nhập lại mật khẩu mới...'
                         value={confirmPassword}
                         onChange={e => setConfirmPassword(e.target.value)}
-                        className='border-[#1a1a1f] bg-[#121215] text-slate-100 placeholder-slate-600 focus-visible:ring-amber-500'
+                        className='border border-(--border-color) bg-(--background-color) text-(--main-color) placeholder:text-(--secondary-color)/50 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500'
                       />
                     </div>
                   </div>
@@ -533,7 +533,7 @@ export default function ProfilePage() {
                 <Button
                   type='submit'
                   disabled={formLoading}
-                  className='flex h-10 w-fit cursor-pointer items-center justify-center gap-1.5 self-end rounded-xl bg-amber-500 px-6 font-semibold text-black transition-all hover:bg-amber-400'
+                  className='flex h-11 w-fit cursor-pointer items-center justify-center gap-1.5 self-end rounded-xl bg-blue-600 px-6 font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500 active:scale-[0.98]'
                 >
                   {formLoading && <Loader2 className='size-4 animate-spin' />}
                   Lưu thay đổi
@@ -545,23 +545,23 @@ export default function ProfilePage() {
       </div>
 
       <AlertDialog open={showLogoutModal} onOpenChange={setShowLogoutModal}>
-        <AlertDialogContent className='rounded-3xl border-[#1a1a1f] bg-[#09090b] text-slate-100'>
+        <AlertDialogContent className='rounded-3xl border-2 border-(--border-color) bg-(--card-color) text-(--main-color) shadow-2xl'>
           <AlertDialogHeader>
-            <AlertDialogTitle className='text-2xl font-bold text-white'>
+            <AlertDialogTitle className='text-2xl font-black text-(--main-color)'>
               Đăng xuất khỏi tài khoản
             </AlertDialogTitle>
-            <AlertDialogDescription className='text-base leading-relaxed text-slate-400'>
+            <AlertDialogDescription className='text-sm leading-relaxed text-(--secondary-color)'>
               Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không? Mọi tiến
               trình luyện tập chưa lưu sẽ bị hủy.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className='gap-3'>
-            <AlertDialogCancel className='cursor-pointer rounded-xl border-[#1a1a1f] bg-transparent px-6 text-slate-300 transition-colors duration-200 hover:bg-[#121215] hover:text-white'>
+            <AlertDialogCancel className='cursor-pointer rounded-xl border border-(--border-color) bg-(--background-color) px-6 font-bold text-(--main-color) transition-colors hover:bg-(--card-color)'>
               Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmLogout}
-              className='cursor-pointer rounded-xl bg-red-600 px-6 font-semibold text-white transition-colors duration-200 hover:bg-red-500'
+              className='cursor-pointer rounded-xl bg-red-600 px-6 font-bold text-white transition-colors hover:bg-red-500'
             >
               Đăng xuất
             </AlertDialogAction>
@@ -570,26 +570,25 @@ export default function ProfilePage() {
       </AlertDialog>
 
       <AlertDialog open={showVerifyModal} onOpenChange={setShowVerifyModal}>
-        <AlertDialogContent className='max-w-md rounded-3xl border-[#1a1a1f] bg-[#09090b] text-slate-100'>
+        <AlertDialogContent className='max-w-md rounded-3xl border-2 border-(--border-color) bg-(--card-color) text-(--main-color) shadow-2xl'>
           <AlertDialogHeader>
-            <AlertDialogTitle className='text-center text-2xl font-bold text-white'>
+            <AlertDialogTitle className='text-center text-2xl font-black text-(--main-color)'>
               Xác thực Email
             </AlertDialogTitle>
-            <AlertDialogDescription className='mt-1 text-center text-sm leading-relaxed text-slate-400'>
+            <AlertDialogDescription className='mt-1 text-center text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
               Mã xác thực OTP gồm 6 chữ số đã được gửi đến email{' '}
-              <span className='font-semibold text-blue-400'>{user?.email}</span>
-              .
+              <span className='font-bold text-blue-500'>{user?.email}</span>.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           {otpError && (
-            <div className='rounded-xl border border-red-500/20 bg-red-500/10 p-3.5 text-center text-xs text-red-400'>
+            <div className='rounded-2xl border border-red-500/30 bg-red-500/10 p-3.5 text-center text-xs font-semibold text-red-600 dark:text-red-400'>
               {otpError}
             </div>
           )}
 
           {otpSuccess && (
-            <div className='rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3.5 text-center text-xs text-emerald-400'>
+            <div className='rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-center text-xs font-semibold text-emerald-600 dark:text-emerald-400'>
               {otpSuccess}
             </div>
           )}
@@ -603,17 +602,17 @@ export default function ProfilePage() {
                 value={otp}
                 onChange={e => setOtp(e.target.value.replace(/\D/g, ''))}
                 placeholder='Mã OTP...'
-                className='placeholder-zinc-650 block w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center font-mono text-2xl font-bold tracking-[0.5em] text-zinc-100 shadow-sm transition-all duration-300 focus:border-blue-500 focus:bg-white/[0.07] focus:ring-1 focus:ring-blue-500 focus:outline-none'
+                className='block w-full rounded-2xl border-2 border-(--border-color) bg-(--background-color) px-4 py-3 text-center font-mono text-2xl font-black tracking-[0.5em] text-(--main-color) shadow-sm transition-all placeholder:text-(--secondary-color)/40 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none'
               />
             </div>
 
-            <div className='flex items-center justify-between text-xs text-slate-400'>
+            <div className='flex items-center justify-between text-xs text-(--secondary-color)'>
               <span>Không nhận được mã?</span>
               <button
                 type='button'
                 onClick={sendOtp}
                 disabled={sendingOtp}
-                className='font-semibold text-blue-400 transition-colors hover:text-blue-300 disabled:opacity-50'
+                className='cursor-pointer font-bold text-blue-600 transition-colors hover:text-blue-500 disabled:opacity-50 dark:text-blue-400'
               >
                 {sendingOtp ? 'Đang gửi...' : 'Gửi lại mã'}
               </button>
@@ -623,14 +622,14 @@ export default function ProfilePage() {
               <AlertDialogCancel
                 type='button'
                 onClick={() => setShowVerifyModal(false)}
-                className='flex-1 cursor-pointer rounded-xl border border-[#1a1a1f] bg-transparent px-6 text-slate-300 transition-colors duration-205 hover:bg-[#121215] hover:text-white'
+                className='flex-1 cursor-pointer rounded-xl border border-(--border-color) bg-(--background-color) px-6 font-bold text-(--main-color) transition-colors hover:bg-(--card-color)'
               >
                 Hủy
               </AlertDialogCancel>
               <button
                 type='submit'
                 disabled={verifyingOtp || otp.length !== 6}
-                className='flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-6 font-semibold text-white transition-colors duration-200 hover:bg-blue-500 disabled:pointer-events-none disabled:opacity-50'
+                className='flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-6 font-bold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500 disabled:pointer-events-none disabled:opacity-50'
               >
                 {verifyingOtp && <Loader2 className='size-4 animate-spin' />}
                 Xác nhận

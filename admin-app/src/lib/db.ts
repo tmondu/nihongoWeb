@@ -89,6 +89,14 @@ export function getDbPool(): Pool {
       .catch(() => {
         // ignore if column already exists
       });
+
+    pool
+      .execute(
+        'ALTER TABLE `users` ADD COLUMN `deleted_at` TIMESTAMP NULL DEFAULT NULL',
+      )
+      .catch(() => {
+        // ignore if column already exists
+      });
   }
 
   return pool;

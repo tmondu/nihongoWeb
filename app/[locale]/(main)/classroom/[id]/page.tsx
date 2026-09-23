@@ -147,6 +147,13 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
         setAuthError('forbidden_level');
         setRequiredLevel(target.level.toUpperCase());
       }
+
+      if (
+        data.user &&
+        (!data.user.display_name || data.user.display_name.trim() === '')
+      ) {
+        window.dispatchEvent(new CustomEvent('open-display-name-prompt'));
+      }
     } catch (err) {
       console.error('Fetch lessons failed:', err);
     } finally {
@@ -156,6 +163,15 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
 
   useEffect(() => {
     fetchLessons();
+
+    const handleNameUpdated = () => {
+      fetchLessons();
+    };
+
+    window.addEventListener('display-name-updated', handleNameUpdated);
+    return () => {
+      window.removeEventListener('display-name-updated', handleNameUpdated);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
