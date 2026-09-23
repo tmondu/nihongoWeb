@@ -468,3 +468,49 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: var(--main-color) !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* ========================================================================== */
+/* PRINT & PDF EXPORT STYLES                                                  */
+/* ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+
+  /* Reset layout constraints so multi-page printing works smoothly across pages */
+  html,
+  body,
+  #__next,
+  [data-scroll-restoration-id='container'] {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overflow-y: visible !important;
+    position: static !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide app navigation chrome, sidebars, headers, footers */
+  #mobile-header,
+  #main-sidebar,
+  #main-bottom-bar,
+  header,
+  nav,
+  aside,
+  [data-print-hidden='true'] {
+    display: none !important;
+  }
+
+  /* Prevent cards from breaking midway across page boundaries */
+  .print-card,
+  [data-print-card='true'] {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 1rem !important;
+  }
+}

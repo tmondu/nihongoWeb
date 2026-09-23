@@ -49,7 +49,7 @@ const Banner = () => {
   return (
     <h2
       className={clsx(
-        'pt-3 text-3xl lg:pt-6',
+        'pt-3 text-3xl lg:pt-6 print:hidden',
         USE_NEW_BADGE_DESIGN
           ? 'flex items-center gap-2 overflow-visible'
           : 'flex items-center gap-2 overflow-hidden',

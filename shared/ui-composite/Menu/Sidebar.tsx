@@ -973,7 +973,7 @@ const Sidebar = () => {
       {/* Mobile Top Header - Fixed/Sticky at top with 3-bar Hamburger Button on mobile */}
       <header
         id='mobile-header'
-        className='sticky top-0 z-40 flex h-14 w-full shrink-0 items-center justify-between border-b border-(--border-color) bg-(--background-color)/90 px-4 backdrop-blur-md lg:hidden'
+        className='sticky top-0 z-40 flex h-14 w-full shrink-0 items-center justify-between border-b border-(--border-color) bg-(--background-color)/90 px-4 backdrop-blur-md lg:hidden print:hidden'
       >
         <div className='flex items-center gap-3'>
           <button
@@ -1265,7 +1265,7 @@ const Sidebar = () => {
       <aside
         id='main-sidebar'
         className={clsx(
-          'hidden lg:flex lg:flex-col lg:items-start',
+          'hidden lg:flex lg:flex-col lg:items-start print:hidden',
           'lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
           'z-30 border-(--border-color) lg:border-r',
           'lg:transition-[width,padding] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',

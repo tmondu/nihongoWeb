@@ -276,7 +276,7 @@ export default function BackToTop() {
     <button
       onClick={handleClick}
       className={clsx(
-        'fixed top-[calc(var(--stable-vh)/2)] right-2 z-60 -translate-y-1/2 md:top-1/2 lg:right-3',
+        'fixed top-[calc(var(--stable-vh)/2)] right-2 z-60 -translate-y-1/2 md:top-1/2 lg:right-3 print:hidden',
         USE_FLOATING_STYLE ? floatingStyleClasses : currentStyleClasses,
         USE_EXPLOSION_ANIMATION &&
           animState === 'idle' &&

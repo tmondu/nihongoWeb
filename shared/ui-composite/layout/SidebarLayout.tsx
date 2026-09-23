@@ -26,14 +26,14 @@ const SidebarLayout = ({
   return (
     <div
       className={clsx(
-        'flex min-h-[100dvh] max-w-[100dvw] flex-col lg:flex-row',
-        !isThamKanji && 'lg:gap-4 lg:pr-6',
+        'flex min-h-[100dvh] max-w-[100dvw] flex-col lg:flex-row print:block print:min-h-0 print:max-w-none',
+        !isThamKanji && 'lg:gap-4 lg:pr-6 print:gap-0 print:p-0',
       )}
     >
       {!isThamKanji && <Sidebar />}
       <div
         className={clsx(
-          'flex flex-col gap-4',
+          'flex flex-col gap-4 print:block print:w-full print:gap-0 print:p-0',
           isThamKanji
             ? 'w-full px-4 md:px-8'
             : 'w-full px-4 md:px-8 lg:flex-1 lg:px-0',

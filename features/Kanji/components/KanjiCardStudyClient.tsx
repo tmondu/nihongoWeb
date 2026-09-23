@@ -60,13 +60,14 @@ export default function KanjiCardStudyClient({
       ? levelParam
       : initialLevel;
 
-  const [activeLevel, setActiveLevel] = useState<KanjiLevel>(validLevel);
+  const activeLevel: KanjiLevel = validLevel;
 
-  // Lesson state
-  const initialLessonNum = lessonParam ? parseInt(lessonParam, 10) : null;
-  const [selectedLessonNum, setSelectedLessonNum] = useState<number | null>(
-    initialLessonNum,
-  );
+  // Derive selectedLessonNum directly from URL search params
+  const selectedLessonNum: number | null = useMemo(() => {
+    if (!lessonParam) return null;
+    const parsed = parseInt(lessonParam, 10);
+    return Number.isNaN(parsed) ? null : parsed;
+  }, [lessonParam]);
 
   // View mode: 'sheet' (Bảng sách giống ảnh) | 'flashcards' (Thẻ học)
   const [lessonViewMode, setLessonViewMode] = useState<'sheet' | 'flashcards'>(
@@ -75,7 +76,7 @@ export default function KanjiCardStudyClient({
 
   // Tab: 'curriculum' (Bài học theo bậc N) | 'all' (Tất cả Kanji tra cứu)
   const [activeTab, setActiveTab] = useState<'curriculum' | 'all'>(
-    'curriculum',
+    initialCharacter ? 'all' : 'curriculum',
   );
 
   // General Kanji list (for 'all' tab or flashcards)
@@ -83,28 +84,6 @@ export default function KanjiCardStudyClient({
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
-
-  // Sync state if URL search params change
-  useEffect(() => {
-    if (
-      levelParam &&
-      ['n5', 'n4', 'n3', 'n2', 'n1'].includes(levelParam) &&
-      levelParam !== activeLevel
-    ) {
-      setActiveLevel(levelParam);
-    }
-  }, [levelParam, activeLevel]);
-
-  useEffect(() => {
-    if (lessonParam) {
-      const parsed = parseInt(lessonParam, 10);
-      if (!Number.isNaN(parsed) && parsed !== selectedLessonNum) {
-        setSelectedLessonNum(parsed);
-      }
-    } else if (lessonParam === null && selectedLessonNum !== null) {
-      // Intentionally keep or allow null if navigated back
-    }
-  }, [lessonParam, selectedLessonNum]);
 
   // Current Lesson object
   const currentLesson: KanjiProLesson | null = useMemo(() => {
@@ -167,7 +146,7 @@ export default function KanjiCardStudyClient({
 
   // Update URL helper
   const updateUrl = useCallback(
-    (lvl: KanjiLevel, lessonNum: number | null) => {
+    (lvl: KanjiLevel, lessonNum: number | null, replace: boolean = false) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set('level', lvl);
       if (lessonNum !== null) {
@@ -176,15 +155,18 @@ export default function KanjiCardStudyClient({
         params.delete('lesson');
       }
       params.delete('open');
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+      const targetUrl = `${pathname}?${params.toString()}`;
+      if (replace) {
+        router.replace(targetUrl, { scroll: false });
+      } else {
+        router.push(targetUrl, { scroll: false });
+      }
     },
     [pathname, router, searchParams],
   );
 
   // Handle level change
   const handleSelectLevel = (lvl: KanjiLevel) => {
-    setActiveLevel(lvl);
-    setSelectedLessonNum(null);
     setSearchQuery('');
     setSelectedIndex(0);
     updateUrl(lvl, null);
@@ -192,14 +174,13 @@ export default function KanjiCardStudyClient({
 
   // Handle lesson click from list
   const handleSelectLesson = (lesson: KanjiProLesson) => {
-    setSelectedLessonNum(lesson.lessonNum);
     setSelectedIndex(0);
     updateUrl(activeLevel, lesson.lessonNum);
   };
 
   // Handle back to lessons
   const handleBackToLessons = () => {
-    setSelectedLessonNum(null);
+    setSelectedIndex(0);
     updateUrl(activeLevel, null);
   };
 
@@ -265,9 +246,9 @@ export default function KanjiCardStudyClient({
   }, [handlePrev, handleNext]);
 
   return (
-    <div className='mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-8'>
+    <div className='mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-6 sm:py-8 print:max-w-none print:space-y-0 print:p-0'>
       {/* Top Banner / Header */}
-      <div className='flex flex-col gap-5 rounded-3xl border border-(--border-color) bg-(--card-color)/90 p-5 shadow-sm backdrop-blur-sm sm:p-6'>
+      <div className='flex flex-col gap-5 rounded-3xl border border-(--border-color) bg-(--card-color)/90 p-5 shadow-sm backdrop-blur-sm sm:p-6 print:hidden'>
         <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
           <div className='flex items-center gap-3.5'>
             <div className='flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border-b-4 border-(--main-color-accent) bg-(--main-color) text-(--background-color) shadow-md'>
@@ -351,7 +332,7 @@ export default function KanjiCardStudyClient({
               type='button'
               onClick={() => {
                 setActiveTab('all');
-                setSelectedLessonNum(null);
+                updateUrl(activeLevel, null);
               }}
               className={clsx(
                 'flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all',
@@ -513,8 +494,6 @@ export default function KanjiCardStudyClient({
               <button
                 type='button'
                 onClick={() => {
-                  setActiveLevel('n4');
-                  setSelectedLessonNum(24);
                   updateUrl('n4', 24);
                 }}
                 className='rounded-xl bg-sky-500 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all hover:bg-sky-600'

@@ -1,11 +1,70 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import KanjiProLessonSheet from '../components/KanjiProLessonSheet';
 import KanjiProLessonList from '../components/KanjiProLessonList';
+import KanjiCardStudyClient from '../components/KanjiCardStudyClient';
 import { getLessonDetail } from '../data/kanjiProCurriculum';
 
+const mockPush = vi.fn();
+const mockReplace = vi.fn();
+let mockSearchParams = new URLSearchParams();
+
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    replace: mockReplace,
+  }),
+  useSearchParams: () => mockSearchParams,
+  usePathname: () => '/kanjipro',
+}));
+
+vi.mock('next/link', () => ({
+  default: ({
+    children,
+    href,
+    ...props
+  }: {
+    children: React.ReactNode;
+    href: string;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
+vi.mock('@/features/Preferences', () => ({
+  useThemePreferences: () => ({ furiganaEnabled: true }),
+  useFontStore: () => ({ currentFont: 'noto-sans-jp' }),
+}));
+
+vi.mock('next/font/google', () => {
+  return new Proxy(
+    {},
+    {
+      get: () => () => ({ className: 'mock-font', style: {} }),
+    },
+  );
+});
+
+vi.mock('../services/kanjiDataService', () => ({
+  kanjiDataService: {
+    getKanjiByLevel: vi.fn().mockResolvedValue([]),
+    preloadAll: vi.fn().mockResolvedValue(undefined),
+    isCached: vi.fn().mockReturnValue(true),
+    getAllCached: vi.fn().mockReturnValue({}),
+    clearCache: vi.fn(),
+  },
+}));
+
 describe('KanjiPro UI Components', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockSearchParams = new URLSearchParams();
+  });
+
   const lesson24 = getLessonDetail('n4', 24);
 
   it('renders KanjiProLessonSheet with exact 9 Kanji from Bài 24 N4', async () => {
@@ -107,5 +166,37 @@ describe('KanjiPro UI Components', () => {
         expect.objectContaining({ lessonNum: 24, level: 'n4' }),
       );
     }
+  });
+
+  it('renders lesson list when level=n4 and lesson is not in URL', () => {
+    mockSearchParams = new URLSearchParams('level=n4');
+
+    render(<KanjiCardStudyClient />);
+
+    expect(screen.getByText('Danh Sách Bài Học Cấp Độ N4')).toBeDefined();
+    expect(screen.queryByText('← Chọn bài khác')).toBeNull();
+  });
+
+  it('renders lesson sheet when level=n4 and lesson=24 in URL, and navigates back to lesson list on click', async () => {
+    mockSearchParams = new URLSearchParams('level=n4&lesson=24');
+
+    await act(async () => {
+      render(<KanjiCardStudyClient />);
+    });
+
+    // Should render lesson 24 content
+    expect(screen.getByText('KANJI')).toBeDefined();
+    expect(screen.getByText('Chọn bài khác')).toBeDefined();
+
+    // Click 'Chọn bài khác'
+    const backBtn = screen.getByText('Chọn bài khác');
+    await act(async () => {
+      fireEvent.click(backBtn);
+    });
+
+    // Should have called router.push with level=n4 and no lesson param
+    expect(mockPush).toHaveBeenCalledWith('/kanjipro?level=n4', {
+      scroll: false,
+    });
   });
 });

@@ -83,7 +83,7 @@ const MobileBottomBar = () => {
     <div
       id='main-bottom-bar'
       className={clsx(
-        'fixed right-0 bottom-0 left-0 z-50 max-lg:hidden',
+        'fixed right-0 bottom-0 left-0 z-50 max-lg:hidden print:hidden',
         'border-t-1 border-(--border-color) bg-(--background-color)',
         'flex items-center justify-between px-4 py-1',
         expandDecorations && 'hidden',
@@ -125,8 +125,8 @@ const MobileBottomBar = () => {
                         pulseClasses,
                         isPatreon && 'text-blue-500',
                         isDonate &&
-                        USE_BADGE_STYLE &&
-                        '!text-(--background-color)',
+                          USE_BADGE_STYLE &&
+                          '!text-(--background-color)',
                       )}
                     />
                   ) : (
@@ -137,8 +137,8 @@ const MobileBottomBar = () => {
                         (!isDonate || !USE_BADGE_STYLE) && pulseClasses,
                         isDonate && USE_BADGE_STYLE && 'fill-current',
                         isDonate &&
-                        !USE_BADGE_STYLE &&
-                        'fill-current text-red-500',
+                          !USE_BADGE_STYLE &&
+                          'fill-current text-red-500',
                       )}
                     />
                   )}
