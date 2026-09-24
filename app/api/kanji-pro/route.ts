@@ -63,29 +63,41 @@ export async function GET(request: NextRequest) {
 
     const defaultLessons = getLessonsForLevel(level);
 
-    const mergedLessons = defaultLessons.map(defaultLesson => {
-      const dbLesson = dbLessonMap.get(defaultLesson.lessonNum);
-      if (dbLesson) {
-        return dbLesson;
-      }
-      return defaultLesson;
-    });
+    const finalMap = new Map<number, KanjiProLesson>();
+    defaultLessons.forEach(l => finalMap.set(l.lessonNum, l));
+    dbLessonMap.forEach((l, num) => finalMap.set(num, l));
+    const mergedLessons = Array.from(finalMap.values()).sort(
+      (a, b) => a.lessonNum - b.lessonNum,
+    );
+
+    const responseHeaders = {
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
+    };
 
     if (lessonNumParam) {
       const lessonNum = parseInt(lessonNumParam, 10);
       const targetLesson =
         mergedLessons.find(l => l.lessonNum === lessonNum) || null;
-      return NextResponse.json({
-        lesson: targetLesson,
-      });
+      return NextResponse.json(
+        {
+          lesson: targetLesson,
+        },
+        { headers: responseHeaders },
+      );
     }
 
-    return NextResponse.json({
-      level,
-      total: mergedLessons.length,
-      lessons: mergedLessons,
-    });
-  } catch {
+    return NextResponse.json(
+      {
+        level,
+        total: mergedLessons.length,
+        lessons: mergedLessons,
+      },
+      { headers: responseHeaders },
+    );
+  } catch (error) {
+    console.error('Error fetching Kanji Pro lessons from DB:', error);
     // Fallback to static data
     const defaultLessons = getLessonsForLevel(level);
     if (lessonNumParam) {

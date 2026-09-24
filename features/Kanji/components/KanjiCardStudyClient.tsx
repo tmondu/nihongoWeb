@@ -9,6 +9,7 @@ import KanjiProLessonSheet from './KanjiProLessonSheet';
 import KanjiProLessonList from './KanjiProLessonList';
 import {
   getLessonDetail,
+  getLessonsForLevel,
   type KanjiProLesson,
 } from '../data/kanjiProCurriculum';
 import hanvietMap from '@/shared/data/kanji_hanviet.json';
@@ -69,6 +70,36 @@ export default function KanjiCardStudyClient({
     return Number.isNaN(parsed) ? null : parsed;
   }, [lessonParam]);
 
+  // Dynamic Lessons list for curriculum (fallback to static, updated from /api/kanji-pro)
+  const [lessons, setLessons] = useState<KanjiProLesson[]>(() =>
+    getLessonsForLevel(activeLevel),
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+    setLessons(getLessonsForLevel(activeLevel));
+
+    void (async () => {
+      try {
+        if (typeof window === 'undefined') return;
+        const res = await fetch(`/api/kanji-pro?level=${activeLevel}`, {
+          cache: 'no-store',
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted && data && Array.isArray(data.lessons)) {
+          setLessons(data.lessons);
+        }
+      } catch {
+        // Fallback to static in-memory data
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [activeLevel]);
+
   // View mode: 'sheet' (Bảng sách giống ảnh) | 'flashcards' (Thẻ học)
   const [lessonViewMode, setLessonViewMode] = useState<'sheet' | 'flashcards'>(
     'sheet',
@@ -85,11 +116,13 @@ export default function KanjiCardStudyClient({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Current Lesson object
+  // Current Lesson object (prefer dynamic DB lesson, fallback to static detail)
   const currentLesson: KanjiProLesson | null = useMemo(() => {
     if (selectedLessonNum === null) return null;
+    const found = lessons.find(l => l.lessonNum === selectedLessonNum);
+    if (found) return found;
     return getLessonDetail(activeLevel, selectedLessonNum);
-  }, [activeLevel, selectedLessonNum]);
+  }, [activeLevel, selectedLessonNum, lessons]);
 
   // Convert current lesson's Kanji list to IKanjiObj format for Flashcard mode
   const lessonKanjiAsObjList: IKanjiObj[] = useMemo(() => {
@@ -401,6 +434,7 @@ export default function KanjiCardStudyClient({
           <div className='rounded-3xl border border-(--border-color) bg-(--card-color) p-5 sm:p-7'>
             <KanjiProLessonList
               level={activeLevel}
+              lessons={lessons}
               selectedLessonNum={selectedLessonNum}
               onSelectLesson={handleSelectLesson}
             />

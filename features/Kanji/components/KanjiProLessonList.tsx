@@ -11,16 +11,20 @@ import clsx from 'clsx';
 
 interface KanjiProLessonListProps {
   level: KanjiLevel;
+  lessons?: KanjiProLesson[];
   selectedLessonNum?: number | null;
   onSelectLesson: (lesson: KanjiProLesson) => void;
 }
 
 export default function KanjiProLessonList({
   level,
+  lessons: customLessons,
   selectedLessonNum,
   onSelectLesson,
 }: KanjiProLessonListProps) {
-  const lessons = getLessonsForLevel(level);
+  const fallbackLessons = getLessonsForLevel(level);
+  const lessons =
+    customLessons && customLessons.length > 0 ? customLessons : fallbackLessons;
 
   return (
     <div className='space-y-5'>
