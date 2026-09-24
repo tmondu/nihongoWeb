@@ -61,9 +61,8 @@ export function getDbPool(): Pool {
       keepAliveInitialDelay: 0,
     });
 
-    pool
-      .execute(
-        `CREATE TABLE IF NOT EXISTS \`lesson_video_progress\` (
+    pool.execute(
+      `CREATE TABLE IF NOT EXISTS \`lesson_video_progress\` (
           \`id\` INT AUTO_INCREMENT PRIMARY KEY,
           \`user_id\` INT NOT NULL,
           \`lesson_id\` INT NOT NULL,
@@ -78,6 +77,22 @@ export function getDbPool(): Pool {
           INDEX \`idx_lvp_user\` (\`user_id\`),
           INDEX \`idx_lvp_lesson\` (\`lesson_id\`),
           FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
+    );
+    pool
+      .execute(
+        `CREATE TABLE IF NOT EXISTS \`kanji_pro_lessons\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`level\` VARCHAR(10) NOT NULL DEFAULT 'n4',
+          \`lesson_num\` INT NOT NULL,
+          \`title\` VARCHAR(100) NOT NULL,
+          \`description\` VARCHAR(255) NULL,
+          \`is_available\` TINYINT(1) NOT NULL DEFAULT 1,
+          \`kanji_list\` JSON NOT NULL,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          UNIQUE KEY \`uk_level_lesson\` (\`level\`, \`lesson_num\`),
+          INDEX \`idx_kanji_pro_level\` (\`level\`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;`,
       )
       .catch(() => {

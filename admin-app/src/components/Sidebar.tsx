@@ -8,10 +8,10 @@ import {
   Languages,
   Users,
   LogOut,
-  Sparkles,
   GraduationCap,
   ClipboardCheck,
   BookMarked,
+  BookOpenCheck,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -34,6 +34,11 @@ const NAV_ITEMS = [
     label: 'Chữ Hán (Kanji)',
     href: '/kanji',
     icon: Languages,
+  },
+  {
+    label: 'Kanji Pro',
+    href: '/kanji-pro',
+    icon: BookOpenCheck,
   },
   {
     label: 'Bài Giảng (Lessons)',
