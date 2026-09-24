@@ -88,7 +88,7 @@ describe('KanjiPro Curriculum Data', () => {
     expect(bat.onyomi).toBe('フ、ブ');
   });
 
-  it('returns lessons for N4 starting from Bài 21 with Bài 24 and 25 available', () => {
+  it('returns lessons for N4 starting from Bài 21 with Bài 24, 25 and 26 available', () => {
     const n4Lessons = getLessonsForLevel('n4');
     expect(n4Lessons[0].lessonNum).toBe(21);
     expect(n4Lessons[0].title).toBe('Bài 21');
@@ -103,6 +103,11 @@ describe('KanjiPro Curriculum Data', () => {
     expect(b25).toBeDefined();
     expect(b25?.isAvailable).toBe(true);
     expect(b25?.kanjiList).toHaveLength(12);
+
+    const b26 = n4Lessons.find(l => l.lessonNum === 26);
+    expect(b26).toBeDefined();
+    expect(b26?.isAvailable).toBe(true);
+    expect(b26?.kanjiList).toHaveLength(13);
   });
 
   it('retrieves lesson detail correctly with getLessonDetail', () => {
@@ -115,6 +120,11 @@ describe('KanjiPro Curriculum Data', () => {
     expect(b25).not.toBeNull();
     expect(b25?.title).toBe('Bài 25');
     expect(b25?.kanjiList[0].kanjiChar).toBe('飯');
+
+    const b26 = getLessonDetail('n4', 26);
+    expect(b26).not.toBeNull();
+    expect(b26?.title).toBe('Bài 26');
+    expect(b26?.kanjiList[0].kanjiChar).toBe('議');
 
     const nonExistent = getLessonDetail('n4', 999);
     expect(nonExistent).toBeNull();

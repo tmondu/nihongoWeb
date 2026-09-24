@@ -550,6 +550,260 @@ export const LESSON_25_N4_KANJI: KanjiProWord[] = [
   },
 ];
 
+export const LESSON_26_N4_KANJI: KanjiProWord[] = [
+  {
+    id: 'n4-b26-01-nghi-1',
+    kanjiChar: '議',
+    hanviet: 'NGHỊ',
+    meaning: 'Bàn bạc',
+    kunyomi: '—',
+    onyomi: 'ギ',
+    examples: [
+      { num: '①', japanese: '会議', reading: 'かいぎ', meaning: 'cuộc họp' },
+      {
+        num: '②',
+        japanese: '会議が始まります。',
+        reading: 'かいぎがはじまります。',
+        meaning: 'Cuộc họp bắt đầu.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-02-nghi-2',
+    kanjiChar: '議',
+    hanviet: 'NGHỊ',
+    meaning: 'Bàn bạc',
+    kunyomi: '—',
+    onyomi: 'ギ',
+    examples: [
+      {
+        num: '①',
+        japanese: '国会議事堂',
+        reading: 'こっかいぎじどう',
+        meaning: 'tòa nhà Quốc hội',
+      },
+      {
+        num: '②',
+        japanese: '国会議事堂を見に行きました。',
+        reading: 'こっかいぎじどうをみにいきました。',
+        meaning: 'Tôi đã đi xem tòa nhà Quốc hội.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-03-tru',
+    kanjiChar: '駐',
+    hanviet: 'TRÚ',
+    meaning: 'Đỗ, lưu trú',
+    kunyomi: '—',
+    onyomi: 'チュウ',
+    examples: [
+      {
+        num: '①',
+        japanese: '駐車場',
+        reading: 'ちゅうしゃじょう',
+        meaning: 'bãi đỗ xe',
+      },
+      {
+        num: '②',
+        japanese: '駐車場はこちらです。',
+        reading: 'ちゅうしゃじょうはこちらです。',
+        meaning: 'Bãi đỗ xe ở đằng kia.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-04-mao',
+    kanjiChar: '帽',
+    hanviet: 'MẠO',
+    meaning: 'Mũ, nón',
+    kunyomi: '—',
+    onyomi: 'ボウ',
+    examples: [
+      { num: '①', japanese: '帽子', reading: 'ぼうし', meaning: 'mũ, nón' },
+      {
+        num: '②',
+        japanese: '新しい帽子を買いました。',
+        reading: 'あたらしいぼうしをかいました。',
+        meaning: 'Tôi đã mua mũ mới.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-05-hoanh',
+    kanjiChar: '横',
+    hanviet: 'HOÀNH',
+    meaning: 'Ngang, bên cạnh',
+    kunyomi: 'よこ',
+    onyomi: 'オウ',
+    examples: [
+      { num: '①', japanese: '横', reading: 'よこ', meaning: 'bên cạnh' },
+      {
+        num: '②',
+        japanese: '駅の横にコンビニがあります。',
+        reading: 'えきのよこにコンビニがあります。',
+        meaning: 'Bên cạnh ga có cửa hàng tiện lợi.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-06-thi',
+    kanjiChar: '市',
+    hanviet: 'THỊ',
+    meaning: 'Thành phố, chợ',
+    kunyomi: 'いち',
+    onyomi: 'シ',
+    examples: [
+      {
+        num: '①',
+        japanese: '市役所',
+        reading: 'しやくしょ',
+        meaning: 'tòa thị chính',
+      },
+      {
+        num: '②',
+        japanese: '市役所へ行きます。',
+        reading: 'しやくしょへいきます。',
+        meaning: 'Tôi đến tòa thị chính.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-07-dich',
+    kanjiChar: '役',
+    hanviet: 'DỊCH',
+    meaning: 'Vai trò',
+    kunyomi: '—',
+    onyomi: 'ヤク、エキ',
+    examples: [
+      {
+        num: '①',
+        japanese: '市役所',
+        reading: 'しやくしょ',
+        meaning: 'tòa thị chính',
+      },
+      {
+        num: '②',
+        japanese: '市役所で手続きをします。',
+        reading: 'しやくしょでてつづきをします。',
+        meaning: 'Tôi làm thủ tục ở tòa thị chính.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-08-so',
+    kanjiChar: '所',
+    hanviet: 'SỞ',
+    meaning: 'Nơi, chỗ',
+    kunyomi: 'ところ',
+    onyomi: 'ショ',
+    examples: [
+      { num: '①', japanese: '場所', reading: 'ばしょ', meaning: 'địa điểm' },
+      {
+        num: '②',
+        japanese: 'ここは待ち合わせの場所です。',
+        reading: 'ここはまちあわせのばしょです。',
+        meaning: 'Đây là nơi hẹn gặp.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-09-thap',
+    kanjiChar: '拾',
+    hanviet: 'THẬP',
+    meaning: 'Nhặt',
+    kunyomi: 'ひろ.う',
+    onyomi: 'シュウ、ジュウ',
+    examples: [
+      { num: '①', japanese: '拾う', reading: 'ひろう', meaning: 'nhặt, lượm' },
+      {
+        num: '②',
+        japanese: '道で財布を拾いました。',
+        reading: 'みちでさいふをひろいました。',
+        meaning: 'Tôi đã nhặt được ví trên đường.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-10-xa',
+    kanjiChar: '捨',
+    hanviet: 'XẢ',
+    meaning: 'Vứt, bỏ',
+    kunyomi: 'す.てる',
+    onyomi: 'シャ',
+    examples: [
+      {
+        num: '①',
+        japanese: '捨てる',
+        reading: 'すてる',
+        meaning: 'vứt, bỏ',
+      },
+      {
+        num: '②',
+        japanese: 'ごみを捨ててください。',
+        reading: 'ごみをすててください。',
+        meaning: 'Hãy vứt rác.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-11-tri',
+    kanjiChar: '遅',
+    hanviet: 'TRÌ',
+    meaning: 'Chậm, muộn',
+    kunyomi: 'おく.れる、おく.らす、おそ.い',
+    onyomi: 'チ',
+    examples: [
+      {
+        num: '①',
+        japanese: '遅れる',
+        reading: 'おくれる',
+        meaning: 'trễ, muộn',
+      },
+      {
+        num: '②',
+        japanese: '電車に遅れました。',
+        reading: 'でんしゃにおくれました。',
+        meaning: 'Tôi đã bị lỡ tàu.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-12-vien',
+    kanjiChar: '遠',
+    hanviet: 'VIỄN',
+    meaning: 'Xa',
+    kunyomi: 'とお.い',
+    onyomi: 'エン、オン',
+    examples: [
+      { num: '①', japanese: '遠い', reading: 'とおい', meaning: 'xa' },
+      {
+        num: '②',
+        japanese: '駅は遠いです。',
+        reading: 'えきはとおいです。',
+        meaning: 'Ga ở xa.',
+      },
+    ],
+  },
+  {
+    id: 'n4-b26-13-tue',
+    kanjiChar: '歳',
+    hanviet: 'TUẾ',
+    meaning: 'Tuổi',
+    kunyomi: '—',
+    onyomi: 'サイ、セイ',
+    examples: [
+      { num: '①', japanese: '～歳', reading: 'さい', meaning: 'tuổi' },
+      {
+        num: '②',
+        japanese: '私は２０歳です。',
+        reading: 'わたしはにじゅっさいです。',
+        meaning: 'Tôi 20 tuổi.',
+      },
+    ],
+  },
+];
+
 /**
  * Sinh danh sách bài học cho một cấp độ
  */
@@ -564,6 +818,7 @@ export function getLessonsForLevel(level: KanjiLevel): KanjiProLesson[] {
     const num = start + i;
     const isLesson24N4 = level === 'n4' && num === 24;
     const isLesson25N4 = level === 'n4' && num === 25;
+    const isLesson26N4 = level === 'n4' && num === 26;
 
     let kanjiList: KanjiProWord[] = [];
     let isAvailable = false;
@@ -578,6 +833,11 @@ export function getLessonsForLevel(level: KanjiLevel): KanjiProLesson[] {
       isAvailable = true;
       description =
         '12 mục chữ Hán: 飯, 場, 正, 世, 界, 急, 特, 県, 低, 弱, 不, 急';
+    } else if (isLesson26N4) {
+      kanjiList = LESSON_26_N4_KANJI;
+      isAvailable = true;
+      description =
+        '13 mục chữ Hán: 議, 議, 駐, 帽, 横, 市, 役, 所, 拾, 捨, 遅, 遠, 歳';
     }
 
     lessons.push({

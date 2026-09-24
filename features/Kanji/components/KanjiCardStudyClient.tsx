@@ -14,6 +14,7 @@ import {
 } from '../data/kanjiProCurriculum';
 import hanvietMap from '@/shared/data/kanji_hanviet.json';
 import {
+  FileText,
   Search,
   ChevronLeft,
   ChevronRight,
@@ -22,8 +23,8 @@ import {
   Layers,
   BookOpen,
   LayoutGrid,
-  CreditCard,
   ArrowLeft,
+  WalletCards,
 } from 'lucide-react';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -403,8 +404,8 @@ export default function KanjiCardStudyClient({
                       : 'text-(--secondary-color) hover:text-(--main-color)',
                   )}
                 >
-                  <BookOpen className='size-3' />
-                  <span>Bảng sách (Giống ảnh)</span>
+                  <FileText className='size-3' />
+                  <span>Bảng sách</span>
                 </button>
                 <button
                   type='button'
@@ -416,8 +417,8 @@ export default function KanjiCardStudyClient({
                       : 'text-(--secondary-color) hover:text-(--main-color)',
                   )}
                 >
-                  <CreditCard className='size-3' />
-                  <span>Thẻ Flashcard Pro</span>
+                  <WalletCards className='size-3' />
+                  <span>Thẻ Flashcard</span>
                 </button>
               </div>
             </div>
