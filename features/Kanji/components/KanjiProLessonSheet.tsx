@@ -301,7 +301,12 @@ export default function KanjiProLessonSheet({
         {/* [ 試 | 問 | 答 | 耳 | 用 | 験 | 集 | 研 | 台 ]                    */}
         {/* ================================================================= */}
         <div className='mb-6 overflow-hidden rounded-xl border border-(--border-color) bg-(--background-color)'>
-          <div className='grid grid-cols-9 divide-x divide-(--border-color) text-center'>
+          <div
+            className='grid divide-x divide-(--border-color) text-center'
+            style={{
+              gridTemplateColumns: `repeat(${lesson.kanjiList.length}, minmax(0, 1fr))`,
+            }}
+          >
             {lesson.kanjiList.map((item, idx) => {
               const isDone = Boolean(completedMap[item.kanjiChar]);
               const isHighlighted = activeHighlightChar === item.kanjiChar;

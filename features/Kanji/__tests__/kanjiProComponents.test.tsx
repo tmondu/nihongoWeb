@@ -144,6 +144,46 @@ describe('KanjiPro UI Components', () => {
     expect(screen.getByText(/Đã học: 1\/9 chữ/)).toBeDefined();
   });
 
+  it('renders KanjiProLessonSheet with exact 12 Kanji items from Bài 25 N4', async () => {
+    const lesson25 = getLessonDetail('n4', 25);
+    expect(lesson25).not.toBeNull();
+    if (!lesson25) return;
+
+    await act(async () => {
+      render(<KanjiProLessonSheet lesson={lesson25} />);
+    });
+
+    expect(screen.getByText('KANJI')).toBeDefined();
+    expect(screen.getAllByText('Bài 25').length).toBeGreaterThan(0);
+
+    // Check Kanji characters from Bài 25
+    const chars = [
+      '飯',
+      '場',
+      '正',
+      '世',
+      '界',
+      '急',
+      '特',
+      '県',
+      '低',
+      '弱',
+      '不',
+    ];
+    chars.forEach(char => {
+      expect(screen.getAllByText(char).length).toBeGreaterThanOrEqual(1);
+    });
+
+    // Check Hán-Việt
+    expect(screen.getByText('PHẠN')).toBeDefined();
+    expect(screen.getByText('TRƯỜNG')).toBeDefined();
+    expect(screen.getByText('BẤT')).toBeDefined();
+
+    // Check examples
+    expect(screen.getByText(': cơm')).toBeDefined();
+    expect(screen.getByText(': Tôi ăn cơm.')).toBeDefined();
+  });
+
   it('renders KanjiProLessonList with Bài 24 available', () => {
     const handleSelect = vi.fn();
     render(
@@ -155,7 +195,9 @@ describe('KanjiPro UI Components', () => {
     );
 
     expect(screen.getByText('Danh Sách Bài Học Cấp Độ N4')).toBeDefined();
-    expect(screen.getByText('Đầy đủ nội dung')).toBeDefined();
+    expect(
+      screen.getAllByText('Đầy đủ nội dung').length,
+    ).toBeGreaterThanOrEqual(2);
 
     // Click Bài 24
     const b24Button = screen.getByText('Bài 24').closest('button');

@@ -10,7 +10,8 @@ import {
   Users,
   BookOpen,
   ArrowLeft,
-  Sparkles,
+  Languages,
+  GraduationCap,
   ClipboardCheck,
 } from 'lucide-react';
 
@@ -112,8 +113,15 @@ export default async function AdminLayout({
             href='/admin/kanji'
             className='group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-[#16161a] hover:text-white'
           >
-            <Sparkles className='size-4 text-slate-400 transition-colors group-hover:text-amber-400' />
+            <Languages className='size-4 text-slate-400 transition-colors group-hover:text-amber-400' />
             Chữ Kanji
+          </Link>
+          <Link
+            href='/admin/kanji-pro'
+            className='group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-[#16161a] hover:text-white'
+          >
+            <GraduationCap className='size-4 text-slate-400 transition-colors group-hover:text-amber-400' />
+            Kanji Pro
           </Link>
           <Link
             href='/admin/exercises'
