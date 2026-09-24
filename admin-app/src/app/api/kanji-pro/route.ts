@@ -196,6 +196,21 @@ export async function POST(request: NextRequest) {
       typeof kanji_list === 'string' ? kanji_list : JSON.stringify(kanji_list);
 
     if (id) {
+      // Check if another lesson with the same level + lesson_num already exists
+      const [duplicate] = await pool.execute<RowDataPacket[]>(
+        'SELECT id FROM `kanji_pro_lessons` WHERE `level` = ? AND `lesson_num` = ? AND `id` != ? LIMIT 1',
+        [level.toLowerCase(), Number(lesson_num), Number(id)],
+      );
+
+      if (duplicate.length > 0) {
+        return NextResponse.json(
+          {
+            error: `Số bài ${lesson_num} (${level.toUpperCase()}) đã được sử dụng bởi một bài học khác. Không thể sửa trùng số bài!`,
+          },
+          { status: 409 },
+        );
+      }
+
       // Update by ID
       const [result] = await pool.execute<ResultSetHeader>(
         `UPDATE \`kanji_pro_lessons\` 
@@ -225,16 +240,25 @@ export async function POST(request: NextRequest) {
         id,
       });
     } else {
-      // Insert or Update on duplicate key
+      // Check if level + lesson_num already exists
+      const [existing] = await pool.execute<RowDataPacket[]>(
+        'SELECT id FROM `kanji_pro_lessons` WHERE `level` = ? AND `lesson_num` = ? LIMIT 1',
+        [level.toLowerCase(), Number(lesson_num)],
+      );
+
+      if (existing.length > 0) {
+        return NextResponse.json(
+          {
+            error: `Bài ${lesson_num} (${level.toUpperCase()}) đã tồn tại trong hệ thống. Không thể thêm trùng bài! Vui lòng chọn số bài khác hoặc vào sửa bài đó.`,
+          },
+          { status: 409 },
+        );
+      }
+
+      // Insert new lesson without replacing existing
       const [result] = await pool.execute<ResultSetHeader>(
         `INSERT INTO \`kanji_pro_lessons\` (\`level\`, \`lesson_num\`, \`title\` , \`description\`, \`is_available\`, \`kanji_list\`)
-         VALUES (?, ?, ?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE
-           \`title\` = VALUES(\`title\`),
-           \`description\` = VALUES(\`description\`),
-           \`is_available\` = VALUES(\`is_available\`),
-           \`kanji_list\` = VALUES(\`kanji_list\`),
-           \`updated_at\` = CURRENT_TIMESTAMP`,
+         VALUES (?, ?, ?, ?, ?, ?)`,
         [
           level.toLowerCase(),
           Number(lesson_num),
@@ -247,7 +271,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: 'Lưu bài học thành công',
+        message: 'Tạo bài học mới thành công',
         id: result.insertId || undefined,
       });
     }

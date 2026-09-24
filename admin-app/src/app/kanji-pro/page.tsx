@@ -297,8 +297,8 @@ export default function AdminKanjiProPage() {
   // Form states
   const [editingId, setEditingId] = useState<number | null>(null);
   const [formLevel, setFormLevel] = useState<string>('n4');
-  const [formLessonNum, setFormLessonNum] = useState<number>(25);
-  const [formTitle, setFormTitle] = useState<string>('Bài 25');
+  const [formLessonNum, setFormLessonNum] = useState<number | ''>('');
+  const [formTitle, setFormTitle] = useState<string>('');
   const [formDescription, setFormDescription] = useState<string>('');
   const [formIsAvailable, setFormIsAvailable] = useState<boolean>(true);
   const [formKanjiList, setFormKanjiList] = useState<KanjiProWord[]>([]);
@@ -335,9 +335,9 @@ export default function AdminKanjiProPage() {
   const openAddDialog = () => {
     setEditingId(null);
     setFormLevel(activeLevel === 'all' ? 'n4' : activeLevel);
-    setFormLessonNum(25);
-    setFormTitle('Bài 25');
-    setFormDescription('Bài học Kanji Pro');
+    setFormLessonNum('');
+    setFormTitle('');
+    setFormDescription('');
     setFormIsAvailable(true);
     setFormKanjiList([]);
     setFormError('');
@@ -446,6 +446,10 @@ export default function AdminKanjiProPage() {
   };
 
   const handleSaveLesson = async () => {
+    if (formLessonNum === '' || isNaN(Number(formLessonNum))) {
+      setFormError('Vui lòng nhập số bài (Lesson Num)');
+      return;
+    }
     if (!formTitle.trim()) {
       setFormError('Vui lòng nhập tiêu đề bài học');
       return;
@@ -783,7 +787,12 @@ export default function AdminKanjiProPage() {
                       <input
                         type='number'
                         value={formLessonNum}
-                        onChange={e => setFormLessonNum(Number(e.target.value))}
+                        onChange={e =>
+                          setFormLessonNum(
+                            e.target.value === '' ? '' : Number(e.target.value),
+                          )
+                        }
+                        placeholder='Ví dụ: 25'
                         className='w-full rounded-xl border border-[#262630] bg-[#0c0c0e] px-3 py-2 text-sm text-slate-200 focus:border-amber-500 focus:outline-none'
                       />
                     </div>
