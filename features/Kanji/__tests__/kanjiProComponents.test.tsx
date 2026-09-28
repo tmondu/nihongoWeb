@@ -241,4 +241,42 @@ describe('KanjiPro UI Components', () => {
       scroll: false,
     });
   });
+
+  it('embeds KanjiStrokeView, supports flip on stroke click, and opens KanjiStrokeModal from Info button and toolbar', async () => {
+    if (!lesson24) return;
+
+    await act(async () => {
+      render(<KanjiProLessonSheet lesson={lesson24} />);
+    });
+
+    // Top toolbar contains "Tập viết chữ"
+    const tapVietButtons = screen.getAllByText(/Tập viết/);
+    expect(tapVietButtons.length).toBeGreaterThan(0);
+
+    // Initial state: cards show "Nét vẽ" toggle button
+    const netVeButtons = screen.getAllByText('Nét vẽ');
+    expect(netVeButtons.length).toBe(9);
+
+    // Flip first card to see stroke view
+    await act(async () => {
+      fireEvent.click(netVeButtons[0]);
+    });
+
+    // Card is now flipped: should show "Chữ mẫu" button and Info button
+    expect(screen.getByText('Chữ mẫu')).toBeDefined();
+    const infoButtons = screen.getAllByTitle(
+      'Xem thông tin chi tiết & tập viết nét',
+    );
+    expect(infoButtons.length).toBeGreaterThan(0);
+
+    // Clicking Info button opens KanjiStrokeModal
+    await act(async () => {
+      fireEvent.click(infoButtons[0]);
+    });
+
+    // Should open modal with Kanji stroke title and practice canvas tab
+    expect(screen.getByText('Vẽ nét chữ Hán:')).toBeDefined();
+    expect(screen.getByText('Hoạt ảnh nét vẽ')).toBeDefined();
+    expect(screen.getByText('Tập viết nét (Canvas)')).toBeDefined();
+  });
 });

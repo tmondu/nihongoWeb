@@ -26,6 +26,8 @@ export { default as KanjiCardDetailView } from './components/KanjiCardDetailView
 export { default as KanjiCardStudyClient } from './components/KanjiCardStudyClient';
 export { default as KanjiProLessonSheet } from './components/KanjiProLessonSheet';
 export { default as KanjiProLessonList } from './components/KanjiProLessonList';
+export { default as KanjiStrokeView } from './components/KanjiStrokeView';
+export { default as KanjiStrokeModal } from './components/KanjiStrokeModal';
 export { default as KanjiQuickNav } from './components/KanjiQuickNav';
 export { default as KanjiSentenceAndFeedback } from './components/KanjiSentenceAndFeedback';
 export * from './data/kanjiProCurriculum';

@@ -8,6 +8,12 @@ import { useClick } from '@/shared/hooks/generic/useAudio';
 interface KanjiStrokeViewProps {
   kanjiChar: string;
   className?: string;
+  size?: 'sm' | 'md' | 'lg' | 'card' | 'responsive';
+  showControls?: boolean;
+  compactControls?: boolean;
+  onPracticeClick?: () => void;
+  onClick?: () => void;
+  isActive?: boolean;
 }
 
 interface ParsedStroke {
@@ -51,6 +57,12 @@ const svgCache = new Map<
 export default function KanjiStrokeView({
   kanjiChar,
   className,
+  size = 'lg',
+  showControls = true,
+  compactControls = false,
+  onPracticeClick,
+  onClick,
+  isActive,
 }: KanjiStrokeViewProps) {
   const { playClick } = useClick();
   const [viewMode, setViewMode] = useState<'stroke' | 'font'>('stroke');
@@ -107,7 +119,10 @@ export default function KanjiStrokeView({
     let accumulatedDelay = 80; // initial slight pause for smooth entry
 
     paths.forEach((path, idx) => {
-      const length = path.getTotalLength() || 300;
+      const length =
+        typeof path.getTotalLength === 'function'
+          ? path.getTotalLength() || 300
+          : 300;
       path.style.strokeDasharray = `${length}`;
       path.style.strokeDashoffset = `${length}`;
 
@@ -118,40 +133,48 @@ export default function KanjiStrokeView({
       );
 
       // Animate the path stroke
-      const pathAnim = path.animate(
-        [{ strokeDashoffset: `${length}` }, { strokeDashoffset: '0' }],
-        {
-          duration,
-          delay: accumulatedDelay,
-          easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
-          fill: 'forwards',
-        },
-      );
-      activeAnimationsRef.current.push(pathAnim);
+      if (typeof path.animate === 'function') {
+        const pathAnim = path.animate(
+          [{ strokeDashoffset: `${length}` }, { strokeDashoffset: '0' }],
+          {
+            duration,
+            delay: accumulatedDelay,
+            easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+            fill: 'forwards',
+          },
+        );
+        activeAnimationsRef.current.push(pathAnim);
+      } else {
+        path.style.strokeDashoffset = '0';
+      }
 
       // Animate the stroke number appearing in sync
       const numEl = numberRefs.current[idx];
       if (numEl) {
-        numEl.style.opacity = '0';
-        const numAnim = numEl.animate(
-          [
+        if (typeof numEl.animate === 'function') {
+          numEl.style.opacity = '0';
+          const numAnim = numEl.animate(
+            [
+              {
+                opacity: '0',
+                transform: `${numbers[idx]?.transform || ''} scale(0.7)`,
+              },
+              {
+                opacity: '1',
+                transform: `${numbers[idx]?.transform || ''} scale(1)`,
+              },
+            ],
             {
-              opacity: '0',
-              transform: `${numbers[idx]?.transform || ''} scale(0.7)`,
+              duration: 180,
+              delay: accumulatedDelay,
+              easing: 'ease-out',
+              fill: 'forwards',
             },
-            {
-              opacity: '1',
-              transform: `${numbers[idx]?.transform || ''} scale(1)`,
-            },
-          ],
-          {
-            duration: 180,
-            delay: accumulatedDelay,
-            easing: 'ease-out',
-            fill: 'forwards',
-          },
-        );
-        activeAnimationsRef.current.push(numAnim);
+          );
+          activeAnimationsRef.current.push(numAnim);
+        } else {
+          numEl.style.opacity = '1';
+        }
       }
 
       accumulatedDelay += duration + gap;
@@ -250,30 +273,93 @@ export default function KanjiStrokeView({
     };
   }, [kanjiChar, getUnicodeHex]);
 
-  // Trigger animation exactly once per kanjiChar when SVG DOM paths have mounted
+  // Trigger animation when active (e.g. card flipped) or when freshly loaded
   useEffect(() => {
     if (loading || error || strokes.length === 0 || viewMode !== 'stroke')
       return;
 
+    // If isActive prop is explicitly provided, play whenever isActive becomes true
+    if (typeof isActive === 'boolean') {
+      if (isActive) {
+        const timer = setTimeout(() => {
+          runDirectStrokeAnimation();
+        }, 180);
+        return () => clearTimeout(timer);
+      }
+      return;
+    }
+
+    // Default behavior for standalone components (like modal)
     if (autoPlayedCharRef.current !== kanjiChar) {
       autoPlayedCharRef.current = kanjiChar;
       // Slight tick so refs are attached to DOM
       const timer = setTimeout(() => {
         runDirectStrokeAnimation();
-      }, 50);
+      }, 80);
       return () => clearTimeout(timer);
     }
-  }, [loading, error, strokes, kanjiChar, viewMode, runDirectStrokeAnimation]);
+  }, [
+    loading,
+    error,
+    strokes,
+    kanjiChar,
+    viewMode,
+    isActive,
+    runDirectStrokeAnimation,
+  ]);
 
   const handleManualReplay = useCallback(() => {
     playClick();
     runDirectStrokeAnimation();
   }, [playClick, runDirectStrokeAnimation]);
 
+  const sizeBoxClasses =
+    {
+      sm: 'h-24 w-24 sm:h-28 sm:w-28 rounded-xl',
+      card: 'h-full w-full rounded-2xl',
+      md: 'h-36 w-36 sm:h-44 sm:w-44 rounded-2xl',
+      lg: 'h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64 rounded-3xl',
+      responsive: 'h-full w-full aspect-square rounded-2xl',
+    }[size] || 'h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64 rounded-3xl';
+
+  const fontClasses =
+    {
+      sm: 'text-4xl sm:text-5xl',
+      card: 'text-5xl sm:text-6xl md:text-7xl',
+      md: 'text-6xl sm:text-7xl',
+      lg: 'text-8xl sm:text-9xl md:text-[10rem]',
+      responsive: 'text-6xl sm:text-7xl',
+    }[size] || 'text-8xl sm:text-9xl md:text-[10rem]';
+
+  const isClickable = Boolean(onClick || onPracticeClick);
+  const handleClick = onClick || onPracticeClick;
+
   return (
-    <div className={clsx('flex flex-col items-center gap-3', className)}>
+    <div
+      className={clsx(
+        'flex flex-col items-center gap-2 sm:gap-2.5',
+        size === 'card' && 'h-full w-full justify-center',
+        className,
+      )}
+    >
       {/* Box container with 4-quadrant dashed practice lines */}
-      <div className='group relative flex h-48 w-48 items-center justify-center overflow-hidden rounded-3xl border-2 border-(--border-color) bg-(--background-color) shadow-inner transition-all hover:border-(--main-color)/50 sm:h-56 sm:w-56 md:h-64 md:w-64'>
+      <div
+        onClick={handleClick}
+        role={isClickable ? 'button' : undefined}
+        tabIndex={isClickable ? 0 : undefined}
+        title={
+          onClick
+            ? 'Bấm vào chữ để lật lại'
+            : onPracticeClick
+              ? 'Bấm để mở bảng tập viết chữ Hán'
+              : undefined
+        }
+        className={clsx(
+          'group relative flex items-center justify-center overflow-hidden border-2 border-(--border-color) bg-(--background-color) shadow-inner transition-all hover:border-(--main-color)/50',
+          sizeBoxClasses,
+          isClickable && 'cursor-pointer',
+        )}
+      >
         {/* Dashed crosshair grid (Kẻ ô chữ thập nét đứt luyện viết) */}
         <div className='pointer-events-none absolute inset-0'>
           {/* Vertical center dashed line */}
@@ -287,10 +373,8 @@ export default function KanjiStrokeView({
           <>
             {loading ? (
               <div className='flex flex-col items-center justify-center gap-2 text-(--secondary-color)/60'>
-                <Loader2 className='size-8 animate-spin text-(--main-color)' />
-                <span className='text-xs font-medium'>
-                  Đang chuẩn bị nét vẽ...
-                </span>
+                <Loader2 className='size-7 animate-spin text-(--main-color)' />
+                <span className='text-xs font-medium'>Đang tải nét vẽ...</span>
               </div>
             ) : (
               <div className='relative flex h-full w-full items-center justify-center p-1 sm:p-2'>
@@ -365,87 +449,105 @@ export default function KanjiStrokeView({
 
         {/* Content Mode 2: Standard Font Character */}
         {(viewMode === 'font' || error) && (
-          <span className='font-japanese relative z-10 text-8xl leading-none font-bold text-(--main-color) select-none sm:text-9xl md:text-[10rem]'>
+          <span
+            className={clsx(
+              'font-japanese relative z-10 leading-none font-bold text-(--main-color) select-none',
+              fontClasses,
+            )}
+          >
             {kanjiChar}
           </span>
         )}
       </div>
 
-      {/* Sub-controls under the box (Không đặt nút bên trong ô để tránh che khuất nét chữ) */}
-      <div className='flex items-center gap-2 rounded-2xl border border-(--border-color)/60 bg-(--card-color)/80 p-1.5 text-xs font-semibold shadow-2xs'>
-        {/* Replay Button */}
-        {viewMode === 'stroke' && !error && (
-          <button
-            type='button'
-            onClick={handleManualReplay}
-            disabled={isAnimating || loading}
-            className={clsx(
-              'flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-(--secondary-color) transition-all hover:bg-(--main-color)/10 hover:text-(--main-color) active:scale-95',
-              isAnimating && 'font-bold text-(--main-color)',
-            )}
-            title='Vẽ lại các nét'
-          >
-            <RotateCcw
-              className={clsx('size-3.5', isAnimating && 'animate-spin')}
-            />
-            <span>Vẽ lại</span>
-          </button>
-        )}
-
-        {/* Toggle between Strokes and Font */}
-        <button
-          type='button'
-          onClick={() => {
-            playClick();
-            setViewMode(m => (m === 'stroke' ? 'font' : 'stroke'));
-          }}
-          disabled={error}
+      {/* Sub-controls under the box */}
+      {showControls && (
+        <div
           className={clsx(
-            'flex cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 transition-all',
-            viewMode === 'stroke'
-              ? 'bg-(--main-color) text-(--background-color) shadow-xs'
-              : 'text-(--secondary-color) hover:text-(--main-color)',
-            error && 'cursor-not-allowed opacity-50',
+            'flex items-center gap-2 rounded-2xl border border-(--border-color)/60 bg-(--card-color)/80 text-xs font-semibold shadow-2xs',
+            compactControls ? 'p-1' : 'p-1.5',
           )}
-          title={
-            viewMode === 'stroke'
-              ? 'Chuyển sang xem chữ mẫu'
-              : 'Chuyển sang xem nét vẽ'
-          }
         >
-          {viewMode === 'stroke' ? (
-            <>
-              <PenTool className='size-3.5' />
-              <span>Nét vẽ</span>
-            </>
-          ) : (
-            <>
-              <Type className='size-3.5' />
-              <span>Chữ mẫu</span>
-            </>
+          {/* Replay Button */}
+          {viewMode === 'stroke' && !error && (
+            <button
+              type='button'
+              onClick={handleManualReplay}
+              disabled={isAnimating || loading}
+              className={clsx(
+                'flex cursor-pointer items-center gap-1.5 rounded-xl px-2.5 py-1 text-(--secondary-color) transition-all hover:bg-(--main-color)/10 hover:text-(--main-color) active:scale-95',
+                isAnimating && 'font-bold text-(--main-color)',
+              )}
+              title='Vẽ lại các nét'
+            >
+              <RotateCcw
+                className={clsx('size-3.5', isAnimating && 'animate-spin')}
+              />
+              <span className={compactControls ? 'hidden sm:inline' : ''}>
+                Vẽ lại
+              </span>
+            </button>
           )}
-        </button>
 
-        {/* Toggle stroke numbers */}
-        {viewMode === 'stroke' && !error && (
+          {/* Toggle between Strokes and Font */}
           <button
             type='button'
             onClick={() => {
               playClick();
-              setShowNumbers(s => !s);
+              setViewMode(m => (m === 'stroke' ? 'font' : 'stroke'));
             }}
+            disabled={error}
             className={clsx(
-              'cursor-pointer rounded-xl px-2.5 py-1.5 text-xs font-bold transition-colors',
-              showNumbers
-                ? 'bg-(--background-color) text-(--main-color) shadow-2xs'
-                : 'text-(--secondary-color)/60 hover:text-(--secondary-color)',
+              'flex cursor-pointer items-center gap-1.5 rounded-xl px-2.5 py-1 transition-all',
+              viewMode === 'stroke'
+                ? 'bg-(--main-color) text-(--background-color) shadow-xs'
+                : 'text-(--secondary-color) hover:text-(--main-color)',
+              error && 'cursor-not-allowed opacity-50',
             )}
-            title='Bật / Tắt số thứ tự nét'
+            title={
+              viewMode === 'stroke'
+                ? 'Chuyển sang xem chữ mẫu'
+                : 'Chuyển sang xem nét vẽ'
+            }
           >
-            123
+            {viewMode === 'stroke' ? (
+              <>
+                <PenTool className='size-3.5' />
+                <span className={compactControls ? 'hidden sm:inline' : ''}>
+                  Nét vẽ
+                </span>
+              </>
+            ) : (
+              <>
+                <Type className='size-3.5' />
+                <span className={compactControls ? 'hidden sm:inline' : ''}>
+                  Chữ mẫu
+                </span>
+              </>
+            )}
           </button>
-        )}
-      </div>
+
+          {/* Toggle stroke numbers */}
+          {viewMode === 'stroke' && !error && (
+            <button
+              type='button'
+              onClick={() => {
+                playClick();
+                setShowNumbers(s => !s);
+              }}
+              className={clsx(
+                'cursor-pointer rounded-xl px-2.5 py-1 text-xs font-bold transition-colors',
+                showNumbers
+                  ? 'bg-(--background-color) text-(--main-color) shadow-2xs'
+                  : 'text-(--secondary-color)/60 hover:text-(--secondary-color)',
+              )}
+              title='Bật / Tắt số thứ tự nét'
+            >
+              123
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

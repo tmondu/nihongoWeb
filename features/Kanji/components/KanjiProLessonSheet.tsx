@@ -9,8 +9,13 @@ import {
   BookOpen,
   Printer,
   CircleDot,
+  PenTool,
+  RotateCcw,
+  Info,
 } from 'lucide-react';
 import clsx from 'clsx';
+import KanjiStrokeView from './KanjiStrokeView';
+import KanjiStrokeModal from './KanjiStrokeModal';
 
 interface KanjiProLessonSheetProps {
   lesson: KanjiProLesson;
@@ -26,8 +31,32 @@ export default function KanjiProLessonSheet({
   const [activeHighlightChar, setActiveHighlightChar] = useState<string | null>(
     null,
   );
+  const [selectedStrokeIndex, setSelectedStrokeIndex] = useState<number | null>(
+    null,
+  );
+  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
+  const [allFlipped, setAllFlipped] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const rowRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const toggleFlip = (kanjiChar: string) => {
+    setFlippedCards(prev => ({
+      ...prev,
+      [kanjiChar]: !prev[kanjiChar],
+    }));
+  };
+
+  const handleToggleFlipAll = () => {
+    setAllFlipped(prev => {
+      const next = !prev;
+      const newFlipped: Record<string, boolean> = {};
+      lesson.kanjiList.forEach(k => {
+        newFlipped[k.kanjiChar] = next;
+      });
+      setFlippedCards(newFlipped);
+      return next;
+    });
+  };
 
   // Check admin privileges
   useEffect(() => {
@@ -151,7 +180,33 @@ export default function KanjiProLessonSheet({
           </span>
         </div>
 
-        <div className='flex items-center gap-3'>
+        <div className='flex items-center gap-2 sm:gap-3'>
+          <button
+            type='button'
+            onClick={handleToggleFlipAll}
+            className='flex cursor-pointer items-center gap-1.5 rounded-xl border border-sky-500/40 bg-sky-500/10 px-3 py-1.5 text-xs font-bold text-sky-600 transition-colors hover:bg-sky-500/20 dark:text-sky-400'
+            title='Lật tất cả thẻ để xem nét vẽ / chữ mẫu'
+          >
+            <RotateCcw className='size-3.5' />
+            <span className='max-sm:hidden'>
+              {allFlipped ? 'Hiện chữ mẫu' : 'Lật xem nét vẽ'}
+            </span>
+            {/* <span className='sm:hidden'>
+              {allFlipped ? 'Chữ mẫu' : 'Lật nét'}
+            </span> */}
+          </button>
+
+          <button
+            type='button'
+            onClick={() => setSelectedStrokeIndex(0)}
+            className='flex cursor-pointer items-center gap-1.5 rounded-xl border border-(--border-color) bg-(--background-color) px-3 py-1.5 text-xs font-bold text-(--secondary-color) transition-colors hover:text-(--main-color)'
+            title='Luyện viết thứ tự từng nét cho toàn bộ chữ Hán trong bài'
+          >
+            <PenTool className='size-3.5' />
+            <span className='max-sm:hidden'>Luyện viết nét</span>
+            <span className='sm:hidden'>Tập viết</span>
+          </button>
+
           <div className='flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400'>
             <Check className='size-4 stroke-[3]' />
             <span>
@@ -340,9 +395,10 @@ export default function KanjiProLessonSheet({
         {/* DANH SÁCH THẺ KANJI CHI TIẾT (Kanji Cards List)                   */}
         {/* ================================================================= */}
         <div className='space-y-6 sm:space-y-7 print:space-y-4'>
-          {lesson.kanjiList.map((word: KanjiProWord) => {
+          {lesson.kanjiList.map((word: KanjiProWord, idx: number) => {
             const isChecked = Boolean(completedMap[word.kanjiChar]);
             const isHighlighted = activeHighlightChar === word.kanjiChar;
+            const isFlipped = Boolean(flippedCards[word.kanjiChar]);
 
             return (
               <div
@@ -360,30 +416,102 @@ export default function KanjiProLessonSheet({
                 {/* 3-Column Layout: Left (Kanji & Meaning), Middle (Kun/On & Note), Right (Examples) */}
                 <div className='grid grid-cols-1 md:grid-cols-12 print:grid-cols-12'>
                   {/* ===================================================== */}
-                  {/* CỘT 1: ÂM HÁN VIỆT + CHỮ KANJI + PHÁT ÂM + NGHĨA VIỆT */}
+                  {/* CỘT 1: ÂM HÁN VIỆT + CHỮ KANJI (LẬT 3D XEM NÉT VẼ) + PHÁT ÂM + NGHĨA VIỆT */}
                   {/* ===================================================== */}
-                  <div className='flex flex-col items-center justify-between border-b border-(--border-color) bg-(--card-color) p-5 text-center md:col-span-3 md:border-r md:border-b-0 print:col-span-3 print:border-r print:border-b-0 print:border-slate-200 print:bg-white print:p-3'>
+                  <div className='relative flex flex-col items-center justify-between border-b border-(--border-color) bg-(--card-color) p-4 text-center md:col-span-3 md:border-r md:border-b-0 print:col-span-3 print:border-r print:border-b-0 print:border-slate-200 print:bg-white print:p-3'>
+                    {/* Nút Info ở góc ngoài bên phải Cột 1 (CHỈ HIỆN KHI ĐANG XEM NÉT VẼ, ẨN KHI IN) */}
+                    {isFlipped && (
+                      <button
+                        type='button'
+                        onClick={e => {
+                          e.stopPropagation();
+                          setSelectedStrokeIndex(idx);
+                        }}
+                        className='absolute top-3 right-3 z-20 flex size-7 cursor-pointer items-center justify-center rounded-full border border-sky-500/30 bg-sky-500/15 text-sky-600 shadow-2xs backdrop-blur-xs transition-all hover:scale-115 hover:border-sky-500 hover:bg-sky-500 hover:text-white dark:bg-sky-500/25 dark:text-sky-300 print:hidden'
+                        title='Xem thông tin chi tiết & tập viết nét'
+                      >
+                        <Info className='size-4' />
+                      </button>
+                    )}
+
                     {/* Âm Hán-Việt (In hoa, màu hồng san hô / rose) */}
                     <span className='font-sans text-sm font-black tracking-wider text-rose-500 uppercase sm:text-base dark:text-rose-400 print:text-sm print:text-rose-600'>
                       {word.hanviet}
                     </span>
 
-                    {/* Chữ Kanji lớn (Màu xanh lá cây đặc trưng) */}
-                    <div className='my-2 flex flex-col items-center print:my-1'>
-                      <span className='font-japanese text-5xl font-black text-emerald-600 transition-transform select-none hover:scale-110 sm:text-6xl dark:text-emerald-400 print:text-5xl print:text-emerald-700'>
+                    {/* 3D Flashcard Flip Container (Screen view) */}
+                    <div className='my-2 flex flex-col items-center print:hidden'>
+                      <div className='relative h-32 w-32 [perspective:1000px] sm:h-36 sm:w-36'>
+                        <div
+                          className={clsx(
+                            'relative h-full w-full transition-transform duration-500 [transform-style:preserve-3d]',
+                            isFlipped && '[transform:rotateY(180deg)]',
+                          )}
+                        >
+                          {/* FRONT FACE: Giao diện chữ Kanji lớn truyền thống */}
+                          <div
+                            onClick={() => toggleFlip(word.kanjiChar)}
+                            role='button'
+                            tabIndex={0}
+                            title='Bấm vào chữ để lật xem nét vẽ'
+                            className='group absolute inset-0 flex cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-(--border-color)/70 bg-(--background-color)/50 p-2 shadow-2xs transition-all [backface-visibility:hidden] hover:border-emerald-500/60 hover:bg-(--background-color)'
+                          >
+                            <span className='font-japanese text-6xl font-black text-emerald-600 transition-transform select-none group-hover:scale-105 sm:text-7xl md:text-[4.75rem] dark:text-emerald-400'>
+                              {word.kanjiChar}
+                            </span>
+                          </div>
+
+                          {/* BACK FACE: Ô hoạt ảnh nét vẽ KanjiStrokeView (Bấm vào nét để lật lại) */}
+                          <div className='absolute inset-0 flex [transform:rotateY(180deg)] flex-col items-center justify-center rounded-2xl border-2 border-(--border-color) bg-(--background-color) p-0.5 shadow-inner [backface-visibility:hidden]'>
+                            <KanjiStrokeView
+                              kanjiChar={word.kanjiChar}
+                              size='card'
+                              showControls={false}
+                              onClick={() => toggleFlip(word.kanjiChar)}
+                              isActive={isFlipped}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action buttons: Phát âm + Lật nét / Chữ mẫu (Nằm trên 1 hàng) */}
+                      <div className='mt-2.5 flex flex-nowrap items-center justify-center gap-1.5 whitespace-nowrap'>
+                        <button
+                          type='button'
+                          onClick={() => handlePlayAudio(word.kanjiChar)}
+                          className='inline-flex shrink-0 cursor-pointer items-center gap-1 rounded-full border border-(--border-color) bg-(--background-color) px-2.5 py-1 text-xs font-semibold text-(--secondary-color) shadow-2xs transition-colors hover:border-(--main-color)/40 hover:text-(--main-color)'
+                          title={`Nghe phát âm chữ ${word.kanjiChar}`}
+                        >
+                          <Volume2 className='size-3.5' />
+                          <span>Phát âm</span>
+                        </button>
+
+                        <button
+                          type='button'
+                          onClick={() => toggleFlip(word.kanjiChar)}
+                          className={clsx(
+                            'inline-flex shrink-0 cursor-pointer items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold shadow-2xs transition-all',
+                            isFlipped
+                              ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                              : 'border-sky-500/40 bg-sky-500/10 text-sky-600 hover:bg-sky-500/20 dark:text-sky-400',
+                          )}
+                          title={
+                            isFlipped
+                              ? 'Lật về xem chữ mẫu'
+                              : `Lật xem thứ tự nét vẽ chữ ${word.kanjiChar}`
+                          }
+                        >
+                          <RotateCcw className='size-3.5' />
+                          <span>{isFlipped ? 'Chữ mẫu' : 'Nét vẽ'}</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Bản in (Print view) */}
+                    <div className='my-1 hidden flex-col items-center print:flex'>
+                      <span className='font-japanese text-5xl font-black text-emerald-700 select-none'>
                         {word.kanjiChar}
                       </span>
-
-                      {/* Nút phát âm dạng viên thuốc "🔊 Phát âm" (ẩn khi in) */}
-                      <button
-                        type='button'
-                        onClick={() => handlePlayAudio(word.kanjiChar)}
-                        className='mt-2.5 inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-(--border-color) bg-(--background-color) px-3.5 py-1 text-xs font-semibold text-(--secondary-color) shadow-2xs transition-colors hover:border-(--main-color)/40 hover:text-(--main-color) print:hidden'
-                        title={`Nghe phát âm chữ ${word.kanjiChar}`}
-                      >
-                        <Volume2 className='size-3.5' />
-                        <span>Phát âm</span>
-                      </button>
                     </div>
 
                     {/* Nghĩa tiếng Việt (Màu xanh dương) */}
@@ -521,6 +649,39 @@ export default function KanjiProLessonSheet({
           <span>Bấm vòng tròn ◯ bên phải để đánh dấu hoàn thành</span>
         </div>
       </div>
+
+      {/* Interactive Kanji Stroke Order & Handwriting Practice Modal */}
+      {selectedStrokeIndex !== null &&
+        lesson.kanjiList[selectedStrokeIndex] && (
+          <KanjiStrokeModal
+            isOpen={selectedStrokeIndex !== null}
+            onClose={() => setSelectedStrokeIndex(null)}
+            kanjiChar={lesson.kanjiList[selectedStrokeIndex].kanjiChar}
+            hanviet={lesson.kanjiList[selectedStrokeIndex].hanviet}
+            meaning={lesson.kanjiList[selectedStrokeIndex].meaning}
+            onyomi={lesson.kanjiList[selectedStrokeIndex].onyomi}
+            kunyomi={lesson.kanjiList[selectedStrokeIndex].kunyomi}
+            currentIndex={selectedStrokeIndex}
+            totalCount={lesson.kanjiList.length}
+            lessonTitle={lesson.title}
+            onPrev={
+              selectedStrokeIndex > 0
+                ? () =>
+                    setSelectedStrokeIndex(i =>
+                      i !== null && i > 0 ? i - 1 : i,
+                    )
+                : undefined
+            }
+            onNext={
+              selectedStrokeIndex < lesson.kanjiList.length - 1
+                ? () =>
+                    setSelectedStrokeIndex(i =>
+                      i !== null && i < lesson.kanjiList.length - 1 ? i + 1 : i,
+                    )
+                : undefined
+            }
+          />
+        )}
     </div>
   );
 }
