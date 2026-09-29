@@ -602,12 +602,17 @@ export default function KanjiProLessonSheet({
                               key={exIdx}
                               className='group flex items-center justify-between gap-2.5 rounded-2xl border border-(--border-color) bg-(--background-color) p-2.5 px-3.5 shadow-2xs transition-all hover:border-emerald-500/50 print:rounded-xl print:border-slate-200 print:bg-slate-50/80 print:p-1.5 print:px-2.5'
                             >
-                              <div className='flex flex-wrap items-baseline gap-1.5 text-xs sm:text-sm print:text-xs'>
+                              <div className='flex flex-wrap items-baseline gap-1 text-xs sm:text-sm print:text-xs'>
                                 <span className='font-sans font-bold text-(--secondary-color) print:text-slate-700'>
                                   {ex.num}
                                 </span>
                                 <span className='font-japanese font-bold text-sky-600 dark:text-sky-400 print:text-sky-800'>
                                   {ex.japanese}
+                                  {ex.reading && ex.reading !== ex.japanese && (
+                                    <span className='ml-1 text-xs font-medium text-amber-500 dark:text-amber-400 print:text-slate-600'>
+                                      ({ex.reading})
+                                    </span>
+                                  )}
                                 </span>
                                 <span className='font-sans font-medium text-(--main-color) print:text-slate-800'>
                                   : {ex.meaning}
@@ -619,7 +624,9 @@ export default function KanjiProLessonSheet({
                                 type='button'
                                 onClick={() =>
                                   handlePlayAudio(
-                                    `${ex.japanese} ${ex.meaning}`,
+                                    ex.reading
+                                      ? `${ex.reading} ${ex.meaning}`
+                                      : `${ex.japanese} ${ex.meaning}`,
                                   )
                                 }
                                 className='flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full border border-emerald-500/60 bg-emerald-500/10 text-emerald-600 transition-all hover:scale-110 hover:border-emerald-500 hover:bg-emerald-500/20 dark:text-emerald-400 print:hidden'
