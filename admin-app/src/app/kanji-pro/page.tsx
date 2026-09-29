@@ -445,6 +445,24 @@ export default function AdminKanjiProPage() {
     handleUpdateKanjiItem(kIndex, { examples: nextExs });
   };
 
+  const handlePlayAudio = (text: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const cleanText = text
+        .replace(/[（(].*?[）)]/g, '')
+        .replace(/～/g, '')
+        .trim();
+      if (!cleanText) return;
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.lang = 'ja-JP';
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    } catch {
+      // Audio playback fallback
+    }
+  };
+
   const handleSaveLesson = async () => {
     if (formLessonNum === '' || isNaN(Number(formLessonNum))) {
       setFormError('Vui lòng nhập số bài (Lesson Num)');
@@ -890,9 +908,23 @@ export default function AdminKanjiProPage() {
                         {/* Kanji basic attributes */}
                         <div className='grid grid-cols-2 gap-3 sm:grid-cols-5'>
                           <div>
-                            <label className='mb-1 block text-[11px] font-medium text-slate-400'>
-                              Chữ Kanji
-                            </label>
+                            <div className='flex items-center justify-between'>
+                              <label className='mb-1 block text-[11px] font-medium text-slate-400'>
+                                Chữ Kanji
+                              </label>
+                              {kItem.kanjiChar && (
+                                <button
+                                  type='button'
+                                  onClick={() =>
+                                    handlePlayAudio(kItem.kanjiChar)
+                                  }
+                                  className='mb-1 text-slate-400 transition-colors hover:text-emerald-400'
+                                  title={`Nghe phát âm chữ ${kItem.kanjiChar}`}
+                                >
+                                  <Volume2 className='size-3.5' />
+                                </button>
+                              )}
+                            </div>
                             <input
                               type='text'
                               value={kItem.kanjiChar}
@@ -1031,6 +1063,17 @@ export default function AdminKanjiProPage() {
                               />
                               <button
                                 type='button'
+                                onClick={() =>
+                                  handlePlayAudio(ex.reading || ex.japanese)
+                                }
+                                disabled={!ex.japanese && !ex.reading}
+                                className='p-1 text-slate-400 transition-colors hover:text-emerald-400 disabled:pointer-events-none disabled:opacity-30'
+                                title={`Nghe phát âm: ${ex.reading || ex.japanese}`}
+                              >
+                                <Volume2 className='size-3.5' />
+                              </button>
+                              <button
+                                type='button'
                                 onClick={() => handleRemoveExample(kIdx, exIdx)}
                                 className='p-1 text-slate-500 hover:text-red-400'
                               >
@@ -1069,6 +1112,15 @@ export default function AdminKanjiProPage() {
                             <p className='mt-1 text-sm font-semibold text-sky-400'>
                               {word.meaning}
                             </p>
+                            <button
+                              type='button'
+                              onClick={() => handlePlayAudio(word.kanjiChar)}
+                              className='mt-3 flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-400 transition-colors hover:bg-emerald-500/20'
+                              title={`Nghe phát âm chữ ${word.kanjiChar}`}
+                            >
+                              <Volume2 className='size-3.5' />
+                              <span>Phát âm</span>
+                            </button>
                           </div>
 
                           <div className='mt-4 flex w-full justify-center gap-2'>
@@ -1132,24 +1184,36 @@ export default function AdminKanjiProPage() {
                               word.examples.map((ex, exIdx) => (
                                 <div
                                   key={exIdx}
-                                  className='flex items-start gap-2 text-xs'
+                                  className='flex items-center justify-between gap-2 text-xs'
                                 >
-                                  <span className='shrink-0 font-bold text-amber-400'>
-                                    {ex.num || `①`}
-                                  </span>
-                                  <div className='flex flex-wrap items-baseline gap-x-2 gap-y-0.5'>
-                                    <span className='font-bold text-slate-100'>
-                                      {ex.japanese}
+                                  <div className='flex items-start gap-2'>
+                                    <span className='shrink-0 font-bold text-amber-400'>
+                                      {ex.num || `①`}
                                     </span>
-                                    {ex.reading && (
-                                      <span className='text-[11px] font-medium text-amber-400/90'>
-                                        ({ex.reading})
+                                    <div className='flex flex-wrap items-baseline gap-x-2 gap-y-0.5'>
+                                      <span className='font-bold text-slate-100'>
+                                        {ex.japanese}
                                       </span>
-                                    )}
-                                    <span className='text-xs font-semibold text-sky-400'>
-                                      {ex.meaning}
-                                    </span>
+                                      {ex.reading && (
+                                        <span className='text-[11px] font-medium text-amber-400/90'>
+                                          ({ex.reading})
+                                        </span>
+                                      )}
+                                      <span className='text-xs font-semibold text-sky-400'>
+                                        {ex.meaning}
+                                      </span>
+                                    </div>
                                   </div>
+                                  <button
+                                    type='button'
+                                    onClick={() =>
+                                      handlePlayAudio(ex.reading || ex.japanese)
+                                    }
+                                    className='shrink-0 p-1 text-slate-400 transition-colors hover:text-emerald-400'
+                                    title={`Nghe phát âm: ${ex.reading || ex.japanese}`}
+                                  >
+                                    <CircleDot className='size-3.5 stroke-[2.5] text-emerald-400' />
+                                  </button>
                                 </div>
                               ))
                             ) : (
