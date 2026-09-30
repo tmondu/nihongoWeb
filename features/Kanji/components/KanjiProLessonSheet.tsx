@@ -609,7 +609,7 @@ export default function KanjiProLessonSheet({
                                 <span className='font-japanese font-bold text-sky-600 dark:text-sky-400 print:text-sky-800'>
                                   {ex.japanese}
                                   {ex.reading && ex.reading !== ex.japanese && (
-                                    <span className='ml-1 text-xs font-medium text-amber-500 dark:text-amber-400 print:text-slate-600'>
+                                    <span className='ml-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 print:font-semibold print:text-slate-900'>
                                       ({ex.reading})
                                     </span>
                                   )}

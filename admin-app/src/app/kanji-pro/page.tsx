@@ -1195,7 +1195,7 @@ export default function AdminKanjiProPage() {
                                         {ex.japanese}
                                       </span>
                                       {ex.reading && (
-                                        <span className='text-[11px] font-medium text-amber-400/90'>
+                                        <span className='text-[11px] font-medium text-indigo-300'>
                                           ({ex.reading})
                                         </span>
                                       )}
