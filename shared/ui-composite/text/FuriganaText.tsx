@@ -2,6 +2,7 @@
 import { ReactNode, memo } from 'react';
 import { useThemePreferences } from '@/features/Preferences';
 import { parseFuriganaSegments } from '@/shared/utils/furigana';
+import { cn } from '@/shared/utils/utils';
 
 interface FuriganaTextProps {
   text: string;
@@ -10,6 +11,7 @@ interface FuriganaTextProps {
   furiganaClassName?: string;
   lang?: string;
   children?: ReactNode;
+  alwaysShow?: boolean;
 }
 
 /**
@@ -23,17 +25,22 @@ const FuriganaText = ({
   furiganaClassName = '',
   lang = 'ja',
   children,
+  alwaysShow = false,
 }: FuriganaTextProps) => {
   const { furiganaEnabled } = useThemePreferences();
+  const showFurigana = alwaysShow || furiganaEnabled;
 
   // If children are provided, render them with optional furigana
   if (children) {
-    if (furiganaEnabled && reading) {
+    if (showFurigana && reading) {
       return (
         <ruby className={className} lang={lang}>
           {children}
           <rt
-            className={`text-xs ${furiganaClassName} text-(--secondary-color)`}
+            className={cn(
+              'text-xs text-(--secondary-color)',
+              furiganaClassName,
+            )}
           >
             {reading}
           </rt>
@@ -47,18 +54,21 @@ const FuriganaText = ({
     );
   }
 
-  if (furiganaEnabled && reading) {
+  if (showFurigana && reading) {
     const segments = parseFuriganaSegments(text, reading);
 
     return (
-      <span className={`inline-flex items-end ${className}`} lang={lang}>
+      <span className={cn('inline-flex items-end', className)} lang={lang}>
         {segments.map((seg, idx) => {
           if (seg.furigana) {
             return (
               <ruby key={idx} className='inline-ruby'>
                 {seg.text}
                 <rt
-                  className={`text-xs ${furiganaClassName} text-(--secondary-color)`}
+                  className={cn(
+                    'text-xs text-(--secondary-color)',
+                    furiganaClassName,
+                  )}
                 >
                   {seg.furigana}
                 </rt>

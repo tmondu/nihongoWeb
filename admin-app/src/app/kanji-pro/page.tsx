@@ -1190,17 +1190,21 @@ export default function AdminKanjiProPage() {
                                     <span className='shrink-0 font-bold text-amber-400'>
                                       {ex.num || `①`}
                                     </span>
-                                    <div className='flex flex-wrap items-baseline gap-x-2 gap-y-0.5'>
-                                      <span className='font-bold text-slate-100'>
-                                        {ex.japanese}
-                                      </span>
-                                      {ex.reading && (
-                                        <span className='text-[11px] font-medium text-indigo-300'>
-                                          ({ex.reading})
+                                    <div className='flex flex-wrap items-center gap-x-2 gap-y-0.5'>
+                                      {ex.reading ? (
+                                        <ruby className='text-sm font-bold text-slate-100'>
+                                          {ex.japanese}
+                                          <rt className='text-[10px] font-semibold text-indigo-300'>
+                                            {ex.reading}
+                                          </rt>
+                                        </ruby>
+                                      ) : (
+                                        <span className='text-sm font-bold text-slate-100'>
+                                          {ex.japanese}
                                         </span>
                                       )}
                                       <span className='text-xs font-semibold text-sky-400'>
-                                        {ex.meaning}
+                                        : {ex.meaning}
                                       </span>
                                     </div>
                                   </div>

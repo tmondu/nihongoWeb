@@ -14,6 +14,7 @@ import {
   Info,
 } from 'lucide-react';
 import clsx from 'clsx';
+import FuriganaText from '@/shared/ui-composite/text/FuriganaText';
 import KanjiStrokeView from './KanjiStrokeView';
 import KanjiStrokeModal from './KanjiStrokeModal';
 
@@ -602,19 +603,19 @@ export default function KanjiProLessonSheet({
                               key={exIdx}
                               className='group flex items-center justify-between gap-2.5 rounded-2xl border border-(--border-color) bg-(--background-color) p-2.5 px-3.5 shadow-2xs transition-all hover:border-emerald-500/50 print:rounded-xl print:border-slate-200 print:bg-slate-50/80 print:p-1.5 print:px-2.5'
                             >
-                              <div className='flex flex-wrap items-baseline gap-1 text-xs sm:text-sm print:text-xs'>
-                                <span className='font-sans font-bold text-(--secondary-color) print:text-slate-700'>
+                              <div className='flex flex-wrap items-center gap-1.5 text-sm sm:text-base print:text-xs'>
+                                <span className='font-sans text-xs font-bold text-(--secondary-color) sm:text-sm print:text-xs print:text-slate-700'>
                                   {ex.num}
                                 </span>
-                                <span className='font-japanese font-bold text-sky-600 dark:text-sky-400 print:text-sky-800'>
-                                  {ex.japanese}
-                                  {ex.reading && ex.reading !== ex.japanese && (
-                                    <span className='ml-1 text-xs font-medium text-indigo-600 dark:text-indigo-400 print:font-semibold print:text-slate-900'>
-                                      ({ex.reading})
-                                    </span>
-                                  )}
+                                <span className='font-japanese text-base font-bold text-sky-600 sm:text-lg dark:text-sky-400 print:text-sm print:text-sky-800'>
+                                  <FuriganaText
+                                    text={ex.japanese}
+                                    reading={ex.reading}
+                                    alwaysShow={true}
+                                    furiganaClassName='text-[10px] sm:text-xs font-semibold text-indigo-600 dark:text-indigo-400 print:text-slate-900 print:font-bold'
+                                  />
                                 </span>
-                                <span className='font-sans font-medium text-(--main-color) print:text-slate-800'>
+                                <span className='font-sans text-xs font-medium text-(--main-color) sm:text-sm print:text-xs print:text-slate-800'>
                                   : {ex.meaning}
                                 </span>
                               </div>
