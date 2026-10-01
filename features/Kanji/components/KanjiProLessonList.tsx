@@ -88,14 +88,14 @@ export default function KanjiProLessonList({
                   </div>
 
                   {/* {hasData ? (
-                    <span className='rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400'>
-                      Đầy đủ nội dung
-                    </span>
-                  ) : (
-                    <span className='rounded-full border border-(--border-color) bg-(--background-color) px-2 py-0.5 text-[10px] font-medium text-(--secondary-color)'>
-                      Sắp có
-                    </span>
-                  )} */}
+  <span className='rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400'>
+    Đầy đủ nội dung
+  </span>
+) : (
+  <span className='rounded-full border border-(--border-color) bg-(--background-color) px-2 py-0.5 text-[10px] font-medium text-(--secondary-color)'>
+    Sắp có
+  </span>
+)} */}
                 </div>
 
                 {/* Preview Kanji if available */}
@@ -138,7 +138,7 @@ export default function KanjiProLessonList({
                 {hasData && (
                   <span className='flex items-center gap-1 text-[11px] font-normal text-emerald-600 dark:text-emerald-400'>
                     <CheckCircle2 className='size-3.5' />
-                    <span>Sẵn sàng</span>
+                    {/* <span>Sẵn sàng</span> */}
                   </span>
                 )}
               </div>
