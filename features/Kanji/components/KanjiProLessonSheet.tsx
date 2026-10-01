@@ -651,8 +651,7 @@ export default function KanjiProLessonSheet({
         <div className='mt-5 flex items-center justify-between text-[11px] text-(--secondary-color) sm:text-xs print:hidden'>
           <span className='flex items-center gap-1.5'>
             <BookOpen className='size-3.5' />
-            Giáo trình Minna no Nihongo Kanji — {lesson.title} (
-            {lesson.level.toUpperCase()})
+            Phan Thắm Sensei — {lesson.title} ({lesson.level.toUpperCase()})
           </span>
           <span>Bấm vòng tròn ◯ bên phải để đánh dấu hoàn thành</span>
         </div>
