@@ -87,7 +87,7 @@ export default function KanjiProLessonList({
                     </div>
                   </div>
 
-                  {hasData ? (
+                  {/* {hasData ? (
                     <span className='rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400'>
                       Đầy đủ nội dung
                     </span>
@@ -95,7 +95,7 @@ export default function KanjiProLessonList({
                     <span className='rounded-full border border-(--border-color) bg-(--background-color) px-2 py-0.5 text-[10px] font-medium text-(--secondary-color)'>
                       Sắp có
                     </span>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Preview Kanji if available */}
