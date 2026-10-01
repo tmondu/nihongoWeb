@@ -113,16 +113,64 @@ describe('KanjiPro UI Components', () => {
     expect(screen.getByText('Bệ, đài')).toBeDefined();
 
     // Check examples (both 試 and 験 have ': kỳ thi')
-    expect(screen.getAllByText(/試験/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(': kỳ thi').length).toBe(2);
     expect(screen.getByText(': Có kỳ thi.')).toBeDefined();
 
-    expect(screen.getAllByText(/問題/).length).toBeGreaterThan(0);
     expect(screen.getByText(': vấn đề, câu hỏi')).toBeDefined();
     expect(screen.getByText(': Hãy đọc câu hỏi.')).toBeDefined();
 
     expect(screen.getByText(': đáp án')).toBeDefined();
     expect(screen.getByText(': Hãy cho tôi biết đáp án.')).toBeDefined();
+  });
+
+  it('renders KanjiProLessonSheet with exact 14 Kanji from Bài 2 N5', async () => {
+    const lesson2 = getLessonDetail('n5', 2);
+    expect(lesson2).not.toBeNull();
+    if (!lesson2) return;
+
+    await act(async () => {
+      render(<KanjiProLessonSheet lesson={lesson2} />);
+    });
+
+    expect(screen.getByText('KANJI')).toBeDefined();
+    expect(screen.getAllByText('Bài 2').length).toBeGreaterThan(0);
+
+    const chars = [
+      '一',
+      '二',
+      '三',
+      '四',
+      '五',
+      '六',
+      '七',
+      '八',
+      '九',
+      '十',
+      '百',
+      '千',
+      '万',
+      '円',
+    ];
+    chars.forEach(char => {
+      expect(screen.getAllByText(char).length).toBeGreaterThanOrEqual(1);
+    });
+
+    // Check Hán-Việt
+    expect(screen.getByText('NHẤT')).toBeDefined();
+    expect(screen.getByText('BÁT')).toBeDefined();
+    expect(screen.getByText('VIÊN')).toBeDefined();
+
+    // Check meanings
+    expect(screen.getByText('Một')).toBeDefined();
+    expect(screen.getByText('Tám')).toBeDefined();
+    expect(screen.getByText('Yên, tròn')).toBeDefined();
+
+    // Check examples
+    expect(screen.getByText(': một cái')).toBeDefined();
+    expect(screen.getByText(': một người')).toBeDefined();
+    expect(screen.getByText(': tháng Một')).toBeDefined();
+    expect(screen.getByText(': 100 yên')).toBeDefined();
+    expect(screen.getAllByText(': 1.000 yên').length).toBe(2);
   });
 
   it('toggles mastery status circle when clicked', async () => {

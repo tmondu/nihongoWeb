@@ -2,3 +2,8 @@ export * from './components/ExerciseCard';
 export * from './components/ExerciseList';
 export * from './components/ExerciseRunner';
 export * from './components/ExerciseResult';
+export * from './components/ExerciseA4Paper';
+export * from './components/ExerciseA4Sidebar';
+export * from './components/ExercisePrintDialog';
+export * from './components/FormattedText';
+export * from './components/ExerciseWatermark';

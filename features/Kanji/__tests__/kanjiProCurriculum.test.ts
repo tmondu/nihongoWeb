@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   KANJI_PRO_LEVELS,
+  LESSON_2_N5_KANJI,
   LESSON_24_N4_KANJI,
   LESSON_25_N4_KANJI,
   getLessonsForLevel,
@@ -12,6 +13,52 @@ describe('KanjiPro Curriculum Data', () => {
     expect(KANJI_PRO_LEVELS).toHaveLength(5);
     const levels = KANJI_PRO_LEVELS.map(l => l.level);
     expect(levels).toEqual(['n5', 'n4', 'n3', 'n2', 'n1']);
+  });
+
+  it('contains 14 Kanji for Bài 2 N5 exactly matching the textbook photo', () => {
+    expect(LESSON_2_N5_KANJI).toHaveLength(14);
+
+    const chars = LESSON_2_N5_KANJI.map(k => k.kanjiChar);
+    expect(chars).toEqual([
+      '一',
+      '二',
+      '三',
+      '四',
+      '五',
+      '六',
+      '七',
+      '八',
+      '九',
+      '十',
+      '百',
+      '千',
+      '万',
+      '円',
+    ]);
+
+    // Check 一
+    const nhat = LESSON_2_N5_KANJI[0];
+    expect(nhat.kanjiChar).toBe('一');
+    expect(nhat.hanviet).toBe('NHẤT');
+    expect(nhat.meaning).toBe('Một');
+    expect(nhat.onyomi).toBe('イチ、イツ');
+    expect(nhat.kunyomi).toBe('ひと、ひと.つ');
+    expect(nhat.examples).toHaveLength(3);
+    expect(nhat.examples[0].japanese).toBe('一つ');
+    expect(nhat.examples[0].reading).toBe('ひとつ');
+    expect(nhat.examples[0].meaning).toBe('một cái');
+
+    // Check 円
+    const vien = LESSON_2_N5_KANJI[13];
+    expect(vien.kanjiChar).toBe('円');
+    expect(vien.hanviet).toBe('VIÊN');
+    expect(vien.meaning).toBe('Yên, tròn');
+    expect(vien.onyomi).toBe('エン');
+    expect(vien.kunyomi).toBe('まる.い');
+    expect(vien.examples).toHaveLength(3);
+    expect(vien.examples[0].japanese).toBe('円');
+    expect(vien.examples[0].reading).toBe('えん');
+    expect(vien.examples[0].meaning).toBe('yên');
   });
 
   it('contains 9 Kanji for Bài 24 N4 exactly matching the textbook photo', () => {
@@ -88,6 +135,20 @@ describe('KanjiPro Curriculum Data', () => {
     expect(bat.onyomi).toBe('フ、ブ');
   });
 
+  it('returns lessons for N5 starting from Bài 1 with Bài 2 available', () => {
+    const n5Lessons = getLessonsForLevel('n5');
+    expect(n5Lessons[0].lessonNum).toBe(1);
+    expect(n5Lessons[0].title).toBe('Bài 1');
+    expect(n5Lessons.length).toBe(20);
+
+    const b2 = n5Lessons.find(l => l.lessonNum === 2);
+    expect(b2).toBeDefined();
+    expect(b2?.isAvailable).toBe(true);
+    expect(b2?.kanjiList).toHaveLength(14);
+    expect(b2?.kanjiList[0].kanjiChar).toBe('一');
+    expect(b2?.kanjiList[13].kanjiChar).toBe('円');
+  });
+
   it('returns lessons for N4 starting from Bài 21 with Bài 24, 25 and 26 available', () => {
     const n4Lessons = getLessonsForLevel('n4');
     expect(n4Lessons[0].lessonNum).toBe(21);
@@ -111,6 +172,13 @@ describe('KanjiPro Curriculum Data', () => {
   });
 
   it('retrieves lesson detail correctly with getLessonDetail', () => {
+    const b2N5 = getLessonDetail('n5', 2);
+    expect(b2N5).not.toBeNull();
+    expect(b2N5?.title).toBe('Bài 2');
+    expect(b2N5?.kanjiList).toHaveLength(14);
+    expect(b2N5?.kanjiList[0].kanjiChar).toBe('一');
+    expect(b2N5?.kanjiList[13].kanjiChar).toBe('円');
+
     const b24 = getLessonDetail('n4', 24);
     expect(b24).not.toBeNull();
     expect(b24?.title).toBe('Bài 24');

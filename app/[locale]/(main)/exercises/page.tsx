@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ClipboardCheck, Sparkles, Loader2, RefreshCw } from 'lucide-react';
+import { ClipboardCheck, Award, Loader2, RefreshCw } from 'lucide-react';
 import { ExerciseList } from '@/features/Exercises';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
@@ -48,7 +48,7 @@ export default function ExercisesPage() {
                 Bài Tập Trắc Nghiệm
               </h1>
               <span className='inline-flex items-center gap-1 rounded-full bg-(--main-color)/15 px-2.5 py-0.5 text-xs font-bold text-(--main-color)'>
-                <Sparkles className='size-3' />
+                <Award className='size-3' />
                 JLPT N5 - N1
               </span>
             </div>

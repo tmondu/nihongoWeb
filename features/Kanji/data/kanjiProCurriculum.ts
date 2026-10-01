@@ -78,6 +78,267 @@ export const KANJI_PRO_LEVELS: KanjiProLevelInfo[] = [
  * Bài 24 - N4: Dữ liệu chính xác 100% từ giáo trình Kanji (Minna no Nihongo)
  * Gồm 9 chữ Hán: 試, 問, 答, 耳, 用, 験, 集, 研, 台
  */
+/**
+ * Bài 2 - N5: Dữ liệu chính xác 100% từ giáo trình Kanji N5 (Bài 2-A & 2-B)
+ * Gồm 14 chữ Hán: 一, 二, 三, 四, 五, 六, 七, 八, 九, 十, 百, 千, 万, 円
+ */
+export const LESSON_2_N5_KANJI: KanjiProWord[] = [
+  // --- BÀI 2-A ---
+  {
+    id: 'n5-b02-01-nhat',
+    kanjiChar: '一',
+    hanviet: 'NHẤT',
+    meaning: 'Một',
+    kunyomi: 'ひと、ひと.つ',
+    onyomi: 'イチ、イツ',
+    examples: [
+      { num: '①', japanese: '一つ', reading: 'ひとつ', meaning: 'một cái' },
+      { num: '②', japanese: '一人', reading: 'ひとり', meaning: 'một người' },
+      { num: '③', japanese: '一月', reading: 'いちがつ', meaning: 'tháng Một' },
+    ],
+  },
+  {
+    id: 'n5-b02-02-nhi',
+    kanjiChar: '二',
+    hanviet: 'NHỊ',
+    meaning: 'Hai',
+    kunyomi: 'ふた、ふた.つ',
+    onyomi: 'ニ',
+    examples: [
+      { num: '①', japanese: '二つ', reading: 'ふたつ', meaning: 'hai cái' },
+      { num: '②', japanese: '二人', reading: 'ふたり', meaning: 'hai người' },
+      {
+        num: '③',
+        japanese: '二日',
+        reading: 'ふつか',
+        meaning: 'ngày 2, hai ngày',
+      },
+    ],
+  },
+  {
+    id: 'n5-b02-03-tam',
+    kanjiChar: '三',
+    hanviet: 'TAM',
+    meaning: 'Ba',
+    kunyomi: 'み、み.つ、みっ.つ',
+    onyomi: 'サン',
+    examples: [
+      { num: '①', japanese: '三つ', reading: 'みっつ', meaning: 'ba cái' },
+      { num: '②', japanese: '三人', reading: 'さんにん', meaning: 'ba người' },
+      {
+        num: '③',
+        japanese: '三日',
+        reading: 'みっか',
+        meaning: 'ngày 3, ba ngày',
+      },
+    ],
+  },
+  {
+    id: 'n5-b02-04-tu',
+    kanjiChar: '四',
+    hanviet: 'TỨ',
+    meaning: 'Bốn',
+    kunyomi: 'よ、よ.つ、よっ.つ、よん',
+    onyomi: 'シ',
+    examples: [
+      { num: '①', japanese: '四つ', reading: 'よっつ', meaning: 'bốn cái' },
+      { num: '②', japanese: '四人', reading: 'よにん', meaning: 'bốn người' },
+      { num: '③', japanese: '四月', reading: 'しがつ', meaning: 'tháng Tư' },
+    ],
+  },
+  {
+    id: 'n5-b02-05-ngu',
+    kanjiChar: '五',
+    hanviet: 'NGŨ',
+    meaning: 'Năm',
+    kunyomi: 'いつ、いつ.つ',
+    onyomi: 'ゴ',
+    examples: [
+      { num: '①', japanese: '五つ', reading: 'いつつ', meaning: 'năm cái' },
+      {
+        num: '②',
+        japanese: '五日',
+        reading: 'いつか',
+        meaning: 'ngày 5, năm ngày',
+      },
+      { num: '③', japanese: '五分', reading: 'ごふん', meaning: 'năm phút' },
+    ],
+  },
+  {
+    id: 'n5-b02-06-luc',
+    kanjiChar: '六',
+    hanviet: 'LỤC',
+    meaning: 'Sáu',
+    kunyomi: 'む、む.つ、むっ.つ、むい',
+    onyomi: 'ロク',
+    examples: [
+      { num: '①', japanese: '六つ', reading: 'むっつ', meaning: 'sáu cái' },
+      {
+        num: '②',
+        japanese: '六日',
+        reading: 'むいか',
+        meaning: 'ngày 6, sáu ngày',
+      },
+      { num: '③', japanese: '六時', reading: 'ろくじ', meaning: 'sáu giờ' },
+    ],
+  },
+  {
+    id: 'n5-b02-07-that',
+    kanjiChar: '七',
+    hanviet: 'THẤT',
+    meaning: 'Bảy',
+    kunyomi: 'なな、なな.つ、なの',
+    onyomi: 'シチ',
+    examples: [
+      { num: '①', japanese: '七つ', reading: 'ななつ', meaning: 'bảy cái' },
+      {
+        num: '②',
+        japanese: '七日',
+        reading: 'なのか',
+        meaning: 'ngày 7, bảy ngày',
+      },
+      { num: '③', japanese: '七月', reading: 'しちがつ', meaning: 'tháng Bảy' },
+    ],
+  },
+  // --- BÀI 2-B ---
+  {
+    id: 'n5-b02-08-bat',
+    kanjiChar: '八',
+    hanviet: 'BÁT',
+    meaning: 'Tám',
+    kunyomi: 'や、や.つ、やっ.つ、よう',
+    onyomi: 'ハチ',
+    examples: [
+      { num: '①', japanese: '八つ', reading: 'やっつ', meaning: 'tám cái' },
+      {
+        num: '②',
+        japanese: '八日',
+        reading: 'ようか',
+        meaning: 'ngày 8, tám ngày',
+      },
+      { num: '③', japanese: '八時', reading: 'はちじ', meaning: 'tám giờ' },
+    ],
+  },
+  {
+    id: 'n5-b02-09-cuu',
+    kanjiChar: '九',
+    hanviet: 'CỬU',
+    meaning: 'Chín',
+    kunyomi: 'ここの、ここの.つ',
+    onyomi: 'キュウ、ク',
+    examples: [
+      { num: '①', japanese: '九つ', reading: 'ここのつ', meaning: 'chín cái' },
+      {
+        num: '②',
+        japanese: '九日',
+        reading: 'ここのか',
+        meaning: 'ngày 9, chín ngày',
+      },
+      { num: '③', japanese: '九時', reading: 'くじ', meaning: 'chín giờ' },
+    ],
+  },
+  {
+    id: 'n5-b02-10-thap',
+    kanjiChar: '十',
+    hanviet: 'THẬP',
+    meaning: 'Mười',
+    kunyomi: 'とお、と',
+    onyomi: 'ジュウ、ジッ',
+    examples: [
+      { num: '①', japanese: '十', reading: 'とお', meaning: 'mười cái' },
+      {
+        num: '②',
+        japanese: '十日',
+        reading: 'とおか',
+        meaning: 'ngày 10, mười ngày',
+      },
+      {
+        num: '③',
+        japanese: '十人',
+        reading: 'じゅうにん',
+        meaning: 'mười người',
+      },
+    ],
+  },
+  {
+    id: 'n5-b02-11-bach',
+    kanjiChar: '百',
+    hanviet: 'BÁCH',
+    meaning: 'Trăm',
+    kunyomi: '—',
+    onyomi: 'ヒャク',
+    examples: [
+      { num: '①', japanese: '百円', reading: 'ひゃくえん', meaning: '100 yên' },
+      { num: '②', japanese: '三百', reading: 'さんびゃく', meaning: 'ba trăm' },
+      {
+        num: '③',
+        japanese: '六百',
+        reading: 'ろっぴゃく',
+        meaning: 'sáu trăm',
+      },
+    ],
+  },
+  {
+    id: 'n5-b02-12-thien',
+    kanjiChar: '千',
+    hanviet: 'THIÊN',
+    meaning: 'Nghìn',
+    kunyomi: 'ち',
+    onyomi: 'セン',
+    examples: [
+      { num: '①', japanese: '千円', reading: 'せんえん', meaning: '1.000 yên' },
+      { num: '②', japanese: '三千', reading: 'さんぜん', meaning: 'ba nghìn' },
+      { num: '③', japanese: '八千', reading: 'はっせん', meaning: 'tám nghìn' },
+    ],
+  },
+  {
+    id: 'n5-b02-13-van',
+    kanjiChar: '万',
+    hanviet: 'VẠN',
+    meaning: 'Mười nghìn',
+    kunyomi: '—',
+    onyomi: 'マン、バン',
+    examples: [
+      {
+        num: '①',
+        japanese: '一万',
+        reading: 'いちまん',
+        meaning: 'mười nghìn',
+      },
+      {
+        num: '②',
+        japanese: '一万円',
+        reading: 'いちまんえん',
+        meaning: '10.000 yên',
+      },
+      {
+        num: '③',
+        japanese: '十万',
+        reading: 'じゅうまん',
+        meaning: 'một trăm nghìn',
+      },
+    ],
+  },
+  {
+    id: 'n5-b02-14-vien',
+    kanjiChar: '円',
+    hanviet: 'VIÊN',
+    meaning: 'Yên, tròn',
+    kunyomi: 'まる.い',
+    onyomi: 'エン',
+    examples: [
+      { num: '①', japanese: '円', reading: 'えん', meaning: 'yên' },
+      {
+        num: '②',
+        japanese: '五百円',
+        reading: 'ごひゃくえん',
+        meaning: '500 yên',
+      },
+      { num: '③', japanese: '千円', reading: 'せんえん', meaning: '1.000 yên' },
+    ],
+  },
+];
+
 export const LESSON_24_N4_KANJI: KanjiProWord[] = [
   {
     id: 'n4-b24-01-thi',
@@ -816,6 +1077,7 @@ export function getLessonsForLevel(level: KanjiLevel): KanjiProLesson[] {
 
   for (let i = 0; i < total; i++) {
     const num = start + i;
+    const isLesson2N5 = level === 'n5' && num === 2;
     const isLesson24N4 = level === 'n4' && num === 24;
     const isLesson25N4 = level === 'n4' && num === 25;
     const isLesson26N4 = level === 'n4' && num === 26;
@@ -824,7 +1086,12 @@ export function getLessonsForLevel(level: KanjiLevel): KanjiProLesson[] {
     let isAvailable = false;
     let description = `Nội dung Kanji cho Bài ${num} đang được cập nhật`;
 
-    if (isLesson24N4) {
+    if (isLesson2N5) {
+      kanjiList = LESSON_2_N5_KANJI;
+      isAvailable = true;
+      description =
+        '14 chữ Hán: 一, 二, 三, 四, 五, 六, 七, 八, 九, 十, 百, 千, 万, 円';
+    } else if (isLesson24N4) {
       kanjiList = LESSON_24_N4_KANJI;
       isAvailable = true;
       description = '9 chữ Hán: 試, 問, 答, 耳, 用, 験, 集, 研, 台';

@@ -21,9 +21,15 @@ import {
   Users,
   AlertCircle,
   BookOpen,
-  Sparkles,
   X,
   ImageIcon,
+  ScanLine,
+  Key,
+  EyeOff,
+  Save,
+  Check,
+  FileCheck,
+  FileSpreadsheet,
 } from 'lucide-react';
 import {
   ExerciseRecord,
@@ -151,15 +157,40 @@ export default function AdminExercisesPage() {
   const [formQuestions, setFormQuestions] = useState<ExerciseQuestion[]>([]);
   const [formError, setFormError] = useState('');
 
-  // Builder method tabs inside modal: 'manual' | 'source' | 'import'
-  const [builderTab, setBuilderTab] = useState<'manual' | 'source' | 'import'>(
-    'manual',
-  );
+  // Builder method tabs inside modal: 'manual' | 'source' | 'import' | 'pdf-scan'
+  const [builderTab, setBuilderTab] = useState<
+    'manual' | 'source' | 'import' | 'pdf-scan'
+  >('manual');
   const [sourceText, setSourceText] = useState('');
   const [parsedPreviewQuestions, setParsedPreviewQuestions] = useState<
     ExerciseQuestion[]
   >([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // PDF / Image Vision AI Scan states
+  const [pdfFiles, setPdfFiles] = useState<File[]>([]);
+  const [isScanningPdf, setIsScanningPdf] = useState(false);
+  const [scanModel, setScanModel] = useState<
+    'gemini-1.5-flash' | 'gemini-1.5-pro'
+  >('gemini-1.5-flash');
+  const [customApiKey, setCustomApiKey] = useState('');
+  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+  const [isApiKeySaved, setIsApiKeySaved] = useState(false);
+  const [scannedQuestions, setScannedQuestions] = useState<ExerciseQuestion[]>(
+    [],
+  );
+  const [scanProgressMessage, setScanProgressMessage] = useState('');
+  const pdfFileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedKey = localStorage.getItem('gemini_api_key') || '';
+      if (savedKey) {
+        setCustomApiKey(savedKey);
+        setIsApiKeySaved(true);
+      }
+    }
+  }, []);
 
   // Danh sách các Bài / Phần hiện có trong form
   const allPartNames = Array.from(
@@ -510,6 +541,105 @@ export default function AdminExercisesPage() {
       showToast(`Đã đọc ${parsed.length} câu hỏi từ file "${file.name}"`);
     };
     reader.readAsText(file, 'UTF-8');
+  };
+
+  // Save custom Gemini API Key to localStorage
+  const handleSaveApiKey = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('gemini_api_key', customApiKey.trim());
+      setIsApiKeySaved(Boolean(customApiKey.trim()));
+      showToast('Đã lưu Gemini API Key vào trình duyệt!', 'success');
+      setShowApiKeyInput(false);
+    }
+  };
+
+  // Handle PDF / Image file selection
+  const handlePdfFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const selected = Array.from(e.target.files);
+    setPdfFiles(prev => [...prev, ...selected]);
+    e.target.value = '';
+  };
+
+  // Remove selected PDF / Image file
+  const handleRemovePdfFile = (index: number) => {
+    setPdfFiles(prev => prev.filter((_, idx) => idx !== index));
+  };
+
+  // Execute Gemini AI Vision Scan
+  const handleStartPdfScan = async () => {
+    if (pdfFiles.length === 0) {
+      showToast(
+        'Vui lòng chọn ít nhất 1 file PDF hoặc ảnh scan đề thi.',
+        'error',
+      );
+      return;
+    }
+
+    setIsScanningPdf(true);
+    setScanProgressMessage('Đang nạp tài liệu và kết nối Gemini AI...');
+
+    try {
+      const formData = new FormData();
+      pdfFiles.forEach(file => {
+        formData.append('files', file);
+      });
+      if (customApiKey.trim()) {
+        formData.append('apiKey', customApiKey.trim());
+      }
+      formData.append('model', scanModel);
+
+      setScanProgressMessage(
+        'Gemini Vision AI đang đọc chữ Hán, gạch chân và trích xuất câu hỏi...',
+      );
+
+      const res = await fetch('/api/exercises/scan-pdf', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (
+        data.success &&
+        Array.isArray(data.questions) &&
+        data.questions.length > 0
+      ) {
+        setScannedQuestions(data.questions);
+        showToast(
+          `Đã quét thành công ${data.questions.length} câu hỏi từ tài liệu!`,
+          'success',
+        );
+      } else {
+        showToast(
+          data.message || 'Không thể trích xuất câu hỏi từ tài liệu.',
+          'error',
+        );
+      }
+    } catch {
+      showToast('Lỗi kết nối khi quét tài liệu.', 'error');
+    } finally {
+      setIsScanningPdf(false);
+      setScanProgressMessage('');
+    }
+  };
+
+  // Apply Scanned Questions into Exercise Form
+  const handleApplyScannedQuestions = (
+    mode: 'replace' | 'append' = 'replace',
+  ) => {
+    if (scannedQuestions.length === 0) return;
+
+    if (mode === 'replace') {
+      setFormQuestions(scannedQuestions);
+    } else {
+      setFormQuestions(prev => [...prev, ...scannedQuestions]);
+    }
+
+    showToast(
+      `Đã nạp ${scannedQuestions.length} câu hỏi quét từ PDF vào đề thi!`,
+      'success',
+    );
+    setBuilderTab('manual');
   };
 
   // Download Sample CSV
@@ -1093,6 +1223,18 @@ export default function AdminExercisesPage() {
                     <Upload className='size-3.5' />
                     <span>Import File</span>
                   </button>
+                  <button
+                    type='button'
+                    onClick={() => setBuilderTab('pdf-scan')}
+                    className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all ${
+                      builderTab === 'pdf-scan'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 font-bold text-white shadow'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <ScanLine className='size-3.5 text-sky-400' />
+                    <span>Quét PDF / Ảnh (AI)</span>
+                  </button>
                 </div>
               </div>
 
@@ -1408,7 +1550,7 @@ export default function AdminExercisesPage() {
                         }
                         className='inline-flex items-center gap-1.5 rounded-lg bg-purple-500/10 px-3 py-1.5 text-xs font-semibold text-purple-300 hover:bg-purple-500/20'
                       >
-                        <Sparkles className='size-3.5' />
+                        <FileText className='size-3.5' />
                         <span>Mẫu Trắc nghiệm</span>
                       </button>
                       <button
@@ -1564,6 +1706,345 @@ export default function AdminExercisesPage() {
                               {q.correct_answer}
                             </b>
                             )
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* 4. QUÉT PDF / ẢNH SCAN BẰNG GEMINI AI */}
+              {builderTab === 'pdf-scan' && (
+                <div className='space-y-4'>
+                  {/* Banner hướng dẫn & Cài đặt Model */}
+                  <div className='rounded-2xl border border-blue-500/30 bg-gradient-to-r from-blue-950/40 via-indigo-950/30 to-purple-950/30 p-4'>
+                    <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
+                      <div>
+                        <div className='flex items-center gap-2'>
+                          <ScanLine className='size-5 text-sky-400' />
+                          <h4 className='text-sm font-bold text-white'>
+                            Quét đề thi PDF / Ảnh scan bằng Gemini Vision AI
+                          </h4>
+                        </div>
+                        <p className='mt-1 text-xs text-slate-300'>
+                          Tự động nhận diện chữ Hán, bắt đúng từ gạch chân{' '}
+                          <code className='rounded bg-black/40 px-1 text-sky-300'>
+                            &lt;u&gt;
+                          </code>
+                          , chia 4 đáp án và gợi ý đáp án đúng.
+                        </p>
+                      </div>
+
+                      <div className='flex flex-wrap items-center gap-2'>
+                        {/* Model Selector */}
+                        <select
+                          value={scanModel}
+                          onChange={e =>
+                            setScanModel(
+                              e.target.value as
+                                | 'gemini-1.5-flash'
+                                | 'gemini-1.5-pro',
+                            )
+                          }
+                          className='rounded-xl border border-[#333345] bg-[#16161e] px-2.5 py-1.5 text-xs font-semibold text-sky-300 focus:border-sky-500 focus:outline-none'
+                        >
+                          <option value='gemini-1.5-flash'>
+                            ⚡ Gemini 1.5 Flash (Nhanh & Free)
+                          </option>
+                          <option value='gemini-1.5-pro'>
+                            🧠 Gemini 1.5 Pro (Chính xác cao)
+                          </option>
+                        </select>
+
+                        {/* API Key Toggle Button */}
+                        <button
+                          type='button'
+                          onClick={() => setShowApiKeyInput(!showApiKeyInput)}
+                          className={`inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
+                            isApiKeySaved || customApiKey
+                              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:border-emerald-400'
+                              : 'border-amber-500/40 bg-amber-500/10 text-amber-300 hover:border-amber-400'
+                          }`}
+                        >
+                          <Key className='size-3.5' />
+                          <span>
+                            {isApiKeySaved || customApiKey
+                              ? 'Đã có API Key'
+                              : 'Cấu hình API Key'}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* API Key Input Drawer */}
+                    {showApiKeyInput && (
+                      <div className='mt-3.5 space-y-2 border-t border-white/10 pt-3 text-xs'>
+                        <div className='flex items-center justify-between text-slate-300'>
+                          <span className='font-semibold'>
+                            Gemini API Key (Google AI Studio):
+                          </span>
+                          <span className='text-[11px] text-slate-400'>
+                            Lưu an toàn trong trình duyệt của bạn
+                          </span>
+                        </div>
+                        <div className='flex gap-2'>
+                          <input
+                            type='password'
+                            value={customApiKey}
+                            onChange={e => setCustomApiKey(e.target.value)}
+                            placeholder='Dán API Key (AIzaSy...)'
+                            className='flex-1 rounded-xl border border-[#333345] bg-[#101016] px-3 py-2 text-xs text-white placeholder:text-slate-500 focus:border-sky-500 focus:outline-none'
+                          />
+                          <button
+                            type='button'
+                            onClick={handleSaveApiKey}
+                            className='inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 text-xs font-bold text-white hover:bg-sky-500'
+                          >
+                            <Save className='size-3.5' />
+                            <span>Lưu Key</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Dropzone / File Picker */}
+                  <div
+                    onClick={() => pdfFileInputRef.current?.click()}
+                    className={`flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed p-6 text-center transition-all ${
+                      pdfFiles.length > 0
+                        ? 'border-sky-500/60 bg-sky-950/20'
+                        : 'border-[#333344] bg-[#14141a] hover:border-sky-500/50'
+                    }`}
+                  >
+                    <div className='flex size-12 items-center justify-center rounded-2xl bg-sky-500/10 text-sky-400 shadow-inner'>
+                      <FileSpreadsheet className='size-6' />
+                    </div>
+                    <div>
+                      <p className='text-sm font-bold text-white'>
+                        Kéo thả file PDF hoặc ảnh chụp đề thi vào đây
+                      </p>
+                      <p className='mt-1 text-xs text-slate-400'>
+                        Hỗ trợ file .pdf, .jpg, .png, .webp (có thể chọn cùng
+                        lúc nhiều trang ảnh)
+                      </p>
+                    </div>
+                    <input
+                      ref={pdfFileInputRef}
+                      type='file'
+                      accept='.pdf,image/png,image/jpeg,image/webp'
+                      multiple
+                      onChange={handlePdfFileSelect}
+                      className='hidden'
+                    />
+                  </div>
+
+                  {/* Selected Files List */}
+                  {pdfFiles.length > 0 && (
+                    <div className='space-y-2 rounded-xl border border-[#262630] bg-[#14141a] p-3.5'>
+                      <div className='flex items-center justify-between text-xs font-bold text-slate-300'>
+                        <span>Danh sách tệp đã chọn ({pdfFiles.length}):</span>
+                        <button
+                          type='button'
+                          onClick={() => setPdfFiles([])}
+                          className='text-[11px] text-rose-400 hover:underline'
+                        >
+                          Xóa tất cả
+                        </button>
+                      </div>
+
+                      <div className='flex flex-wrap gap-2'>
+                        {pdfFiles.map((file, idx) => (
+                          <div
+                            key={idx}
+                            className='flex items-center gap-2 rounded-lg border border-[#333344] bg-[#1b1b24] px-2.5 py-1.5 text-xs text-slate-200'
+                          >
+                            <FileCheck className='size-3.5 text-sky-400' />
+                            <span className='max-w-[180px] truncate font-medium'>
+                              {file.name}
+                            </span>
+                            <span className='text-[10px] text-slate-400'>
+                              ({(file.size / 1024).toFixed(0)} KB)
+                            </span>
+                            <button
+                              type='button'
+                              onClick={e => {
+                                e.stopPropagation();
+                                handleRemovePdfFile(idx);
+                              }}
+                              className='text-slate-400 hover:text-rose-400'
+                              title='Xóa tệp này'
+                            >
+                              <X className='size-3.5' />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Start Scan Button */}
+                      <div className='pt-2'>
+                        <button
+                          type='button'
+                          onClick={handleStartPdfScan}
+                          disabled={isScanningPdf}
+                          className='flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-3 text-xs font-bold text-white shadow-lg transition-all hover:opacity-95 active:scale-98 disabled:pointer-events-none disabled:opacity-60'
+                        >
+                          {isScanningPdf ? (
+                            <>
+                              <Loader2 className='size-4 animate-spin' />
+                              <span>{scanProgressMessage}</span>
+                            </>
+                          ) : (
+                            <>
+                              <ScanLine className='size-4' />
+                              <span>
+                                Bắt đầu quét & bóc tách {pdfFiles.length} tệp
+                                bằng Gemini AI
+                              </span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Scanned Questions Result Preview */}
+                  {scannedQuestions.length > 0 && (
+                    <div className='space-y-3 rounded-2xl border border-emerald-500/30 bg-[#121218] p-4'>
+                      <div className='flex flex-col gap-2 border-b border-[#262630] pb-3 sm:flex-row sm:items-center sm:justify-between'>
+                        <div className='flex items-center gap-2'>
+                          <CheckCircle2 className='size-5 text-emerald-400' />
+                          <span className='text-xs font-bold text-emerald-400'>
+                            Đã bóc tách thành công {scannedQuestions.length} câu
+                            hỏi từ tài liệu:
+                          </span>
+                        </div>
+
+                        <div className='flex flex-wrap items-center gap-2'>
+                          <button
+                            type='button'
+                            onClick={() =>
+                              handleApplyScannedQuestions('replace')
+                            }
+                            className='inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white shadow hover:bg-emerald-500 active:scale-95'
+                          >
+                            <Check className='size-3.5' />
+                            <span>
+                              Đưa vào Form ({scannedQuestions.length} câu)
+                            </span>
+                          </button>
+                          <button
+                            type='button'
+                            onClick={() =>
+                              handleApplyScannedQuestions('append')
+                            }
+                            className='inline-flex items-center gap-1.5 rounded-xl border border-emerald-500/40 bg-emerald-950/30 px-3 py-2 text-xs font-semibold text-emerald-300 hover:bg-emerald-900/40'
+                            title='Thêm nối tiếp vào các câu hỏi hiện có trong đề'
+                          >
+                            <Plus className='size-3.5' />
+                            <span>Thêm nối tiếp</span>
+                          </button>
+                          <button
+                            type='button'
+                            onClick={() => setScannedQuestions([])}
+                            className='rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-xs font-semibold text-rose-300 hover:bg-rose-900/30'
+                          >
+                            Xóa kết quả
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* List of scanned questions */}
+                      <div className='max-h-72 space-y-3 overflow-y-auto pr-1 text-xs'>
+                        {scannedQuestions.map((q, idx) => (
+                          <div
+                            key={idx}
+                            className='rounded-xl border border-[#262635] bg-[#161620] p-3 transition-all'
+                          >
+                            <div className='flex items-center justify-between gap-2 border-b border-[#22222e] pb-2 text-[11px]'>
+                              <div className='flex items-center gap-2'>
+                                <span className='rounded bg-blue-500/20 px-1.5 py-0.5 font-bold text-blue-300'>
+                                  {q.part_name || 'Bài 1'}
+                                </span>
+                                <span className='font-bold text-white'>
+                                  Câu {idx + 1}
+                                </span>
+                              </div>
+                              <button
+                                type='button'
+                                onClick={() =>
+                                  setScannedQuestions(prev =>
+                                    prev.filter((_, i) => i !== idx),
+                                  )
+                                }
+                                className='text-slate-500 hover:text-rose-400'
+                                title='Xóa câu này'
+                              >
+                                <Trash2 className='size-3.5' />
+                              </button>
+                            </div>
+
+                            {/* Question text with underline preview */}
+                            <div className='pt-2'>
+                              <p
+                                className='font-medium text-slate-100'
+                                dangerouslySetInnerHTML={{
+                                  __html: q.question,
+                                }}
+                              />
+                            </div>
+
+                            {/* Options with selectable correct answer */}
+                            <div className='mt-2.5 grid grid-cols-2 gap-1.5 sm:grid-cols-4'>
+                              {q.options.map((opt, optIdx) => {
+                                const letter = String.fromCharCode(65 + optIdx);
+                                const isCorrect = q.correct_answer === letter;
+
+                                return (
+                                  <button
+                                    key={letter}
+                                    type='button'
+                                    onClick={() => {
+                                      setScannedQuestions(prev => {
+                                        const updated = [...prev];
+                                        updated[idx] = {
+                                          ...updated[idx],
+                                          correct_answer: letter,
+                                        };
+                                        return updated;
+                                      });
+                                    }}
+                                    className={`flex items-center gap-1.5 rounded-lg border p-1.5 text-left text-[11px] transition-all ${
+                                      isCorrect
+                                        ? 'border-emerald-500 bg-emerald-500/20 font-bold text-emerald-300 ring-1 ring-emerald-500/30'
+                                        : 'border-[#2a2a38] bg-[#121218] text-slate-300 hover:border-slate-500'
+                                    }`}
+                                  >
+                                    <span
+                                      className={`flex size-4 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ${
+                                        isCorrect
+                                          ? 'bg-emerald-500 text-black'
+                                          : 'bg-[#22222e] text-slate-400'
+                                      }`}
+                                    >
+                                      {letter}
+                                    </span>
+                                    <span className='truncate'>{opt}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {/* Explanation */}
+                            {q.explanation && (
+                              <div className='mt-2 rounded-lg bg-[#101016] p-2 text-[11px] text-slate-300'>
+                                <span className='font-bold text-sky-400'>
+                                  💡 Lời giải:{' '}
+                                </span>
+                                <span>{q.explanation}</span>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
