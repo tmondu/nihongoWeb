@@ -117,7 +117,7 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
       }}
     >
       {/* Authentic Watermark */}
-      <ExerciseWatermark text='文法' subText='Phan Thắm SS Nihongo' />
+      <ExerciseWatermark />
 
       {/* Printable Exam Paper Header */}
       <div className='relative z-10 space-y-4 border-b-2 border-(--border-color)/80 pb-6 print:border-neutral-900 print:pb-4'>

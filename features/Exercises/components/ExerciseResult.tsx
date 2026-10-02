@@ -256,7 +256,7 @@ export const ExerciseResult: React.FC<ExerciseResultProps> = ({
   return (
     <div className='relative mx-auto max-w-4xl space-y-8 px-4 py-6 sm:py-8 print:max-w-none print:px-0 print:py-0'>
       {/* Background Watermark */}
-      <ExerciseWatermark text='結果' subText='Bảng Kết Quả - Phan Thắm SS' />
+      <ExerciseWatermark />
 
       {/* Top Banner Card */}
       <div className='relative overflow-hidden rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 text-center shadow-lg sm:p-8 print:rounded-none print:border-b-2 print:border-neutral-900 print:bg-white print:p-4 print:shadow-none'>

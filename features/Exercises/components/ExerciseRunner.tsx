@@ -39,6 +39,7 @@ import { ExerciseResult } from './ExerciseResult';
 import { ExerciseA4Paper } from './ExerciseA4Paper';
 import { ExerciseA4Sidebar } from './ExerciseA4Sidebar';
 import { ExercisePrintDialog } from './ExercisePrintDialog';
+import { ExerciseWatermark } from './ExerciseWatermark';
 import { FormattedText } from './FormattedText';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 import { useAdminStatus } from '@/shared/hooks/generic/useAdminStatus';
@@ -443,8 +444,11 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
 
                 {/* Right Question & Options Column */}
                 <div
-                  className={`space-y-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${effectivePassage ? 'xl:col-span-6' : ''}`}
+                  className={`relative space-y-6 overflow-hidden rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8 ${effectivePassage ? 'xl:col-span-6' : ''}`}
                 >
+                  {/* Subtle Background Watermark */}
+                  <ExerciseWatermark />
+
                   {/* Question Progress Header */}
                   <div className='flex flex-wrap items-center justify-between gap-2 border-b border-(--border-color)/60 pb-4 select-none'>
                     <div className='flex flex-wrap items-center gap-2'>
