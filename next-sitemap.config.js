@@ -79,6 +79,7 @@ const sitemapConfig = {
       '/thamlet',
       '/shadowing',
       '/exercises',
+      '/solutions',
       '/classroom',
       '/glossary',
       '/security',

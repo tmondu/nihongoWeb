@@ -106,6 +106,7 @@ export interface NavigationTranslations {
     classroom: string;
     curriculum: string;
     exercises: string;
+    solutions: string;
   };
   breadcrumbs: {
     home: string;

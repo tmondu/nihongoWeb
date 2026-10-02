@@ -24,6 +24,7 @@ import {
   Layers,
   Video,
   ClipboardCheck,
+  FileCheck,
   Menu,
   X,
   Mic,
@@ -170,6 +171,11 @@ const mainNavItems: NavItem[] = [
     href: '/exercises',
     labelKey: 'exercises',
     icon: ClipboardCheck,
+  },
+  {
+    href: '/solutions',
+    labelKey: 'solutions',
+    icon: FileCheck,
   },
   {
     href: '/translate',
@@ -957,6 +963,12 @@ const Sidebar = () => {
       return (
         pathWithoutLocale === '/exercises' ||
         pathWithoutLocale.startsWith('/exercises/')
+      );
+    }
+    if (href === '/solutions') {
+      return (
+        pathWithoutLocale === '/solutions' ||
+        pathWithoutLocale.startsWith('/solutions/')
       );
     }
 

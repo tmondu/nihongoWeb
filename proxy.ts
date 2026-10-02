@@ -101,6 +101,7 @@ export default async function proxy(request: NextRequest) {
     canonicalPath.startsWith('/kana-chart') ||
     canonicalPath.startsWith('/jlpt') ||
     canonicalPath.startsWith('/exercises') ||
+    canonicalPath.startsWith('/solutions') ||
     canonicalPath.startsWith('/classroom') ||
     canonicalPath.startsWith('/glossary') ||
     canonicalPath.startsWith('/security') ||

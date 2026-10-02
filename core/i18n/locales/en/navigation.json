@@ -30,7 +30,8 @@
     "reader": "Smart Reader",
     "classroom": "Record",
     "curriculum": "Curriculum",
-    "exercises": "Exercises"
+    "exercises": "Exercises",
+    "solutions": "Solutions"
   },
   "breadcrumbs": {
     "home": "Home",
