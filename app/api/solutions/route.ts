@@ -44,7 +44,11 @@ export async function GET(request: NextRequest) {
 
   const examParam = searchParams.get('exam');
   const examNumber = examParam ? parseInt(examParam, 10) : 1;
-  const sessionParam = searchParams.get('session');
+  const sessionParam =
+    searchParams.get('session') ||
+    searchParams.get('bai') ||
+    searchParams.get('b') ||
+    searchParams.get('section');
   const sessionNum = sessionParam ? parseInt(sessionParam, 10) : null;
   const format = searchParams.get('format')?.toLowerCase();
 
@@ -313,6 +317,40 @@ export async function GET(request: NextRequest) {
           lines.push(`👉 Xem đáp án & giải thích chi tiết tại:`);
           lines.push(detailWebUrl);
 
+          return new NextResponse(lines.join('\n'), {
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+          });
+        }
+      }
+
+      if (sessionNum !== null && fallbackCurrent?.sections) {
+        const sec = fallbackCurrent.sections.find(
+          s => s.sectionNumber === sessionNum,
+        );
+        if (sec) {
+          const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${fallbackCurrent.level}&exam=${fallbackCurrent.examNumber}`;
+          const lines: string[] = [];
+          lines.push(
+            `📚 ${fallbackCurrent.level.toUpperCase()} - ĐỀ ${fallbackCurrent.examNumber} - BÀI ${sec.sectionNumber}: ${sec.sectionTitle.toUpperCase()}`,
+          );
+          lines.push(
+            `📌 Phạm vi: ${sec.questions.length} câu (Câu ${sec.questionRange})`,
+          );
+          lines.push('───────────────────────────────');
+          for (let i = 0; i < sec.questions.length; i += 5) {
+            const group = sec.questions.slice(i, i + 5);
+            lines.push(
+              group
+                .map(
+                  item =>
+                    `${String(item.questionNumber).padStart(2, ' ')}: ${item.correctOption.padEnd(2, ' ')}`,
+                )
+                .join('  '),
+            );
+          }
+          lines.push('───────────────────────────────');
+          lines.push(`👉 Xem đáp án & giải thích chi tiết tại:`);
+          lines.push(detailWebUrl);
           return new NextResponse(lines.join('\n'), {
             headers: { 'Content-Type': 'text/plain; charset=utf-8' },
           });

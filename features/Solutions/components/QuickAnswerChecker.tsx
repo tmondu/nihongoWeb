@@ -152,7 +152,11 @@ export const QuickAnswerChecker: React.FC<QuickAnswerCheckerProps> = ({
               }`}
             >
               <span className='font-bold text-(--main-color)'>
-                {q.partId === 'vocab' ? 'Từ vựng C' : 'Ngữ pháp C'}
+                {q.sectionTitle
+                  ? `${q.sectionTitle.replace(/^Phần\s+/i, '')} C`
+                  : q.partId === 'vocab'
+                    ? 'Từ vựng C'
+                    : 'Ngữ pháp C'}
                 {q.questionNumber}
               </span>
 

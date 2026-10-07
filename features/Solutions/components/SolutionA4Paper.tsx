@@ -101,151 +101,205 @@ export const SolutionA4Paper: React.FC<SolutionA4PaperProps> = ({
               </span>
             </div>
 
-            {/* Phần 1: Từ vựng (Câu 1 - 9) */}
-            <div className='mb-4'>
-              <div className='mb-1.5 text-xs font-bold text-(--main-color) print:text-black'>
-                • Từ vựng (問題②):
-              </div>
-              <div className='grid grid-cols-9 gap-1 text-center sm:gap-2'>
-                {exam.quickAnswerSummary.vocab.map(item => {
-                  const userAns = userAnswers[item.qNum];
-                  const isCorrect = userAns ? userAns === item.answer : null;
-
-                  return (
-                    <button
-                      key={`quick-vocab-${item.qNum}`}
-                      type='button'
-                      onClick={() => scrollToQuestion(item.qNum)}
-                      className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
-                        isCorrect === true
-                          ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
-                          : isCorrect === false
-                            ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
-                            : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
-                      }`}
-                      title={`Xem chi tiết Câu ${item.qNum} (Từ vựng)`}
-                    >
-                      <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
-                        C{item.qNum}
+            {exam.sections && exam.sections.length > 0 ? (
+              <div className='space-y-4'>
+                {exam.sections.map(section => (
+                  <div key={`section-quick-${section.sectionNumber}`}>
+                    <div className='mb-1.5 flex items-center justify-between text-xs font-bold text-(--main-color) print:text-black'>
+                      <span>
+                        • Bài {section.sectionNumber}: {section.sectionTitle}{' '}
+                        (Câu {section.questionRange}):
                       </span>
-                      <span className='font-japanese text-sm font-black text-(--main-color) sm:text-base print:text-black'>
-                        {item.answer}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+                    </div>
+                    <div className='grid grid-cols-5 gap-1 text-center sm:grid-cols-9 sm:gap-2 md:grid-cols-10'>
+                      {section.questions.map(item => {
+                        const userAns = userAnswers[item.globalNumber];
+                        const isCorrect = userAns
+                          ? item.correctOption.includes(userAns)
+                          : null;
 
-            {/* Phần 2: Ngữ pháp (Câu 1 - 26) */}
-            <div>
-              <div className='mb-1.5 text-xs font-bold text-(--main-color) print:text-black'>
-                • Ngữ pháp & Điền đoạn văn (Câu 1 - 26):
+                        return (
+                          <button
+                            key={`quick-sec-${section.sectionNumber}-q-${item.questionNumber}-${item.globalNumber}`}
+                            type='button'
+                            onClick={() => scrollToQuestion(item.globalNumber)}
+                            className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
+                              isCorrect === true
+                                ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
+                                : isCorrect === false
+                                  ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
+                                  : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
+                            }`}
+                            title={`Xem chi tiết Câu ${item.questionNumber} (${section.sectionTitle})`}
+                          >
+                            <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
+                              C{item.questionNumber}
+                            </span>
+                            <span className='font-japanese text-xs font-black text-(--main-color) sm:text-sm print:text-black'>
+                              {item.correctOption}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className='space-y-1.5 sm:space-y-2'>
-                {/* Hàng 1: Câu 1 - 9 */}
-                <div className='grid grid-cols-9 gap-1 text-center sm:gap-2'>
-                  {exam.quickAnswerSummary.grammar.slice(0, 9).map(item => {
-                    const globalIdx = 9 + item.qNum;
-                    const userAns = userAnswers[globalIdx];
-                    const isCorrect = userAns
-                      ? item.answer.includes(userAns)
-                      : null;
+            ) : exam.quickAnswerSummary ? (
+              <>
+                {/* Phần 1: Từ vựng (Câu 1 - 9) */}
+                <div className='mb-4'>
+                  <div className='mb-1.5 text-xs font-bold text-(--main-color) print:text-black'>
+                    • Từ vựng (問題②):
+                  </div>
+                  <div className='grid grid-cols-9 gap-1 text-center sm:gap-2'>
+                    {exam.quickAnswerSummary.vocab.map(item => {
+                      const userAns = userAnswers[item.qNum];
+                      const isCorrect = userAns
+                        ? userAns === item.answer
+                        : null;
 
-                    return (
-                      <button
-                        key={`quick-gram-1-${item.qNum}`}
-                        type='button'
-                        onClick={() => scrollToQuestion(globalIdx)}
-                        className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
-                          isCorrect === true
-                            ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
-                            : isCorrect === false
-                              ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
-                              : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
-                        }`}
-                        title={`Xem chi tiết Câu ${item.qNum} (Ngữ pháp)`}
-                      >
-                        <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
-                          C{item.qNum}
-                        </span>
-                        <span className='font-japanese text-sm font-black text-(--main-color) sm:text-base print:text-black'>
-                          {item.answer}
-                        </span>
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={`quick-vocab-${item.qNum}`}
+                          type='button'
+                          onClick={() => scrollToQuestion(item.qNum)}
+                          className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
+                            isCorrect === true
+                              ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
+                              : isCorrect === false
+                                ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
+                                : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
+                          }`}
+                          title={`Xem chi tiết Câu ${item.qNum} (Từ vựng)`}
+                        >
+                          <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
+                            C{item.qNum}
+                          </span>
+                          <span className='font-japanese text-sm font-black text-(--main-color) sm:text-base print:text-black'>
+                            {item.answer}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
-                {/* Hàng 2: Câu 10 - 18 */}
-                <div className='grid grid-cols-9 gap-1 text-center sm:gap-2'>
-                  {exam.quickAnswerSummary.grammar.slice(9, 18).map(item => {
-                    const globalIdx = 9 + item.qNum;
-                    const userAns = userAnswers[globalIdx];
-                    const isCorrect = userAns
-                      ? item.answer.includes(userAns)
-                      : null;
+                {/* Phần 2: Ngữ pháp (Câu 1 - 26) */}
+                <div>
+                  <div className='mb-1.5 text-xs font-bold text-(--main-color) print:text-black'>
+                    • Ngữ pháp & Điền đoạn văn (Câu 1 - 26):
+                  </div>
+                  <div className='space-y-1.5 sm:space-y-2'>
+                    {/* Hàng 1: Câu 1 - 9 */}
+                    <div className='grid grid-cols-9 gap-1 text-center sm:gap-2'>
+                      {exam.quickAnswerSummary.grammar.slice(0, 9).map(item => {
+                        const globalIdx = 9 + item.qNum;
+                        const userAns = userAnswers[globalIdx];
+                        const isCorrect = userAns
+                          ? item.answer.includes(userAns)
+                          : null;
 
-                    return (
-                      <button
-                        key={`quick-gram-2-${item.qNum}`}
-                        type='button'
-                        onClick={() => scrollToQuestion(globalIdx)}
-                        className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
-                          isCorrect === true
-                            ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
-                            : isCorrect === false
-                              ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
-                              : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
-                        }`}
-                        title={`Xem chi tiết Câu ${item.qNum} (Ngữ pháp)`}
-                      >
-                        <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
-                          C{item.qNum}
-                        </span>
-                        <span className='font-japanese text-sm font-black text-(--main-color) sm:text-base print:text-black'>
-                          {item.answer}
-                        </span>
-                      </button>
-                    );
-                  })}
+                        return (
+                          <button
+                            key={`quick-gram-1-${item.qNum}`}
+                            type='button'
+                            onClick={() => scrollToQuestion(globalIdx)}
+                            className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
+                              isCorrect === true
+                                ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
+                                : isCorrect === false
+                                  ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
+                                  : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
+                            }`}
+                            title={`Xem chi tiết Câu ${item.qNum} (Ngữ pháp)`}
+                          >
+                            <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
+                              C{item.qNum}
+                            </span>
+                            <span className='font-japanese text-sm font-black text-(--main-color) sm:text-base print:text-black'>
+                              {item.answer}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Hàng 2: Câu 10 - 18 */}
+                    <div className='grid grid-cols-9 gap-1 text-center sm:gap-2'>
+                      {exam.quickAnswerSummary.grammar
+                        .slice(9, 18)
+                        .map(item => {
+                          const globalIdx = 9 + item.qNum;
+                          const userAns = userAnswers[globalIdx];
+                          const isCorrect = userAns
+                            ? item.answer.includes(userAns)
+                            : null;
+
+                          return (
+                            <button
+                              key={`quick-gram-2-${item.qNum}`}
+                              type='button'
+                              onClick={() => scrollToQuestion(globalIdx)}
+                              className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
+                                isCorrect === true
+                                  ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
+                                  : isCorrect === false
+                                    ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
+                                    : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
+                              }`}
+                              title={`Xem chi tiết Câu ${item.qNum} (Ngữ pháp)`}
+                            >
+                              <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
+                                C{item.qNum}
+                              </span>
+                              <span className='font-japanese text-sm font-black text-(--main-color) sm:text-base print:text-black'>
+                                {item.answer}
+                              </span>
+                            </button>
+                          );
+                        })}
+                    </div>
+
+                    {/* Hàng 3: Câu 19 - 26 */}
+                    <div className='grid grid-cols-8 gap-1 text-center sm:gap-2'>
+                      {exam.quickAnswerSummary.grammar
+                        .slice(18, 26)
+                        .map(item => {
+                          const globalIdx = 9 + item.qNum;
+                          const userAns = userAnswers[globalIdx];
+                          const isCorrect = userAns
+                            ? item.answer.includes(userAns)
+                            : null;
+
+                          return (
+                            <button
+                              key={`quick-gram-3-${item.qNum}`}
+                              type='button'
+                              onClick={() => scrollToQuestion(globalIdx)}
+                              className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
+                                isCorrect === true
+                                  ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
+                                  : isCorrect === false
+                                    ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
+                                    : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
+                              }`}
+                              title={`Xem chi tiết Câu ${item.qNum}`}
+                            >
+                              <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
+                                C{item.qNum}
+                              </span>
+                              <span className='font-japanese text-xs font-black text-(--main-color) sm:text-sm print:text-black'>
+                                {item.answer}
+                              </span>
+                            </button>
+                          );
+                        })}
+                    </div>
+                  </div>
                 </div>
-
-                {/* Hàng 3: Câu 19 - 26 */}
-                <div className='grid grid-cols-8 gap-1 text-center sm:gap-2'>
-                  {exam.quickAnswerSummary.grammar.slice(18, 26).map(item => {
-                    const globalIdx = 9 + item.qNum;
-                    const userAns = userAnswers[globalIdx];
-                    const isCorrect = userAns
-                      ? item.answer.includes(userAns)
-                      : null;
-
-                    return (
-                      <button
-                        key={`quick-gram-3-${item.qNum}`}
-                        type='button'
-                        onClick={() => scrollToQuestion(globalIdx)}
-                        className={`group flex flex-col items-center justify-center rounded-lg border py-1.5 transition-all hover:scale-105 ${
-                          isCorrect === true
-                            ? 'border-emerald-500 bg-emerald-500/20 text-emerald-600 dark:text-emerald-300'
-                            : isCorrect === false
-                              ? 'border-rose-500 bg-rose-500/20 text-rose-600 dark:text-rose-300'
-                              : 'border-(--border-color) bg-(--card-color) hover:border-(--main-color) print:border-slate-400'
-                        }`}
-                        title={`Xem chi tiết Câu ${item.qNum}`}
-                      >
-                        <span className='text-[10px] font-semibold text-(--secondary-color) group-hover:text-(--main-color) sm:text-xs'>
-                          C{item.qNum}
-                        </span>
-                        <span className='font-japanese text-xs font-black text-(--main-color) sm:text-sm print:text-black'>
-                          {item.answer}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+              </>
+            ) : null}
           </div>
 
           {/* CHÂN TRANG TRANG 1 */}
@@ -275,24 +329,40 @@ export const SolutionA4Paper: React.FC<SolutionA4PaperProps> = ({
               {/* Watermark in each card for authentic feel */}
               <div className='pointer-events-none absolute top-4 right-4 text-(--main-color)/5 opacity-40 select-none print:text-slate-200'>
                 <span className='font-japanese text-5xl font-black'>
-                  {q.partId === 'vocab'
-                    ? '語彙'
-                    : q.partId === 'star'
-                      ? '並替'
-                      : '文法'}
+                  {q.partId === 'kanji'
+                    ? '漢字'
+                    : q.partId === 'vocab'
+                      ? '語彙'
+                      : q.partId === 'similar'
+                        ? '類義'
+                        : q.partId === 'star'
+                          ? '並替'
+                          : q.partId === 'passage'
+                            ? '読解'
+                            : '文法'}
                 </span>
               </div>
 
               <div className='relative z-10'>
                 {/* Header câu hỏi */}
                 <div className='mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-(--border-color)/60 pb-2.5'>
-                  <div className='flex items-center gap-2'>
+                  <div className='flex flex-wrap items-center gap-2'>
                     <span className='inline-flex items-center justify-center rounded-lg bg-(--main-color) px-2.5 py-1 text-xs font-black text-(--background-color)'>
                       Câu {q.questionNumber}
                     </span>
+                    {q.sectionNumber && (
+                      <span className='inline-flex items-center justify-center rounded-md border border-(--border-color) bg-(--background-color) px-2 py-0.5 text-[11px] font-bold text-(--main-color)'>
+                        Bài {q.sectionNumber}
+                      </span>
+                    )}
                     <span className='text-xs font-semibold text-(--secondary-color)'>
-                      ({q.partTitle.split('(')[0].trim()})
+                      ({q.sectionTitle || q.partTitle.split('(')[0].trim()})
                     </span>
+                    {q.globalNumber !== q.questionNumber && (
+                      <span className='text-[11px] text-(--secondary-color)/80 italic'>
+                        (STT {q.globalNumber})
+                      </span>
+                    )}
                   </div>
 
                   {/* Interactive Options ① ② ③ ④ selector for students */}

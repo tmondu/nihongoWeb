@@ -1,47 +1,5 @@
-export interface SolutionWrongOption {
-  option: string;
-  text: string;
-}
-
-export interface SolutionQuestion {
-  id: string;
-  globalNumber: number;
-  questionNumber: number;
-  partId: 'vocab' | 'grammar' | 'star' | 'passage';
-  partTitle: string;
-  questionText: string;
-  correctOption: string;
-  correctText: string;
-  hanviet: string | null;
-  meaning: string;
-  explanation: string;
-  conclusion: string | null;
-  wrongOptions: SolutionWrongOption[];
-  starPositions?: string[];
-  note: string | null;
-  starOrder: string | null;
-  fullSentence: string | null;
-}
-
-export interface SolutionExam {
-  id: string;
-  level: 'n5' | 'n4' | 'n3' | 'n2' | 'n1';
-  examNumber: number;
-  title: string;
-  subtitle: string;
-  author: string;
-  watermarkImage: string;
-  totalPages: number;
-  quickAnswerSummary: {
-    vocab: { qNum: number; answer: string }[];
-    grammar: { qNum: number; answer: string }[];
-  };
-  passageSection?: {
-    fullText: string;
-    translation: string;
-  };
-  questions: SolutionQuestion[];
-}
+export * from '../types';
+import type { SolutionExam } from '../types';
 
 export const EXAM_1_N5_SOLUTION: SolutionExam = {
   id: 'n5-de1',
@@ -1283,7 +1241,13 @@ export const EXAM_1_N5_SOLUTION: SolutionExam = {
   ],
 };
 
-export const ALL_SOLUTIONS: SolutionExam[] = [EXAM_1_N5_SOLUTION];
+import { EXAM_2_N5_SOLUTION } from './exam2N5Data';
+export { EXAM_2_N5_SOLUTION };
+
+export const ALL_SOLUTIONS: SolutionExam[] = [
+  EXAM_1_N5_SOLUTION,
+  EXAM_2_N5_SOLUTION,
+];
 
 export function getSolutionByLevelAndExam(
   level: string,
