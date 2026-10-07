@@ -74,6 +74,7 @@ export const SolutionA4Paper: React.FC<SolutionA4PaperProps> = ({
             <div className='text-right'>
               <span className='inline-block rounded-full border border-(--border-color) bg-(--background-color) px-3 py-1 text-xs font-black tracking-wider text-(--main-color) uppercase print:border print:border-slate-400'>
                 {exam.level.toUpperCase()} • ĐỀ SỐ {exam.examNumber}
+                {exam.sessionNumber ? ` • BÀI ${exam.sessionNumber}` : ''}
               </span>
             </div>
           </div>
@@ -107,8 +108,7 @@ export const SolutionA4Paper: React.FC<SolutionA4PaperProps> = ({
                   <div key={`section-quick-${section.sectionNumber}`}>
                     <div className='mb-1.5 flex items-center justify-between text-xs font-bold text-(--main-color) print:text-black'>
                       <span>
-                        • Bài {section.sectionNumber}: {section.sectionTitle}{' '}
-                        (Câu {section.questionRange}):
+                        • {section.sectionTitle} (Câu {section.questionRange}):
                       </span>
                     </div>
                     <div className='grid grid-cols-5 gap-1 text-center sm:grid-cols-9 sm:gap-2 md:grid-cols-10'>
@@ -350,9 +350,9 @@ export const SolutionA4Paper: React.FC<SolutionA4PaperProps> = ({
                     <span className='inline-flex items-center justify-center rounded-lg bg-(--main-color) px-2.5 py-1 text-xs font-black text-(--background-color)'>
                       Câu {q.questionNumber}
                     </span>
-                    {q.sectionNumber && (
+                    {(q.sessionNumber || exam.sessionNumber) && (
                       <span className='inline-flex items-center justify-center rounded-md border border-(--border-color) bg-(--background-color) px-2 py-0.5 text-[11px] font-bold text-(--main-color)'>
-                        Bài {q.sectionNumber}
+                        Bài {q.sessionNumber || exam.sessionNumber}
                       </span>
                     )}
                     <span className='text-xs font-semibold text-(--secondary-color)'>
@@ -540,7 +540,8 @@ export const SolutionA4Paper: React.FC<SolutionA4PaperProps> = ({
       {exam.passageSection && (
         <div className='rounded-2xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-xl print:border-black print:p-4'>
           <h3 className='mb-3 text-base font-black tracking-wide text-(--main-color) uppercase sm:text-lg print:text-black'>
-            📖 ĐOẠN VĂN HOÀN CHỈNH (BÀI 4)
+            📖 ĐOẠN VĂN HOÀN CHỈNH{' '}
+            {exam.examNumber === 2 ? '(PHẦN ĐIỀN ĐOẠN VĂN)' : '(BÀI 4)'}
           </h3>
           <div className='space-y-4'>
             <div className='rounded-xl border border-(--border-color) bg-(--background-color)/60 p-4 text-(--main-color) print:bg-slate-50'>

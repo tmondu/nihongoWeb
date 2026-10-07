@@ -1077,31 +1077,37 @@ export const N5_DE2_QUESTIONS: QuestionDef[] = [
   },
 ];
 
-// Hàm format tin nhắn đáp án text cho Zalo Bot
+// Hàm format tin nhắn đáp án text cho Zalo Bot (Tất cả 50 câu thuộc Bài 1)
 function formatZaloSessionText(
   examNumber: number,
-  sectionNum: number,
-  sectionTitle: string,
-  questions: QuestionDef[],
+  sessionNum: number,
+  sessionTitle: string,
+  sections: {
+    sectionTitle: string;
+    questionRange: string;
+    questions: QuestionDef[];
+  }[],
 ): string {
   const lines: string[] = [];
   lines.push(
-    `📚 N5 - ĐỀ ${examNumber} - BÀI ${sectionNum}: ${sectionTitle.toUpperCase()}`,
+    `📚 N5 - ĐỀ ${examNumber} - BÀI ${sessionNum}: ${sessionTitle.toUpperCase()}`,
   );
-  lines.push(
-    `📌 Phạm vi: ${questions.length} câu (Câu ${questions[0].questionNumber} đến câu ${questions[questions.length - 1].questionNumber})`,
-  );
+  lines.push('📌 Tổng số: 50 câu (gồm 6 phần kiến thức)');
   lines.push('───────────────────────────────');
 
-  for (let i = 0; i < questions.length; i += 5) {
-    const group = questions.slice(i, i + 5);
-    const row = group
-      .map(
-        q =>
-          `${String(q.questionNumber).padStart(2, ' ')}: ${q.correctOption.padEnd(2, ' ')}`,
-      )
-      .join('  ');
-    lines.push(row);
+  for (const sec of sections) {
+    lines.push(`• ${sec.sectionTitle} (Câu ${sec.questionRange}):`);
+    for (let i = 0; i < sec.questions.length; i += 5) {
+      const group = sec.questions.slice(i, i + 5);
+      const row = group
+        .map(
+          q =>
+            `${String(q.questionNumber).padStart(2, ' ')}: ${q.correctOption.padEnd(2, ' ')}`,
+        )
+        .join('  ');
+      lines.push(row);
+    }
+    lines.push('');
   }
 
   lines.push('───────────────────────────────');
@@ -1116,7 +1122,7 @@ function formatZaloSessionText(
 async function run() {
   console.log('Seeding N5 Đề 2 questions and sessions...');
 
-  // 1. Tổ chức sections
+  // 1. Tổ chức sections bên trong Bài 1
   const sectionsMap = new Map<number, QuestionDef[]>();
   for (const q of N5_DE2_QUESTIONS) {
     if (!sectionsMap.has(q.sectionNumber)) {
@@ -1143,8 +1149,9 @@ async function run() {
     id: 'n5-de2',
     level: 'n5',
     examNumber: 2,
+    sessionNumber: 1,
     title: 'ĐÁP ÁN CHI TIẾT ĐỀ 2',
-    subtitle: 'TỪ VỰNG, NGỮ PHÁP DỄ NHẦM',
+    subtitle: 'BÀI 1: TỪ VỰNG, NGỮ PHÁP DỄ NHẦM',
     author: 'Phan Thắm SS - Minato',
     watermarkImage: '/images/exercise-watermark.png',
     totalPages: 25,
@@ -1169,6 +1176,7 @@ async function run() {
       id: `n5-de2-q${q.globalNumber}`,
       globalNumber: q.globalNumber,
       questionNumber: q.questionNumber,
+      sessionNumber: 1,
       sectionNumber: q.sectionNumber,
       sectionTitle: q.sectionTitle,
       partId: q.partId,
@@ -1196,6 +1204,7 @@ async function run() {
 CREATE TABLE IF NOT EXISTS \`exam_questions\` (
   \`id\` INT AUTO_INCREMENT PRIMARY KEY,
   \`exam_id\` VARCHAR(50) NOT NULL,
+  \`session_number\` INT NOT NULL DEFAULT 1,
   \`section_number\` INT NOT NULL,
   \`section_title\` VARCHAR(255) NOT NULL,
   \`question_number\` INT NOT NULL,
@@ -1206,7 +1215,8 @@ CREATE TABLE IF NOT EXISTS \`exam_questions\` (
   \`note\` VARCHAR(255) NULL,
   \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  UNIQUE KEY \`uk_exam_section_question\` (\`exam_id\`, \`section_number\`, \`question_number\`),
+  UNIQUE KEY \`uk_exam_session_section_question\` (\`exam_id\`, \`session_number\`, \`section_number\`, \`question_number\`),
+  INDEX \`idx_exam_session\` (\`exam_id\`, \`session_number\`),
   INDEX \`idx_exam_section\` (\`exam_id\`, \`section_number\`),
   INDEX \`idx_exam_global\` (\`exam_id\`, \`global_number\`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1218,7 +1228,7 @@ CREATE TABLE IF NOT EXISTS \`exam_questions\` (
   sqlStatements.push(
     `
 INSERT INTO \`exam_packages\` (\`id\`, \`level\`, \`exam_number\`, \`title\`, \`subtitle\`, \`author\`, \`total_questions\`, \`total_sessions\`, \`full_data\`)
-VALUES ('n5_de02', 'n5', 2, 'ĐÁP ÁN CHI TIẾT ĐỀ 2', 'TỪ VỰNG, NGỮ PHÁP DỄ NHẦM', 'Phan Thắm SS - Minato', 50, 6, '${fullDataEscaped}')
+VALUES ('n5_de02', 'n5', 2, 'ĐÁP ÁN CHI TIẾT ĐỀ 2', 'BÀI 1: TỪ VỰNG, NGỮ PHÁP DỄ NHẦM', 'Phan Thắm SS - Minato', 50, 1, '${fullDataEscaped}')
 ON DUPLICATE KEY UPDATE
   \`title\` = VALUES(\`title\`),
   \`subtitle\` = VALUES(\`subtitle\`),
@@ -1229,28 +1239,37 @@ ON DUPLICATE KEY UPDATE
 `.trim(),
   );
 
-  // Insert các sessions vào exam_sessions
-  for (const [secNum, qList] of sectionsMap.entries()) {
-    const range = `${qList[0].questionNumber}-${qList[qList.length - 1].questionNumber}`;
-    const answersText = formatZaloSessionText(
-      2,
-      secNum,
-      qList[0].sectionTitle,
-      qList,
-    ).replace(/'/g, "''");
-    const answersJson = JSON.stringify(
-      qList.map(q => ({
-        qNum: q.questionNumber,
-        answer: q.correctOption,
-        note: q.note || null,
-      })),
-    ).replace(/'/g, "''");
-    const titleEscaped = qList[0].sectionTitle.replace(/'/g, "''");
+  // Dọn dẹp sessions cũ của đề 2 và insert duy nhất Bài 1 (50 câu)
+  sqlStatements.push(
+    `DELETE FROM \`exam_sessions\` WHERE \`exam_id\` = 'n5_de02';`,
+  );
 
-    sqlStatements.push(
-      `
+  const session1AnswersText = formatZaloSessionText(
+    2,
+    1,
+    'Từ vựng, ngữ pháp dễ nhầm',
+    sectionsList.map(s => ({
+      sectionTitle: s.sectionTitle,
+      questionRange: s.questionRange,
+      questions: sectionsMap.get(s.sectionNumber)!,
+    })),
+  ).replace(/'/g, "''");
+
+  const session1AnswersJson = JSON.stringify(
+    N5_DE2_QUESTIONS.map(q => ({
+      sectionNumber: q.sectionNumber,
+      sectionTitle: q.sectionTitle,
+      qNum: q.questionNumber,
+      globalNum: q.globalNumber,
+      answer: q.correctOption,
+      note: q.note || null,
+    })),
+  ).replace(/'/g, "''");
+
+  sqlStatements.push(
+    `
 INSERT INTO \`exam_sessions\` (\`exam_id\`, \`session_num\`, \`session_title\`, \`question_range\`, \`is_unlocked\`, \`answers_text\`, \`answers_json\`, \`detail_url\`)
-VALUES ('n5_de02', ${secNum}, '${titleEscaped}', '${range}', 1, '${answersText}', '${answersJson}', 'https://www.pthamnihongo.site/vi/solutions?level=n5&exam=2')
+VALUES ('n5_de02', 1, 'Bài 1: Từ vựng, ngữ pháp dễ nhầm', '1-50', 1, '${session1AnswersText}', '${session1AnswersJson}', 'https://www.pthamnihongo.site/vi/solutions?level=n5&exam=2')
 ON DUPLICATE KEY UPDATE
   \`session_title\` = VALUES(\`session_title\`),
   \`question_range\` = VALUES(\`question_range\`),
@@ -1259,10 +1278,9 @@ ON DUPLICATE KEY UPDATE
   \`answers_json\` = VALUES(\`answers_json\`),
   \`detail_url\` = VALUES(\`detail_url\`);
 `.trim(),
-    );
-  }
+  );
 
-  // Insert từng câu hỏi vào exam_questions
+  // Insert từng câu hỏi vào exam_questions (session_number = 1)
   for (const q of N5_DE2_QUESTIONS) {
     const qTextEscaped = (q.questionText || '').replace(/'/g, "''");
     const expEscaped = (q.explanation || '').replace(/'/g, "''");
@@ -1271,9 +1289,10 @@ ON DUPLICATE KEY UPDATE
 
     sqlStatements.push(
       `
-INSERT INTO \`exam_questions\` (\`exam_id\`, \`section_number\`, \`section_title\`, \`question_number\`, \`global_number\`, \`correct_option\`, \`question_text\`, \`explanation\`, \`note\`)
-VALUES ('n5_de02', ${q.sectionNumber}, '${titleEscaped}', ${q.questionNumber}, ${q.globalNumber}, '${q.correctOption}', '${qTextEscaped}', '${expEscaped}', ${noteEscaped})
+INSERT INTO \`exam_questions\` (\`exam_id\`, \`session_number\`, \`section_number\`, \`section_title\`, \`question_number\`, \`global_number\`, \`correct_option\`, \`question_text\`, \`explanation\`, \`note\`)
+VALUES ('n5_de02', 1, ${q.sectionNumber}, '${titleEscaped}', ${q.questionNumber}, ${q.globalNumber}, '${q.correctOption}', '${qTextEscaped}', '${expEscaped}', ${noteEscaped})
 ON DUPLICATE KEY UPDATE
+  \`session_number\` = VALUES(\`session_number\`),
   \`section_title\` = VALUES(\`section_title\`),
   \`correct_option\` = VALUES(\`correct_option\`),
   \`question_text\` = VALUES(\`question_text\`),
@@ -1288,7 +1307,10 @@ ON DUPLICATE KEY UPDATE
     process.cwd(),
     'scripts/migrations/12_seed_exam_solutions_n5_de2.sql',
   );
-  fs.writeFileSync(migrationFile, sqlStatements.join(';\n\n') + ';\n');
+  fs.writeFileSync(
+    migrationFile,
+    sqlStatements.map(s => s.trim().replace(/;+$/, '')).join(';\n\n') + ';\n',
+  );
   console.log(`Saved SQL migration to ${migrationFile}`);
 
   // Thực thi trên MySQL nếu kết nối được

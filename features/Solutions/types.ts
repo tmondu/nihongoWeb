@@ -7,6 +7,7 @@ export interface SolutionQuestion {
   id: string;
   globalNumber: number;
   questionNumber: number;
+  sessionNumber?: number;
   sectionNumber?: number;
   sectionTitle?: string;
   partId: 'vocab' | 'grammar' | 'star' | 'passage' | 'kanji' | 'similar';
@@ -41,6 +42,7 @@ export interface SolutionExam {
   id: string;
   level: 'n5' | 'n4' | 'n3' | 'n2' | 'n1';
   examNumber: number;
+  sessionNumber?: number;
   title: string;
   subtitle: string;
   author: string;
