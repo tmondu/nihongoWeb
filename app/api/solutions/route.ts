@@ -48,6 +48,18 @@ export async function GET(request: NextRequest) {
   const sessionNum = sessionParam ? parseInt(sessionParam, 10) : null;
   const format = searchParams.get('format')?.toLowerCase();
 
+  const rangeParam = searchParams.get('range');
+  let rangeFilter: { start: number; end: number } | null = null;
+  if (rangeParam) {
+    const parts = rangeParam.split(/[-_:]/).map(p => parseInt(p.trim(), 10));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      rangeFilter = {
+        start: Math.min(parts[0], parts[1]),
+        end: Math.max(parts[0], parts[1]),
+      };
+    }
+  }
+
   const responseHeaders = {
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     Pragma: 'no-cache',
@@ -155,6 +167,56 @@ export async function GET(request: NextRequest) {
 
     // 3. Nếu là yêu cầu đặc biệt từ Zalo Bot (format=text)
     if (format === 'text') {
+      // 3.1. Nếu yêu cầu theo Dải câu hỏi tự do (VD: range=1-50)
+      if (rangeFilter && currentExam) {
+        const filtered = currentExam.questions.filter(
+          q =>
+            q.globalNumber >= rangeFilter.start &&
+            q.globalNumber <= rangeFilter.end,
+        );
+
+        if (filtered.length === 0) {
+          return new NextResponse(
+            `⚠️ Đề ${currentExam.examNumber} (${currentExam.level.toUpperCase()}) có tổng cộng ${currentExam.questions.length} câu. Không tìm thấy câu hỏi nào trong dải câu ${rangeFilter.start} đến ${rangeFilter.end} em nhé!`,
+            { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
+          );
+        }
+
+        const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${currentExam.level}&exam=${currentExam.examNumber}`;
+        const minQ = filtered[0].globalNumber;
+        const maxQ = filtered[filtered.length - 1].globalNumber;
+
+        const lines: string[] = [];
+        lines.push(
+          `📚 ${currentExam.level.toUpperCase()} - ĐỀ ${currentExam.examNumber} (CÂU ${minQ} ĐẾN ${maxQ})`,
+        );
+        lines.push(
+          `📌 Phạm vi: ${filtered.length} câu (trên tổng ${currentExam.questions.length} câu của đề)`,
+        );
+        lines.push('───────────────────────────────');
+
+        // Định dạng 5 câu một dòng
+        for (let i = 0; i < filtered.length; i += 5) {
+          const group = filtered.slice(i, i + 5);
+          const row = group
+            .map(
+              item =>
+                `${String(item.globalNumber).padStart(2, ' ')}: ${item.correctOption.padEnd(2, ' ')}`,
+            )
+            .join('  ');
+          lines.push(row);
+        }
+
+        lines.push('───────────────────────────────');
+        lines.push(`👉 Xem đáp án & giải thích chi tiết tại:`);
+        lines.push(detailWebUrl);
+
+        return new NextResponse(lines.join('\n'), {
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+        });
+      }
+
+      // 3.2. Nếu yêu cầu theo Buổi học (session)
       if (sessionNum !== null) {
         const targetSession = sessions.find(s => s.sessionNum === sessionNum);
         if (!targetSession) {
@@ -215,6 +277,48 @@ export async function GET(request: NextRequest) {
       getSolutionByLevelAndExam(level, examNumber) || fallbackExams[0] || null;
 
     if (format === 'text') {
+      if (rangeFilter && fallbackCurrent) {
+        const filtered = fallbackCurrent.questions.filter(
+          q =>
+            q.globalNumber >= rangeFilter.start &&
+            q.globalNumber <= rangeFilter.end,
+        );
+
+        if (filtered.length > 0) {
+          const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${fallbackCurrent.level}&exam=${fallbackCurrent.examNumber}`;
+          const minQ = filtered[0].globalNumber;
+          const maxQ = filtered[filtered.length - 1].globalNumber;
+
+          const lines: string[] = [];
+          lines.push(
+            `📚 ${fallbackCurrent.level.toUpperCase()} - ĐỀ ${fallbackCurrent.examNumber} (CÂU ${minQ} ĐẾN ${maxQ})`,
+          );
+          lines.push(
+            `📌 Phạm vi: ${filtered.length} câu (trên tổng ${fallbackCurrent.questions.length} câu của đề)`,
+          );
+          lines.push('───────────────────────────────');
+
+          for (let i = 0; i < filtered.length; i += 5) {
+            const group = filtered.slice(i, i + 5);
+            const row = group
+              .map(
+                item =>
+                  `${String(item.globalNumber).padStart(2, ' ')}: ${item.correctOption.padEnd(2, ' ')}`,
+              )
+              .join('  ');
+            lines.push(row);
+          }
+
+          lines.push('───────────────────────────────');
+          lines.push(`👉 Xem đáp án & giải thích chi tiết tại:`);
+          lines.push(detailWebUrl);
+
+          return new NextResponse(lines.join('\n'), {
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+          });
+        }
+      }
+
       return new NextResponse(
         `⚠️ Hệ thống đang bảo trì, vui lòng truy cập website: https://www.pthamnihongo.site/vi/solutions?level=${level}&exam=${examNumber}`,
         { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
