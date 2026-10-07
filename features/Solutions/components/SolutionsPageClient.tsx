@@ -6,11 +6,12 @@ import {
   getSolutionByLevelAndExam,
   getSolutionsByLevel,
   EXAM_1_N5_SOLUTION,
+  type SolutionExam,
 } from '../data/solutionsData';
 import SolutionHeader from './SolutionHeader';
 import SolutionA4Paper from './SolutionA4Paper';
 import QuickAnswerChecker from './QuickAnswerChecker';
-import { BookOpen, AlertCircle } from 'lucide-react';
+import { BookOpen, AlertCircle, Calendar } from 'lucide-react';
 import { useAdminStatus } from '@/shared/hooks/generic/useAdminStatus';
 
 export const SolutionsPageClient: React.FC = () => {
@@ -29,6 +30,30 @@ export const SolutionsPageClient: React.FC = () => {
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const [filterWrongOnly, setFilterWrongOnly] = useState<boolean>(false);
 
+  // Data state: khởi tạo từ static fallback, sau đó cập nhật động từ DB qua /api/solutions
+  const [currentExam, setCurrentExam] = useState<SolutionExam | null>(
+    () =>
+      getSolutionByLevelAndExam(levelParam, examParam) ||
+      (levelParam === 'n5' ? EXAM_1_N5_SOLUTION : null),
+  );
+  const [availableExams, setAvailableExams] = useState<
+    { examNumber: number; title: string }[]
+  >(() =>
+    getSolutionsByLevel(levelParam).map(e => ({
+      examNumber: e.examNumber,
+      title: e.title,
+    })),
+  );
+  const [sessions, setSessions] = useState<
+    {
+      sessionNum: number;
+      sessionTitle: string;
+      questionRange: string;
+      isUnlocked: boolean;
+    }[]
+  >([]);
+  const [, setIsDbLoading] = useState<boolean>(false);
+
   // Sync state with URL params
   useEffect(() => {
     if (levelParam !== currentLevel) {
@@ -39,6 +64,47 @@ export const SolutionsPageClient: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelParam, examParam]);
+
+  // Fetch dữ liệu đề thi và các buổi học động từ DB (/api/solutions)
+  useEffect(() => {
+    let isMounted = true;
+
+    void (async () => {
+      try {
+        setIsDbLoading(true);
+        const res = await fetch(
+          `/api/solutions?level=${currentLevel}&exam=${examNumber}`,
+          { cache: 'no-store' },
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!isMounted || !data?.success) return;
+
+        if (data.currentExam) {
+          setCurrentExam(data.currentExam);
+        }
+        if (
+          Array.isArray(data.availableExams) &&
+          data.availableExams.length > 0
+        ) {
+          setAvailableExams(data.availableExams);
+        }
+        if (Array.isArray(data.sessions)) {
+          setSessions(data.sessions);
+        }
+      } catch {
+        // Giữ nguyên static data nếu DB không phản hồi
+      } finally {
+        if (isMounted) {
+          setIsDbLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentLevel, examNumber]);
 
   // Load saved answers from localStorage if available
   useEffect(() => {
@@ -59,6 +125,14 @@ export const SolutionsPageClient: React.FC = () => {
   const handleSelectLevel = (lvl: string) => {
     setCurrentLevel(lvl);
     setExamNumber(1);
+    const fallbackExams = getSolutionsByLevel(lvl);
+    setAvailableExams(
+      fallbackExams.map(e => ({ examNumber: e.examNumber, title: e.title })),
+    );
+    setCurrentExam(
+      getSolutionByLevelAndExam(lvl, 1) || fallbackExams[0] || null,
+    );
+    setSessions([]);
     const params = new URLSearchParams(searchParams.toString());
     params.set('level', lvl);
     params.set('exam', '1');
@@ -67,6 +141,10 @@ export const SolutionsPageClient: React.FC = () => {
 
   const handleSelectExam = (num: number) => {
     setExamNumber(num);
+    const fallback = getSolutionByLevelAndExam(currentLevel, num);
+    if (fallback) {
+      setCurrentExam(fallback);
+    }
     const params = new URLSearchParams(searchParams.toString());
     params.set('exam', num.toString());
     router.push(`${pathname}?${params.toString()}`);
@@ -103,14 +181,6 @@ export const SolutionsPageClient: React.FC = () => {
     window.print();
   };
 
-  const currentExam =
-    getSolutionByLevelAndExam(currentLevel, examNumber) ||
-    (currentLevel === 'n5' ? EXAM_1_N5_SOLUTION : null);
-  const availableExams = getSolutionsByLevel(currentLevel).map(e => ({
-    examNumber: e.examNumber,
-    title: e.title,
-  }));
-
   return (
     <div className='min-h-screen bg-(--background-color) pb-16 text-(--main-color) print:bg-white print:p-0'>
       {/* Top sticky bar */}
@@ -137,6 +207,44 @@ export const SolutionsPageClient: React.FC = () => {
             <div
               className={`${viewMode === 'checker' ? 'lg:col-span-8' : 'lg:col-span-12'}`}
             >
+              {/* Thông tin tiến độ các buổi dạy (từ DB) */}
+              {sessions.length > 0 && (
+                <div className='mb-6 rounded-2xl border border-(--border-color) bg-(--card-color) p-4 shadow-xs print:hidden'>
+                  <div className='mb-2.5 flex items-center gap-2'>
+                    <Calendar className='size-4 text-(--main-color)' />
+                    <span className='text-xs font-bold tracking-wide text-(--main-color) uppercase'>
+                      Tiến độ buổi học ({sessions.length} buổi):
+                    </span>
+                  </div>
+                  <div className='flex flex-wrap items-center gap-2'>
+                    {sessions.map(s => (
+                      <div
+                        key={s.sessionNum}
+                        className={`inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all ${
+                          s.isUnlocked
+                            ? 'border-emerald-300 bg-emerald-50/70 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-300'
+                            : 'border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-400'
+                        }`}
+                      >
+                        <span className='font-bold'>{s.sessionTitle}</span>
+                        <span className='rounded bg-black/5 px-1.5 py-0.5 font-mono text-[11px] dark:bg-white/10'>
+                          Câu {s.questionRange}
+                        </span>
+                        {s.isUnlocked ? (
+                          <span className='rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-bold text-white uppercase shadow-2xs'>
+                            Đã mở
+                          </span>
+                        ) : (
+                          <span className='rounded-full bg-slate-300 px-2 py-0.5 text-[10px] font-bold text-slate-700 uppercase dark:bg-slate-700 dark:text-slate-300'>
+                            Đang khóa
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <SolutionA4Paper
                 exam={currentExam}
                 userAnswers={userAnswers}

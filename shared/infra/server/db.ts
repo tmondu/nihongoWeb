@@ -323,6 +323,42 @@ export function getDbPool(): mysql.Pool {
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
       `);
 
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`exam_packages\` (
+          \`id\` VARCHAR(50) NOT NULL PRIMARY KEY,
+          \`level\` VARCHAR(10) NOT NULL,
+          \`exam_number\` INT NOT NULL,
+          \`title\` VARCHAR(255) NOT NULL,
+          \`subtitle\` VARCHAR(255) NULL,
+          \`author\` VARCHAR(100) NULL,
+          \`total_questions\` INT NOT NULL DEFAULT 0,
+          \`total_sessions\` INT NOT NULL DEFAULT 1,
+          \`full_data\` JSON NULL,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          UNIQUE KEY \`uk_level_exam\` (\`level\`, \`exam_number\`),
+          INDEX \`idx_exam_level\` (\`level\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
+      await pool.execute(`
+        CREATE TABLE IF NOT EXISTS \`exam_sessions\` (
+          \`id\` INT AUTO_INCREMENT PRIMARY KEY,
+          \`exam_id\` VARCHAR(50) NOT NULL,
+          \`session_num\` INT NOT NULL,
+          \`session_title\` VARCHAR(255) NOT NULL,
+          \`question_range\` VARCHAR(50) NOT NULL,
+          \`is_unlocked\` TINYINT(1) NOT NULL DEFAULT 0,
+          \`answers_text\` TEXT NOT NULL,
+          \`answers_json\` JSON NOT NULL,
+          \`detail_url\` VARCHAR(255) NULL,
+          \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          \`updated_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          UNIQUE KEY \`uk_exam_session\` (\`exam_id\`, \`session_num\`),
+          INDEX \`idx_exam_id\` (\`exam_id\`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+      `);
+
       // Seed default admin account
       const [existingAdmins] = await pool.execute<any[]>(
         'SELECT id FROM users WHERE email = ?',
