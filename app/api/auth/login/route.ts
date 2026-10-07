@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     // Query user by email
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, email, password_hash, is_approved, deleted_at FROM users WHERE email = ?',
+      'SELECT id, email, password_hash, is_approved, is_admin, deleted_at FROM users WHERE email = ?',
       [email],
     );
 
@@ -53,10 +53,13 @@ export async function POST(request: NextRequest) {
     // Sign JWT
     const token = await signJwt({ userId: user.id, email: user.email });
 
+    const isAdmin = Boolean(user.is_admin === 1 || user.is_admin === true);
+
     // Set cookie (Session cookie - expires when browser tab is closed)
     const response = NextResponse.json({
       success: true,
       message: 'Logged in successfully',
+      is_admin: isAdmin ? 1 : 0,
     });
     response.cookies.set('auth_token', token, {
       httpOnly: true,
@@ -64,6 +67,24 @@ export async function POST(request: NextRequest) {
       sameSite: 'lax',
       path: '/',
     });
+
+    if (isAdmin) {
+      response.cookies.set('is_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400 * 7,
+      });
+    } else {
+      response.cookies.set('is_admin', '', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 0,
+      });
+    }
 
     return response;
   } catch (error) {

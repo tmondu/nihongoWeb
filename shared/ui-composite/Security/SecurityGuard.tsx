@@ -34,8 +34,11 @@ export default function SecurityGuard() {
       return;
     }
 
-    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin
-    if (sessionStorage.getItem('is_admin') === '1') {
+    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin (qua sessionStorage hoặc cookie)
+    if (
+      sessionStorage.getItem('is_admin') === '1' ||
+      document.cookie.includes('is_admin=1')
+    ) {
       return;
     }
 
@@ -170,22 +173,31 @@ export default function SecurityGuard() {
       };
     };
 
-    // Kiểm tra quyền Admin từ session
+    // Kiểm tra quyền Admin từ session trước khi kích hoạt bảo vệ
     fetch('/api/auth/me')
       .then(res => (res.ok ? res.json() : null))
       .then(data => {
         if (isCancelled) return;
-        if (data?.is_admin === 1) {
+        const isAdmin = Boolean(
+          data && (data.is_admin === 1 || data.is_admin === true),
+        );
+        if (isAdmin) {
           sessionStorage.setItem('is_admin', '1');
+          document.cookie = 'is_admin=1; path=/; max-age=604800; samesite=lax';
+          // Người dùng là Admin: hoàn toàn bỏ qua bảo vệ, không kích hoạt initGuard
           if (cleanupEvents) cleanupEvents();
         } else {
           sessionStorage.setItem('is_admin', '0');
+          // Người dùng thông thường: kích hoạt bảo vệ
+          initGuard();
         }
       })
-      .catch(() => {});
-
-    // Khởi chạy bảo vệ cho người dùng thông thường
-    initGuard();
+      .catch(() => {
+        if (!isCancelled) {
+          // Trường hợp lỗi mạng hoặc khách vãng lai chưa đăng nhập
+          initGuard();
+        }
+      });
 
     return () => {
       isCancelled = true;

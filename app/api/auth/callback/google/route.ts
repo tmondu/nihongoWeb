@@ -162,6 +162,10 @@ export async function GET(request: NextRequest) {
       email,
     });
 
+    const isUserAdmin = Boolean(
+      existingUsers.length > 0 && existingUsers[0].is_admin === 1,
+    );
+
     // 5. Set session cookie and redirect with client-side sessionStorage initialization
     const html = `<!DOCTYPE html>
 <html lang="vi">
@@ -179,6 +183,7 @@ export async function GET(request: NextRequest) {
       sessionStorage.removeItem('vocab-cache');
       sessionStorage.removeItem('kanji-cache');
       sessionStorage.setItem('is_logged_in', 'true');
+      sessionStorage.setItem('is_admin', ${JSON.stringify(isUserAdmin ? '1' : '0')});
     } catch (e) {}
     window.location.replace(${JSON.stringify(redirectTarget)});
   </script>
@@ -199,6 +204,24 @@ export async function GET(request: NextRequest) {
       path: '/',
       maxAge: 86400 * 7, // 7 days
     });
+
+    if (isUserAdmin) {
+      response.cookies.set('is_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400 * 7,
+      });
+    } else {
+      response.cookies.set('is_admin', '', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 0,
+      });
+    }
 
     return response;
   } catch (error) {

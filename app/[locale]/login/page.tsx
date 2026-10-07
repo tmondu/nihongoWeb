@@ -49,6 +49,11 @@ export default function LoginPage() {
       sessionStorage.removeItem('vocab-cache');
       sessionStorage.removeItem('kanji-cache');
       sessionStorage.setItem('is_logged_in', 'true');
+      if (data.is_admin === 1) {
+        sessionStorage.setItem('is_admin', '1');
+      } else {
+        sessionStorage.setItem('is_admin', '0');
+      }
 
       window.location.href = redirectPath;
     } catch (err) {

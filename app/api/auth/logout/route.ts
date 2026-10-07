@@ -15,5 +15,14 @@ export async function POST(_request: NextRequest) {
     maxAge: 0, // Immediately expire
   });
 
+  // Clear is_admin cookie
+  response.cookies.set('is_admin', '', {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0,
+  });
+
   return response;
 }
