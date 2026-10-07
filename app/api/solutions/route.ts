@@ -166,7 +166,7 @@ export async function GET(request: NextRequest) {
 
         if (!targetSession.isUnlocked) {
           return new NextResponse(
-            `⚠️ Buổi ${sessionNum} cô Thắm chưa dạy xong nên chưa mở đáp án đâu nhé em ơi! Học xong buổi tối nay bot sẽ gửi nhé! 😉`,
+            `⚠️ Buổi ${sessionNum} hiện đang ở trạng thái KHÓA (chưa mở đáp án) trên hệ thống.\n👉 Giáo viên vui lòng mở khóa (is_unlocked = 1) trên DB trước khi phát đáp án buổi này cho lớp nhé!`,
             { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
           );
         }
