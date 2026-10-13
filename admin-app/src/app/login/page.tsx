@@ -33,10 +33,17 @@ export default function AdminLoginPage() {
         throw new Error(data.error || 'Đăng nhập không thành công');
       }
 
+      try {
+        localStorage.setItem('is_admin', '1');
+        sessionStorage.setItem('is_admin', '1');
+      } catch {}
+
       router.push('/');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error ? err.message : 'Đăng nhập không thành công',
+      );
     } finally {
       setLoading(false);
     }

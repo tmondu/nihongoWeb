@@ -6,6 +6,10 @@ export default function AdminLogoutButton() {
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
+      try {
+        localStorage.removeItem('is_admin');
+        sessionStorage.removeItem('is_admin');
+      } catch {}
       window.location.href = '/login';
     } catch (e) {
       console.error('Logout failed:', e);

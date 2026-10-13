@@ -4,7 +4,25 @@ import { getDbPool } from '@/shared/infra/server/db';
 import { RowDataPacket } from 'mysql2';
 
 export async function GET(request: NextRequest) {
+  const adminSession = request.cookies.get('ptham_admin_session')?.value;
   const token = request.cookies.get('auth_token')?.value;
+
+  if (adminSession && !token) {
+    return NextResponse.json({
+      id: 0,
+      sbd: '',
+      email: 'admin',
+      display_name: adminSession,
+      name_updated_at: null,
+      is_approved: 1,
+      can_watch_video: 1,
+      level: 'N1',
+      is_admin: 1,
+      is_verified: 1,
+      created_at: new Date().toISOString(),
+    });
+  }
+
   if (!token) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -24,6 +42,10 @@ export async function GET(request: NextRequest) {
     const user = users[0];
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    if (adminSession) {
+      user.is_admin = 1;
     }
 
     return NextResponse.json(user);

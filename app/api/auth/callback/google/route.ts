@@ -184,6 +184,11 @@ export async function GET(request: NextRequest) {
       sessionStorage.removeItem('kanji-cache');
       sessionStorage.setItem('is_logged_in', 'true');
       sessionStorage.setItem('is_admin', ${JSON.stringify(isUserAdmin ? '1' : '0')});
+      if (${isUserAdmin ? 'true' : 'false'}) {
+        localStorage.setItem('is_admin', '1');
+      } else {
+        localStorage.removeItem('is_admin');
+      }
     } catch (e) {}
     window.location.replace(${JSON.stringify(redirectTarget)});
   </script>

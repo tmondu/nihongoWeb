@@ -266,6 +266,9 @@ export default function ProfilePage() {
       setLoading(true);
       await fetch('/api/auth/logout', { method: 'POST' });
       sessionStorage.clear();
+      try {
+        localStorage.removeItem('is_admin');
+      } catch {}
       window.location.href = '/login';
     } catch (err) {
       console.error('Đăng xuất thất bại:', err);

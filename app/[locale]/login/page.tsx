@@ -50,8 +50,10 @@ export default function LoginPage() {
       sessionStorage.removeItem('kanji-cache');
       sessionStorage.setItem('is_logged_in', 'true');
       if (data.is_admin === 1) {
+        localStorage.setItem('is_admin', '1');
         sessionStorage.setItem('is_admin', '1');
       } else {
+        localStorage.removeItem('is_admin');
         sessionStorage.setItem('is_admin', '0');
       }
 

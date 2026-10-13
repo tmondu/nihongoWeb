@@ -26,17 +26,23 @@ export default function SecurityGuard() {
       return;
     }
 
-    // 3. Tự động bỏ qua khi đang ở trang /admin (hoặc /vi/admin, /en/admin, ...)
+    // 3. Tự động bỏ qua khi đang ở trang /admin hoặc /login (hoặc /vi/admin, /en/admin, ...)
     if (
       pathname &&
-      (pathname.includes('/admin') || pathname.startsWith('/admin'))
+      (pathname.includes('/admin') ||
+        pathname.startsWith('/admin') ||
+        pathname.includes('/login') ||
+        pathname.startsWith('/login'))
     ) {
       return;
     }
 
-    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin (qua sessionStorage hoặc cookie)
+    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin (qua localStorage, sessionStorage hoặc cookie)
     if (
-      sessionStorage.getItem('is_admin') === '1' ||
+      (typeof localStorage !== 'undefined' &&
+        localStorage.getItem('is_admin') === '1') ||
+      (typeof sessionStorage !== 'undefined' &&
+        sessionStorage.getItem('is_admin') === '1') ||
       document.cookie.includes('is_admin=1')
     ) {
       return;
@@ -182,12 +188,18 @@ export default function SecurityGuard() {
           data && (data.is_admin === 1 || data.is_admin === true),
         );
         if (isAdmin) {
-          sessionStorage.setItem('is_admin', '1');
+          try {
+            localStorage.setItem('is_admin', '1');
+            sessionStorage.setItem('is_admin', '1');
+          } catch {}
           document.cookie = 'is_admin=1; path=/; max-age=604800; samesite=lax';
           // Người dùng là Admin: hoàn toàn bỏ qua bảo vệ, không kích hoạt initGuard
           if (cleanupEvents) cleanupEvents();
         } else {
-          sessionStorage.setItem('is_admin', '0');
+          try {
+            localStorage.removeItem('is_admin');
+            sessionStorage.setItem('is_admin', '0');
+          } catch {}
           // Người dùng thông thường: kích hoạt bảo vệ
           initGuard();
         }

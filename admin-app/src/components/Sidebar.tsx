@@ -64,6 +64,10 @@ export default function Sidebar() {
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
+      try {
+        localStorage.removeItem('is_admin');
+        sessionStorage.removeItem('is_admin');
+      } catch {}
       router.push('/login');
       router.refresh();
     } catch (err) {

@@ -175,6 +175,9 @@ export default function ClientLayout({
             } else {
               fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
                 sessionStorage.clear();
+                try {
+                  localStorage.removeItem('is_admin');
+                } catch {}
                 window.location.href = `/login?redirect=${encodeURIComponent(cleanPath)}`;
               });
             }
@@ -182,6 +185,9 @@ export default function ClientLayout({
           .catch(() => {
             fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
               sessionStorage.clear();
+              try {
+                localStorage.removeItem('is_admin');
+              } catch {}
               window.location.href = `/login?redirect=${encodeURIComponent(cleanPath)}`;
             });
           });
