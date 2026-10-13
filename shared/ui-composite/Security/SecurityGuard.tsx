@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 // Đặt là true để BẬT tính năng chặn DevTools / F12 trên Production
@@ -9,14 +9,15 @@ const ENABLE_SECURITY_GUARD = true;
 
 export default function SecurityGuard() {
   const pathname = usePathname();
+  const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
-    // 1. Tự động bỏ qua nếu ở môi trường dev hoặc tạm tắt
+    // 1. Tự động bỏ qua nếu ở môi trường dev hoặc tính năng đang tắt
     if (!ENABLE_SECURITY_GUARD || process.env.NODE_ENV === 'development') {
       return;
     }
 
-    // 2. Tự động bỏ qua trên tất cả điện thoại / máy tính bảng (iPhone, iPad, Android, thiết bị cảm ứng)
+    // 2. Tự động bỏ qua trên tất cả điện thoại / máy tính bảng (thiết bị cảm ứng)
     const isMobileOrTouch =
       'ontouchstart' in window ||
       navigator.maxTouchPoints > 0 ||
@@ -37,7 +38,7 @@ export default function SecurityGuard() {
       return;
     }
 
-    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin (qua localStorage, sessionStorage hoặc cookie)
+    // 4. Tự động bỏ qua nếu trình duyệt đã ghi nhận quyền Admin
     if (
       (typeof localStorage !== 'undefined' &&
         localStorage.getItem('is_admin') === '1') ||
@@ -52,7 +53,7 @@ export default function SecurityGuard() {
     let cleanupEvents: (() => void) | null = null;
 
     const initGuard = () => {
-      // 1. Chặn tất cả phím tắt mở DevTools, View Source, Save page
+      // A. Chặn các phím tắt mở DevTools, xem mã nguồn, lưu trang
       const handleKeyDown = (e: KeyboardEvent) => {
         const target = e.target as HTMLElement | null;
         const isInput =
@@ -68,11 +69,11 @@ export default function SecurityGuard() {
           return false;
         }
 
-        // Ctrl+Shift+I / J / C (Windows/Linux) hoặc Cmd+Opt+I / J / C (macOS)
+        // Ctrl+Shift+I / J / C / K (Windows/Linux) hoặc Cmd+Opt+I / J / C / K (macOS)
         if (
           (e.ctrlKey || e.metaKey) &&
           (e.shiftKey || e.altKey) &&
-          ['i', 'j', 'c', 'I', 'J', 'C'].includes(e.key)
+          ['i', 'j', 'c', 'k', 'I', 'J', 'C', 'K'].includes(e.key)
         ) {
           e.preventDefault();
           e.stopPropagation();
@@ -99,87 +100,45 @@ export default function SecurityGuard() {
         }
       };
 
-      // 2. Phát hiện DevTools mở (chỉ áp dụng cho Desktop / Laptop)
-      let openDuration = 0;
-
-      const killPage = () => {
-        document.body.innerHTML = `
-          <div style="
-            position: fixed;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #0b0c10;
-            color: #ffffff;
-            text-align: center;
-            padding: 24px;
-            font-family: 'Noto Sans JP', system-ui, -apple-system, sans-serif;
-            z-index: 99999999;
-            user-select: none;
-          ">
-            <div style="font-size: 64px; margin-bottom: 16px;">🥺</div>
-            <h1 style="font-size: 28px; font-weight: 800; color: #6ee7b7; margin-bottom: 12px;">
-              Huhu bạn ơi đi nhầm chỗ rùi!!
-            </h1>
-            <p style="font-size: 15px; color: #9ca3af; max-width: 420px; line-height: 1.6;">
-              Trang web này để học tiếng Nhật vui vẻ thôi nè. Hãy đóng cửa sổ DevTools và tải lại trang để tiếp tục học nha!
-            </p>
-          </div>
-        `;
-      };
+      // B. Phát hiện DevTools mở thông qua Debugger timing:
+      // - Khi DevTools ĐÓNG: lệnh debugger chạy tức thì trong < 0.05ms (không hề tạm dừng).
+      // - Khi DevTools MỞ: lệnh debugger kích hoạt breakpoint khiến JavaScript dừng lại (> 100ms).
+      // Tuyệt đối KHÔNG đo kích thước outerWidth/innerWidth vì trên Windows tỉ lệ scale (125%/150%),
+      // browser zoom, hoặc side panel của Chrome sẽ gây nhận diện nhầm 100% dù không mở F12!
+      let consecutiveDetections = 0;
 
       const checkDevTools = () => {
-        // 1. Phân biệt thiết bị thật:
-        // Trên điện thoại thật (iPhone, iPad, Android), platform KHÔNG BAO GIỜ là Win32 / Windows.
-        const isDesktopPlatform =
-          /Win32|Win64|Windows|MacIntel|Linux x86_64/i.test(
-            navigator.platform || '',
-          );
-
-        // A. Nếu là máy tính PC/Mac nhưng bề rộng bị ép co xuống dưới 650px (như 395x811 trong F12)
-        // -> 100% ĐANG MỞ DEVTOOLS BẬT DEVICE TOOLBAR!
-        const isMobileEmulationOnDesktop =
-          isDesktopPlatform && window.innerWidth < 650;
-
-        // B. Phát hiện DevTools gắn bên phải hoặc dưới đáy trên Desktop
-        const isWidthDocked =
-          isDesktopPlatform && window.outerWidth - window.innerWidth > 160;
-        const isHeightDocked =
-          isDesktopPlatform && window.outerHeight - window.innerHeight > 250;
-
-        if (isMobileEmulationOnDesktop || isWidthDocked || isHeightDocked) {
-          openDuration += 200;
-          if (openDuration >= 600) {
-            killPage();
-          }
-        } else {
-          openDuration = 0;
-        }
-      };
-
-      // 3. Anti-Debugger Loop:
-      // Khi F12 mở (bất kể tab nào hay chế độ nào), lệnh này sẽ đóng băng DevTools và ép nhảy sang tab Sources
-      const antiDebugInterval = setInterval(() => {
         try {
+          const start = performance.now();
+
           new Function('debugger')();
+          const elapsed = performance.now() - start;
+
+          if (elapsed > 100) {
+            consecutiveDetections += 1;
+            if (consecutiveDetections >= 2) {
+              setIsBlocked(true);
+            }
+          } else {
+            consecutiveDetections = 0;
+            // Nếu DevTools đã đóng lại, tự động mở lại giao diện cho người dùng
+            setIsBlocked(false);
+          }
         } catch {
           // Bỏ qua nếu môi trường chặn Function
         }
-      }, 200);
+      };
 
       window.addEventListener('keydown', handleKeyDown, true);
-      const intervalId = setInterval(checkDevTools, 200);
+      const intervalId = setInterval(checkDevTools, 1000);
 
       cleanupEvents = () => {
         window.removeEventListener('keydown', handleKeyDown, true);
         clearInterval(intervalId);
-        clearInterval(antiDebugInterval);
       };
     };
 
-    // Kiểm tra quyền Admin từ session trước khi kích hoạt bảo vệ
+    // Kiểm tra quyền Admin từ server trước khi kích hoạt bảo vệ
     fetch('/api/auth/me')
       .then(res => (res.ok ? res.json() : null))
       .then(data => {
@@ -193,7 +152,7 @@ export default function SecurityGuard() {
             sessionStorage.setItem('is_admin', '1');
           } catch {}
           document.cookie = 'is_admin=1; path=/; max-age=604800; samesite=lax';
-          // Người dùng là Admin: hoàn toàn bỏ qua bảo vệ, không kích hoạt initGuard
+          setIsBlocked(false);
           if (cleanupEvents) cleanupEvents();
         } else {
           try {
@@ -217,5 +176,50 @@ export default function SecurityGuard() {
     };
   }, [pathname]);
 
-  return null;
+  if (!isBlocked) {
+    return null;
+  }
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#0b0c10',
+        color: '#ffffff',
+        textAlign: 'center',
+        padding: '24px',
+        fontFamily: "'Noto Sans JP', system-ui, -apple-system, sans-serif",
+        zIndex: 99999999,
+        userSelect: 'none',
+      }}
+    >
+      <div style={{ fontSize: '64px', marginBottom: '16px' }}>🥺</div>
+      <h1
+        style={{
+          fontSize: '28px',
+          fontWeight: 800,
+          color: '#6ee7b7',
+          marginBottom: '12px',
+        }}
+      >
+        Huhu bạn ơi đi nhầm chỗ rùi!!
+      </h1>
+      <p
+        style={{
+          fontSize: '15px',
+          color: '#9ca3af',
+          maxWidth: '420px',
+          lineHeight: '1.6',
+        }}
+      >
+        Trang web này để học tiếng Nhật vui vẻ thôi nè. Hãy đóng cửa sổ DevTools
+        và tải lại trang để tiếp tục học nha!
+      </p>
+    </div>
+  );
 }

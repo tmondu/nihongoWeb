@@ -7,28 +7,50 @@ export async function GET(request: NextRequest) {
   const adminSession = request.cookies.get('ptham_admin_session')?.value;
   const token = request.cookies.get('auth_token')?.value;
 
-  if (adminSession && !token) {
-    return NextResponse.json({
-      id: 0,
-      sbd: '',
-      email: 'admin',
-      display_name: adminSession,
-      name_updated_at: null,
-      is_approved: 1,
-      can_watch_video: 1,
-      level: 'N1',
-      is_admin: 1,
-      is_verified: 1,
-      created_at: new Date().toISOString(),
-    });
-  }
+  const adminFallbackUser = adminSession
+    ? {
+        id: 0,
+        sbd: '',
+        email: 'admin',
+        display_name: adminSession,
+        name_updated_at: null,
+        is_approved: 1,
+        can_watch_video: 1,
+        level: 'N1',
+        is_admin: 1,
+        is_verified: 1,
+        created_at: new Date().toISOString(),
+      }
+    : null;
 
   if (!token) {
+    if (adminFallbackUser) {
+      const res = NextResponse.json(adminFallbackUser);
+      res.cookies.set('is_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400 * 7,
+      });
+      return res;
+    }
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const payload = await verifyJwt(token);
   if (!payload || !payload.userId) {
+    if (adminFallbackUser) {
+      const res = NextResponse.json(adminFallbackUser);
+      res.cookies.set('is_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400 * 7,
+      });
+      return res;
+    }
     return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
   }
 
@@ -41,6 +63,17 @@ export async function GET(request: NextRequest) {
 
     const user = users[0];
     if (!user) {
+      if (adminFallbackUser) {
+        const res = NextResponse.json(adminFallbackUser);
+        res.cookies.set('is_admin', '1', {
+          httpOnly: false,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          path: '/',
+          maxAge: 86400 * 7,
+        });
+        return res;
+      }
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
@@ -48,8 +81,29 @@ export async function GET(request: NextRequest) {
       user.is_admin = 1;
     }
 
-    return NextResponse.json(user);
+    const res = NextResponse.json(user);
+    if (user.is_admin === 1 || user.is_admin === true) {
+      res.cookies.set('is_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400 * 7,
+      });
+    }
+    return res;
   } catch (error) {
+    if (adminFallbackUser) {
+      const res = NextResponse.json(adminFallbackUser);
+      res.cookies.set('is_admin', '1', {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 86400 * 7,
+      });
+      return res;
+    }
     console.error('Failed to get user profile:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
