@@ -234,23 +234,21 @@ export default function ClassroomPage() {
                   setSelectedLevel('all');
                   setSearchQuery('');
                 }}
-                className={`group flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${
+                className={`group flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm font-bold transition-all duration-200 ${
                   isActive
                     ? tab.id === 'exam_review'
-                      ? 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300 shadow-md shadow-emerald-500/10'
-                      : 'border-blue-500/40 bg-blue-500/15 text-blue-300 shadow-md shadow-blue-500/10'
-                    : 'border-border/50 bg-card/60 text-muted-foreground hover:border-border hover:bg-card hover:text-foreground'
+                      ? 'border-emerald-600 bg-emerald-600 text-white shadow-md shadow-emerald-600/25'
+                      : 'border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                    : 'border-border/60 bg-card/60 text-muted-foreground hover:border-border hover:bg-card hover:text-foreground'
                 }`}
               >
                 {tab.icon}
                 <span>{tab.label}</span>
                 {!loading && count > 0 && (
                   <span
-                    className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                    className={`rounded-full px-2 py-0.5 text-[11px] font-bold transition-colors ${
                       isActive
-                        ? tab.id === 'exam_review'
-                          ? 'bg-emerald-500/25 text-emerald-200'
-                          : 'bg-blue-500/25 text-blue-200'
+                        ? 'bg-white/25 text-white'
                         : 'bg-muted text-muted-foreground'
                     }`}
                   >
@@ -271,12 +269,12 @@ export default function ClassroomPage() {
               {activeTab === 'grammar' &&
                 !userInfo?.can_watch_video &&
                 !userInfo?.is_admin && (
-                  <span className='ml-2 font-medium text-amber-400'>
+                  <span className='ml-2 font-medium text-amber-500 dark:text-amber-400'>
                     {/* — Yêu cầu được giáo viên cấp quyền xem. */}
                   </span>
                 )}
               {activeTab === 'exam_review' && userInfo && (
-                <span className='ml-2 font-medium text-emerald-400'>
+                <span className='ml-2 font-medium text-emerald-600 dark:text-emerald-400'>
                   — Miễn phí
                 </span>
               )}
