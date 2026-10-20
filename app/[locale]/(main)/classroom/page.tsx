@@ -277,7 +277,7 @@ export default function ClassroomPage() {
                 )}
               {activeTab === 'exam_review' && userInfo && (
                 <span className='ml-2 font-medium text-emerald-400'>
-                  {/* — Miễn phí cho mọi học viên đã đăng nhập! */}
+                  — Miễn phí
                 </span>
               )}
             </p>
