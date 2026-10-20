@@ -1,4 +1,5 @@
 export type JlptLevel = 'n5' | 'n4' | 'n3' | 'n2' | 'n1';
+export type LessonVideoType = 'grammar' | 'exam_review';
 
 export const JLPT_LEVEL_RANKS: Record<JlptLevel, number> = {
   n5: 1,
@@ -32,16 +33,14 @@ export interface PermissionCheckParams {
   lessonLevel?: string | null;
   isAdmin?: boolean | number | null;
   canWatchVideo?: boolean | number | null;
+  videoType?: LessonVideoType | string | null;
 }
 
 /**
- * Checks if a user has permission to watch a lesson based on their level hierarchy:
- * N5 can watch: N5
- * N4 can watch: N4, N5
- * N3 can watch: N3, N4, N5
- * N2 can watch: N2, N3, N4, N5
- * N1 can watch: N1, N2, N3, N4, N5
- * Admin can watch all levels.
+ * Checks if a user has permission to watch a grammar lesson:
+ * - Admin: always allowed
+ * - Must have can_watch_video permission
+ * - User level must be >= lesson level
  */
 export function canAccessLesson({
   userLevel,
@@ -56,4 +55,37 @@ export function canAccessLesson({
   const lessonRank = JLPT_LEVEL_RANKS[normalizeLevel(lessonLevel)];
 
   return userRank >= lessonRank;
+}
+
+/**
+ * Checks if a user can access an exam_review lesson.
+ * Rules:
+ * - Admin: always allowed
+ * - Any logged-in user (no can_watch_video requirement)
+ * - User level must be >= lesson level (cannot watch above their level)
+ */
+export function canAccessExamReview({
+  userLevel,
+  lessonLevel,
+  isAdmin,
+}: Pick<
+  PermissionCheckParams,
+  'userLevel' | 'lessonLevel' | 'isAdmin'
+>): boolean {
+  if (Boolean(isAdmin)) return true;
+
+  const userRank = JLPT_LEVEL_RANKS[normalizeLevel(userLevel)];
+  const lessonRank = JLPT_LEVEL_RANKS[normalizeLevel(lessonLevel)];
+
+  return userRank >= lessonRank;
+}
+
+/**
+ * Unified access check that dispatches based on video type.
+ */
+export function canAccessLessonByType(params: PermissionCheckParams): boolean {
+  if (params.videoType === 'exam_review') {
+    return canAccessExamReview(params);
+  }
+  return canAccessLesson(params);
 }

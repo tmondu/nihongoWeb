@@ -4,20 +4,26 @@ import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
 export const dynamic = 'force-dynamic';
 
+type VideoType = 'grammar' | 'exam_review';
+
 interface LessonRow extends RowDataPacket {
   id: number;
   title: string;
   description: string | null;
   level: string;
   video_url: string;
+  video_type: VideoType;
   order_num: number;
   created_at: string;
 }
+
+const VALID_VIDEO_TYPES: VideoType[] = ['grammar', 'exam_review'];
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const level = searchParams.get('level')?.toLowerCase();
   const query = searchParams.get('query')?.trim();
+  const videoType = searchParams.get('video_type');
 
   try {
     const pool = getDbPool();
@@ -27,6 +33,11 @@ export async function GET(request: NextRequest) {
     if (level && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(level)) {
       conditions.push('level = ?');
       params.push(level);
+    }
+
+    if (videoType && VALID_VIDEO_TYPES.includes(videoType as VideoType)) {
+      conditions.push('video_type = ?');
+      params.push(videoType);
     }
 
     if (query) {
@@ -39,7 +50,7 @@ export async function GET(request: NextRequest) {
       conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
     const [rows] = await pool.execute<LessonRow[]>(
-      `SELECT id, title, description, level, video_url, order_num, created_at 
+      `SELECT id, title, description, level, video_url, video_type, order_num, created_at 
        FROM lessons ${whereClause}        ORDER BY 
           CASE LOWER(level)
             WHEN 'n5' THEN 1
@@ -58,19 +69,25 @@ export async function GET(request: NextRequest) {
       lessons: rows,
       total: rows.length,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Database error';
     console.error('Error fetching lessons in admin:', error);
-    return NextResponse.json(
-      { error: error.message || 'Database error' },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { title, description, level, video_url, order_num } = body;
+    const body = (await request.json()) as {
+      title?: string;
+      description?: string;
+      level?: string;
+      video_url?: string;
+      video_type?: string;
+      order_num?: number | string;
+    };
+    const { title, description, level, video_url, video_type, order_num } =
+      body;
 
     if (!title || !video_url) {
       return NextResponse.json(
@@ -79,15 +96,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const safeVideoType: VideoType = VALID_VIDEO_TYPES.includes(
+      video_type as VideoType,
+    )
+      ? (video_type as VideoType)
+      : 'grammar';
+
     const pool = getDbPool();
     const [result] = await pool.execute<ResultSetHeader>(
-      `INSERT INTO lessons (title, description, level, video_url, order_num) 
-       VALUES (?, ?, ?, ?, ?)`,
+      `INSERT INTO lessons (title, description, level, video_url, video_type, order_num) 
+       VALUES (?, ?, ?, ?, ?, ?)`,
       [
         title.trim(),
         description ? description.trim() : null,
         (level || 'n5').toLowerCase(),
         video_url.trim(),
+        safeVideoType,
         Number(order_num) || 1,
       ],
     );
@@ -97,19 +121,27 @@ export async function POST(request: NextRequest) {
       id: result.insertId,
       message: 'Thêm bài giảng mới thành công',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : 'Lỗi khi thêm bài giảng';
     console.error('Error creating lesson:', error);
-    return NextResponse.json(
-      { error: error.message || 'Lỗi khi thêm bài giảng' },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { id, title, description, level, video_url, order_num } = body;
+    const body = (await request.json()) as {
+      id?: number;
+      title?: string;
+      description?: string;
+      level?: string;
+      video_url?: string;
+      video_type?: string;
+      order_num?: number | string;
+    };
+    const { id, title, description, level, video_url, video_type, order_num } =
+      body;
 
     if (!id || !title || !video_url) {
       return NextResponse.json(
@@ -118,16 +150,23 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    const safeVideoType: VideoType = VALID_VIDEO_TYPES.includes(
+      video_type as VideoType,
+    )
+      ? (video_type as VideoType)
+      : 'grammar';
+
     const pool = getDbPool();
     const [result] = await pool.execute<ResultSetHeader>(
       `UPDATE lessons 
-       SET title = ?, description = ?, level = ?, video_url = ?, order_num = ? 
+       SET title = ?, description = ?, level = ?, video_url = ?, video_type = ?, order_num = ? 
        WHERE id = ?`,
       [
         title.trim(),
         description ? description.trim() : null,
         (level || 'n5').toLowerCase(),
         video_url.trim(),
+        safeVideoType,
         Number(order_num) || 1,
         id,
       ],
@@ -144,12 +183,11 @@ export async function PUT(request: NextRequest) {
       success: true,
       message: 'Cập nhật bài giảng thành công',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : 'Lỗi khi cập nhật bài giảng';
     console.error('Error updating lesson:', error);
-    return NextResponse.json(
-      { error: error.message || 'Lỗi khi cập nhật bài giảng' },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -182,11 +220,10 @@ export async function DELETE(request: NextRequest) {
       success: true,
       message: 'Xóa bài giảng thành công',
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : 'Lỗi khi xóa bài giảng';
     console.error('Error deleting lesson:', error);
-    return NextResponse.json(
-      { error: error.message || 'Lỗi khi xóa bài giảng' },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

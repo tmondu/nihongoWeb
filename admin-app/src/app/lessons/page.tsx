@@ -17,12 +17,15 @@ import {
 } from 'lucide-react';
 import LessonProgressModal from '@/components/LessonProgressModal';
 
+type VideoType = 'grammar' | 'exam_review';
+
 interface LessonRecord {
   id: number;
   title: string;
   description: string | null;
   level: string;
   video_url: string;
+  video_type: VideoType;
   order_num: number;
   created_at: string;
 }
@@ -31,6 +34,7 @@ export default function AdminLessonsPage() {
   const [lessons, setLessons] = useState<LessonRecord[]>([]);
   const [total, setTotal] = useState(0);
   const [level, setLevel] = useState('');
+  const [videoTypeFilter, setVideoTypeFilter] = useState<VideoType | ''>('');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<number | string | null>(
@@ -48,6 +52,7 @@ export default function AdminLessonsPage() {
   // Form states
   const [formTitle, setFormTitle] = useState('');
   const [formLevel, setFormLevel] = useState('n5');
+  const [formVideoType, setFormVideoType] = useState<VideoType>('grammar');
   const [formVideoUrl, setFormVideoUrl] = useState('');
   const [formOrderNum, setFormOrderNum] = useState('1');
   const [formDescription, setFormDescription] = useState('');
@@ -58,6 +63,7 @@ export default function AdminLessonsPage() {
       if (!silent) setLoading(true);
       const queryParams = new URLSearchParams();
       if (level) queryParams.set('level', level);
+      if (videoTypeFilter) queryParams.set('video_type', videoTypeFilter);
       if (search) queryParams.set('query', search);
 
       const res = await fetch(`/api/lessons?${queryParams.toString()}`);
@@ -75,7 +81,7 @@ export default function AdminLessonsPage() {
   useEffect(() => {
     fetchLessons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [level]);
+  }, [level, videoTypeFilter]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +93,7 @@ export default function AdminLessonsPage() {
     setCurrentId(null);
     setFormTitle('');
     setFormLevel(level || 'n5');
+    setFormVideoType(videoTypeFilter || 'grammar');
     setFormVideoUrl('');
     setFormOrderNum((lessons.length + 1).toString());
     setFormDescription('');
@@ -99,6 +106,7 @@ export default function AdminLessonsPage() {
     setCurrentId(item.id);
     setFormTitle(item.title);
     setFormLevel(item.level);
+    setFormVideoType(item.video_type || 'grammar');
     setFormVideoUrl(item.video_url);
     setFormOrderNum(item.order_num.toString());
     setFormDescription(item.description || '');
@@ -126,6 +134,7 @@ export default function AdminLessonsPage() {
         description: formDescription.trim() || null,
         level: formLevel,
         video_url: formVideoUrl.trim(),
+        video_type: formVideoType,
         order_num: Number(formOrderNum) || 1,
       };
 
@@ -194,36 +203,60 @@ export default function AdminLessonsPage() {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className='flex flex-col items-stretch justify-between gap-4 rounded-2xl border border-[#1e1e24] bg-[#121216] p-3 sm:flex-row sm:items-center'>
-        {/* Level Filters */}
-        <div className='flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0'>
-          {[
-            { id: '', label: 'Tất cả' },
-            { id: 'n5', label: 'N5' },
-            { id: 'n4', label: 'N4' },
-            { id: 'n3', label: 'N3' },
-            { id: 'n2', label: 'N2' },
-            { id: 'n1', label: 'N1' },
-          ].map(lvl => (
-            <button
-              key={lvl.id}
-              onClick={() => setLevel(lvl.id)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
-                level === lvl.id
-                  ? 'bg-blue-600 text-white'
-                  : 'text-slate-400 hover:bg-[#1e1e24] hover:text-white'
-              }`}
-            >
-              {lvl.label}
-            </button>
-          ))}
+      <div className='flex flex-col items-stretch justify-between gap-4 rounded-2xl border border-[#1e1e24] bg-[#121216] p-3'>
+        <div className='flex flex-wrap items-center gap-2'>
+          {/* Level Filters */}
+          <div className='flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0'>
+            {[
+              { id: '', label: 'Tất cả cấp' },
+              { id: 'n5', label: 'N5' },
+              { id: 'n4', label: 'N4' },
+              { id: 'n3', label: 'N3' },
+              { id: 'n2', label: 'N2' },
+              { id: 'n1', label: 'N1' },
+            ].map(lvl => (
+              <button
+                key={lvl.id}
+                onClick={() => setLevel(lvl.id)}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
+                  level === lvl.id
+                    ? 'bg-blue-600 text-white'
+                    : 'text-slate-400 hover:bg-[#1e1e24] hover:text-white'
+                }`}
+              >
+                {lvl.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Video Type Filter */}
+          <div className='ml-2 flex items-center gap-1 border-l border-[#26262e] pl-2'>
+            {(
+              [
+                { id: '' as const, label: 'Tất cả loại' },
+                { id: 'grammar' as const, label: '🎓 Ngữ pháp' },
+                { id: 'exam_review' as const, label: '📝 Chữa đề' },
+              ] as { id: VideoType | ''; label: string }[]
+            ).map(vt => (
+              <button
+                key={vt.id}
+                onClick={() => setVideoTypeFilter(vt.id)}
+                className={`rounded-lg px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
+                  videoTypeFilter === vt.id
+                    ? vt.id === 'exam_review'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-purple-600 text-white'
+                    : 'text-slate-400 hover:bg-[#1e1e24] hover:text-white'
+                }`}
+              >
+                {vt.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Search */}
-        <form
-          onSubmit={handleSearchSubmit}
-          className='flex min-w-[280px] gap-2'
-        >
+        <form onSubmit={handleSearchSubmit} className='flex gap-2'>
           <div className='relative flex-1'>
             <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400' />
             <input
@@ -249,10 +282,11 @@ export default function AdminLessonsPage() {
           <table className='w-full text-left text-sm text-slate-300'>
             <thead className='border-b border-[#1e1e24] bg-[#18181c]/60 text-xs font-semibold text-slate-400 uppercase'>
               <tr>
-                <th className='w-16 px-4 py-3.5 text-center'>Thứ tự</th>
+                <th className='w-16 px-4 py-3.5 text-center'>STT</th>
                 <th className='px-4 py-3.5'>Cấp độ</th>
                 <th className='px-4 py-3.5'>Tiêu đề bài giảng</th>
-                <th className='px-4 py-3.5'>Loại Video</th>
+                <th className='px-4 py-3.5'>Loại</th>
+                <th className='px-4 py-3.5'>Link Video</th>
                 <th className='px-4 py-3.5'>Ngày tạo</th>
                 <th className='px-4 py-3.5 text-right'>Hành động</th>
               </tr>
@@ -260,14 +294,14 @@ export default function AdminLessonsPage() {
             <tbody className='divide-y divide-[#1e1e24]'>
               {loading ? (
                 <tr>
-                  <td colSpan={6} className='py-16 text-center text-slate-400'>
+                  <td colSpan={7} className='py-16 text-center text-slate-400'>
                     <Loader2 className='mx-auto mb-2 h-6 w-6 animate-spin text-blue-500' />
                     Đang tải danh sách bài giảng...
                   </td>
                 </tr>
               ) : lessons.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className='py-16 text-center text-slate-400'>
+                  <td colSpan={7} className='py-16 text-center text-slate-400'>
                     Chưa có bài giảng nào được thêm. Bấm &quot;Thêm Bài Giảng
                     Mới&quot; để bắt đầu.
                   </td>
@@ -301,10 +335,21 @@ export default function AdminLessonsPage() {
                         )}
                       </td>
                       <td className='px-4 py-3'>
+                        {item.video_type === 'exam_review' ? (
+                          <span className='rounded border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400'>
+                            📝 Chữa đề
+                          </span>
+                        ) : (
+                          <span className='rounded border border-purple-500/20 bg-purple-500/10 px-2 py-0.5 text-[10px] font-bold text-purple-400'>
+                            🎓 Ngữ pháp
+                          </span>
+                        )}
+                      </td>
+                      <td className='px-4 py-3'>
                         <div className='flex items-center gap-1.5'>
                           {isDrive && (
                             <span className='rounded border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-400'>
-                              Google Drive
+                              Drive
                             </span>
                           )}
                           {isYouTube && (
@@ -314,7 +359,7 @@ export default function AdminLessonsPage() {
                           )}
                           {!isDrive && !isYouTube && (
                             <span className='rounded border border-slate-500/20 bg-slate-500/10 px-2 py-0.5 text-[10px] font-bold text-slate-400'>
-                              Direct Link
+                              Direct
                             </span>
                           )}
                           <a
@@ -430,6 +475,30 @@ export default function AdminLessonsPage() {
                     className='w-full rounded-xl border border-[#26262e] bg-[#18181c] px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none'
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className='mb-1 block text-xs font-semibold text-slate-300'>
+                  Loại video *
+                </label>
+                <select
+                  value={formVideoType}
+                  onChange={e => setFormVideoType(e.target.value as VideoType)}
+                  className='w-full rounded-xl border border-[#26262e] bg-[#18181c] px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none'
+                >
+                  <option value='grammar'>
+                    🎓 Ngữ pháp — Cần cấp quyền xem (can_watch_video)
+                  </option>
+                  <option value='exam_review'>
+                    📝 Chữa đề — Ai có tài khoản cũng xem được (chỉ giới hạn cấp
+                    độ)
+                  </option>
+                </select>
+                <p className='mt-1 text-[11px] text-slate-400'>
+                  {formVideoType === 'exam_review'
+                    ? '📝 Chữa đề: mọi học viên đã đăng nhập đều có thể xem, chỉ cần đúng cấp độ.'
+                    : '🎓 Ngữ pháp: chỉ học viên được giáo viên cấp quyền mới xem được.'}
+                </p>
               </div>
 
               <div>

@@ -22,12 +22,15 @@ import YouTubeVideoPlayer from '@/features/Classroom/components/YouTubeVideoPlay
 import LessonComments from '@/features/Classroom/components/LessonComments';
 import { useVideoProgress } from '@/features/Classroom/hooks/useVideoProgress';
 
+type VideoType = 'grammar' | 'exam_review';
+
 interface Lesson {
   id: number;
   title: string;
   description: string | null;
   level: string;
   video_url: string;
+  video_type: VideoType;
   order_num: number;
   created_at: string;
   is_locked?: boolean;
@@ -121,7 +124,17 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
         return;
       }
 
-      if (!data.user.can_watch_video && !data.user.is_admin) {
+      // Determine the video type of the target lesson to know which auth rule to apply
+      // We check against the lesson list (which the server already returns even for listing)
+      // The server applies per-type locking in sanitizedLessons.
+      // For the detail view, if the server returned the lesson in the list (not locked),
+      // the user has access. The pending screen only applies to grammar lessons.
+      const list: Lesson[] = data.lessons || [];
+      const targetInList = list.find(l => l.id === lessonId);
+      const isExamReview = targetInList?.video_type === 'exam_review';
+
+      // Grammar: must have can_watch_video permission
+      if (!isExamReview && !data.user.can_watch_video && !data.user.is_admin) {
         setAuthError('pending');
         setUserEmail(data.user.email || '');
         setLoading(false);
@@ -139,7 +152,6 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
         is_admin: Boolean(data.user.is_admin),
       });
 
-      const list: Lesson[] = data.lessons || [];
       setLessons(list);
 
       const target = list.find(l => l.id === lessonId);

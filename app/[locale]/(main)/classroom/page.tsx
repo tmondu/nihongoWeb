@@ -11,8 +11,12 @@ import {
   ChevronRight,
   Lock,
   CheckCircle,
+  GraduationCap,
+  FileText,
 } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
+
+type VideoType = 'grammar' | 'exam_review';
 
 interface Lesson {
   id: number;
@@ -20,6 +24,7 @@ interface Lesson {
   description: string | null;
   level: string;
   video_url: string;
+  video_type: VideoType;
   order_num: number;
   created_at: string;
   is_locked?: boolean;
@@ -42,6 +47,26 @@ const LEVELS = [
   { id: 'n3', label: 'JLPT N3' },
   { id: 'n2', label: 'JLPT N2' },
   { id: 'n1', label: 'JLPT N1' },
+];
+
+const VIDEO_TABS: {
+  id: VideoType;
+  label: string;
+  icon: React.ReactNode;
+  desc: string;
+}[] = [
+  {
+    id: 'grammar',
+    label: 'Ngữ pháp',
+    icon: <GraduationCap className='h-4 w-4' />,
+    desc: 'Video các buổi học ngữ pháp trực tiếp',
+  },
+  {
+    id: 'exam_review',
+    label: 'Chữa đề',
+    icon: <FileText className='h-4 w-4' />,
+    desc: 'Video chữa đề thi, luyện tập thực chiến',
+  },
 ];
 
 const getLevelBadgeClasses = (level: string, isLocked?: boolean) => {
@@ -67,6 +92,7 @@ const getLevelBadgeClasses = (level: string, isLocked?: boolean) => {
 export default function ClassroomPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [activeTab, setActiveTab] = useState<VideoType>('grammar');
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
@@ -110,9 +136,10 @@ export default function ClassroomPage() {
     };
   }, []);
 
-  // Filter lessons by level & search query and sort N5 -> N4 -> N3 -> N2 -> N1 then by order_num
+  // Filter lessons by active tab (video_type), level & search
   const filteredLessons = useMemo(() => {
     const list = lessons.filter(l => {
+      const matchType = l.video_type === activeTab;
       const matchLevel =
         selectedLevel === 'all' ||
         l.level?.toLowerCase() === selectedLevel.toLowerCase();
@@ -121,7 +148,7 @@ export default function ClassroomPage() {
         l.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (l.description &&
           l.description.toLowerCase().includes(searchQuery.toLowerCase()));
-      return matchLevel && matchQuery;
+      return matchType && matchLevel && matchQuery;
     });
 
     const levelPriority: Record<string, number> = {
@@ -141,7 +168,23 @@ export default function ClassroomPage() {
       if (orderA !== orderB) return orderA - orderB;
       return a.id - b.id;
     });
-  }, [lessons, selectedLevel, searchQuery]);
+  }, [lessons, activeTab, selectedLevel, searchQuery]);
+
+  // Count per tab (for badge)
+  const grammarCount = useMemo(
+    () => lessons.filter(l => l.video_type === 'grammar').length,
+    [lessons],
+  );
+  const examReviewCount = useMemo(
+    () => lessons.filter(l => l.video_type === 'exam_review').length,
+    [lessons],
+  );
+  const tabCounts: Record<VideoType, number> = {
+    grammar: grammarCount,
+    exam_review: examReviewCount,
+  };
+
+  const activeTabInfo = VIDEO_TABS.find(t => t.id === activeTab)!;
 
   return (
     <div className='mx-auto min-h-screen w-full max-w-6xl px-4 py-6 md:px-8'>
@@ -154,7 +197,7 @@ export default function ClassroomPage() {
             </div>
             <div>
               <h1 className='text-foreground text-2xl font-bold tracking-tight md:text-3xl'>
-                Kho Bài Giảng & Video Record
+                Kho Bài Giảng &amp; Video Record
               </h1>
               <p className='text-muted-foreground mt-0.5 text-sm'>
                 Xem lại video các buổi học, hỗ trợ trực tiếp của PThamSS!
@@ -178,39 +221,101 @@ export default function ClassroomPage() {
           )}
         </div>
 
-        {/* Level Filters & Search bar */}
-        {!loading && (
-          <div className='mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-            {/* Level Tabs */}
-            <div className='flex max-w-full items-center gap-1.5 overflow-x-auto pb-1'>
-              {LEVELS.map(lvl => {
-                const active = selectedLevel === lvl.id;
-                return (
-                  <button
-                    key={lvl.id}
-                    onClick={() => setSelectedLevel(lvl.id)}
-                    className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
-                      active
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                        : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+        {/* Video Type Tabs */}
+        <div className='mt-6 flex items-center gap-2'>
+          {VIDEO_TABS.map(tab => {
+            const isActive = activeTab === tab.id;
+            const count = tabCounts[tab.id];
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setSelectedLevel('all');
+                  setSearchQuery('');
+                }}
+                className={`group flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? tab.id === 'exam_review'
+                      ? 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300 shadow-md shadow-emerald-500/10'
+                      : 'border-blue-500/40 bg-blue-500/15 text-blue-300 shadow-md shadow-blue-500/10'
+                    : 'border-border/50 bg-card/60 text-muted-foreground hover:border-border hover:bg-card hover:text-foreground'
+                }`}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+                {!loading && count > 0 && (
+                  <span
+                    className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                      isActive
+                        ? tab.id === 'exam_review'
+                          ? 'bg-emerald-500/25 text-emerald-200'
+                          : 'bg-blue-500/25 text-blue-200'
+                        : 'bg-muted text-muted-foreground'
                     }`}
                   >
-                    {lvl.label}
-                  </button>
-                );
-              })}
-            </div>
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-            {/* Search Input */}
-            <div className='relative w-full sm:max-w-xs'>
-              <Search className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2' />
-              <input
-                type='text'
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder='Tìm kiếm bài học...'
-                className='border-border/60 bg-card text-foreground placeholder:text-muted-foreground/60 w-full rounded-xl border py-2 pr-3 pl-9 text-xs focus:border-blue-500 focus:outline-none'
-              />
+        {/* Tab description + Level Filters & Search */}
+        {!loading && (
+          <div className='mt-4 space-y-3'>
+            <p className='text-muted-foreground text-xs'>
+              {activeTabInfo.icon}{' '}
+              <span className='ml-1'>{activeTabInfo.desc}</span>
+              {activeTab === 'grammar' &&
+                !userInfo?.can_watch_video &&
+                !userInfo?.is_admin && (
+                  <span className='ml-2 font-medium text-amber-400'>
+                    {/* — Yêu cầu được giáo viên cấp quyền xem. */}
+                  </span>
+                )}
+              {activeTab === 'exam_review' && userInfo && (
+                <span className='ml-2 font-medium text-emerald-400'>
+                  {/* — Miễn phí cho mọi học viên đã đăng nhập! */}
+                </span>
+              )}
+            </p>
+
+            <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+              {/* Level Tabs */}
+              <div className='flex max-w-full items-center gap-1.5 overflow-x-auto pb-1'>
+                {LEVELS.map(lvl => {
+                  const active = selectedLevel === lvl.id;
+                  return (
+                    <button
+                      key={lvl.id}
+                      onClick={() => setSelectedLevel(lvl.id)}
+                      className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
+                        active
+                          ? activeTab === 'exam_review'
+                            ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                            : 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                          : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                      }`}
+                    >
+                      {lvl.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Search Input */}
+              <div className='relative w-full sm:max-w-xs'>
+                <Search className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2' />
+                <input
+                  type='text'
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder='Tìm kiếm bài học...'
+                  className='border-border/60 bg-card text-foreground placeholder:text-muted-foreground/60 w-full rounded-xl border py-2 pr-3 pl-9 text-xs focus:border-blue-500 focus:outline-none'
+                />
+              </div>
             </div>
           </div>
         )}
@@ -236,13 +341,17 @@ export default function ClassroomPage() {
               <p className='text-muted-foreground mt-1 text-xs'>
                 {searchQuery
                   ? 'Không tìm thấy bài giảng nào phù hợp với từ khóa.'
-                  : 'Hiện tại chưa có video ghi hình nào cho cấp độ này.'}
+                  : `Hiện tại chưa có video ${activeTab === 'grammar' ? 'ngữ pháp' : 'chữa đề'} nào cho cấp độ này.`}
               </p>
             </div>
           ) : (
             <div className='space-y-3'>
               <div className='text-muted-foreground flex items-center justify-between px-1 text-xs'>
-                <span>Danh sách các bài học</span>
+                <span>
+                  {activeTab === 'grammar'
+                    ? 'Bài giảng ngữ pháp'
+                    : 'Video chữa đề'}
+                </span>
                 <span>{filteredLessons.length} bài giảng</span>
               </div>
 
@@ -250,6 +359,7 @@ export default function ClassroomPage() {
                 {filteredLessons.map((item, index) => {
                   const lessonNumber = item.order_num || index + 1;
                   const isLocked = Boolean(item.is_locked);
+                  const isExamReview = item.video_type === 'exam_review';
                   return (
                     <Link
                       key={item.id}
@@ -257,7 +367,9 @@ export default function ClassroomPage() {
                       className={`group border-border/60 bg-card flex flex-col justify-between gap-4 rounded-2xl border p-4 shadow-sm transition-all duration-200 md:flex-row md:items-center md:p-5 ${
                         isLocked
                           ? 'opacity-85 hover:border-amber-500/40 hover:bg-amber-500/[0.02]'
-                          : 'hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-600/[0.03] hover:shadow-md'
+                          : isExamReview
+                            ? 'hover:-translate-y-0.5 hover:border-emerald-500/40 hover:bg-emerald-600/[0.03] hover:shadow-md'
+                            : 'hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-600/[0.03] hover:shadow-md'
                       }`}
                     >
                       <div className='flex min-w-0 items-start gap-3.5 sm:gap-4'>
@@ -266,7 +378,9 @@ export default function ClassroomPage() {
                           className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-sm font-bold transition-all duration-200 ${
                             isLocked
                               ? 'border-amber-500/20 bg-amber-500/10 text-amber-400 group-hover:border-amber-500/40'
-                              : 'border-border/60 bg-muted/60 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
+                              : isExamReview
+                                ? 'border-border/60 bg-muted/60 text-muted-foreground group-hover:border-emerald-500/30 group-hover:bg-emerald-600 group-hover:text-white'
+                                : 'border-border/60 bg-muted/60 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
                           }`}
                         >
                           {isLocked ? (
@@ -308,7 +422,9 @@ export default function ClassroomPage() {
                             className={`text-foreground text-sm font-bold transition-colors md:text-base ${
                               isLocked
                                 ? 'group-hover:text-amber-400'
-                                : 'group-hover:text-blue-400'
+                                : isExamReview
+                                  ? 'group-hover:text-emerald-400'
+                                  : 'group-hover:text-blue-400'
                             }`}
                           >
                             {item.title}
@@ -339,7 +455,9 @@ export default function ClassroomPage() {
                           className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold shadow-xs transition-all duration-200 ${
                             isLocked
                               ? 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-amber-500/30 group-hover:bg-amber-500/10 group-hover:text-amber-400'
-                              : 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
+                              : isExamReview
+                                ? 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-emerald-500/30 group-hover:bg-emerald-600 group-hover:text-white'
+                                : 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
                           }`}
                         >
                           {isLocked ? (

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
 import { verifyJwt } from '@/shared/utils/auth';
-import { canAccessLesson } from '@/features/Classroom/lib/permissions';
+import { canAccessLessonByType } from '@/features/Classroom/lib/permissions';
 import { RowDataPacket } from 'mysql2';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +12,7 @@ interface LessonRow extends RowDataPacket {
   description: string | null;
   level: string;
   video_url: string;
+  video_type: 'grammar' | 'exam_review';
   order_num: number;
   created_at: string;
 }
@@ -30,6 +31,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
   const level = searchParams.get('level')?.toLowerCase();
+  const videoType = searchParams.get('video_type');
 
   const token = request.cookies.get('auth_token')?.value;
 
@@ -54,29 +56,41 @@ export async function GET(request: NextRequest) {
 
   try {
     const pool = getDbPool();
-    let query =
-      'SELECT id, title, description, level, video_url, order_num, created_at FROM lessons';
+    const conditions: string[] = [];
     const params: (string | number)[] = [];
 
     if (id) {
-      query += ' WHERE id = ?';
+      conditions.push('id = ?');
       params.push(Number(id));
-    } else if (level && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(level)) {
-      query += ' WHERE level = ?';
-      params.push(level);
+    } else {
+      if (level && ['n5', 'n4', 'n3', 'n2', 'n1'].includes(level)) {
+        conditions.push('level = ?');
+        params.push(level);
+      }
+      if (videoType && ['grammar', 'exam_review'].includes(videoType)) {
+        conditions.push('video_type = ?');
+        params.push(videoType);
+      }
     }
 
-    query += ` ORDER BY 
-      CASE LOWER(level)
-        WHEN 'n5' THEN 1
-        WHEN 'n4' THEN 2
-        WHEN 'n3' THEN 3
-        WHEN 'n2' THEN 4
-        WHEN 'n1' THEN 5
-        ELSE 6
-      END ASC,
-      order_num ASC, 
-      id ASC`;
+    const whereClause =
+      conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+
+    const query = `
+      SELECT id, title, description, level, video_url, video_type, order_num, created_at
+      FROM lessons
+      ${whereClause}
+      ORDER BY 
+        CASE LOWER(level)
+          WHEN 'n5' THEN 1
+          WHEN 'n4' THEN 2
+          WHEN 'n3' THEN 3
+          WHEN 'n2' THEN 4
+          WHEN 'n1' THEN 5
+          ELSE 6
+        END ASC,
+        order_num ASC, 
+        id ASC`;
 
     const [lessons] = await pool.execute<LessonRow[]>(query, params);
 
@@ -92,7 +106,22 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      if (!currentUser.is_admin && !currentUser.can_watch_video) {
+      if (lessons.length === 0) {
+        return NextResponse.json(
+          { error: 'not_found', message: 'Không tìm thấy bài giảng.' },
+          { status: 404 },
+        );
+      }
+
+      const targetLesson = lessons[0];
+      const lessonVideoType = targetLesson.video_type || 'grammar';
+
+      // Grammar: must have can_watch_video permission
+      if (
+        lessonVideoType === 'grammar' &&
+        !currentUser.is_admin &&
+        !currentUser.can_watch_video
+      ) {
         return NextResponse.json(
           {
             error: 'pending',
@@ -109,19 +138,12 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      if (lessons.length === 0) {
-        return NextResponse.json(
-          { error: 'not_found', message: 'Không tìm thấy bài giảng.' },
-          { status: 404 },
-        );
-      }
-
-      const targetLesson = lessons[0];
-      const hasLevelAccess = canAccessLesson({
+      const hasLevelAccess = canAccessLessonByType({
         userLevel: currentUser.level,
         lessonLevel: targetLesson.level,
         isAdmin: currentUser.is_admin,
         canWatchVideo: currentUser.can_watch_video,
+        videoType: lessonVideoType,
       });
 
       if (!hasLevelAccess) {
@@ -196,13 +218,15 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Sanitize lessons: only provide video_url if user has access to that specific lesson's level
+    // Sanitize lessons: apply per-type permission rules
     const sanitizedLessons = lessons.map(l => {
-      const isAllowed = canAccessLesson({
+      const lVideoType = l.video_type || 'grammar';
+      const isAllowed = canAccessLessonByType({
         userLevel: currentUser?.level,
         lessonLevel: l.level,
         isAdmin: currentUser?.is_admin,
         canWatchVideo: currentUser?.can_watch_video,
+        videoType: lVideoType,
       });
 
       const prog = progressMap.get(l.id);
