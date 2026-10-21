@@ -5,9 +5,12 @@ import {
   EXAM_1_N5_SOLUTION,
   getSolutionByLevelAndExam,
   getSolutionsByLevel,
+  getExamSummaries,
 } from '../data/solutionsData';
 import SolutionA4Paper from '../components/SolutionA4Paper';
 import QuickAnswerChecker from '../components/QuickAnswerChecker';
+import ExamSelectionView from '../components/ExamSelectionView';
+import PdfExamImportModal from '../components/PdfExamImportModal';
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
@@ -126,5 +129,109 @@ describe('QuickAnswerChecker Component', () => {
     const resetBtn = screen.getByText('Làm lại');
     fireEvent.click(resetBtn);
     expect(mockClear).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('ExamSelectionView Component & getExamSummaries', () => {
+  it('correctly generates exam summaries for levels', () => {
+    const allSummaries = getExamSummaries('all');
+    expect(allSummaries.length).toBeGreaterThanOrEqual(2);
+
+    const n5Summaries = getExamSummaries('n5');
+    expect(n5Summaries.length).toBeGreaterThanOrEqual(2);
+    expect(n5Summaries[0].examNumber).toBe(1);
+    expect(n5Summaries[0].totalQuestions).toBe(35);
+    expect(n5Summaries[1].examNumber).toBe(2);
+    expect(n5Summaries[1].totalQuestions).toBe(50);
+  });
+
+  it('renders exam selection screen with cards and handles selection', () => {
+    const mockSelectLevel = vi.fn();
+    const mockSelectExam = vi.fn();
+    const summaries = getExamSummaries('n5');
+
+    render(
+      <ExamSelectionView
+        currentLevel='n5'
+        onSelectLevel={mockSelectLevel}
+        exams={summaries}
+        onSelectExam={mockSelectExam}
+      />,
+    );
+
+    // Title & Hero
+    expect(screen.getByText('Kho Đề & Tra Cứu Đáp Án')).toBeDefined();
+    expect(
+      screen.getByText('Chọn Đề Thi Để Xem Lời Giải Chi Tiết'),
+    ).toBeDefined();
+
+    // Cards
+    expect(screen.getByText('ĐÁP ÁN CHI TIẾT ĐỀ 1')).toBeDefined();
+    expect(screen.getByText('ĐÁP ÁN CHI TIẾT ĐỀ 2')).toBeDefined();
+
+    // Click "Xem Lời Giải Chi Tiết" on first card
+    const viewButtons = screen.getAllByText('Xem Lời Giải Chi Tiết');
+    fireEvent.click(viewButtons[0]);
+    expect(mockSelectExam).toHaveBeenCalledWith(1, 'sheet');
+
+    // Click "Làm Bài & Tự Chấm Điểm" on first card
+    const checkButtons = screen.getAllByText('Làm Bài & Tự Chấm Điểm');
+    fireEvent.click(checkButtons[0]);
+    expect(mockSelectExam).toHaveBeenCalledWith(1, 'checker');
+  });
+
+  it('renders "Nhập Đề Bằng PDF" button for admin and triggers callback', () => {
+    const mockOpenPdf = vi.fn();
+    const summaries = getExamSummaries('n5');
+
+    render(
+      <ExamSelectionView
+        currentLevel='n5'
+        onSelectLevel={vi.fn()}
+        exams={summaries}
+        onSelectExam={vi.fn()}
+        isAdmin={true}
+        onOpenPdfImport={mockOpenPdf}
+      />,
+    );
+
+    const importBtn = screen.getByText('Nhập Đề Bằng PDF');
+    expect(importBtn).toBeDefined();
+    fireEvent.click(importBtn);
+    expect(mockOpenPdf).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('PdfExamImportModal Component', () => {
+  it('renders modal when open with dropzone and form fields', () => {
+    const mockClose = vi.fn();
+
+    render(
+      <PdfExamImportModal
+        isOpen={true}
+        onClose={mockClose}
+        defaultLevel='n5'
+        existingExamNumbers={[1, 2]}
+      />,
+    );
+
+    expect(screen.getByText('Nhập Đề Thi Từ File PDF')).toBeDefined();
+    expect(screen.getByText(/Kéo thả file PDF vào đây/)).toBeDefined();
+    expect(screen.getByText('Bắt Đầu Phân Tích PDF')).toBeDefined();
+    expect(screen.getByText('Google Gemini API Key (Tùy chọn)')).toBeDefined();
+
+    // Close button
+    const closeButtons = screen.getAllByRole('button');
+    const xButton = closeButtons[0];
+    fireEvent.click(xButton);
+    expect(mockClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not render when isOpen is false', () => {
+    const { container } = render(
+      <PdfExamImportModal isOpen={false} onClose={vi.fn()} defaultLevel='n5' />,
+    );
+
+    expect(container.firstChild).toBeNull();
   });
 });

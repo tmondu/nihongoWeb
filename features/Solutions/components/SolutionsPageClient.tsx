@@ -1,16 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import {
   getSolutionByLevelAndExam,
-  getSolutionsByLevel,
-  EXAM_1_N5_SOLUTION,
+  getExamSummaries,
   type SolutionExam,
+  type SolutionExamSummary,
 } from '../data/solutionsData';
 import SolutionHeader from './SolutionHeader';
 import SolutionA4Paper from './SolutionA4Paper';
 import QuickAnswerChecker from './QuickAnswerChecker';
+import ExamSelectionView from './ExamSelectionView';
+import PdfExamImportModal from './PdfExamImportModal';
 import { BookOpen, AlertCircle, Calendar } from 'lucide-react';
 import { useAdminStatus } from '@/shared/hooks/generic/useAdminStatus';
 
@@ -20,30 +22,26 @@ export const SolutionsPageClient: React.FC = () => {
   const pathname = usePathname();
   const { isAdmin } = useAdminStatus();
 
-  const levelParam = (searchParams.get('level')?.toLowerCase() ||
-    'n5') as string;
-  const examParam = parseInt(searchParams.get('exam') || '1', 10);
+  // URL parameters (derived state)
+  const rawLevelParam = searchParams.get('level')?.toLowerCase();
+  const currentLevel = rawLevelParam || 'n5';
 
-  const [currentLevel, setCurrentLevel] = useState<string>(levelParam);
-  const [examNumber, setExamNumber] = useState<number>(examParam);
+  const examParamRaw = searchParams.get('exam');
+  const hasExamParam =
+    examParamRaw !== null &&
+    examParamRaw !== '' &&
+    !isNaN(parseInt(examParamRaw, 10));
+  const examNumber = hasExamParam ? parseInt(examParamRaw, 10) : null;
+
+  // View mode & answer states
   const [viewMode, setViewMode] = useState<'sheet' | 'checker'>('sheet');
   const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
   const [filterWrongOnly, setFilterWrongOnly] = useState<boolean>(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState<boolean>(false);
 
-  // Data state: khởi tạo từ static fallback, sau đó cập nhật động từ DB qua /api/solutions
-  const [currentExam, setCurrentExam] = useState<SolutionExam | null>(
-    () =>
-      getSolutionByLevelAndExam(levelParam, examParam) ||
-      (levelParam === 'n5' ? EXAM_1_N5_SOLUTION : null),
-  );
-  const [availableExams, setAvailableExams] = useState<
-    { examNumber: number; title: string }[]
-  >(() =>
-    getSolutionsByLevel(levelParam).map(e => ({
-      examNumber: e.examNumber,
-      title: e.title,
-    })),
-  );
+  // DB Data states
+  const [dbExam, setDbExam] = useState<SolutionExam | null>(null);
+  const [dbExams, setDbExams] = useState<SolutionExamSummary[]>([]);
   const [sessions, setSessions] = useState<
     {
       sessionNum: number;
@@ -52,18 +50,22 @@ export const SolutionsPageClient: React.FC = () => {
       isUnlocked: boolean;
     }[]
   >([]);
-  const [, setIsDbLoading] = useState<boolean>(false);
+  const [isDbLoading, setIsDbLoading] = useState<boolean>(false);
 
-  // Sync state with URL params
-  useEffect(() => {
-    if (levelParam !== currentLevel) {
-      setCurrentLevel(levelParam);
-    }
-    if (examParam !== examNumber) {
-      setExamNumber(examParam);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [levelParam, examParam]);
+  // Static fallback summaries derived synchronously
+  const staticSummaries = useMemo(() => {
+    return getExamSummaries(currentLevel);
+  }, [currentLevel]);
+
+  // Static fallback exam for current selection
+  const staticCurrentExam = useMemo(() => {
+    if (examNumber === null) return null;
+    return getSolutionByLevelAndExam(currentLevel, examNumber);
+  }, [currentLevel, examNumber]);
+
+  // Merged available exams: use DB list if available, otherwise static summaries
+  const availableExams = dbExams.length > 0 ? dbExams : staticSummaries;
+  const currentExam = dbExam || staticCurrentExam;
 
   // Fetch dữ liệu đề thi và các buổi học động từ DB (/api/solutions)
   useEffect(() => {
@@ -72,22 +74,24 @@ export const SolutionsPageClient: React.FC = () => {
     void (async () => {
       try {
         setIsDbLoading(true);
-        const res = await fetch(
-          `/api/solutions?level=${currentLevel}&exam=${examNumber}`,
-          { cache: 'no-store' },
-        );
+        const queryUrl =
+          examNumber !== null
+            ? `/api/solutions?level=${currentLevel}&exam=${examNumber}`
+            : `/api/solutions?level=${currentLevel}`;
+
+        const res = await fetch(queryUrl, { cache: 'no-store' });
         if (!res.ok) return;
         const data = await res.json();
         if (!isMounted || !data?.success) return;
 
-        if (data.currentExam) {
-          setCurrentExam(data.currentExam);
+        if (data.currentExam && examNumber !== null) {
+          setDbExam(data.currentExam);
         }
         if (
           Array.isArray(data.availableExams) &&
           data.availableExams.length > 0
         ) {
-          setAvailableExams(data.availableExams);
+          setDbExams(data.availableExams);
         }
         if (Array.isArray(data.sessions)) {
           setSessions(data.sessions);
@@ -106,51 +110,58 @@ export const SolutionsPageClient: React.FC = () => {
     };
   }, [currentLevel, examNumber]);
 
-  // Load saved answers from localStorage if available
+  // Load saved answers from localStorage asynchronously when exam is active
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(
-        `solutions_answers_${currentLevel}_${examNumber}`,
-      );
-      if (saved) {
-        setUserAnswers(JSON.parse(saved));
-      } else {
+    if (examNumber === null) return;
+    void (async () => {
+      await Promise.resolve();
+      try {
+        const saved = localStorage.getItem(
+          `solutions_answers_${currentLevel}_${examNumber}`,
+        );
+        setUserAnswers(saved ? JSON.parse(saved) : {});
+      } catch {
         setUserAnswers({});
       }
-    } catch {
-      setUserAnswers({});
-    }
+    })();
   }, [currentLevel, examNumber]);
 
+  // Navigation Handlers
   const handleSelectLevel = (lvl: string) => {
-    setCurrentLevel(lvl);
-    setExamNumber(1);
-    const fallbackExams = getSolutionsByLevel(lvl);
-    setAvailableExams(
-      fallbackExams.map(e => ({ examNumber: e.examNumber, title: e.title })),
-    );
-    setCurrentExam(
-      getSolutionByLevelAndExam(lvl, 1) || fallbackExams[0] || null,
-    );
-    setSessions([]);
     const params = new URLSearchParams(searchParams.toString());
     params.set('level', lvl);
-    params.set('exam', '1');
+    // Khi đổi cấp độ, quay về màn chọn đề thi của cấp độ đó
+    params.delete('exam');
+    setDbExam(null);
+    setSessions([]);
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const handleSelectExam = (num: number) => {
-    setExamNumber(num);
-    const fallback = getSolutionByLevelAndExam(currentLevel, num);
-    if (fallback) {
-      setCurrentExam(fallback);
-    }
+  const handleOpenExam = (num: number, mode: 'sheet' | 'checker' = 'sheet') => {
+    setViewMode(mode);
     const params = new URLSearchParams(searchParams.toString());
-    params.set('exam', num.toString());
+    params.set('level', currentLevel === 'all' ? 'n5' : currentLevel);
+    params.set('exam', String(num));
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleBackToSelection = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('exam');
+    setDbExam(null);
+    setSessions([]);
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleSelectExamNumber = (num: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('exam', String(num));
+    setDbExam(null);
     router.push(`${pathname}?${params.toString()}`);
   };
 
   const handleSelectAnswer = (globalNum: number, option: string) => {
+    if (examNumber === null) return;
     setUserAnswers(prev => {
       const next = { ...prev, [globalNum]: option };
       try {
@@ -166,6 +177,7 @@ export const SolutionsPageClient: React.FC = () => {
   };
 
   const handleClearAnswers = () => {
+    if (examNumber === null) return;
     setUserAnswers({});
     try {
       localStorage.removeItem(
@@ -181,6 +193,46 @@ export const SolutionsPageClient: React.FC = () => {
     window.print();
   };
 
+  const existingExamNumbers = useMemo(() => {
+    return availableExams
+      .filter(
+        e =>
+          currentLevel === 'all' ||
+          e.level?.toLowerCase() === currentLevel.toLowerCase(),
+      )
+      .map(e => e.examNumber);
+  }, [availableExams, currentLevel]);
+
+  const handleImportSuccess = (newExam: SolutionExam) => {
+    setDbExam(newExam);
+    handleOpenExam(newExam.examNumber, 'sheet');
+  };
+
+  // MÀN 1: Nếu người dùng chưa chọn đề thi (truy cập /solutions) -> Hiển thị Màn chọn đề thi
+  if (examNumber === null) {
+    return (
+      <>
+        <ExamSelectionView
+          currentLevel={currentLevel}
+          onSelectLevel={handleSelectLevel}
+          exams={availableExams}
+          onSelectExam={handleOpenExam}
+          isLoading={isDbLoading && availableExams.length === 0}
+          isAdmin={isAdmin}
+          onOpenPdfImport={() => setIsPdfModalOpen(true)}
+        />
+        <PdfExamImportModal
+          isOpen={isPdfModalOpen}
+          onClose={() => setIsPdfModalOpen(false)}
+          defaultLevel={currentLevel === 'all' ? 'n5' : currentLevel}
+          existingExamNumbers={existingExamNumbers}
+          onImportSuccess={handleImportSuccess}
+        />
+      </>
+    );
+  }
+
+  // MÀN 2: Người dùng đã chọn đề thi -> Hiển thị Chi tiết đáp án & Tự chấm
   return (
     <div className='min-h-screen bg-(--background-color) pb-16 text-(--main-color) print:bg-white print:p-0'>
       {/* Top sticky bar */}
@@ -191,13 +243,23 @@ export const SolutionsPageClient: React.FC = () => {
         availableExams={
           availableExams.length > 0
             ? availableExams
-            : [{ examNumber: 1, title: 'Đề 1' }]
+            : [{ examNumber, title: `Đề ${examNumber}` }]
         }
-        onSelectExam={handleSelectExam}
+        onSelectExam={handleSelectExamNumber}
+        onBackToSelection={handleBackToSelection}
         onPrint={handlePrint}
         viewMode={viewMode}
         onToggleViewMode={setViewMode}
         isAdmin={isAdmin}
+        onOpenPdfImport={() => setIsPdfModalOpen(true)}
+      />
+
+      <PdfExamImportModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        defaultLevel={currentLevel === 'all' ? 'n5' : currentLevel}
+        existingExamNumbers={existingExamNumbers}
+        onImportSuccess={handleImportSuccess}
       />
 
       <main className='mx-auto max-w-7xl px-4 sm:px-6'>
@@ -276,17 +338,26 @@ export const SolutionsPageClient: React.FC = () => {
               Đang Cập Nhật Đề Thi {currentLevel.toUpperCase()}
             </h3>
             <p className='mt-2 text-sm text-(--secondary-color)'>
-              Đáp án chi tiết cho cấp độ {currentLevel.toUpperCase()} đang được
-              cô Phan Thắm SS cập nhật.
+              Đáp án chi tiết cho đề số {examNumber} cấp độ{' '}
+              {currentLevel.toUpperCase()} đang được cô Phan Thắm SS cập nhật.
             </p>
-            <button
-              type='button'
-              onClick={() => handleSelectLevel('n5')}
-              className='mt-5 inline-flex items-center gap-2 rounded-xl bg-(--main-color) px-4 py-2 text-sm font-bold text-(--background-color) shadow-xs transition-opacity hover:opacity-90'
-            >
-              <BookOpen className='size-4' />
-              <span>Xem Đề 1 (Cấp độ N5)</span>
-            </button>
+            <div className='mt-5 flex flex-wrap items-center justify-center gap-3'>
+              <button
+                type='button'
+                onClick={handleBackToSelection}
+                className='inline-flex items-center gap-2 rounded-xl border border-(--border-color) bg-(--background-color) px-4 py-2 text-sm font-bold text-(--main-color) shadow-xs transition-opacity hover:opacity-90'
+              >
+                <span>Xem danh sách đề khác</span>
+              </button>
+              <button
+                type='button'
+                onClick={() => handleOpenExam(1)}
+                className='inline-flex items-center gap-2 rounded-xl bg-(--main-color) px-4 py-2 text-sm font-bold text-(--background-color) shadow-xs transition-opacity hover:opacity-90'
+              >
+                <BookOpen className='size-4' />
+                <span>Xem Đề 1 (N5)</span>
+              </button>
+            </div>
           </div>
         )}
       </main>

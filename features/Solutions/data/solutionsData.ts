@@ -1,5 +1,5 @@
 export * from '../types';
-import type { SolutionExam } from '../types';
+import type { SolutionExam, SolutionExamSummary } from '../types';
 
 export const EXAM_1_N5_SOLUTION: SolutionExam = {
   id: 'n5-de1',
@@ -1261,4 +1261,20 @@ export function getSolutionByLevelAndExam(
 
 export function getSolutionsByLevel(level: string): SolutionExam[] {
   return ALL_SOLUTIONS.filter(e => e.level === level);
+}
+
+export function getExamSummaries(level?: string): SolutionExamSummary[] {
+  const exams =
+    !level || level === 'all' ? ALL_SOLUTIONS : getSolutionsByLevel(level);
+  return exams.map(e => ({
+    id: e.id,
+    level: e.level,
+    examNumber: e.examNumber,
+    title: e.title,
+    subtitle: e.subtitle,
+    author: e.author,
+    totalPages: e.totalPages,
+    totalQuestions: e.questions ? e.questions.length : 0,
+    totalSessions: e.sections?.length || (e.id === 'n5-de1' ? 3 : 1),
+  }));
 }

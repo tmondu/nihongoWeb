@@ -38,6 +38,18 @@ export interface SolutionSectionSummary {
   }[];
 }
 
+export interface SolutionExamSummary {
+  id: string;
+  level: string;
+  examNumber: number;
+  title: string;
+  subtitle?: string | null;
+  author?: string | null;
+  totalPages?: number;
+  totalQuestions?: number;
+  totalSessions?: number;
+}
+
 export interface SolutionExam {
   id: string;
   level: 'n5' | 'n4' | 'n3' | 'n2' | 'n1';

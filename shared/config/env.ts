@@ -36,5 +36,12 @@ export const env = {
   isDev: process.env.NODE_ENV === 'development',
   cronSecret: process.env.CRON_SECRET || '',
   githubPat: process.env.GITHUB_PAT || '',
+  gemini: {
+    apiKey:
+      process.env.GEMINI_API_KEY ||
+      process.env.GOOGLE_AI_KEY ||
+      process.env.GOOGLE_API_KEY ||
+      '',
+  },
   healthcheckSecret: process.env.HEALTHCHECK_SECRET || '',
 };

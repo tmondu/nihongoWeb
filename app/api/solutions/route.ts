@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDbPool } from '@/shared/infra/server/db';
+import { verifyJwt } from '@/shared/utils/auth';
 import { RowDataPacket } from 'mysql2';
 import {
+  ALL_SOLUTIONS,
   getSolutionsByLevel,
   getSolutionByLevelAndExam,
   type SolutionExam,
@@ -37,10 +39,13 @@ interface ExamSessionRow extends RowDataPacket {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const rawLevel = searchParams.get('level')?.toLowerCase() || 'n5';
-  const level = ['n5', 'n4', 'n3', 'n2', 'n1'].includes(rawLevel)
-    ? rawLevel
-    : 'n5';
+  const rawLevel = searchParams.get('level')?.toLowerCase();
+  const isAll = rawLevel === 'all';
+  const level = isAll
+    ? 'all'
+    : ['n5', 'n4', 'n3', 'n2', 'n1'].includes(rawLevel || '')
+      ? (rawLevel as string)
+      : 'n5';
 
   const examParam = searchParams.get('exam');
   const examNumber = examParam ? parseInt(examParam, 10) : 1;
@@ -75,11 +80,13 @@ export async function GET(request: NextRequest) {
 
     // 1. Lấy danh sách đề thi theo level từ DB
     const [packageRows] = await pool.execute<ExamPackageRow[]>(
-      'SELECT * FROM `exam_packages` WHERE `level` = ? ORDER BY `exam_number` ASC',
-      [level],
+      level === 'all'
+        ? 'SELECT * FROM `exam_packages` ORDER BY `level` ASC, `exam_number` ASC'
+        : 'SELECT * FROM `exam_packages` WHERE `level` = ? ORDER BY `exam_number` ASC',
+      level === 'all' ? [] : [level],
     );
 
-    const dbExamMap = new Map<number, SolutionExam>();
+    const dbExamMap = new Map<string, SolutionExam>();
 
     for (const row of packageRows) {
       if (row.full_data) {
@@ -98,24 +105,32 @@ export async function GET(request: NextRequest) {
         }
 
         if (parsed) {
-          dbExamMap.set(row.exam_number, parsed);
+          dbExamMap.set(`${parsed.level}_${parsed.examNumber}`, parsed);
         }
       }
     }
 
     // Kết hợp với dữ liệu tĩnh làm fallback nếu cần
-    const defaultExams = getSolutionsByLevel(level);
-    const finalMap = new Map<number, SolutionExam>();
-    defaultExams.forEach(e => finalMap.set(e.examNumber, e));
-    dbExamMap.forEach((e, num) => finalMap.set(num, e));
+    const defaultExams =
+      level === 'all' ? ALL_SOLUTIONS : getSolutionsByLevel(level);
+    const finalMap = new Map<string, SolutionExam>();
+    defaultExams.forEach(e => finalMap.set(`${e.level}_${e.examNumber}`, e));
+    dbExamMap.forEach((e, key) => finalMap.set(key, e));
 
     const mergedExams = Array.from(finalMap.values()).sort(
       (a, b) => a.examNumber - b.examNumber,
     );
 
     const availableExams = mergedExams.map(e => ({
+      id: e.id,
+      level: e.level,
       examNumber: e.examNumber,
       title: e.title,
+      subtitle: e.subtitle || null,
+      author: e.author || null,
+      totalPages: e.totalPages || 0,
+      totalQuestions: e.questions ? e.questions.length : 0,
+      totalSessions: e.sections?.length || (e.id === 'n5-de1' ? 3 : 1),
     }));
 
     // Chọn đề hiện tại
@@ -276,9 +291,16 @@ export async function GET(request: NextRequest) {
     console.error('Error fetching exam solutions from DB:', error);
 
     // Fallback toàn diện về in-memory data
-    const fallbackExams = getSolutionsByLevel(level);
+    const fallbackExams =
+      level === 'all' ? ALL_SOLUTIONS : getSolutionsByLevel(level);
     const fallbackCurrent =
-      getSolutionByLevelAndExam(level, examNumber) || fallbackExams[0] || null;
+      level === 'all'
+        ? ALL_SOLUTIONS.find(e => e.examNumber === examNumber) ||
+          ALL_SOLUTIONS[0] ||
+          null
+        : getSolutionByLevelAndExam(level, examNumber) ||
+          fallbackExams[0] ||
+          null;
 
     if (format === 'text') {
       if (rangeFilter && fallbackCurrent) {
@@ -370,13 +392,347 @@ export async function GET(request: NextRequest) {
         level,
         examNumber,
         availableExams: fallbackExams.map(e => ({
+          id: e.id,
+          level: e.level,
           examNumber: e.examNumber,
           title: e.title,
+          subtitle: e.subtitle || null,
+          author: e.author || null,
+          totalPages: e.totalPages || 0,
+          totalQuestions: e.questions ? e.questions.length : 0,
+          totalSessions: e.sections?.length || (e.id === 'n5-de1' ? 3 : 1),
         })),
         currentExam: fallbackCurrent,
         sessions: [],
       },
       { headers: responseHeaders },
+    );
+  }
+}
+
+/**
+ * Check admin authorization for modifying exams
+ */
+async function checkAdmin(request: NextRequest): Promise<boolean> {
+  const adminSession = request.cookies.get('ptham_admin_session')?.value;
+  if (adminSession) return true;
+
+  const token = request.cookies.get('auth_token')?.value;
+  if (!token) {
+    return process.env.NODE_ENV === 'development';
+  }
+
+  const payload = await verifyJwt(token);
+  if (!payload?.userId) {
+    return process.env.NODE_ENV === 'development';
+  }
+
+  try {
+    const pool = getDbPool();
+    const [rows] = await pool.execute<(RowDataPacket & { is_admin: number })[]>(
+      'SELECT id, is_admin FROM users WHERE id = ?',
+      [payload.userId as number],
+    );
+    return rows.length > 0 && Number(rows[0].is_admin) === 1;
+  } catch {
+    return process.env.NODE_ENV === 'development';
+  }
+}
+
+function formatZaloAnswers(
+  examTitle: string,
+  sessionTitle: string,
+  startQ: number,
+  endQ: number,
+  answers: { qNum: number; answer: string }[],
+  webUrl: string,
+): string {
+  const lines: string[] = [];
+  lines.push(`📚 ${examTitle.toUpperCase()} - ${sessionTitle.toUpperCase()}`);
+  lines.push(
+    `📌 Phạm vi: Câu ${startQ} đến câu ${endQ} (${answers.length} câu)`,
+  );
+  lines.push('───────────────────────────────');
+
+  for (let i = 0; i < answers.length; i += 5) {
+    const group = answers.slice(i, i + 5);
+    const row = group
+      .map(
+        item =>
+          `${String(item.qNum).padStart(2, ' ')}: ${item.answer.padEnd(2, ' ')}`,
+      )
+      .join('  ');
+    lines.push(row);
+  }
+  lines.push('───────────────────────────────');
+  lines.push('👉 Xem đáp án & giải thích chi tiết tại:');
+  lines.push(webUrl);
+
+  return lines.join('\n');
+}
+
+/**
+ * POST /api/solutions
+ * Save or update a full SolutionExam into exam_packages and exam_sessions
+ */
+export async function POST(request: NextRequest) {
+  try {
+    const isAdmin = await checkAdmin(request);
+    if (!isAdmin) {
+      return NextResponse.json(
+        {
+          error: 'unauthorized',
+          message: 'Chỉ Quản trị viên mới có quyền cập nhật kho đề thi.',
+        },
+        { status: 403 },
+      );
+    }
+
+    const body = (await request.json()) as { exam?: SolutionExam };
+    const exam = body?.exam;
+
+    if (
+      !exam ||
+      !exam.level ||
+      !exam.examNumber ||
+      !Array.isArray(exam.questions)
+    ) {
+      return NextResponse.json(
+        {
+          error: 'invalid_data',
+          message: 'Dữ liệu đề thi không đầy đủ hoặc sai định dạng.',
+        },
+        { status: 400 },
+      );
+    }
+
+    const pool = getDbPool();
+    const examPkgId = `${exam.level}_de${String(exam.examNumber).padStart(2, '0')}`;
+    const totalQuestions = exam.questions.length;
+    const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${exam.level}&exam=${exam.examNumber}`;
+
+    // 1. Partition into sessions
+    interface SessionPlan {
+      sessionNum: number;
+      sessionTitle: string;
+      startQ: number;
+      endQ: number;
+    }
+
+    const sessionPlans: SessionPlan[] = [];
+
+    if (exam.sections && exam.sections.length > 0) {
+      exam.sections.forEach((sec, idx) => {
+        const qNums = sec.questions.map(q => q.globalNumber);
+        const minQ = Math.min(...qNums);
+        const maxQ = Math.max(...qNums);
+        sessionPlans.push({
+          sessionNum: idx + 1,
+          sessionTitle: sec.sectionTitle || `Buổi ${idx + 1}`,
+          startQ: minQ,
+          endQ: maxQ,
+        });
+      });
+    } else {
+      // Automatic 3-session split
+      if (totalQuestions <= 35) {
+        sessionPlans.push(
+          {
+            sessionNum: 1,
+            sessionTitle: 'Phần 1: Từ Vựng & Hán Tự',
+            startQ: 1,
+            endQ: Math.min(15, totalQuestions),
+          },
+          {
+            sessionNum: 2,
+            sessionTitle: 'Phần 2: Ngữ Pháp & Dấu Sao',
+            startQ: 16,
+            endQ: Math.min(30, totalQuestions),
+          },
+          {
+            sessionNum: 3,
+            sessionTitle: 'Phần 3: Đọc Hiểu Đoạn Văn',
+            startQ: 31,
+            endQ: totalQuestions,
+          },
+        );
+      } else {
+        const partSize = Math.ceil(totalQuestions / 3);
+        sessionPlans.push(
+          {
+            sessionNum: 1,
+            sessionTitle: 'Buổi 1: Kiến thức ngôn ngữ (Từ vựng - Chữ Hán)',
+            startQ: 1,
+            endQ: partSize,
+          },
+          {
+            sessionNum: 2,
+            sessionTitle: 'Buổi 2: Ngữ pháp & Cấu trúc câu',
+            startQ: partSize + 1,
+            endQ: partSize * 2,
+          },
+          {
+            sessionNum: 3,
+            sessionTitle: 'Buổi 3: Đọc hiểu & Tổng hợp',
+            startQ: partSize * 2 + 1,
+            endQ: totalQuestions,
+          },
+        );
+      }
+    }
+
+    const validSessions = sessionPlans.filter(s => s.startQ <= s.endQ);
+    const totalSessions = validSessions.length;
+
+    // 2. UPSERT exam_packages
+    await pool.execute(
+      `INSERT INTO \`exam_packages\` 
+        (\`id\`, \`level\`, \`exam_number\`, \`title\`, \`subtitle\`, \`author\`, \`total_questions\`, \`total_sessions\`, \`full_data\`)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE
+        \`title\` = VALUES(\`title\`),
+        \`subtitle\` = VALUES(\`subtitle\`),
+        \`author\` = VALUES(\`author\`),
+        \`total_questions\` = VALUES(\`total_questions\`),
+        \`total_sessions\` = VALUES(\`total_sessions\`),
+        \`full_data\` = VALUES(\`full_data\`)`,
+      [
+        examPkgId,
+        exam.level,
+        exam.examNumber,
+        exam.title,
+        exam.subtitle || null,
+        exam.author || null,
+        totalQuestions,
+        totalSessions,
+        JSON.stringify(exam),
+      ],
+    );
+
+    // 3. Clear old sessions and insert new ones
+    await pool.execute('DELETE FROM `exam_sessions` WHERE `exam_id` = ?', [
+      examPkgId,
+    ]);
+
+    for (const session of validSessions) {
+      const sessionQuestions = exam.questions.filter(
+        q => q.globalNumber >= session.startQ && q.globalNumber <= session.endQ,
+      );
+
+      const sessionAnswers = sessionQuestions.map(q => ({
+        qNum: q.globalNumber,
+        answer: q.correctOption,
+        part: q.partId,
+        partTitle: q.partTitle,
+        hanviet: q.hanviet,
+        meaning: q.meaning,
+      }));
+
+      const answersText = formatZaloAnswers(
+        `${exam.level.toUpperCase()} - Đề ${exam.examNumber}`,
+        session.sessionTitle,
+        session.startQ,
+        session.endQ,
+        sessionAnswers.map(a => ({ qNum: a.qNum, answer: a.answer })),
+        detailWebUrl,
+      );
+
+      const questionRangeStr = `${session.startQ}-${session.endQ}`;
+
+      await pool.execute(
+        `INSERT INTO \`exam_sessions\`
+          (\`exam_id\`, \`session_num\`, \`session_title\`, \`question_range\`, \`is_unlocked\`, \`answers_text\`, \`answers_json\`, \`detail_url\`)
+         VALUES (?, ?, ?, ?, 1, ?, ?, ?)`,
+        [
+          examPkgId,
+          session.sessionNum,
+          session.sessionTitle,
+          questionRangeStr,
+          answersText,
+          JSON.stringify(sessionAnswers),
+          detailWebUrl,
+        ],
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Đã lưu thành công Đề ${exam.examNumber} (${exam.level.toUpperCase()}) với ${totalQuestions} câu hỏi và ${totalSessions} buổi học.`,
+      examId: examPkgId,
+      examNumber: exam.examNumber,
+      level: exam.level,
+    });
+  } catch (error) {
+    console.error('Error in POST /api/solutions:', error);
+    return NextResponse.json(
+      {
+        error: 'internal_error',
+        message:
+          'Không thể lưu đề thi vào cơ sở dữ liệu: ' +
+          (error instanceof Error ? error.message : String(error)),
+      },
+      { status: 500 },
+    );
+  }
+}
+
+/**
+ * DELETE /api/solutions?level=n5&exam=2
+ * Delete an exam package and its sessions
+ */
+export async function DELETE(request: NextRequest) {
+  try {
+    const isAdmin = await checkAdmin(request);
+    if (!isAdmin) {
+      return NextResponse.json(
+        {
+          error: 'unauthorized',
+          message: 'Chỉ Quản trị viên mới có quyền xóa đề thi.',
+        },
+        { status: 403 },
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const level = searchParams.get('level')?.toLowerCase();
+    const examParam = searchParams.get('exam');
+
+    if (!level || !examParam) {
+      return NextResponse.json(
+        {
+          error: 'missing_params',
+          message: 'Thiếu thông tin level hoặc exam.',
+        },
+        { status: 400 },
+      );
+    }
+
+    const examNumber = parseInt(examParam, 10);
+    const examPkgId = `${level}_de${String(examNumber).padStart(2, '0')}`;
+
+    const pool = getDbPool();
+    await pool.execute('DELETE FROM `exam_sessions` WHERE `exam_id` = ?', [
+      examPkgId,
+    ]);
+    const [result] = await pool.execute<
+      RowDataPacket[] & { affectedRows: number }
+    >('DELETE FROM `exam_packages` WHERE `id` = ?', [examPkgId]);
+
+    return NextResponse.json({
+      success: true,
+      message: `Đã xóa đề thi ${examPkgId} thành công.`,
+      affectedRows: (result as { affectedRows?: number })?.affectedRows || 0,
+    });
+  } catch (error) {
+    console.error('Error in DELETE /api/solutions:', error);
+    return NextResponse.json(
+      {
+        error: 'internal_error',
+        message:
+          'Lỗi khi xóa đề thi: ' +
+          (error instanceof Error ? error.message : String(error)),
+      },
+      { status: 500 },
     );
   }
 }
