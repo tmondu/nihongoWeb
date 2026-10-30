@@ -1,7 +1,7 @@
 {
-  "name": "PThamSS - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng",
-  "short_name": "PThamSS",
-  "description": "Làm chủ tiếng Nhật cùng PThamSS - học Hiragana, Katakana, Kanji, Từ vựng với các trò chơi tương tác, flashcard Thamlet và luyện Shadowing trực tuyến.",
+  "name": "Mondu - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng",
+  "short_name": "Mondu",
+  "description": "Làm chủ tiếng Nhật cùng Mondu - học Hiragana, Katakana, Kanji, Từ vựng với các trò chơi tương tác, flashcard Mondulet và luyện Shadowing trực tuyến.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -43,8 +43,8 @@
       "icons": []
     },
     {
-      "name": "Thamlet",
-      "short_name": "Thamlet",
+      "name": "Mondulet",
+      "short_name": "Mondulet",
       "description": "Học flashcard và làm bài tập trắc nghiệm",
       "url": "/thamlet",
       "icons": []

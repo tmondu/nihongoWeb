@@ -140,7 +140,7 @@ export default function TopBar() {
             onClick={() => playClick()}
             className='flex items-center gap-3 text-lg font-medium text-(--main-color) transition-opacity hover:opacity-80'
           >
-            <span className='text-3xl'>PThamSS</span>
+            <span className='text-3xl font-bold tracking-tight'>Mondu</span>
             <span className='font-normal text-(--secondary-color)'>
               <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
             </span>

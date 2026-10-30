@@ -1006,7 +1006,7 @@ const Sidebar = () => {
             onClick={playClick}
             className='flex items-center gap-1.5 text-xl font-black tracking-tight text-(--main-color) select-none'
           >
-            <span>PThamSS</span>
+            <span>Mondu</span>
             <Heart className='size-5 fill-current text-red-500' />
           </Link>
         </div>
@@ -1058,7 +1058,7 @@ const Sidebar = () => {
                   }}
                   className='flex items-center gap-1.5 text-2xl font-black tracking-tight text-(--main-color) select-none'
                 >
-                  <span>PThamSS</span>
+                  <span>Mondu</span>
                   <Heart className='size-6 fill-current text-red-500' />
                 </Link>
 
@@ -1298,14 +1298,14 @@ const Sidebar = () => {
           <h1 className='flex items-center gap-1.5 pl-3 text-3xl whitespace-nowrap select-none'>
             {USE_AURORA_SIDEBAR_HEADING ? (
               <>
-                <AuroraText className='font-bold'>PThamSS</AuroraText>
+                <AuroraText className='font-bold'>Mondu</AuroraText>
                 <AuroraText className='font-normal'>
                   <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
                 </AuroraText>
               </>
             ) : (
               <>
-                <span className='font-bold'> PThamSS</span>
+                <span className='font-bold'> Mondu</span>
                 <span className='font-normal text-(--secondary-color)'>
                   <Heart className='ml-1 inline-block size-9 fill-current text-red-500' />
                 </span>

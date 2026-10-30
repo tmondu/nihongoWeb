@@ -7,6 +7,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { usePathname } from 'next/navigation';
 import { ScrollRestoration } from 'next-scroll-restoration';
 import WelcomeModal from '@/shared/ui-composite/Modals/WelcomeModal';
+import RebrandNoticeModal from '@/shared/ui-composite/Modals/RebrandNoticeModal';
 import { DonationModal } from '@/features/Preferences';
 import useOnboardingStore from '@/shared/store/useOnboardingStore';
 import {
@@ -426,6 +427,7 @@ export default function ClientLayout({
       {children}
       <ScrollRestoration />
       <WelcomeModal />
+      <RebrandNoticeModal />
       <DisplayNamePromptModal />
       <DonationModal
         open={isDonationModalOpen}

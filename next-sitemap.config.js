@@ -35,7 +35,7 @@ function getAcademyPostPaths() {
 
 /** @type {import('next-sitemap').IConfig} */
 const sitemapConfig = {
-  siteUrl: process.env.SITE_URL || 'https://www.pthamnihongo.site',
+  siteUrl: process.env.SITE_URL || 'https://www.mondu.online',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   changefreq: 'weekly',

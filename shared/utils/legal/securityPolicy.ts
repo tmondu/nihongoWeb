@@ -1,5 +1,5 @@
 const securityPolicy = `
-**Chào mừng bạn đến với PThamSS!** 🚀  
+**Chào mừng bạn đến với Mondu!** 🚀  
 `;
 
 export default securityPolicy;

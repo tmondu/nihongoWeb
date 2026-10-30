@@ -28,11 +28,11 @@ describe('generatePageMetadata canonical + hreflang', () => {
     const metadata = await generatePageMetadata('kana', {
       locale: 'en',
       pathname: '/kana',
-      baseUrl: 'https://www.pthamnihongo.site/',
+      baseUrl: 'https://www.mondu.online/',
     });
 
     expect(metadata.alternates?.canonical).toBe(
-      'https://www.pthamnihongo.site/kana',
+      'https://www.mondu.online/kana',
     );
   });
 
@@ -40,13 +40,13 @@ describe('generatePageMetadata canonical + hreflang', () => {
     const metadata = await generatePageMetadata('kanjiJlptN5', {
       locale: 'en',
       pathname: '/kanji/jlpt-n5',
-      baseUrl: 'https://www.pthamnihongo.site',
+      baseUrl: 'https://www.mondu.online',
     });
 
     expect(metadata.alternates?.languages).toEqual({
-      vi: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
-      en: 'https://www.pthamnihongo.site/kanji/jlpt-n5',
-      'x-default': 'https://www.pthamnihongo.site/kanji/jlpt-n5',
+      vi: 'https://www.mondu.online/kanji/jlpt-n5',
+      en: 'https://www.mondu.online/kanji/jlpt-n5',
+      'x-default': 'https://www.mondu.online/kanji/jlpt-n5',
     });
   });
 
@@ -54,14 +54,12 @@ describe('generatePageMetadata canonical + hreflang', () => {
     const metadata = await generatePageMetadata('vocabulary', {
       locale: 'fr',
       pathname: '/vocabulary',
-      baseUrl: 'https://www.pthamnihongo.site',
+      baseUrl: 'https://www.mondu.online',
     });
 
     expect(metadata.alternates?.canonical).toBe(
-      'https://www.pthamnihongo.site/vocabulary',
+      'https://www.mondu.online/vocabulary',
     );
-    expect(metadata.openGraph?.url).toBe(
-      'https://www.pthamnihongo.site/vocabulary',
-    );
+    expect(metadata.openGraph?.url).toBe('https://www.mondu.online/vocabulary');
   });
 });

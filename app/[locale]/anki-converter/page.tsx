@@ -122,7 +122,7 @@ const faqItemsVi: FAQItem[] = [
     question:
       'Tôi có thể dùng tệp JSON đã chuyển đổi cho các ứng dụng khác không?',
     answer:
-      'Chắc chắn rồi! Định dạng JSON là tiêu chuẩn mở, bạn có thể dễ dàng nhập vào tính năng Thamlet trên web PThamSS, các ứng dụng học tập khác, phân tích dữ liệu hoặc sao lưu lưu trữ.',
+      'Chắc chắn rồi! Định dạng JSON là tiêu chuẩn mở, bạn có thể dễ dàng nhập vào tính năng Mondulet trên web Mondu, các ứng dụng học tập khác, phân tích dữ liệu hoặc sao lưu lưu trữ.',
   },
   {
     question: 'Có phiên bản dòng lệnh (CLI) không?',
@@ -551,12 +551,12 @@ export default async function AnkiConverterPage({
               <li>
                 <strong>
                   {isVi
-                    ? 'Nhập vào Thamlet / Flashcards'
+                    ? 'Nhập vào Mondulet / Flashcards'
                     : 'Build custom applications'}
                 </strong>{' '}
                 —{' '}
                 {isVi
-                  ? 'Dễ dàng nhập kho từ vựng khổng lồ từ Anki vào tính năng học thẻ ghi nhớ Thamlet trên PThamSS để ôn tập tiện lợi.'
+                  ? 'Dễ dàng nhập kho từ vựng khổng lồ từ Anki vào tính năng học thẻ ghi nhớ Mondulet trên Mondu để ôn tập tiện lợi.'
                   : 'Integrate flashcard data into your own websites, apps, or learning tools.'}
               </li>
               <li>

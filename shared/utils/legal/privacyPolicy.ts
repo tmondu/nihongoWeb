@@ -1,5 +1,5 @@
 const privacyPolicy = `
-**Chào mừng bạn đến với PThamSS!** 🚀  
+**Chào mừng bạn đến với Mondu!** 🚀  
 
 `;
 

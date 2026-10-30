@@ -1,5 +1,5 @@
 {
-  "title": "Chào mừng đến với PThamSS!",
+  "title": "Chào mừng đến với Mondu!",
   "subtitle": "Hãy trải nghiệm niềm vui khi học nhé!",
   "steps": {
     "welcome": {
@@ -38,7 +38,7 @@
     },
     "complete": {
       "title": "Tất cả đã sẵn sàng!",
-      "subtitle": "PThamSS của bạn hiện đã được cá nhân hóa",
+      "subtitle": "Mondu của bạn hiện đã được cá nhân hóa",
       "canChange": "Bạn luôn có thể thay đổi các cài đặt này sau trong Tùy chọn.",
       "happyLearning": "Chúc bạn học tập vui vẻ!"
     }

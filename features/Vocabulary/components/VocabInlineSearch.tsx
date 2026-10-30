@@ -569,7 +569,7 @@ export default function VocabInlineSearch() {
                           className='inline-flex items-center gap-1 rounded-lg px-2 py-1 font-bold text-(--main-color) transition-colors hover:bg-(--main-color)/10'
                         >
                           <BookOpen className='size-3.5 text-(--main-color)' />
-                          <span>ThamTuVung</span>
+                          <span>MonduTuVung</span>
                         </button>
                       </div>
                     </div>

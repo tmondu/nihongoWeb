@@ -15,18 +15,18 @@ export function StructuredData({ data }: StructuredDataProps) {
   );
 }
 
-// Comprehensive Schema Graph for PThamSS
-export const pthamssSchema = {
+// Comprehensive Schema Graph for Mondu
+export const monduSchema = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': 'https://www.pthamnihongo.site/#organization',
-      name: 'PThamSS',
-      url: 'https://www.pthamnihongo.site',
-      logo: 'https://www.pthamnihongo.site/favicon.ico',
+      '@id': 'https://www.mondu.online/#organization',
+      name: 'Mondu',
+      url: 'https://www.mondu.online',
+      logo: 'https://www.mondu.online/favicon.ico',
       description:
-        'Nền tảng học tiếng Nhật Hiragana, Katakana, Kanji, Từ vựng, Flashcard Thamlet và Shadowing trực tuyến.',
+        'Nền tảng học tiếng Nhật Hiragana, Katakana, Kanji, Từ vựng, Flashcard Mondulet và Shadowing trực tuyến.',
       sameAs: ['https://github.com/tmondu/nihongoWeb'],
       contactPoint: {
         '@type': 'ContactPoint',
@@ -36,28 +36,28 @@ export const pthamssSchema = {
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://www.pthamnihongo.site/#website',
-      url: 'https://www.pthamnihongo.site',
-      name: 'PThamSS',
+      '@id': 'https://www.mondu.online/#website',
+      url: 'https://www.mondu.online',
+      name: 'Mondu',
       description:
-        'Làm chủ tiếng Nhật cùng PThamSS - Học Hiragana, Katakana, Kanji, Từ vựng, Thamlet & Shadowing',
-      publisher: { '@id': 'https://www.pthamnihongo.site/#organization' },
+        'Làm chủ tiếng Nhật cùng Mondu - Học Hiragana, Katakana, Kanji, Từ vựng, Mondulet & Shadowing',
+      publisher: { '@id': 'https://www.mondu.online/#organization' },
       inLanguage: ['vi', 'en', 'es'],
       potentialAction: {
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: 'https://www.pthamnihongo.site/?q={search_term_string}',
+          urlTemplate: 'https://www.mondu.online/?q={search_term_string}',
         },
         'query-input': 'required name=search_term_string',
       },
     },
     {
       '@type': 'WebApplication',
-      '@id': 'https://www.pthamnihongo.site/#webapp',
-      name: 'PThamSS',
-      alternateName: 'PTham Nihongo',
-      url: 'https://www.pthamnihongo.site',
+      '@id': 'https://www.mondu.online/#webapp',
+      name: 'Mondu',
+      alternateName: 'Mondu Nihongo',
+      url: 'https://www.mondu.online',
       applicationCategory: 'EducationalApplication',
       applicationSubCategory: 'Language Learning',
       operatingSystem: 'Any',
@@ -70,12 +70,12 @@ export const pthamssSchema = {
         availability: 'https://schema.org/InStock',
       },
       description:
-        'Interactive Japanese learning platform with Hiragana, Katakana, Kanji, Vocabulary, Thamlet Flashcards, and Shadowing training',
+        'Interactive Japanese learning platform with Hiragana, Katakana, Kanji, Vocabulary, Mondulet Flashcards, and Shadowing training',
       featureList: [
         'Learn Hiragana and Katakana',
         'Practice Kanji by JLPT level',
         'Build Japanese vocabulary',
-        'Thamlet Quizlet-style flashcards',
+        'Mondulet Quizlet-style flashcards',
         'Shadowing audio & video practice',
         'Interactive games and quizzes',
         'Progress tracking',
@@ -85,11 +85,11 @@ export const pthamssSchema = {
       ],
       author: {
         '@type': 'Organization',
-        name: 'PThamSS',
+        name: 'Mondu',
       },
       creator: {
         '@type': 'Organization',
-        name: 'PThamSS',
+        name: 'Mondu',
       },
       inLanguage: ['vi', 'en', 'es'],
       availableLanguage: ['Vietnamese', 'English', 'Spanish'],
@@ -101,9 +101,9 @@ export const pthamssSchema = {
     },
     {
       '@type': 'EducationalOrganization',
-      '@id': 'https://www.pthamnihongo.site/#educational',
-      name: 'PThamSS',
-      url: 'https://www.pthamnihongo.site',
+      '@id': 'https://www.mondu.online/#educational',
+      name: 'Mondu',
+      url: 'https://www.mondu.online',
       description: 'Interactive Japanese language learning platform',
       educationalCredentialAwarded: 'Japanese Language Proficiency',
       hasOfferCatalog: {
@@ -116,7 +116,7 @@ export const pthamssSchema = {
             description: 'Master Japanese Hiragana and Katakana syllabaries',
             provider: {
               '@type': 'Organization',
-              name: 'PThamSS',
+              name: 'Mondu',
             },
           },
           {
@@ -126,7 +126,7 @@ export const pthamssSchema = {
               'Learn essential Kanji characters organized by JLPT levels',
             provider: {
               '@type': 'Organization',
-              name: 'PThamSS',
+              name: 'Mondu',
             },
           },
           {
@@ -135,7 +135,7 @@ export const pthamssSchema = {
             description: 'Build Japanese vocabulary organized by JLPT levels',
             provider: {
               '@type': 'Organization',
-              name: 'PThamSS',
+              name: 'Mondu',
             },
           },
         ],
@@ -143,27 +143,27 @@ export const pthamssSchema = {
     },
     {
       '@type': 'FAQPage',
-      '@id': 'https://www.pthamnihongo.site/#faq',
+      '@id': 'https://www.mondu.online/#faq',
       mainEntity: [
         {
           '@type': 'Question',
-          name: 'What is PThamSS?',
+          name: 'What is Mondu?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'PThamSS is a free, aesthetic Japanese learning platform that helps you master Hiragana, Katakana, Kanji, and Vocabulary through interactive games and exercises. It features 100+ customizable themes, progress tracking, and training modes designed to make learning Japanese enjoyable and effective.',
+            text: 'Mondu is a free, aesthetic Japanese learning platform that helps you master Hiragana, Katakana, Kanji, and Vocabulary through interactive games and exercises. It features 100+ customizable themes, progress tracking, and training modes designed to make learning Japanese enjoyable and effective.',
           },
         },
         {
           '@type': 'Question',
-          name: 'Is PThamSS completely free?',
+          name: 'Is Mondu completely free?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Yes! PThamSS is completely free to use with no hidden costs, subscriptions, or premium features. All learning content, games, themes, and features are available to everyone at no charge.',
+            text: 'Yes! Mondu is completely free to use with no hidden costs, subscriptions, or premium features. All learning content, games, themes, and features are available to everyone at no charge.',
           },
         },
         {
           '@type': 'Question',
-          name: 'What can I learn on PThamSS?',
+          name: 'What can I learn on Mondu?',
           acceptedAnswer: {
             '@type': 'Answer',
             text: 'You can learn all fundamental Japanese writing systems: Hiragana (basic, dakuon, yoon), Katakana (basic, dakuon, yoon, foreign sounds), Kanji organized by JLPT levels (N5-N1), and Japanese Vocabulary also organized by JLPT levels with thousands of words and example sentences.',
@@ -174,7 +174,7 @@ export const pthamssSchema = {
           name: 'Do I need to create an account?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'No account is required! PThamSS stores all your progress locally in your browser, so you can start learning immediately without signing up. Your progress and preferences are automatically saved as you use the platform.',
+            text: 'No account is required! Mondu stores all your progress locally in your browser, so you can start learning immediately without signing up. Your progress and preferences are automatically saved as you use the platform.',
           },
         },
         {
@@ -182,7 +182,7 @@ export const pthamssSchema = {
           name: 'What are the different training modes?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'PThamSS offers multiple training modes: Pick Mode (multiple choice recognition), Reverse-Pick (reverse multiple choice), Input Mode (text input practice), Reverse-Input (reverse text input), Blitz Mode (speed tests), and Gauntlet Mode (comprehensive mastery challenges).',
+            text: 'Mondu offers multiple training modes: Pick Mode (multiple choice recognition), Reverse-Pick (reverse multiple choice), Input Mode (text input practice), Reverse-Input (reverse text input), Blitz Mode (speed tests), and Gauntlet Mode (comprehensive mastery challenges).',
           },
         },
         {
@@ -190,26 +190,29 @@ export const pthamssSchema = {
           name: 'How does progress tracking work?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'PThamSS automatically tracks your learning statistics including correct answers, speed, accuracy, and mastery levels for each character or word. All progress is stored locally in your browser and displayed in detailed charts and statistics on the Progress page.',
+            text: 'Mondu automatically tracks your learning statistics including correct answers, speed, accuracy, and mastery levels for each character or word. All progress is stored locally in your browser and displayed in detailed charts and statistics on the Progress page.',
           },
         },
         {
           '@type': 'Question',
-          name: 'Can I use PThamSS on mobile devices?',
+          name: 'Can I use Mondu on mobile devices?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Yes! PThamSS is fully responsive and works seamlessly on mobile phones, tablets, and desktop computers. The interface adapts to your screen size for an optimal learning experience on any device.',
+            text: 'Yes! Mondu is fully responsive and works seamlessly on mobile phones, tablets, and desktop computers. The interface adapts to your screen size for an optimal learning experience on any device.',
           },
         },
         {
           '@type': 'Question',
-          name: 'Is PThamSS suitable for JLPT preparation?',
+          name: 'Is Mondu suitable for JLPT preparation?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Absolutely! PThamSS organizes Kanji and Vocabulary content by JLPT levels (N5, N4, N3, N2, N1), making it an excellent supplementary tool for JLPT exam preparation. Practice characters and words specific to your target JLPT level.',
+            text: 'Absolutely! Mondu organizes Kanji and Vocabulary content by JLPT levels (N5, N4, N3, N2, N1), making it an excellent supplementary tool for JLPT exam preparation. Practice characters and words specific to your target JLPT level.',
           },
         },
       ],
     },
   ],
 };
+
+// Backwards compatibility alias
+export const pthamssSchema = monduSchema;

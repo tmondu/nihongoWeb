@@ -59,7 +59,7 @@ const NightlyBanner = ({
               A new Nightly preview is available.
             </span>
             <span className='text-(--secondary-color) opacity-90'>
-              The latest PThamSS build
+              The latest Mondu build
               <span className='mt-1 ml-1 block text-xs italic opacity-75'>
                 * This version may be unstable.
               </span>
@@ -76,7 +76,7 @@ const NightlyBanner = ({
           </button>
 
           <a
-            href='https://nightly.www.pthamnihongo.site'
+            href='https://nightly.mondu.online'
             target='_blank'
             rel='noopener noreferrer'
             onClick={onSwitch}

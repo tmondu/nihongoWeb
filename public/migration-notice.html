@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông báo chuyển đổi địa chỉ website sang Mondu (mondu.online)</title>
+  <meta http-equiv="refresh" content="5;url=https://www.mondu.online">
+  <link rel="canonical" href="https://www.mondu.online">
+  <style>
+    :root {
+      --bg: #121214;
+      --card: #1a1a1e;
+      --border: #2a2a30;
+      --text-main: #f4f4f5;
+      --text-sub: #a1a1aa;
+      --primary: #f59e0b;
+      --primary-hover: #d97706;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    p {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .info-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+      font-size: 13.5px;
+      color: var(--text-sub);
+    }
+    .info-box ul {
+      padding-left: 20px;
+    }
+    .info-box li {
+      margin-bottom: 6px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: var(--primary);
+      color: #000;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+    }
+    .btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    .countdown {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+    .countdown span {
+      color: var(--primary);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">
+      <span>🔔</span> THÔNG BÁO CHUYỂN ĐỔI TÊN MIỀN
+    </div>
+    <h1>Chào mừng bạn đến với Mondu!</h1>
+    <p>
+      Để nâng cấp chất lượng hệ thống và xây dựng thương hiệu học tiếng Nhật độc lập, website đã chính thức chuyển sang tên miền mới: 
+      <strong style="color: #fff;">mondu.online</strong>
+    </p>
+
+    <div class="info-box">
+      <ul>
+        <li>Toàn bộ dữ liệu & tiến trình học tập được giữ nguyên.</li>
+        <li>Tài khoản người dùng tiếp tục hoạt động bình thường.</li>
+        <li>Hãy cập nhật lại bookmark sang <strong>mondu.online</strong> nhé!</li>
+      </ul>
+    </div>
+
+    <a href="https://www.mondu.online" class="btn" id="redirect-btn">
+      Truy cập mondu.online ngay ➔
+    </a>
+
+    <div class="countdown">
+      Tự động chuyển tiếp sau <span id="timer">5</span> giây...
+    </div>
+  </div>
+
+  <script>
+    var seconds = 5;
+    var timerEl = document.getElementById('timer');
+    var interval = setInterval(function() {
+      seconds--;
+      if (timerEl) timerEl.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = "https://www.mondu.online";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

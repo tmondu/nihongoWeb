@@ -101,7 +101,7 @@ export function generateAuthorSchema(props: AuthorSchemaProps) {
  * @example
  * <AuthorSchema
  *   name="John Tanaka"
- *   url="https://www.pthamnihongo.site/authors/john-tanaka"
+ *   url="https://www.mondu.online/authors/john-tanaka"
  *   jobTitle="Japanese Language Instructor"
  *   expertise="Japanese Language Education, JLPT Preparation"
  *   yearsOfExperience={10}

@@ -13,7 +13,7 @@ type Locale = (typeof SUPPORTED_LOCALES)[number];
 // Helper functions to generate metadata (mirrors the page implementations)
 function generateMainPageMetadata(locale: Locale, totalCount: number) {
   const title =
-    'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | PThamSS';
+    'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | Mondu';
   const description = `Discover ${totalCount}+ curated Japanese learning resources. Find the best apps, textbooks, YouTube channels, podcasts, games, and tools for learning Japanese at any level.`;
 
   return {
@@ -31,18 +31,18 @@ function generateMainPageMetadata(locale: Locale, totalCount: number) {
       'japanese language resources',
     ],
     openGraph: {
-      title: 'Best Japanese Learning Resources | PThamSS',
+      title: 'Best Japanese Learning Resources | Mondu',
       description,
-      url: `https://www.pthamnihongo.site/${locale}/resources`,
+      url: `https://www.mondu.online/${locale}/resources`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Best Japanese Learning Resources | PThamSS',
+      title: 'Best Japanese Learning Resources | Mondu',
       description,
     },
     alternates: {
-      canonical: `https://www.pthamnihongo.site/${locale}/resources`,
+      canonical: `https://www.mondu.online/${locale}/resources`,
       languages: {
         en: '/en/resources',
         es: '/es/resources',
@@ -58,7 +58,7 @@ function generateCategoryPageMetadata(
   categoryDescription: string,
   resourceCount: number,
 ) {
-  const title = `Best ${categoryName} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
+  const title = `Best ${categoryName} for Learning Japanese - ${resourceCount}+ Resources | Mondu`;
   const description = `${categoryDescription} Discover ${resourceCount}+ curated ${categoryName.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
@@ -73,18 +73,18 @@ function generateCategoryPageMetadata(
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${categoryName} for Learning Japanese | PThamSS`,
+      title: `Best ${categoryName} for Learning Japanese | Mondu`,
       description,
-      url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
+      url: `https://www.mondu.online/${locale}/resources/${categoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${categoryName} for Learning Japanese | PThamSS`,
+      title: `Best ${categoryName} for Learning Japanese | Mondu`,
       description,
     },
     alternates: {
-      canonical: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
+      canonical: `https://www.mondu.online/${locale}/resources/${categoryId}`,
       languages: {
         en: `/en/resources/${categoryId}`,
         es: `/es/resources/${categoryId}`,
@@ -101,7 +101,7 @@ function generateSubcategoryPageMetadata(
   subcategoryDescription: string,
   resourceCount: number,
 ) {
-  const title = `Best ${subcategoryName} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
+  const title = `Best ${subcategoryName} for Learning Japanese - ${resourceCount}+ Resources | Mondu`;
   const description = `${subcategoryDescription} Discover ${resourceCount}+ curated ${subcategoryName.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
@@ -115,18 +115,18 @@ function generateSubcategoryPageMetadata(
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${subcategoryName} for Learning Japanese | PThamSS`,
+      title: `Best ${subcategoryName} for Learning Japanese | Mondu`,
       description,
-      url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
+      url: `https://www.mondu.online/${locale}/resources/${categoryId}/${subcategoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${subcategoryName} for Learning Japanese | PThamSS`,
+      title: `Best ${subcategoryName} for Learning Japanese | Mondu`,
       description,
     },
     alternates: {
-      canonical: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
+      canonical: `https://www.mondu.online/${locale}/resources/${categoryId}/${subcategoryId}`,
       languages: {
         en: `/en/resources/${categoryId}/${subcategoryId}`,
         es: `/es/resources/${categoryId}/${subcategoryId}`,

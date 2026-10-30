@@ -4,11 +4,11 @@
  * Supported by: Bing, Yandex, Seznam.cz, Naver, and more
  */
 
-const SITE_URL = 'https://www.pthamnihongo.site';
+const SITE_URL = 'https://www.mondu.online';
 
 /**
  * Submit a single URL to IndexNow for instant indexing
- * @param url - Full URL to submit (must be www.pthamnihongo.site domain)
+ * @param url - Full URL to submit (must be www.mondu.online domain)
  * @returns Promise with submission result
  */
 export async function submitUrlToIndexNow(url: string): Promise<{

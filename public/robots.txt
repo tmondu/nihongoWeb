@@ -69,7 +69,7 @@ Disallow: /api/
 Allow: /
 
 # Host
-Host: https://www.pthamnihongo.site
+Host: https://www.mondu.online
 
 # Sitemaps
-Sitemap: https://www.pthamnihongo.site/sitemap.xml
+Sitemap: https://www.mondu.online/sitemap.xml

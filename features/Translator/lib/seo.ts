@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 
 export interface TranslatorFaqEntry {
   question: string;
@@ -109,7 +109,7 @@ export function buildTranslatorSchema(config: TranslatorSeoConfig) {
     graph.push({
       '@type': 'SoftwareApplication',
       '@id': `${pageUrl}#software`,
-      name: 'PThamSS Japanese Translator',
+      name: 'Mondu Japanese Translator',
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Web',
       url: pageUrl,

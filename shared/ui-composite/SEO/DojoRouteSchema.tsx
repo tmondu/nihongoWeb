@@ -15,7 +15,7 @@ interface DojoRouteSchemaProps {
   };
 }
 
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 
 function withLocalePath(locale: string, path: string) {
   return `${BASE_URL}/${locale}${path}`;
@@ -78,7 +78,7 @@ export function DojoRouteSchema({
     {
       '@type': 'SoftwareApplication',
       '@id': `${pageUrl}#software`,
-      name: `PThamSS ${routeName} Practice`,
+      name: `Mondu ${routeName} Practice`,
       applicationCategory: 'EducationalApplication',
       operatingSystem: 'Web',
       url: appRouteUrl,
@@ -110,7 +110,7 @@ export function DojoRouteSchema({
       provider: {
         '@type': 'Organization',
         '@id': `${BASE_URL}/#organization`,
-        name: 'PThamSS',
+        name: 'Mondu',
         url: BASE_URL,
       },
       ...(educationalAlignment

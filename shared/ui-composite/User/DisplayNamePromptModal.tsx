@@ -157,7 +157,7 @@ export default function DisplayNamePromptModal({
           </div>
 
           <DialogDescription className='text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
-            Chào mừng bạn đến với PThamSS! Bạn cần đặt tên hiển thị để đại diện
+            Chào mừng bạn đến với Mondu! Bạn cần đặt tên hiển thị để đại diện
             cho bạn khi xem video bài giảng, bình luận và học tập.
           </DialogDescription>
         </DialogHeader>

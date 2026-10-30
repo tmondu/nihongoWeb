@@ -35,10 +35,10 @@ export default async function ThamletPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
-            name: 'Thamlet',
-            url: `https://www.pthamnihongo.site/${locale}/thamlet`,
+            name: 'Mondulet',
+            url: `https://www.mondu.online/${locale}/thamlet`,
           },
         ]}
       />

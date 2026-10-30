@@ -328,10 +328,10 @@ export default function ThamTuVungModal() {
                 id='tham-tuvung-title'
                 className='text-base font-black tracking-wide text-(--main-color) uppercase'
               >
-                ThamTuVung • Tra cứu từ vựng
+                MonduTuVung • Tra cứu từ vựng
               </h2>
               <p className='text-xs text-(--secondary-color)/80'>
-                Từ điển & Phân tích chi tiết PThamSS
+                Từ điển & Phân tích chi tiết Mondu
               </p>
             </div>
           </div>

@@ -35,6 +35,7 @@ export { CourseSchema } from './CourseSchema';
 export {
   FAQSchema,
   generateFAQSchema,
+  commonMonduFAQs,
   commonPThamSSFAQs,
   hiraganaFAQs,
   kanjiFAQs,

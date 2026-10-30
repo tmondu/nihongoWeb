@@ -20,8 +20,7 @@ export const env = {
   resend: {
     apiKey: process.env.RESEND_API_KEY || '',
     fromEmail:
-      process.env.RESEND_FROM_EMAIL ||
-      'PThamSS <noreply@mail.pthamnihongo.site>',
+      process.env.RESEND_FROM_EMAIL || 'Mondu <noreply@mail.mondu.online>',
   },
   turnstile: {
     siteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
@@ -30,8 +29,8 @@ export const env = {
   appUrl:
     process.env.APP_URL ||
     process.env.NEXT_PUBLIC_APP_URL ||
-    'https://www.pthamnihongo.site',
-  siteUrl: process.env.SITE_URL || 'https://www.pthamnihongo.site',
+    'https://www.mondu.online',
+  siteUrl: process.env.SITE_URL || 'https://www.mondu.online',
   isProd: process.env.NODE_ENV === 'production',
   isDev: process.env.NODE_ENV === 'development',
   cronSecret: process.env.CRON_SECRET || '',

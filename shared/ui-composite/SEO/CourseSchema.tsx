@@ -17,7 +17,7 @@ export function generateCourseSchema(props: CourseSchemaProps) {
     name,
     description,
     url,
-    provider = 'PThamSS',
+    provider = 'Mondu',
     educationalLevel = 'Beginner to Advanced',
     skillLevel = 'All Levels',
     courseMode = 'online',
@@ -34,7 +34,7 @@ export function generateCourseSchema(props: CourseSchemaProps) {
     provider: {
       '@type': 'Organization',
       name: provider,
-      url: 'https://www.pthamnihongo.site',
+      url: 'https://www.mondu.online',
     },
     educationalLevel,
     courseMode,

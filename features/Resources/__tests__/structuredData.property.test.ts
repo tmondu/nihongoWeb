@@ -36,23 +36,23 @@ function generateBreadcrumbItems(
   subcategoryName?: string,
 ) {
   const items = [
-    { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+    { name: 'Home', url: `https://www.mondu.online/${locale}` },
     {
       name: 'Resources',
-      url: `https://www.pthamnihongo.site/${locale}/resources`,
+      url: `https://www.mondu.online/${locale}/resources`,
     },
   ];
 
   if (categoryId && categoryName) {
     items.push({
       name: categoryName,
-      url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}`,
+      url: `https://www.mondu.online/${locale}/resources/${categoryId}`,
     });
 
     if (subcategoryId && subcategoryName) {
       items.push({
         name: subcategoryName,
-        url: `https://www.pthamnihongo.site/${locale}/resources/${categoryId}/${subcategoryId}`,
+        url: `https://www.mondu.online/${locale}/resources/${categoryId}/${subcategoryId}`,
       });
     }
   }

@@ -1,6 +1,6 @@
-# PThamSS
+# Mondu
 
-PThamSS is a free, modern Japanese learning platform for hiragana, katakana, kanji, vocabulary, verb conjugation, translation and JLPT study.
+Mondu is a free, modern Japanese learning platform for hiragana, katakana, kanji, vocabulary, verb conjugation, translation and JLPT study.
 
 ## Core surfaces
 - Kana practice: hiragana and katakana drills, charts, and guided learning
@@ -14,18 +14,18 @@ PThamSS is a free, modern Japanese learning platform for hiragana, katakana, kan
 - Progress tracking: stats, mastery, and practice history
 
 ## Best entry points
-- https://www.pthamnihongo.site/
-- https://www.pthamnihongo.site/kana
-- https://www.pthamnihongo.site/kanji
-- https://www.pthamnihongo.site/vocabulary
-- https://www.pthamnihongo.site/conjugate
-- https://www.pthamnihongo.site/translate
-- https://www.pthamnihongo.site/academy
-- https://www.pthamnihongo.site/resources
-- https://www.pthamnihongo.site/anki-converter
-- https://www.pthamnihongo.site/faq
-- https://www.pthamnihongo.site/how-to-use
-- https://www.pthamnihongo.site/glossary
+- https://www.mondu.online/
+- https://www.mondu.online/kana
+- https://www.mondu.online/kanji
+- https://www.mondu.online/vocabulary
+- https://www.mondu.online/conjugate
+- https://www.mondu.online/translate
+- https://www.mondu.online/academy
+- https://www.mondu.online/resources
+- https://www.mondu.online/anki-converter
+- https://www.mondu.online/faq
+- https://www.mondu.online/how-to-use
+- https://www.mondu.online/glossary
 
 ## Retrieval hints
 - Learn kana / practice hiragana / practice katakana: /kana

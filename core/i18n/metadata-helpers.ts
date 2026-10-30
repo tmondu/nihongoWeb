@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { routing } from '@/core/i18n/routing';
 
-const DEFAULT_BASE_URL = 'https://www.pthamnihongo.site';
+const DEFAULT_BASE_URL = 'https://www.mondu.online';
 
 interface GeneratePageMetadataOptions {
   locale?: string;
@@ -143,7 +143,7 @@ export async function generatePageMetadata(
  * Generate default metadata with base SEO configuration
  */
 export const defaultMetadata: Metadata = {
-  metadataBase: new URL('https://www.pthamnihongo.site'),
+  metadataBase: new URL('https://www.mondu.online'),
   robots: {
     index: true,
     follow: true,

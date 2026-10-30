@@ -3,7 +3,7 @@
  * Helper functions for sitemap management and submission
  */
 
-const SITE_URL = 'https://www.pthamnihongo.site';
+const SITE_URL = 'https://www.mondu.online';
 
 /**
  * Submit sitemap to search engines
