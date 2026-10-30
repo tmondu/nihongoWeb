@@ -200,7 +200,7 @@ export default function ClassroomPage() {
                 Kho Bài Giảng &amp; Video Record
               </h1>
               <p className='text-muted-foreground mt-0.5 text-sm'>
-                Xem lại video các buổi học, hỗ trợ trực tiếp của PThamSS!
+                Xem lại video các buổi học, hỗ trợ trực tiếp của Mondu!
               </p>
             </div>
           </div>

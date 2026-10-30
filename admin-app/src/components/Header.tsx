@@ -15,7 +15,7 @@ export default function Header() {
       {/* Right Controls */}
       <div className='flex items-center gap-4'>
         <a
-          href='https://www.pthamnihongo.site'
+          href='https://www.mondu.online'
           target='_blank'
           rel='noopener noreferrer'
           className='flex items-center gap-1.5 text-xs font-medium text-slate-400 transition-colors hover:text-amber-400'

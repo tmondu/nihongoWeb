@@ -19,7 +19,10 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return await generatePageMetadata('kanji', { locale, pathname: '/kanji/search' });
+  return await generatePageMetadata('kanji', {
+    locale,
+    pathname: '/kanji/search',
+  });
 }
 
 export default async function KanjiSearchPage({
@@ -33,14 +36,14 @@ export default async function KanjiSearchPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Kanji',
-            url: `https://www.pthamnihongo.site/${locale}/kanji`,
+            url: `https://www.mondu.online/${locale}/kanji`,
           },
           {
             name: 'Search',
-            url: `https://www.pthamnihongo.site/${locale}/kanji/search`,
+            url: `https://www.mondu.online/${locale}/kanji/search`,
           },
         ]}
       />

@@ -47,9 +47,9 @@ export interface ArticleSchemaOptions {
 /**
  * Base URL for the site
  */
-const BASE_URL = 'https://www.pthamnihongo.site';
-const PUBLISHER_NAME = 'PThamSS';
-const PUBLISHER_LOGO = 'https://www.pthamnihongo.site/logo.png';
+const BASE_URL = 'https://www.mondu.online';
+const PUBLISHER_NAME = 'Mondu';
+const PUBLISHER_LOGO = 'https://www.mondu.online/logo.png';
 
 /**
  * Generates JSON-LD Article structured data from BlogPost

@@ -1,6 +1,6 @@
 # R2 Wallpaper Asset Pipeline
 
-PThamSS built-in Premium wallpaper images are generated locally, uploaded to
+Mondu built-in Premium wallpaper images are generated locally, uploaded to
 Cloudflare R2, and consumed by the app through the generated wallpaper manifest.
 
 ## Runtime Shape
@@ -14,7 +14,7 @@ Cloudflare R2, and consumed by the app through the generated wallpaper manifest.
   need to be uploaded after processing.
 - `.generated/wallpapers/wallpaper-upload-report.json` records the latest R2
   upload and verification results.
-- Public delivery uses `https://assets.www.pthamnihongo.site/wallpapers/*`.
+- Public delivery uses `https://assets.www.mondu.online/wallpapers/*`.
 - The app imports `features/Preferences/data/wallpapers/wallpapers.generated.ts`.
 - Premium themes are generated from the manifest in `themeDefinitions.ts`.
 
@@ -44,9 +44,9 @@ URLs.
 
 ## Cloudflare Resources
 
-- Cloudflare account: the account that owns the active `www.pthamnihongo.site` zone.
-- R2 bucket: `pthamss-wallpapers`.
-- Custom domain: `assets.www.pthamnihongo.site`.
+- Cloudflare account: the account that owns the active `www.mondu.online` zone.
+- R2 bucket: `mondu-wallpapers`.
+- Custom domain: `assets.www.mondu.online`.
 - Object prefix: `wallpapers/`.
 - Cache header: `public, max-age=31536000, immutable`.
 
@@ -55,8 +55,8 @@ URLs.
 The defaults are production-ready, but these env vars can override them:
 
 ```txt
-WALLPAPER_ASSET_BASE_URL=https://assets.www.pthamnihongo.site
-WALLPAPER_R2_BUCKET=pthamss-wallpapers
+WALLPAPER_ASSET_BASE_URL=https://assets.www.mondu.online
+WALLPAPER_R2_BUCKET=mondu-wallpapers
 WALLPAPER_R2_PREFIX=wallpapers
 WALLPAPER_STAGING_DIR=.generated/wallpapers
 WALLPAPER_R2_CACHE_CONTROL=public, max-age=31536000, immutable

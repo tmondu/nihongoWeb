@@ -157,7 +157,7 @@ export default function AdminDashboardPage() {
           Bảng Điều Khiển Quản Trị
         </h1>
         <p className='mt-1 text-xs text-slate-400'>
-          Theo dõi tổng quan dữ liệu và thành viên hệ thống Nihongo PThamSS.
+          Theo dõi tổng quan dữ liệu và thành viên hệ thống Nihongo Mondu.
         </p>
       </div>
 

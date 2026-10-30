@@ -33,7 +33,7 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'PThamSS Academy — Japanese Learning Articles',
+    name: 'Mondu Academy — Japanese Learning Articles',
     description:
       'A curated collection of Japanese learning guides, tutorials, and study tips covering Hiragana, Katakana, Kanji, vocabulary, grammar, and JLPT preparation.',
     numberOfItems: posts.length,
@@ -41,7 +41,7 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
     itemListElement: posts.slice(0, 20).map((post, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `https://www.pthamnihongo.site/academy/${post.slug}`,
+      url: `https://www.mondu.online/academy/${post.slug}`,
       name: post.title,
     })),
   };
@@ -50,14 +50,14 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
   const collectionPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'PThamSS Academy',
+    name: 'Mondu Academy',
     description:
       'A comprehensive collection of Japanese learning articles, tutorials, and study guides.',
-    url: 'https://www.pthamnihongo.site/academy',
+    url: 'https://www.mondu.online/academy',
     isPartOf: {
       '@type': 'WebSite',
-      name: 'PThamSS',
-      url: 'https://www.pthamnihongo.site',
+      name: 'Mondu',
+      url: 'https://www.mondu.online',
     },
     about: {
       '@type': 'Thing',
@@ -71,8 +71,8 @@ export default async function AcademyPage({ params }: AcademyPageProps) {
       {/* Structured Data for SEO */}
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Academy', url: 'https://www.pthamnihongo.site/academy' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Academy', url: 'https://www.mondu.online/academy' },
         ]}
       />
       <StructuredData data={itemListSchema} />

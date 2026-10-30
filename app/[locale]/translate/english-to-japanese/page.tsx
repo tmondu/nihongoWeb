@@ -25,7 +25,7 @@ interface PageProps {
 
 const enMetadataConfig = {
   pathname: '/translate/english-to-japanese',
-  title: 'English to Japanese Translator | with Romaji Support | PThamSS',
+  title: 'English to Japanese Translator | with Romaji Support | Mondu',
   description:
     'Translate English to Japanese online for free. Get Japanese output, romaji support, and practical guidance for travel phrases, messages, and study examples.',
   keywords: [
@@ -41,7 +41,7 @@ const enMetadataConfig = {
 
 const viMetadataConfig = {
   pathname: '/translate/english-to-japanese',
-  title: 'Dịch tiếng Anh sang tiếng Nhật | Có phiên âm Romaji | PThamSS',
+  title: 'Dịch tiếng Anh sang tiếng Nhật | Có phiên âm Romaji | Mondu',
   description:
     'Dịch tiếng Anh sang tiếng Nhật trực tuyến miễn phí. Nhận kết quả chữ Nhật chuẩn xác, phiên âm Romaji luyện phát âm, câu mẫu giao tiếp du lịch và mẹo viết tự nhiên.',
   keywords: [
@@ -51,7 +51,7 @@ const viMetadataConfig = {
     'trình dịch tiếng nhật trực tuyến',
     'english to japanese translator',
     'translate english to japanese',
-    'pthamss dịch thuật',
+    'mondu dịch thuật',
   ],
   schemaName: 'Trình dịch tiếng Anh sang tiếng Nhật có Romaji',
   breadcrumbName: 'Anh → Nhật',

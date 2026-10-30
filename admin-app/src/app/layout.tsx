@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 
 export const metadata: Metadata = {
   title: 'PTham Admin Dashboard',
-  description: 'Hệ thống quản trị Nihongo PThamSS',
+  description: 'Hệ thống quản trị Nihongo Mondu',
 };
 
 export default function RootLayout({

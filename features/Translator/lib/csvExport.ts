@@ -90,7 +90,7 @@ export function exportHistoryToCSV(entries: TranslationEntry[]): void {
 
   if (csv) {
     const timestamp = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-    const filename = `pthamss -translations-${timestamp}.csv`;
+    const filename = `mondu-translations-${timestamp}.csv`;
     downloadCSV(csv, filename);
   }
 }

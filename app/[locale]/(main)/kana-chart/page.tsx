@@ -35,10 +35,10 @@ export default async function KanaChartPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Kana Chart',
-            url: `https://www.pthamnihongo.site/${locale}/kana-chart`,
+            url: `https://www.mondu.online/${locale}/kana-chart`,
           },
         ]}
       />

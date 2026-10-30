@@ -55,7 +55,7 @@ export async function generateMetadata({
   const resources = getResourcesBySubcategory(categoryId, subcategoryId);
   const resourceCount = resources.length;
 
-  const title = `Best ${subcategory.name} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
+  const title = `Best ${subcategory.name} for Learning Japanese - ${resourceCount}+ Resources | Mondu`;
   const description = `${subcategory.description} Discover ${resourceCount}+ curated ${subcategory.name.toLowerCase()} to help you learn Japanese effectively.`;
 
   return {
@@ -70,18 +70,18 @@ export async function generateMetadata({
       'japanese study resources',
     ],
     openGraph: {
-      title: `Best ${subcategory.name} for Learning Japanese | PThamSS`,
+      title: `Best ${subcategory.name} for Learning Japanese | Mondu`,
       description,
-      url: `https://www.pthamnihongo.site/resources/${categoryId}/${subcategoryId}`,
+      url: `https://www.mondu.online/resources/${categoryId}/${subcategoryId}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Best ${subcategory.name} for Learning Japanese | PThamSS`,
+      title: `Best ${subcategory.name} for Learning Japanese | Mondu`,
       description,
     },
     alternates: {
-      canonical: `https://www.pthamnihongo.site/resources/${categoryId}/${subcategoryId}`,
+      canonical: `https://www.mondu.online/resources/${categoryId}/${subcategoryId}`,
     },
   };
 }
@@ -143,15 +143,15 @@ export default async function SubcategoryPage({
   const availableFilters = getFilterOptions(subcategoryResources);
 
   const breadcrumbItems = [
-    { name: 'Home', url: 'https://www.pthamnihongo.site' },
-    { name: 'Resources', url: 'https://www.pthamnihongo.site/resources' },
+    { name: 'Home', url: 'https://www.mondu.online' },
+    { name: 'Resources', url: 'https://www.mondu.online/resources' },
     {
       name: category.name,
-      url: `https://www.pthamnihongo.site/resources/${categoryId}`,
+      url: `https://www.mondu.online/resources/${categoryId}`,
     },
     {
       name: subcategory.name,
-      url: `https://www.pthamnihongo.site/resources/${categoryId}/${subcategoryId}`,
+      url: `https://www.mondu.online/resources/${categoryId}/${subcategoryId}`,
     },
   ];
 

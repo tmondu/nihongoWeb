@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Fortune - Spin the Wheel | PThamSS',
+  title: 'Kana Fortune - Spin the Wheel | Mondu',
   description: 'Spin the fortune wheel and receive your daily kana fortune!',
 };
 

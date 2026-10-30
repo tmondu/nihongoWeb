@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Hanabi - Kana Fireworks | PThamSS',
+  title: 'Hanabi - Kana Fireworks | Mondu',
   description:
     'Launch beautiful Japanese character fireworks in the night sky.',
 };

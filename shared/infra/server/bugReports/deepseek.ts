@@ -36,9 +36,9 @@ const CleanedBugReportSchema = z.object({
 const DEEPSEEK_TIMEOUT_MS = 12000;
 const DEEPSEEK_MODEL = 'deepseek-v4-flash';
 
-const DEEPSEEK_PROMPT = `You are formatting user-submitted bug reports for the PThamSS GitHub issue tracker.
+const DEEPSEEK_PROMPT = `You are formatting user-submitted bug reports for the Mondu GitHub issue tracker.
 
-PThamSS is a Japanese learning web app for Hiragana, Katakana, Kanji, Vocabulary, translation, and practice games.
+Mondu is a Japanese learning web app for Hiragana, Katakana, Kanji, Vocabulary, translation, and practice games.
 
 Your job:
 - Clean up the user's report.
@@ -84,7 +84,7 @@ function clampTitle(title: string): string {
 
 function mergeLabels(labels: string[]): string[] {
   const allowedLabels = new Set<string>(BUG_REPORT_LABELS);
-  const merged = [...REQUIRED_BUG_REPORT_LABELS, ...labels].filter((label) =>
+  const merged = [...REQUIRED_BUG_REPORT_LABELS, ...labels].filter(label =>
     allowedLabels.has(label),
   );
   return Array.from(new Set(merged));
@@ -93,7 +93,8 @@ function mergeLabels(labels: string[]): string[] {
 export function createFallbackCleanedReport(
   report: NormalizedBugReport,
 ): CleanedBugReport {
-  const feature = report.feature || report.pageUrl || report.formName || 'report';
+  const feature =
+    report.feature || report.pageUrl || report.formName || 'report';
   const summary =
     report.description ||
     report.actualBehavior ||
@@ -195,7 +196,10 @@ export async function formatBugReportWithDeepSeek(
       usedFallback: false,
     };
   } catch (error) {
-    console.error('[bug-report-processor] DeepSeek JSON validation failed', error);
+    console.error(
+      '[bug-report-processor] DeepSeek JSON validation failed',
+      error,
+    );
     return {
       cleaned: createFallbackCleanedReport(report),
       usedFallback: true,

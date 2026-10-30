@@ -5,7 +5,7 @@ import { cn } from '@/shared/utils/utils';
 
 interface Feature {
   name: string;
-  pthamss: boolean;
+  mondu: boolean;
   googleTranslate: boolean;
   deepl: boolean;
   microsoft: boolean;
@@ -14,84 +14,84 @@ interface Feature {
 const features: Feature[] = [
   {
     name: 'Free to use',
-    pthamss: true,
+    mondu: true,
     googleTranslate: true,
     deepl: true,
     microsoft: true,
   },
   {
     name: 'No registration required',
-    pthamss: true,
+    mondu: true,
     googleTranslate: true,
     deepl: false,
     microsoft: true,
   },
   {
     name: 'Romanization (Romaji)',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Translation history',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Keyboard shortcuts',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Offline detection',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Privacy-focused (local storage)',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Clean, distraction-free UI',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: true,
     microsoft: false,
   },
   {
     name: 'Integrated learning platform',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Japanese learning tools',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'JLPT preparation support',
-    pthamss: true,
+    mondu: true,
     googleTranslate: false,
     deepl: false,
     microsoft: false,
   },
   {
     name: 'Mobile optimized',
-    pthamss: true,
+    mondu: true,
     googleTranslate: true,
     deepl: true,
     microsoft: true,
@@ -115,7 +115,7 @@ export default function ComparisonTable() {
       {/* Header */}
       <div className='border-b border-(--border-color) bg-gradient-to-r from-(--card-color) to-(--background-color) p-4 sm:p-6'>
         <h2 className='text-xl font-bold text-(--main-color) sm:text-2xl'>
-          PThamSS vs Other Japanese Translators
+          Mondu vs Other Japanese Translators
         </h2>
         <p className='mt-1 text-xs text-(--secondary-color) sm:text-sm'>
           Compare features to find the best Japanese translation tool for your
@@ -142,7 +142,7 @@ export default function ComparisonTable() {
                   'bg-(--main-color)/10 text-(--main-color)',
                 )}
               >
-                PThamSS
+                Mondu
               </th>
               <th className='px-3 py-3 text-center text-xs font-semibold text-(--secondary-color) sm:px-6 sm:text-sm'>
                 Google Translate
@@ -172,7 +172,7 @@ export default function ComparisonTable() {
                     'bg-(--main-color)/5 px-3 py-3 text-center sm:px-6',
                   )}
                 >
-                  {feature.pthamss ? <CheckIcon /> : <XIcon />}
+                  {feature.mondu ? <CheckIcon /> : <XIcon />}
                 </td>
                 <td className='px-3 py-3 text-center sm:px-6'>
                   {feature.googleTranslate ? <CheckIcon /> : <XIcon />}
@@ -197,7 +197,7 @@ export default function ComparisonTable() {
       >
         <p className='text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
           <strong className='text-(--main-color)'>When to use each:</strong>{' '}
-          <span className='font-medium'>PThamSS</span> is best for Japanese
+          <span className='font-medium'>Mondu</span> is best for Japanese
           learners who need romanization, history, and integrated learning
           tools. <span className='font-medium'>Google Translate</span> excels at
           multi-language support beyond Japanese.{' '}

@@ -36,7 +36,7 @@ export default function ExercisesPage() {
 
   return (
     <div className='mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6'>
-      {/* Header matching PThamSS design language */}
+      {/* Header matching Mondu design language */}
       <div className='flex flex-col gap-4 border-b border-(--border-color) pb-6 sm:flex-row sm:items-center sm:justify-between'>
         <div className='flex items-center gap-3.5'>
           <div className='flex size-12 items-center justify-center rounded-2xl bg-(--main-color) text-(--background-color) shadow-md'>

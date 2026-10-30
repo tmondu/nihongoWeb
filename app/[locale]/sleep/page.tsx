@@ -16,7 +16,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const isVi = locale === 'vi';
   return {
-    title: isVi ? 'Chúc Bạn Ngủ Ngon 🌙 | PThamSS' : 'Good Night 🌙 | PThamSS',
+    title: isVi ? 'Chúc Bạn Ngủ Ngon 🌙 | Mondu' : 'Good Night 🌙 | Mondu',
     robots: {
       index: false,
       follow: false,

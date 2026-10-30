@@ -21,7 +21,7 @@ interface TranslatePageProps {
 
 const metadataConfig = {
   pathname: '/translate',
-  title: 'Japanese Translator | English ⇄ Japanese with Romaji | PThamSS',
+  title: 'Japanese Translator | English ⇄ Japanese with Romaji | Mondu',
   description:
     'Free Japanese translator for English to Japanese and Japanese to English text. Translate quickly, review romaji support, and jump into direction-specific pages for better context.',
   keywords: [
@@ -69,7 +69,7 @@ export async function generateMetadata({
   const localizedConfig = {
     ...metadataConfig,
     title: isVi
-      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | PThamSS'
+      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | Mondu'
       : metadataConfig.title,
     description: isVi
       ? 'Trình dịch tiếng Nhật trực tuyến miễn phí cho tiếng Anh/Việt sang tiếng Nhật và ngược lại. Dịch nhanh chóng, hỗ trợ phiên âm romaji và hướng dẫn học tập.'
@@ -119,7 +119,7 @@ export default async function TranslatePage({ params }: TranslatePageProps) {
   const localizedConfig = {
     ...metadataConfig,
     title: isVi
-      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | PThamSS'
+      ? 'Trình dịch tiếng Nhật | Dịch Anh/Việt ⇄ Nhật có Romaji | Mondu'
       : metadataConfig.title,
     description: isVi
       ? 'Trình dịch tiếng Nhật trực tuyến miễn phí cho tiếng Anh/Việt sang tiếng Nhật và ngược lại. Dịch nhanh chóng, hỗ trợ phiên âm romaji và hướng dẫn học tập.'
@@ -179,9 +179,7 @@ export default async function TranslatePage({ params }: TranslatePageProps) {
           <meta
             itemProp='name'
             content={
-              isVi
-                ? 'Trình dịch tiếng Nhật PThamSS'
-                : 'PThamSS Japanese Translator'
+              isVi ? 'Trình dịch tiếng Nhật Mondu' : 'Mondu Japanese Translator'
             }
           />
           <meta

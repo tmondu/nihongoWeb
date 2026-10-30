@@ -67,11 +67,11 @@ const blogPostArb: fc.Arbitrary<BlogPost> = fc.record({
  * **Feature: blog-system, Property 10: Article Schema Contains Required Fields**
  * For any BlogPost object, the generated Article structured data should contain
  * @type as "Article", headline matching title, datePublished, author object with name,
- * publisher object with name "PThamSS", and description.
+ * publisher object with name "Mondu", and description.
  * **Validates: Requirements 4.2**
  */
 describe('Property 10: Article Schema Contains Required Fields', () => {
-  const BASE_URL = 'https://www.pthamnihongo.site';
+  const BASE_URL = 'https://www.mondu.online';
 
   it('schema has @type as Article', () => {
     fc.assert(
@@ -125,13 +125,13 @@ describe('Property 10: Article Schema Contains Required Fields', () => {
     );
   });
 
-  it('schema contains publisher object with name PThamSS', () => {
+  it('schema contains publisher object with name Mondu', () => {
     fc.assert(
       fc.property(blogPostArb, (post: BlogPost) => {
         const schema = generateArticleSchema(post, { baseUrl: BASE_URL });
         expect(schema.publisher).toBeDefined();
         expect(schema.publisher['@type']).toBe('Organization');
-        expect(schema.publisher.name).toBe('PThamSS');
+        expect(schema.publisher.name).toBe('Mondu');
       }),
       { numRuns: 100 },
     );

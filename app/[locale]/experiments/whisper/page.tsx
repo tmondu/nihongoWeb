@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Whisper - Memory Challenge | PThamSS',
+  title: 'Kana Whisper - Memory Challenge | Mondu',
   description: 'Remember the fading kana before it disappears!',
 };
 

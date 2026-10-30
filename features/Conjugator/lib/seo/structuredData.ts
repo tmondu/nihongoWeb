@@ -14,7 +14,7 @@ import type { VerbInfo, ConjugationResult } from '../../types';
 // Constants
 // ============================================================================
 
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 const CONJUGATE_PATH = '/conjugate';
 
 // ============================================================================
@@ -139,7 +139,7 @@ export function generateWebApplicationSchema(): Record<string, unknown> {
   return {
     '@type': 'WebApplication',
     '@id': `${BASE_URL}${CONJUGATE_PATH}#webapp`,
-    name: 'PThamSS Japanese Verb Conjugator',
+    name: 'Mondu Japanese Verb Conjugator',
     alternateName: [
       'Japanese Verb Conjugator',
       'Free Japanese Conjugation Tool',
@@ -173,7 +173,7 @@ export function generateWebApplicationSchema(): Record<string, unknown> {
     ],
     author: {
       '@type': 'Organization',
-      name: 'PThamSS',
+      name: 'Mondu',
       url: BASE_URL,
     },
     aggregateRating: {
@@ -216,8 +216,7 @@ export function generateHowToSchema(): Record<string, unknown> {
     '@type': 'HowTo',
     '@id': `${BASE_URL}${CONJUGATE_PATH}#howto`,
     name: 'How to Conjugate Japanese Verbs',
-    description:
-      'Step-by-step guide to conjugating Japanese verbs using PThamSS',
+    description: 'Step-by-step guide to conjugating Japanese verbs using Mondu',
     totalTime: 'PT1M',
     step: [
       {
@@ -363,7 +362,7 @@ function generateOrganizationSchema(): Record<string, unknown> {
   return {
     '@type': 'Organization',
     '@id': `${BASE_URL}#organization`,
-    name: 'PThamSS',
+    name: 'Mondu',
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',

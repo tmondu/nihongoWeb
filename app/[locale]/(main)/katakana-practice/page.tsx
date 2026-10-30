@@ -42,10 +42,10 @@ export default async function KatakanaPracticePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: t('katakana.title'),
-            url: `https://www.pthamnihongo.site/${locale}/katakana-practice`,
+            url: `https://www.mondu.online/${locale}/katakana-practice`,
           },
         ]}
       />

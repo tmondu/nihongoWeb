@@ -871,7 +871,7 @@ export default function KanjiSentenceAndFeedback({
                 Thêm mẹo nhớ / ý kiến cho chữ {kanjiChar}
               </span>
               <span className='text-[11px] font-medium text-(--secondary-color)/70'>
-                Học viên PThamSS
+                Học viên Mondu
               </span>
             </div>
 

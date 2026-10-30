@@ -16,8 +16,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   return {
-    title: locale === 'vi' ? 'Thông tin JLPT | PThamSS' : 'JLPT Information | PThamSS',
-    description: locale === 'vi' ? 'Tìm hiểu thông tin chi tiết về kỳ thi năng lực tiếng Nhật JLPT.' : 'Learn more details about the Japanese Language Proficiency Test (JLPT).',
+    title:
+      locale === 'vi' ? 'Thông tin JLPT | Mondu' : 'JLPT Information | Mondu',
+    description:
+      locale === 'vi'
+        ? 'Tìm hiểu thông tin chi tiết về kỳ thi năng lực tiếng Nhật JLPT.'
+        : 'Learn more details about the Japanese Language Proficiency Test (JLPT).',
   };
 }
 
@@ -29,7 +33,7 @@ export default async function JLPTPage({
   const { locale } = await params;
 
   return (
-    <div className='mx-auto max-w-4xl px-4 py-8 flex flex-col gap-6'>
+    <div className='mx-auto flex max-w-4xl flex-col gap-6 px-4 py-8'>
       <Breadcrumbs
         items={[
           { name: locale === 'vi' ? 'Trang chủ' : 'Home', url: `/${locale}` },

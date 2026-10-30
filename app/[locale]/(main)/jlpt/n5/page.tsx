@@ -17,11 +17,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const title =
-    'JLPT N5 Study Guide - Complete Preparation Resource | PThamSS';
+  const title = 'JLPT N5 Study Guide - Complete Preparation Resource | Mondu';
   const description =
     'Complete JLPT N5 study guide with all essential Kanji, vocabulary, and study tips. Free interactive practice for JLPT N5 exam success. Start preparing today!';
-  const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n5`;
+  const canonical = `https://www.mondu.online/${locale}/jlpt/n5`;
 
   return {
     title,
@@ -31,8 +30,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://www.pthamnihongo.site/en/jlpt/n5',
-        es: 'https://www.pthamnihongo.site/es/jlpt/n5',
+        en: 'https://www.mondu.online/en/jlpt/n5',
+        es: 'https://www.mondu.online/es/jlpt/n5',
       },
     },
     openGraph: {
@@ -55,14 +54,14 @@ export default async function JLPTN5Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'JLPT',
-            url: `https://www.pthamnihongo.site/${locale}/jlpt/n5`,
+            url: `https://www.mondu.online/${locale}/jlpt/n5`,
           },
           {
             name: 'N5',
-            url: `https://www.pthamnihongo.site/${locale}/jlpt/n5`,
+            url: `https://www.mondu.online/${locale}/jlpt/n5`,
           },
         ]}
       />
@@ -263,7 +262,7 @@ export default async function JLPTN5Page({
                 </h3>
                 <ul className='list-disc space-y-1 pl-6'>
                   <li>Complete all 800 vocabulary words</li>
-                  <li>Review all Kanji with PThamSS</li>
+                  <li>Review all Kanji with Mondu</li>
                   <li>Take practice tests</li>
                   <li>Focus on weak areas</li>
                 </ul>
@@ -282,7 +281,7 @@ export default async function JLPTN5Page({
                   ✅ Do This:
                 </h3>
                 <ul className='list-disc space-y-1 pl-6'>
-                  <li>Practice daily with PThamSS</li>
+                  <li>Practice daily with Mondu</li>
                   <li>Learn kanji in context, not isolation</li>
                   <li>Review vocabulary regularly</li>
                   <li>Take timed practice tests</li>
@@ -312,7 +311,7 @@ export default async function JLPTN5Page({
             </h2>
             <p className='mb-6 text-lg'>
               Everything you need to pass JLPT N5 is available for free on
-              PThamSS!
+              Mondu!
             </p>
             <div className='flex flex-col gap-4 sm:flex-row sm:justify-center'>
               <Link

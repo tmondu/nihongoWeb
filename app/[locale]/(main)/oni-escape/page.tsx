@@ -20,8 +20,8 @@ export async function generateMetadata({
 
   const isVi = locale === 'vi';
   const title = isVi
-    ? 'Oni Escape: Shinkansen Chase - Game Gõ Từ Vựng Tiếng Nhật | PThamSS'
-    : 'Oni Escape: Shinkansen Chase - Japanese Vocabulary Typing Runner | PThamSS';
+    ? 'Oni Escape: Shinkansen Chase - Game Gõ Từ Vựng Tiếng Nhật | Mondu'
+    : 'Oni Escape: Shinkansen Chase - Japanese Vocabulary Typing Runner | Mondu';
   const description = isVi
     ? 'Thử thách phản xạ gõ từ vựng tiếng Nhật trên nóc tàu Shinkansen và chạy trốn quái vật Oni khổng lồ. Hỗ trợ đầy đủ từ vựng JLPT N5 đến N1.'
     : 'High-speed Japanese vocabulary typing runner game on top of a Shinkansen train. Escape the giant Oni by typing Japanese words fast and accurately.';
@@ -48,10 +48,10 @@ export default async function OniEscapePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Oni Escape',
-            url: `https://www.pthamnihongo.site/${locale}/oni-escape`,
+            url: `https://www.mondu.online/${locale}/oni-escape`,
           },
         ]}
       />

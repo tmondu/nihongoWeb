@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/shared/utils/utils';
 import { useLocale } from 'next-intl';
 import type { VerbInfo } from '../types';
 
@@ -13,7 +12,7 @@ interface SEOContentProps {
 /**
  * SEOContent - Educational content about Japanese verb conjugation
  */
-export default function SEOContent({ verb }: SEOContentProps) {
+export default function SEOContent({ verb: _verb }: SEOContentProps) {
   const locale = useLocale();
 
   return (
@@ -24,7 +23,9 @@ export default function SEOContent({ verb }: SEOContentProps) {
           <span>{locale === 'vi' ? 'Thông tin' : 'Information'}</span>
         </div>
         <h2 className='text-2xl font-bold tracking-tight text-(--main-color)'>
-          {locale === 'vi' ? 'Chia động từ tiếng Nhật' : 'Japanese Verb Conjugation'}
+          {locale === 'vi'
+            ? 'Chia động từ tiếng Nhật'
+            : 'Japanese Verb Conjugation'}
         </h2>
       </div>
 
@@ -72,11 +73,10 @@ export default function SEOContent({ verb }: SEOContentProps) {
       <div className='border-t border-(--border-color)/10 pt-8'>
         <p className='text-xs text-(--secondary-color)/40'>
           {locale === 'vi'
-            ? 'PThamSS cung cấp cách chia động từ tiếng Nhật chính xác cho học sinh và người bản xứ.'
-            : 'PThamSS provides accurate Japanese verb conjugations for students and speakers.'}
+            ? 'Mondu cung cấp cách chia động từ tiếng Nhật chính xác cho học sinh và người bản xứ.'
+            : 'Mondu provides accurate Japanese verb conjugations for students and speakers.'}
         </p>
       </div>
     </section>
   );
 }
-

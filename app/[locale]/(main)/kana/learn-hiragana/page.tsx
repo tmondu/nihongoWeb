@@ -36,18 +36,18 @@ export default async function LearnHiraganaPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
-          { name: 'Kana', url: `https://www.pthamnihongo.site/${locale}/kana` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Kana', url: `https://www.mondu.online/${locale}/kana` },
           {
             name: 'Learn Hiragana',
-            url: `https://www.pthamnihongo.site/${locale}/kana/learn-hiragana`,
+            url: `https://www.mondu.online/${locale}/kana/learn-hiragana`,
           },
         ]}
       />
       <CourseSchema
         name='Learn Hiragana - Complete Japanese Alphabet Course'
         description='Master Hiragana with interactive drills, kana selection cards, and instant feedback. Study the full hiragana chart, dakuon, and yoon with guided beginner-friendly practice.'
-        url={`https://www.pthamnihongo.site/${locale}/kana/learn-hiragana`}
+        url={`https://www.mondu.online/${locale}/kana/learn-hiragana`}
         educationalLevel='Beginner'
         skillLevel='Beginner'
         learningResourceType='Interactive Course'
@@ -55,14 +55,14 @@ export default async function LearnHiraganaPage({
       <LearningResourceSchema
         name='Hiragana Practice Playground'
         description='Interactive Hiragana learning hub with selectable character groups, drills, and training modes. Designed for fast recognition, pronunciation, and reading confidence for absolute beginners.'
-        url={`https://www.pthamnihongo.site/${locale}/kana/learn-hiragana`}
+        url={`https://www.mondu.online/${locale}/kana/learn-hiragana`}
         learningResourceType={['Interactive', 'Quiz', 'Game']}
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Hiragana chart, reading, recognition, and pronunciation'
         assesses='Hiragana recognition speed, accuracy, and recall'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
       <FAQSchema faqs={hiraganaFAQs} />
       <KanaMenu filter='hiragana' />

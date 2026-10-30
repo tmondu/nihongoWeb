@@ -53,7 +53,7 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: 'Post Not Found | PThamSS Academy',
+      title: 'Post Not Found | Mondu Academy',
       description: 'The requested article could not be found.',
     };
   }
@@ -245,12 +245,12 @@ export default async function AcademyPostPage({
       <StructuredData data={articleSchema} />
       <StructuredData data={breadcrumbSchema} />
       <AuthorSchema
-        name={post.author || 'PThamSS Team'}
-        url='https://www.pthamnihongo.site'
+        name={post.author || 'Mondu Team'}
+        url='https://www.mondu.online'
         jobTitle='Japanese Language Education Team'
-        affiliation='PThamSS'
+        affiliation='Mondu'
         expertise='Japanese Language Education, Hiragana, Katakana, Kanji, JLPT Preparation'
-        description='The PThamSS team creates free, interactive Japanese learning tools and in-depth educational content to help learners at every level.'
+        description='The Mondu team creates free, interactive Japanese learning tools and in-depth educational content to help learners at every level.'
         sameAs={['https://github.com/tmondu/nihongoWeb']}
       />
 

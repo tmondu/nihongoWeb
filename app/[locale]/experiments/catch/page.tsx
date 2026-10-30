@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Catch - Catching Game | PThamSS',
+  title: 'Kana Catch - Catching Game | Mondu',
   description: 'Catch falling kana in your basket before they hit the ground!',
 };
 

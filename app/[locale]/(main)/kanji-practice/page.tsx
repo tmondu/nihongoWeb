@@ -42,10 +42,10 @@ export default async function KanjiPracticePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: t('kanji.title'),
-            url: `https://www.pthamnihongo.site/${locale}/kanji-practice`,
+            url: `https://www.mondu.online/${locale}/kanji-practice`,
           },
         ]}
       />

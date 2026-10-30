@@ -166,7 +166,7 @@ export default function RegisterPage() {
       <div className='relative z-10 w-full max-w-md rounded-3xl border border-(--border-color) bg-(--card-color) p-8 shadow-xl transition-all duration-500 hover:border-(--main-color)/20'>
         <div className='mb-8 text-center'>
           <h1 className='text-4xl font-bold tracking-tight text-(--main-color)'>
-            PThamSS
+            Mondu
           </h1>
           <p className='mt-3 text-xs font-semibold tracking-wide text-(--secondary-color) uppercase'>
             Đăng ký tài khoản mới để bắt đầu quá trình luyện tập

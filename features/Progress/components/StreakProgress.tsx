@@ -5,7 +5,6 @@ import useVisitStore from '../store/useVisitStore';
 import StreakStats from './StreakStats';
 import StreakGrid from './StreakGrid';
 import type { TimePeriod } from '../lib/streakCalculations';
-import { cn } from '@/shared/utils/utils';
 
 export default function StreakProgress() {
   const { visits, isLoaded, loadVisits } = useVisitStore();
@@ -43,7 +42,7 @@ export default function StreakProgress() {
           How Streak Tracking Works
         </h3>
         <div className='space-y-2 text-sm text-(--secondary-color)'>
-          <p>• Your visits are automatically tracked when you use PThamSS</p>
+          <p>• Your visits are automatically tracked when you use Mondu</p>
           <p>• Each day you visit counts toward your streak</p>
           <p>• Keep your streak going by visiting daily!</p>
         </div>
@@ -51,4 +50,3 @@ export default function StreakProgress() {
     </div>
   );
 }
-

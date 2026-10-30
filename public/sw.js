@@ -1,5 +1,5 @@
 /**
- * PThamSS Service Worker
+ * Mondu Service Worker
  *
  * This service worker caches:
  * - Audio files for offline support and faster repeat access

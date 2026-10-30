@@ -33,7 +33,7 @@ interface LevelCourseMeta {
 
 const LEVEL_COURSE_META: Record<CurriculumLevel, LevelCourseMeta> = {
   n5: {
-    title: 'Minna no Nihongo I (Bài 1 - 25 · N5) | PThamSS',
+    title: 'Minna no Nihongo I (Bài 1 - 25 · N5) | Mondu',
     description:
       'Khóa học tiếng Nhật N5 giáo trình Minna no Nihongo I (Bài 1 - 25) với 108 điểm ngữ pháp nền tảng và bài tập tương tác.',
     badge: 'JLPT N5',
@@ -41,7 +41,7 @@ const LEVEL_COURSE_META: Record<CurriculumLevel, LevelCourseMeta> = {
     skillLevel: 'Beginner',
   },
   n4: {
-    title: 'Minna no Nihongo II (Bài 26 - 50 · N4) | PThamSS',
+    title: 'Minna no Nihongo II (Bài 26 - 50 · N4) | Mondu',
     description:
       'Khóa học tiếng Nhật N4 giáo trình Minna no Nihongo II (Bài 26 - 50) với 70 điểm ngữ pháp trọng tâm và bài tập tương tác.',
     badge: 'JLPT N4',
@@ -49,7 +49,7 @@ const LEVEL_COURSE_META: Record<CurriculumLevel, LevelCourseMeta> = {
     skillLevel: 'Elementary',
   },
   n3: {
-    title: 'Trung Cấp Tổng Hợp (Bài 51 - 70 · N3) | PThamSS',
+    title: 'Trung Cấp Tổng Hợp (Bài 51 - 70 · N3) | Mondu',
     description:
       'Khóa học tiếng Nhật N3 Trung Cấp Tổng Hợp (Bài 51 - 70) với 80 mẫu câu ngữ pháp liên kết câu phức và sắc thái biểu đạt.',
     badge: 'JLPT N3',
@@ -57,7 +57,7 @@ const LEVEL_COURSE_META: Record<CurriculumLevel, LevelCourseMeta> = {
     skillLevel: 'Intermediate',
   },
   n2: {
-    title: 'Trung Cao Cấp Chuyên Sâu (Bài 71 - 90 · N2) | PThamSS',
+    title: 'Trung Cao Cấp Chuyên Sâu (Bài 71 - 90 · N2) | Mondu',
     description:
       'Khóa học tiếng Nhật N2 Trung Cao Cấp (Bài 71 - 90) với 80 cấu trúc ngữ pháp thương mại, xã luận và kính ngữ công sở.',
     badge: 'JLPT N2',
@@ -65,7 +65,7 @@ const LEVEL_COURSE_META: Record<CurriculumLevel, LevelCourseMeta> = {
     skillLevel: 'Upper-Intermediate',
   },
   n1: {
-    title: 'Thượng Cấp Học Thuật (Bài 91 - 110 · N1) | PThamSS',
+    title: 'Thượng Cấp Học Thuật (Bài 91 - 110 · N1) | Mondu',
     description:
       'Khóa học tiếng Nhật N1 Thượng Cấp (Bài 91 - 110) với 80 cấu trúc ngữ pháp hàn lâm, cổ ngữ và phân tích bài luận chuyên môn.',
     badge: 'JLPT N1',
@@ -120,21 +120,21 @@ export default async function CurriculumLevelPage({ params }: LevelPageProps) {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Giáo án',
-            url: `https://www.pthamnihongo.site/${locale}/giao-trinh`,
+            url: `https://www.mondu.online/${locale}/giao-trinh`,
           },
           {
             name: meta.badge,
-            url: `https://www.pthamnihongo.site/${locale}/giao-trinh/${normalized}`,
+            url: `https://www.mondu.online/${locale}/giao-trinh/${normalized}`,
           },
         ]}
       />
       <CourseSchema
         name={meta.title}
         description={meta.description}
-        url={`https://www.pthamnihongo.site/${locale}/giao-trinh/${normalized}`}
+        url={`https://www.mondu.online/${locale}/giao-trinh/${normalized}`}
         educationalLevel={meta.educationalLevel}
         skillLevel={meta.skillLevel}
         learningResourceType='Interactive Course, Grammar and Vocabulary'

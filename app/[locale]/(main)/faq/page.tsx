@@ -152,7 +152,7 @@ export default async function FAQPage({
   ];
 
   const faqsForSchema = groups.flatMap(group => group.faqs);
-  const pageUrl = `https://www.pthamnihongo.site/${locale}/faq`;
+  const pageUrl = `https://www.mondu.online/${locale}/faq`;
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -165,7 +165,7 @@ export default async function FAQPage({
         description: t('subtitle'),
         inLanguage: locale,
         isPartOf: {
-          '@id': 'https://www.pthamnihongo.site/#website',
+          '@id': 'https://www.mondu.online/#website',
         },
         about: {
           '@type': 'Thing',
@@ -206,8 +206,8 @@ export default async function FAQPage({
       <StructuredData data={faqSchema} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
-          { name: 'FAQ', url: `https://www.pthamnihongo.site/${locale}/faq` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'FAQ', url: `https://www.mondu.online/${locale}/faq` },
         ]}
       />
 

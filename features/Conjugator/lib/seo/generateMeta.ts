@@ -13,7 +13,7 @@ import type { VerbInfo } from '../../types';
 // Constants
 // ============================================================================
 
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 const CONJUGATE_PATH = '/conjugate';
 
 // ============================================================================
@@ -79,7 +79,7 @@ const BASE_KEYWORDS = [
  * Requirements: 13.1
  */
 export const BASE_META: ConjugatorMeta = {
-  title: 'Japanese Verb Conjugator | All Conjugation Forms | PThamSS',
+  title: 'Japanese Verb Conjugator | All Conjugation Forms | Mondu',
   titleShort: 'Japanese Verb Conjugator',
   description:
     'Free Japanese verb conjugator with all conjugation forms. Conjugate any Japanese verb instantly - Godan, Ichidan, irregular verbs. Get te-form, masu-form, potential, passive, causative and more.',
@@ -176,8 +176,8 @@ export function generateVerbMeta(
   const verbTypeDisplay = getVerbTypeDisplay(verb);
 
   // Generate title following SEO best practices (Requirements: 15.5)
-  // Format: "食べる (taberu) Conjugation - All Japanese Verb Forms | PThamSS"
-  const title = `${verb.dictionaryForm} (${verb.romaji}) Conjugation - All Japanese Verb Forms | PThamSS`;
+  // Format: "食べる (taberu) Conjugation - All Japanese Verb Forms | Mondu"
+  const title = `${verb.dictionaryForm} (${verb.romaji}) Conjugation - All Japanese Verb Forms | Mondu`;
   const titleShort = `${verb.dictionaryForm} (${verb.romaji}) Conjugation`;
 
   // Generate unique description (Requirements: 15.2)

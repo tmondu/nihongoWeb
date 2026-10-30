@@ -28,22 +28,22 @@ export default function BlitzPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Kana', url: 'https://www.pthamnihongo.site/kana' },
-          { name: 'Blitz', url: 'https://www.pthamnihongo.site/kana/blitz' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Kana', url: 'https://www.mondu.online/kana' },
+          { name: 'Blitz', url: 'https://www.mondu.online/kana/blitz' },
         ]}
       />
       <LearningResourceSchema
         name='Hiragana & Katakana Blitz Mode'
         description='Fast-paced Japanese Kana practice game. Test your speed and accuracy with Hiragana and Katakana recognition in timed challenges.'
-        url='https://www.pthamnihongo.site/kana/blitz'
+        url='https://www.mondu.online/kana/blitz'
         learningResourceType='Game'
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Hiragana and Katakana speed recognition'
         assesses='Hiragana and Katakana reading speed and accuracy'
         timeRequired='PT5M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
       <KanaBlitz />
     </>

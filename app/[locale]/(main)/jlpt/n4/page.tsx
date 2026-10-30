@@ -17,10 +17,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const title = 'JLPT N4 Kanji List - Complete Study Resource | PThamSS';
+  const title = 'JLPT N4 Kanji List - Complete Study Resource | Mondu';
   const description =
     'Complete JLPT N4 Kanji list with all ~170 characters, meanings, and readings. Free interactive practice for JLPT N4 exam preparation. Master N4 Kanji efficiently!';
-  const canonical = `https://www.pthamnihongo.site/${locale}/jlpt/n4`;
+  const canonical = `https://www.mondu.online/${locale}/jlpt/n4`;
 
   return {
     title,
@@ -30,8 +30,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://www.pthamnihongo.site/en/jlpt/n4',
-        es: 'https://www.pthamnihongo.site/es/jlpt/n4',
+        en: 'https://www.mondu.online/en/jlpt/n4',
+        es: 'https://www.mondu.online/es/jlpt/n4',
       },
     },
     openGraph: {
@@ -54,14 +54,14 @@ export default async function JLPTN4Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'JLPT',
-            url: `https://www.pthamnihongo.site/${locale}/jlpt/n4`,
+            url: `https://www.mondu.online/${locale}/jlpt/n4`,
           },
           {
             name: 'N4',
-            url: `https://www.pthamnihongo.site/${locale}/jlpt/n4`,
+            url: `https://www.mondu.online/${locale}/jlpt/n4`,
           },
         ]}
       />
@@ -198,7 +198,7 @@ export default async function JLPTN4Page({
 
               <div className='rounded-lg bg-(--card-color) p-4'>
                 <h3 className='mb-2 font-semibold text-(--main-color)'>
-                  4️⃣ Use PThamSS&apos;s Training Modes
+                  4️⃣ Use Mondu&apos;s Training Modes
                 </h3>
                 <p>
                   Vary your practice with Pick, Input, and Blitz modes for
@@ -214,7 +214,7 @@ export default async function JLPTN4Page({
               📊 Track Your N4 Progress
             </h2>
             <p className='mb-4'>
-              PThamSS automatically tracks your progress through N4 kanji:
+              Mondu automatically tracks your progress through N4 kanji:
             </p>
             <ul className='mb-4 list-disc space-y-2 pl-6'>
               <li>

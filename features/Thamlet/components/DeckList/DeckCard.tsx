@@ -53,7 +53,7 @@ export const DeckCard: React.FC<DeckCardProps> = ({
             {deck.isSample ? (
               <span className='inline-flex items-center gap-1 rounded-full bg-(--main-color)/15 px-2.5 py-0.5 text-xs font-semibold text-(--main-color)'>
                 <BookOpen className='size-3' />
-                Mẫu PThamSS
+                Mẫu Mondu
               </span>
             ) : null}
             {deck.tags?.map((tag, idx) => (

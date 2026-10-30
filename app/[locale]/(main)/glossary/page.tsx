@@ -17,11 +17,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const title =
-    'Japanese-English Glossary - Essential Learning Terms | PThamSS';
+  const title = 'Japanese-English Glossary - Essential Learning Terms | Mondu';
   const description =
     'Comprehensive Japanese-English glossary of essential learning terms. Understand Hiragana, Katakana, Kanji, grammar, and Japanese language concepts with clear explanations.';
-  const canonical = `https://www.pthamnihongo.site/${locale}/glossary`;
+  const canonical = `https://www.mondu.online/${locale}/glossary`;
 
   return {
     title,
@@ -31,8 +30,8 @@ export async function generateMetadata({
     alternates: {
       canonical,
       languages: {
-        en: 'https://www.pthamnihongo.site/en/glossary',
-        es: 'https://www.pthamnihongo.site/es/glossary',
+        en: 'https://www.mondu.online/en/glossary',
+        es: 'https://www.mondu.online/es/glossary',
       },
     },
     openGraph: {
@@ -236,10 +235,10 @@ export default async function GlossaryPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Glossary',
-            url: `https://www.pthamnihongo.site/${locale}/glossary`,
+            url: `https://www.mondu.online/${locale}/glossary`,
           },
         ]}
       />

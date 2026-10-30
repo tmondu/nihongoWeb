@@ -11,15 +11,15 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'About PThamSS | Japanese Learning Platform';
+  const title = 'About Mondu | Japanese Learning Platform';
   const description =
-    'Learn about PThamSS - a free, modern Japanese learning platform focused on making Hiragana, Katakana, Kanji, and vocabulary training effective and engaging.';
+    'Learn about Mondu - a free, modern Japanese learning platform focused on making Hiragana, Katakana, Kanji, and vocabulary training effective and engaging.';
 
   return {
     title,
     description,
     keywords: [
-      'about PThamSS',
+      'about Mondu',
       'japanese learning platform',
       'learn japanese online',
       'japanese education',
@@ -44,7 +44,7 @@ export default function AboutPage() {
   return (
     <LegalLayout
       icon={<CircleHelp className='size-6' />}
-      title='About PThamSS'
+      title='About Mondu'
       lastUpdated='April 8, 2026'
     >
       <p className='mb-8 text-xl text-(--secondary-color)'>
@@ -55,7 +55,7 @@ export default function AboutPage() {
         Our Mission
       </h2>
       <p className='mb-8 text-lg leading-relaxed text-(--secondary-color)'>
-        PThamSS was created to make learning Japanese writing systems and
+        Mondu was created to make learning Japanese writing systems and
         vocabulary accessible, effective, and free for everyone. We believe that
         mastering Hiragana, Katakana, and Kanji shouldn&apos;t be a frustrating
         experience, but an engaging journey supported by modern technology and
@@ -168,7 +168,7 @@ export default function AboutPage() {
         Trusted Data Sources
       </h2>
       <p className='mb-4 text-(--secondary-color)'>
-        PThamSS is built on authoritative Japanese language data maintained by
+        Mondu is built on authoritative Japanese language data maintained by
         experts:
       </p>
       <ul className='mb-4 list-disc space-y-2 pl-6 text-(--secondary-color)'>
@@ -197,7 +197,7 @@ export default function AboutPage() {
         Built With Modern Technology
       </h2>
       <p className='mb-4 text-(--secondary-color)'>
-        PThamSS is built with production-grade web technologies to ensure fast
+        Mondu is built with production-grade web technologies to ensure fast
         performance, reliability, and a great user experience:
       </p>
       <div className='mb-12 space-y-2 text-(--secondary-color)'>
@@ -219,8 +219,8 @@ export default function AboutPage() {
         Open Source
       </h2>
       <p className='mb-4 text-(--secondary-color)'>
-        PThamSS is open source and available on GitHub. We welcome
-        contributions, feedback, and suggestions from the community.
+        Mondu is open source and available on GitHub. We welcome contributions,
+        feedback, and suggestions from the community.
       </p>
       <a
         href='https://github.com/tmondu/nihongoWeb'

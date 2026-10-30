@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Mirror - Match Hiragana with Katakana | PThamSS',
+  title: 'Kana Mirror - Match Hiragana with Katakana | Mondu',
   description: 'Match hiragana characters with their katakana equivalents.',
 };
 

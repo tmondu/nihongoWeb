@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Zen - Peaceful Floating Characters | PThamSS',
+  title: 'Kana Zen - Peaceful Floating Characters | Mondu',
   description: 'Relax with gently floating kana in a peaceful atmosphere.',
 };
 

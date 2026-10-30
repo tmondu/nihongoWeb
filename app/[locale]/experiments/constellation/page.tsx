@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Constellation - Connect Kana Stars | PThamSS',
+  title: 'Constellation - Connect Kana Stars | Mondu',
   description:
     'Connect the stars to form Japanese characters in this relaxing mode.',
 };

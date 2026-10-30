@@ -5,7 +5,7 @@ import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
 import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
 import {
   FAQSchema,
-  commonPThamSSFAQs,
+  commonMonduFAQs,
 } from '@/shared/ui-composite/SEO/FAQSchema';
 import { LearningResourceSchema } from '@/shared/ui-composite/SEO/LearningResourceSchema';
 import { routing } from '@/core/i18n/routing';
@@ -39,21 +39,21 @@ export default async function VocabularyJlptN2Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Vocabulary',
-            url: `https://www.pthamnihongo.site/${locale}/vocabulary`,
+            url: `https://www.mondu.online/${locale}/vocabulary`,
           },
           {
             name: 'JLPT N2',
-            url: `https://www.pthamnihongo.site/${locale}/vocabulary/jlpt-n2`,
+            url: `https://www.mondu.online/${locale}/vocabulary/jlpt-n2`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N2 Japanese Vocabulary Course'
         description='Practice JLPT N2 Japanese vocabulary with interactive level sets. Train word recognition, meanings, and reading recall with fast feedback and progress tracking.'
-        url={`https://www.pthamnihongo.site/${locale}/vocabulary/jlpt-n2`}
+        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n2`}
         educationalLevel='Upper Intermediate'
         skillLevel='JLPT N2'
         learningResourceType='Interactive Course'
@@ -61,21 +61,21 @@ export default async function VocabularyJlptN2Page({
       <LearningResourceSchema
         name='JLPT N2 Vocabulary Practice'
         description='Targeted JLPT N2 vocabulary drills with selectable sets, quick selection controls, and dictionary links for exam-focused Japanese study.'
-        url={`https://www.pthamnihongo.site/${locale}/vocabulary/jlpt-n2`}
+        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n2`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Upper Intermediate']}
         teaches='JLPT N2 Japanese vocabulary, meanings, and usage'
         assesses='JLPT N2 word recognition and recall speed'
         timeRequired='PT35M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',
           targetName: 'N2',
         }}
       />
-      <FAQSchema faqs={commonPThamSSFAQs} />
+      <FAQSchema faqs={commonMonduFAQs} />
       <VocabMenu fixedCollection='n2' hideUnitSelector />
     </>
   );

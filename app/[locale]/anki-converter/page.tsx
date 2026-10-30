@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 
 export async function generateMetadata({
   params,
@@ -28,8 +28,8 @@ export async function generateMetadata({
     locale === 'es' ? 'es_ES' : locale === 'vi' ? 'vi_VN' : 'en_US';
 
   const title = isVi
-    ? 'Chuyển đổi Anki sang JSON | Công cụ chuyển file APKG miễn phí | PThamSS'
-    : 'Anki to JSON Converter | Free APKG Converter | PThamSS';
+    ? 'Chuyển đổi Anki sang JSON | Công cụ chuyển file APKG miễn phí | Mondu'
+    : 'Anki to JSON Converter | Free APKG Converter | Mondu';
   const description = isVi
     ? 'Chuyển đổi bộ thẻ flashcard Anki sang định dạng JSON ngay lập tức. Hỗ trợ file APKG, TSV, SQLite và COLPKG. Miễn phí, siêu tốc và bảo mật 100% trong trình duyệt.'
     : 'Convert Anki flashcard decks to JSON format instantly. Supports APKG, TSV, SQLite, and COLPKG files. Free, fast, and completely private - all processing happens in your browser.';
@@ -72,7 +72,7 @@ export async function generateMetadata({
       description,
       type: 'website',
       url: `${BASE_URL}/anki-converter`,
-      siteName: 'PThamSS',
+      siteName: 'Mondu',
       locale: ogLocale,
     },
     twitter: {
@@ -254,12 +254,12 @@ const webApplicationSchema = {
   ],
   author: {
     '@type': 'Organization',
-    name: 'PThamSS',
+    name: 'Mondu',
     url: BASE_URL,
   },
   creator: {
     '@type': 'Organization',
-    name: 'PThamSS',
+    name: 'Mondu',
   },
   isAccessibleForFree: true,
   inLanguage: ['vi', 'en', 'es'],
@@ -283,7 +283,7 @@ const softwareApplicationSchema = {
   softwareVersion: '1.0.0',
   author: {
     '@type': 'Organization',
-    name: 'PThamSS',
+    name: 'Mondu',
   },
 };
 
@@ -739,8 +739,8 @@ npm run anki:convert -- --help`}
             </h2>
             <p className='mb-4'>
               {isVi
-                ? 'Khám phá thêm các công cụ hữu ích miễn phí trên PThamSS để nâng cao hiệu quả học tiếng Nhật:'
-                : 'Explore more free tools on PThamSS to enhance your Japanese learning:'}
+                ? 'Khám phá thêm các công cụ hữu ích miễn phí trên Mondu để nâng cao hiệu quả học tiếng Nhật:'
+                : 'Explore more free tools on Mondu to enhance your Japanese learning:'}
             </p>
             <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
               <Link

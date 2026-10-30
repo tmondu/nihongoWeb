@@ -51,7 +51,7 @@ export default function MinedSentencesDrawer() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `pthamss-sentence-mining-${new Date().toISOString().slice(0, 10)}.tsv`;
+    a.download = `mondu-sentence-mining-${new Date().toISOString().slice(0, 10)}.tsv`;
     a.click();
     URL.revokeObjectURL(url);
   };

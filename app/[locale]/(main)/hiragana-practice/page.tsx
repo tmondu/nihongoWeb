@@ -42,10 +42,10 @@ export default async function HiraganaPracticePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: t('hiragana.title'),
-            url: `https://www.pthamnihongo.site/${locale}/hiragana-practice`,
+            url: `https://www.mondu.online/${locale}/hiragana-practice`,
           },
         ]}
       />

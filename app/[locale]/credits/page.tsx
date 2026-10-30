@@ -8,9 +8,9 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const title = 'Credits & Data Sources | PThamSS';
+  const title = 'Credits & Data Sources | Mondu';
   const description =
-    'PThamSS uses trusted Japanese language data sources including JMdict, KANJIDIC, and open-source libraries to provide accurate learning tools.';
+    'Mondu uses trusted Japanese language data sources including JMdict, KANJIDIC, and open-source libraries to provide accurate learning tools.';
 
   return {
     title,
@@ -23,12 +23,12 @@ export async function generateMetadata(): Promise<Metadata> {
       'open source japanese',
     ],
     alternates: {
-      canonical: 'https://www.pthamnihongo.site/credits',
+      canonical: 'https://www.mondu.online/credits',
     },
     openGraph: {
       title,
       description,
-      url: 'https://www.pthamnihongo.site/credits',
+      url: 'https://www.mondu.online/credits',
       type: 'website',
     },
     robots: {

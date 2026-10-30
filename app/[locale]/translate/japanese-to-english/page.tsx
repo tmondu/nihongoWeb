@@ -25,7 +25,7 @@ interface PageProps {
 
 const enMetadataConfig = {
   pathname: '/translate/japanese-to-english',
-  title: 'Japanese to English Translator | with Romaji Support | PThamSS',
+  title: 'Japanese to English Translator | with Romaji Support | Mondu',
   description:
     'Translate Japanese to English online for free. Use this page to understand hiragana, katakana, kanji, subtitles, messages, and mixed Japanese text more clearly.',
   keywords: [
@@ -41,7 +41,7 @@ const enMetadataConfig = {
 
 const viMetadataConfig = {
   pathname: '/translate/japanese-to-english',
-  title: 'Dịch tiếng Nhật sang tiếng Anh & Việt | Có phiên âm Romaji | PThamSS',
+  title: 'Dịch tiếng Nhật sang tiếng Anh & Việt | Có phiên âm Romaji | Mondu',
   description:
     'Dịch tiếng Nhật sang tiếng Anh và tiếng Việt trực tuyến miễn phí. Hỗ trợ nhận diện Hiragana, Katakana, Kanji, phụ đề, tin nhắn và văn bản tiếng Nhật với phiên âm Romaji chuẩn xác.',
   keywords: [
@@ -52,7 +52,7 @@ const viMetadataConfig = {
     'dịch hiragana sang tiếng việt',
     'japanese to english translator',
     'translate japanese to english',
-    'pthamss dịch tiếng nhật',
+    'mondu dịch tiếng nhật',
   ],
   schemaName: 'Trình dịch tiếng Nhật sang tiếng Anh có Romaji',
   breadcrumbName: 'Nhật → Anh',

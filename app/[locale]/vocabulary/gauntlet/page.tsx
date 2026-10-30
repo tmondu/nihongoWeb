@@ -28,28 +28,28 @@ export default function GauntletPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'Vocabulary',
-            url: 'https://www.pthamnihongo.site/vocabulary',
+            url: 'https://www.mondu.online/vocabulary',
           },
           {
             name: 'Gauntlet',
-            url: 'https://www.pthamnihongo.site/vocabulary/gauntlet',
+            url: 'https://www.mondu.online/vocabulary/gauntlet',
           },
         ]}
       />
       <LearningResourceSchema
         name='Japanese Vocabulary Gauntlet Mode'
         description='Progressive Japanese vocabulary mastery challenge. Build comprehensive word knowledge across JLPT levels.'
-        url='https://www.pthamnihongo.site/vocabulary/gauntlet'
+        url='https://www.mondu.online/vocabulary/gauntlet'
         learningResourceType='Assessment'
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Complete vocabulary mastery across JLPT N5-N1 levels'
         assesses='Progressive vocabulary recognition and comprehension'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
       <VocabGauntlet />
     </>

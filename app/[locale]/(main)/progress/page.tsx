@@ -37,10 +37,10 @@ export default async function ProgressPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Progress',
-            url: `https://www.pthamnihongo.site/${locale}/progress`,
+            url: `https://www.mondu.online/${locale}/progress`,
           },
         ]}
       />

@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Rain - Matrix Style Japanese Characters | PThamSS',
+  title: 'Kana Rain - Matrix Style Japanese Characters | Mondu',
   description: 'Watch Japanese characters fall in a digital rain effect.',
 };
 

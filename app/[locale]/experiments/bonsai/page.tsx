@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Zen Bonsai - Mindful Growth | PThamSS',
+  title: 'Zen Bonsai - Mindful Growth | Mondu',
   description:
     'Nurture your own digital Japanese character tree in this mindful clicker.',
 };

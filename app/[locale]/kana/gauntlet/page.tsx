@@ -28,25 +28,25 @@ export default function GauntletPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Kana', url: 'https://www.pthamnihongo.site/kana' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Kana', url: 'https://www.mondu.online/kana' },
           {
             name: 'Gauntlet',
-            url: 'https://www.pthamnihongo.site/kana/gauntlet',
+            url: 'https://www.mondu.online/kana/gauntlet',
           },
         ]}
       />
       <LearningResourceSchema
         name='Hiragana & Katakana Gauntlet Mode'
         description='Progressive Japanese Kana challenge. Master all Hiragana and Katakana characters in order with increasing difficulty levels.'
-        url='https://www.pthamnihongo.site/kana/gauntlet'
+        url='https://www.mondu.online/kana/gauntlet'
         learningResourceType='Assessment'
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Complete mastery of Japanese Hiragana and Katakana'
         assesses='Progressive Kana recognition and mastery'
         timeRequired='PT15M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
       <KanaGauntlet />
     </>

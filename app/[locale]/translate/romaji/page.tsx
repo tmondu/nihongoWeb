@@ -25,7 +25,7 @@ interface PageProps {
 
 const enMetadataConfig = {
   pathname: '/translate/romaji',
-  title: 'Japanese to Romaji Guide | Pronunciation & Reading | PThamSS',
+  title: 'Japanese to Romaji Guide | Pronunciation & Reading | Mondu',
   description:
     'Learn how to use Japanese to romaji output for pronunciation support, reading checks, and beginner-friendly verification without treating romaji as a full replacement for kana.',
   keywords: [
@@ -42,7 +42,7 @@ const enMetadataConfig = {
 const viMetadataConfig = {
   pathname: '/translate/romaji',
   title:
-    'Hướng dẫn phiên âm Romaji tiếng Nhật | Cách đọc & Phát âm chuẩn | PThamSS',
+    'Hướng dẫn phiên âm Romaji tiếng Nhật | Cách đọc & Phát âm chuẩn | Mondu',
   description:
     'Tìm hiểu cách sử dụng phiên âm Romaji tiếng Nhật để hỗ trợ luyện phát âm, kiểm tra cách đọc và làm quen với bảng chữ cái tiếng Nhật một cách chuẩn xác nhất.',
   keywords: [
@@ -53,7 +53,7 @@ const viMetadataConfig = {
     'romaji translator',
     'japanese to romaji',
     'kana sang romaji',
-    'pthamss romaji',
+    'mondu romaji',
   ],
   schemaName: 'Hướng dẫn phiên âm Romaji tiếng Nhật',
   breadcrumbName: 'Hướng dẫn Romaji',
@@ -237,8 +237,8 @@ export default async function RomajiPage({ params }: PageProps) {
             </h2>
             <p className='mt-1 text-sm text-(--secondary-color)'>
               {isVi
-                ? 'Dán bất kỳ câu tiếng Nhật nào vào trình dịch PThamSS để nhận ngay Romaji và phát âm.'
-                : 'Paste any Japanese text into the PThamSS translator to view full romaji pronunciation.'}
+                ? 'Dán bất kỳ câu tiếng Nhật nào vào trình dịch Mondu để nhận ngay Romaji và phát âm.'
+                : 'Paste any Japanese text into the Mondu translator to view full romaji pronunciation.'}
             </p>
           </div>
           <Link

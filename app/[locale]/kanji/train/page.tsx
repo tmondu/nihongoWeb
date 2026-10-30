@@ -28,18 +28,18 @@ export default function Train() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Kanji', url: 'https://www.pthamnihongo.site/kanji' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Kanji', url: 'https://www.mondu.online/kanji' },
           {
             name: 'Training',
-            url: 'https://www.pthamnihongo.site/kanji/train',
+            url: 'https://www.mondu.online/kanji/train',
           },
         ]}
       />
       <CourseSchema
         name='Kanji Training'
         description='Learn Japanese Kanji characters organized by JLPT levels with interactive recognition and writing practice.'
-        url='https://www.pthamnihongo.site/kanji/train'
+        url='https://www.mondu.online/kanji/train'
         skillLevel='Beginner to Advanced'
         learningResourceType='Interactive Kanji Training'
       />

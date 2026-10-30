@@ -264,7 +264,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
             Vui lòng đăng nhập
           </h2>
           <p className='text-muted-foreground mb-6 text-sm leading-relaxed'>
-            Khu vực bài giảng chỉ dành riêng cho học viên của PThamSS. Vui lòng
+            Khu vực bài giảng chỉ dành riêng cho học viên của Mondu. Vui lòng
             đăng nhập vào tài khoản của bạn để tiếp tục học.
           </p>
           <button

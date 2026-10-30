@@ -28,15 +28,15 @@ export default function Train() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Kana', url: 'https://www.pthamnihongo.site/kana' },
-          { name: 'Training', url: 'https://www.pthamnihongo.site/kana/train' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Kana', url: 'https://www.mondu.online/kana' },
+          { name: 'Training', url: 'https://www.mondu.online/kana/train' },
         ]}
       />
       <CourseSchema
         name='Hiragana & Katakana Training'
         description='Master Japanese Hiragana and Katakana with interactive training modes including multiple choice, input practice, and speed tests.'
-        url='https://www.pthamnihongo.site/kana/train'
+        url='https://www.mondu.online/kana/train'
         skillLevel='Beginner to Intermediate'
         learningResourceType='Interactive Training Game'
       />

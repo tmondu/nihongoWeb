@@ -85,7 +85,7 @@ export function generateImageSitemapEntry(
 }
 
 /**
- * Get all sitemap URLs for PThamSS
+ * Get all sitemap URLs for Mondu
  */
 export function getAllSitemapUrls(): string[] {
   return [

@@ -28,22 +28,22 @@ export default function BlitzPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Kanji', url: 'https://www.pthamnihongo.site/kanji' },
-          { name: 'Blitz', url: 'https://www.pthamnihongo.site/kanji/blitz' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Kanji', url: 'https://www.mondu.online/kanji' },
+          { name: 'Blitz', url: 'https://www.mondu.online/kanji/blitz' },
         ]}
       />
       <LearningResourceSchema
         name='Kanji Blitz Mode'
         description='Fast-paced Japanese Kanji practice game. Test your speed with Kanji recognition across all JLPT levels in timed challenges.'
-        url='https://www.pthamnihongo.site/kanji/blitz'
+        url='https://www.mondu.online/kanji/blitz'
         learningResourceType='Game'
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese Kanji characters and meanings (JLPT N5-N1)'
         assesses='Kanji recognition speed and accuracy'
         timeRequired='PT5M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
       <KanjiBlitz />
     </>

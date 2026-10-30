@@ -4,7 +4,7 @@ import type { BlogPostMeta } from '../types/blog';
 /**
  * Base URL for the site
  */
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 
 /**
  * Configuration options for metadata generation

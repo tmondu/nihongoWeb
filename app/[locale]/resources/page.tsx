@@ -30,8 +30,8 @@ export async function generateMetadata({
   const totalCount = resources.length;
 
   const title = isVi
-    ? `Tài nguyên học tiếng Nhật tốt nhất - Ứng dụng, Giáo trình, YouTube & Nhiều hơn nữa | PThamSS`
-    : 'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | PThamSS';
+    ? `Tài nguyên học tiếng Nhật tốt nhất - Ứng dụng, Giáo trình, YouTube & Nhiều hơn nữa | Mondu`
+    : 'Best Japanese Learning Resources - Apps, Textbooks, YouTube & More | Mondu';
   const description = isVi
     ? `Khám phá hơn ${totalCount} tài nguyên học tiếng Nhật được chọn lọc kỹ lưỡng. Tìm kiếm ứng dụng, sách giáo khoa, kênh YouTube, podcast, trò chơi và công cụ luyện thi JLPT tốt nhất cho mọi trình độ.`
     : `Discover ${totalCount}+ curated Japanese learning resources. Find the best apps, textbooks, YouTube channels, podcasts, games, and tools for learning Japanese at any level.`;
@@ -46,7 +46,7 @@ export async function generateMetadata({
         'tài liệu thi jlpt',
         'tài liệu học tiếng nhật',
         'app học tiếng nhật tốt nhất',
-        'pthamss tài nguyên',
+        'mondu tài nguyên',
         'japanese learning resources',
       ]
     : [
@@ -67,21 +67,21 @@ export async function generateMetadata({
     keywords,
     openGraph: {
       title: isVi
-        ? 'Tài nguyên học tiếng Nhật tốt nhất | PThamSS'
-        : 'Best Japanese Learning Resources | PThamSS',
+        ? 'Tài nguyên học tiếng Nhật tốt nhất | Mondu'
+        : 'Best Japanese Learning Resources | Mondu',
       description,
-      url: 'https://www.pthamnihongo.site/resources',
+      url: 'https://www.mondu.online/resources',
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
       title: isVi
-        ? 'Tài nguyên học tiếng Nhật tốt nhất | PThamSS'
-        : 'Best Japanese Learning Resources | PThamSS',
+        ? 'Tài nguyên học tiếng Nhật tốt nhất | Mondu'
+        : 'Best Japanese Learning Resources | Mondu',
       description,
     },
     alternates: {
-      canonical: 'https://www.pthamnihongo.site/resources',
+      canonical: 'https://www.mondu.online/resources',
     },
   };
 }
@@ -134,10 +134,10 @@ export default async function ResourcesPage({
   const availableFilters = getFilterOptions(resources);
 
   const breadcrumbItems = [
-    { name: isVi ? 'Trang chủ' : 'Home', url: 'https://www.pthamnihongo.site' },
+    { name: isVi ? 'Trang chủ' : 'Home', url: 'https://www.mondu.online' },
     {
       name: isVi ? 'Tài nguyên' : 'Resources',
-      url: 'https://www.pthamnihongo.site/resources',
+      url: 'https://www.mondu.online/resources',
     },
   ];
 
@@ -163,13 +163,13 @@ export default async function ResourcesPage({
             ? `Bộ sưu tập chọn lọc hơn ${resources.length} tài nguyên học tiếng Nhật bao gồm ứng dụng, sách giáo trình, kênh YouTube, podcast, trò chơi và tài liệu luyện thi JLPT.`
             : `Curated collection of ${resources.length}+ Japanese learning resources including apps, textbooks, YouTube channels, podcasts, games, and JLPT preparation materials.`
         }
-        url='https://www.pthamnihongo.site/resources'
+        url='https://www.mondu.online/resources'
         learningResourceType='Course'
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese Language — Hiragana, Katakana, Kanji, Vocabulary, Grammar'
         isAccessibleForFree={true}
         inLanguage={isVi ? ['vi', 'ja', 'en'] : ['en', 'ja']}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
 
       {/* Page Content */}

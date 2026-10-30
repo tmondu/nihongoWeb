@@ -118,7 +118,7 @@ export default function DeckDetailPage({ params }: DeckDetailPageProps) {
           {deck.isSample && (
             <span className='inline-flex items-center gap-1 rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-bold text-(--main-color)'>
               <BookOpen className='size-3' />
-              Mẫu PThamSS
+              Mẫu Mondu
             </span>
           )}
           {deck.tags?.map((t, idx) => (

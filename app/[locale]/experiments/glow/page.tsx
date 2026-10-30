@@ -9,7 +9,7 @@ export function generateStaticParams() {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Kana Glow - Interactive Light Display | PThamSS',
+  title: 'Kana Glow - Interactive Light Display | Mondu',
   description: 'Watch kana illuminate as you move your cursor.',
 };
 

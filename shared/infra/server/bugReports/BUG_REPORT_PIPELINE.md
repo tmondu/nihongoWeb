@@ -19,7 +19,7 @@ The Tally webhook is push-based. Tally sends a request immediately when a user s
 
 ### Supabase
 
-Create or select the PThamSS Supabase project.
+Create or select the Mondu Supabase project.
 
 The Supabase CLI is installed locally with Scoop. If a new shell does not find `supabase`, use the shim directly:
 
@@ -135,7 +135,7 @@ In the Tally bug report form:
 3. Add endpoint URL:
 
 ```txt
-https://www.pthamnihongo.site/api/webhooks/tally/bug-report
+https://www.mondu.online/api/webhooks/tally/bug-report
 ```
 
 4. Add custom HTTP header:

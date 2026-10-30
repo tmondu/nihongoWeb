@@ -34,7 +34,7 @@ export interface BreadcrumbSchemaOptions {
 /**
  * Base URL for the site
  */
-const BASE_URL = 'https://www.pthamnihongo.site';
+const BASE_URL = 'https://www.mondu.online';
 
 /**
  * Generates JSON-LD BreadcrumbList structured data from BlogPost

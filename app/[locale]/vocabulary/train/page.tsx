@@ -28,21 +28,21 @@ export default function Train() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'Vocabulary',
-            url: 'https://www.pthamnihongo.site/vocabulary',
+            url: 'https://www.mondu.online/vocabulary',
           },
           {
             name: 'Training',
-            url: 'https://www.pthamnihongo.site/vocabulary/train',
+            url: 'https://www.mondu.online/vocabulary/train',
           },
         ]}
       />
       <CourseSchema
         name='Japanese Vocabulary Training'
         description='Build your Japanese vocabulary with words organized by JLPT levels. Interactive exercises with example sentences and translations.'
-        url='https://www.pthamnihongo.site/vocabulary/train'
+        url='https://www.mondu.online/vocabulary/train'
         skillLevel='Beginner to Advanced'
         learningResourceType='Interactive Vocabulary Training'
       />

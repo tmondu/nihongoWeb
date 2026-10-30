@@ -28,25 +28,25 @@ export default function GauntletPage() {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
-          { name: 'Kanji', url: 'https://www.pthamnihongo.site/kanji' },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'Kanji', url: 'https://www.mondu.online/kanji' },
           {
             name: 'Gauntlet',
-            url: 'https://www.pthamnihongo.site/kanji/gauntlet',
+            url: 'https://www.mondu.online/kanji/gauntlet',
           },
         ]}
       />
       <LearningResourceSchema
         name='Kanji Gauntlet Mode'
         description='Progressive Japanese Kanji mastery challenge. Test your knowledge across JLPT levels with increasing difficulty.'
-        url='https://www.pthamnihongo.site/kanji/gauntlet'
+        url='https://www.mondu.online/kanji/gauntlet'
         learningResourceType='Assessment'
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Complete Kanji mastery across JLPT N5-N1 levels'
         assesses='Progressive Kanji recognition and understanding'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
       />
       <KanjiGauntlet />
     </>

@@ -29,7 +29,7 @@ export async function generateMetadata({
 
   if (decoded === '+' || decoded === '%2B') {
     return {
-      title: 'Tham Kanji - PThamSS',
+      title: 'Tham Kanji - Mondu',
     };
   }
 
@@ -41,7 +41,7 @@ export async function generateMetadata({
     });
     return {
       ...baseMetadata,
-      title: `Tham Kanji JLPT ${levelStr} - PThamSS`,
+      title: `Tham Kanji JLPT ${levelStr} - Mondu`,
     };
   }
 
@@ -75,14 +75,14 @@ export default async function ThamKanjiDetailPage({
       <>
         <BreadcrumbSchema
           items={[
-            { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+            { name: 'Home', url: `https://www.mondu.online/${locale}` },
             {
               name: 'Kanji',
-              url: `https://www.pthamnihongo.site/${locale}/kanji`,
+              url: `https://www.mondu.online/${locale}/kanji`,
             },
             {
               name: `Tham Kanji JLPT ${levelStr}`,
-              url: `https://www.pthamnihongo.site/${locale}/kanji/thamkanji/jlpt${activeLevel}`,
+              url: `https://www.mondu.online/${locale}/kanji/thamkanji/jlpt${activeLevel}`,
             },
           ]}
         />
@@ -109,18 +109,18 @@ export default async function ThamKanjiDetailPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Kanji',
-            url: `https://www.pthamnihongo.site/${locale}/kanji`,
+            url: `https://www.mondu.online/${locale}/kanji`,
           },
           {
             name: 'Tham Kanji',
-            url: `https://www.pthamnihongo.site/${locale}/kanji/thamkanji/jlptn5`,
+            url: `https://www.mondu.online/${locale}/kanji/thamkanji/jlptn5`,
           },
           {
             name: decoded,
-            url: `https://www.pthamnihongo.site/${locale}/kanji/thamkanji/${character}`,
+            url: `https://www.mondu.online/${locale}/kanji/thamkanji/${character}`,
           },
         ]}
       />

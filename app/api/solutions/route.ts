@@ -201,7 +201,7 @@ export async function GET(request: NextRequest) {
           );
         }
 
-        const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${currentExam.level}&exam=${currentExam.examNumber}`;
+        const detailWebUrl = `https://www.mondu.online/vi/solutions?level=${currentExam.level}&exam=${currentExam.examNumber}`;
         const minQ = filtered[0].globalNumber;
         const maxQ = filtered[filtered.length - 1].globalNumber;
 
@@ -311,7 +311,7 @@ export async function GET(request: NextRequest) {
         );
 
         if (filtered.length > 0) {
-          const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${fallbackCurrent.level}&exam=${fallbackCurrent.examNumber}`;
+          const detailWebUrl = `https://www.mondu.online/vi/solutions?level=${fallbackCurrent.level}&exam=${fallbackCurrent.examNumber}`;
           const minQ = filtered[0].globalNumber;
           const maxQ = filtered[filtered.length - 1].globalNumber;
 
@@ -350,7 +350,7 @@ export async function GET(request: NextRequest) {
           s => s.sectionNumber === sessionNum,
         );
         if (sec) {
-          const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${fallbackCurrent.level}&exam=${fallbackCurrent.examNumber}`;
+          const detailWebUrl = `https://www.mondu.online/vi/solutions?level=${fallbackCurrent.level}&exam=${fallbackCurrent.examNumber}`;
           const lines: string[] = [];
           lines.push(
             `📚 ${fallbackCurrent.level.toUpperCase()} - ĐỀ ${fallbackCurrent.examNumber} - BÀI ${sec.sectionNumber}: ${sec.sectionTitle.toUpperCase()}`,
@@ -380,7 +380,7 @@ export async function GET(request: NextRequest) {
       }
 
       return new NextResponse(
-        `⚠️ Hệ thống đang bảo trì, vui lòng truy cập website: https://www.pthamnihongo.site/vi/solutions?level=${level}&exam=${examNumber}`,
+        `⚠️ Hệ thống đang bảo trì, vui lòng truy cập website: https://www.mondu.online/vi/solutions?level=${level}&exam=${examNumber}`,
         { headers: { 'Content-Type': 'text/plain; charset=utf-8' } },
       );
     }
@@ -509,7 +509,7 @@ export async function POST(request: NextRequest) {
     const pool = getDbPool();
     const examPkgId = `${exam.level}_de${String(exam.examNumber).padStart(2, '0')}`;
     const totalQuestions = exam.questions.length;
-    const detailWebUrl = `https://www.pthamnihongo.site/vi/solutions?level=${exam.level}&exam=${exam.examNumber}`;
+    const detailWebUrl = `https://www.mondu.online/vi/solutions?level=${exam.level}&exam=${exam.examNumber}`;
 
     // 1. Partition into sessions
     interface SessionPlan {

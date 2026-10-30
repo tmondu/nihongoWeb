@@ -105,7 +105,7 @@ export async function generatePageMetadata(
   // };
 
   // const imageType = getImageType(key);
-  // const ogImageUrl = `https://www.pthamnihongo.site/api/og?title=${encodeURIComponent(titleShort)}&description=${encodeURIComponent(description.slice(0, 100))}&type=${imageType}`;
+  // const ogImageUrl = `https://www.mondu.online/api/og?title=${encodeURIComponent(titleShort)}&description=${encodeURIComponent(description.slice(0, 100))}&type=${imageType}`;
 
   const canonicalUrl = joinUrl(baseUrl, locale, pathname);
   return {

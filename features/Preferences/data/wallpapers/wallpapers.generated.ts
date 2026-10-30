@@ -28,148 +28,146 @@ export const GENERATED_WALLPAPERS: GeneratedWallpaper[] = [
   {
     id: 'alpine-stars',
     name: 'Alpine Stars',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/alpine-stars-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/alpine-stars-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/alpine-stars-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/alpine-stars-2560w.webp',
   },
   {
     id: 'bangkok-grand-palace-fireworks',
     name: 'Bangkok Grand Palace Fireworks',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-grand-palace-fireworks-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-grand-palace-fireworks-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-grand-palace-fireworks-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-grand-palace-fireworks-2560w.webp',
   },
   {
     id: 'bangkok-night',
     name: 'Bangkok Night',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-night-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-night-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-night-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-night-2560w.webp',
   },
   {
     id: 'bangkok-night-pool',
     name: 'Bangkok Night Pool',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-night-pool-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-night-pool-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-night-pool-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-night-pool-2560w.webp',
   },
   {
     id: 'bangkok-park',
     name: 'Bangkok Park',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-park-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-park-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-park-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-park-2560w.webp',
   },
   {
     id: 'bangkok-river',
     name: 'Bangkok River',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-river-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-river-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-river-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-river-2560w.webp',
   },
   {
     id: 'bangkok-riverside-night',
     name: 'Bangkok Riverside Night',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-riverside-night-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-riverside-night-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-riverside-night-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-riverside-night-2560w.webp',
   },
   {
     id: 'bangkok-storm',
     name: 'Bangkok Storm',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-storm-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-storm-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-storm-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-storm-2560w.webp',
   },
   {
     id: 'bangkok-sunset',
     name: 'Bangkok Sunset',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/bangkok-sunset-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/bangkok-sunset-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/bangkok-sunset-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/bangkok-sunset-2560w.webp',
   },
   {
     id: 'blue-mountain-sunrise',
     name: 'Blue Mountain Sunrise',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/blue-mountain-sunrise-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/blue-mountain-sunrise-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/blue-mountain-sunrise-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/blue-mountain-sunrise-2560w.webp',
   },
   {
     id: 'chureito-fuji-sunset',
     name: 'Chureito Fuji Sunset',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/chureito-fuji-sunset-1920w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/chureito-fuji-sunset-1920w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/chureito-fuji-sunset-1920w.webp',
+      'https://assets.www.mondu.online/wallpapers/chureito-fuji-sunset-1920w.webp',
   },
   {
     id: 'crimson-coder',
     name: 'Crimson Coder',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/crimson-coder-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/crimson-coder-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/crimson-coder-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/crimson-coder-2560w.webp',
   },
   {
     id: 'dawn-pagoda',
     name: 'Dawn Pagoda',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/dawn-pagoda-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/dawn-pagoda-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/dawn-pagoda-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/dawn-pagoda-2560w.webp',
   },
   {
     id: 'dubai-skyline',
     name: 'Dubai Skyline',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/dubai-skyline-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/dubai-skyline-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/dubai-skyline-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/dubai-skyline-2560w.webp',
   },
   {
     id: 'island-night',
     name: 'Island Night',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/island-night-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/island-night-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/island-night-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/island-night-2560w.webp',
   },
   {
     id: 'marina-sunset',
     name: 'Marina Sunset',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/marina-sunset-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/marina-sunset-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/marina-sunset-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/marina-sunset-2560w.webp',
   },
   {
     id: 'moonlit-crossing',
     name: 'Moonlit Crossing',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/moonlit-crossing-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/moonlit-crossing-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/moonlit-crossing-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/moonlit-crossing-2560w.webp',
   },
   {
     id: 'moraine-lake-sunrise',
     name: 'Moraine Lake Sunrise',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/moraine-lake-sunrise-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/moraine-lake-sunrise-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/moraine-lake-sunrise-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/moraine-lake-sunrise-2560w.webp',
   },
   {
     id: 'neon-cafe',
     name: 'Neon Cafe',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/neon-cafe-1920w.avif',
-    urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/neon-cafe-1920w.webp',
+    url: 'https://assets.www.mondu.online/wallpapers/neon-cafe-1920w.avif',
+    urlWebp: 'https://assets.www.mondu.online/wallpapers/neon-cafe-1920w.webp',
   },
   {
     id: 'retro-city',
     name: 'Retro City',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/retro-city-1920w.avif',
-    urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/retro-city-1920w.webp',
+    url: 'https://assets.www.mondu.online/wallpapers/retro-city-1920w.avif',
+    urlWebp: 'https://assets.www.mondu.online/wallpapers/retro-city-1920w.webp',
   },
   {
     id: 'tokyo-tower',
     name: 'Tokyo Tower',
-    url: 'https://assets.www.pthamnihongo.site/wallpapers/tokyo-tower-2560w.avif',
+    url: 'https://assets.www.mondu.online/wallpapers/tokyo-tower-2560w.avif',
     urlWebp:
-      'https://assets.www.pthamnihongo.site/wallpapers/tokyo-tower-2560w.webp',
+      'https://assets.www.mondu.online/wallpapers/tokyo-tower-2560w.webp',
   },
 ];

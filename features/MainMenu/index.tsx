@@ -35,10 +35,10 @@ export default function MainMenu() {
           <Link
             href='/'
             className='group flex items-center gap-2 select-none'
-            title='PThamSS Trang chủ'
+            title='Mondu Trang chủ'
           >
             <h1 className='flex items-center gap-1.5 text-2xl font-black tracking-tight text-(--main-color) sm:text-3xl'>
-              PThamSS
+              Mondu
               <Heart className='inline-block size-5 fill-current text-red-500 transition-transform group-hover:scale-110 sm:size-6' />
             </h1>
           </Link>
@@ -77,8 +77,7 @@ export default function MainMenu() {
       {/* Subtle Footer Links */}
       <footer className='mt-8 flex w-full max-w-4xl flex-wrap items-center justify-center gap-4 border-t border-(--border-color)/40 pt-6 text-xs text-(--secondary-color) sm:justify-between'>
         <span className='text-xs opacity-70'>
-          © {new Date().getFullYear()} PThamSS. Đồng hành học tiếng Nhật mỗi
-          ngày.
+          © {new Date().getFullYear()} Mondu. Đồng hành học tiếng Nhật mỗi ngày.
         </span>
         <div className='flex items-center gap-4'>
           {legalLinks.map((link, i) => (

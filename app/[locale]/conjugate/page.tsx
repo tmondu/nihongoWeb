@@ -43,7 +43,7 @@ export async function generateMetadata({
     if (verbInfo) {
       return generateNextMetadata(verbInfo, {
         locale,
-        baseUrl: 'https://www.pthamnihongo.site',
+        baseUrl: 'https://www.mondu.online',
       });
     }
   }
@@ -51,7 +51,7 @@ export async function generateMetadata({
   // Return base meta for the conjugator page
   return generateNextMetadata(undefined, {
     locale,
-    baseUrl: 'https://www.pthamnihongo.site',
+    baseUrl: 'https://www.mondu.online',
   });
 }
 
@@ -91,10 +91,10 @@ export default async function ConjugatePage({
       <StructuredData data={structuredData} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: 'https://www.pthamnihongo.site' },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'Verb Conjugator',
-            url: 'https://www.pthamnihongo.site/conjugate',
+            url: 'https://www.mondu.online/conjugate',
           },
         ]}
       />
@@ -111,7 +111,7 @@ export default async function ConjugatePage({
           itemType='https://schema.org/WebApplication'
           id='conjugator'
         >
-          <meta itemProp='name' content='PThamSS Japanese Verb Conjugator' />
+          <meta itemProp='name' content='Mondu Japanese Verb Conjugator' />
           <meta
             itemProp='applicationCategory'
             content='EducationalApplication'

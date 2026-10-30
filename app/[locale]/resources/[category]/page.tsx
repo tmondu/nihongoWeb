@@ -62,8 +62,8 @@ export async function generateMetadata({
       : category.description;
 
   const title = isVi
-    ? `Top ${categoryName} học tiếng Nhật tốt nhất - ${resourceCount}+ tài nguyên | PThamSS`
-    : `Best ${category.name} for Learning Japanese - ${resourceCount}+ Resources | PThamSS`;
+    ? `Top ${categoryName} học tiếng Nhật tốt nhất - ${resourceCount}+ tài nguyên | Mondu`
+    : `Best ${category.name} for Learning Japanese - ${resourceCount}+ Resources | Mondu`;
 
   const description = isVi
     ? `${categoryDesc} Khám phá hơn ${resourceCount} ${categoryName.toLowerCase()} được tuyển chọn giúp bạn tự học tiếng Nhật hiệu quả.`
@@ -83,7 +83,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://www.pthamnihongo.site/resources/${categoryId}`,
+      url: `https://www.mondu.online/resources/${categoryId}`,
       type: 'website',
     },
     twitter: {
@@ -92,7 +92,7 @@ export async function generateMetadata({
       description,
     },
     alternates: {
-      canonical: `https://www.pthamnihongo.site/resources/${categoryId}`,
+      canonical: `https://www.mondu.online/resources/${categoryId}`,
     },
   };
 }
@@ -161,14 +161,14 @@ export default async function CategoryPage({
       : category.description;
 
   const breadcrumbItems = [
-    { name: isVi ? 'Trang chủ' : 'Home', url: 'https://www.pthamnihongo.site' },
+    { name: isVi ? 'Trang chủ' : 'Home', url: 'https://www.mondu.online' },
     {
       name: isVi ? 'Tài nguyên' : 'Resources',
-      url: 'https://www.pthamnihongo.site/resources',
+      url: 'https://www.mondu.online/resources',
     },
     {
       name: categoryName,
-      url: `https://www.pthamnihongo.site/resources/${categoryId}`,
+      url: `https://www.mondu.online/resources/${categoryId}`,
     },
   ];
 

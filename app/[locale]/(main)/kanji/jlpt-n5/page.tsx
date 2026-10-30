@@ -36,21 +36,21 @@ export default async function KanjiJlptN5Page({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.pthamnihongo.site/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online/${locale}` },
           {
             name: 'Kanji',
-            url: `https://www.pthamnihongo.site/${locale}/kanji`,
+            url: `https://www.mondu.online/${locale}/kanji`,
           },
           {
             name: 'JLPT N5',
-            url: `https://www.pthamnihongo.site/${locale}/kanji/jlpt-n5`,
+            url: `https://www.mondu.online/${locale}/kanji/jlpt-n5`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N5 Kanji Course - Japanese Kanji Practice'
         description='Study JLPT N5 kanji with interactive drills and set-based practice. Improve kanji recognition, readings, and meanings with immediate feedback and progress tracking.'
-        url={`https://www.pthamnihongo.site/${locale}/kanji/jlpt-n5`}
+        url={`https://www.mondu.online/${locale}/kanji/jlpt-n5`}
         educationalLevel='Beginner'
         skillLevel='JLPT N5'
         learningResourceType='Interactive Course'
@@ -58,14 +58,14 @@ export default async function KanjiJlptN5Page({
       <LearningResourceSchema
         name='JLPT N5 Kanji Practice'
         description='Targeted JLPT N5 kanji practice with selectable levels, quick selection tools, and kanji set dictionaries for exam-focused study.'
-        url={`https://www.pthamnihongo.site/${locale}/kanji/jlpt-n5`}
+        url={`https://www.mondu.online/${locale}/kanji/jlpt-n5`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Beginner']}
         teaches='JLPT N5 kanji readings, meanings, and recognition'
         assesses='JLPT N5 kanji recall speed and accuracy'
         timeRequired='PT20M'
         isAccessibleForFree={true}
-        provider={{ name: 'PThamSS', url: 'https://www.pthamnihongo.site' }}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
         educationalAlignment={{
           alignmentType: 'educationalLevel',
           educationalFramework: 'JLPT',

@@ -34,7 +34,7 @@ export async function submitUrlToIndexNow(url: string): Promise<{
 
 /**
  * Submit multiple URLs to IndexNow for instant indexing
- * @param urls - Array of full URLs to submit (must be www.pthamnihongo.site domain)
+ * @param urls - Array of full URLs to submit (must be www.mondu.online domain)
  * @returns Promise with submission result
  */
 export async function submitUrlsToIndexNow(urls: string[]): Promise<{

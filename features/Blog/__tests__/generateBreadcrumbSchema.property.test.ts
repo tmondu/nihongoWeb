@@ -71,7 +71,7 @@ const blogPostArb: fc.Arbitrary<BlogPost> = fc.record({
  * **Validates: Requirements 4.3**
  */
 describe('Property 11: Breadcrumb Schema Correctly Structured', () => {
-  const BASE_URL = 'https://www.pthamnihongo.site';
+  const BASE_URL = 'https://www.mondu.online';
 
   it('schema has @type as BreadcrumbList', () => {
     fc.assert(
@@ -157,9 +157,7 @@ describe('Property 11: Breadcrumb Schema Correctly Structured', () => {
         const schema = generateBreadcrumbSchema(post, { baseUrl: BASE_URL });
         const postItem = schema.itemListElement[2];
         expect(postItem.name).toBe(post.title);
-        expect(postItem.item).toBe(
-          `${BASE_URL}/academy/${post.slug}`,
-        );
+        expect(postItem.item).toBe(`${BASE_URL}/academy/${post.slug}`);
       }),
       { numRuns: 100 },
     );

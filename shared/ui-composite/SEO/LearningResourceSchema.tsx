@@ -152,7 +152,7 @@ export function generateLearningResourceSchema(
  * <LearningResourceSchema
  *   name="Hiragana Practice Game"
  *   description="Interactive game to practice Hiragana characters"
- *   url="https://www.pthamnihongo.site/kana/train"
+ *   url="https://www.mondu.online/kana/train"
  *   learningResourceType="Game"
  *   educationalLevel={["Beginner", "Intermediate"]}
  *   teaches="Japanese Hiragana Characters"
