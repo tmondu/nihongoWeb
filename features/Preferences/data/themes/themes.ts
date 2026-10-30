@@ -476,6 +476,8 @@ export function applyThemeObject(theme: Theme) {
       effectiveTheme.secondaryColorAccent,
     );
   }
+
+  root.setAttribute('data-theme', theme.id);
 }
 
 // Helper to get a specific theme

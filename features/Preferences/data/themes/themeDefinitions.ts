@@ -99,7 +99,7 @@ const baseThemeSets: BaseThemeGroup[] = [
         displayName: 'PTham Theme',
         isLight: true,
         // Nền giấy kem dịu, độ trong 92%
-        backgroundColor: 'oklch(99.00% 0.0060 91.00 / 0.92)',
+        backgroundColor: 'oklch(0.9862 0.0142 84.58 / 0.92)',
         // Card màu trắng mờ 80% (hiệu ứng kính mờ mềm mại)
         cardColor: 'oklch(100.00% 0.0000 0.00 / 0.80)',
         // Viền hồng nhạt trong suốt 50%
