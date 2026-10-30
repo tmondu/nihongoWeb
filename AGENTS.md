@@ -120,4 +120,20 @@ PThamSS is organised by feature: app/, features/, shared/, core/. Keep business 
 
 ---
 
-**Last Updated**: 2026-09-21
+### 4. Tuyệt đối KHÔNG thêm `.next` hoặc `.next/dev/types` vào `include` của `tsconfig.json`
+
+**Symptom**: `npm run build` trên Docker/Railway bị fail ở bước `Creating an optimized production build ... (exit code 1)`.
+
+**Root cause**: Next.js 15 sẽ tự động quản lý types của nó. Nếu `include` trong `tsconfig.json` có chứa `".next/types/**/*.ts"` hoặc `".next/dev/types/**/*.ts"`, tiến trình build production sạch (clean build) sẽ quét vào thư mục chưa tồn tại hoặc xung đột validator type.
+
+**Fix**: `tsconfig.json` chỉ giữ `include` cơ bản:
+
+```json
+"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.js"]
+```
+
+và luôn đảm bảo `".next"` nằm trong `"exclude"`.
+
+---
+
+**Last Updated**: 2026-10-30
