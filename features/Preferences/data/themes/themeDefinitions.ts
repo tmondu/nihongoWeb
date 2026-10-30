@@ -95,6 +95,16 @@ const baseThemeSets: BaseThemeGroup[] = [
         secondaryColor: 'oklch(45.00% 0.0380 15.00 / 1)',
       },
       {
+        id: 'ptham-theme',
+        displayName: 'PTham Theme',
+        isLight: true,
+        backgroundColor: 'oklch(99.39% 0.0082 91.48 / 1)',
+        cardColor: 'oklch(100.00% 0.0000 89.88 / 1)',
+        borderColor: 'oklch(94.13% 0.0143 343.21 / 1)',
+        mainColor: 'oklch(65.50% 0.1838 6.64 / 1)',
+        secondaryColor: 'oklch(58.76% 0.1389 241.97 / 1)',
+      },
+      {
         id: 'light',
         isLight: true,
         backgroundColor: 'oklch(100.00% 0.0000 89.88 / 1)',
