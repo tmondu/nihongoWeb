@@ -7,16 +7,16 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   const securityTxt = `Contact: https://github.com/tmondu/nihongoWeb/security
-Contact: mailto:security@www.pthamnihongo.site
+Contact: mailto:security@www.mondu.online
 Expires: 2026-12-31T23:59:59.000Z
 Preferred-Languages: en, es
-Canonical: https://www.pthamnihongo.site/.well-known/security.txt
-Policy: https://www.pthamnihongo.site/security
-Acknowledgments: https://www.pthamnihongo.site/credits
+Canonical: https://www.mondu.online/.well-known/security.txt
+Policy: https://www.mondu.online/security
+Acknowledgments: https://www.mondu.online/credits
 
-# Security Policy for PThamSS
+# Security Policy for Mondu
 # If you discover a security vulnerability, please report it responsibly.
-# See our security policy at https://www.pthamnihongo.site/security for details.`;
+# See our security policy at https://www.mondu.online/security for details.`;
 
   return new NextResponse(securityTxt, {
     headers: {

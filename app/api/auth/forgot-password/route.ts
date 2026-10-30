@@ -165,12 +165,12 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             from: env.resend.fromEmail,
             to: [email],
-            subject: '[PThamSS] Đặt lại mật khẩu tài khoản của bạn',
+            subject: '[Mondu] Đặt lại mật khẩu tài khoản của bạn',
             html: `
               <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
                 <h2 style="color: #3b82f6; text-align: center;">Yêu cầu đặt lại mật khẩu</h2>
                 <p>Xin chào,</p>
-                <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản <strong>PThamSS</strong> của bạn. Bấm vào nút dưới đây để thiết lập mật khẩu mới:</p>
+                <p>Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản <strong>Mondu</strong> của bạn. Bấm vào nút dưới đây để thiết lập mật khẩu mới:</p>
                 <div style="text-align: center; margin: 30px 0;">
                   <a href="${resetLink}" style="background-color: #3b82f6; color: white; padding: 12px 24px; border-radius: 8px; font-weight: bold; text-decoration: none; display: inline-block;">Đặt lại mật khẩu</a>
                 </div>
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
                 <p style="word-break: break-all; font-size: 12px; color: #3b82f6;"><a href="${resetLink}">${resetLink}</a></p>
                 <p style="color: #64748b; font-size: 14px; margin-top: 20px;">Liên kết này có hiệu lực trong vòng 1 giờ. Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
                 <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-                <p style="text-align: center; color: #94a3b8; font-size: 12px;">© ${new Date().getFullYear()} PThamSS. All rights reserved.</p>
+                <p style="text-align: center; color: #94a3b8; font-size: 12px;">© ${new Date().getFullYear()} Mondu. All rights reserved.</p>
               </div>
             `,
           }),

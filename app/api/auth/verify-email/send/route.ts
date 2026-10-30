@@ -82,18 +82,18 @@ export async function POST(request: NextRequest) {
           body: JSON.stringify({
             from: env.resend.fromEmail,
             to: [email],
-            subject: `[PThamSS] Mã xác thực email của bạn: ${code}`,
+            subject: `[Mondu] Mã xác thực email của bạn: ${code}`,
             html: `
               <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
                 <h2 style="color: #3b82f6; text-align: center;">Xác thực Email của bạn</h2>
                 <p>Xin chào,</p>
-                <p>Cảm ơn bạn đã sử dụng nền tảng học tập <strong>PThamSS</strong>. Dưới đây là mã xác thực (OTP) để xác thực địa chỉ email của bạn:</p>
+                <p>Cảm ơn bạn đã sử dụng nền tảng học tập <strong>Mondu</strong>. Dưới đây là mã xác thực (OTP) để xác thực địa chỉ email của bạn:</p>
                 <div style="text-align: center; margin: 30px 0;">
                   <span style="font-size: 32px; font-weight: bold; tracking-spacing: 4px; background-color: #f1f5f9; padding: 10px 20px; border-radius: 8px; color: #1e3a8a; display: inline-block;">${code}</span>
                 </div>
                 <p style="color: #64748b; font-size: 14px;">Mã này có hiệu lực trong vòng 15 phút. Nếu bạn không yêu cầu mã này, vui lòng bỏ qua email này.</p>
                 <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-                <p style="text-align: center; color: #94a3b8; font-size: 12px;">© ${new Date().getFullYear()} PThamSS. All rights reserved.</p>
+                <p style="text-align: center; color: #94a3b8; font-size: 12px;">© ${new Date().getFullYear()} Mondu. All rights reserved.</p>
               </div>
             `,
           }),

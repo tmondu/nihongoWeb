@@ -4,7 +4,7 @@ import GoogleAnalytics from '@/core/analytics/GoogleAnalytics';
 import MSClarity from '@/core/analytics/MSClarity';
 import {
   StructuredData,
-  pthamssSchema,
+  monduSchema,
 } from '@/shared/ui-composite/SEO/StructuredData';
 import { Metadata, Viewport } from 'next';
 import Script from 'next/script';
@@ -15,7 +15,7 @@ import CustomContextMenu from '@/shared/ui-composite/Security/CustomContextMenu'
 
 const googleVerificationToken = process.env.GOOGLE_VERIFICATION_TOKEN || '';
 const msVerificationToken = process.env.MS_VERIFICATION_TOKEN || '';
-const SITE_URL = process.env.SITE_URL || 'https://www.pthamnihongo.site';
+const SITE_URL = process.env.SITE_URL || 'https://www.mondu.online';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   title: {
     default:
-      'PThamSS - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng trực tuyến',
-    template: '%s | PThamSS',
+      'Mondu - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng trực tuyến',
+    template: '%s | Mondu',
   },
   description:
-    'Làm chủ tiếng Nhật cùng PThamSS - một nền tảng học tập vui vẻ, thẩm mỹ, tối giản dành cho Hiragana, Katakana, Kanji và Từ vựng. Luyện tập với các trò chơi tương tác, theo dõi tiến trình và cá nhân hóa trải nghiệm của bạn với hơn 100 chủ đề.',
+    'Làm chủ tiếng Nhật cùng Mondu - một nền tảng học tập vui vẻ, thẩm mỹ, tối giản dành cho Hiragana, Katakana, Kanji và Từ vựng. Luyện tập với các trò chơi tương tác, theo dõi tiến trình và cá nhân hóa trải nghiệm của bạn với hơn 100 chủ đề.',
   icons: {
     icon: [
       { url: '/favicon.ico?v=2' },
@@ -76,30 +76,30 @@ export const metadata: Metadata = {
     'flashcard tiếng nhật',
     'trò chơi tiếng nhật',
   ],
-  authors: [{ name: 'PThamSS', url: SITE_URL }],
-  creator: 'PThamSS',
-  publisher: 'PThamSS',
+  authors: [{ name: 'Mondu', url: SITE_URL }],
+  creator: 'Mondu',
+  publisher: 'Mondu',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'PThamSS - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng',
+    title: 'Mondu - Học tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng',
     description:
-      'Làm chủ tiếng Nhật cùng PThamSS - một nền tảng học tập vui vẻ, thẩm mỹ, tối giản dành cho Hiragana, Katakana, Kanji và Từ vựng. Luyện tập với các trò chơi tương tác, theo dõi tiến trình và cá nhân hóa trải nghiệm của bạn với hơn 100 chủ đề.',
+      'Làm chủ tiếng Nhật cùng Mondu - một nền tảng học tập vui vẻ, thẩm mỹ, tối giản dành cho Hiragana, Katakana, Kanji và Từ vựng. Luyện tập với các trò chơi tương tác, theo dõi tiến trình và cá nhân hóa trải nghiệm của bạn với hơn 100 chủ đề.',
     url: SITE_URL,
-    siteName: 'PThamSS',
+    siteName: 'Mondu',
     type: 'website',
     locale: 'vi_VN',
     alternateLocale: ['en_US', 'es_ES'],
   },
   twitter: {
     card: 'summary',
-    title: 'PThamSS - Học tiếng Nhật trực tuyến',
+    title: 'Mondu - Học tiếng Nhật trực tuyến',
     description:
       'Làm chủ tiếng Nhật Hiragana, Katakana, Kanji & Từ vựng với các trò chơi tương tác, flashcard và giao diện tuyệt đẹp.',
-    creator: '@ptham',
+    creator: '@mondu',
   },
   alternates: {
     canonical: SITE_URL,
@@ -137,7 +137,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        <StructuredData data={pthamssSchema} />
+        <StructuredData data={monduSchema} />
         {/* DNS prefetch for external domains - resolve DNS early */}
         {isAnalyticsEnabled && (
           <>
@@ -298,9 +298,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <p
               style={{ fontSize: '15px', color: '#a0a0b0', maxWidth: '400px' }}
             >
-              PThamSS là ứng dụng tương tác học tiếng Nhật yêu cầu bật
-              JavaScript để hoạt động. Vui lòng bật lại JavaScript trong cài đặt
-              trình duyệt để tiếp tục.
+              Mondu là ứng dụng tương tác học tiếng Nhật yêu cầu bật JavaScript
+              để hoạt động. Vui lòng bật lại JavaScript trong cài đặt trình
+              duyệt để tiếp tục.
             </p>
           </div>
         </noscript>
