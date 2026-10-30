@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 
-const ADMIN_SESSION_COOKIE = 'ptham_admin_session';
+const ADMIN_SESSION_COOKIE = 'mondu_admin_session';
 
 export async function setAdminSession(username: string): Promise<void> {
   const cookieStore = await cookies();

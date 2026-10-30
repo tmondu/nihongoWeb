@@ -649,7 +649,7 @@ export default function AdminExercisesPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', 'mau_cau_hoi_pthamss.csv');
+    link.setAttribute('download', 'mau_cau_hoi_mondu.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

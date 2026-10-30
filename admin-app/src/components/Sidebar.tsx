@@ -84,7 +84,7 @@ export default function Sidebar() {
         </div>
         <div>
           <h1 className='text-sm font-bold tracking-tight text-white'>
-            PTham Admin
+            Mondu Admin
           </h1>
           <p className='text-[10px] font-medium text-amber-500'>
             Quản trị hệ thống

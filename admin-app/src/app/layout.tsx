@@ -4,7 +4,7 @@ import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 
 export const metadata: Metadata = {
-  title: 'PTham Admin Dashboard',
+  title: 'Mondu Admin Dashboard',
   description: 'Hệ thống quản trị Nihongo Mondu',
 };
 

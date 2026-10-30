@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = request.cookies.get('ptham_admin_session');
+  const session = request.cookies.get('mondu_admin_session');
 
   // Nếu chưa đăng nhập, chuyển hướng về /login
   if (!session) {
