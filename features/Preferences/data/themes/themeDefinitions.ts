@@ -105,7 +105,7 @@ const baseThemeSets: BaseThemeGroup[] = [
         // Viền hồng nhạt trong suốt 50%
         borderColor: 'oklch(92.00% 0.0150 345.00 / 0.50)',
         // Hồng dâu pastel dịu mắt
-        mainColor: 'oklch(68.00% 0.1400 5.00 / 0.50)',
+        mainColor: 'oklch(68.00% 0.1400 5.00 / 0.80)',
         // Xanh da trời pastel dịu nhẹ
         secondaryColor: 'oklch(0.3162 0.1653 264.7 / 1)',
       },
