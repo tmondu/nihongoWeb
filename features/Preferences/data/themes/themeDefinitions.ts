@@ -12,7 +12,8 @@ import {
   LucideIcon,
   CloudLightning,
   TreePine,
-  Sparkles,
+  Palette,
+  Shuffle,
 } from 'lucide-react';
 import { GENERATED_WALLPAPERS } from '../wallpapers/wallpapers.generated';
 
@@ -56,7 +57,7 @@ const baseThemeSets: BaseThemeGroup[] = [
     ? [
         {
           name: 'Premium (experimental, unstable)',
-          icon: Sparkles,
+          icon: Palette,
           isLight: false,
           themes: premiumThemes,
         } as BaseThemeGroup,
@@ -134,7 +135,7 @@ const baseThemeSets: BaseThemeGroup[] = [
       {
         id: 'long',
         backgroundColor: 'oklch(84.00% 0.055 6.93 / 1)',
-        mainColor: ' oklch(63.71% 0.1862 304.76 / 1)',
+        mainColor: 'oklch(63.71% 0.1862 304.76 / 1)',
         secondaryColor: 'oklch(66.54% 0.2210 304.03 / 1)',
       },
       {
@@ -1199,7 +1200,7 @@ const baseThemeSets: BaseThemeGroup[] = [
   },
   {
     name: 'Special',
-    icon: Sparkles,
+    icon: Shuffle,
     isLight: false,
     themes: [
       {
@@ -1209,7 +1210,7 @@ const baseThemeSets: BaseThemeGroup[] = [
         // NOTE: The theme button has a crazy gradient background applied in Themes.tsx
         id: 'long',
         backgroundColor: 'oklch(84.00% 0.055 6.93 / 1)',
-        mainColor: ' oklch(63.71% 0.1862 304.76 / 1)',
+        mainColor: 'oklch(63.71% 0.1862 304.76 / 1)',
         secondaryColor: 'oklch(66.54% 0.2210 304.03 / 1)',
       },
       {
