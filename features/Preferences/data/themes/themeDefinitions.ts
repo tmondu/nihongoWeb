@@ -98,11 +98,16 @@ const baseThemeSets: BaseThemeGroup[] = [
         id: 'ptham-theme',
         displayName: 'PTham Theme',
         isLight: true,
-        backgroundColor: 'oklch(99.39% 0.0082 91.48 / 1)',
-        cardColor: 'oklch(100.00% 0.0000 89.88 / 1)',
-        borderColor: 'oklch(94.13% 0.0143 343.21 / 1)',
-        mainColor: 'oklch(65.50% 0.1838 6.64 / 1)',
-        secondaryColor: 'oklch(58.76% 0.1389 241.97 / 1)',
+        // Nền giấy kem dịu, độ trong 92%
+        backgroundColor: 'oklch(99.00% 0.0060 91.00 / 0.92)',
+        // Card màu trắng mờ 80% (hiệu ứng kính mờ mềm mại)
+        cardColor: 'oklch(100.00% 0.0000 0.00 / 0.80)',
+        // Viền hồng nhạt trong suốt 50%
+        borderColor: 'oklch(92.00% 0.0150 345.00 / 0.50)',
+        // Hồng dâu pastel dịu mắt
+        mainColor: 'oklch(68.00% 0.1400 5.00 / 1)',
+        // Xanh da trời pastel dịu nhẹ
+        secondaryColor: 'oklch(62.00% 0.1000 240.00 / 1)',
       },
       {
         id: 'light',
