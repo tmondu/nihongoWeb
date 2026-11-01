@@ -92,7 +92,7 @@ const mainNavItems: NavItem[] = [
     icon: Star,
     subItems: [
       {
-        href: '/progress/lo-trinh',
+        href: '/progress/roadmap',
         labelKey: 'personalRoadmap',
         icon: MapIcon,
         isSubItem: true,
