@@ -30,6 +30,8 @@ import {
   Mic,
   BookMarked,
   Puzzle,
+  Map as MapIcon,
+  MessageCircle,
 } from 'lucide-react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -84,9 +86,106 @@ type NavSection = {
 
 const mainNavItems: NavItem[] = [
   { href: '/', labelKey: 'home', icon: House },
-  { href: '/progress', labelKey: 'progress', icon: Star },
+  {
+    href: '/progress',
+    labelKey: 'progress',
+    icon: Star,
+    subItems: [
+      {
+        href: '/progress/lo-trinh',
+        labelKey: 'personalRoadmap',
+        icon: MapIcon,
+        isSubItem: true,
+      },
+    ],
+  },
   { href: '/kana', labelKey: 'kana', charIcon: 'あ' },
-  { href: '/vocabulary', labelKey: 'vocabulary', charIcon: '語' },
+  {
+    href: '/vocabulary',
+    labelKey: 'vocabulary',
+    charIcon: '語',
+    subItems: [
+      {
+        href: '/vocabulary/jlpt-n5',
+        labelKey: 'vocabN5',
+        charIcon: 'N5',
+        isSubItem: true,
+      },
+      {
+        href: '/vocabulary/jlpt-n4',
+        labelKey: 'vocabN4',
+        charIcon: 'N4',
+        isSubItem: true,
+      },
+      {
+        href: '/vocabulary/jlpt-n3',
+        labelKey: 'vocabN3',
+        charIcon: 'N3',
+        isSubItem: true,
+      },
+      {
+        href: '/vocabulary/jlpt-n2',
+        labelKey: 'vocabN2',
+        charIcon: 'N2',
+        isSubItem: true,
+      },
+      {
+        href: '/vocabulary/jlpt-n1',
+        labelKey: 'vocabN1',
+        charIcon: 'N1',
+        isSubItem: true,
+      },
+      {
+        href: '/shadowing',
+        labelKey: 'kaiwaTopics',
+        icon: Mic,
+        isSubItem: true,
+      },
+    ],
+  },
+  {
+    href: '/grammar',
+    labelKey: 'grammar',
+    charIcon: '文',
+    subItems: [
+      {
+        href: '/grammar/n5',
+        labelKey: 'grammarN5',
+        charIcon: 'N5',
+        isSubItem: true,
+      },
+      {
+        href: '/grammar/n4',
+        labelKey: 'grammarN4',
+        charIcon: 'N4',
+        isSubItem: true,
+      },
+      {
+        href: '/grammar/n3',
+        labelKey: 'grammarN3',
+        charIcon: 'N3',
+        isSubItem: true,
+      },
+      {
+        href: '/grammar/n2',
+        labelKey: 'grammarN2',
+        charIcon: 'N2',
+        isSubItem: true,
+      },
+      {
+        href: '/grammar/n1',
+        labelKey: 'grammarN1',
+        charIcon: 'N1',
+        isSubItem: true,
+      },
+      {
+        href: '/grammar/kaiwa',
+        labelKey: 'grammarKaiwa',
+        icon: MessageCircle,
+        isSubItem: true,
+      },
+    ],
+  },
   {
     href: '/kanji',
     labelKey: 'kanji',
@@ -171,6 +270,50 @@ const mainNavItems: NavItem[] = [
     href: '/exercises',
     labelKey: 'exercises',
     icon: ClipboardCheck,
+    subItems: [
+      {
+        href: '/exercises',
+        labelKey: 'exercisesByGrammar',
+        icon: BookOpen,
+        isSubItem: true,
+      },
+      {
+        href: '/exercises?level=n5',
+        labelKey: 'exercisesN5',
+        charIcon: 'N5',
+        isSubItem: true,
+      },
+      {
+        href: '/exercises?level=n4',
+        labelKey: 'exercisesN4',
+        charIcon: 'N4',
+        isSubItem: true,
+      },
+      {
+        href: '/exercises?level=n3',
+        labelKey: 'exercisesN3',
+        charIcon: 'N3',
+        isSubItem: true,
+      },
+      {
+        href: '/exercises?level=n2',
+        labelKey: 'exercisesN2',
+        charIcon: 'N2',
+        isSubItem: true,
+      },
+      {
+        href: '/exercises?level=n1',
+        labelKey: 'exercisesN1',
+        charIcon: 'N1',
+        isSubItem: true,
+      },
+      {
+        href: '/jlpt',
+        labelKey: 'jlptExams',
+        icon: FileCheck,
+        isSubItem: true,
+      },
+    ],
   },
   {
     href: '/solutions',
@@ -951,6 +1094,18 @@ const Sidebar = () => {
       return (
         pathWithoutLocale === '/vocabulary' ||
         pathWithoutLocale.startsWith('/vocabulary/')
+      );
+    }
+    if (href === '/grammar') {
+      return (
+        pathWithoutLocale === '/grammar' ||
+        pathWithoutLocale.startsWith('/grammar/')
+      );
+    }
+    if (href === '/progress') {
+      return (
+        pathWithoutLocale === '/progress' ||
+        pathWithoutLocale.startsWith('/progress/')
       );
     }
     if (href === '/classroom') {
