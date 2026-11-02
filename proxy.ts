@@ -83,6 +83,7 @@ export default async function proxy(request: NextRequest) {
     canonicalPath.startsWith('/kana') ||
     canonicalPath.startsWith('/kanji') ||
     canonicalPath.startsWith('/vocabulary') ||
+    canonicalPath.startsWith('/grammar') ||
     canonicalPath.startsWith('/translate') ||
     canonicalPath.startsWith('/conjugate') ||
     canonicalPath.startsWith('/academy') ||
