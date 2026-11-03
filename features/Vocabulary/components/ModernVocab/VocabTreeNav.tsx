@@ -1,6 +1,7 @@
 'use client';
 
-import { List, Mic, ChevronRight } from 'lucide-react';
+import { List, Mic, ChevronRight, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Link } from '@/core/i18n/routing';
 import { cn } from '@/shared/utils/utils';
 import type { VocabLevel, StudySection, LessonData } from '../../types/study';
 import { LESSON_COUNT } from '../../data/lessonsN5';
@@ -14,6 +15,7 @@ interface VocabTreeNavProps {
   expandedSpeak: boolean;
   learned: string[];
   scores: Record<string, number>;
+  singleMode?: StudySection;
   onToggle: (section: StudySection) => void;
   onSelect: (section: StudySection, lessonId: number) => void;
 }
@@ -44,12 +46,100 @@ export default function VocabTreeNav({
   expandedSpeak,
   learned,
   scores,
+  singleMode,
   onToggle,
   onSelect,
 }: VocabTreeNavProps) {
   const count = LESSON_COUNT[level];
   const lessonIds = Array.from({ length: count }, (_, i) => i + 1);
 
+  // If singleMode is active, render a dedicated, clean lesson list
+  if (singleMode) {
+    const isVocab = singleMode === 'vocab';
+    const otherMode = isVocab ? 'pronounce' : 'words';
+    const otherLabel = isVocab ? 'Luyện phát âm' : '1000 từ vựng';
+    const currentTitle = isVocab ? '1000 từ vựng' : 'Luyện phát âm';
+
+    return (
+      <nav
+        className='font-vietnamese hidden w-60 shrink-0 flex-col gap-2 self-start lg:flex'
+        style={{ position: 'sticky', top: '1.5rem' }}
+      >
+        <Link
+          href={`/vocabulary/jlpt-${level}`}
+          className='mb-2 flex items-center gap-1.5 text-xs font-semibold text-[var(--secondary-color)] transition-colors hover:text-[var(--main-color)]'
+        >
+          <ArrowLeft size={14} /> Quay lại JLPT {level.toUpperCase()}
+        </Link>
+
+        <div className='rounded-xl border border-[var(--border-color)] bg-[var(--card-color)] p-3'>
+          <div className='mb-2 flex items-center gap-2 border-b border-[var(--border-color)] pb-2'>
+            {isVocab ? (
+              <List size={16} className='text-[var(--main-color)]' />
+            ) : (
+              <Mic size={16} className='text-purple-500' />
+            )}
+            <span className='text-sm font-bold text-[var(--foreground-color)]'>
+              {currentTitle}
+            </span>
+          </div>
+
+          <div
+            className='flex flex-col gap-0.5 overflow-y-auto pr-1'
+            style={{ maxHeight: 'calc(100vh - 240px)' }}
+          >
+            {lessonIds.map(id => {
+              const lessonData = lessons[id] ?? { words: [] };
+              const total = lessonData.words.length;
+              const done = isVocab
+                ? lessonLearnedCount(id, lessonData.words, learned)
+                : lessonScoredCount(id, lessonData.words, scores);
+              const isActive = currentLessonId === id;
+
+              return (
+                <button
+                  key={id}
+                  onClick={() => onSelect(singleMode, id)}
+                  className={cn(
+                    'flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs transition-colors',
+                    isActive
+                      ? 'bg-[var(--main-color)] font-semibold text-white shadow-sm'
+                      : 'text-[var(--secondary-color)] hover:bg-[var(--border-color)]/40 hover:text-[var(--foreground-color)]',
+                  )}
+                >
+                  <span>Bài {id}</span>
+                  {total > 0 && (
+                    <span
+                      className={cn(
+                        'text-[10px] tabular-nums',
+                        isActive
+                          ? 'text-white/90'
+                          : done === total
+                            ? 'text-green-500'
+                            : 'text-[var(--secondary-color)]',
+                      )}
+                    >
+                      {done}/{total}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <Link
+          href={`/vocabulary/jlpt-${level}/${otherMode}`}
+          className='mt-2 flex items-center justify-between rounded-lg border border-[var(--border-color)] px-3 py-2 text-xs text-[var(--secondary-color)] transition-colors hover:border-[var(--main-color)] hover:text-[var(--main-color)]'
+        >
+          <span>Sang {otherLabel}</span>
+          <ArrowRight size={13} />
+        </Link>
+      </nav>
+    );
+  }
+
+  // Multi-mode accordion tree (legacy fallback)
   const renderSection = (section: StudySection, expanded: boolean) => {
     const Icon = section === 'vocab' ? List : Mic;
     const label = section === 'vocab' ? '1000 từ vựng' : 'Luyện phát âm';

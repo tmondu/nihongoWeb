@@ -1,4 +1,4 @@
-import { VocabMenu } from '@/widgets';
+import { VocabLevelHub } from '@/features/Vocabulary';
 import type { Metadata } from 'next';
 import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
 import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
@@ -76,7 +76,7 @@ export default async function VocabularyJlptN5Page({
         }}
       />
       <FAQSchema faqs={commonMonduFAQs} />
-      <VocabMenu fixedCollection='n5' hideUnitSelector />
+      <VocabLevelHub level='n5' />
     </>
   );
 }
