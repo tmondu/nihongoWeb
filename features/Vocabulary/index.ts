@@ -2,6 +2,9 @@
 // Vocabulary Feature - Public API
 // ============================================================================
 
+// Modern Study UI (new)
+export { ModernVocabContainer } from './components/ModernVocab';
+
 // Facades (PRIMARY API - Use these in new code)
 export { useVocabSelection } from './facade';
 export type {
