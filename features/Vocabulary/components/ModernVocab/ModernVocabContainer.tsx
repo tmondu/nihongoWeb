@@ -2,11 +2,10 @@
 
 import { useCallback } from 'react';
 import { Link } from '@/core/i18n/routing';
-import { cn } from '@/shared/utils/utils';
 import useVocabStudyStore from '../../store/useVocabStudyStore';
-import { getLessons, LESSON_COUNT } from '../../data/lessonsN5';
+import { getLessons } from '../../data/lessonsN5';
 import type { VocabLevel, StudySection } from '../../types/study';
-import VocabTreeNav from './VocabTreeNav';
+import VocabLessonDropdown from './VocabLessonDropdown';
 import VocabFlashcardHero from './VocabFlashcardHero';
 import VocabTableView from './VocabTableView';
 import VocabPronounceStudio from './VocabPronounceStudio';
@@ -24,8 +23,7 @@ export default function ModernVocabContainer({
 
   const level = fixedLevel ?? store.level;
   const section = mode ?? store.section;
-  const { lessonId, expandedVocab, expandedSpeak, learned, curMap, scores } =
-    store;
+  const { lessonId, learned, curMap, scores } = store;
 
   const lessons = getLessons(level);
   const lessonData = lessons[lessonId] ?? { words: [] };
@@ -33,19 +31,11 @@ export default function ModernVocabContainer({
   const cursor = curMap[String(lessonId)] ?? 0;
   const safeCursor = Math.min(cursor, Math.max(0, words.length - 1));
 
-  // callbacks
-  const handleToggle = useCallback(
-    (sec: 'vocab' | 'speak') => {
-      store.toggleSection(sec);
+  const handleSelectLesson = useCallback(
+    (lid: number) => {
+      store.setView(section, lid);
     },
-    [store],
-  );
-
-  const handleSelect = useCallback(
-    (sec: 'vocab' | 'speak', lid: number) => {
-      store.setView(sec, lid);
-    },
-    [store],
+    [section, store],
   );
 
   const handleNavigate = useCallback(
@@ -88,51 +78,15 @@ export default function ModernVocabContainer({
     [store],
   );
 
-  const lessonCount = LESSON_COUNT[level];
   const sectionTitle = section === 'vocab' ? '1000 từ vựng' : 'Luyện phát âm';
 
   return (
-    <div className='font-vietnamese flex min-h-screen flex-col gap-6 lg:flex-row'>
-      {/* Tree nav */}
-      <VocabTreeNav
-        level={level}
-        lessons={lessons}
-        currentSection={section}
-        currentLessonId={lessonId}
-        expandedVocab={expandedVocab}
-        expandedSpeak={expandedSpeak}
-        learned={learned}
-        scores={scores}
-        singleMode={mode}
-        onToggle={handleToggle}
-        onSelect={handleSelect}
-      />
-
-      {/* Main content */}
-      <div className='flex flex-1 flex-col gap-6'>
-        {/* Mobile nav */}
-        <div className='lg:hidden'>
-          <select
-            className='font-vietnamese w-full rounded-lg border border-[var(--border-color)] bg-[var(--card-color)] px-3 py-2 text-sm text-[var(--foreground-color)]'
-            value={`${section}:${lessonId}`}
-            onChange={e => {
-              const [sec, lid] = e.target.value.split(':');
-              handleSelect(sec as 'vocab' | 'speak', Number(lid));
-            }}
-          >
-            {(mode ? [mode] : (['vocab', 'speak'] as const)).map(sec =>
-              Array.from({ length: lessonCount }, (_, i) => i + 1).map(id => (
-                <option key={`${sec}:${id}`} value={`${sec}:${id}`}>
-                  {sec === 'vocab' ? '📖' : '🎤'} Bài {id}
-                </option>
-              )),
-            )}
-          </select>
-        </div>
-
-        {/* Breadcrumb + Title */}
+    <div className='font-vietnamese mx-auto flex w-full max-w-5xl flex-col gap-6 py-2 sm:py-4'>
+      {/* Header bar: Breadcrumb + Title (left) & Lesson Dropdown (right, ngang tiêu đề) */}
+      <div className='flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4'>
+        {/* Left: Breadcrumbs + Title */}
         <div>
-          <p className='font-vietnamese text-xs text-[var(--secondary-color)]'>
+          <p className='text-xs text-[var(--secondary-color)]'>
             <Link
               href='/vocabulary'
               className='transition-colors hover:text-[var(--main-color)]'
@@ -148,63 +102,73 @@ export default function ModernVocabContainer({
             </Link>{' '}
             &rsaquo; {sectionTitle} &rsaquo; Bài {lessonId}
           </p>
-          <h1
-            className={cn(
-              'font-vietnamese mt-1 text-xl font-bold text-[var(--foreground-color)]',
-            )}
-          >
-            {sectionTitle} — Bài {lessonId}
-            <span className='ml-2 text-sm font-normal text-[var(--secondary-color)]'>
+          <div className='mt-1 flex items-center gap-2.5'>
+            <h1 className='text-xl font-bold tracking-tight text-[var(--foreground-color)] sm:text-2xl'>
+              {sectionTitle} — Bài {lessonId}
+            </h1>
+            <span className='rounded-full border border-[var(--border-color)] bg-[var(--card-color)] px-2.5 py-0.5 text-xs font-semibold text-[var(--secondary-color)]'>
               {level.toUpperCase()}
             </span>
-          </h1>
+          </div>
         </div>
 
-        {/* Content panel */}
-        {section === 'vocab' ? (
-          <div className='flex flex-col gap-8'>
-            {/* Flashcard */}
-            <VocabFlashcardHero
-              words={words}
-              lessonId={lessonId}
-              cursor={safeCursor}
-              learned={learned}
-              onMarkLearned={handleMarkLearned}
-              onMarkNotLearned={handleMarkNotLearned}
-              onNavigate={handleNavigate}
-            />
+        {/* Right: Dropdown sổ ra chọn bài (ngang với chữ tiêu đề) */}
+        <VocabLessonDropdown
+          level={level}
+          lessons={lessons}
+          currentSection={section}
+          currentLessonId={lessonId}
+          learned={learned}
+          scores={scores}
+          singleMode={mode}
+          onSelectLesson={handleSelectLesson}
+        />
+      </div>
 
-            {/* Divider */}
-            <div className='flex items-center gap-4'>
-              <div className='h-px flex-1 bg-[var(--border-color)]' />
-              <span className='font-vietnamese text-xs text-[var(--secondary-color)]'>
-                Bảng từ vựng
-              </span>
-              <div className='h-px flex-1 bg-[var(--border-color)]' />
-            </div>
-
-            {/* Table */}
-            <VocabTableView
-              words={words}
-              lessonId={lessonId}
-              cursor={safeCursor}
-              learned={learned}
-              onSelectWord={handleSelectWord}
-              onResetLesson={handleResetLesson}
-            />
-          </div>
-        ) : (
-          <VocabPronounceStudio
+      {/* Main Content Area */}
+      {section === 'vocab' ? (
+        <div className='flex flex-col gap-8'>
+          {/* Flashcard */}
+          <VocabFlashcardHero
             words={words}
             lessonId={lessonId}
-            pIdx={safeCursor}
-            scores={scores}
+            cursor={safeCursor}
+            learned={learned}
+            onMarkLearned={handleMarkLearned}
+            onMarkNotLearned={handleMarkNotLearned}
             onNavigate={handleNavigate}
-            onSelectWord={handleSelectWord}
-            onScoreUpdated={handleScoreUpdated}
           />
-        )}
-      </div>
+
+          {/* Divider */}
+          <div className='flex items-center gap-4'>
+            <div className='h-px flex-1 bg-[var(--border-color)]' />
+            <span className='text-xs font-semibold text-[var(--secondary-color)]'>
+              Bảng từ vựng chi tiết
+            </span>
+            <div className='h-px flex-1 bg-[var(--border-color)]' />
+          </div>
+
+          {/* Table */}
+          <VocabTableView
+            words={words}
+            lessonId={lessonId}
+            cursor={safeCursor}
+            learned={learned}
+            onSelectWord={handleSelectWord}
+            onResetLesson={handleResetLesson}
+          />
+        </div>
+      ) : (
+        <VocabPronounceStudio
+          words={words}
+          lessonId={lessonId}
+          pIdx={safeCursor}
+          scores={scores}
+          onNavigate={handleNavigate}
+          onSelectWord={handleSelectWord}
+          onScoreUpdated={handleScoreUpdated}
+        />
+      )}
     </div>
   );
 }
