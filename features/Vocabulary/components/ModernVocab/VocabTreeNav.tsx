@@ -123,7 +123,7 @@ export default function VocabTreeNav({
 
   return (
     <nav
-      className='hidden w-60 shrink-0 flex-col gap-2 self-start lg:flex'
+      className='font-vietnamese hidden w-60 shrink-0 flex-col gap-2 self-start lg:flex'
       style={{ position: 'sticky', top: '1.5rem' }}
     >
       <div className='mb-2 px-2 text-xs font-bold tracking-widest text-[var(--secondary-color)] uppercase'>

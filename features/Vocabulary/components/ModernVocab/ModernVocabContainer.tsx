@@ -95,7 +95,7 @@ export default function ModernVocabContainer({
   const lessonCount = LESSON_COUNT[level];
 
   return (
-    <div className='flex min-h-screen flex-col gap-6 lg:flex-row'>
+    <div className='font-vietnamese flex min-h-screen flex-col gap-6 lg:flex-row'>
       {/* Tree nav */}
       <VocabTreeNav
         level={level}
@@ -115,7 +115,7 @@ export default function ModernVocabContainer({
         {/* Mobile nav */}
         <div className='lg:hidden'>
           <select
-            className='w-full rounded-lg border border-[var(--border-color)] bg-[var(--card-color)] px-3 py-2 text-sm text-[var(--foreground-color)]'
+            className='font-vietnamese w-full rounded-lg border border-[var(--border-color)] bg-[var(--card-color)] px-3 py-2 text-sm text-[var(--foreground-color)]'
             value={`${section}:${lessonId}`}
             onChange={e => {
               const [sec, lid] = e.target.value.split(':');
@@ -134,14 +134,14 @@ export default function ModernVocabContainer({
 
         {/* Breadcrumb + Title */}
         <div>
-          <p className='text-xs text-[var(--secondary-color)]'>
+          <p className='font-vietnamese text-xs text-[var(--secondary-color)]'>
             Từ vựng &rsaquo; {level.toUpperCase()} &rsaquo;{' '}
             {section === 'vocab' ? '1000 từ vựng' : 'Luyện phát âm'} &rsaquo;
             Bài {lessonId}
           </p>
           <h1
             className={cn(
-              'mt-1 text-xl font-bold text-[var(--foreground-color)]',
+              'font-vietnamese mt-1 text-xl font-bold text-[var(--foreground-color)]',
             )}
           >
             {section === 'vocab' ? '1000 từ vựng' : 'Luyện phát âm'} — Bài{' '}
@@ -169,7 +169,7 @@ export default function ModernVocabContainer({
             {/* Divider */}
             <div className='flex items-center gap-4'>
               <div className='h-px flex-1 bg-[var(--border-color)]' />
-              <span className='text-xs text-[var(--secondary-color)]'>
+              <span className='font-vietnamese text-xs text-[var(--secondary-color)]'>
                 Bảng từ vựng
               </span>
               <div className='h-px flex-1 bg-[var(--border-color)]' />

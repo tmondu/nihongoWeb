@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useCallback, useState } from 'react';
 import {
@@ -92,25 +92,30 @@ export default function VocabFlashcardHero({
 
   if (!word) {
     return (
-      <div className='flex h-64 items-center justify-center rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)]'>
-        BÃ i há»c nÃ y chÆ°a cÃ³ dá»¯ liá»‡u. Dá»¯ liá»‡u sáº½ Ä‘Æ°á»£c thÃªm
-        sau.
+      <div className='font-vietnamese flex h-64 items-center justify-center rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)]'>
+        Bài học này chưa có dữ liệu. Dữ liệu sẽ được thêm sau.
       </div>
     );
   }
 
   // Highlight underlined word in example
   function renderExample(ex: string, under?: string) {
-    if (!under || !ex.includes(under)) return <span>{ex}</span>;
+    if (!under || !ex.includes(under)) {
+      return (
+        <span className='font-japanese' lang='ja'>
+          {ex}
+        </span>
+      );
+    }
     const parts = ex.split(under);
     return (
-      <>
+      <span className='font-japanese' lang='ja'>
         {parts[0]}
         <u className='decoration-[var(--main-color)] underline-offset-2'>
           {under}
         </u>
         {parts.slice(1).join(under)}
-      </>
+      </span>
     );
   }
 
@@ -124,8 +129,8 @@ export default function VocabFlashcardHero({
             style={{ width: `${progress}%` }}
           />
         </div>
-        <span className='text-xs text-[var(--secondary-color)] tabular-nums'>
-          {learnedCount}/{words.length} Ä‘Ã£ nhá»›
+        <span className='font-vietnamese text-xs text-[var(--secondary-color)] tabular-nums'>
+          {learnedCount}/{words.length} đã nhớ
         </span>
       </div>
 
@@ -156,22 +161,30 @@ export default function VocabFlashcardHero({
                 speak(word.hira);
               }}
               className='rounded-full p-2 text-blue-300/60 transition-colors hover:bg-white/10 hover:text-white'
+              title='Nghe phát âm'
             >
               <Volume2 size={18} />
             </button>
           </div>
           <div className='mt-6 text-center'>
-            <p className='text-5xl font-bold tracking-wider text-white'>
+            <p
+              className='font-japanese text-5xl font-bold tracking-wider text-white'
+              lang='ja'
+            >
               {word.hira}
             </p>
             {word.kanji && (
-              <p className='mt-2 text-lg text-blue-200/60'>{word.kanji}</p>
+              <p
+                className='font-japanese mt-2 text-lg text-blue-200/60'
+                lang='ja'
+              >
+                {word.kanji}
+              </p>
             )}
           </div>
-          <p className='mt-8 text-center text-xs text-blue-300/40'>
-            Nháº¥n{' '}
-            <kbd className='rounded bg-white/10 px-1.5 py-0.5'>Space</kbd> Ä‘á»ƒ
-            láº­t tháº»
+          <p className='font-vietnamese mt-8 text-center text-xs text-blue-300/40'>
+            Nhấn <kbd className='rounded bg-white/10 px-1.5 py-0.5'>Space</kbd>{' '}
+            để lật thẻ
           </p>
         </div>
 
@@ -192,25 +205,35 @@ export default function VocabFlashcardHero({
                 speak(word.hira);
               }}
               className='rounded-full p-2 text-blue-300/60 transition-colors hover:bg-white/10 hover:text-white'
+              title='Nghe phát âm'
             >
               <Volume2 size={18} />
             </button>
           </div>
           <div className='mt-4 space-y-3'>
-            <p className='text-3xl font-bold text-white'>{word.hira}</p>
+            <p
+              className='font-japanese text-3xl font-bold text-white'
+              lang='ja'
+            >
+              {word.hira}
+            </p>
             {word.kanji && (
-              <p className='text-lg text-blue-200/70'>{word.kanji}</p>
+              <p className='font-japanese text-lg text-blue-200/70' lang='ja'>
+                {word.kanji}
+              </p>
             )}
-            <p className='text-xl font-semibold text-green-300'>{word.mean}</p>
+            <p className='font-vietnamese text-xl font-semibold text-green-300'>
+              {word.mean}
+            </p>
             {word.ex && (
-              <p className='mt-3 rounded-lg bg-white/5 px-4 py-3 text-sm leading-relaxed text-blue-100/80'>
+              <div className='mt-3 rounded-lg bg-white/5 px-4 py-3 text-sm leading-relaxed text-blue-100/80'>
                 {renderExample(word.ex, word.under)}
                 {word.exVi && (
-                  <span className='mt-1 block text-blue-300/50 italic'>
+                  <span className='font-vietnamese mt-1 block text-blue-300/50 italic'>
                     {word.exVi}
                   </span>
                 )}
-              </p>
+              </div>
             )}
           </div>
         </div>
@@ -231,18 +254,18 @@ export default function VocabFlashcardHero({
             onMarkNotLearned();
             onNavigate(1);
           }}
-          className='flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20'
+          className='font-vietnamese flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20'
         >
           <X size={16} />
-          ChÆ°a nhá»›
+          Chưa nhớ
         </button>
 
         <button
           onClick={() => setFlipped(f => !f)}
-          className='flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--card-color)] px-5 py-2.5 text-sm font-medium text-[var(--foreground-color)] transition-colors hover:bg-[var(--border-color)]'
+          className='font-vietnamese flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--card-color)] px-5 py-2.5 text-sm font-medium text-[var(--foreground-color)] transition-colors hover:bg-[var(--border-color)]'
         >
           <RotateCcw size={16} />
-          {flipped ? 'áº¨n' : 'Hiá»‡n Ä‘Ã¡p Ã¡n'}
+          {flipped ? 'Ẩn' : 'Hiện đáp án'}
         </button>
 
         <button
@@ -250,10 +273,10 @@ export default function VocabFlashcardHero({
             onMarkLearned();
             onNavigate(1);
           }}
-          className='flex items-center gap-2 rounded-xl bg-[var(--main-color)] px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90'
+          className='font-vietnamese flex items-center gap-2 rounded-xl bg-[var(--main-color)] px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90'
         >
           <Check size={16} />
-          ÄÃ£ nhá»›
+          Đã nhớ
         </button>
 
         <button
@@ -265,12 +288,12 @@ export default function VocabFlashcardHero({
         </button>
       </div>
 
-      <p className='text-center text-xs text-[var(--secondary-color)]'>
-        â† â†’ Ä‘iá»u hÆ°á»›ng &nbsp;Â·&nbsp;{' '}
-        <kbd className='rounded bg-[var(--card-color)] px-1 py-0.5'>1</kbd>{' '}
-        ChÆ°a nhá»› &nbsp;Â·&nbsp;{' '}
-        <kbd className='rounded bg-[var(--card-color)] px-1 py-0.5'>2</kbd> ÄÃ£
-        nhá»›
+      <p className='font-vietnamese text-center text-xs text-[var(--secondary-color)]'>
+        ← → điều hướng &nbsp;·&nbsp;{' '}
+        <kbd className='rounded bg-[var(--card-color)] px-1 py-0.5'>1</kbd> Chưa
+        nhớ &nbsp;·&nbsp;{' '}
+        <kbd className='rounded bg-[var(--card-color)] px-1 py-0.5'>2</kbd> Đã
+        nhớ
       </p>
     </div>
   );

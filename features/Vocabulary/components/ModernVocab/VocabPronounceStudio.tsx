@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { Volume2, Mic, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -153,7 +153,7 @@ export default function VocabPronounceStudio({
   }
 
   return (
-    <div className='flex flex-col gap-6 lg:flex-row'>
+    <div className='font-vietnamese flex flex-col gap-6 lg:flex-row'>
       {/* Left: Practice panel */}
       <div className='flex flex-1 flex-col gap-5'>
         {!supported && (
@@ -171,21 +171,27 @@ export default function VocabPronounceStudio({
           <>
             {/* Word display */}
             <div className='rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-8 text-center'>
-              <p className='text-5xl font-bold tracking-wider text-[var(--foreground-color)]'>
+              <p
+                className='font-japanese text-5xl font-bold tracking-wider text-[var(--foreground-color)]'
+                lang='ja'
+              >
                 {word.hira}
               </p>
               {word.kanji && (
-                <p className='mt-2 text-lg text-[var(--secondary-color)]'>
+                <p
+                  className='font-japanese mt-2 text-lg text-[var(--secondary-color)]'
+                  lang='ja'
+                >
                   {word.kanji}
                 </p>
               )}
-              <p className='mt-3 text-base text-[var(--main-color)]'>
+              <p className='font-vietnamese mt-3 text-base text-[var(--main-color)]'>
                 {word.mean}
               </p>
 
               <button
                 onClick={() => speak(word.hira)}
-                className='mx-auto mt-4 flex items-center gap-2 rounded-lg border border-[var(--border-color)] px-4 py-2 text-sm text-[var(--secondary-color)] transition-colors hover:bg-[var(--border-color)] hover:text-[var(--foreground-color)]'
+                className='font-vietnamese mx-auto mt-4 flex items-center gap-2 rounded-lg border border-[var(--border-color)] px-4 py-2 text-sm text-[var(--secondary-color)] transition-colors hover:bg-[var(--border-color)] hover:text-[var(--foreground-color)]'
               >
                 <Volume2 size={16} />
                 Nghe mẫu
@@ -237,7 +243,7 @@ export default function VocabPronounceStudio({
                 </div>
                 <span
                   className={cn(
-                    'text-sm font-bold tabular-nums',
+                    'font-vietnamese text-sm font-bold tabular-nums',
                     scoreColor(currentScore),
                   )}
                 >
@@ -284,7 +290,7 @@ export default function VocabPronounceStudio({
 
       {/* Right: Queue list */}
       <div className='w-full shrink-0 lg:w-56'>
-        <p className='mb-2 text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
+        <p className='font-vietnamese mb-2 text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
           Danh sách
         </p>
         <div
@@ -292,7 +298,7 @@ export default function VocabPronounceStudio({
           style={{ maxHeight: '400px' }}
         >
           {words.length === 0 && (
-            <p className='py-4 text-center text-xs text-[var(--secondary-color)]'>
+            <p className='font-vietnamese py-4 text-center text-xs text-[var(--secondary-color)]'>
               Chưa có dữ liệu
             </p>
           )}
@@ -312,14 +318,19 @@ export default function VocabPronounceStudio({
                 )}
               >
                 <div>
-                  <p className='font-medium'>{w.hira}</p>
-                  <p className='text-[10px] text-[var(--secondary-color)]'>
+                  <p className='font-japanese font-medium' lang='ja'>
+                    {w.hira}
+                  </p>
+                  <p className='font-vietnamese text-[10px] text-[var(--secondary-color)]'>
                     {w.mean}
                   </p>
                 </div>
                 {sc !== undefined && (
                   <span
-                    className={cn('font-bold tabular-nums', scoreColor(sc))}
+                    className={cn(
+                      'font-vietnamese font-bold tabular-nums',
+                      scoreColor(sc),
+                    )}
                   >
                     {sc}%
                   </span>

@@ -61,7 +61,7 @@ export default function VocabTableView({
   }
 
   return (
-    <div ref={tableRef} className='flex flex-col gap-3'>
+    <div ref={tableRef} className='font-vietnamese flex flex-col gap-3'>
       {/* Controls */}
       <div className='flex flex-wrap items-center gap-3'>
         <div className='relative min-w-48 flex-1'>
@@ -78,7 +78,7 @@ export default function VocabTableView({
           />
         </div>
 
-        <label className='flex cursor-pointer items-center gap-2 text-sm text-[var(--secondary-color)]'>
+        <label className='flex cursor-pointer items-center gap-2 text-sm text-[var(--secondary-color)] select-none'>
           <div
             onClick={() => setShowAll(v => !v)}
             className={cn(
@@ -168,14 +168,19 @@ export default function VocabTableView({
                     {w._idx + 1}
                   </td>
                   <td className='px-4 py-3 font-medium text-[var(--foreground-color)]'>
-                    {w.hira}
+                    <span className='font-japanese text-base' lang='ja'>
+                      {w.hira}
+                    </span>
                     {isLearned && (
                       <span className='ml-1.5 text-xs text-green-500'>✓</span>
                     )}
                   </td>
                   <td className='px-4 py-3'>
                     {reveal ? (
-                      <span className='text-[var(--foreground-color)]'>
+                      <span
+                        className='font-japanese text-base text-[var(--foreground-color)]'
+                        lang='ja'
+                      >
                         {w.kanji ?? '—'}
                       </span>
                     ) : (
@@ -184,7 +189,7 @@ export default function VocabTableView({
                   </td>
                   <td className='px-4 py-3'>
                     {reveal ? (
-                      <span className='text-[var(--foreground-color)]'>
+                      <span className='font-vietnamese text-[var(--foreground-color)]'>
                         {w.mean}
                       </span>
                     ) : (
@@ -193,7 +198,9 @@ export default function VocabTableView({
                   </td>
                   <td className='max-w-xs truncate px-4 py-3 text-[var(--secondary-color)]'>
                     {reveal ? (
-                      (w.ex ?? '—')
+                      <span className='font-japanese text-sm' lang='ja'>
+                        {w.ex ?? '—'}
+                      </span>
                     ) : (
                       <span className='inline-block h-4 w-32 rounded bg-[var(--border-color)]' />
                     )}
@@ -205,6 +212,7 @@ export default function VocabTableView({
                         speak(w.hira);
                       }}
                       className='rounded-full p-1.5 text-[var(--secondary-color)] hover:bg-[var(--card-color)] hover:text-[var(--foreground-color)]'
+                      title='Nghe phát âm'
                     >
                       <Volume2 size={14} />
                     </button>
