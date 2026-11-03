@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Search, Volume2, RotateCcw } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
 import type { VocabWord } from '../../types/study';
@@ -34,7 +34,6 @@ export default function VocabTableView({
   const [search, setSearch] = useState('');
   const [showAll, setShowAll] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
-  const tableRef = useRef<HTMLDivElement>(null);
 
   const filtered = words
     .map((w, i) => ({ ...w, _idx: i }))
@@ -48,7 +47,6 @@ export default function VocabTableView({
 
   function handleSelect(idx: number) {
     onSelectWord(idx);
-    tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function handleReset() {
@@ -61,7 +59,7 @@ export default function VocabTableView({
   }
 
   return (
-    <div ref={tableRef} className='font-vietnamese flex flex-col gap-3'>
+    <div className='font-vietnamese flex flex-col gap-3'>
       {/* Controls */}
       <div className='flex flex-wrap items-center gap-3'>
         <div className='relative min-w-48 flex-1'>

@@ -127,36 +127,31 @@ export default function ModernVocabContainer({
 
       {/* Main Content Area */}
       {section === 'vocab' ? (
-        <div className='flex flex-col gap-8'>
-          {/* Flashcard */}
-          <VocabFlashcardHero
-            words={words}
-            lessonId={lessonId}
-            cursor={safeCursor}
-            learned={learned}
-            onMarkLearned={handleMarkLearned}
-            onMarkNotLearned={handleMarkNotLearned}
-            onNavigate={handleNavigate}
-          />
-
-          {/* Divider */}
-          <div className='flex items-center gap-4'>
-            <div className='h-px flex-1 bg-[var(--border-color)]' />
-            <span className='text-xs font-semibold text-[var(--secondary-color)]'>
-              Bảng từ vựng chi tiết
-            </span>
-            <div className='h-px flex-1 bg-[var(--border-color)]' />
+        <div className='flex flex-col gap-6'>
+          {/* Sticky Flashcard Wrapper: ghim cố định ở viền trên khi cuộn xuống */}
+          <div className='sticky top-0 z-20 -mx-4 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 px-4 pt-2 pb-4 shadow-xs backdrop-blur-md transition-all'>
+            <VocabFlashcardHero
+              words={words}
+              lessonId={lessonId}
+              cursor={safeCursor}
+              learned={learned}
+              onMarkLearned={handleMarkLearned}
+              onMarkNotLearned={handleMarkNotLearned}
+              onNavigate={handleNavigate}
+            />
           </div>
 
           {/* Table */}
-          <VocabTableView
-            words={words}
-            lessonId={lessonId}
-            cursor={safeCursor}
-            learned={learned}
-            onSelectWord={handleSelectWord}
-            onResetLesson={handleResetLesson}
-          />
+          <div className='pt-2'>
+            <VocabTableView
+              words={words}
+              lessonId={lessonId}
+              cursor={safeCursor}
+              learned={learned}
+              onSelectWord={handleSelectWord}
+              onResetLesson={handleResetLesson}
+            />
+          </div>
         </div>
       ) : (
         <VocabPronounceStudio
