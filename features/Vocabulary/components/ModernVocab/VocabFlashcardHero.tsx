@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useCallback, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   Volume2,
   RotateCcw,
@@ -92,7 +93,7 @@ export default function VocabFlashcardHero({
 
   if (!word) {
     return (
-      <div className='font-vietnamese flex h-64 items-center justify-center rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)]'>
+      <div className='font-vietnamese mx-auto flex aspect-[4/3] w-full max-w-xl items-center justify-center rounded-3xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)] shadow-sm'>
         Bài học này chưa có dữ liệu. Dữ liệu sẽ được thêm sau.
       </div>
     );
@@ -120,9 +121,9 @@ export default function VocabFlashcardHero({
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='mx-auto flex w-full max-w-xl flex-col items-center gap-5'>
       {/* Progress bar */}
-      <div className='flex items-center gap-3'>
+      <div className='flex w-full items-center gap-3'>
         <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--border-color)]'>
           <div
             className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
@@ -134,166 +135,226 @@ export default function VocabFlashcardHero({
         </span>
       </div>
 
-      {/* Card */}
+      {/* 3D 4:3 Flashcard (Hiệu ứng lật thẻ giống Thamlet) */}
       <div
-        className={cn(
-          'relative min-h-64 cursor-pointer rounded-2xl p-8 transition-all duration-300 select-none',
-          isLearned
-            ? 'border border-green-700/40 bg-[#1a3a2a]'
-            : 'border border-[var(--main-color)]/20 bg-[#1a2a4a]',
-        )}
+        className='relative aspect-[4/3] w-full cursor-pointer select-none'
+        style={{ perspective: 1200 }}
         onClick={() => setFlipped(f => !f)}
       >
-        {/* Front */}
-        <div
-          className={cn(
-            'transition-opacity duration-200',
-            flipped ? 'absolute opacity-0' : 'opacity-100',
-          )}
+        <motion.div
+          className='relative h-full w-full'
+          style={{ transformStyle: 'preserve-3d' }}
+          animate={{ rotateY: flipped ? 180 : 0 }}
+          transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
         >
-          <div className='flex items-center justify-between'>
-            <span className='text-xs font-medium tracking-widest text-blue-300/60 uppercase'>
-              {cursor + 1} / {words.length}
-            </span>
-            <button
-              onClick={e => {
-                e.stopPropagation();
-                speak(word.hira);
-              }}
-              className='rounded-full p-2 text-blue-300/60 transition-colors hover:bg-white/10 hover:text-white'
-              title='Nghe phát âm'
-            >
-              <Volume2 size={18} />
-            </button>
-          </div>
-          <div className='mt-6 text-center'>
-            <p
-              className='font-japanese text-5xl font-bold tracking-wider text-white'
-              lang='ja'
-            >
-              {word.hira}
-            </p>
-            {word.kanji && (
+          {/* Mặt trước */}
+          <div
+            className={cn(
+              'absolute inset-0 flex flex-col justify-between rounded-3xl border-2 p-6 shadow-xl transition-colors sm:p-8',
+              isLearned
+                ? 'border-green-600/50 bg-[#1a3a2a]'
+                : 'border-[var(--main-color)]/30 bg-[#1a2a4a]',
+            )}
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            {/* Top bar mặt trước */}
+            <div className='flex items-center justify-between text-xs text-blue-300/70'>
+              <span className='font-semibold tracking-wider uppercase'>
+                {cursor + 1} / {words.length}
+              </span>
+              <button
+                type='button'
+                onClick={e => {
+                  e.stopPropagation();
+                  speak(word.hira);
+                }}
+                className='rounded-xl p-2 text-blue-300/70 transition-colors hover:bg-white/10 hover:text-white'
+                title='Nghe phát âm'
+              >
+                <Volume2 size={20} />
+              </button>
+            </div>
+
+            {/* Center: Chữ Hiragana to + Kanji */}
+            <div className='my-auto flex flex-col items-center justify-center text-center'>
               <p
-                className='font-japanese mt-2 text-lg text-blue-200/60'
+                className='font-japanese text-5xl font-bold tracking-wider text-white sm:text-6xl'
                 lang='ja'
               >
-                {word.kanji}
+                {word.hira}
               </p>
-            )}
-          </div>
-          <p className='font-vietnamese mt-8 text-center text-xs text-blue-300/40'>
-            Nhấn <kbd className='rounded bg-white/10 px-1.5 py-0.5'>Space</kbd>{' '}
-            để lật thẻ
-          </p>
-        </div>
+              {word.kanji && (
+                <p
+                  className='font-japanese mt-3 text-xl font-medium text-blue-200/80 sm:text-2xl'
+                  lang='ja'
+                >
+                  {word.kanji}
+                </p>
+              )}
+            </div>
 
-        {/* Back */}
-        <div
-          className={cn(
-            'transition-opacity duration-200',
-            flipped ? 'opacity-100' : 'absolute inset-8 opacity-0',
-          )}
-        >
-          <div className='flex items-center justify-between'>
-            <span className='text-xs font-medium tracking-widest text-blue-300/60 uppercase'>
-              {cursor + 1} / {words.length}
-            </span>
-            <button
-              onClick={e => {
-                e.stopPropagation();
-                speak(word.hira);
-              }}
-              className='rounded-full p-2 text-blue-300/60 transition-colors hover:bg-white/10 hover:text-white'
-              title='Nghe phát âm'
-            >
-              <Volume2 size={18} />
-            </button>
+            {/* Bottom hint mặt trước */}
+            <div className='flex items-center justify-center gap-1.5 text-xs text-blue-300/50'>
+              <RotateCcw size={13} />
+              <span className='font-vietnamese'>
+                Chạm hoặc nhấn Space để lật xem nghĩa
+              </span>
+            </div>
           </div>
-          <div className='mt-4 space-y-3'>
-            <p
-              className='font-japanese text-3xl font-bold text-white'
-              lang='ja'
-            >
-              {word.hira}
-            </p>
-            {word.kanji && (
-              <p className='font-japanese text-lg text-blue-200/70' lang='ja'>
-                {word.kanji}
-              </p>
+
+          {/* Mặt sau */}
+          <div
+            className={cn(
+              'absolute inset-0 flex flex-col justify-between rounded-3xl border-2 p-6 shadow-xl transition-colors sm:p-8',
+              isLearned
+                ? 'border-green-600/50 bg-[#1a3a2a]'
+                : 'border-[var(--main-color)]/50 bg-[#16243d]',
             )}
-            <p className='font-vietnamese text-xl font-semibold text-green-300'>
-              {word.mean}
-            </p>
-            {word.ex && (
-              <div className='mt-3 rounded-lg bg-white/5 px-4 py-3 text-sm leading-relaxed text-blue-100/80'>
-                {renderExample(word.ex, word.under)}
-                {word.exVi && (
-                  <span className='font-vietnamese mt-1 block text-blue-300/50 italic'>
-                    {word.exVi}
-                  </span>
+            style={{
+              backfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)',
+            }}
+          >
+            {/* Top bar mặt sau */}
+            <div className='flex items-center justify-between text-xs text-blue-300/70'>
+              <span className='font-semibold tracking-wider uppercase'>
+                {cursor + 1} / {words.length}
+              </span>
+              <button
+                type='button'
+                onClick={e => {
+                  e.stopPropagation();
+                  speak(word.hira);
+                }}
+                className='rounded-xl p-2 text-blue-300/70 transition-colors hover:bg-white/10 hover:text-white'
+                title='Nghe phát âm'
+              >
+                <Volume2 size={20} />
+              </button>
+            </div>
+
+            {/* Center: Từ vựng + Nghĩa tiếng Việt + Câu ví dụ */}
+            <div className='my-auto flex flex-col justify-center space-y-3.5 overflow-y-auto py-2'>
+              <div className='flex flex-wrap items-baseline gap-2'>
+                <p
+                  className='font-japanese text-2xl font-bold text-white sm:text-3xl'
+                  lang='ja'
+                >
+                  {word.hira}
+                </p>
+                {word.kanji && (
+                  <p
+                    className='font-japanese text-base text-blue-200/70 sm:text-lg'
+                    lang='ja'
+                  >
+                    ({word.kanji})
+                  </p>
                 )}
               </div>
-            )}
+
+              <p className='font-vietnamese text-2xl font-bold text-green-300 sm:text-3xl'>
+                {word.mean}
+              </p>
+
+              {word.ex && (
+                <div className='mt-2 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-relaxed text-blue-100/90'>
+                  {renderExample(word.ex, word.under)}
+                  {word.exVi && (
+                    <span className='font-vietnamese mt-1.5 block text-xs text-blue-300/60 italic'>
+                      {word.exVi}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Bottom hint mặt sau */}
+            <div className='flex items-center justify-center gap-1.5 text-xs text-blue-300/50'>
+              <RotateCcw size={13} />
+              <span className='font-vietnamese'>
+                Chạm hoặc nhấn Space để lật lại thẻ
+              </span>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Action buttons */}
-      <div className='flex items-center justify-center gap-3'>
+      {/* Action buttons (Căn giữa) */}
+      <div className='flex flex-wrap items-center justify-center gap-3 pt-1'>
+        {/* Prev */}
         <button
+          type='button'
           onClick={() => onNavigate(-1)}
           disabled={cursor === 0}
-          className='rounded-full border border-[var(--border-color)] p-2.5 text-[var(--secondary-color)] transition-colors hover:bg-[var(--card-color)] hover:text-[var(--foreground-color)] disabled:opacity-30'
+          className='flex size-11 items-center justify-center rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)] transition-all hover:border-[var(--main-color)] hover:text-[var(--foreground-color)] disabled:opacity-30'
+          title='Từ trước'
         >
           <ChevronLeft size={18} />
         </button>
 
+        {/* Chưa nhớ */}
         <button
+          type='button'
           onClick={() => {
             onMarkNotLearned();
             onNavigate(1);
           }}
-          className='font-vietnamese flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20'
+          className='font-vietnamese flex items-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-5 py-2.5 text-sm font-semibold text-red-400 transition-all hover:bg-red-500 hover:text-white active:scale-95'
         >
           <X size={16} />
           Chưa nhớ
         </button>
 
+        {/* Lật thẻ */}
         <button
+          type='button'
           onClick={() => setFlipped(f => !f)}
-          className='font-vietnamese flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--card-color)] px-5 py-2.5 text-sm font-medium text-[var(--foreground-color)] transition-colors hover:bg-[var(--border-color)]'
+          className='font-vietnamese flex items-center gap-2 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] px-5 py-2.5 text-sm font-semibold text-[var(--foreground-color)] transition-all hover:border-[var(--main-color)] active:scale-95'
         >
           <RotateCcw size={16} />
-          {flipped ? 'Ẩn' : 'Hiện đáp án'}
+          {flipped ? 'Ẩn nghĩa' : 'Hiện đáp án'}
         </button>
 
+        {/* Đã nhớ */}
         <button
+          type='button'
           onClick={() => {
             onMarkLearned();
             onNavigate(1);
           }}
-          className='font-vietnamese flex items-center gap-2 rounded-xl bg-[var(--main-color)] px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90'
+          className='font-vietnamese flex items-center gap-2 rounded-2xl bg-[var(--main-color)] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:opacity-90 active:scale-95'
         >
           <Check size={16} />
           Đã nhớ
         </button>
 
+        {/* Next */}
         <button
+          type='button'
           onClick={() => onNavigate(1)}
           disabled={cursor === words.length - 1}
-          className='rounded-full border border-[var(--border-color)] p-2.5 text-[var(--secondary-color)] transition-colors hover:bg-[var(--card-color)] hover:text-[var(--foreground-color)] disabled:opacity-30'
+          className='flex size-11 items-center justify-center rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)] transition-all hover:border-[var(--main-color)] hover:text-[var(--foreground-color)] disabled:opacity-30'
+          title='Từ kế tiếp'
         >
           <ChevronRight size={18} />
         </button>
       </div>
 
+      {/* Keyboard hints */}
       <p className='font-vietnamese text-center text-xs text-[var(--secondary-color)]'>
         ← → điều hướng &nbsp;·&nbsp;{' '}
-        <kbd className='rounded bg-[var(--card-color)] px-1 py-0.5'>1</kbd> Chưa
-        nhớ &nbsp;·&nbsp;{' '}
-        <kbd className='rounded bg-[var(--card-color)] px-1 py-0.5'>2</kbd> Đã
-        nhớ
+        <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
+          Space
+        </kbd>{' '}
+        Lật thẻ &nbsp;·&nbsp;{' '}
+        <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
+          1
+        </kbd>{' '}
+        Chưa nhớ &nbsp;·&nbsp;{' '}
+        <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
+          2
+        </kbd>{' '}
+        Đã nhớ
       </p>
     </div>
   );
