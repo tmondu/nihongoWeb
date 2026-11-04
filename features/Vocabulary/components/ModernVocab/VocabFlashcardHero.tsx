@@ -93,7 +93,7 @@ export default function VocabFlashcardHero({
 
   if (!word) {
     return (
-      <div className='font-vietnamese mx-auto flex aspect-[4/3] w-full max-w-xl items-center justify-center rounded-3xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)] shadow-sm'>
+      <div className='font-vietnamese mx-auto flex h-[250px] w-full items-center justify-center rounded-3xl border border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)] shadow-sm sm:h-[280px]'>
         Bài học này chưa có dữ liệu. Dữ liệu sẽ được thêm sau.
       </div>
     );
@@ -121,7 +121,7 @@ export default function VocabFlashcardHero({
   }
 
   return (
-    <div className='mx-auto flex w-full max-w-xl flex-col items-center gap-5'>
+    <div className='flex w-full flex-col items-center gap-3.5 sm:gap-4'>
       {/* Progress bar */}
       <div className='flex w-full items-center gap-3'>
         <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--border-color)]'>
@@ -135,9 +135,9 @@ export default function VocabFlashcardHero({
         </span>
       </div>
 
-      {/* 3D 4:3 Flashcard (Hiệu ứng lật thẻ giống Thamlet) */}
+      {/* 3D Flashcard (Độ rộng bằng list, chiều cao thu gọn gọn gàng) */}
       <div
-        className='relative aspect-[4/3] w-full cursor-pointer select-none'
+        className='relative h-[250px] w-full cursor-pointer select-none sm:h-[280px]'
         style={{ perspective: 1200 }}
         onClick={() => setFlipped(f => !f)}
       >
@@ -150,7 +150,7 @@ export default function VocabFlashcardHero({
           {/* Mặt trước */}
           <div
             className={cn(
-              'absolute inset-0 flex flex-col justify-between rounded-3xl border-2 p-6 shadow-xl transition-colors sm:p-8',
+              'absolute inset-0 flex flex-col justify-between rounded-3xl border-2 p-5 shadow-xl transition-colors sm:p-6',
               isLearned
                 ? 'border-green-600/50 bg-[#1a3a2a]'
                 : 'border-[var(--main-color)]/30 bg-[#1a2a4a]',
@@ -178,14 +178,14 @@ export default function VocabFlashcardHero({
             {/* Center: Chữ Hiragana to + Kanji */}
             <div className='my-auto flex flex-col items-center justify-center text-center'>
               <p
-                className='font-japanese text-5xl font-bold tracking-wider text-white sm:text-6xl'
+                className='font-japanese text-4xl font-bold tracking-wider text-white sm:text-5xl'
                 lang='ja'
               >
                 {word.hira}
               </p>
               {word.kanji && (
                 <p
-                  className='font-japanese mt-3 text-xl font-medium text-blue-200/80 sm:text-2xl'
+                  className='font-japanese mt-2 text-lg font-medium text-blue-200/80 sm:text-xl'
                   lang='ja'
                 >
                   {word.kanji}
@@ -205,7 +205,7 @@ export default function VocabFlashcardHero({
           {/* Mặt sau */}
           <div
             className={cn(
-              'absolute inset-0 flex flex-col justify-between rounded-3xl border-2 p-6 shadow-xl transition-colors sm:p-8',
+              'absolute inset-0 flex flex-col justify-between rounded-3xl border-2 p-5 shadow-xl transition-colors sm:p-6',
               isLearned
                 ? 'border-green-600/50 bg-[#1a3a2a]'
                 : 'border-[var(--main-color)]/50 bg-[#16243d]',
@@ -234,33 +234,33 @@ export default function VocabFlashcardHero({
             </div>
 
             {/* Center: Từ vựng + Nghĩa tiếng Việt + Câu ví dụ */}
-            <div className='my-auto flex flex-col justify-center space-y-3.5 overflow-y-auto py-2'>
-              <div className='flex flex-wrap items-baseline gap-2'>
+            <div className='my-auto flex flex-col justify-center space-y-2.5 overflow-y-auto py-1'>
+              <div className='flex flex-wrap items-baseline gap-2.5'>
                 <p
-                  className='font-japanese text-2xl font-bold text-white sm:text-3xl'
+                  className='font-japanese text-xl font-bold text-white sm:text-2xl'
                   lang='ja'
                 >
                   {word.hira}
                 </p>
                 {word.kanji && (
                   <p
-                    className='font-japanese text-base text-blue-200/70 sm:text-lg'
+                    className='font-japanese text-sm text-blue-200/70 sm:text-base'
                     lang='ja'
                   >
                     ({word.kanji})
                   </p>
                 )}
+                <span className='text-blue-300/40'>—</span>
+                <p className='font-vietnamese text-xl font-bold text-green-300 sm:text-2xl'>
+                  {word.mean}
+                </p>
               </div>
 
-              <p className='font-vietnamese text-2xl font-bold text-green-300 sm:text-3xl'>
-                {word.mean}
-              </p>
-
               {word.ex && (
-                <div className='mt-2 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-relaxed text-blue-100/90'>
+                <div className='rounded-xl border border-white/10 bg-white/5 p-3 text-sm leading-relaxed text-blue-100/90'>
                   {renderExample(word.ex, word.under)}
                   {word.exVi && (
-                    <span className='font-vietnamese mt-1.5 block text-xs text-blue-300/60 italic'>
+                    <span className='font-vietnamese mt-1 block text-xs text-blue-300/60 italic'>
                       {word.exVi}
                     </span>
                   )}
@@ -280,7 +280,7 @@ export default function VocabFlashcardHero({
       </div>
 
       {/* Action buttons (Căn giữa) */}
-      <div className='flex flex-wrap items-center justify-center gap-3 pt-1'>
+      <div className='flex flex-wrap items-center justify-center gap-2.5 pt-0.5 sm:gap-3'>
         {/* Prev */}
         <button
           type='button'

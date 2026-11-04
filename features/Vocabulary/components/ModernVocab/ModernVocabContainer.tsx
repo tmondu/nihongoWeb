@@ -129,7 +129,7 @@ export default function ModernVocabContainer({
       {section === 'vocab' ? (
         <div className='flex flex-col gap-6'>
           {/* Sticky Flashcard Wrapper: ghim cố định ở viền trên khi cuộn xuống */}
-          <div className='sticky top-0 z-20 -mx-4 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 px-4 pt-2 pb-4 shadow-xs backdrop-blur-md transition-all'>
+          <div className='sticky top-0 z-20 -mx-4 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 px-4 pt-1 pb-3 shadow-xs backdrop-blur-md transition-all sm:pt-2 sm:pb-3.5'>
             <VocabFlashcardHero
               words={words}
               lessonId={lessonId}
