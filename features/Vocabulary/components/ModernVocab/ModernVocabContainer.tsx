@@ -86,129 +86,139 @@ export default function ModernVocabContainer({
     words.length > 0 ? Math.round((learnedCount / words.length) * 100) : 0;
 
   return (
-    <div className='font-vietnamese mx-auto flex w-full max-w-5xl flex-col gap-6 py-2 sm:py-4'>
+    <div className='font-vietnamese flex w-full flex-col gap-6 py-2 sm:py-4'>
       {/* Main Content Area */}
       {section === 'vocab' ? (
-        <div className='flex flex-col gap-6'>
-          {/* Sticky 2-Column Hero: Header & Chọn bài (Cột trái) + Flashcard (Cột phải) */}
-          <div className='sticky top-0 z-20 -mx-4 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 px-4 pt-2 pb-3.5 shadow-xs backdrop-blur-md transition-all'>
-            <div className='flex flex-col gap-4 md:flex-row md:items-stretch md:gap-5'>
-              {/* CỘT TRÁI: Header info, Dropdown chọn bài, Tiến độ & Phím tắt */}
-              <div className='flex flex-col justify-between gap-3 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)]/70 p-3.5 shadow-xs md:w-72 md:shrink-0 lg:w-80'>
-                {/* 1. Breadcrumbs + Title */}
-                <div>
-                  <p className='text-xs text-[var(--secondary-color)]'>
-                    <Link
-                      href='/vocabulary'
-                      className='transition-colors hover:text-[var(--main-color)]'
-                    >
-                      Từ vựng
-                    </Link>{' '}
-                    &rsaquo;{' '}
-                    <Link
-                      href={`/vocabulary/jlpt-${level}`}
-                      className='transition-colors hover:text-[var(--main-color)]'
-                    >
-                      {level.toUpperCase()}
-                    </Link>{' '}
-                    &rsaquo; {sectionTitle}
-                  </p>
-                  <div className='mt-1 flex items-center justify-between gap-2'>
-                    <h1 className='text-lg font-bold tracking-tight text-[var(--foreground-color)] sm:text-xl'>
-                      {sectionTitle}
-                    </h1>
-                    <span className='rounded-full border border-[var(--border-color)] bg-[var(--card-color)] px-2 py-0.5 text-xs font-semibold text-[var(--secondary-color)]'>
-                      {level.toUpperCase()}
-                    </span>
-                  </div>
-                </div>
-
-                {/* 2. Chọn bài (Dropdown mở sang trái) */}
-                <div className='w-full'>
-                  <VocabLessonDropdown
-                    level={level}
-                    lessons={lessons}
-                    currentSection={section}
-                    currentLessonId={lessonId}
-                    learned={learned}
-                    scores={scores}
-                    singleMode={mode}
-                    align='left'
-                    onSelectLesson={handleSelectLesson}
-                  />
-                </div>
-
-                {/* 3. Tiến độ bài học */}
-                <div className='rounded-xl border border-[var(--border-color)] bg-[var(--card-color)] p-2.5'>
-                  <div className='flex items-center justify-between text-xs text-[var(--secondary-color)]'>
-                    <span>Tiến độ bài {lessonId}</span>
-                    <span className='font-semibold text-[var(--foreground-color)] tabular-nums'>
-                      {learnedCount}/{words.length} ({progressPct}%)
-                    </span>
-                  </div>
-                  <div className='mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-[var(--border-color)]'>
-                    <div
-                      className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
-                      style={{ width: `${progressPct}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* 4. Hướng dẫn phím tắt gọn */}
-                <div className='hidden flex-col gap-1 text-[11px] text-[var(--secondary-color)] sm:flex'>
-                  <div className='flex items-center gap-1.5'>
-                    <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5 font-mono text-[10px]'>
-                      Space
-                    </kbd>
-                    <span>Lật thẻ</span>
-                    <span className='text-[var(--border-color)]'>·</span>
-                    <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5 font-mono text-[10px]'>
-                      ← →
-                    </kbd>
-                    <span>Chuyển từ</span>
-                  </div>
-                  <div className='flex items-center gap-1.5'>
-                    <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5 font-mono text-[10px]'>
-                      1
-                    </kbd>
-                    <span>Chưa nhớ</span>
-                    <span className='text-[var(--border-color)]'>·</span>
-                    <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5 font-mono text-[10px]'>
-                      2
-                    </kbd>
-                    <span>Đã nhớ</span>
-                  </div>
+        <div className='flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-6'>
+          {/* CỘT TRÁI: Đặt ở vùng trống bên trái (ngay dưới banner Từ vựng) */}
+          <aside className='sticky top-4 flex w-full shrink-0 flex-col gap-4 self-start lg:w-72 xl:w-80'>
+            {/* Box 1: Breadcrumbs, Tiêu đề & Chọn bài */}
+            <div className='flex flex-col gap-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs'>
+              <div>
+                <p className='text-xs text-[var(--secondary-color)]'>
+                  <Link
+                    href='/vocabulary'
+                    className='transition-colors hover:text-[var(--main-color)]'
+                  >
+                    Từ vựng
+                  </Link>{' '}
+                  &rsaquo;{' '}
+                  <Link
+                    href={`/vocabulary/jlpt-${level}`}
+                    className='transition-colors hover:text-[var(--main-color)]'
+                  >
+                    {level.toUpperCase()}
+                  </Link>{' '}
+                  &rsaquo; {sectionTitle}
+                </p>
+                <div className='mt-1.5 flex items-center justify-between gap-2'>
+                  <h1 className='text-lg font-bold tracking-tight text-[var(--foreground-color)] sm:text-xl'>
+                    {sectionTitle}
+                  </h1>
+                  <span className='rounded-full border border-[var(--border-color)] bg-[var(--background-color)] px-2.5 py-0.5 text-xs font-semibold text-[var(--secondary-color)]'>
+                    {level.toUpperCase()}
+                  </span>
                 </div>
               </div>
 
-              {/* CỘT PHẢI: Flashcard 3D & Actions */}
-              <div className='min-w-0 flex-1'>
-                <VocabFlashcardHero
-                  words={words}
-                  lessonId={lessonId}
-                  cursor={safeCursor}
+              {/* Dropdown chọn bài học */}
+              <div className='w-full'>
+                <VocabLessonDropdown
+                  level={level}
+                  lessons={lessons}
+                  currentSection={section}
+                  currentLessonId={lessonId}
                   learned={learned}
-                  hideProgress={true}
-                  hideHints={true}
-                  onMarkLearned={handleMarkLearned}
-                  onMarkNotLearned={handleMarkNotLearned}
-                  onNavigate={handleNavigate}
+                  scores={scores}
+                  singleMode={mode}
+                  align='left'
+                  onSelectLesson={handleSelectLesson}
                 />
               </div>
             </div>
-          </div>
 
-          {/* Table */}
-          <div className='pt-2'>
-            <VocabTableView
-              words={words}
-              lessonId={lessonId}
-              cursor={safeCursor}
-              learned={learned}
-              onSelectWord={handleSelectWord}
-              onResetLesson={handleResetLesson}
-            />
-          </div>
+            {/* Box 2: Tiến độ bài học */}
+            <div className='flex flex-col gap-2 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs'>
+              <div className='flex items-center justify-between text-xs text-[var(--secondary-color)]'>
+                <span className='font-medium'>Tiến độ Bài {lessonId}</span>
+                <span className='font-bold text-[var(--foreground-color)] tabular-nums'>
+                  {learnedCount}/{words.length} ({progressPct}%)
+                </span>
+              </div>
+              <div className='h-2 w-full overflow-hidden rounded-full bg-[var(--border-color)]'>
+                <div
+                  className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
+                  style={{ width: `${progressPct}%` }}
+                />
+              </div>
+              <p className='mt-0.5 text-[11px] text-[var(--secondary-color)]'>
+                {words.length - learnedCount > 0
+                  ? `Còn ${words.length - learnedCount} từ cần nhớ`
+                  : '🎉 Đã nhớ hết các từ trong bài!'}
+              </p>
+            </div>
+
+            {/* Box 3: Bảng phím tắt học nhanh */}
+            <div className='hidden flex-col gap-2 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 text-xs text-[var(--secondary-color)] shadow-xs lg:flex'>
+              <p className='text-xs font-semibold tracking-wider text-[var(--foreground-color)] uppercase'>
+                Phím tắt học nhanh
+              </p>
+              <div className='flex items-center justify-between'>
+                <span>Lật thẻ</span>
+                <kbd className='rounded border border-[var(--border-color)] bg-[var(--background-color)] px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--foreground-color)]'>
+                  Space / Enter
+                </kbd>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span>Chưa nhớ</span>
+                <kbd className='rounded border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-red-400'>
+                  1
+                </kbd>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span>Đã nhớ</span>
+                <kbd className='rounded border border-green-500/30 bg-green-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-green-500'>
+                  2
+                </kbd>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span>Chuyển từ</span>
+                <kbd className='rounded border border-[var(--border-color)] bg-[var(--background-color)] px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--foreground-color)]'>
+                  ← →
+                </kbd>
+              </div>
+            </div>
+          </aside>
+
+          {/* CỘT PHẢI: Khu vực Flashcard 3D & Bảng từ vựng */}
+          <main className='flex min-w-0 flex-1 flex-col gap-6'>
+            {/* Sticky Flashcard: Giữ cố định trên cùng khi cuộn danh sách từ */}
+            <div className='sticky top-0 z-20 -mx-2 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 px-2 pt-2 pb-3.5 shadow-xs backdrop-blur-md transition-all'>
+              <VocabFlashcardHero
+                words={words}
+                lessonId={lessonId}
+                cursor={safeCursor}
+                learned={learned}
+                hideProgress={true}
+                hideHints={true}
+                onMarkLearned={handleMarkLearned}
+                onMarkNotLearned={handleMarkNotLearned}
+                onNavigate={handleNavigate}
+              />
+            </div>
+
+            {/* Bảng danh sách từ vựng */}
+            <div className='pt-1'>
+              <VocabTableView
+                words={words}
+                lessonId={lessonId}
+                cursor={safeCursor}
+                learned={learned}
+                onSelectWord={handleSelectWord}
+                onResetLesson={handleResetLesson}
+              />
+            </div>
+          </main>
         </div>
       ) : (
         <div className='flex flex-col gap-6'>
