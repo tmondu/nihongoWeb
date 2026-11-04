@@ -110,25 +110,25 @@ export default function VocabTableView({
 
       {/* Table */}
       <div className='overflow-x-auto rounded-xl border border-[var(--border-color)]'>
-        <table className='w-full min-w-[560px] text-sm'>
+        <table className='w-full min-w-[480px] text-sm sm:min-w-[520px]'>
           <thead>
             <tr className='border-b border-[var(--border-color)] bg-[var(--card-color)]'>
-              <th className='px-4 py-3 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
+              <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 #
               </th>
-              <th className='px-4 py-3 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
+              <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 Hiragana
               </th>
-              <th className='px-4 py-3 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
+              <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 Kanji
               </th>
-              <th className='px-4 py-3 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
+              <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 Nghĩa
               </th>
-              <th className='px-4 py-3 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase'>
+              <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 Ví dụ
               </th>
-              <th className='w-10 px-2 py-3' />
+              <th className='w-10 px-2 py-2.5 sm:py-3' />
             </tr>
           </thead>
           <tbody className='divide-y divide-[var(--border-color)]'>
@@ -162,10 +162,10 @@ export default function VocabTableView({
                     isLearned && 'opacity-80',
                   )}
                 >
-                  <td className='px-4 py-3 text-[var(--secondary-color)] tabular-nums'>
+                  <td className='px-3 py-2.5 text-[var(--secondary-color)] tabular-nums sm:px-4 sm:py-3'>
                     {w._idx + 1}
                   </td>
-                  <td className='px-4 py-3 font-medium text-[var(--foreground-color)]'>
+                  <td className='px-3 py-2.5 font-medium text-[var(--foreground-color)] sm:px-4 sm:py-3'>
                     <span className='font-japanese text-base' lang='ja'>
                       {w.hira}
                     </span>
@@ -173,7 +173,7 @@ export default function VocabTableView({
                       <span className='ml-1.5 text-xs text-green-500'>✓</span>
                     )}
                   </td>
-                  <td className='px-4 py-3'>
+                  <td className='px-3 py-2.5 sm:px-4 sm:py-3'>
                     {reveal ? (
                       <span
                         className='font-japanese text-base text-[var(--foreground-color)]'
@@ -185,7 +185,7 @@ export default function VocabTableView({
                       <span className='inline-block h-4 w-12 rounded bg-[var(--border-color)]' />
                     )}
                   </td>
-                  <td className='px-4 py-3'>
+                  <td className='px-3 py-2.5 sm:px-4 sm:py-3'>
                     {reveal ? (
                       <span className='font-vietnamese text-[var(--foreground-color)]'>
                         {w.mean}
@@ -194,7 +194,7 @@ export default function VocabTableView({
                       <span className='inline-block h-4 w-20 rounded bg-[var(--border-color)]' />
                     )}
                   </td>
-                  <td className='max-w-xs truncate px-4 py-3 text-[var(--secondary-color)]'>
+                  <td className='max-w-xs truncate px-3 py-2.5 text-[var(--secondary-color)] sm:px-4 sm:py-3'>
                     {reveal ? (
                       <span className='font-japanese text-sm' lang='ja'>
                         {w.ex ?? '—'}
