@@ -86,7 +86,7 @@ export default function ModernVocabContainer({
     words.length > 0 ? Math.round((learnedCount / words.length) * 100) : 0;
 
   return (
-    <div className='font-vietnamese flex w-full flex-col gap-6 py-2 sm:py-4'>
+    <div className='font-vietnamese flex w-full max-w-6xl flex-col gap-6 py-2 sm:py-4'>
       {/* Main Content Area */}
       {section === 'vocab' ? (
         <div className='flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-6'>
@@ -193,7 +193,7 @@ export default function ModernVocabContainer({
           {/* CỘT PHẢI: Khu vực Flashcard 3D & Bảng từ vựng */}
           <main className='flex min-w-0 flex-1 flex-col gap-6'>
             {/* Sticky Flashcard: Giữ cố định trên cùng khi cuộn danh sách từ */}
-            <div className='sticky top-0 z-20 -mx-2 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 px-2 pt-2 pb-3.5 shadow-xs backdrop-blur-md transition-all'>
+            <div className='sticky top-0 z-20 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 pt-2 pb-3.5 shadow-xs backdrop-blur-md transition-all'>
               <VocabFlashcardHero
                 words={words}
                 lessonId={lessonId}
