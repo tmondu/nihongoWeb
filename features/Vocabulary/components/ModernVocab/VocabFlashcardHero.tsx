@@ -18,6 +18,8 @@ interface VocabFlashcardHeroProps {
   lessonId: number;
   cursor: number;
   learned: string[];
+  hideProgress?: boolean;
+  hideHints?: boolean;
   onMarkLearned: () => void;
   onMarkNotLearned: () => void;
   onNavigate: (dir: -1 | 1) => void;
@@ -37,6 +39,8 @@ export default function VocabFlashcardHero({
   lessonId,
   cursor,
   learned,
+  hideProgress = false,
+  hideHints = false,
   onMarkLearned,
   onMarkNotLearned,
   onNavigate,
@@ -123,21 +127,23 @@ export default function VocabFlashcardHero({
   return (
     <div className='flex w-full flex-col items-center gap-3.5 sm:gap-4'>
       {/* Progress bar */}
-      <div className='flex w-full items-center gap-3'>
-        <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--border-color)]'>
-          <div
-            className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
-            style={{ width: `${progress}%` }}
-          />
+      {!hideProgress && (
+        <div className='flex w-full items-center gap-3'>
+          <div className='h-1.5 flex-1 overflow-hidden rounded-full bg-[var(--border-color)]'>
+            <div
+              className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <span className='font-vietnamese text-xs text-[var(--secondary-color)] tabular-nums'>
+            {learnedCount}/{words.length} đã nhớ
+          </span>
         </div>
-        <span className='font-vietnamese text-xs text-[var(--secondary-color)] tabular-nums'>
-          {learnedCount}/{words.length} đã nhớ
-        </span>
-      </div>
+      )}
 
-      {/* 3D Flashcard (Độ rộng bằng list, chiều cao thu gọn gọn gàng) */}
+      {/* 3D Flashcard */}
       <div
-        className='relative h-[250px] w-full cursor-pointer select-none sm:h-[280px]'
+        className='relative h-[250px] w-full cursor-pointer select-none sm:h-[265px]'
         style={{ perspective: 1200 }}
         onClick={() => setFlipped(f => !f)}
       >
@@ -341,21 +347,23 @@ export default function VocabFlashcardHero({
       </div>
 
       {/* Keyboard hints */}
-      <p className='font-vietnamese text-center text-xs text-[var(--secondary-color)]'>
-        ← → điều hướng &nbsp;·&nbsp;{' '}
-        <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
-          Space
-        </kbd>{' '}
-        Lật thẻ &nbsp;·&nbsp;{' '}
-        <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
-          1
-        </kbd>{' '}
-        Chưa nhớ &nbsp;·&nbsp;{' '}
-        <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
-          2
-        </kbd>{' '}
-        Đã nhớ
-      </p>
+      {!hideHints && (
+        <p className='font-vietnamese text-center text-xs text-[var(--secondary-color)]'>
+          ← → điều hướng &nbsp;·&nbsp;{' '}
+          <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
+            Space
+          </kbd>{' '}
+          Lật thẻ &nbsp;·&nbsp;{' '}
+          <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
+            1
+          </kbd>{' '}
+          Chưa nhớ &nbsp;·&nbsp;{' '}
+          <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-1.5 py-0.5'>
+            2
+          </kbd>{' '}
+          Đã nhớ
+        </p>
+      )}
     </div>
   );
 }

@@ -23,6 +23,7 @@ interface VocabLessonDropdownProps {
   learned: string[];
   scores: Record<string, number>;
   singleMode?: StudySection;
+  align?: 'left' | 'right';
   onSelectLesson: (lessonId: number) => void;
 }
 
@@ -51,6 +52,7 @@ export default function VocabLessonDropdown({
   learned,
   scores,
   singleMode,
+  align = 'right',
   onSelectLesson,
 }: VocabLessonDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -187,7 +189,10 @@ export default function VocabLessonDropdown({
       {/* Popover Dropdown menu */}
       {isOpen && (
         <div
-          className='animate-in fade-in zoom-in-95 absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-3 shadow-2xl backdrop-blur-md duration-150'
+          className={cn(
+            'animate-in fade-in zoom-in-95 absolute z-50 mt-2 w-72 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-3 shadow-2xl backdrop-blur-md duration-150',
+            align === 'left' ? 'left-0' : 'right-0',
+          )}
           style={{
             maxHeight: '440px',
             boxShadow: '0 12px 36px -4px rgba(0, 0, 0, 0.25)',
