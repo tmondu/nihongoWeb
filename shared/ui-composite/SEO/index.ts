@@ -1,7 +1,7 @@
 // SEO Schema Components
 // Export all structured data schemas for easy importing
 
-export { StructuredData, pthamssSchema } from './StructuredData';
+export { StructuredData, monduSchema, pthamssSchema } from './StructuredData';
 
 export { BreadcrumbSchema, generateBreadcrumbSchema } from './BreadcrumbSchema';
 export type { BreadcrumbItem, BreadcrumbSchemaProps } from './BreadcrumbSchema';

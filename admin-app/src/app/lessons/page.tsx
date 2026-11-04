@@ -490,13 +490,13 @@ export default function AdminLessonsPage() {
                     🎓 Ngữ pháp — Cần cấp quyền xem (can_watch_video)
                   </option>
                   <option value='exam_review'>
-                    📝 Chữa đề — Ai có tài khoản cũng xem được (chỉ giới hạn cấp
+                    📝 Chữa đề — Mọi học viên đều xem được (không giới hạn cấp
                     độ)
                   </option>
                 </select>
                 <p className='mt-1 text-[11px] text-slate-400'>
                   {formVideoType === 'exam_review'
-                    ? '📝 Chữa đề: mọi học viên đã đăng nhập đều có thể xem, chỉ cần đúng cấp độ.'
+                    ? '📝 Chữa đề: mọi học viên đã đăng nhập đều có thể xem (không phân cấp).'
                     : '🎓 Ngữ pháp: chỉ học viên được giáo viên cấp quyền mới xem được.'}
                 </p>
               </div>

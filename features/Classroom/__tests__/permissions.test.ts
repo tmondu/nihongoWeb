@@ -1,5 +1,7 @@
 import {
   canAccessLesson,
+  canAccessExamReview,
+  canAccessLessonByType,
   normalizeLevel,
 } from '@/features/Classroom/lib/permissions';
 
@@ -76,5 +78,55 @@ describe('Classroom Level Permissions', () => {
         lessonLevel: 'n5',
       }),
     ).toBe(false);
+  });
+
+  describe('Exam Review Permissions', () => {
+    it('allows access to exam review lessons regardless of user level and canWatchVideo', () => {
+      expect(canAccessExamReview({ userLevel: 'n5', lessonLevel: 'n1' })).toBe(
+        true,
+      );
+      expect(canAccessExamReview({ userLevel: 'n5', lessonLevel: 'n2' })).toBe(
+        true,
+      );
+      expect(canAccessExamReview({ userLevel: 'n5', lessonLevel: 'n3' })).toBe(
+        true,
+      );
+      expect(canAccessExamReview({ userLevel: 'n5', lessonLevel: 'n4' })).toBe(
+        true,
+      );
+      expect(canAccessExamReview({ userLevel: 'n5', lessonLevel: 'n5' })).toBe(
+        true,
+      );
+    });
+
+    it('canAccessLessonByType dispatches correctly for exam_review without level restriction', () => {
+      expect(
+        canAccessLessonByType({
+          videoType: 'exam_review',
+          userLevel: 'n5',
+          lessonLevel: 'n1',
+          canWatchVideo: 0,
+        }),
+      ).toBe(true);
+    });
+
+    it('canAccessLessonByType still restricts grammar lessons by level and canWatchVideo', () => {
+      expect(
+        canAccessLessonByType({
+          videoType: 'grammar',
+          userLevel: 'n5',
+          lessonLevel: 'n1',
+          canWatchVideo: 1,
+        }),
+      ).toBe(false);
+      expect(
+        canAccessLessonByType({
+          videoType: 'grammar',
+          userLevel: 'n1',
+          lessonLevel: 'n5',
+          canWatchVideo: 0,
+        }),
+      ).toBe(false);
+    });
   });
 });

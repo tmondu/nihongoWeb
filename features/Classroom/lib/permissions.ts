@@ -61,23 +61,15 @@ export function canAccessLesson({
  * Checks if a user can access an exam_review lesson.
  * Rules:
  * - Admin: always allowed
- * - Any logged-in user (no can_watch_video requirement)
- * - User level must be >= lesson level (cannot watch above their level)
+ * - Mọi học viên đều có thể xem toàn bộ video chữa đề (không giới hạn cấp độ hay quyền can_watch_video)
  */
-export function canAccessExamReview({
-  userLevel,
-  lessonLevel,
-  isAdmin,
-}: Pick<
-  PermissionCheckParams,
-  'userLevel' | 'lessonLevel' | 'isAdmin'
->): boolean {
-  if (Boolean(isAdmin)) return true;
-
-  const userRank = JLPT_LEVEL_RANKS[normalizeLevel(userLevel)];
-  const lessonRank = JLPT_LEVEL_RANKS[normalizeLevel(lessonLevel)];
-
-  return userRank >= lessonRank;
+export function canAccessExamReview(
+  _params?: Pick<
+    PermissionCheckParams,
+    'userLevel' | 'lessonLevel' | 'isAdmin'
+  >,
+): boolean {
+  return true;
 }
 
 /**
