@@ -86,14 +86,14 @@ export default function ModernVocabContainer({
     words.length > 0 ? Math.round((learnedCount / words.length) * 100) : 0;
 
   return (
-    <div className='font-vietnamese flex w-full max-w-6xl flex-col gap-6 py-2 sm:py-4'>
+    <div className='font-vietnamese flex w-full flex-col items-center gap-6 py-2 sm:py-4'>
       {/* Main Content Area */}
       {section === 'vocab' ? (
-        <div className='grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start'>
-          {/* CỘT TRÁI: Tỉ lệ 50%, bằng với phần bên phải */}
-          <aside className='sticky top-4 flex w-full flex-col gap-4 self-start'>
+        <div className='flex w-full justify-center gap-5 xl:gap-6'>
+          {/* CỘT TRÁI: Tiêu đề, Chọn bài, Tiến trình & Phím tắt (nhỏ như cũ: w-72 / w-80) */}
+          <aside className='sticky top-4 hidden w-64 shrink-0 flex-col gap-4 self-start xl:flex xl:w-72 2xl:w-80'>
             {/* Box 1: Breadcrumbs, Tiêu đề & Chọn bài */}
-            <div className='flex flex-col gap-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs sm:p-5'>
+            <div className='flex flex-col gap-3.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs'>
               <div>
                 <p className='text-xs text-[var(--secondary-color)]'>
                   <Link
@@ -138,20 +138,20 @@ export default function ModernVocabContainer({
             </div>
 
             {/* Box 2: Tiến độ bài học */}
-            <div className='flex flex-col gap-2.5 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs sm:p-5'>
-              <div className='flex items-center justify-between text-xs text-[var(--secondary-color)] sm:text-sm'>
+            <div className='flex flex-col gap-2 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs'>
+              <div className='flex items-center justify-between text-xs text-[var(--secondary-color)]'>
                 <span className='font-medium'>Tiến độ Bài {lessonId}</span>
                 <span className='font-bold text-[var(--foreground-color)] tabular-nums'>
                   {learnedCount}/{words.length} ({progressPct}%)
                 </span>
               </div>
-              <div className='h-2.5 w-full overflow-hidden rounded-full bg-[var(--border-color)]'>
+              <div className='h-2 w-full overflow-hidden rounded-full bg-[var(--border-color)]'>
                 <div
                   className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
-              <p className='text-[11px] text-[var(--secondary-color)] sm:text-xs'>
+              <p className='mt-0.5 text-[11px] text-[var(--secondary-color)]'>
                 {words.length - learnedCount > 0
                   ? `Còn ${words.length - learnedCount} từ cần nhớ`
                   : '🎉 Đã nhớ hết các từ trong bài!'}
@@ -159,43 +159,95 @@ export default function ModernVocabContainer({
             </div>
 
             {/* Box 3: Bảng phím tắt học nhanh */}
-            <div className='flex flex-col gap-3 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 text-xs text-[var(--secondary-color)] shadow-xs sm:p-5'>
+            <div className='flex flex-col gap-2 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 text-xs text-[var(--secondary-color)] shadow-xs'>
               <p className='text-xs font-semibold tracking-wider text-[var(--foreground-color)] uppercase'>
                 Phím tắt học nhanh
               </p>
-              <div className='grid grid-cols-2 gap-2 sm:gap-2.5'>
-                <div className='flex items-center justify-between rounded-xl border border-[var(--border-color)]/70 bg-[var(--background-color)]/60 px-3 py-2'>
-                  <span>Lật thẻ</span>
-                  <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--foreground-color)]'>
-                    Space / Enter
-                  </kbd>
-                </div>
-                <div className='flex items-center justify-between rounded-xl border border-[var(--border-color)]/70 bg-[var(--background-color)]/60 px-3 py-2'>
-                  <span>Chuyển từ</span>
-                  <kbd className='rounded border border-[var(--border-color)] bg-[var(--card-color)] px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--foreground-color)]'>
-                    ← →
-                  </kbd>
-                </div>
-                <div className='flex items-center justify-between rounded-xl border border-red-500/20 bg-red-500/5 px-3 py-2'>
-                  <span className='font-medium text-red-500'>Chưa nhớ</span>
-                  <kbd className='rounded border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-red-500'>
-                    1
-                  </kbd>
-                </div>
-                <div className='flex items-center justify-between rounded-xl border border-green-500/20 bg-green-500/5 px-3 py-2'>
-                  <span className='font-medium text-green-600 dark:text-green-400'>
-                    Đã nhớ
-                  </span>
-                  <kbd className='rounded border border-green-500/30 bg-green-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-green-600 dark:text-green-400'>
-                    2
-                  </kbd>
-                </div>
+              <div className='flex items-center justify-between'>
+                <span>Lật thẻ</span>
+                <kbd className='rounded border border-[var(--border-color)] bg-[var(--background-color)] px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--foreground-color)]'>
+                  Space / Enter
+                </kbd>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span className='text-red-500'>Chưa nhớ</span>
+                <kbd className='rounded border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-red-400'>
+                  1
+                </kbd>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span className='text-green-600 dark:text-green-400'>
+                  Đã nhớ
+                </span>
+                <kbd className='rounded border border-green-500/30 bg-green-500/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-green-500'>
+                  2
+                </kbd>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span>Chuyển từ</span>
+                <kbd className='rounded border border-[var(--border-color)] bg-[var(--background-color)] px-2 py-0.5 font-mono text-[11px] font-semibold text-[var(--foreground-color)]'>
+                  ← →
+                </kbd>
               </div>
             </div>
           </aside>
 
-          {/* CỘT PHẢI: Tỉ lệ 50%, bằng với phần bên trái (Flashcard + Bảng từ vựng) */}
-          <main className='flex w-full min-w-0 flex-col gap-6'>
+          {/* CỘT GIỮA: Card & Bảng từ vựng NẰM Ở CHÍNH GIỮA (CENTER) */}
+          <main className='flex w-full max-w-3xl min-w-0 flex-col gap-6 2xl:max-w-4xl'>
+            {/* Top header cho tablet / mobile (< xl) */}
+            <div className='flex flex-col gap-3 rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] p-4 shadow-xs xl:hidden'>
+              <div className='flex items-center justify-between gap-2'>
+                <div>
+                  <p className='text-xs text-[var(--secondary-color)]'>
+                    <Link
+                      href='/vocabulary'
+                      className='transition-colors hover:text-[var(--main-color)]'
+                    >
+                      Từ vựng
+                    </Link>{' '}
+                    &rsaquo;{' '}
+                    <Link
+                      href={`/vocabulary/jlpt-${level}`}
+                      className='transition-colors hover:text-[var(--main-color)]'
+                    >
+                      {level.toUpperCase()}
+                    </Link>{' '}
+                    &rsaquo; {sectionTitle}
+                  </p>
+                  <h1 className='mt-1 text-lg font-bold tracking-tight text-[var(--foreground-color)] sm:text-xl'>
+                    {sectionTitle}
+                  </h1>
+                </div>
+                <span className='rounded-full border border-[var(--border-color)] bg-[var(--background-color)] px-2.5 py-0.5 text-xs font-semibold text-[var(--secondary-color)]'>
+                  {level.toUpperCase()}
+                </span>
+              </div>
+
+              <div className='flex flex-wrap items-center justify-between gap-3'>
+                <VocabLessonDropdown
+                  level={level}
+                  lessons={lessons}
+                  currentSection={section}
+                  currentLessonId={lessonId}
+                  learned={learned}
+                  scores={scores}
+                  singleMode={mode}
+                  align='left'
+                  onSelectLesson={handleSelectLesson}
+                />
+                <div className='text-xs font-semibold text-[var(--secondary-color)] tabular-nums'>
+                  {learnedCount}/{words.length} ({progressPct}%)
+                </div>
+              </div>
+
+              <div className='h-2 w-full overflow-hidden rounded-full bg-[var(--border-color)]'>
+                <div
+                  className='h-full rounded-full bg-[var(--main-color)] transition-all duration-500'
+                  style={{ width: `${progressPct}%` }}
+                />
+              </div>
+            </div>
+
             {/* Sticky Flashcard: Giữ cố định trên cùng khi cuộn danh sách từ */}
             <div className='sticky top-0 z-20 border-b border-[var(--border-color)]/40 bg-[var(--background-color)]/95 pt-2 pb-3.5 shadow-xs backdrop-blur-md transition-all'>
               <VocabFlashcardHero
@@ -223,9 +275,15 @@ export default function ModernVocabContainer({
               />
             </div>
           </main>
+
+          {/* CỘT PHẢI: Spacer có cùng kích thước với cột trái để Card & Bảng từ vựng luôn ở CENTER */}
+          <div
+            className='hidden w-64 shrink-0 xl:block xl:w-72 2xl:w-80'
+            aria-hidden='true'
+          />
         </div>
       ) : (
-        <div className='flex flex-col gap-6'>
+        <div className='flex w-full max-w-4xl flex-col gap-6'>
           {/* Header bar cho chế độ Luyện phát âm */}
           <div className='flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4'>
             <div>
