@@ -52,7 +52,8 @@
     "exercisesN3": "Đề N3",
     "exercisesN2": "Đề N2",
     "exercisesN1": "Đề N1",
-    "jlptExams": "Đề thi JLPT"
+    "jlptExams": "Đề thi JLPT",
+    "assessment": "Test đầu vào"
   },
   "breadcrumbs": {
     "home": "Trang chủ",
@@ -63,6 +64,5 @@
     "privacy": "Chính sách bảo mật",
     "terms": "Điều khoản dịch vụ",
     "contact": "Liên hệ chúng tôi"
-  },
-  "assessment": "Test đầu vào"
+  }
 }

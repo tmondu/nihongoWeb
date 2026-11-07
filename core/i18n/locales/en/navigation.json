@@ -52,7 +52,8 @@
     "exercisesN3": "N3 Drills",
     "exercisesN2": "N2 Drills",
     "exercisesN1": "N1 Drills",
-    "jlptExams": "JLPT Exams"
+    "jlptExams": "JLPT Exams",
+    "assessment": "Placement Test"
   },
   "breadcrumbs": {
     "home": "Home",
@@ -63,6 +64,5 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "contact": "Contact Us"
-  },
-  "assessment": "Placement Test"
+  }
 }
