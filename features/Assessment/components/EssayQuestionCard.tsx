@@ -49,7 +49,7 @@ export default function EssayQuestionCard({
     if (!question.context_sentence) return null;
     if (!question.target_word) {
       return (
-        <p className='text-foreground text-base sm:text-lg'>
+        <p className='text-base font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
           {question.context_sentence}
         </p>
       );
@@ -58,19 +58,19 @@ export default function EssayQuestionCard({
     const parts = question.context_sentence.split(question.target_word);
     if (parts.length <= 1) {
       return (
-        <p className='text-foreground text-base sm:text-lg'>
+        <p className='text-base font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
           {question.context_sentence}
         </p>
       );
     }
 
     return (
-      <p className='text-foreground text-base leading-relaxed sm:text-lg'>
+      <p className='text-base leading-relaxed font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
         {parts.map((segment, idx) => (
           <React.Fragment key={idx}>
             {segment}
             {idx < parts.length - 1 && (
-              <span className='font-bold underline decoration-blue-600 decoration-2 underline-offset-4'>
+              <span className='font-bold text-blue-600 underline decoration-blue-600 decoration-2 underline-offset-4 dark:text-blue-400'>
                 {question.target_word}
               </span>
             )}
@@ -87,19 +87,19 @@ export default function EssayQuestionCard({
   return (
     <div
       id={`question-${question.order_num}`}
-      className='border-border/70 bg-card rounded-xl border p-4 shadow-xs sm:p-5'
+      className='rounded-xl border border-slate-200 bg-white p-5 shadow-xs transition-colors dark:border-slate-800 dark:bg-slate-900'
     >
       {/* Question Header */}
       <div className='mb-3 flex items-center justify-between'>
-        <span className='bg-muted text-foreground rounded-md px-2.5 py-1 text-xs font-bold'>
+        <span className='rounded-md bg-slate-100 px-3 py-1 text-xs font-bold text-slate-900 dark:bg-slate-800 dark:text-slate-100'>
           Câu {question.order_num}
         </span>
         {isAnswered ? (
-          <span className='text-[11px] font-semibold text-emerald-600 dark:text-emerald-400'>
+          <span className='rounded bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400'>
             Đã nhập câu trả lời
           </span>
         ) : (
-          <span className='text-muted-foreground text-[11px] font-medium'>
+          <span className='text-xs font-medium text-slate-400'>
             Chưa trả lời
           </span>
         )}
@@ -109,10 +109,10 @@ export default function EssayQuestionCard({
         /* Q181-200: Kanji Character + Han Viet + Meaning */
         <div className='flex flex-col gap-4'>
           <div className='flex items-center gap-4'>
-            <div className='border-border/70 bg-muted/40 text-foreground flex size-14 shrink-0 items-center justify-center rounded-xl border text-3xl font-bold'>
+            <div className='flex size-14 shrink-0 items-center justify-center rounded-xl border-2 border-slate-200 bg-slate-50 text-3xl font-bold text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white'>
               {question.kanji_char || question.target_word}
             </div>
-            <div className='text-muted-foreground text-xs leading-relaxed'>
+            <div className='text-xs text-slate-600 dark:text-slate-400'>
               Viết âm Hán Việt và ý nghĩa tiếng Việt của chữ Hán trên.
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function EssayQuestionCard({
             <div className='flex flex-col gap-1.5'>
               <label
                 htmlFor={`hanviet-${question.order_num}`}
-                className='text-muted-foreground text-xs font-semibold'
+                className='text-xs font-bold text-slate-700 dark:text-slate-300'
               >
                 Âm Hán Việt
               </label>
@@ -131,14 +131,14 @@ export default function EssayQuestionCard({
                 value={compositeValue.hanViet || ''}
                 onChange={handleHanVietChange}
                 placeholder='Ví dụ: HỌC'
-                className='border-border bg-background text-foreground w-full rounded-lg border px-3.5 py-2 text-sm transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600'
+                className='w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-900 transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
               />
             </div>
 
             <div className='flex flex-col gap-1.5'>
               <label
                 htmlFor={`meaning-${question.order_num}`}
-                className='text-muted-foreground text-xs font-semibold'
+                className='text-xs font-bold text-slate-700 dark:text-slate-300'
               >
                 Ý nghĩa tiếng Việt
               </label>
@@ -148,7 +148,7 @@ export default function EssayQuestionCard({
                 value={compositeValue.meaning || ''}
                 onChange={handleMeaningChange}
                 placeholder='Ví dụ: Học tập, trường học'
-                className='border-border bg-background text-foreground w-full rounded-lg border px-3.5 py-2 text-sm transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600'
+                className='w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
               />
             </div>
           </div>
@@ -161,10 +161,10 @@ export default function EssayQuestionCard({
           <div className='flex flex-col gap-1.5'>
             <label
               htmlFor={`hiragana-${question.order_num}`}
-              className='text-muted-foreground text-xs font-medium'
+              className='text-xs font-semibold text-slate-600 dark:text-slate-400'
             >
               Cách đọc Hiragana cho từ{' '}
-              <strong className='text-foreground'>
+              <strong className='text-slate-900 dark:text-white'>
                 {question.target_word}
               </strong>
               :
@@ -175,7 +175,7 @@ export default function EssayQuestionCard({
               value={hiraganaValue}
               onChange={handleHiraganaChange}
               placeholder='Nhập Hiragana...'
-              className='border-border bg-background text-foreground max-w-md rounded-lg border px-3.5 py-2 text-sm transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600'
+              className='max-w-md rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
             />
           </div>
         </div>

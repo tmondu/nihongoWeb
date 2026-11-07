@@ -1,14 +1,16 @@
 'use client';
 
-import React, { useEffect, useState, useRef, useTransition } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { AssessmentQuestion, AssessmentTest } from '../types';
 import { useAssessmentStore } from '../store/useAssessmentStore';
+import TestOverviewCard from './TestOverviewCard';
+import PartSelectionCards from './PartSelectionCards';
 import AssessmentHeader from './AssessmentHeader';
-import AssessmentTabs from './AssessmentTabs';
 import McqQuestionCard from './McqQuestionCard';
 import EssayQuestionCard from './EssayQuestionCard';
 import QuestionMatrixModal from './QuestionMatrixModal';
+import ExitConfirmModal from './ExitConfirmModal';
 import IncompleteWarningModal from './IncompleteWarningModal';
 import CompletionModal from './CompletionModal';
 
@@ -22,6 +24,7 @@ export default function AssessmentContainer() {
   } | null>(null);
 
   const [submitting, setSubmitting] = useState(false);
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
   const [missingQuestions, setMissingQuestions] = useState<number[]>([]);
   const [isWarningOpen, setIsWarningOpen] = useState(false);
   const [completionData, setCompletionData] = useState<{
@@ -34,23 +37,19 @@ export default function AssessmentContainer() {
     isFullyCompleted: false,
   });
 
-  const [, startTransition] = useTransition();
-
   const {
+    currentView,
     activePart,
-    setActivePart,
     answers,
-    mcqTimerActive,
-    essayTimerActive,
-    startTimer,
     decrementTimer,
+    exitTestPart,
     syncWithServer,
     setPartStatus,
   } = useAssessmentStore();
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // 1. Fetch test data on mount
+  // 1. Fetch test data and existing submission on mount
   useEffect(() => {
     let isCancelled = false;
 
@@ -63,7 +62,7 @@ export default function AssessmentContainer() {
         if (res.status === 401) {
           setAuthError({
             type: 'unauthorized',
-            message: 'Vui lòng đăng nhập để làm bài kiểm tra.',
+            message: 'Vui lòng đăng nhập để tham gia bài kiểm tra năng lực.',
           });
           return;
         }
@@ -90,11 +89,6 @@ export default function AssessmentContainer() {
         if (data.submission) {
           syncWithServer(data.submission);
         }
-
-        // Auto start timer for initial part
-        startTransition(() => {
-          startTimer(1);
-        });
       } catch (err: unknown) {
         if (!isCancelled) {
           console.error(err);
@@ -115,14 +109,13 @@ export default function AssessmentContainer() {
     return () => {
       isCancelled = true;
     };
-  }, [syncWithServer, startTimer]);
+  }, [syncWithServer]);
 
-  // 2. Active timer countdown loop
+  // 2. Active timer countdown loop (ONLY when taking test and activePart is selected)
   useEffect(() => {
-    if (activePart === 1 && !mcqTimerActive) {
-      startTimer(1);
-    } else if (activePart === 2 && !essayTimerActive) {
-      startTimer(2);
+    if (currentView !== 'taking_test' || !activePart) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
     }
 
     timerRef.current = setInterval(() => {
@@ -132,21 +125,35 @@ export default function AssessmentContainer() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [
-    activePart,
-    mcqTimerActive,
-    essayTimerActive,
-    decrementTimer,
-    startTimer,
-  ]);
+  }, [currentView, activePart, decrementTimer]);
 
-  // 3. Jump to question
+  // 3. Prevent accidental reload/closing when in middle of taking test
+  useEffect(() => {
+    if (currentView !== 'taking_test') return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      // Browser requires setting returnValue
+      e.returnValue = '';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [currentView]);
+
+  // 4. Confirm Exit Action
+  const handleConfirmExit = () => {
+    if (activePart) {
+      exitTestPart(activePart);
+    }
+    setIsExitModalOpen(false);
+  };
+
+  // 5. Jump to question
   const handleJumpToQuestion = (orderNum: number) => {
     setIsWarningOpen(false);
-    const targetPart = orderNum <= 100 ? 1 : 2;
-    if (activePart !== targetPart) {
-      setActivePart(targetPart);
-    }
     setTimeout(() => {
       const el = document.getElementById(`question-${orderNum}`);
       if (el) {
@@ -155,9 +162,9 @@ export default function AssessmentContainer() {
     }, 100);
   };
 
-  // 4. Handle Submit Current Part
+  // 6. Handle Submit Current Part
   const handleSubmitPart = async () => {
-    if (!test) return;
+    if (!test || !activePart) return;
 
     // Local validation check for 100% completion of current part
     const range = activePart === 1 ? [1, 100] : [101, 200];
@@ -170,7 +177,7 @@ export default function AssessmentContainer() {
           missing.push(i);
         }
       } else {
-        // Q181-200
+        // Q181-200 composite check
         if (!val) {
           missing.push(i);
         } else if (typeof val === 'string' && val.trim().length === 0) {
@@ -215,7 +222,7 @@ export default function AssessmentContainer() {
         return;
       }
 
-      // Success
+      // Success: mark part completed & open Completion Modal
       setPartStatus(activePart, 'completed');
       setCompletionData({
         isOpen: true,
@@ -236,22 +243,22 @@ export default function AssessmentContainer() {
   if (authError) {
     return (
       <div className='flex min-h-[60vh] flex-col items-center justify-center px-4 text-center'>
-        <div className='border-border/80 bg-card w-full max-w-md rounded-2xl border p-6 shadow-sm'>
-          <h2 className='text-foreground text-lg font-bold'>
+        <div className='w-full max-w-md rounded-2xl border-2 border-slate-200 bg-white p-6 shadow-md dark:border-slate-800 dark:bg-slate-900'>
+          <h2 className='text-lg font-bold text-slate-900 dark:text-white'>
             {authError.type === 'unauthorized'
               ? 'Yêu cầu đăng nhập'
               : authError.type === 'forbidden'
                 ? 'Chưa cấp quyền làm bài'
                 : 'Thông báo'}
           </h2>
-          <p className='text-muted-foreground mt-2 text-sm leading-relaxed'>
+          <p className='mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400'>
             {authError.message}
           </p>
           <div className='mt-6 flex flex-col gap-2'>
             {authError.type === 'unauthorized' ? (
               <Link
                 href='/login?redirect=/assessment'
-                className='rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white transition-all hover:bg-blue-500'
+                className='rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-blue-500'
               >
                 Đăng nhập tài khoản
               </Link>
@@ -260,14 +267,14 @@ export default function AssessmentContainer() {
                 href='https://zalo.me'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white transition-all hover:bg-blue-500'
+                className='rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-blue-500'
               >
-                Liên hệ Zalo cô Thắm
+                Liên hệ Zalo cô Thắm để duyệt quyền
               </a>
             ) : null}
             <Link
               href='/'
-              className='hover:bg-muted text-muted-foreground hover:text-foreground rounded-lg px-4 py-2 text-xs font-semibold transition-colors'
+              className='rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
             >
               Trở về trang chủ
             </Link>
@@ -278,44 +285,70 @@ export default function AssessmentContainer() {
   }
 
   // Render Loading
-  if (loading) {
+  if (loading || !test) {
     return (
       <div className='flex min-h-[60vh] flex-col items-center justify-center gap-3 px-4'>
-        <div className='border-border/60 size-10 animate-spin rounded-full border-4 border-t-blue-600' />
-        <p className='text-muted-foreground text-sm font-medium'>
+        <div className='size-10 animate-spin rounded-full border-4 border-slate-200 border-t-blue-600 dark:border-slate-800 dark:border-t-blue-500' />
+        <p className='text-xs font-semibold text-slate-500'>
           Đang tải đề thi...
         </p>
       </div>
     );
   }
 
-  // Filter questions for active tab
+  // SCREEN 1: Test Overview Card
+  if (currentView === 'test_overview') {
+    return <TestOverviewCard test={test} />;
+  }
+
+  // SCREEN 2: Part Selection (2 distinct boxes)
+  if (currentView === 'part_selection') {
+    return (
+      <>
+        <PartSelectionCards />
+        <CompletionModal
+          isOpen={completionData.isOpen}
+          message={completionData.message}
+          isFullyCompleted={completionData.isFullyCompleted}
+          onClose={() =>
+            setCompletionData(prev => ({ ...prev, isOpen: false }))
+          }
+        />
+      </>
+    );
+  }
+
+  // SCREEN 3: Taking Test (Active session for activePart only)
   const currentQuestions = questions.filter(q => q.part === activePart);
 
   return (
     <div className='min-h-screen pb-20'>
       {/* Sticky Header */}
       <AssessmentHeader
+        onOpenExitModal={() => setIsExitModalOpen(true)}
         onSubmitPart={handleSubmitPart}
         submitting={submitting}
       />
 
       {/* Main Content Area */}
-      <main className='mx-auto max-w-5xl px-4 pt-6'>
-        {/* Tabs Control */}
-        <AssessmentTabs />
-
-        {/* Section Heading */}
-        <div className='border-border/60 bg-muted/30 my-6 rounded-xl border p-4 text-center'>
-          <h2 className='text-foreground text-base font-bold sm:text-lg'>
-            {activePart === 1
-              ? 'Phần 1: Trắc nghiệm (100 câu)'
-              : 'Phần 2: Tự luận (100 câu)'}
+      <main className='mx-auto max-w-4xl px-4 pt-6'>
+        {/* Section Heading Banner */}
+        <div className='mb-6 rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-xs dark:border-slate-800 dark:bg-slate-900'>
+          <div className='flex items-center justify-between'>
+            <span className='rounded bg-blue-100 px-2.5 py-1 text-xs font-bold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'>
+              {activePart === 1 ? 'Phần 1: Trắc nghiệm' : 'Phần 2: Tự luận'}
+            </span>
+            <span className='text-xs font-semibold text-slate-500 dark:text-slate-400'>
+              {activePart === 1 ? 'Thời gian: 60 phút' : 'Thời gian: 80 phút'}
+            </span>
+          </div>
+          <h2 className='mt-2 text-lg font-bold text-slate-900 sm:text-xl dark:text-white'>
+            {activePart === 1 ? '100 câu trắc nghiệm' : '100 câu tự luận'}
           </h2>
-          <p className='text-muted-foreground mt-1 text-xs'>
+          <p className='mt-1 text-xs text-slate-600 dark:text-slate-400'>
             {activePart === 1
-              ? 'Thời gian làm bài: 60 phút. Chọn duy nhất 1 đáp án đúng cho mỗi câu.'
-              : 'Thời gian làm bài: 80 phút. Điền Hiragana, Hán Việt và Nghĩa tiếng Việt rõ ràng.'}
+              ? 'Chọn 1 đáp án đúng duy nhất (A, B, C, D) cho từng câu hỏi. Phải trả lời hết 100 câu mới được nộp bài.'
+              : 'Điền Hiragana cho 80 câu đầu và điền Âm Hán Việt + Nghĩa tiếng Việt cho 20 câu cuối. Phải trả lời đủ 100 câu.'}
           </p>
         </div>
 
@@ -330,15 +363,15 @@ export default function AssessmentContainer() {
         </div>
 
         {/* Bottom Submit Action */}
-        <div className='border-border/60 bg-card mt-8 flex flex-col items-center justify-between gap-3 rounded-xl border p-4 sm:flex-row'>
-          <div className='text-muted-foreground text-xs'>
+        <div className='mt-8 flex flex-col items-center justify-between gap-3 rounded-2xl border-2 border-slate-200 bg-white p-5 shadow-xs sm:flex-row dark:border-slate-800 dark:bg-slate-900'>
+          <div className='text-xs text-slate-500 dark:text-slate-400'>
             Bắt buộc hoàn thành 100% câu hỏi của phần này trước khi nộp.
           </div>
           <button
             type='button'
             onClick={handleSubmitPart}
             disabled={submitting}
-            className='w-full rounded-lg bg-blue-600 px-6 py-2.5 text-xs font-semibold text-white transition-all hover:bg-blue-500 active:scale-95 sm:w-auto'
+            className='w-full cursor-pointer rounded-xl bg-blue-600 px-6 py-2.5 text-xs font-bold text-white transition-all hover:bg-blue-500 active:scale-95 sm:w-auto'
           >
             {submitting ? 'Đang nộp...' : 'Nộp bài'}
           </button>
@@ -347,6 +380,12 @@ export default function AssessmentContainer() {
 
       {/* Modals */}
       <QuestionMatrixModal />
+      <ExitConfirmModal
+        isOpen={isExitModalOpen}
+        onClose={() => setIsExitModalOpen(false)}
+        onConfirmExit={handleConfirmExit}
+        part={activePart}
+      />
       <IncompleteWarningModal
         isOpen={isWarningOpen}
         onClose={() => setIsWarningOpen(false)}

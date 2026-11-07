@@ -4,22 +4,12 @@ import React from 'react';
 import { useAssessmentStore } from '../store/useAssessmentStore';
 
 export default function QuestionMatrixModal() {
-  const {
-    isQuestionMatrixOpen,
-    setQuestionMatrixOpen,
-    activePart,
-    setActivePart,
-    answers,
-  } = useAssessmentStore();
+  const { isQuestionMatrixOpen, setQuestionMatrixOpen, activePart, answers } =
+    useAssessmentStore();
 
-  if (!isQuestionMatrixOpen) return null;
+  if (!isQuestionMatrixOpen || !activePart) return null;
 
   const handleSelectQuestion = (orderNum: number) => {
-    // If selecting a question from another part, switch tab
-    const targetPart = orderNum <= 100 ? 1 : 2;
-    if (activePart !== targetPart) {
-      setActivePart(targetPart);
-    }
     setQuestionMatrixOpen(false);
 
     // Scroll to element after DOM updates
@@ -47,34 +37,45 @@ export default function QuestionMatrixModal() {
     questionNumbers.push(i);
   }
 
+  const answeredCount = questionNumbers.filter(isAnswered).length;
+
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs'>
-      <div className='border-border/80 bg-background flex max-h-[85vh] w-full max-w-2xl flex-col rounded-2xl border shadow-2xl'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4'>
+      <div className='flex max-h-[85vh] w-full max-w-2xl flex-col rounded-2xl border-2 border-slate-300 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900'>
         {/* Modal Header */}
-        <div className='border-border/60 flex items-center justify-between border-b px-5 py-3.5'>
+        <div className='flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-800'>
           <div className='flex items-center gap-3'>
-            <h2 className='text-foreground text-sm font-bold sm:text-base'>
-              Bảng câu hỏi (
+            <h2 className='text-base font-bold text-slate-900 dark:text-white'>
+              Danh sách câu hỏi (
               {activePart === 1 ? 'Phần 1: Trắc nghiệm' : 'Phần 2: Tự luận'})
             </h2>
-            <div className='flex items-center gap-2 text-xs'>
-              <span className='flex items-center gap-1 text-emerald-600 dark:text-emerald-400'>
-                <span className='size-2.5 rounded-full bg-emerald-500' />
-                Đã làm
-              </span>
-              <span className='text-muted-foreground flex items-center gap-1'>
-                <span className='border-border bg-muted size-2.5 rounded-full border' />
-                Chưa làm
-              </span>
-            </div>
+            <span className='rounded bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'>
+              Đã làm: {answeredCount}/100 câu
+            </span>
           </div>
           <button
             type='button'
             onClick={() => setQuestionMatrixOpen(false)}
-            className='hover:bg-muted text-muted-foreground hover:text-foreground rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors'
+            className='rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
           >
             Đóng
           </button>
+        </div>
+
+        {/* Legend */}
+        <div className='flex items-center gap-4 border-b border-slate-100 bg-slate-50 px-5 py-2.5 text-xs dark:border-slate-800/60 dark:bg-slate-800/30'>
+          <div className='flex items-center gap-1.5'>
+            <span className='size-3 rounded bg-emerald-600' />
+            <span className='font-medium text-slate-700 dark:text-slate-300'>
+              Đã làm
+            </span>
+          </div>
+          <div className='flex items-center gap-1.5'>
+            <span className='size-3 rounded border border-slate-300 bg-slate-100 dark:border-slate-600 dark:bg-slate-800' />
+            <span className='font-medium text-slate-700 dark:text-slate-300'>
+              Chưa làm
+            </span>
+          </div>
         </div>
 
         {/* Numbers Grid */}
@@ -87,10 +88,10 @@ export default function QuestionMatrixModal() {
                   key={num}
                   type='button'
                   onClick={() => handleSelectQuestion(num)}
-                  className={`flex size-10 items-center justify-center rounded-lg text-xs font-bold transition-all active:scale-95 ${
+                  className={`flex size-10 items-center justify-center rounded-lg text-xs font-bold transition-transform active:scale-90 ${
                     answered
-                      ? 'border border-emerald-500/30 bg-emerald-500/15 font-bold text-emerald-700 dark:text-emerald-300'
-                      : 'border-border/60 bg-muted/30 hover:bg-muted/70 text-muted-foreground hover:text-foreground border'
+                      ? 'border-2 border-emerald-600 bg-emerald-600 text-white shadow-xs'
+                      : 'border border-slate-300 bg-slate-100 text-slate-800 hover:border-blue-500 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-blue-400'
                   }`}
                 >
                   {num}
@@ -101,37 +102,13 @@ export default function QuestionMatrixModal() {
         </div>
 
         {/* Modal Footer */}
-        <div className='border-border/60 bg-muted/20 flex items-center justify-between border-t px-5 py-3'>
-          <div className='flex gap-2'>
-            <button
-              type='button'
-              onClick={() => setActivePart(1)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
-                activePart === 1
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-muted text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Phần 1 (1 - 100)
-            </button>
-            <button
-              type='button'
-              onClick={() => setActivePart(2)}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
-                activePart === 2
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-muted text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Phần 2 (101 - 200)
-            </button>
-          </div>
+        <div className='flex items-center justify-end border-t border-slate-200 bg-slate-50 px-5 py-3 dark:border-slate-800 dark:bg-slate-800/30'>
           <button
             type='button'
             onClick={() => setQuestionMatrixOpen(false)}
-            className='border-border/70 hover:bg-muted text-foreground rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors'
+            className='rounded-lg bg-blue-600 px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-blue-500'
           >
-            Đóng
+            Tiếp tục làm bài
           </button>
         </div>
       </div>
