@@ -3,6 +3,7 @@
 import React from 'react';
 import { AssessmentQuestion } from '../types';
 import { useAssessmentStore } from '../store/useAssessmentStore';
+import { useClick } from '@/shared/hooks/generic/useAudio';
 
 interface McqQuestionCardProps {
   question: AssessmentQuestion;
@@ -10,9 +11,11 @@ interface McqQuestionCardProps {
 
 export default function McqQuestionCard({ question }: McqQuestionCardProps) {
   const { answers, setAnswer } = useAssessmentStore();
+  const { playClick } = useClick();
   const selectedAnswer = answers[question.order_num] as string | undefined;
 
   const handleSelect = (key: 'A' | 'B' | 'C' | 'D') => {
+    playClick();
     setAnswer(question.order_num, key);
   };
 
@@ -21,7 +24,10 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
     if (!question.context_sentence) return null;
     if (!question.target_word) {
       return (
-        <p className='text-base leading-relaxed font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
+        <p
+          className='font-japanese text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'
+          lang='ja'
+        >
           {question.context_sentence}
         </p>
       );
@@ -30,19 +36,25 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
     const parts = question.context_sentence.split(question.target_word);
     if (parts.length <= 1) {
       return (
-        <p className='text-base leading-relaxed font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
+        <p
+          className='font-japanese text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'
+          lang='ja'
+        >
           {question.context_sentence}
         </p>
       );
     }
 
     return (
-      <p className='text-base leading-relaxed font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
+      <p
+        className='font-japanese text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'
+        lang='ja'
+      >
         {parts.map((segment, idx) => (
           <React.Fragment key={idx}>
             {segment}
             {idx < parts.length - 1 && (
-              <span className='font-bold underline decoration-slate-900 decoration-2 underline-offset-4 dark:decoration-white'>
+              <span className='font-bold underline decoration-(--main-color) decoration-2 underline-offset-4'>
                 {question.target_word}
               </span>
             )}
@@ -55,19 +67,19 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
   return (
     <div
       id={`question-${question.order_num}`}
-      className='rounded-xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900'
+      className='rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-xs transition-colors sm:p-6'
     >
       {/* Header */}
-      <div className='mb-3 flex items-center justify-between'>
-        <span className='rounded bg-[#F0F0EF] px-2.5 py-0.5 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300'>
+      <div className='mb-3.5 flex items-center justify-between'>
+        <span className='rounded-full bg-(--main-color)/15 px-3 py-0.5 text-xs font-extrabold text-(--main-color)'>
           Câu {question.order_num}
         </span>
         {selectedAnswer ? (
-          <span className='rounded bg-[#EDF3EC] px-2.5 py-0.5 text-xs font-medium text-[#285A2C] dark:bg-emerald-950/40 dark:text-emerald-300'>
+          <span className='rounded-full border border-green-500/30 bg-green-500/15 px-3 py-0.5 text-xs font-bold text-green-600 dark:text-green-400'>
             Đã chọn: {selectedAnswer}
           </span>
         ) : (
-          <span className='text-xs font-medium text-slate-400 dark:text-slate-500'>
+          <span className='text-xs font-medium text-(--secondary-color)'>
             Chưa trả lời
           </span>
         )}
@@ -77,7 +89,7 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
       <div className='mb-5'>{renderSentence()}</div>
 
       {/* 4 Options Grid */}
-      <div className='grid grid-cols-1 gap-2.5 sm:grid-cols-2'>
+      <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
         {question.options_json?.map(opt => {
           const isSelected = selectedAnswer === opt.key;
           return (
@@ -85,22 +97,29 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
               key={opt.key}
               type='button'
               onClick={() => handleSelect(opt.key)}
-              className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3.5 text-left transition-colors active:scale-[0.99] ${
+              className={`group flex cursor-pointer items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-all select-none active:scale-[0.99] ${
                 isSelected
-                  ? 'border-slate-900 bg-slate-900 text-white dark:border-white dark:bg-white dark:text-slate-900'
-                  : 'border-slate-200 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50/60 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700'
+                  ? 'border-(--main-color) bg-(--main-color)/15 text-(--main-color) shadow-sm'
+                  : 'border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:border-(--main-color)/60'
               }`}
             >
               <span
-                className={`flex size-6 shrink-0 items-center justify-center rounded text-xs font-bold ${
+                className={`flex size-8 shrink-0 items-center justify-center rounded-xl text-xs font-bold transition-all ${
                   isSelected
-                    ? 'bg-white/20 text-white dark:bg-slate-900/10 dark:text-slate-900'
-                    : 'border border-slate-200 bg-[#FBFBFA] text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                    ? 'bg-(--main-color) text-(--background-color) shadow-xs'
+                    : 'border border-(--border-color) bg-(--card-color) text-(--secondary-color) group-hover:text-(--main-color)'
                 }`}
               >
                 {opt.key}
               </span>
-              <span className='text-sm font-medium sm:text-base'>
+              <span
+                className={`font-japanese text-sm leading-relaxed font-medium sm:text-base ${
+                  isSelected
+                    ? 'font-bold text-(--main-color)'
+                    : 'text-(--secondary-color) group-hover:text-(--main-color)'
+                }`}
+                lang='ja'
+              >
                 {opt.text}
               </span>
             </button>

@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAssessmentStore } from '../store/useAssessmentStore';
+import { useClick } from '@/shared/hooks/generic/useAudio';
 
 interface CompletionModalProps {
   isOpen: boolean;
@@ -18,48 +19,51 @@ export default function CompletionModal({
   onClose,
 }: CompletionModalProps) {
   const { setCurrentView } = useAssessmentStore();
+  const { playClick } = useClick();
 
   if (!isOpen) return null;
 
   const handleContinue = () => {
+    playClick();
     onClose();
     setCurrentView('part_selection');
   };
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4'>
-      <div className='flex w-full max-w-md flex-col rounded-xl border border-slate-200 bg-white p-6 text-center dark:border-slate-800 dark:bg-slate-900'>
-        <div className='mb-3'>
-          <span className='rounded bg-[#EDF3EC] px-2.5 py-0.5 text-xs font-medium text-[#285A2C] dark:bg-emerald-950/40 dark:text-emerald-300'>
+    <div className='font-vietnamese fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs'>
+      <div className='flex w-full max-w-md flex-col rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 text-center shadow-2xl sm:p-7'>
+        <div className='mb-3 border-b-2 border-(--border-color)/60 pb-3.5'>
+          <span className='rounded-full border border-green-500/30 bg-green-500/15 px-3 py-0.5 text-xs font-extrabold text-green-600 dark:text-green-400'>
             {isFullyCompleted ? 'Hoàn thành bài thi' : 'Đã nộp phần thi'}
           </span>
-          <h2 className='mt-2 text-base font-bold text-slate-900 dark:text-white'>
+          <h2 className='mt-2.5 text-lg font-extrabold text-(--main-color)'>
             {isFullyCompleted
               ? 'Hoàn thành bài kiểm tra'
               : 'Đã nộp bài thành công'}
           </h2>
         </div>
 
-        <p className='text-xs leading-relaxed text-slate-600 dark:text-slate-400'>
+        <p className='text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
           {message}
         </p>
 
-        <p className='mt-1 text-xs text-slate-500 dark:text-slate-400'>
-          Kết quả bài thi đã được lưu vào hệ thống. Giáo viên sẽ kiểm tra và
-          phản hồi sớm nhất.
+        <p className='mt-2 text-xs leading-relaxed text-(--secondary-color)'>
+          Kết quả bài thi đã được lưu vào hệ thống quản trị. Giáo viên sẽ kiểm
+          tra và phản hồi sớm nhất.
         </p>
 
-        <div className='mt-6 flex flex-col gap-2'>
+        <div className='mt-6 flex flex-col gap-2.5'>
           <button
             type='button'
             onClick={handleContinue}
-            className='cursor-pointer rounded-lg bg-slate-900 px-4 py-2.5 text-xs font-medium text-white transition-colors hover:bg-slate-800 active:scale-[0.99] dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
+            className='cursor-pointer rounded-2xl bg-(--main-color) px-5 py-3 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95 sm:text-sm'
           >
             {isFullyCompleted ? 'Xem lại các phần' : 'Làm tiếp phần còn lại'}
           </button>
           <Link
             href='/'
-            className='rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+            onClick={playClick}
+            className='rounded-2xl border-2 border-(--border-color) bg-(--background-color) px-4 py-2.5 text-xs font-bold text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) active:scale-95'
           >
             Trở về trang chủ
           </Link>

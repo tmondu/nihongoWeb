@@ -62,7 +62,7 @@ export default function AssessmentContainer() {
         if (res.status === 401) {
           setAuthError({
             type: 'unauthorized',
-            message: 'Vui lòng đăng nhập để làm bài kiểm tra.',
+            message: 'Vui lòng đăng nhập để tham gia bài kiểm tra năng lực.',
           });
           return;
         }
@@ -241,23 +241,23 @@ export default function AssessmentContainer() {
   // Render Auth Error States
   if (authError) {
     return (
-      <div className='flex min-h-[60vh] flex-col items-center justify-center px-4 text-center'>
-        <div className='w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900'>
-          <h2 className='text-base font-bold text-slate-900 dark:text-white'>
+      <div className='font-vietnamese flex min-h-[60vh] flex-col items-center justify-center px-4 text-center'>
+        <div className='w-full max-w-md rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-sm sm:p-8'>
+          <h2 className='text-base font-extrabold text-(--main-color) sm:text-lg'>
             {authError.type === 'unauthorized'
               ? 'Yêu cầu đăng nhập'
               : authError.type === 'forbidden'
                 ? 'Chưa cấp quyền làm bài'
                 : 'Thông báo'}
           </h2>
-          <p className='mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400'>
+          <p className='mt-2 text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
             {authError.message}
           </p>
-          <div className='mt-6 flex flex-col gap-2'>
+          <div className='mt-6 flex flex-col gap-2.5'>
             {authError.type === 'unauthorized' ? (
               <Link
                 href='/login?redirect=/assessment'
-                className='rounded-lg bg-slate-900 px-4 py-2.5 text-xs font-medium text-white transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
+                className='rounded-2xl bg-(--main-color) px-5 py-3 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
               >
                 Đăng nhập tài khoản
               </Link>
@@ -266,14 +266,14 @@ export default function AssessmentContainer() {
                 href='https://zalo.me'
                 target='_blank'
                 rel='noopener noreferrer'
-                className='rounded-lg bg-slate-900 px-4 py-2.5 text-xs font-medium text-white transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
+                className='rounded-2xl bg-(--main-color) px-5 py-3 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
               >
                 Liên hệ Zalo cô Thắm để duyệt quyền
               </a>
             ) : null}
             <Link
               href='/'
-              className='rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+              className='rounded-2xl border-2 border-(--border-color) bg-(--background-color) px-4 py-2.5 text-xs font-bold text-(--secondary-color) transition-all hover:border-(--main-color) hover:text-(--main-color) active:scale-95'
             >
               Trở về trang chủ
             </Link>
@@ -286,9 +286,11 @@ export default function AssessmentContainer() {
   // Render Loading
   if (loading || !test) {
     return (
-      <div className='flex min-h-[60vh] flex-col items-center justify-center gap-3 px-4'>
-        <div className='size-8 animate-spin rounded-full border-2 border-slate-200 border-t-slate-900 dark:border-slate-800 dark:border-t-white' />
-        <p className='text-xs font-medium text-slate-400'>Đang tải đề thi...</p>
+      <div className='flex min-h-[60vh] flex-col items-center justify-center gap-3.5 px-4'>
+        <div className='size-10 animate-spin rounded-full border-4 border-(--border-color) border-t-(--main-color)' />
+        <p className='text-xs font-bold text-(--secondary-color)'>
+          Đang tải đề thi...
+        </p>
       </div>
     );
   }
@@ -319,7 +321,7 @@ export default function AssessmentContainer() {
   const currentQuestions = questions.filter(q => q.part === activePart);
 
   return (
-    <div className='min-h-screen pb-24'>
+    <div className='font-vietnamese min-h-screen pb-24'>
       {/* Sticky Header */}
       <AssessmentHeader
         onOpenExitModal={() => setIsExitModalOpen(true)}
@@ -328,27 +330,21 @@ export default function AssessmentContainer() {
       />
 
       {/* Main Content Area */}
-      <main className='mx-auto max-w-4xl px-4 pt-8'>
+      <main className='mx-auto max-w-4xl px-4 pt-6 sm:pt-8'>
         {/* Section Heading Banner */}
-        <div className='mb-6 rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900'>
+        <div className='mb-6 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-xs'>
           <div className='flex items-center justify-between'>
-            <span
-              className={`rounded px-2.5 py-0.5 text-xs font-medium tracking-wide ${
-                activePart === 1
-                  ? 'bg-[#E1F3FE] text-[#1F6C9F] dark:bg-sky-950/40 dark:text-sky-300'
-                  : 'bg-[#F0EEFD] text-[#5341C6] dark:bg-indigo-950/40 dark:text-indigo-300'
-              }`}
-            >
+            <span className='rounded-full bg-(--main-color)/15 px-3 py-1 text-xs font-extrabold text-(--main-color) uppercase'>
               {activePart === 1 ? 'Phần 1: Trắc nghiệm' : 'Phần 2: Tự luận'}
             </span>
-            <span className='text-xs font-medium text-slate-400 dark:text-slate-500'>
+            <span className='text-xs font-bold text-(--secondary-color)'>
               {activePart === 1 ? 'Thời gian: 60 phút' : 'Thời gian: 80 phút'}
             </span>
           </div>
-          <h2 className='mt-2.5 text-xl font-bold tracking-tight text-slate-900 dark:text-white'>
+          <h2 className='mt-3 text-xl font-extrabold tracking-tight text-(--main-color)'>
             {activePart === 1 ? '100 câu trắc nghiệm' : '100 câu tự luận'}
           </h2>
-          <p className='mt-1 text-xs text-slate-500 dark:text-slate-400'>
+          <p className='mt-1.5 text-xs leading-relaxed text-(--secondary-color)'>
             {activePart === 1
               ? 'Chọn 1 đáp án đúng (A, B, C, D) cho từng câu. Bắt buộc hoàn thành 100 câu mới được nộp bài.'
               : '80 câu điền Hiragana và 20 câu điền Âm Hán Việt cùng Nghĩa tiếng Việt. Bắt buộc làm đủ 100 câu.'}
@@ -366,15 +362,15 @@ export default function AssessmentContainer() {
         </div>
 
         {/* Bottom Submit Action */}
-        <div className='mt-8 flex flex-col items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-5 sm:flex-row dark:border-slate-800 dark:bg-slate-900'>
-          <div className='text-xs text-slate-500 dark:text-slate-400'>
+        <div className='mt-8 flex flex-col items-center justify-between gap-3.5 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-xs sm:flex-row sm:p-6'>
+          <div className='text-xs font-medium text-(--secondary-color)'>
             Bắt buộc hoàn thành 100% câu hỏi của phần này trước khi nộp.
           </div>
           <button
             type='button'
             onClick={handleSubmitPart}
             disabled={submitting}
-            className='w-full cursor-pointer rounded-lg bg-slate-900 px-6 py-2.5 text-xs font-medium text-white transition-colors hover:bg-slate-800 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-40 sm:w-auto dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
+            className='w-full cursor-pointer rounded-2xl bg-(--main-color) px-6 py-3 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95 disabled:pointer-events-none disabled:opacity-40 sm:w-auto sm:text-sm'
           >
             {submitting ? 'Đang nộp...' : 'Nộp bài'}
           </button>
