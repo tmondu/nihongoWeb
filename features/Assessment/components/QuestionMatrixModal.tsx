@@ -40,38 +40,37 @@ export default function QuestionMatrixModal() {
   const answeredCount = questionNumbers.filter(isAnswered).length;
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4'>
-      <div className='flex max-h-[85vh] w-full max-w-2xl flex-col rounded-2xl border-2 border-slate-300 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4'>
+      <div className='flex max-h-[85vh] w-full max-w-2xl flex-col rounded-xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900'>
         {/* Modal Header */}
-        <div className='flex items-center justify-between border-b border-slate-200 px-5 py-4 dark:border-slate-800'>
+        <div className='flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800'>
           <div className='flex items-center gap-3'>
-            <h2 className='text-base font-bold text-slate-900 dark:text-white'>
-              Danh sách câu hỏi (
-              {activePart === 1 ? 'Phần 1: Trắc nghiệm' : 'Phần 2: Tự luận'})
+            <h2 className='text-sm font-bold text-slate-900 dark:text-white'>
+              Bảng câu hỏi ({activePart === 1 ? 'Trắc nghiệm' : 'Tự luận'})
             </h2>
-            <span className='rounded bg-blue-100 px-2 py-0.5 text-xs font-bold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'>
+            <span className='rounded bg-[#E1F3FE] px-2 py-0.5 text-xs font-medium text-[#1F6C9F] dark:bg-sky-950/40 dark:text-sky-300'>
               Đã làm: {answeredCount}/100 câu
             </span>
           </div>
           <button
             type='button'
             onClick={() => setQuestionMatrixOpen(false)}
-            className='rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+            className='cursor-pointer rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800'
           >
             Đóng
           </button>
         </div>
 
         {/* Legend */}
-        <div className='flex items-center gap-4 border-b border-slate-100 bg-slate-50 px-5 py-2.5 text-xs dark:border-slate-800/60 dark:bg-slate-800/30'>
+        <div className='flex items-center gap-4 border-b border-slate-100 bg-[#FBFBFA] px-5 py-2.5 text-xs dark:border-slate-800 dark:bg-slate-800/40'>
           <div className='flex items-center gap-1.5'>
-            <span className='size-3 rounded bg-emerald-600' />
+            <span className='size-3 rounded bg-slate-900 dark:bg-white' />
             <span className='font-medium text-slate-700 dark:text-slate-300'>
               Đã làm
             </span>
           </div>
           <div className='flex items-center gap-1.5'>
-            <span className='size-3 rounded border border-slate-300 bg-slate-100 dark:border-slate-600 dark:bg-slate-800' />
+            <span className='size-3 rounded border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800' />
             <span className='font-medium text-slate-700 dark:text-slate-300'>
               Chưa làm
             </span>
@@ -88,10 +87,10 @@ export default function QuestionMatrixModal() {
                   key={num}
                   type='button'
                   onClick={() => handleSelectQuestion(num)}
-                  className={`flex size-10 items-center justify-center rounded-lg text-xs font-bold transition-transform active:scale-90 ${
+                  className={`flex size-10 cursor-pointer items-center justify-center rounded-lg text-xs font-semibold transition-colors active:scale-95 ${
                     answered
-                      ? 'border-2 border-emerald-600 bg-emerald-600 text-white shadow-xs'
-                      : 'border border-slate-300 bg-slate-100 text-slate-800 hover:border-blue-500 hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-blue-400'
+                      ? 'border border-slate-900 bg-slate-900 text-white dark:border-white dark:bg-white dark:text-slate-900'
+                      : 'border border-slate-200 bg-[#FBFBFA] text-slate-700 hover:border-slate-400 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-slate-600'
                   }`}
                 >
                   {num}
@@ -102,11 +101,11 @@ export default function QuestionMatrixModal() {
         </div>
 
         {/* Modal Footer */}
-        <div className='flex items-center justify-end border-t border-slate-200 bg-slate-50 px-5 py-3 dark:border-slate-800 dark:bg-slate-800/30'>
+        <div className='flex items-center justify-end border-t border-slate-100 px-5 py-3 dark:border-slate-800'>
           <button
             type='button'
             onClick={() => setQuestionMatrixOpen(false)}
-            className='rounded-lg bg-blue-600 px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-blue-500'
+            className='cursor-pointer rounded-lg bg-slate-900 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-slate-800 active:scale-[0.99] dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
           >
             Tiếp tục làm bài
           </button>

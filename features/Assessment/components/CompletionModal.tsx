@@ -27,41 +27,39 @@ export default function CompletionModal({
   };
 
   return (
-    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4'>
-      <div className='flex w-full max-w-md flex-col rounded-2xl border-2 border-slate-300 bg-white p-6 text-center shadow-2xl dark:border-slate-700 dark:bg-slate-900'>
+    <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4'>
+      <div className='flex w-full max-w-md flex-col rounded-xl border border-slate-200 bg-white p-6 text-center dark:border-slate-800 dark:bg-slate-900'>
         <div className='mb-3'>
-          <span className='rounded bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400'>
+          <span className='rounded bg-[#EDF3EC] px-2.5 py-0.5 text-xs font-medium text-[#285A2C] dark:bg-emerald-950/40 dark:text-emerald-300'>
             {isFullyCompleted ? 'Hoàn thành bài thi' : 'Đã nộp phần thi'}
           </span>
-          <h2 className='mt-2 text-lg font-bold text-slate-900 dark:text-white'>
+          <h2 className='mt-2 text-base font-bold text-slate-900 dark:text-white'>
             {isFullyCompleted
-              ? 'Đã hoàn thành toàn bộ bài kiểm tra'
-              : 'Đã ghi nhận phần thi thành công'}
+              ? 'Hoàn thành bài kiểm tra'
+              : 'Đã nộp bài thành công'}
           </h2>
         </div>
 
-        <p className='text-sm leading-relaxed text-slate-600 dark:text-slate-300'>
+        <p className='text-xs leading-relaxed text-slate-600 dark:text-slate-400'>
           {message}
         </p>
 
-        <p className='mt-2 text-xs text-slate-500 dark:text-slate-400'>
-          Kết quả đánh giá năng lực của bạn đã được gửi tới hệ thống quản trị.
-          Giáo viên sẽ xem xét và liên hệ phản hồi cho bạn sớm nhất.
+        <p className='mt-1 text-xs text-slate-500 dark:text-slate-400'>
+          Kết quả bài thi đã được lưu vào hệ thống. Giáo viên sẽ kiểm tra và
+          phản hồi sớm nhất.
         </p>
 
         <div className='mt-6 flex flex-col gap-2'>
           <button
             type='button'
             onClick={handleContinue}
-            className='cursor-pointer rounded-xl bg-blue-600 px-4 py-2.5 text-xs font-bold text-white transition-all hover:bg-blue-500 active:scale-98'
+            className='cursor-pointer rounded-lg bg-slate-900 px-4 py-2.5 text-xs font-medium text-white transition-colors hover:bg-slate-800 active:scale-[0.99] dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100'
           >
-            {isFullyCompleted
-              ? 'Xem lại danh sách phần thi'
-              : 'Làm tiếp phần còn lại'}
+            {isFullyCompleted ? 'Xem lại các phần' : 'Làm tiếp phần còn lại'}
           </button>
           <Link
             href='/'
-            className='rounded-xl border border-slate-300 bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700 transition-colors hover:bg-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
+            className='rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
           >
             Trở về trang chủ
           </Link>

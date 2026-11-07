@@ -49,7 +49,7 @@ export default function EssayQuestionCard({
     if (!question.context_sentence) return null;
     if (!question.target_word) {
       return (
-        <p className='text-base font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
+        <p className='text-base leading-relaxed font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
           {question.context_sentence}
         </p>
       );
@@ -58,7 +58,7 @@ export default function EssayQuestionCard({
     const parts = question.context_sentence.split(question.target_word);
     if (parts.length <= 1) {
       return (
-        <p className='text-base font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
+        <p className='text-base leading-relaxed font-medium text-slate-900 sm:text-lg dark:text-slate-100'>
           {question.context_sentence}
         </p>
       );
@@ -70,7 +70,7 @@ export default function EssayQuestionCard({
           <React.Fragment key={idx}>
             {segment}
             {idx < parts.length - 1 && (
-              <span className='font-bold text-blue-600 underline decoration-blue-600 decoration-2 underline-offset-4 dark:text-blue-400'>
+              <span className='font-bold underline decoration-slate-900 decoration-2 underline-offset-4 dark:decoration-white'>
                 {question.target_word}
               </span>
             )}
@@ -87,97 +87,80 @@ export default function EssayQuestionCard({
   return (
     <div
       id={`question-${question.order_num}`}
-      className='rounded-xl border border-slate-200 bg-white p-5 shadow-xs transition-colors dark:border-slate-800 dark:bg-slate-900'
+      className='rounded-xl border border-slate-200 bg-white p-5 sm:p-6 dark:border-slate-800 dark:bg-slate-900'
     >
-      {/* Question Header */}
+      {/* Header */}
       <div className='mb-3 flex items-center justify-between'>
-        <span className='rounded-md bg-slate-100 px-3 py-1 text-xs font-bold text-slate-900 dark:bg-slate-800 dark:text-slate-100'>
+        <span className='rounded bg-[#F0F0EF] px-2.5 py-0.5 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300'>
           Câu {question.order_num}
         </span>
         {isAnswered ? (
-          <span className='rounded bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400'>
+          <span className='rounded bg-[#EDF3EC] px-2.5 py-0.5 text-xs font-medium text-[#285A2C] dark:bg-emerald-950/40 dark:text-emerald-300'>
             Đã nhập câu trả lời
           </span>
         ) : (
-          <span className='text-xs font-medium text-slate-400'>
+          <span className='text-xs font-medium text-slate-400 dark:text-slate-500'>
             Chưa trả lời
           </span>
         )}
       </div>
 
-      {isKanjiMeaningQuestion ? (
-        /* Q181-200: Kanji Character + Han Viet + Meaning */
-        <div className='flex flex-col gap-4'>
+      {/* Target Word / Context Sentence */}
+      <div className='mb-5'>
+        {isKanjiMeaningQuestion ? (
           <div className='flex items-center gap-4'>
-            <div className='flex size-14 shrink-0 items-center justify-center rounded-xl border-2 border-slate-200 bg-slate-50 text-3xl font-bold text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white'>
+            <span className='flex size-14 items-center justify-center rounded-lg border border-slate-200 bg-[#FBFBFA] text-2xl font-bold text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-white'>
               {question.kanji_char || question.target_word}
-            </div>
-            <div className='text-xs text-slate-600 dark:text-slate-400'>
-              Viết âm Hán Việt và ý nghĩa tiếng Việt của chữ Hán trên.
+            </span>
+            <div className='text-xs text-slate-500 dark:text-slate-400'>
+              Điền âm Hán Việt và Nghĩa tiếng Việt của chữ Hán này.
             </div>
           </div>
+        ) : (
+          renderSentence()
+        )}
+      </div>
 
-          <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-            <div className='flex flex-col gap-1.5'>
-              <label
-                htmlFor={`hanviet-${question.order_num}`}
-                className='text-xs font-bold text-slate-700 dark:text-slate-300'
-              >
-                Âm Hán Việt
-              </label>
-              <input
-                id={`hanviet-${question.order_num}`}
-                type='text'
-                value={compositeValue.hanViet || ''}
-                onChange={handleHanVietChange}
-                placeholder='Ví dụ: HỌC'
-                className='w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-900 transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
-              />
-            </div>
-
-            <div className='flex flex-col gap-1.5'>
-              <label
-                htmlFor={`meaning-${question.order_num}`}
-                className='text-xs font-bold text-slate-700 dark:text-slate-300'
-              >
-                Ý nghĩa tiếng Việt
-              </label>
-              <input
-                id={`meaning-${question.order_num}`}
-                type='text'
-                value={compositeValue.meaning || ''}
-                onChange={handleMeaningChange}
-                placeholder='Ví dụ: Học tập, trường học'
-                className='w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
-              />
-            </div>
+      {/* Input Fields */}
+      {isKanjiMeaningQuestion ? (
+        <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
+          <div>
+            <label className='mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400'>
+              Âm Hán Việt
+            </label>
+            <input
+              type='text'
+              value={compositeValue.hanViet || ''}
+              onChange={handleHanVietChange}
+              placeholder='Ví dụ: TÂN...'
+              className='w-full rounded-lg border border-slate-200 bg-[#FBFBFA] px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors placeholder:text-slate-400 focus:border-slate-900 focus:bg-white focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-slate-100'
+            />
+          </div>
+          <div>
+            <label className='mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400'>
+              Nghĩa tiếng Việt
+            </label>
+            <input
+              type='text'
+              value={compositeValue.meaning || ''}
+              onChange={handleMeaningChange}
+              placeholder='Ví dụ: Mới, mới mẻ...'
+              className='w-full rounded-lg border border-slate-200 bg-[#FBFBFA] px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors placeholder:text-slate-400 focus:border-slate-900 focus:bg-white focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-slate-100'
+            />
           </div>
         </div>
       ) : (
-        /* Q101-180: Context sentence + Hiragana reading input */
-        <div className='flex flex-col gap-3.5'>
-          <div>{renderSentence()}</div>
-
-          <div className='flex flex-col gap-1.5'>
-            <label
-              htmlFor={`hiragana-${question.order_num}`}
-              className='text-xs font-semibold text-slate-600 dark:text-slate-400'
-            >
-              Cách đọc Hiragana cho từ{' '}
-              <strong className='text-slate-900 dark:text-white'>
-                {question.target_word}
-              </strong>
-              :
-            </label>
-            <input
-              id={`hiragana-${question.order_num}`}
-              type='text'
-              value={hiraganaValue}
-              onChange={handleHiraganaChange}
-              placeholder='Nhập Hiragana...'
-              className='max-w-md rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 dark:border-slate-700 dark:bg-slate-800 dark:text-white'
-            />
-          </div>
+        <div>
+          <label className='mb-1.5 block text-xs font-medium text-slate-600 dark:text-slate-400'>
+            Cách đọc Hiragana
+          </label>
+          <input
+            type='text'
+            value={hiraganaValue}
+            onChange={handleHiraganaChange}
+            placeholder='Nhập cách đọc Hiragana...'
+            className='w-full rounded-lg border border-slate-200 bg-[#FBFBFA] px-3.5 py-2.5 text-sm font-medium text-slate-900 transition-colors placeholder:text-slate-400 focus:border-slate-900 focus:bg-white focus:outline-hidden dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-slate-100'
+          />
         </div>
       )}
     </div>
