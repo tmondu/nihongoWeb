@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
         name_updated_at: null,
         is_approved: 1,
         can_watch_video: 1,
+        can_do_test: 1,
         level: 'N1',
         is_admin: 1,
         is_verified: 1,
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest) {
   try {
     const pool = getDbPool();
     const [users] = await pool.execute<RowDataPacket[]>(
-      'SELECT id, sbd, email, display_name, name_updated_at, is_approved, can_watch_video, level, is_admin, is_verified, created_at FROM users WHERE id = ?',
+      'SELECT id, sbd, email, display_name, name_updated_at, is_approved, can_watch_video, can_do_test, level, is_admin, is_verified, created_at FROM users WHERE id = ?',
       [payload.userId as number],
     );
 

@@ -11,6 +11,7 @@ interface UserRow extends RowDataPacket {
   display_name: string | null;
   is_approved: number;
   can_watch_video: number;
+  can_do_test: number;
   level: string;
   is_admin: number;
   created_at: string;
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
     const activeCount = activeCountRows[0]?.cnt ?? 0;
 
     let sql = `
-      SELECT id, sbd, email, display_name, is_approved, can_watch_video, level, is_admin, created_at, deleted_at 
+      SELECT id, sbd, email, display_name, is_approved, can_watch_video, can_do_test, level, is_admin, created_at, deleted_at 
       FROM users 
       WHERE ${isTrash ? 'deleted_at IS NOT NULL' : 'deleted_at IS NULL'}
     `;
@@ -71,8 +72,16 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, isApproved, isAdmin, canWatchVideo, level, sbd, action } =
-      body;
+    const {
+      userId,
+      isApproved,
+      isAdmin,
+      canWatchVideo,
+      canDoTest,
+      level,
+      sbd,
+      action,
+    } = body;
 
     const pool = getDbPool();
 
@@ -128,6 +137,10 @@ export async function PUT(request: NextRequest) {
     if (canWatchVideo !== undefined) {
       updates.push('can_watch_video = ?');
       values.push(canWatchVideo ? 1 : 0);
+    }
+    if (canDoTest !== undefined) {
+      updates.push('can_do_test = ?');
+      values.push(canDoTest ? 1 : 0);
     }
     if (isAdmin !== undefined) {
       updates.push('is_admin = ?');
@@ -239,3 +252,5 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
+
+export const PATCH = PUT;

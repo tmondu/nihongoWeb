@@ -105,6 +105,7 @@ export interface NavigationTranslations {
     reader: string;
     classroom: string;
     curriculum: string;
+    assessment: string;
     exercises: string;
     solutions: string;
   };

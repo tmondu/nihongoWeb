@@ -51,6 +51,11 @@ const NAV_ITEMS = [
     icon: ClipboardCheck,
   },
   {
+    label: 'Bài Test Đầu Vào',
+    href: '/assessment',
+    icon: ClipboardCheck,
+  },
+  {
     label: 'Thành Viên (Users)',
     href: '/users',
     icon: Users,

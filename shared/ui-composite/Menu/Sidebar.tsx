@@ -267,6 +267,11 @@ const mainNavItems: NavItem[] = [
     icon: BookOpen,
   },
   {
+    href: '/assessment',
+    labelKey: 'assessment',
+    icon: FileCheck,
+  },
+  {
     href: '/exercises',
     labelKey: 'exercises',
     icon: ClipboardCheck,

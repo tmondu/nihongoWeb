@@ -26,6 +26,7 @@ interface UserRecord {
   display_name: string | null;
   is_approved: number;
   can_watch_video: number;
+  can_do_test?: number;
   level: string;
   is_admin: number;
   created_at: string;
@@ -220,6 +221,27 @@ export default function AdminUsersPage() {
         body: JSON.stringify({
           userId: user.id,
           canWatchVideo: user.can_watch_video === 1 ? 0 : 1,
+        }),
+      });
+      if (res.ok) {
+        await fetchUsers(true);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleToggleCanDoTest = async (user: UserRecord) => {
+    try {
+      setActionLoading(user.id);
+      const res = await fetch('/api/users', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          canDoTest: user.can_do_test === 1 ? 0 : 1,
         }),
       });
       if (res.ok) {
@@ -803,6 +825,18 @@ export default function AdminUsersPage() {
                               : 'Cấp Video'}
                           </button>
 
+                          <button
+                            disabled={actionLoading !== null}
+                            onClick={() => handleToggleCanDoTest(user)}
+                            className={`flex cursor-pointer items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors ${
+                              user.can_do_test === 1
+                                ? 'bg-amber-500/10 text-amber-400 hover:bg-amber-500/20'
+                                : 'bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20'
+                            }`}
+                            title='Cấp hoặc chặn quyền làm bài test đầu vào'
+                          >
+                            {user.can_do_test === 1 ? 'Khóa Test' : 'Cấp Test'}
+                          </button>
                           <button
                             disabled={actionLoading !== null}
                             onClick={() => handleToggleAdmin(user)}
