@@ -45,6 +45,8 @@ export default function AssessmentContainer() {
     exitTestPart,
     syncWithServer,
     setPartStatus,
+    setScores,
+    shuffledMcqQuestions,
   } = useAssessmentStore();
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -222,6 +224,9 @@ export default function AssessmentContainer() {
       }
 
       // Success
+      if (resData.scores) {
+        setScores(resData.scores);
+      }
       setPartStatus(activePart, 'completed');
       setCompletionData({
         isOpen: true,
@@ -304,7 +309,7 @@ export default function AssessmentContainer() {
   if (currentView === 'part_selection') {
     return (
       <>
-        <PartSelectionCards />
+        <PartSelectionCards questions={questions} />
         <CompletionModal
           isOpen={completionData.isOpen}
           message={completionData.message}
@@ -318,7 +323,10 @@ export default function AssessmentContainer() {
   }
 
   // SCREEN 3: Taking Test (Active session for activePart only)
-  const currentQuestions = questions.filter(q => q.part === activePart);
+  const currentQuestions =
+    activePart === 1 && shuffledMcqQuestions && shuffledMcqQuestions.length > 0
+      ? shuffledMcqQuestions
+      : questions.filter(q => q.part === activePart);
 
   return (
     <div className='font-vietnamese min-h-screen pb-24'>
@@ -346,18 +354,29 @@ export default function AssessmentContainer() {
           </h2>
           <p className='mt-1.5 text-xs leading-relaxed text-(--secondary-color)'>
             {activePart === 1
-              ? 'Chọn 1 đáp án đúng (A, B, C, D) cho từng câu. Bắt buộc hoàn thành 100 câu mới được nộp bài.'
-              : '80 câu điền Hiragana và 20 câu điền Âm Hán Việt cùng Nghĩa tiếng Việt. Bắt buộc làm đủ 100 câu.'}
+              ? 'Chọn 1 đáp án đúng (A, B, C, D) cho từng câu. Thứ tự câu hỏi và các lựa chọn đã được đảo ngẫu nhiên.'
+              : '80 câu điền Hiragana và 20 câu điền Âm Hán Việt cùng Nghĩa tiếng Việt. Bấm Enter để chuyển câu tiếp theo.'}
           </p>
         </div>
 
         {/* Question List */}
         <div className='flex flex-col gap-4'>
-          {currentQuestions.map(q => {
+          {currentQuestions.map((q, idx) => {
             if (activePart === 1) {
-              return <McqQuestionCard key={q.id} question={q} />;
+              return (
+                <McqQuestionCard
+                  key={q.id}
+                  question={q}
+                  displayIndex={idx + 1}
+                />
+              );
             }
-            return <EssayQuestionCard key={q.id} question={q} />;
+            return (
+              <EssayQuestionCard
+                key={q.id}
+                question={q as AssessmentQuestion}
+              />
+            );
           })}
         </div>
 

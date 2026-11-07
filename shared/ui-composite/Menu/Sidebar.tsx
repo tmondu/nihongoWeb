@@ -417,6 +417,14 @@ const NavLink = memo(
     className,
   }: NavLinkProps) => {
     const t = useTranslations('navigation.menu');
+    const getSubLabel = (key: string): string => {
+      try {
+        if (t.has && !t.has(key as any)) return key;
+        return t(key as any);
+      } catch {
+        return key;
+      }
+    };
     const Icon = item.icon;
     const isMain = variant === 'main';
     const shouldUseDesktopExpandedBadges =
@@ -578,7 +586,7 @@ const NavLink = memo(
                       ) : null}
                     </span>
                     <span className='font-medium whitespace-nowrap'>
-                      {t(sub.labelKey as any)}
+                      {getSubLabel(sub.labelKey)}
                     </span>
                   </Link>
                 );
@@ -821,6 +829,19 @@ const Sidebar = () => {
 
   const { hotkeysOn } = useInputPreferences();
   const { playClick } = useClick();
+
+  const getMenuLabel = (key: string): string => {
+    try {
+      if (t.has && !t.has(key as any)) {
+        if (key === 'assessment') return 'Test đầu vào';
+        return key;
+      }
+      return t(key as any);
+    } catch {
+      if (key === 'assessment') return 'Test đầu vào';
+      return key;
+    }
+  };
 
   const escButtonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -1277,7 +1298,7 @@ const Sidebar = () => {
                               ) : null}
                             </span>
                             <span className='truncate'>
-                              {t(item.labelKey as any)}
+                              {getMenuLabel(item.labelKey)}
                             </span>
                           </Link>
 
@@ -1374,7 +1395,7 @@ const Sidebar = () => {
                             const itemLabel =
                               section.titleKey === 'experiments'
                                 ? item.labelKey
-                                : t(item.labelKey as any);
+                                : getMenuLabel(item.labelKey);
 
                             return (
                               <Link
@@ -1492,7 +1513,7 @@ const Sidebar = () => {
               <NavLink
                 key={item.href}
                 item={item}
-                label={t(item.labelKey as any)}
+                label={getMenuLabel(item.labelKey)}
                 isActive={isActive(item.href)}
                 checkIsActive={isActive}
                 onClick={playClick}
@@ -1557,7 +1578,7 @@ const Sidebar = () => {
                           const itemLabel =
                             section.titleKey === 'experiments'
                               ? item.labelKey
-                              : t(item.labelKey as any);
+                              : getMenuLabel(item.labelKey);
                           return (
                             <NavLink
                               key={item.href}

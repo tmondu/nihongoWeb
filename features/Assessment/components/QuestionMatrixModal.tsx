@@ -5,8 +5,13 @@ import { useAssessmentStore } from '../store/useAssessmentStore';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
 export default function QuestionMatrixModal() {
-  const { isQuestionMatrixOpen, setQuestionMatrixOpen, activePart, answers } =
-    useAssessmentStore();
+  const {
+    isQuestionMatrixOpen,
+    setQuestionMatrixOpen,
+    activePart,
+    answers,
+    shuffledMcqQuestions,
+  } = useAssessmentStore();
   const { playClick } = useClick();
 
   if (!isQuestionMatrixOpen || !activePart) return null;
@@ -39,13 +44,23 @@ export default function QuestionMatrixModal() {
     return false;
   };
 
-  const currentRange = activePart === 1 ? [1, 100] : [101, 200];
-  const questionNumbers: number[] = [];
-  for (let i = currentRange[0]; i <= currentRange[1]; i++) {
-    questionNumbers.push(i);
-  }
+  const items =
+    activePart === 1 && shuffledMcqQuestions && shuffledMcqQuestions.length > 0
+      ? shuffledMcqQuestions.map((q, idx) => ({
+          displayNumber: idx + 1,
+          orderNum: q.order_num,
+          answered: isAnswered(q.order_num),
+        }))
+      : Array.from({ length: 100 }, (_, idx) => {
+          const orderNum = activePart === 1 ? idx + 1 : idx + 101;
+          return {
+            displayNumber: idx + 1,
+            orderNum,
+            answered: isAnswered(orderNum),
+          };
+        });
 
-  const answeredCount = questionNumbers.filter(isAnswered).length;
+  const answeredCount = items.filter(it => it.answered).length;
 
   return (
     <div className='font-vietnamese fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs'>
@@ -86,23 +101,20 @@ export default function QuestionMatrixModal() {
         {/* Numbers Grid */}
         <div className='overflow-y-auto p-2 sm:p-4'>
           <div className='grid grid-cols-5 gap-2 sm:grid-cols-10'>
-            {questionNumbers.map(num => {
-              const answered = isAnswered(num);
-              return (
-                <button
-                  key={num}
-                  type='button'
-                  onClick={() => handleSelectQuestion(num)}
-                  className={`flex size-10 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all active:scale-90 ${
-                    answered
-                      ? 'border-2 border-(--main-color) bg-(--main-color) text-(--background-color) shadow-xs'
-                      : 'border-2 border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:border-(--main-color)/60 hover:text-(--main-color)'
-                  }`}
-                >
-                  {num}
-                </button>
-              );
-            })}
+            {items.map(item => (
+              <button
+                key={item.orderNum}
+                type='button'
+                onClick={() => handleSelectQuestion(item.orderNum)}
+                className={`flex size-10 cursor-pointer items-center justify-center rounded-xl text-xs font-bold transition-all active:scale-90 ${
+                  item.answered
+                    ? 'border-2 border-(--main-color) bg-(--main-color) text-(--background-color) shadow-xs'
+                    : 'border-2 border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:border-(--main-color)/60 hover:text-(--main-color)'
+                }`}
+              >
+                {item.displayNumber}
+              </button>
+            ))}
           </div>
         </div>
 

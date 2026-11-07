@@ -18,7 +18,7 @@ export default function CompletionModal({
   isFullyCompleted,
   onClose,
 }: CompletionModalProps) {
-  const { setCurrentView } = useAssessmentStore();
+  const { setCurrentView, scores, activePart } = useAssessmentStore();
   const { playClick } = useClick();
 
   if (!isOpen) return null;
@@ -28,6 +28,9 @@ export default function CompletionModal({
     onClose();
     setCurrentView('part_selection');
   };
+
+  const currentScoreDisplay =
+    activePart === 1 ? scores?.mcqScore : scores?.essayScore;
 
   return (
     <div className='font-vietnamese fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-xs'>
@@ -43,13 +46,60 @@ export default function CompletionModal({
           </h2>
         </div>
 
+        {/* Score Display Card */}
+        {scores && (
+          <div className='my-3 rounded-2xl border-2 border-(--border-color) bg-(--background-color) p-4 text-center'>
+            <div className='text-xs font-semibold text-(--secondary-color)'>
+              {isFullyCompleted
+                ? 'Tổng điểm đạt được'
+                : activePart === 1
+                  ? 'Điểm Trắc nghiệm'
+                  : 'Điểm Tự luận'}
+            </div>
+            <div className='mt-1 font-mono text-3xl font-extrabold text-(--main-color) tabular-nums sm:text-4xl'>
+              {isFullyCompleted ? (
+                <>
+                  {scores.totalScore ?? 0}
+                  <span className='text-xs font-normal text-(--secondary-color)'>
+                    /200
+                  </span>
+                </>
+              ) : (
+                <>
+                  {currentScoreDisplay ?? 0}
+                  <span className='text-xs font-normal text-(--secondary-color)'>
+                    /100
+                  </span>
+                </>
+              )}
+            </div>
+
+            {isFullyCompleted && (
+              <div className='mt-2.5 flex items-center justify-center gap-4 border-t border-(--border-color)/60 pt-2 text-xs font-medium text-(--secondary-color)'>
+                <span>
+                  Trắc nghiệm:{' '}
+                  <b className='font-mono font-bold text-(--main-color)'>
+                    {scores.mcqScore ?? 0}/100
+                  </b>
+                </span>
+                <span>•</span>
+                <span>
+                  Tự luận:{' '}
+                  <b className='font-mono font-bold text-(--main-color)'>
+                    {scores.essayScore ?? 0}/100
+                  </b>
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
         <p className='text-xs leading-relaxed text-(--secondary-color) sm:text-sm'>
           {message}
         </p>
 
-        <p className='mt-2 text-xs leading-relaxed text-(--secondary-color)'>
-          Kết quả bài thi đã được lưu vào hệ thống quản trị. Giáo viên sẽ kiểm
-          tra và phản hồi sớm nhất.
+        <p className='mt-1.5 text-xs leading-relaxed text-(--secondary-color)'>
+          Kết quả và chi tiết câu trả lời đã được ghi nhận trên hệ thống.
         </p>
 
         <div className='mt-6 flex flex-col gap-2.5'>

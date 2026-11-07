@@ -109,7 +109,9 @@ export async function GET(request: NextRequest) {
     let existingSubmission: Record<string, unknown> | null = null;
     if (userId > 0) {
       const [submissions] = await pool.execute<RowDataPacket[]>(
-        `SELECT id, mcq_status, essay_status, overall_status, mcq_time_spent_seconds, essay_time_spent_seconds, answers_json, completed_at
+        `SELECT id, mcq_status, essay_status, overall_status, 
+                mcq_score, essay_score, total_score,
+                mcq_time_spent_seconds, essay_time_spent_seconds, answers_json, completed_at
          FROM assessment_submissions 
          WHERE user_id = ? AND test_id = ?
          ORDER BY id DESC LIMIT 1`,
@@ -130,6 +132,9 @@ export async function GET(request: NextRequest) {
           mcq_status: submissions[0].mcq_status,
           essay_status: submissions[0].essay_status,
           overall_status: submissions[0].overall_status,
+          mcq_score: Number(submissions[0].mcq_score || 0),
+          essay_score: Number(submissions[0].essay_score || 0),
+          total_score: Number(submissions[0].total_score || 0),
           mcq_time_spent_seconds: submissions[0].mcq_time_spent_seconds,
           essay_time_spent_seconds: submissions[0].essay_time_spent_seconds,
           answers: parsedAnswers,

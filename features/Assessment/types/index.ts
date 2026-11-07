@@ -19,6 +19,28 @@ export interface McqOption {
   text: string;
 }
 
+export interface ShuffledMcqOption {
+  displayKey: 'A' | 'B' | 'C' | 'D';
+  originalKey: 'A' | 'B' | 'C' | 'D';
+  text: string;
+}
+
+export interface ShuffledAssessmentQuestion extends Omit<
+  AssessmentQuestion,
+  'options_json'
+> {
+  options_json?: ShuffledMcqOption[] | null;
+}
+
+export interface AssessmentScores {
+  part?: 1 | 2;
+  mcqScore?: number;
+  essayScore?: number;
+  totalScore?: number;
+  mcqTimeSpent?: number;
+  essayTimeSpent?: number;
+}
+
 export interface AssessmentQuestion {
   id: number;
   test_id: number;

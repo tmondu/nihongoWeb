@@ -1,11 +1,18 @@
 'use client';
 
 import React from 'react';
+import { AssessmentQuestion } from '../types';
 import { useAssessmentStore } from '../store/useAssessmentStore';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
-export default function PartSelectionCards() {
-  const { setCurrentView, startTestPart, mcqStatus, essayStatus } =
+interface PartSelectionCardsProps {
+  questions?: AssessmentQuestion[];
+}
+
+export default function PartSelectionCards({
+  questions = [],
+}: PartSelectionCardsProps) {
+  const { setCurrentView, startTestPart, mcqStatus, essayStatus, scores } =
     useAssessmentStore();
   const { playClick } = useClick();
 
@@ -20,8 +27,11 @@ export default function PartSelectionCards() {
 
   const handleStartPart = (part: 1 | 2) => {
     playClick();
-    startTestPart(part);
+    startTestPart(part, questions);
   };
+
+  const calculatedTotal =
+    scores?.totalScore ?? (scores?.mcqScore || 0) + (scores?.essayScore || 0);
 
   return (
     <div className='font-vietnamese mx-auto max-w-4xl px-4 py-12 sm:py-16'>
@@ -50,16 +60,35 @@ export default function PartSelectionCards() {
         </p>
       </div>
 
-      {/* Completion Banner */}
+      {/* Completion Banner with Scores */}
       {isAllDone && (
-        <div className='mb-8 rounded-3xl border-2 border-green-500/30 bg-green-500/10 p-5 text-xs leading-relaxed text-green-600 dark:text-green-400'>
-          <div className='text-sm font-extrabold text-green-700 dark:text-green-300'>
-            Đã hoàn thành toàn bộ bài kiểm tra
+        <div className='mb-8 rounded-3xl border-2 border-green-500/30 bg-green-500/10 p-5 text-xs leading-relaxed text-green-600 shadow-sm sm:p-6 dark:text-green-400'>
+          <div className='flex flex-col justify-between gap-3 sm:flex-row sm:items-center'>
+            <div>
+              <span className='inline-block rounded-full bg-green-500/20 px-3 py-0.5 text-xs font-extrabold text-green-700 uppercase dark:text-green-300'>
+                Hoàn thành xuất sắc
+              </span>
+              <h2 className='mt-2 text-xl font-extrabold text-(--main-color) sm:text-2xl'>
+                Đã hoàn thành toàn bộ bài kiểm tra
+              </h2>
+              <p className='mt-1 text-(--secondary-color)'>
+                Kết quả chi tiết đã được ghi nhận trên hệ thống quản trị.
+              </p>
+            </div>
+            <div className='flex items-center gap-3 rounded-2xl border-2 border-green-500/30 bg-(--card-color) p-4 text-center'>
+              <div>
+                <div className='text-[11px] font-semibold text-(--secondary-color)'>
+                  Tổng điểm
+                </div>
+                <div className='font-mono text-2xl font-extrabold text-(--main-color) tabular-nums sm:text-3xl'>
+                  {calculatedTotal}
+                  <span className='text-xs font-normal text-(--secondary-color)'>
+                    /200
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className='mt-1 text-(--secondary-color)'>
-            Bạn đã nộp cả 2 phần Trắc nghiệm và Tự luận. Giáo viên sẽ chấm điểm
-            và phản hồi kết quả cho bạn.
-          </p>
         </div>
       )}
 
@@ -90,12 +119,24 @@ export default function PartSelectionCards() {
                 Trắc nghiệm
               </h2>
               <div className='mt-1 text-xs font-bold text-(--secondary-color)'>
-                100 câu · 60 phút
+                100 câu · 60 phút · Đảo thứ tự câu hỏi & đáp án
               </div>
               <p className='mt-3 text-xs leading-relaxed text-(--secondary-color)'>
                 Chọn 1 trong 4 đáp án đúng (A, B, C, D) cho từ Kanji trong câu
                 ngữ cảnh.
               </p>
+
+              {/* Show Score if completed */}
+              {isMcqDone && (
+                <div className='mt-4 flex items-center justify-between rounded-2xl border-2 border-(--border-color) bg-(--background-color) p-3 text-xs'>
+                  <span className='font-medium text-(--secondary-color)'>
+                    Kết quả Trắc nghiệm:
+                  </span>
+                  <span className='font-mono text-sm font-extrabold text-(--main-color) tabular-nums'>
+                    {scores?.mcqScore ?? 0} / 100 câu đúng
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Warning Rule */}
@@ -153,12 +194,24 @@ export default function PartSelectionCards() {
                 Tự luận
               </h2>
               <div className='mt-1 text-xs font-bold text-(--secondary-color)'>
-                100 câu · 80 phút
+                100 câu · 80 phút · Nhấn Enter chuyển câu nhanh
               </div>
               <p className='mt-3 text-xs leading-relaxed text-(--secondary-color)'>
                 80 câu điền cách đọc Hiragana và 20 câu điền Âm Hán Việt cùng
                 Nghĩa tiếng Việt.
               </p>
+
+              {/* Show Score if completed */}
+              {isEssayDone && (
+                <div className='mt-4 flex items-center justify-between rounded-2xl border-2 border-(--border-color) bg-(--background-color) p-3 text-xs'>
+                  <span className='font-medium text-(--secondary-color)'>
+                    Kết quả Tự luận:
+                  </span>
+                  <span className='font-mono text-sm font-extrabold text-(--main-color) tabular-nums'>
+                    {scores?.essayScore ?? 0} / 100 câu đúng
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Warning Rule */}

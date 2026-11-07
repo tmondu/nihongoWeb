@@ -494,7 +494,7 @@ export const ASSESSMENT_N5_PART1B_QUESTIONS: SeedQuestion[] = [
     target_word: '先生',
     options_json: [
       { key: 'A', text: 'Người sinh sau' },
-      { key: 'B', text: 'Người sinh trước / Đi trước' },
+      { key: 'B', text: 'Người Đi trước / Giáo viên' },
       { key: 'C', text: 'Người ở giữa' },
       { key: 'D', text: 'Người ở dưới' },
     ],
@@ -635,7 +635,7 @@ export const ASSESSMENT_N5_PART1B_QUESTIONS: SeedQuestion[] = [
     part: 1,
     question_type: 'compound',
     context_sentence:
-      'Âm On (Onyomi) chuẩn của chữ Hán 「母」 (trong từ 母国, 父母) là gì?',
+      '「母」Âm On (Onyomi) / khi kết hợp với chữ Hán khác (trong từ 父母) là gì?',
     target_word: '母',
     options_json: [
       { key: 'A', text: 'はは' },

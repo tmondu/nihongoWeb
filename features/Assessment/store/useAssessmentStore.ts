@@ -1,8 +1,23 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AssessmentStatus } from '../types';
+import {
+  AssessmentStatus,
+  AssessmentQuestion,
+  ShuffledAssessmentQuestion,
+  ShuffledMcqOption,
+  AssessmentScores,
+} from '../types';
 
 export type AssessmentView = 'test_overview' | 'part_selection' | 'taking_test';
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
 
 export interface AssessmentStoreState {
   currentView: AssessmentView;
@@ -15,10 +30,12 @@ export interface AssessmentStoreState {
   mcqStatus: AssessmentStatus;
   essayStatus: AssessmentStatus;
   isQuestionMatrixOpen: boolean;
+  shuffledMcqQuestions: ShuffledAssessmentQuestion[] | null;
+  scores: AssessmentScores | null;
 
   // Navigation & Actions
   setCurrentView: (view: AssessmentView) => void;
-  startTestPart: (part: 1 | 2) => void;
+  startTestPart: (part: 1 | 2, questions?: AssessmentQuestion[]) => void;
   exitTestPart: (part: 1 | 2) => void;
   setAnswer: (
     orderNum: number,
@@ -26,10 +43,14 @@ export interface AssessmentStoreState {
   ) => void;
   decrementTimer: (part: 1 | 2) => void;
   setPartStatus: (part: 1 | 2, status: AssessmentStatus) => void;
+  setScores: (scores: AssessmentScores) => void;
   setQuestionMatrixOpen: (open: boolean) => void;
   syncWithServer: (data: {
     mcq_status?: AssessmentStatus;
     essay_status?: AssessmentStatus;
+    mcq_score?: number;
+    essay_score?: number;
+    total_score?: number;
     mcq_time_spent_seconds?: number;
     essay_time_spent_seconds?: number;
     answers?: Record<number, string | { hanViet: string; meaning: string }>;
@@ -50,17 +71,52 @@ export const useAssessmentStore = create<AssessmentStoreState>()(
       mcqStatus: 'not_started',
       essayStatus: 'not_started',
       isQuestionMatrixOpen: false,
+      shuffledMcqQuestions: null,
+      scores: null,
 
       setCurrentView: view => {
         set({ currentView: view });
       },
 
-      startTestPart: part => {
+      startTestPart: (part, questions) => {
         if (part === 1) {
+          let shuffled = get().shuffledMcqQuestions;
+
+          // If starting fresh or no shuffled questions yet, shuffle questions and options
+          if (!shuffled && questions && questions.length > 0) {
+            const mcqList = questions.filter(q => q.part === 1);
+            const randomizedQuestions = shuffleArray(mcqList);
+
+            shuffled = randomizedQuestions.map(q => {
+              const rawOpts = q.options_json || [];
+              const randomizedOpts = shuffleArray(rawOpts);
+              const displayKeys: Array<'A' | 'B' | 'C' | 'D'> = [
+                'A',
+                'B',
+                'C',
+                'D',
+              ];
+
+              const mappedOptions: ShuffledMcqOption[] = randomizedOpts.map(
+                (opt, idx) => ({
+                  displayKey: displayKeys[idx] || 'A',
+                  originalKey: opt.key as 'A' | 'B' | 'C' | 'D',
+                  text: opt.text,
+                }),
+              );
+
+              return {
+                ...q,
+                options_json: mappedOptions,
+              };
+            });
+          }
+
           set({
             activePart: 1,
             currentView: 'taking_test',
             mcqTimerActive: true,
+            shuffledMcqQuestions: shuffled,
             mcqStatus:
               get().mcqStatus === 'completed' ? 'completed' : 'in_progress',
           });
@@ -91,6 +147,7 @@ export const useAssessmentStore = create<AssessmentStoreState>()(
             mcqTimerActive: false,
             mcqSecondsLeft: 60 * 60, // reset timer
             mcqStatus: 'not_started',
+            shuffledMcqQuestions: null, // reset shuffle for next attempt
             isQuestionMatrixOpen: false,
           });
         } else {
@@ -141,6 +198,15 @@ export const useAssessmentStore = create<AssessmentStoreState>()(
         }
       },
 
+      setScores: scores => {
+        set(state => ({
+          scores: {
+            ...(state.scores || {}),
+            ...scores,
+          },
+        }));
+      },
+
       setQuestionMatrixOpen: open => {
         set({ isQuestionMatrixOpen: open });
       },
@@ -166,12 +232,34 @@ export const useAssessmentStore = create<AssessmentStoreState>()(
             essayLeft = Math.max(0, 4800 - data.essay_time_spent_seconds);
           }
 
+          const currentScores = state.scores || {};
+          const updatedScores: AssessmentScores = {
+            ...currentScores,
+            mcqScore:
+              data.mcq_score !== undefined
+                ? Number(data.mcq_score)
+                : currentScores.mcqScore,
+            essayScore:
+              data.essay_score !== undefined
+                ? Number(data.essay_score)
+                : currentScores.essayScore,
+            totalScore:
+              data.total_score !== undefined
+                ? Number(data.total_score)
+                : currentScores.totalScore,
+            mcqTimeSpent:
+              data.mcq_time_spent_seconds ?? currentScores.mcqTimeSpent,
+            essayTimeSpent:
+              data.essay_time_spent_seconds ?? currentScores.essayTimeSpent,
+          };
+
           return {
             answers: newAnswers,
             mcqStatus: data.mcq_status || state.mcqStatus,
             essayStatus: data.essay_status || state.essayStatus,
             mcqSecondsLeft: mcqLeft,
             essaySecondsLeft: essayLeft,
+            scores: updatedScores,
           };
         });
       },
@@ -188,11 +276,13 @@ export const useAssessmentStore = create<AssessmentStoreState>()(
           mcqStatus: 'not_started',
           essayStatus: 'not_started',
           isQuestionMatrixOpen: false,
+          shuffledMcqQuestions: null,
+          scores: null,
         });
       },
     }),
     {
-      name: 'ptham_assessment_draft_v2',
+      name: 'ptham_assessment_draft_v3',
       partialize: state => ({
         currentView: state.currentView,
         answers: state.answers,
@@ -201,6 +291,8 @@ export const useAssessmentStore = create<AssessmentStoreState>()(
         essaySecondsLeft: state.essaySecondsLeft,
         mcqStatus: state.mcqStatus,
         essayStatus: state.essayStatus,
+        shuffledMcqQuestions: state.shuffledMcqQuestions,
+        scores: state.scores,
       }),
     },
   ),

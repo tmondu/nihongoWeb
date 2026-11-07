@@ -15,8 +15,18 @@ interface SubmissionSummary {
   mcq_score: number;
   essay_score: number;
   total_score: number;
+  mcq_time_spent_seconds?: number;
+  essay_time_spent_seconds?: number;
   completed_at: string | null;
   created_at: string;
+}
+
+function formatDuration(seconds?: number): string {
+  if (!seconds || seconds <= 0) return '0s';
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  if (m === 0) return `${s}s`;
+  return s > 0 ? `${m}p ${s}s` : `${m}p`;
 }
 
 interface QuestionGradeDetail {
@@ -123,6 +133,7 @@ export default function AdminAssessmentPage() {
                 <th className='px-5 py-3.5 text-center'>Điểm Trắc nghiệm</th>
                 <th className='px-5 py-3.5 text-center'>Điểm Tự luận</th>
                 <th className='px-5 py-3.5 text-center'>Tổng điểm</th>
+                <th className='px-5 py-3.5 text-center'>Thời gian làm</th>
                 <th className='px-5 py-3.5'>Ngày hoàn thành</th>
                 <th className='px-5 py-3.5 text-right'>Thao tác</th>
               </tr>
@@ -131,7 +142,7 @@ export default function AdminAssessmentPage() {
               {loading ? (
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className='px-5 py-8 text-center text-slate-500'
                   >
                     Đang tải dữ liệu bài thi...
@@ -140,7 +151,7 @@ export default function AdminAssessmentPage() {
               ) : submissions.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className='px-5 py-8 text-center text-slate-500'
                   >
                     Chưa có học viên nào nộp bài kiểm tra.
@@ -200,6 +211,18 @@ export default function AdminAssessmentPage() {
                     <td className='px-5 py-4 text-center font-mono text-sm font-bold text-white'>
                       {sub.total_score}/200
                     </td>
+                    <td className='px-5 py-4 text-center font-mono text-xs'>
+                      <div className='font-bold text-white'>
+                        {formatDuration(
+                          (sub.mcq_time_spent_seconds || 0) +
+                            (sub.essay_time_spent_seconds || 0),
+                        )}
+                      </div>
+                      <div className='text-[10px] text-slate-500'>
+                        TN: {formatDuration(sub.mcq_time_spent_seconds)} | TL:{' '}
+                        {formatDuration(sub.essay_time_spent_seconds)}
+                      </div>
+                    </td>
                     <td className='px-5 py-4 text-slate-400'>
                       {sub.completed_at
                         ? new Date(sub.completed_at).toLocaleString('vi-VN')
@@ -245,6 +268,23 @@ export default function AdminAssessmentPage() {
                   <span>
                     Trắc nghiệm: {selectedSubmission.mcq_score}/100 | Tự luận:{' '}
                     {selectedSubmission.essay_score}/100
+                  </span>
+                  <span>•</span>
+                  <span>
+                    Thời gian:{' '}
+                    <strong className='text-white'>
+                      {formatDuration(
+                        (selectedSubmission.mcq_time_spent_seconds || 0) +
+                          (selectedSubmission.essay_time_spent_seconds || 0),
+                      )}
+                    </strong>{' '}
+                    (TN:{' '}
+                    {formatDuration(selectedSubmission.mcq_time_spent_seconds)}{' '}
+                    | TL:{' '}
+                    {formatDuration(
+                      selectedSubmission.essay_time_spent_seconds,
+                    )}
+                    )
                   </span>
                 </div>
               </div>

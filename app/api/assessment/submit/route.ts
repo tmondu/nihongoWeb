@@ -307,7 +307,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 6. Return response to student (SECURITY: NO SCORE OR ANSWERS RETURNED!)
+    // 6. Return response to student with scores
     return NextResponse.json({
       success: true,
       message: isFullyCompleted
@@ -319,6 +319,14 @@ export async function POST(request: NextRequest) {
       mcqStatus,
       essayStatus,
       isFullyCompleted,
+      scores: {
+        part,
+        mcqScore,
+        essayScore,
+        totalScore,
+        mcqTimeSpent: mcqTime,
+        essayTimeSpent: essayTime,
+      },
     });
   } catch (error) {
     console.error('Error submitting assessment:', error);

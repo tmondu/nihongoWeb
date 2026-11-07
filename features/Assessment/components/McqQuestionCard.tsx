@@ -1,32 +1,73 @@
 'use client';
 
 import React from 'react';
-import { AssessmentQuestion } from '../types';
+import {
+  AssessmentQuestion,
+  ShuffledAssessmentQuestion,
+  ShuffledMcqOption,
+} from '../types';
 import { useAssessmentStore } from '../store/useAssessmentStore';
 import { useClick } from '@/shared/hooks/generic/useAudio';
 
 interface McqQuestionCardProps {
-  question: AssessmentQuestion;
+  question: AssessmentQuestion | ShuffledAssessmentQuestion;
+  displayIndex?: number;
 }
 
-export default function McqQuestionCard({ question }: McqQuestionCardProps) {
+function hasVietnamese(text?: string | null): boolean {
+  if (!text) return false;
+  return /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]/i.test(
+    text,
+  );
+}
+
+export default function McqQuestionCard({
+  question,
+  displayIndex,
+}: McqQuestionCardProps) {
   const { answers, setAnswer } = useAssessmentStore();
   const { playClick } = useClick();
   const selectedAnswer = answers[question.order_num] as string | undefined;
 
-  const handleSelect = (key: 'A' | 'B' | 'C' | 'D') => {
+  // Normalize options to support both regular and shuffled structures
+  const options = (question.options_json || []).map(opt => {
+    const isShuffled = 'displayKey' in opt;
+    const displayKey = isShuffled
+      ? (opt as ShuffledMcqOption).displayKey
+      : opt.key;
+    const originalKey = isShuffled
+      ? (opt as ShuffledMcqOption).originalKey
+      : opt.key;
+    return {
+      displayKey,
+      originalKey,
+      text: opt.text,
+    };
+  });
+
+  const selectedOption = options.find(
+    opt => opt.originalKey === selectedAnswer,
+  );
+  const selectedDisplayKey = selectedOption?.displayKey;
+
+  const handleSelect = (originalKey: 'A' | 'B' | 'C' | 'D') => {
     playClick();
-    setAnswer(question.order_num, key);
+    setAnswer(question.order_num, originalKey);
   };
 
   // Render context sentence highlighting target word
   const renderSentence = () => {
     if (!question.context_sentence) return null;
+
+    const sentenceContainsVi = hasVietnamese(question.context_sentence);
+    const fontClass = sentenceContainsVi ? 'font-mixed' : 'font-japanese';
+    const langAttr = sentenceContainsVi ? undefined : 'ja';
+
     if (!question.target_word) {
       return (
         <p
-          className='font-japanese text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'
-          lang='ja'
+          className={`${fontClass} text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl`}
+          lang={langAttr}
         >
           {question.context_sentence}
         </p>
@@ -37,8 +78,8 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
     if (parts.length <= 1) {
       return (
         <p
-          className='font-japanese text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'
-          lang='ja'
+          className={`${fontClass} text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl`}
+          lang={langAttr}
         >
           {question.context_sentence}
         </p>
@@ -47,8 +88,8 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
 
     return (
       <p
-        className='font-japanese text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl'
-        lang='ja'
+        className={`${fontClass} text-lg leading-relaxed font-bold tracking-wide text-(--main-color) sm:text-xl`}
+        lang={langAttr}
       >
         {parts.map((segment, idx) => (
           <React.Fragment key={idx}>
@@ -67,16 +108,16 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
   return (
     <div
       id={`question-${question.order_num}`}
-      className='rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-xs transition-colors sm:p-6'
+      className='font-vietnamese rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-xs transition-colors sm:p-6'
     >
       {/* Header */}
       <div className='mb-3.5 flex items-center justify-between'>
         <span className='rounded-full bg-(--main-color)/15 px-3 py-0.5 text-xs font-extrabold text-(--main-color)'>
-          Câu {question.order_num}
+          Câu {displayIndex ?? question.order_num}
         </span>
-        {selectedAnswer ? (
+        {selectedDisplayKey ? (
           <span className='rounded-full border border-green-500/30 bg-green-500/15 px-3 py-0.5 text-xs font-bold text-green-600 dark:text-green-400'>
-            Đã chọn: {selectedAnswer}
+            Đã chọn: {selectedDisplayKey}
           </span>
         ) : (
           <span className='text-xs font-medium text-(--secondary-color)'>
@@ -90,13 +131,19 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
 
       {/* 4 Options Grid */}
       <div className='grid grid-cols-1 gap-3 sm:grid-cols-2'>
-        {question.options_json?.map(opt => {
-          const isSelected = selectedAnswer === opt.key;
+        {options.map(opt => {
+          const isSelected = selectedAnswer === opt.originalKey;
+          const optContainsVi = hasVietnamese(opt.text);
+          const optionFontClass = optContainsVi
+            ? 'font-vietnamese'
+            : 'font-japanese';
+          const optionLang = optContainsVi ? undefined : 'ja';
+
           return (
             <button
-              key={opt.key}
+              key={opt.displayKey}
               type='button'
-              onClick={() => handleSelect(opt.key)}
+              onClick={() => handleSelect(opt.originalKey)}
               className={`group flex cursor-pointer items-center gap-3.5 rounded-2xl border-2 p-3.5 text-left transition-all select-none active:scale-[0.99] ${
                 isSelected
                   ? 'border-(--main-color) bg-(--main-color)/15 text-(--main-color) shadow-sm'
@@ -110,15 +157,15 @@ export default function McqQuestionCard({ question }: McqQuestionCardProps) {
                     : 'border border-(--border-color) bg-(--card-color) text-(--secondary-color) group-hover:text-(--main-color)'
                 }`}
               >
-                {opt.key}
+                {opt.displayKey}
               </span>
               <span
-                className={`font-japanese text-sm leading-relaxed font-medium sm:text-base ${
+                className={`${optionFontClass} text-sm leading-relaxed font-medium sm:text-base ${
                   isSelected
                     ? 'font-bold text-(--main-color)'
                     : 'text-(--secondary-color) group-hover:text-(--main-color)'
                 }`}
-                lang='ja'
+                lang={optionLang}
               >
                 {opt.text}
               </span>
