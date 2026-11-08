@@ -9,6 +9,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Star,
 } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
 import type { VocabWord } from '../../types/study';
@@ -18,11 +19,13 @@ interface VocabFlashcardHeroProps {
   lessonId: number;
   cursor: number;
   learned: string[];
+  starred?: string[];
   hideProgress?: boolean;
   hideHints?: boolean;
   onMarkLearned: () => void;
   onMarkNotLearned: () => void;
   onNavigate: (dir: -1 | 1) => void;
+  onToggleStar?: (key: string) => void;
 }
 
 function speak(text: string) {
@@ -39,17 +42,20 @@ export default function VocabFlashcardHero({
   lessonId,
   cursor,
   learned,
+  starred = [],
   hideProgress = false,
   hideHints = false,
   onMarkLearned,
   onMarkNotLearned,
   onNavigate,
+  onToggleStar,
 }: VocabFlashcardHeroProps) {
   const [flipped, setFlipped] = useState(false);
 
   const word = words[cursor];
   const learnedKey = word ? `${lessonId}:${word.hira}` : '';
   const isLearned = learned.includes(learnedKey);
+  const isStarred = starred.includes(learnedKey);
   const learnedCount = words.filter(w =>
     learned.includes(`${lessonId}:${w.hira}`),
   ).length;
@@ -168,17 +174,37 @@ export default function VocabFlashcardHero({
               <span className='font-semibold tracking-wider uppercase'>
                 {cursor + 1} / {words.length}
               </span>
-              <button
-                type='button'
-                onClick={e => {
-                  e.stopPropagation();
-                  speak(word.hira);
-                }}
-                className='rounded-xl p-2 text-blue-300/70 transition-colors hover:bg-white/10 hover:text-white'
-                title='Nghe phát âm'
-              >
-                <Volume2 size={20} />
-              </button>
+              <div className='flex items-center gap-1'>
+                <button
+                  type='button'
+                  onClick={e => {
+                    e.stopPropagation();
+                    onToggleStar?.(learnedKey);
+                  }}
+                  className={cn(
+                    'rounded-xl p-2 transition-transform active:scale-90',
+                    isStarred
+                      ? 'text-amber-400'
+                      : 'text-blue-300/70 hover:text-white',
+                  )}
+                  title={isStarred ? 'Bỏ đánh dấu sao' : 'Đánh dấu sao'}
+                  aria-label={isStarred ? 'Bỏ đánh dấu sao' : 'Đánh dấu sao'}
+                >
+                  <Star size={18} className={isStarred ? 'fill-current' : ''} />
+                </button>
+                <button
+                  type='button'
+                  onClick={e => {
+                    e.stopPropagation();
+                    speak(word.hira);
+                  }}
+                  className='rounded-xl p-2 text-blue-300/70 transition-colors hover:bg-white/10 hover:text-white active:scale-95'
+                  title='Nghe phát âm'
+                  aria-label='Nghe phát âm'
+                >
+                  <Volume2 size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Center: Chữ Hiragana to + Kanji */}
@@ -226,17 +252,37 @@ export default function VocabFlashcardHero({
               <span className='font-semibold tracking-wider uppercase'>
                 {cursor + 1} / {words.length}
               </span>
-              <button
-                type='button'
-                onClick={e => {
-                  e.stopPropagation();
-                  speak(word.hira);
-                }}
-                className='rounded-xl p-2 text-blue-300/70 transition-colors hover:bg-white/10 hover:text-white'
-                title='Nghe phát âm'
-              >
-                <Volume2 size={20} />
-              </button>
+              <div className='flex items-center gap-1'>
+                <button
+                  type='button'
+                  onClick={e => {
+                    e.stopPropagation();
+                    onToggleStar?.(learnedKey);
+                  }}
+                  className={cn(
+                    'rounded-xl p-2 transition-transform active:scale-90',
+                    isStarred
+                      ? 'text-amber-400'
+                      : 'text-blue-300/70 hover:text-white',
+                  )}
+                  title={isStarred ? 'Bỏ đánh dấu sao' : 'Đánh dấu sao'}
+                  aria-label={isStarred ? 'Bỏ đánh dấu sao' : 'Đánh dấu sao'}
+                >
+                  <Star size={18} className={isStarred ? 'fill-current' : ''} />
+                </button>
+                <button
+                  type='button'
+                  onClick={e => {
+                    e.stopPropagation();
+                    speak(word.hira);
+                  }}
+                  className='rounded-xl p-2 text-blue-300/70 transition-colors hover:bg-white/10 hover:text-white active:scale-95'
+                  title='Nghe phát âm'
+                  aria-label='Nghe phát âm'
+                >
+                  <Volume2 size={20} />
+                </button>
+              </div>
             </div>
 
             {/* Center: Từ vựng + Nghĩa tiếng Việt + Câu ví dụ */}

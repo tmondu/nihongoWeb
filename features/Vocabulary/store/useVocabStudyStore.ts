@@ -11,6 +11,7 @@ interface VocabStudyState {
   expandedVocab: boolean;
   expandedSpeak: boolean;
   learned: string[];
+  starred: string[];
   curMap: Record<string, number>;
   scores: Record<string, number>;
 }
@@ -21,6 +22,7 @@ interface VocabStudyActions {
   toggleSection: (section: StudySection) => void;
   markLearned: (key: string) => void;
   markNotLearned: (key: string) => void;
+  toggleStarred: (key: string) => void;
   setScore: (key: string, pct: number) => void;
   setCursor: (lessonId: number, idx: number) => void;
   resetLesson: (lessonId: number, words: string[]) => void;
@@ -37,6 +39,7 @@ const useVocabStudyStore = create<VocabStudyStore>()(
       expandedVocab: true,
       expandedSpeak: false,
       learned: [],
+      starred: [],
       curMap: {},
       scores: {},
 
@@ -64,6 +67,13 @@ const useVocabStudyStore = create<VocabStudyStore>()(
           learned: state.learned.filter(k => k !== key),
         })),
 
+      toggleStarred: key =>
+        set(state => ({
+          starred: state.starred.includes(key)
+            ? state.starred.filter(k => k !== key)
+            : [...state.starred, key],
+        })),
+
       setScore: (key, pct) =>
         set(state => ({
           scores: { ...state.scores, [key]: pct },
@@ -79,6 +89,7 @@ const useVocabStudyStore = create<VocabStudyStore>()(
           const prefix = `${lessonId}:`;
           return {
             learned: state.learned.filter(k => !k.startsWith(prefix)),
+            starred: state.starred.filter(k => !k.startsWith(prefix)),
             scores: Object.fromEntries(
               Object.entries(state.scores).filter(
                 ([k]) => !k.startsWith(prefix),

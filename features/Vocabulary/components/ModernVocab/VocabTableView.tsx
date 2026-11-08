@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, Volume2, RotateCcw } from 'lucide-react';
+import { Search, Volume2, RotateCcw, Star } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
 import type { VocabWord } from '../../types/study';
 
@@ -10,8 +10,10 @@ interface VocabTableViewProps {
   lessonId: number;
   cursor: number;
   learned: string[];
+  starred?: string[];
   onSelectWord: (idx: number) => void;
   onResetLesson: () => void;
+  onToggleStar?: (key: string) => void;
 }
 
 function speak(text: string) {
@@ -28,8 +30,10 @@ export default function VocabTableView({
   lessonId,
   cursor,
   learned,
+  starred = [],
   onSelectWord,
   onResetLesson,
+  onToggleStar,
 }: VocabTableViewProps) {
   const [search, setSearch] = useState('');
   const [showAll, setShowAll] = useState(false);
@@ -42,6 +46,7 @@ export default function VocabTableView({
         !search ||
         w.hira.includes(search) ||
         (w.kanji?.includes(search) ?? false) ||
+        (w.hanViet?.toLowerCase().includes(search.toLowerCase()) ?? false) ||
         w.mean.toLowerCase().includes(search.toLowerCase()),
     );
 
@@ -65,11 +70,11 @@ export default function VocabTableView({
         <div className='relative min-w-48 flex-1'>
           <Search
             size={14}
-            className='absolute top-1/2 left-3 -translate-y-1/2 text-[var(--secondary-color)]'
+            className='pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[var(--secondary-color)]'
           />
           <input
             type='text'
-            placeholder='Tìm từ...'
+            placeholder='Tìm theo Hiragana, Kanji, Hán Việt hoặc nghĩa...'
             value={search}
             onChange={e => setSearch(e.target.value)}
             className='w-full rounded-lg border border-[var(--border-color)] bg-[var(--card-color)] py-2 pr-3 pl-9 text-sm text-[var(--foreground-color)] placeholder:text-[var(--secondary-color)] focus:border-[var(--main-color)] focus:outline-none'
@@ -97,7 +102,7 @@ export default function VocabTableView({
         <button
           onClick={handleReset}
           className={cn(
-            'flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium transition-colors',
+            'flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium transition-colors active:scale-[0.98]',
             confirmReset
               ? 'border-red-500 bg-red-500/10 text-red-400 hover:bg-red-500/20'
               : 'border-[var(--border-color)] text-[var(--secondary-color)] hover:bg-[var(--card-color)]',
@@ -110,7 +115,7 @@ export default function VocabTableView({
 
       {/* Table */}
       <div className='overflow-x-auto rounded-xl border border-[var(--border-color)]'>
-        <table className='w-full min-w-[480px] text-sm sm:min-w-[520px]'>
+        <table className='w-full min-w-[500px] text-sm'>
           <thead>
             <tr className='border-b border-[var(--border-color)] bg-[var(--card-color)]'>
               <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
@@ -120,7 +125,7 @@ export default function VocabTableView({
                 Hiragana
               </th>
               <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
-                Kanji
+                Kanji / Hán Việt
               </th>
               <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 Nghĩa
@@ -128,7 +133,9 @@ export default function VocabTableView({
               <th className='px-3 py-2.5 text-left text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:px-4 sm:py-3'>
                 Ví dụ
               </th>
-              <th className='w-10 px-2 py-2.5 sm:py-3' />
+              <th className='w-16 px-2 py-2.5 text-center text-xs font-semibold tracking-wide text-[var(--secondary-color)] uppercase sm:py-3'>
+                Tác vụ
+              </th>
             </tr>
           </thead>
           <tbody className='divide-y divide-[var(--border-color)]'>
@@ -147,6 +154,7 @@ export default function VocabTableView({
             {filtered.map(w => {
               const key = `${lessonId}:${w.hira}`;
               const isLearned = learned.includes(key);
+              const isStarred = starred.includes(key);
               const isActive = w._idx === cursor;
               const reveal = showAll || isLearned;
 
@@ -175,12 +183,19 @@ export default function VocabTableView({
                   </td>
                   <td className='px-3 py-2.5 sm:px-4 sm:py-3'>
                     {reveal ? (
-                      <span
-                        className='font-japanese text-base text-[var(--foreground-color)]'
-                        lang='ja'
-                      >
-                        {w.kanji ?? '—'}
-                      </span>
+                      <div className='flex flex-col'>
+                        <span
+                          className='font-japanese text-base text-[var(--foreground-color)]'
+                          lang='ja'
+                        >
+                          {w.kanji ?? '—'}
+                        </span>
+                        {w.hanViet && (
+                          <span className='text-[10px] font-bold tracking-wider text-[var(--secondary-color)] uppercase'>
+                            [{w.hanViet}]
+                          </span>
+                        )}
+                      </div>
                     ) : (
                       <span className='inline-block h-4 w-12 rounded bg-[var(--border-color)]' />
                     )}
@@ -203,17 +218,43 @@ export default function VocabTableView({
                       <span className='inline-block h-4 w-32 rounded bg-[var(--border-color)]' />
                     )}
                   </td>
-                  <td className='px-2 py-3'>
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        speak(w.hira);
-                      }}
-                      className='rounded-full p-1.5 text-[var(--secondary-color)] hover:bg-[var(--card-color)] hover:text-[var(--foreground-color)]'
-                      title='Nghe phát âm'
-                    >
-                      <Volume2 size={14} />
-                    </button>
+                  <td className='px-2 py-3 text-center'>
+                    <div className='flex items-center justify-center gap-1'>
+                      <button
+                        type='button'
+                        onClick={e => {
+                          e.stopPropagation();
+                          onToggleStar?.(key);
+                        }}
+                        className={cn(
+                          'rounded-full p-1.5 transition-transform active:scale-90',
+                          isStarred
+                            ? 'text-amber-400 hover:text-amber-500'
+                            : 'text-[var(--secondary-color)]/40 hover:text-amber-400',
+                        )}
+                        title={isStarred ? 'Bỏ đánh dấu sao' : 'Đánh dấu sao'}
+                        aria-label={
+                          isStarred ? 'Bỏ đánh dấu sao' : 'Đánh dấu sao'
+                        }
+                      >
+                        <Star
+                          size={14}
+                          className={isStarred ? 'fill-current' : ''}
+                        />
+                      </button>
+                      <button
+                        type='button'
+                        onClick={e => {
+                          e.stopPropagation();
+                          speak(w.hira);
+                        }}
+                        className='rounded-full p-1.5 text-[var(--secondary-color)] hover:bg-[var(--card-color)] hover:text-[var(--foreground-color)] active:scale-95'
+                        title='Nghe phát âm'
+                        aria-label='Nghe phát âm'
+                      >
+                        <Volume2 size={14} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

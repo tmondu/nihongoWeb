@@ -3,12 +3,18 @@
 // ============================================================================
 
 export interface VocabWord {
+  id?: number;
   hira: string;
   kanji?: string;
   mean: string;
+  hanViet?: string;
   ex?: string;
   under?: string;
   exVi?: string;
+  audioUrl?: string;
+  isStarred?: boolean;
+  isMemorized?: boolean;
+  score?: number;
 }
 
 export interface LessonData {

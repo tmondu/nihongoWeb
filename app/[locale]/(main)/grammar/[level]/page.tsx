@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { routing } from '@/core/i18n/routing';
 import { Breadcrumbs } from '@/shared/ui-composite/Breadcrumbs';
+import { ModernGrammarStudy } from '@/features/Grammar';
 import {
   BookOpen,
   MessageCircle,
@@ -443,6 +444,13 @@ export default async function GrammarLevelPage({
           </div>
         </div>
       </div>
+
+      {/* Interactive Lesson-by-Lesson Grammar Study */}
+      {levelKey !== 'kaiwa' && (
+        <section className='space-y-4 pt-2'>
+          <ModernGrammarStudy level={levelKey} />
+        </section>
+      )}
 
       {/* Notice box */}
       <div className='flex items-center gap-3 rounded-2xl border border-(--main-color)/20 bg-(--main-color)/5 p-4 text-xs text-(--secondary-color) sm:text-sm'>

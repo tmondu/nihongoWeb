@@ -1,6 +1,5 @@
 // ============================================================================
 // JLPT N5 Lesson Data (Minna no Nihongo structure, 25 lessons)
-// Data will be filled in by user
 // ============================================================================
 import type { LessonData, VocabLevel } from '../types/study';
 
@@ -12,14 +11,17 @@ export const LESSONS_N5: Record<number, LessonData> = {
       {
         hira: 'わたし',
         kanji: '私',
-        mean: 'tôi, ta',
-        ex: 'わたしはせんせいです。',
+        hanViet: 'TƯ',
+        mean: 'tôi, ta (ngôi thứ nhất)',
+        ex: 'わたしはベトナム人です。',
         under: 'わたし',
-        exVi: 'Tôi là giáo viên.',
+        exVi: 'Tôi là người Việt Nam.',
       },
       {
         hira: 'あなた',
-        mean: 'bạn, anh/chị (ngôi 2)',
+        kanji: '貴方',
+        hanViet: 'QUÝ PHƯƠNG',
+        mean: 'bạn, anh/chị (ngôi thứ 2)',
         ex: 'あなたのなまえはなんですか。',
         under: 'あなた',
         exVi: 'Tên bạn là gì?',
@@ -27,6 +29,7 @@ export const LESSONS_N5: Record<number, LessonData> = {
       {
         hira: 'あのひと',
         kanji: 'あの人',
+        hanViet: 'NHÂN',
         mean: 'người đó, người kia',
         ex: 'あのひとはだれですか。',
         under: 'あのひと',
@@ -35,21 +38,22 @@ export const LESSONS_N5: Record<number, LessonData> = {
       {
         hira: 'あのかた',
         kanji: 'あの方',
-        mean: 'vị đó (kính ngữ của あのひと)',
+        hanViet: 'PHƯƠNG',
+        mean: 'vị đó, vị kia (lịch sự của あのひと)',
         ex: 'あのかたはせんせいです。',
         under: 'あのかた',
         exVi: 'Vị đó là giáo viên.',
       },
       {
         hira: '〜さん',
-        mean: '〜san (cách gọi tôn trọng)',
+        mean: 'anh, chị, ông, bà (gọi lịch sự)',
         ex: 'やまださんはいしゃです。',
         under: 'やまださん',
         exVi: 'Anh/Chị Yamada là bác sĩ.',
       },
       {
         hira: '〜ちゃん',
-        mean: '〜chan (cách gọi thân mật, trẻ em)',
+        mean: 'bé, em (gọi thân mật trẻ em)',
         ex: 'はなちゃんはかわいいです。',
         under: 'はなちゃん',
         exVi: 'Bé Hana dễ thương quá.',
@@ -57,18 +61,165 @@ export const LESSONS_N5: Record<number, LessonData> = {
       {
         hira: '〜じん',
         kanji: '〜人',
-        mean: '〜người (quốc tịch)',
-        ex: 'わたしはべとなむじんです。',
-        under: 'べとなむじん',
+        hanViet: 'NHÂN',
+        mean: 'người (quốc tịch)',
+        ex: 'わたしはベトナムじんです。',
+        under: 'ベトナムじん',
         exVi: 'Tôi là người Việt Nam.',
       },
       {
         hira: 'せんせい',
         kanji: '先生',
-        mean: 'giáo viên, thầy/cô giáo',
+        hanViet: 'TIÊN SINH',
+        mean: 'thầy/cô giáo (gọi người khác)',
         ex: 'たなかさんはせんせいです。',
         under: 'せんせい',
-        exVi: 'Chị Tanaka là giáo viên.',
+        exVi: 'Thầy Tanaka là giáo viên.',
+      },
+      {
+        hira: 'きょうし',
+        kanji: '教師',
+        hanViet: 'GIÁO SƯ',
+        mean: 'giáo viên (nghề nghiệp bản thân)',
+        ex: 'わたしはにほんごのきょうしです。',
+        under: 'きょうし',
+        exVi: 'Tôi là giáo viên tiếng Nhật.',
+      },
+      {
+        hira: 'がくせい',
+        kanji: '学生',
+        hanViet: 'HỌC SINH',
+        mean: 'học sinh, sinh viên',
+        ex: 'ナムさんはがくせいです。',
+        under: 'がくせい',
+        exVi: 'Nam là học sinh.',
+      },
+      {
+        hira: 'かいしゃいん',
+        kanji: '会社員',
+        hanViet: 'HỘI XÃ VIÊN',
+        mean: 'nhân viên công ty',
+        ex: 'ミラーさんはかいしゃいんです。',
+        under: 'かいしゃいん',
+        exVi: 'Anh Miller là nhân viên công ty.',
+      },
+      {
+        hira: 'しゃいん',
+        kanji: '社員',
+        hanViet: 'XÃ VIÊN',
+        mean: 'nhân viên (công ty cụ thể)',
+        ex: 'IMCのしゃいんです。',
+        under: 'しゃいん',
+        exVi: 'Là nhân viên của công ty IMC.',
+      },
+      {
+        hira: 'ぎんこういん',
+        kanji: '銀行員',
+        hanViet: 'NGÂN HÀNG VIÊN',
+        mean: 'nhân viên ngân hàng',
+        ex: 'やまださんはぎんこういんです。',
+        under: 'ぎんこういん',
+        exVi: 'Chị Yamada là nhân viên ngân hàng.',
+      },
+      {
+        hira: 'いしゃ',
+        kanji: '医者',
+        hanViet: 'Y GIẢ',
+        mean: 'bác sĩ',
+        ex: 'ちちはびょういんのいしゃです。',
+        under: 'いしゃ',
+        exVi: 'Bố tôi là bác sĩ ở bệnh viện.',
+      },
+      {
+        hira: 'けんきゅうしゃ',
+        kanji: '研究者',
+        hanViet: 'NGHIÊN CỨU GIẢ',
+        mean: 'nhà nghiên cứu',
+        ex: 'ワットさんはけんきゅうしゃです。',
+        under: 'けんきゅうしゃ',
+        exVi: 'Ông Watt là nhà nghiên cứu.',
+      },
+      {
+        hira: 'だいがく',
+        kanji: '大学',
+        hanViet: 'ĐẠI HỌC',
+        mean: 'trường đại học',
+        ex: 'さくらだいがくのがくせいです。',
+        under: 'だいがく',
+        exVi: 'Là sinh viên trường Đại học Sakura.',
+      },
+      {
+        hira: 'びょういん',
+        kanji: '病院',
+        hanViet: 'BỆNH VIỆN',
+        mean: 'bệnh viện',
+        ex: 'こうべびょういんへいきます。',
+        under: 'びょういん',
+        exVi: 'Đi đến bệnh viện Kobe.',
+      },
+      {
+        hira: 'だれ',
+        kanji: '誰',
+        hanViet: 'THÙY',
+        mean: 'ai (hỏi người)',
+        ex: 'あのひとはだれですか。',
+        under: 'だれ',
+        exVi: 'Người kia là ai vậy?',
+      },
+      {
+        hira: 'どなた',
+        mean: 'vị nào (lịch sự của だれ)',
+        ex: 'あのかたはどなたですか。',
+        under: 'どなた',
+        exVi: 'Vị kia là ai vậy ạ?',
+      },
+      {
+        hira: '〜さい',
+        kanji: '〜歳',
+        hanViet: 'TUẾ',
+        mean: '〜tuổi',
+        ex: 'わたしは２０さいです。',
+        under: '２０さい',
+        exVi: 'Tôi 20 tuổi.',
+      },
+      {
+        hira: 'なんさい',
+        kanji: '何歳',
+        hanViet: 'HÀ TUẾ',
+        mean: 'mấy tuổi, bao nhiêu tuổi',
+        ex: 'たろうくんはなんさいですか。',
+        under: 'なんさい',
+        exVi: 'Bé Taro mấy tuổi rồi?',
+      },
+      {
+        hira: 'おいくつ',
+        mean: 'bao nhiêu tuổi (lịch sự)',
+        ex: 'やまださんはおいくつですか。',
+        under: 'おいくつ',
+        exVi: 'Anh Yamada bao nhiêu tuổi ạ?',
+      },
+      {
+        hira: 'はい',
+        mean: 'vâng, dạ, đúng vậy',
+        ex: 'はい、そうです。',
+        under: 'はい',
+        exVi: 'Vâng, đúng vậy.',
+      },
+      {
+        hira: 'いいえ',
+        mean: 'không, không phải',
+        ex: 'いいえ、ちがいます。',
+        under: 'いいえ',
+        exVi: 'Không, không phải.',
+      },
+      {
+        hira: 'にほん',
+        kanji: '日本',
+        hanViet: 'NHẬT BẢN',
+        mean: 'Nhật Bản',
+        ex: 'にほんへいきます。',
+        under: 'にほん',
+        exVi: 'Tôi đi Nhật Bản.',
       },
     ],
   },
@@ -98,32 +249,15 @@ export const LESSONS_N5: Record<number, LessonData> = {
   25: { words: [] },
 };
 
-export const LESSONS_N4: Record<number, LessonData> = {};
-export const LESSONS_N3: Record<number, LessonData> = {};
-export const LESSONS_N2: Record<number, LessonData> = {};
-export const LESSONS_N1: Record<number, LessonData> = {};
-
 export const LESSON_COUNT: Record<VocabLevel, number> = {
-  n5: 25,
-  n4: 0,
-  n3: 0,
-  n2: 0,
-  n1: 0,
+  n5: LESSON_COUNT_N5,
+  n4: 25,
+  n3: 20,
+  n2: 15,
+  n1: 12,
 };
 
 export function getLessons(level: VocabLevel): Record<number, LessonData> {
-  switch (level) {
-    case 'n5':
-      return LESSONS_N5;
-    case 'n4':
-      return LESSONS_N4;
-    case 'n3':
-      return LESSONS_N3;
-    case 'n2':
-      return LESSONS_N2;
-    case 'n1':
-      return LESSONS_N1;
-    default:
-      return LESSONS_N5;
-  }
+  if (level === 'n5') return LESSONS_N5;
+  return {};
 }

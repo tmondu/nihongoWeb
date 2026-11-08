@@ -23,7 +23,7 @@ export default function ModernVocabContainer({
 
   const level = fixedLevel ?? store.level;
   const section = mode ?? store.section;
-  const { lessonId, learned, curMap, scores } = store;
+  const { lessonId, learned, starred, curMap, scores } = store;
 
   const lessons = getLessons(level);
   const lessonData = lessons[lessonId] ?? { words: [] };
@@ -56,6 +56,13 @@ export default function ModernVocabContainer({
     if (!words[safeCursor]) return;
     store.markNotLearned(`${lessonId}:${words[safeCursor].hira}`);
   }, [safeCursor, words, lessonId, store]);
+
+  const handleToggleStar = useCallback(
+    (key: string) => {
+      store.toggleStarred(key);
+    },
+    [store],
+  );
 
   const handleSelectWord = useCallback(
     (idx: number) => {
@@ -260,6 +267,8 @@ export default function ModernVocabContainer({
                 onMarkLearned={handleMarkLearned}
                 onMarkNotLearned={handleMarkNotLearned}
                 onNavigate={handleNavigate}
+                starred={starred}
+                onToggleStar={handleToggleStar}
               />
             </div>
 
@@ -272,6 +281,8 @@ export default function ModernVocabContainer({
                 learned={learned}
                 onSelectWord={handleSelectWord}
                 onResetLesson={handleResetLesson}
+                starred={starred}
+                onToggleStar={handleToggleStar}
               />
             </div>
           </main>
