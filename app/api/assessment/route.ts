@@ -143,16 +143,26 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({
-      test,
-      questions: sanitizedQuestions,
-      submission: existingSubmission,
-      user: {
-        id: userId,
-        canDoTest,
-        isAdmin,
+    return NextResponse.json(
+      {
+        test,
+        questions: sanitizedQuestions,
+        submission: existingSubmission,
+        user: {
+          id: userId,
+          canDoTest,
+          isAdmin,
+        },
       },
-    });
+      {
+        headers: {
+          'Cache-Control':
+            'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      },
+    );
   } catch (error) {
     console.error('Error fetching assessment test:', error);
     return NextResponse.json(

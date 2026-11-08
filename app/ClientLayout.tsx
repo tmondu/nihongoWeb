@@ -178,6 +178,8 @@ export default function ClientLayout({
                 sessionStorage.clear();
                 try {
                   localStorage.removeItem('is_admin');
+                  localStorage.removeItem('ptham_assessment_draft_v3');
+                  localStorage.removeItem('ptham_assessment_draft_v3');
                 } catch {}
                 window.location.href = `/login?redirect=${encodeURIComponent(cleanPath)}`;
               });

@@ -8,6 +8,7 @@ export default function AdminLogoutButton() {
       await fetch('/api/auth/logout', { method: 'POST' });
       try {
         localStorage.removeItem('is_admin');
+        localStorage.removeItem('ptham_assessment_draft_v3');
         sessionStorage.removeItem('is_admin');
       } catch {}
       window.location.href = '/login';

@@ -308,26 +308,36 @@ export async function POST(request: NextRequest) {
     }
 
     // 6. Return response to student with scores
-    return NextResponse.json({
-      success: true,
-      message: isFullyCompleted
-        ? 'Bạn đã hoàn thành trọn vẹn bài kiểm tra đánh giá năng lực!'
-        : part === 1
-          ? 'Bạn đã nộp thành công Phần 1 (Trắc nghiệm).'
-          : 'Bạn đã nộp thành công Phần 2 (Tự luận).',
-      part,
-      mcqStatus,
-      essayStatus,
-      isFullyCompleted,
-      scores: {
+    return NextResponse.json(
+      {
+        success: true,
+        message: isFullyCompleted
+          ? 'Bạn đã hoàn thành trọn vẹn bài kiểm tra đánh giá năng lực!'
+          : part === 1
+            ? 'Bạn đã nộp thành công Phần 1 (Trắc nghiệm).'
+            : 'Bạn đã nộp thành công Phần 2 (Tự luận).',
         part,
-        mcqScore,
-        essayScore,
-        totalScore,
-        mcqTimeSpent: mcqTime,
-        essayTimeSpent: essayTime,
+        mcqStatus,
+        essayStatus,
+        isFullyCompleted,
+        scores: {
+          part,
+          mcqScore,
+          essayScore,
+          totalScore,
+          mcqTimeSpent: mcqTime,
+          essayTimeSpent: essayTime,
+        },
       },
-    });
+      {
+        headers: {
+          'Cache-Control':
+            'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      },
+    );
   } catch (error) {
     console.error('Error submitting assessment:', error);
     return NextResponse.json(

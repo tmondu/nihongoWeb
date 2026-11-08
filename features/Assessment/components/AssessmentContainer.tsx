@@ -58,7 +58,13 @@ export default function AssessmentContainer() {
     async function loadTest() {
       try {
         setLoading(true);
-        const res = await fetch('/api/assessment');
+        const res = await fetch(`/api/assessment?_t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            Pragma: 'no-cache',
+          },
+        });
         if (isCancelled) return;
 
         if (res.status === 401) {
@@ -88,9 +94,8 @@ export default function AssessmentContainer() {
         setTest(data.test);
         setQuestions(data.questions || []);
 
-        if (data.submission) {
-          syncWithServer(data.submission);
-        }
+        // Sync store with current authenticated user ID and submission status
+        syncWithServer(data.user?.id || 0, data.submission || null);
       } catch (err: unknown) {
         if (!isCancelled) {
           console.error(err);
