@@ -72,6 +72,7 @@ PThamSS is organized by feature: app/, features/, shared/, core/. Keep business 
 - ❌ Không để lại unused imports hoặc unused variables (`@typescript-eslint/no-unused-vars`), pre-commit hook `--max-warnings=0` sẽ chặn ngay cả 1 warning nhỏ nhất.
 - ❌ Không gọi `setState` đồng bộ trực tiếp trong root body của `useEffect`.
 - ❌ Tránh narrow union cứng nhắc cho dynamic/extensible paths (như `canonicalPath` trong SEO components); dùng `string` để tránh lỗi TS2322 khi tạo trang mới.
+- ❌ Tuyệt đối KHÔNG gắn `/${locale}` vào liên kết nội bộ (`Link href`), thẻ Canonical URLs, Breadcrumbs hoặc Schema JSON-LD. Dự án dùng `localePrefix: 'never'`, URL có tiền tố `/vi/...` hay `/en/...` sẽ bị `proxy.ts` redirect 308 gây lỗi "Trang có lệnh chuyển hướng" trên Google Search Console. Luôn dùng clean paths (VD: `/kana`, `https://www.mondu.online/kana`).
 
 ### Common tasks
 
@@ -135,4 +136,18 @@ và luôn đảm bảo `".next"` nằm trong `"exclude"`.
 
 ---
 
-**Last Updated**: 2026-10-30
+### 5. Google Search Console báo lỗi "Trang có lệnh chuyển hướng" (Page with redirect)
+
+**Symptom**: GSC gửi email cảnh báo "Trang có lệnh chuyển hướng" hoặc không lập chỉ mục được các trang trong sitemap.
+
+**Root cause**: Thẻ `<link rel="canonical">`, Schema JSON-LD (BreadcrumbSchema, CourseSchema...) hoặc thẻ `<Link href="...">` gắn cứng biến `${locale}` (tạo ra URL dạng `https://www.mondu.online/vi/...`). Vì `core/i18n/routing.ts` cài đặt `localePrefix: 'never'`, `proxy.ts` sẽ chuyển hướng (308 redirect) các URL này về dạng sạch không có locale.
+
+**Fix**:
+
+- Canonical & Schemas: luôn dùng đường dẫn sạch không có `${locale}` (VD: `https://www.mondu.online/kana`). Ưu tiên dùng helper `generatePageMetadata(...)`.
+- Internal links: dùng `href="/path"` thay vì `href={`/${locale}/path`}`.
+- Trang chủ (Home) trong schema luôn là `https://www.mondu.online`, trong UI breadcrumbs luôn là `'/'`.
+
+---
+
+**Last Updated**: 2026-11-09
