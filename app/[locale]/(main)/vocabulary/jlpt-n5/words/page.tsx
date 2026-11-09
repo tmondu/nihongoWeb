@@ -1,4 +1,4 @@
-import { ModernVocabContainer } from '@/features/Vocabulary';
+import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
 import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
 import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
@@ -9,6 +9,18 @@ import {
 } from '@/shared/ui-composite/SEO/FAQSchema';
 import { LearningResourceSchema } from '@/shared/ui-composite/SEO/LearningResourceSchema';
 import { routing } from '@/core/i18n/routing';
+
+const ModernVocabContainer = dynamic(
+  () => import('@/features/Vocabulary').then(m => m.ModernVocabContainer),
+  {
+    ssr: false,
+    loading: () => (
+      <div className='flex min-h-[400px] w-full items-center justify-center py-12'>
+        <div className='size-10 animate-spin rounded-full border-4 border-[var(--border-color)] border-t-[var(--main-color)]' />
+      </div>
+    ),
+  },
+);
 
 export function generateStaticParams() {
   return routing.locales.map(locale => ({ locale }));
