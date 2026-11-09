@@ -32,13 +32,29 @@ body {
   user-select: text !important;
 }
 
-/* Nền sọc nét đứt ô li học sinh khoảng cách 30px (Notebook Dashed Grid) cho tất cả các trang */
+/* ==========================================================================
+   Background: Nền xanh ngọc chấm bi (Mint Cyan Dot Grid)
+   Mô phỏng sổ tay chấm bi (Bullet Journal) chuẩn theo mẫu giao diện
+   ========================================================================== */
 body,
 [data-scroll-restoration-id='container'] {
+  background-color: #e4f8f7 !important;
+  background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='9' cy='9' r='1.1' fill='%2319988b' fill-opacity='0.28'/%3E%3C/svg%3E");
+  background-size: 18px 18px;
+  background-repeat: repeat;
+}
+
+/* ==========================================================================
+   [LƯU GIỮ CODE] Nền vở ô li nét đứt học sinh khoảng cách 30px (Notebook Dashed Grid)
+   Kích hoạt lại bất kỳ lúc nào bằng cách đổi class hoặc bỏ comment:
+.bg-notebook-oli,
+html[data-bg-pattern='oli'] body,
+html[data-bg-pattern='oli'] [data-scroll-restoration-id='container'] {
   background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0.5 L 30 0.5 M 0.5 0 L 0.5 30' fill='none' stroke='%23de708d' stroke-opacity='0.22' stroke-width='1' stroke-dasharray='3 3'/%3E%3C/svg%3E");
   background-size: 30px 30px;
   background-repeat: repeat;
 }
+   ========================================================================== */
 
 .font-japanese,
 [lang='ja'],

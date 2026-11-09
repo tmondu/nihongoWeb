@@ -1460,7 +1460,7 @@ const Sidebar = () => {
         className={clsx(
           'hidden lg:flex lg:flex-col lg:items-start print:hidden',
           'lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
-          'z-30 border-(--border-color) lg:border-r',
+          'z-30 border-(--border-color) bg-(--card-color) lg:border-r',
           'lg:transition-[width,padding] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
           isDesktopSidebarCollapsed
             ? 'lg:w-24 lg:px-1.5 lg:pt-3 lg:pb-3'

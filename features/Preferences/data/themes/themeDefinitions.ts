@@ -99,16 +99,17 @@ const baseThemeSets: BaseThemeGroup[] = [
         id: 'ptham-theme',
         displayName: 'PTham Theme',
         isLight: true,
-        // Nền giấy kem dịu, độ trong 92%
-        backgroundColor: 'oklch(0.9862 0.0142 84.58 / 0.92)',
-        // Card màu trắng mờ 80% (hiệu ứng kính mờ mềm mại)
-        cardColor: 'oklch(100.00% 0.0000 0.00 / 0.80)',
-        // Viền hồng nhạt trong suốt 50%
-        borderColor: 'oklch(92.00% 0.0150 345.00 / 0.50)',
-        // Hồng dâu pastel dịu mắt
-        mainColor: 'oklch(68.00% 0.1400 5.00 / 0.80)',
-        // Xanh da trời pastel dịu nhẹ
-        secondaryColor: 'oklch(0.3162 0.1653 264.7 / 1)',
+        // [LƯU GIỮ CODE CŨ] Nền giấy kem cũ: 'oklch(0.9862 0.0142 84.58 / 0.92)'
+        // Nền xanh ngọc pastel chấm bi (Mint Cyan Dot Grid) chuẩn theo mẫu ảnh
+        backgroundColor: 'oklch(0.9720 0.0240 185.50 / 0.95)',
+        // Card màu trắng mờ 85% (hiệu ứng kính mờ mềm mại)
+        cardColor: 'oklch(100.00% 0.0000 0.00 / 0.85)',
+        // Viền xanh ngọc nhạt trong suốt 50%
+        borderColor: 'oklch(90.00% 0.0200 185.00 / 0.50)',
+        // Màu chính (chữ & icon): Xanh ngọc sẫm sang trọng
+        mainColor: 'oklch(0.3200 0.0550 200.00 / 1)',
+        // Màu phụ (accent): Xanh da trời pastel dịu nhẹ
+        secondaryColor: 'oklch(0.4500 0.0800 210.00 / 1)',
       },
       {
         id: 'light',
