@@ -25,32 +25,26 @@ export async function generateMetadata({
   });
 }
 
-export default async function KanjiJlptN3Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function KanjiJlptN3Page() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Kanji',
-            url: `https://www.mondu.online/${locale}/kanji`,
+            url: `https://www.mondu.online/kanji`,
           },
           {
             name: 'JLPT N3',
-            url: `https://www.mondu.online/${locale}/kanji/jlpt-n3`,
+            url: `https://www.mondu.online/kanji/jlpt-n3`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N3 Kanji Course - Japanese Kanji Practice'
         description='Study JLPT N3 kanji with interactive drills and set-based practice. Improve kanji recognition, readings, and meanings with immediate feedback and progress tracking.'
-        url={`https://www.mondu.online/${locale}/kanji/jlpt-n3`}
+        url={`https://www.mondu.online/kanji/jlpt-n3`}
         educationalLevel='Intermediate'
         skillLevel='JLPT N3'
         learningResourceType='Interactive Course'
@@ -58,7 +52,7 @@ export default async function KanjiJlptN3Page({
       <LearningResourceSchema
         name='JLPT N3 Kanji Practice'
         description='Targeted JLPT N3 kanji practice with selectable levels, quick selection tools, and kanji set dictionaries for exam-focused study.'
-        url={`https://www.mondu.online/${locale}/kanji/jlpt-n3`}
+        url={`https://www.mondu.online/kanji/jlpt-n3`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Intermediate']}
         teaches='JLPT N3 kanji readings, meanings, and recognition'

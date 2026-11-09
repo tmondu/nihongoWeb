@@ -120,21 +120,21 @@ export default async function CurriculumLevelPage({ params }: LevelPageProps) {
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Giáo án',
-            url: `https://www.mondu.online/${locale}/giao-trinh`,
+            url: `https://www.mondu.online/giao-trinh`,
           },
           {
             name: meta.badge,
-            url: `https://www.mondu.online/${locale}/giao-trinh/${normalized}`,
+            url: `https://www.mondu.online/giao-trinh/${normalized}`,
           },
         ]}
       />
       <CourseSchema
         name={meta.title}
         description={meta.description}
-        url={`https://www.mondu.online/${locale}/giao-trinh/${normalized}`}
+        url={`https://www.mondu.online/giao-trinh/${normalized}`}
         educationalLevel={meta.educationalLevel}
         skillLevel={meta.skillLevel}
         learningResourceType='Interactive Course, Grammar and Vocabulary'

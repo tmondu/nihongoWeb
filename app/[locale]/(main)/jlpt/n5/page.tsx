@@ -10,17 +10,11 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-
+export async function generateMetadata(): Promise<Metadata> {
   const title = 'JLPT N5 Study Guide - Complete Preparation Resource | Mondu';
   const description =
     'Complete JLPT N5 study guide with all essential Kanji, vocabulary, and study tips. Free interactive practice for JLPT N5 exam success. Start preparing today!';
-  const canonical = `https://www.mondu.online/${locale}/jlpt/n5`;
+  const canonical = 'https://www.mondu.online/jlpt/n5';
 
   return {
     title,
@@ -29,10 +23,6 @@ export async function generateMetadata({
       'jlpt n5, jlpt n5 study guide, jlpt n5 kanji, jlpt n5 vocabulary, jlpt n5 preparation, japanese proficiency test n5, jlpt beginner level, n5 exam prep',
     alternates: {
       canonical,
-      languages: {
-        en: 'https://www.mondu.online/en/jlpt/n5',
-        es: 'https://www.mondu.online/es/jlpt/n5',
-      },
     },
     openGraph: {
       title,
@@ -43,34 +33,28 @@ export async function generateMetadata({
   };
 }
 
-export default async function JLPTN5Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function JLPTN5Page() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'JLPT',
-            url: `https://www.mondu.online/${locale}/jlpt/n5`,
+            url: 'https://www.mondu.online/jlpt/n5',
           },
           {
             name: 'N5',
-            url: `https://www.mondu.online/${locale}/jlpt/n5`,
+            url: 'https://www.mondu.online/jlpt/n5',
           },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
         <Breadcrumbs
           items={[
-            { name: 'Home', url: `/${locale}` },
-            { name: 'JLPT', url: `/${locale}/jlpt/n5` },
-            { name: 'N5', url: `/${locale}/jlpt/n5` },
+            { name: 'Home', url: '/' },
+            { name: 'JLPT', url: '/jlpt/n5' },
+            { name: 'N5', url: '/jlpt/n5' },
           ]}
         />
         <h1 className='mb-4 text-center text-4xl font-bold text-(--main-color)'>
@@ -165,7 +149,7 @@ export default async function JLPTN5Page({
                 </li>
               </ul>
               <Link
-                href={`/${locale}/kanji`}
+                href='/kanji'
                 className='inline-block rounded-lg bg-(--main-color) px-6 py-3 font-semibold text-(--background-color) transition-all hover:opacity-90'
               >
                 Practice N5 Kanji Now →
@@ -174,7 +158,7 @@ export default async function JLPTN5Page({
 
             <div className='mt-4'>
               <Link
-                href={`/${locale}/academy/jlpt-n5-kanji-list`}
+                href='/academy/jlpt-n5-kanji-list'
                 className='text-(--main-color) underline hover:opacity-80'
               >
                 📖 Read Complete N5 Kanji Guide with All Characters →
@@ -218,7 +202,7 @@ export default async function JLPTN5Page({
                 </div>
               </div>
               <Link
-                href={`/${locale}/vocabulary`}
+                href='/vocabulary'
                 className='inline-block rounded-lg bg-(--main-color) px-6 py-3 font-semibold text-(--background-color) transition-all hover:opacity-90'
               >
                 Practice N5 Vocabulary Now →
@@ -315,19 +299,19 @@ export default async function JLPTN5Page({
             </p>
             <div className='flex flex-col gap-4 sm:flex-row sm:justify-center'>
               <Link
-                href={`/${locale}/kana`}
+                href='/kana'
                 className='rounded-lg border-2 border-(--background-color) bg-(--background-color) px-6 py-3 font-semibold text-(--main-color) transition-all hover:opacity-90'
               >
                 Start with Kana
               </Link>
               <Link
-                href={`/${locale}/kanji`}
+                href='/kanji'
                 className='rounded-lg border-2 border-(--background-color) px-6 py-3 font-semibold transition-all hover:bg-(--background-color) hover:text-(--main-color)'
               >
                 Practice N5 Kanji
               </Link>
               <Link
-                href={`/${locale}/vocabulary`}
+                href='/vocabulary'
                 className='rounded-lg border-2 border-(--background-color) px-6 py-3 font-semibold transition-all hover:bg-(--background-color) hover:text-(--main-color)'
               >
                 Learn N5 Vocabulary
@@ -335,10 +319,7 @@ export default async function JLPTN5Page({
             </div>
 
             <div className='mt-6'>
-              <Link
-                href={`/${locale}/faq`}
-                className='text-sm underline hover:opacity-80'
-              >
+              <Link href='/faq' className='text-sm underline hover:opacity-80'>
                 Have questions? Check our FAQ →
               </Link>
             </div>

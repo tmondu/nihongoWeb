@@ -10,17 +10,11 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-
+export async function generateMetadata(): Promise<Metadata> {
   const title = 'JLPT N4 Kanji List - Complete Study Resource | Mondu';
   const description =
     'Complete JLPT N4 Kanji list with all ~170 characters, meanings, and readings. Free interactive practice for JLPT N4 exam preparation. Master N4 Kanji efficiently!';
-  const canonical = `https://www.mondu.online/${locale}/jlpt/n4`;
+  const canonical = 'https://www.mondu.online/jlpt/n4';
 
   return {
     title,
@@ -29,10 +23,6 @@ export async function generateMetadata({
       'jlpt n4 kanji, jlpt n4 kanji list, jlpt n4 study guide, n4 kanji practice, jlpt n4 preparation, n4 exam, intermediate japanese kanji',
     alternates: {
       canonical,
-      languages: {
-        en: 'https://www.mondu.online/en/jlpt/n4',
-        es: 'https://www.mondu.online/es/jlpt/n4',
-      },
     },
     openGraph: {
       title,
@@ -43,34 +33,28 @@ export async function generateMetadata({
   };
 }
 
-export default async function JLPTN4Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function JLPTN4Page() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'JLPT',
-            url: `https://www.mondu.online/${locale}/jlpt/n4`,
+            url: 'https://www.mondu.online/jlpt/n4',
           },
           {
             name: 'N4',
-            url: `https://www.mondu.online/${locale}/jlpt/n4`,
+            url: 'https://www.mondu.online/jlpt/n4',
           },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
         <Breadcrumbs
           items={[
-            { name: 'Home', url: `/${locale}` },
-            { name: 'JLPT', url: `/${locale}/jlpt/n4` },
-            { name: 'N4', url: `/${locale}/jlpt/n4` },
+            { name: 'Home', url: '/' },
+            { name: 'JLPT', url: '/jlpt/n4' },
+            { name: 'N4', url: '/jlpt/n4' },
           ]}
         />
         <h1 className='mb-4 text-center text-4xl font-bold text-(--main-color)'>
@@ -225,7 +209,7 @@ export default async function JLPTN4Page({
               <li>Set goals and track study streaks</li>
             </ul>
             <Link
-              href={`/${locale}/progress`}
+              href='/progress'
               className='inline-block rounded-lg bg-(--main-color) px-6 py-3 font-semibold text-(--background-color) transition-all hover:opacity-90'
             >
               View Your Progress →
@@ -242,7 +226,7 @@ export default async function JLPTN4Page({
               multiple training modes!
             </p>
             <Link
-              href={`/${locale}/kanji`}
+              href='/kanji'
               className='inline-block rounded-lg border-2 border-(--background-color) bg-(--background-color) px-8 py-4 text-lg font-semibold text-(--main-color) transition-all hover:opacity-90'
             >
               Practice N4 Kanji Now →
@@ -250,13 +234,13 @@ export default async function JLPTN4Page({
 
             <div className='mt-6 space-x-4'>
               <Link
-                href={`/${locale}/jlpt/n5`}
+                href='/jlpt/n5'
                 className='text-sm underline hover:opacity-80'
               >
                 ← Back to N5
               </Link>
               <Link
-                href={`/${locale}/jlpt/n3`}
+                href='/jlpt/n3'
                 className='text-sm underline hover:opacity-80'
               >
                 Continue to N3 →

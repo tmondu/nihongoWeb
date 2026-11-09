@@ -183,7 +183,7 @@ export function SubcategoryPageClient({
               <CategoryNav
                 categories={categoriesWithCounts}
                 activeCategory={category.id}
-                basePath={`/${locale}/resources`}
+                basePath='/resources'
               />
             </div>
 
@@ -198,7 +198,7 @@ export function SubcategoryPageClient({
             <RelatedCategories
               currentCategory={category}
               allCategories={categoriesWithCounts}
-              basePath={`/${locale}/resources`}
+              basePath='/resources'
               className='mt-6'
             />
           </aside>

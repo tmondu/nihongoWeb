@@ -28,36 +28,30 @@ export async function generateMetadata({
   });
 }
 
-export default async function VocabularyJlptN5PronouncePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function VocabularyJlptN5PronouncePage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Vocabulary',
-            url: `https://www.mondu.online/${locale}/vocabulary`,
+            url: `https://www.mondu.online/vocabulary`,
           },
           {
             name: 'JLPT N5',
-            url: `https://www.mondu.online/${locale}/vocabulary/jlpt-n5`,
+            url: `https://www.mondu.online/vocabulary/jlpt-n5`,
           },
           {
             name: 'Pronounce',
-            url: `https://www.mondu.online/${locale}/vocabulary/jlpt-n5/pronounce`,
+            url: `https://www.mondu.online/vocabulary/jlpt-n5/pronounce`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N5 Japanese Pronunciation Studio'
         description='Practice speaking JLPT N5 Japanese vocabulary words with microphone voice recording, audio waveform, and feedback.'
-        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n5/pronounce`}
+        url={`https://www.mondu.online/vocabulary/jlpt-n5/pronounce`}
         educationalLevel='Beginner'
         skillLevel='JLPT N5'
         learningResourceType='Interactive Course'
@@ -65,7 +59,7 @@ export default async function VocabularyJlptN5PronouncePage({
       <LearningResourceSchema
         name='JLPT N5 Pronunciation Practice'
         description='Interactive speech practice for JLPT N5 words with voice scoring.'
-        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n5/pronounce`}
+        url={`https://www.mondu.online/vocabulary/jlpt-n5/pronounce`}
         learningResourceType={['Interactive']}
         educationalLevel={['Beginner']}
         teaches='Japanese pronunciation and speaking confidence'

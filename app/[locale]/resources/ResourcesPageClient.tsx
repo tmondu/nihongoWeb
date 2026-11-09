@@ -153,7 +153,7 @@ export function ResourcesPageClient({
           <aside className='scrollbar-none hover:scrollbar-thin w-full shrink-0 transition-all lg:sticky lg:top-12 lg:h-[calc(100vh-6rem)] lg:w-72 lg:overflow-y-auto lg:pr-6'>
             <CategoryNav
               categories={categoriesWithCounts}
-              basePath={`/${locale}/resources`}
+              basePath='/resources'
               locale={locale}
             />
             <div className='mt-12'>

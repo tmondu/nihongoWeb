@@ -149,14 +149,14 @@ export default async function RoadmapPage({
     <div className='mx-auto max-w-5xl space-y-8 px-4 py-8 sm:px-6'>
       <Breadcrumbs
         items={[
-          { name: isVi ? 'Trang chủ' : 'Home', url: `/${locale}` },
+          { name: isVi ? 'Trang chủ' : 'Home', url: '/' },
           {
             name: isVi ? 'Tiến trình' : 'Progress',
-            url: `/${locale}/progress`,
+            url: '/progress',
           },
           {
             name: isVi ? 'Lộ trình cá nhân hóa' : 'Personal Roadmap',
-            url: `/${locale}/progress/roadmap`,
+            url: '/progress/roadmap',
           },
         ]}
       />

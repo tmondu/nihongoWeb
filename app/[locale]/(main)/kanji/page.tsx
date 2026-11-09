@@ -36,17 +36,17 @@ export default async function KanjiPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Kanji',
-            url: `https://www.mondu.online/${locale}/kanji`,
+            url: `https://www.mondu.online/kanji`,
           },
         ]}
       />
       <CourseSchema
         name='Japanese Kanji Learning Course by JLPT Level (N5-N1)'
         description='Learn Japanese Kanji characters organized by JLPT levels from N5 to N1. Master over 2,000 essential kanji with readings, meanings, and context through interactive training and spaced repetition.'
-        url={`https://www.mondu.online/${locale}/kanji`}
+        url={`https://www.mondu.online/kanji`}
         educationalLevel='Beginner to Advanced'
         skillLevel='All Levels'
         learningResourceType='Interactive Course, Exercise and Games'
@@ -54,7 +54,7 @@ export default async function KanjiPage({
       <LearningResourceSchema
         name='Interactive Kanji Practice and JLPT Quiz'
         description='Master over 2,000 Japanese Kanji characters by JLPT levels N5 through N1. Practice readings, meanings, and recognition with interactive quizzes and adaptive repetition.'
-        url={`https://www.mondu.online/${locale}/kanji`}
+        url={`https://www.mondu.online/kanji`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese Kanji Characters, Readings, and Meanings'

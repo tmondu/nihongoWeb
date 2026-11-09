@@ -23,22 +23,17 @@ export async function generateMetadata({
   });
 }
 
-export default async function KanaChartPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
+export default async function KanaChartPage() {
   const t = await getTranslations('kanaChart');
 
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Kana Chart',
-            url: `https://www.mondu.online/${locale}/kana-chart`,
+            url: `https://www.mondu.online/kana-chart`,
           },
         ]}
       />

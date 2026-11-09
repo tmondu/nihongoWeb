@@ -10,17 +10,11 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-
+export async function generateMetadata(): Promise<Metadata> {
   const title = 'JLPT N3 Vocabulary Guide - Intermediate Japanese | Mondu';
   const description =
     'Complete JLPT N3 vocabulary and kanji guide for intermediate Japanese learners. Free interactive practice with ~370 kanji and 3,000+ vocabulary words. Master N3 efficiently!';
-  const canonical = `https://www.mondu.online/${locale}/jlpt/n3`;
+  const canonical = 'https://www.mondu.online/jlpt/n3';
 
   return {
     title,
@@ -29,10 +23,6 @@ export async function generateMetadata({
       'jlpt n3, jlpt n3 vocabulary, jlpt n3 kanji, n3 study guide, intermediate japanese, jlpt n3 preparation, n3 exam, japanese n3 words',
     alternates: {
       canonical,
-      languages: {
-        en: 'https://www.mondu.online/en/jlpt/n3',
-        es: 'https://www.mondu.online/es/jlpt/n3',
-      },
     },
     openGraph: {
       title,
@@ -43,34 +33,28 @@ export async function generateMetadata({
   };
 }
 
-export default async function JLPTN3Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function JLPTN3Page() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'JLPT',
-            url: `https://www.mondu.online/${locale}/jlpt/n3`,
+            url: 'https://www.mondu.online/jlpt/n3',
           },
           {
             name: 'N3',
-            url: `https://www.mondu.online/${locale}/jlpt/n3`,
+            url: 'https://www.mondu.online/jlpt/n3',
           },
         ]}
       />
       <div className='mx-auto max-w-4xl px-4 py-8'>
         <Breadcrumbs
           items={[
-            { name: 'Home', url: `/${locale}` },
-            { name: 'JLPT', url: `/${locale}/jlpt/n3` },
-            { name: 'N3', url: `/${locale}/jlpt/n3` },
+            { name: 'Home', url: '/' },
+            { name: 'JLPT', url: '/jlpt/n3' },
+            { name: 'N3', url: '/jlpt/n3' },
           ]}
         />
         <h1 className='mb-4 text-center text-4xl font-bold text-(--main-color)'>
@@ -282,7 +266,7 @@ export default async function JLPTN3Page({
                   <li>Spaced repetition built-in</li>
                 </ul>
                 <Link
-                  href={`/${locale}/vocabulary`}
+                  href='/vocabulary'
                   className='inline-block rounded bg-(--main-color) px-4 py-2 text-sm font-semibold text-(--background-color) transition-all hover:opacity-90'
                 >
                   Practice Vocabulary →
@@ -300,7 +284,7 @@ export default async function JLPTN3Page({
                   <li>Compound word patterns</li>
                 </ul>
                 <Link
-                  href={`/${locale}/kanji`}
+                  href='/kanji'
                   className='inline-block rounded bg-(--main-color) px-4 py-2 text-sm font-semibold text-(--background-color) transition-all hover:opacity-90'
                 >
                   Practice Kanji →
@@ -319,7 +303,7 @@ export default async function JLPTN3Page({
               and kanji practice!
             </p>
             <Link
-              href={`/${locale}/vocabulary`}
+              href='/vocabulary'
               className='inline-block rounded-lg border-2 border-(--background-color) bg-(--background-color) px-8 py-4 text-lg font-semibold text-(--main-color) transition-all hover:opacity-90'
             >
               Practice N3 Vocabulary Now →
@@ -327,13 +311,13 @@ export default async function JLPTN3Page({
 
             <div className='mt-6 space-x-4'>
               <Link
-                href={`/${locale}/jlpt/n4`}
+                href='/jlpt/n4'
                 className='text-sm underline hover:opacity-80'
               >
                 ← Back to N4
               </Link>
               <Link
-                href={`/${locale}/kanji`}
+                href='/kanji'
                 className='text-sm underline hover:opacity-80'
               >
                 View All Kanji →

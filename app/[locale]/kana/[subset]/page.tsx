@@ -45,7 +45,7 @@ export async function generateMetadata({
     openGraph: {
       title: titleShort,
       description,
-      url: `https://www.mondu.online/${locale}/kana/${subset}`,
+      url: `https://www.mondu.online/kana/${subset}`,
       type: 'website',
       /* images: [
         {
@@ -63,11 +63,7 @@ export async function generateMetadata({
       /* images: [ogImageUrl], */
     },
     alternates: {
-      canonical: `https://www.mondu.online/${locale}/kana/${subset}`,
-      languages: {
-        en: `https://www.mondu.online/en/kana/${subset}`,
-        es: `https://www.mondu.online/es/kana/${subset}`,
-      },
+      canonical: `https://www.mondu.online/kana/${subset}`,
     },
   };
 }

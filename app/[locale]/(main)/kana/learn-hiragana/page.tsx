@@ -25,29 +25,23 @@ export async function generateMetadata({
   });
 }
 
-export default async function LearnHiraganaPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function LearnHiraganaPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
-          { name: 'Kana', url: `https://www.mondu.online/${locale}/kana` },
+          { name: 'Home', url: `https://www.mondu.online` },
+          { name: 'Kana', url: `https://www.mondu.online/kana` },
           {
             name: 'Learn Hiragana',
-            url: `https://www.mondu.online/${locale}/kana/learn-hiragana`,
+            url: `https://www.mondu.online/kana/learn-hiragana`,
           },
         ]}
       />
       <CourseSchema
         name='Learn Hiragana - Complete Japanese Alphabet Course'
         description='Master Hiragana with interactive drills, kana selection cards, and instant feedback. Study the full hiragana chart, dakuon, and yoon with guided beginner-friendly practice.'
-        url={`https://www.mondu.online/${locale}/kana/learn-hiragana`}
+        url={`https://www.mondu.online/kana/learn-hiragana`}
         educationalLevel='Beginner'
         skillLevel='Beginner'
         learningResourceType='Interactive Course'
@@ -55,7 +49,7 @@ export default async function LearnHiraganaPage({
       <LearningResourceSchema
         name='Hiragana Practice Playground'
         description='Interactive Hiragana learning hub with selectable character groups, drills, and training modes. Designed for fast recognition, pronunciation, and reading confidence for absolute beginners.'
-        url={`https://www.mondu.online/${locale}/kana/learn-hiragana`}
+        url={`https://www.mondu.online/kana/learn-hiragana`}
         learningResourceType={['Interactive', 'Quiz', 'Game']}
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Hiragana chart, reading, recognition, and pronunciation'

@@ -28,36 +28,30 @@ export async function generateMetadata({
   });
 }
 
-export default async function VocabularyJlptN5WordsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function VocabularyJlptN5WordsPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Vocabulary',
-            url: `https://www.mondu.online/${locale}/vocabulary`,
+            url: `https://www.mondu.online/vocabulary`,
           },
           {
             name: 'JLPT N5',
-            url: `https://www.mondu.online/${locale}/vocabulary/jlpt-n5`,
+            url: `https://www.mondu.online/vocabulary/jlpt-n5`,
           },
           {
             name: 'Words',
-            url: `https://www.mondu.online/${locale}/vocabulary/jlpt-n5/words`,
+            url: `https://www.mondu.online/vocabulary/jlpt-n5/words`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N5 Japanese Vocabulary - Flashcards & Word List'
         description='Learn 1000 JLPT N5 Japanese vocabulary words with 2-sided flashcards and comprehensive word table.'
-        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n5/words`}
+        url={`https://www.mondu.online/vocabulary/jlpt-n5/words`}
         educationalLevel='Beginner'
         skillLevel='JLPT N5'
         learningResourceType='Interactive Course'
@@ -65,7 +59,7 @@ export default async function VocabularyJlptN5WordsPage({
       <LearningResourceSchema
         name='JLPT N5 Words Study'
         description='Interactive JLPT N5 vocabulary practice with flashcards and word lists.'
-        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n5/words`}
+        url={`https://www.mondu.online/vocabulary/jlpt-n5/words`}
         learningResourceType={['Quiz', 'Interactive']}
         educationalLevel={['Beginner']}
         teaches='JLPT N5 Japanese vocabulary, meanings, and usage'

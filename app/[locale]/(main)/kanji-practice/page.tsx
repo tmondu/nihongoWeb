@@ -42,10 +42,10 @@ export default async function KanjiPracticePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: t('kanji.title'),
-            url: `https://www.mondu.online/${locale}/kanji-practice`,
+            url: 'https://www.mondu.online/kanji-practice',
           },
         ]}
       />
@@ -53,10 +53,10 @@ export default async function KanjiPracticePage({
       <div className='mx-auto max-w-4xl px-4 py-8'>
         <Breadcrumbs
           items={[
-            { name: 'Home', url: `/${locale}` },
+            { name: 'Home', url: '/' },
             {
               name: t('kanji.title'),
-              url: `/${locale}/kanji-practice`,
+              url: '/kanji-practice',
             },
           ]}
         />
@@ -70,13 +70,13 @@ export default async function KanjiPracticePage({
 
           <div className='mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center'>
             <Link
-              href={`/${locale}/kanji/train`}
+              href='/kanji/train'
               className='rounded-lg bg-(--main-color) px-6 py-3 font-semibold text-(--background-color) transition-all hover:opacity-90'
             >
               {t('kanji.ctaPrimary')} →
             </Link>
             <Link
-              href={`/${locale}/kanji`}
+              href='/kanji'
               className='rounded-lg border-2 border-(--border-color) px-6 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               {t('kanji.ctaSecondary')} →
@@ -120,31 +120,31 @@ export default async function KanjiPracticePage({
             </h2>
             <div className='grid gap-3 sm:grid-cols-2'>
               <Link
-                href={`/${locale}/kanji/train`}
+                href='/kanji/train'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('kanji.links.train')} →
               </Link>
               <Link
-                href={`/${locale}/kanji/blitz`}
+                href='/kanji/blitz'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('kanji.links.blitz')} →
               </Link>
               <Link
-                href={`/${locale}/kanji/gauntlet`}
+                href='/kanji/gauntlet'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('kanji.links.gauntlet')} →
               </Link>
               <Link
-                href={`/${locale}/jlpt/n5`}
+                href='/jlpt/n5'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('kanji.links.jlpt')} →
               </Link>
               <Link
-                href={`/${locale}/faq`}
+                href='/faq'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('kanji.links.faq')} →

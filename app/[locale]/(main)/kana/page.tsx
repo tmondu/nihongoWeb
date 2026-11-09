@@ -36,14 +36,14 @@ export default async function KanaPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
-          { name: 'Kana', url: `https://www.mondu.online/${locale}/kana` },
+          { name: 'Home', url: `https://www.mondu.online` },
+          { name: 'Kana', url: `https://www.mondu.online/kana` },
         ]}
       />
       <CourseSchema
         name='Japanese Hiragana and Katakana Course for Beginners (Mondu)'
         description='Master Japanese Hiragana and Katakana syllabaries with interactive games, drills, and quizzes. Learn all 92 basic kana plus dakuon, yoon, and katakana foreign sounds with feedback and progress tracking.'
-        url={`https://www.mondu.online/${locale}/kana`}
+        url={`https://www.mondu.online/kana`}
         educationalLevel='Beginner'
         skillLevel='Beginner'
         learningResourceType='Interactive Course, Exercise and Games'
@@ -51,7 +51,7 @@ export default async function KanaPage({
       <LearningResourceSchema
         name='Interactive Kana Practice Games and Quizzes'
         description='Practice Hiragana and Katakana with interactive quizzes, flashcards, recognition drills, and speed games. Build kana reading accuracy for beginner Japanese study and JLPT preparation.'
-        url={`https://www.mondu.online/${locale}/kana`}
+        url={`https://www.mondu.online/kana`}
         learningResourceType={['Game', 'Quiz', 'Interactive']}
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Hiragana and Katakana reading, recognition, and pronunciation'

@@ -75,14 +75,14 @@ export default async function ThamKanjiDetailPage({
       <>
         <BreadcrumbSchema
           items={[
-            { name: 'Home', url: `https://www.mondu.online/${locale}` },
+            { name: 'Home', url: `https://www.mondu.online` },
             {
               name: 'Kanji',
-              url: `https://www.mondu.online/${locale}/kanji`,
+              url: `https://www.mondu.online/kanji`,
             },
             {
               name: `Tham Kanji JLPT ${levelStr}`,
-              url: `https://www.mondu.online/${locale}/kanji/thamkanji/jlpt${activeLevel}`,
+              url: `https://www.mondu.online/kanji/thamkanji/jlpt${activeLevel}`,
             },
           ]}
         />
@@ -109,18 +109,18 @@ export default async function ThamKanjiDetailPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Kanji',
-            url: `https://www.mondu.online/${locale}/kanji`,
+            url: `https://www.mondu.online/kanji`,
           },
           {
             name: 'Tham Kanji',
-            url: `https://www.mondu.online/${locale}/kanji/thamkanji/jlptn5`,
+            url: `https://www.mondu.online/kanji/thamkanji/jlptn5`,
           },
           {
             name: decoded,
-            url: `https://www.mondu.online/${locale}/kanji/thamkanji/${character}`,
+            url: `https://www.mondu.online/kanji/thamkanji/${character}`,
           },
         ]}
       />

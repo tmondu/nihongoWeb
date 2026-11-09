@@ -379,11 +379,11 @@ export default async function GrammarLevelPage({
     <div className='mx-auto max-w-5xl space-y-8 px-4 py-8 sm:px-6'>
       <Breadcrumbs
         items={[
-          { name: isVi ? 'Trang chủ' : 'Home', url: `/${locale}` },
-          { name: isVi ? 'Ngữ pháp' : 'Grammar', url: `/${locale}/grammar` },
+          { name: isVi ? 'Trang chủ' : 'Home', url: '/' },
+          { name: isVi ? 'Ngữ pháp' : 'Grammar', url: '/grammar' },
           {
             name: currentLevel.badge,
-            url: `/${locale}/grammar/${levelKey}`,
+            url: `/grammar/${levelKey}`,
           },
         ]}
       />

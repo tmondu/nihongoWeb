@@ -26,21 +26,15 @@ export async function generateMetadata({
   });
 }
 
-export default async function ProgressPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function ProgressPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Progress',
-            url: `https://www.mondu.online/${locale}/progress`,
+            url: `https://www.mondu.online/progress`,
           },
         ]}
       />

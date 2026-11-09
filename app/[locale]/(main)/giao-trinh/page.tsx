@@ -27,28 +27,22 @@ export async function generateMetadata({
   });
 }
 
-export default async function GiaoTrinhPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function GiaoTrinhPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Giáo án',
-            url: `https://www.mondu.online/${locale}/giao-trinh`,
+            url: `https://www.mondu.online/giao-trinh`,
           },
         ]}
       />
       <CourseSchema
         name='Lộ Trình Minna no Nihongo (Sơ Cấp N5 - N4)'
         description='Khóa học tiếng Nhật theo giáo trình Minna no Nihongo I & II (50 bài học N5 - N4) với ngữ pháp, từ vựng, phát âm và trò chơi tương tác.'
-        url={`https://www.mondu.online/${locale}/giao-trinh`}
+        url={`https://www.mondu.online/giao-trinh`}
         educationalLevel='Beginner to Elementary (N5 - N4)'
         skillLevel='Beginner'
         learningResourceType='Interactive Course, Grammar and Vocabulary'

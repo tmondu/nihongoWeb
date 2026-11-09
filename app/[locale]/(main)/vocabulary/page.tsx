@@ -42,17 +42,17 @@ export default async function VocabularyPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Vocabulary',
-            url: `https://www.mondu.online/${locale}/vocabulary`,
+            url: `https://www.mondu.online/vocabulary`,
           },
         ]}
       />
       <CourseSchema
         name='Japanese Vocabulary Building Course by JLPT Level (N5-N1)'
         description='Build your Japanese vocabulary with thousands of words organized by JLPT levels. Learn nouns, verbs, adjectives, and adverbs with readings, meanings, and interactive practice from beginner to advanced.'
-        url={`https://www.mondu.online/${locale}/vocabulary`}
+        url={`https://www.mondu.online/vocabulary`}
         educationalLevel='Beginner to Advanced'
         skillLevel='All Levels'
         learningResourceType='Interactive Course, Exercise and Games'
@@ -60,7 +60,7 @@ export default async function VocabularyPage({
       <LearningResourceSchema
         name='Japanese Vocabulary Quiz and JLPT Word Practice'
         description='Build your Japanese vocabulary with thousands of words organized by JLPT levels N5 through N1. Practice readings, meanings, and usage with interactive drills and quick set selection.'
-        url={`https://www.mondu.online/${locale}/vocabulary`}
+        url={`https://www.mondu.online/vocabulary`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Beginner', 'Intermediate', 'Advanced']}
         teaches='Japanese vocabulary, word readings, meanings, and usage'

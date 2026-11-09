@@ -36,14 +36,14 @@ export default async function KanjiRadicalsPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Kanji',
-            url: `https://www.mondu.online/${locale}/kanji`,
+            url: `https://www.mondu.online/kanji`,
           },
           {
             name: 'Radicals',
-            url: `https://www.mondu.online/${locale}/kanji/radicals`,
+            url: `https://www.mondu.online/kanji/radicals`,
           },
         ]}
       />

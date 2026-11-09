@@ -152,7 +152,7 @@ export default async function FAQPage({
   ];
 
   const faqsForSchema = groups.flatMap(group => group.faqs);
-  const pageUrl = `https://www.mondu.online/${locale}/faq`;
+  const pageUrl = 'https://www.mondu.online/faq';
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -206,8 +206,8 @@ export default async function FAQPage({
       <StructuredData data={faqSchema} />
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
-          { name: 'FAQ', url: `https://www.mondu.online/${locale}/faq` },
+          { name: 'Home', url: 'https://www.mondu.online' },
+          { name: 'FAQ', url: 'https://www.mondu.online/faq' },
         ]}
       />
 
@@ -221,8 +221,8 @@ export default async function FAQPage({
         <div className='mx-auto max-w-6xl px-4 py-10 sm:py-14'>
           <Breadcrumbs
             items={[
-              { name: 'Home', url: `/${locale}` },
-              { name: t('title'), url: `/${locale}/faq` },
+              { name: 'Home', url: '/' },
+              { name: t('title'), url: '/faq' },
             ]}
             className='mb-8'
           />
@@ -242,13 +242,13 @@ export default async function FAQPage({
 
             <div className='mt-7 flex flex-wrap gap-3'>
               <Link
-                href={`/${locale}/how-to-use`}
+                href='/how-to-use'
                 className='rounded-full border border-(--border-color) bg-[color-mix(in_oklab,var(--card-color),var(--main-color)_6%)] px-4 py-2 text-sm font-semibold text-(--main-color) shadow-[0_1px_0_rgba(0,0,0,0.05)] transition-colors hover:bg-[color-mix(in_oklab,var(--card-color),var(--main-color)_10%)]'
               >
                 {t('links.howToUse')}
               </Link>
               <Link
-                href={`/${locale}/glossary`}
+                href='/glossary'
                 className='rounded-full border border-(--border-color) bg-[color-mix(in_oklab,var(--card-color),transparent_0%)] px-4 py-2 text-sm font-semibold text-(--main-color) shadow-[0_1px_0_rgba(0,0,0,0.05)] transition-colors hover:bg-[color-mix(in_oklab,var(--card-color),var(--main-color)_6%)]'
               >
                 {t('links.glossary')}
@@ -260,7 +260,7 @@ export default async function FAQPage({
                 {t('links.translator')}
               </Link>
               <Link
-                href={`/${locale}/academy`}
+                href='/academy'
                 className='rounded-full border border-(--border-color) bg-[color-mix(in_oklab,var(--card-color),transparent_0%)] px-4 py-2 text-sm font-semibold text-(--main-color) shadow-[0_1px_0_rgba(0,0,0,0.05)] transition-colors hover:bg-[color-mix(in_oklab,var(--card-color),var(--main-color)_6%)]'
               >
                 {t('links.academy')}
@@ -300,13 +300,13 @@ export default async function FAQPage({
                   </p>
                   <div className='mt-3 grid gap-2'>
                     <Link
-                      href={`/${locale}/privacy`}
+                      href='/privacy'
                       className='text-sm font-semibold text-(--main-color) underline-offset-4 hover:underline'
                     >
                       {t('links.privacy')}
                     </Link>
                     <Link
-                      href={`/${locale}/terms`}
+                      href='/terms'
                       className='text-sm font-semibold text-(--main-color) underline-offset-4 hover:underline'
                     >
                       {t('links.terms')}
@@ -326,19 +326,19 @@ export default async function FAQPage({
                 </p>
                 <div className='mt-6 flex flex-wrap gap-3'>
                   <Link
-                    href={`/${locale}/hiragana-practice`}
+                    href='/hiragana-practice'
                     className='rounded-full bg-(--main-color) px-4 py-2 text-sm font-semibold text-(--background-color) shadow-[0_10px_30px_color-mix(in_oklab,var(--main-color),transparent_75%)] transition-transform hover:-translate-y-px'
                   >
                     {t('cta.hiragana')}
                   </Link>
                   <Link
-                    href={`/${locale}/katakana-practice`}
+                    href='/katakana-practice'
                     className='rounded-full border border-(--border-color) bg-[color-mix(in_oklab,var(--card-color),transparent_0%)] px-4 py-2 text-sm font-semibold text-(--main-color) transition-colors hover:bg-[color-mix(in_oklab,var(--card-color),var(--main-color)_6%)]'
                   >
                     {t('cta.katakana')}
                   </Link>
                   <Link
-                    href={`/${locale}/kanji-practice`}
+                    href='/kanji-practice'
                     className='rounded-full border border-(--border-color) bg-[color-mix(in_oklab,var(--card-color),transparent_0%)] px-4 py-2 text-sm font-semibold text-(--main-color) transition-colors hover:bg-[color-mix(in_oklab,var(--card-color),var(--main-color)_6%)]'
                   >
                     {t('cta.kanji')}
@@ -357,13 +357,13 @@ export default async function FAQPage({
                 </p>
                 <div className='mt-6 grid gap-3 sm:grid-cols-2'>
                   <Link
-                    href={`/${locale}/kana`}
+                    href='/kana'
                     className='rounded-2xl border border-(--border-color) bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card-color),var(--main-color)_8%),color-mix(in_oklab,var(--card-color),transparent_0%))] px-5 py-4 font-semibold text-(--main-color) shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-transform hover:-translate-y-px'
                   >
                     {t('footer.links.kana')}
                   </Link>
                   <Link
-                    href={`/${locale}/progress`}
+                    href='/progress'
                     className='rounded-2xl border border-(--border-color) bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card-color),var(--secondary-color)_10%),color-mix(in_oklab,var(--card-color),transparent_0%))] px-5 py-4 font-semibold text-(--main-color) shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-transform hover:-translate-y-px'
                   >
                     {t('footer.links.progress')}

@@ -36,14 +36,14 @@ export default async function KanjiSearchPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Kanji',
-            url: `https://www.mondu.online/${locale}/kanji`,
+            url: `https://www.mondu.online/kanji`,
           },
           {
             name: 'Search',
-            url: `https://www.mondu.online/${locale}/kanji/search`,
+            url: `https://www.mondu.online/kanji/search`,
           },
         ]}
       />

@@ -10,17 +10,11 @@ export function generateStaticParams() {
 
 export const revalidate = 3600;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-
+export async function generateMetadata(): Promise<Metadata> {
   const title = 'Japanese-English Glossary - Essential Learning Terms | Mondu';
   const description =
     'Comprehensive Japanese-English glossary of essential learning terms. Understand Hiragana, Katakana, Kanji, grammar, and Japanese language concepts with clear explanations.';
-  const canonical = `https://www.mondu.online/${locale}/glossary`;
+  const canonical = 'https://www.mondu.online/glossary';
 
   return {
     title,
@@ -29,10 +23,6 @@ export async function generateMetadata({
       'japanese glossary, japanese terms, hiragana definition, katakana definition, kanji meaning, japanese grammar terms, japanese language glossary, learn japanese vocabulary',
     alternates: {
       canonical,
-      languages: {
-        en: 'https://www.mondu.online/en/glossary',
-        es: 'https://www.mondu.online/es/glossary',
-      },
     },
     openGraph: {
       title,
@@ -209,13 +199,7 @@ const glossaryTerms: GlossaryTerm[] = [
   },
 ];
 
-export default async function GlossaryPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function GlossaryPage() {
   // Group terms alphabetically
   const groupedTerms = glossaryTerms.reduce(
     (acc, term) => {
@@ -235,10 +219,10 @@ export default async function GlossaryPage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: 'Glossary',
-            url: `https://www.mondu.online/${locale}/glossary`,
+            url: 'https://www.mondu.online/glossary',
           },
         ]}
       />
@@ -246,8 +230,8 @@ export default async function GlossaryPage({
       <div className='mx-auto max-w-6xl px-4 py-8'>
         <Breadcrumbs
           items={[
-            { name: 'Home', url: `/${locale}` },
-            { name: 'Glossary', url: `/${locale}/glossary` },
+            { name: 'Home', url: '/' },
+            { name: 'Glossary', url: '/glossary' },
           ]}
         />
 
@@ -346,37 +330,37 @@ export default async function GlossaryPage({
           </h2>
           <div className='grid gap-3 sm:grid-cols-2 md:grid-cols-3'>
             <Link
-              href={`/${locale}/kana/train`}
+              href='/kana/train'
               className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               Practice Kana →
             </Link>
             <Link
-              href={`/${locale}/kanji/train`}
+              href='/kanji/train'
               className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               Practice Kanji →
             </Link>
             <Link
-              href={`/${locale}/vocabulary/train`}
+              href='/vocabulary/train'
               className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               Practice Vocabulary →
             </Link>
             <Link
-              href={`/${locale}/academy`}
+              href='/academy'
               className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               Visit Academy →
             </Link>
             <Link
-              href={`/${locale}/faq`}
+              href='/faq'
               className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               View FAQ →
             </Link>
             <Link
-              href={`/${locale}/jlpt/n5`}
+              href='/jlpt/n5'
               className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               JLPT Guide →

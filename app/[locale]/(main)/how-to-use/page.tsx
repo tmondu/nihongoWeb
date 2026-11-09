@@ -19,21 +19,15 @@ export async function generateMetadata() {
   };
 }
 
-export default async function HowToUsePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function HowToUsePage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'How to Use',
-            url: `https://www.mondu.online/${locale}/how-to-use`,
+            url: `https://www.mondu.online/how-to-use`,
           },
         ]}
       />

@@ -42,10 +42,10 @@ export default async function HiraganaPracticePage({
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: 'https://www.mondu.online' },
           {
             name: t('hiragana.title'),
-            url: `https://www.mondu.online/${locale}/hiragana-practice`,
+            url: 'https://www.mondu.online/hiragana-practice',
           },
         ]}
       />
@@ -53,10 +53,10 @@ export default async function HiraganaPracticePage({
       <div className='mx-auto max-w-4xl px-4 py-8'>
         <Breadcrumbs
           items={[
-            { name: 'Home', url: `/${locale}` },
+            { name: 'Home', url: '/' },
             {
               name: t('hiragana.title'),
-              url: `/${locale}/hiragana-practice`,
+              url: '/hiragana-practice',
             },
           ]}
         />
@@ -70,13 +70,13 @@ export default async function HiraganaPracticePage({
 
           <div className='mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center'>
             <Link
-              href={`/${locale}/kana/train`}
+              href='/kana/train'
               className='rounded-lg bg-(--main-color) px-6 py-3 font-semibold text-(--background-color) transition-all hover:opacity-90'
             >
               {t('hiragana.ctaPrimary')} →
             </Link>
             <Link
-              href={`/${locale}/kana`}
+              href='/kana'
               className='rounded-lg border-2 border-(--border-color) px-6 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
             >
               {t('hiragana.ctaSecondary')} →
@@ -120,25 +120,25 @@ export default async function HiraganaPracticePage({
             </h2>
             <div className='grid gap-3 sm:grid-cols-2'>
               <Link
-                href={`/${locale}/kana/train`}
+                href='/kana/train'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('hiragana.links.train')} →
               </Link>
               <Link
-                href={`/${locale}/kana/blitz`}
+                href='/kana/blitz'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('hiragana.links.blitz')} →
               </Link>
               <Link
-                href={`/${locale}/kana/gauntlet`}
+                href='/kana/gauntlet'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('hiragana.links.gauntlet')} →
               </Link>
               <Link
-                href={`/${locale}/faq`}
+                href='/faq'
                 className='rounded-lg border-2 border-(--border-color) px-4 py-3 font-semibold text-(--main-color) transition-all hover:border-(--main-color)'
               >
                 {t('hiragana.links.faq')} →

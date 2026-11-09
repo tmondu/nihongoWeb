@@ -37,21 +37,15 @@ export async function generateMetadata({
   };
 }
 
-export default async function OniEscapePage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function OniEscapePage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Oni Escape',
-            url: `https://www.mondu.online/${locale}/oni-escape`,
+            url: `https://www.mondu.online/oni-escape`,
           },
         ]}
       />

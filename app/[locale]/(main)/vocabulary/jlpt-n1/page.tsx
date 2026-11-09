@@ -28,32 +28,26 @@ export async function generateMetadata({
   });
 }
 
-export default async function VocabularyJlptN1Page({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function VocabularyJlptN1Page() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Vocabulary',
-            url: `https://www.mondu.online/${locale}/vocabulary`,
+            url: `https://www.mondu.online/vocabulary`,
           },
           {
             name: 'JLPT N1',
-            url: `https://www.mondu.online/${locale}/vocabulary/jlpt-n1`,
+            url: `https://www.mondu.online/vocabulary/jlpt-n1`,
           },
         ]}
       />
       <CourseSchema
         name='JLPT N1 Japanese Vocabulary Course'
         description='Practice JLPT N1 Japanese vocabulary with interactive level sets. Train word recognition, meanings, and reading recall with fast feedback and progress tracking.'
-        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n1`}
+        url={`https://www.mondu.online/vocabulary/jlpt-n1`}
         educationalLevel='Advanced'
         skillLevel='JLPT N1'
         learningResourceType='Interactive Course'
@@ -61,7 +55,7 @@ export default async function VocabularyJlptN1Page({
       <LearningResourceSchema
         name='JLPT N1 Vocabulary Practice'
         description='Targeted JLPT N1 vocabulary drills with selectable sets, quick selection controls, and dictionary links for exam-focused Japanese study.'
-        url={`https://www.mondu.online/${locale}/vocabulary/jlpt-n1`}
+        url={`https://www.mondu.online/vocabulary/jlpt-n1`}
         learningResourceType={['Quiz', 'Interactive', 'Game']}
         educationalLevel={['Advanced']}
         teaches='JLPT N1 Japanese vocabulary, meanings, and usage'

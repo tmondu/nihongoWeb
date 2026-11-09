@@ -24,21 +24,15 @@ export async function generateMetadata({
   });
 }
 
-export default async function ThamletPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function ThamletPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
+          { name: 'Home', url: `https://www.mondu.online` },
           {
             name: 'Mondulet',
-            url: `https://www.mondu.online/${locale}/thamlet`,
+            url: `https://www.mondu.online/thamlet`,
           },
         ]}
       />

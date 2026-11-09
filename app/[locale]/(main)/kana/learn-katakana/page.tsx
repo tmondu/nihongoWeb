@@ -28,29 +28,23 @@ export async function generateMetadata({
   });
 }
 
-export default async function LearnKatakanaPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-
+export default function LearnKatakanaPage() {
   return (
     <>
       <BreadcrumbSchema
         items={[
-          { name: 'Home', url: `https://www.mondu.online/${locale}` },
-          { name: 'Kana', url: `https://www.mondu.online/${locale}/kana` },
+          { name: 'Home', url: `https://www.mondu.online` },
+          { name: 'Kana', url: `https://www.mondu.online/kana` },
           {
             name: 'Learn Katakana',
-            url: `https://www.mondu.online/${locale}/kana/learn-katakana`,
+            url: `https://www.mondu.online/kana/learn-katakana`,
           },
         ]}
       />
       <CourseSchema
         name='Learn Katakana - Complete Japanese Alphabet Course'
         description='Master Katakana with interactive drills, kana selection cards, and instant feedback. Study the full katakana chart, dakuon, yoon, and foreign sound combinations with guided practice.'
-        url={`https://www.mondu.online/${locale}/kana/learn-katakana`}
+        url={`https://www.mondu.online/kana/learn-katakana`}
         educationalLevel='Beginner'
         skillLevel='Beginner'
         learningResourceType='Interactive Course'
@@ -58,7 +52,7 @@ export default async function LearnKatakanaPage({
       <LearningResourceSchema
         name='Katakana Practice Playground'
         description='Interactive Katakana learning hub with selectable character groups, drills, and training modes. Built for recognizing loanword katakana, pronunciation, and reading fluency.'
-        url={`https://www.mondu.online/${locale}/kana/learn-katakana`}
+        url={`https://www.mondu.online/kana/learn-katakana`}
         learningResourceType={['Interactive', 'Quiz', 'Game']}
         educationalLevel={['Beginner', 'Intermediate']}
         teaches='Japanese Katakana chart, reading, recognition, and pronunciation'
