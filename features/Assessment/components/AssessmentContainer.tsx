@@ -296,7 +296,10 @@ export default function AssessmentContainer() {
   // Render Loading
   if (loading || !test) {
     return (
-      <div className='flex min-h-[60vh] flex-col items-center justify-center gap-3.5 px-4'>
+      <div
+        suppressHydrationWarning
+        className='flex min-h-[60vh] flex-col items-center justify-center gap-3.5 px-4'
+      >
         <div className='size-10 animate-spin rounded-full border-4 border-(--border-color) border-t-(--main-color)' />
         <p className='text-xs font-bold text-(--secondary-color)'>
           Đang tải đề thi...

@@ -1,6 +1,8 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
+
+const emptySubscribe = () => () => {};
 import { Link } from '@/core/i18n/routing';
 import useVocabStudyStore from '../../store/useVocabStudyStore';
 import { getLessons } from '../../data/lessonsN5';
@@ -19,6 +21,11 @@ export default function ModernVocabContainer({
   fixedLevel,
   mode,
 }: ModernVocabContainerProps) {
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
   const store = useVocabStudyStore();
 
   const level = fixedLevel ?? store.level;
@@ -91,6 +98,14 @@ export default function ModernVocabContainer({
   ).length;
   const progressPct =
     words.length > 0 ? Math.round((learnedCount / words.length) * 100) : 0;
+
+  if (!isMounted) {
+    return (
+      <div className='flex min-h-[400px] w-full items-center justify-center py-12'>
+        <div className='size-10 animate-spin rounded-full border-4 border-[var(--border-color)] border-t-[var(--main-color)]' />
+      </div>
+    );
+  }
 
   return (
     <div className='font-vietnamese flex w-full flex-col items-center gap-6 py-2 sm:py-4'>
