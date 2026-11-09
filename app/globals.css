@@ -32,10 +32,9 @@ body {
   user-select: text !important;
 }
 
-/* PTham Theme: Nền sọc nét đứt ô li học sinh khoảng cách 30px (Notebook Dashed Grid) */
-html[data-theme='ptham-theme'],
-html[data-theme='ptham-theme'] body,
-html[data-theme='ptham-theme'] [data-scroll-restoration-id='container'] {
+/* Nền sọc nét đứt ô li học sinh khoảng cách 30px (Notebook Dashed Grid) cho tất cả các trang */
+body,
+[data-scroll-restoration-id='container'] {
   background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0.5 L 30 0.5 M 0.5 0 L 0.5 30' fill='none' stroke='%23de708d' stroke-opacity='0.22' stroke-width='1' stroke-dasharray='3 3'/%3E%3C/svg%3E");
   background-size: 30px 30px;
   background-repeat: repeat;

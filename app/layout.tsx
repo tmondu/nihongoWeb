@@ -216,7 +216,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   }
                   if (!root.getAttribute('data-theme')) {
                     var pref = localStorage.getItem('theme-storage');
-                    var themeId = 'mazii';
+                    var themeId = 'ptham-theme';
                     if (pref) {
                       var parsed = JSON.parse(pref);
                       var tid = parsed && parsed.state && parsed.state.theme;

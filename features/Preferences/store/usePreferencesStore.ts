@@ -74,7 +74,7 @@ const usePreferencesStore = create<PreferencesState>()(
     set => ({
       displayKana: false,
       setDisplayKana: displayKana => set({ displayKana }),
-      theme: 'mazii',
+      theme: 'ptham-theme',
       setTheme: theme => set({ theme }),
       isGlassMode: false,
       setGlassMode: isGlassMode => set({ isGlassMode }),
@@ -137,7 +137,7 @@ const usePreferencesStore = create<PreferencesState>()(
             ...state,
             theme:
               !state.theme || state.theme === 'sapphire-bloom'
-                ? 'mazii'
+                ? 'ptham-theme'
                 : state.theme,
             font:
               !state.font || state.font === 'Zen Maru Gothic'
