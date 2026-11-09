@@ -41,6 +41,8 @@ import { useInputPreferences } from '@/features/Preferences';
 import { removeLocaleFromPath } from '@/shared/utils/pathUtils';
 import type { Experiment } from '@/shared/data/experiments';
 import AuroraText from '@/shared/ui/components/magicui/AuroraText';
+import SidebarPatternSwitcher from './SidebarPatternSwitcher';
+import { SIDEBAR_PATTERNS, type SidebarPatternId } from './sidebarPatterns';
 import {
   Popover,
   PopoverTrigger,
@@ -856,6 +858,49 @@ const Sidebar = () => {
   const [isToolsExpanded, setIsToolsExpanded] = useState(false);
   const [isExperimentsExpanded, setIsExperimentsExpanded] = useState(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+  const [sidebarPattern, setSidebarPattern] =
+    useState<SidebarPatternId>('sakura');
+  const [isSidebarPatternEnabled, setIsSidebarPatternEnabled] = useState(true);
+
+  useEffect(() => {
+    try {
+      const savedPattern = localStorage.getItem(
+        'ptham-sidebar-pattern',
+      ) as SidebarPatternId | null;
+      if (savedPattern && SIDEBAR_PATTERNS[savedPattern]) {
+        setSidebarPattern(savedPattern);
+      }
+      const savedEnabled = localStorage.getItem(
+        'ptham-sidebar-pattern-enabled',
+      );
+      if (savedEnabled !== null) {
+        setIsSidebarPatternEnabled(savedEnabled === 'true');
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleSelectSidebarPattern = (id: SidebarPatternId) => {
+    setSidebarPattern(id);
+    try {
+      localStorage.setItem('ptham-sidebar-pattern', id);
+    } catch {}
+  };
+
+  const handleToggleSidebarPatternEnabled = () => {
+    setIsSidebarPatternEnabled(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('ptham-sidebar-pattern-enabled', String(next));
+      } catch {}
+      return next;
+    });
+  };
+
+  const activePatternStyle = isSidebarPatternEnabled
+    ? (SIDEBAR_PATTERNS[sidebarPattern]?.style ?? SIDEBAR_PATTERNS.none.style)
+    : SIDEBAR_PATTERNS.none.style;
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -1226,7 +1271,8 @@ const Sidebar = () => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 26, stiffness: 280 }}
-              className='fixed inset-y-0 left-0 z-50 flex w-76 max-w-[85vw] flex-col border-r border-(--border-color) bg-(--card-color) shadow-2xl lg:hidden'
+              style={activePatternStyle}
+              className='fixed inset-y-0 left-0 z-50 flex w-76 max-w-[85vw] flex-col border-r border-(--border-color) shadow-2xl lg:hidden'
             >
               {/* Drawer Header */}
               <div className='flex h-16 shrink-0 items-center justify-between border-b border-(--border-color) px-4'>
@@ -1427,6 +1473,17 @@ const Sidebar = () => {
                 })}
               </div>
 
+              {/* Sidebar Pattern Switcher (Mobile Drawer) */}
+              <div className='shrink-0 px-3 py-1'>
+                <SidebarPatternSwitcher
+                  currentPattern={sidebarPattern}
+                  isEnabled={isSidebarPatternEnabled}
+                  isCollapsed={false}
+                  onSelectPattern={handleSelectSidebarPattern}
+                  onToggleEnabled={handleToggleSidebarPatternEnabled}
+                />
+              </div>
+
               {/* Drawer Footer - User Profile */}
               <div className='shrink-0 border-t border-(--border-color) p-3'>
                 <Link
@@ -1457,10 +1514,11 @@ const Sidebar = () => {
       {/* Desktop Sidebar (Only visible on lg: and up) */}
       <aside
         id='main-sidebar'
+        style={activePatternStyle}
         className={clsx(
           'hidden lg:flex lg:flex-col lg:items-start print:hidden',
           'lg:sticky lg:top-0 lg:h-screen lg:overflow-x-hidden lg:overflow-y-hidden',
-          'z-30 border-(--border-color) bg-(--card-color) lg:border-r',
+          'z-30 border-(--border-color) lg:border-r',
           'lg:transition-[width,padding] lg:duration-300 lg:ease-[cubic-bezier(0.32,0.72,0,1)]',
           isDesktopSidebarCollapsed
             ? 'lg:w-24 lg:px-1.5 lg:pt-3 lg:pb-3'
@@ -1598,6 +1656,17 @@ const Sidebar = () => {
               );
             })}
           </div>
+        </div>
+
+        {/* Sidebar Pattern Tester Switcher (Desktop) */}
+        <div className='hidden w-full px-1 lg:block'>
+          <SidebarPatternSwitcher
+            currentPattern={sidebarPattern}
+            isEnabled={isSidebarPatternEnabled}
+            isCollapsed={isDesktopSidebarCollapsed}
+            onSelectPattern={handleSelectSidebarPattern}
+            onToggleEnabled={handleToggleSidebarPatternEnabled}
+          />
         </div>
 
         {/* Fixed Footer Area (Desktop Only) */}
