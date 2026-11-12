@@ -13,13 +13,13 @@
     "keywords": "học kana, bảng chữ cái kana, bảng kana tiếng nhật, hiragana và katakana, luyện hiragana trực tuyến, luyện katakana trực tuyến, bảng hiragana phát âm, bảng katakana phát âm, luyện bảng chữ cái tiếng nhật"
   },
   "learnHiragana": {
-    "title": "Học Hiragana - Bảng chữ cái Hiragana đầy đủ, Bài tập & Luyện tập | Mondu",
+    "title": "Học Hiragana - Bảng chữ cái Hiragana đầy đủ, Bài tập & Luyện tập",
     "titleShort": "Học Hiragana",
     "description": "Học Hiragana nhanh chóng với các bài tập tương tác, thẻ kana chọn lọc và luyện tập có hướng dẫn. Thành thạo bảng hiragana đầy đủ, dakuon và yoon với phản hồi tức thì.",
     "keywords": "học hiragana, bảng hiragana, bài tập hiragana, luyện hiragana, câu đố hiragana, flashcard hiragana, bảng chữ cái hiragana, hướng dẫn phát âm hiragana, hiragana cho người mới"
   },
   "learnKatakana": {
-    "title": "Học Katakana - Bảng chữ cái Katakana đầy đủ, Bài tập & Luyện tập | Mondu",
+    "title": "Học Katakana - Bảng chữ cái Katakana đầy đủ, Bài tập & Luyện tập",
     "titleShort": "Học Katakana",
     "description": "Học Katakana nhanh chóng với các bài tập tương tác, thẻ kana chọn lọc và luyện tập có hướng dẫn. Thành thạo bảng katakana đầy đủ, dakuon, yoon và âm nước ngoài với phản hồi tức thì.",
     "keywords": "học katakana, bảng katakana, luyện katakana, bài tập katakana, câu đố katakana, flashcard katakana, bảng chữ cái katakana, hướng dẫn phát âm katakana, katakana cho người mới"
@@ -43,31 +43,31 @@
     "keywords": "học kanji, chữ kanji tiếng nhật, luyện kanji trực tuyến, kanji jlpt, kanji n5, kanji n4, kanji n3, kanji n2, kanji n1, học kanji theo cấp độ, câu đố kanji, flashcard kanji, âm ôn âm huấn, onyomi kunyomi, ý nghĩa kanji"
   },
   "kanjiJlptN5": {
-    "title": "Danh sách và luyện tập Kanji JLPT N5 - Học chữ Kanji sơ cấp | Mondu",
+    "title": "Danh sách và luyện tập Kanji JLPT N5 - Học chữ Kanji sơ cấp",
     "titleShort": "Luyện tập Kanji JLPT N5",
     "description": "Học kanji JLPT N5 với các bài tập tương tác, cấp độ chia nhỏ và phản hồi tức thì. Xây dựng nền tảng vững chắc về nhận dạng chữ kanji sơ cấp.",
     "keywords": "kanji jlpt n5, danh sách kanji n5, luyện kanji sơ cấp, học kanji n5, câu đố kanji n5, flashcard kanji n5, cách đọc kanji n5, ý nghĩa kanji n5"
   },
   "kanjiJlptN4": {
-    "title": "Danh sách và luyện tập Kanji JLPT N4 - Học chữ Kanji sơ trung cấp | Mondu",
+    "title": "Danh sách và luyện tập Kanji JLPT N4 - Học chữ Kanji sơ trung cấp",
     "titleShort": "Luyện tập Kanji JLPT N4",
     "description": "Luyện tập kanji JLPT N4 với các bài tập chia theo bộ, câu đố và theo dõi tiến trình. Cải thiện tốc độ ghi nhớ, âm đọc và ý nghĩa kanji.",
     "keywords": "kanji jlpt n4, danh sách kanji n4, luyện kanji n4, học kanji n4, câu đố kanji n4, flashcard kanji n4"
   },
   "kanjiJlptN3": {
-    "title": "Danh sách và luyện tập Kanji JLPT N3 - Học chữ Kanji trung cấp | Mondu",
+    "title": "Danh sách và luyện tập Kanji JLPT N3 - Học chữ Kanji trung cấp",
     "titleShort": "Luyện tập Kanji JLPT N3",
     "description": "Rèn luyện kanji JLPT N3 với việc lựa chọn bộ từ tập trung và các câu đố tương tác. Tăng cường khả năng nhận diện, âm đọc và sự sẵn sàng cho kỳ thi.",
     "keywords": "kanji jlpt n3, danh sách kanji n3, luyện kanji n3, học kanji n3, câu đố kanji n3, flashcard kanji n3"
   },
   "kanjiJlptN2": {
-    "title": "Danh sách và luyện tập Kanji JLPT N2 - Học chữ Kanji trung thượng cấp | Mondu",
+    "title": "Danh sách và luyện tập Kanji JLPT N2 - Học chữ Kanji trung thượng cấp",
     "titleShort": "Luyện tập Kanji JLPT N2",
     "description": "Học kanji JLPT N2 với các bài tập nâng cao và luyện tập tương tác. Cải thiện độ chính xác và khả năng ghi nhớ cho quá trình ôn thi.",
     "keywords": "kanji jlpt n2, danh sách kanji n2, luyện kanji n2, học kanji n2, câu đố kanji n2, flashcard kanji n2"
   },
   "kanjiJlptN1": {
-    "title": "Danh sách và luyện tập Kanji JLPT N1 - Làm chủ Kanji cao cấp | Mondu",
+    "title": "Danh sách và luyện tập Kanji JLPT N1 - Làm chủ Kanji cao cấp",
     "titleShort": "Luyện tập Kanji JLPT N1",
     "description": "Làm chủ kanji JLPT N1 với các bài rèn luyện chuyên sâu và luyện tập theo bộ. Chuẩn bị cho mức độ nhận diện kanji cao nhất.",
     "keywords": "kanji jlpt n1, danh sách kanji n1, luyện kanji n1, học kanji n1, câu đố kanji n1, flashcard kanji n1"
@@ -85,7 +85,7 @@
     "keywords": "làm chủ kanji, luyện tập kanji toàn diện, tất cả kanji jlpt"
   },
   "kanjiRadicals": {
-    "title": "Học Kanji Theo Bộ Thủ - 214 Bộ Thủ Kangxi & Chiết Tự | Mondu",
+    "title": "Học Kanji Theo Bộ Thủ - 214 Bộ Thủ Kangxi & Chiết Tự",
     "titleShort": "Kanji Theo Bộ Thủ",
     "description": "Học chữ Kanji qua 214 bộ thủ Kangxi theo phương pháp phân tầng sư phạm (Core 50, Extended 80). Bóc tách Lego chiết tự và thử nghiệm ghép các bộ thủ thành Hán tự mới.",
     "keywords": "bộ thủ kanji, 214 bộ thủ kangxi, học kanji theo bộ thủ, chiết tự kanji, ghép chữ kanji, radical kanji, kangxi radicals, học chữ hán theo bộ"
@@ -97,31 +97,31 @@
     "keywords": "học từ vựng tiếng nhật, từ vựng jlpt, từ vựng theo cấp độ, từ vựng jlpt n5, từ vựng jlpt n4, từ vựng jlpt n3, từ vựng jlpt n2, từ vựng jlpt n1, câu đố từ vựng tiếng nhật, ôn luyện từ vựng tiếng nhật"
   },
   "vocabularyJlptN5": {
-    "title": "Danh sách và luyện từ vựng JLPT N5 - Học từ tiếng Nhật sơ cấp | Mondu",
+    "title": "Danh sách và luyện từ vựng JLPT N5 - Học từ tiếng Nhật sơ cấp",
     "titleShort": "Luyện tập Từ vựng JLPT N5",
     "description": "Luyện tập từ vựng JLPT N5 với các bộ từ tương tác và luyện tập nhanh. Cải thiện khả năng nhận biết từ, ý nghĩa và cách đọc của người mới bắt đầu.",
     "keywords": "từ vựng jlpt n5, danh sách từ n5, từ vựng sơ cấp tiếng nhật, học từ vựng n5, câu đố từ vựng n5"
   },
   "vocabularyJlptN4": {
-    "title": "Danh sách và luyện từ vựng JLPT N4 - Học từ tiếng Nhật sơ trung cấp | Mondu",
+    "title": "Danh sách và luyện từ vựng JLPT N4 - Học từ tiếng Nhật sơ trung cấp",
     "titleShort": "Luyện tập Từ vựng JLPT N4",
     "description": "Rèn luyện từ vựng JLPT N4 với các câu đố và bài tập theo bộ. Tăng tốc độ phản xạ từ vựng, sự tự tin trong cách đọc và tính chính xác về nghĩa.",
     "keywords": "từ vựng jlpt n4, danh sách từ n4, luyện từ vựng n4, học từ vựng n4, câu đố từ vựng n4"
   },
   "vocabularyJlptN3": {
-    "title": "Danh sách và luyện từ vựng JLPT N3 - Học tiếng Nhật trung cấp | Mondu",
+    "title": "Danh sách và luyện từ vựng JLPT N3 - Học tiếng Nhật trung cấp",
     "titleShort": "Luyện tập Từ vựng JLPT N3",
     "description": "Học từ vựng JLPT N3 với các bài rèn luyện chuyên sâu và chọn bộ từ nhanh. Xây dựng khả năng nhận diện và ghi nhớ từ vựng tiếng Nhật cấp độ trung cấp tốt hơn.",
     "keywords": "từ vựng jlpt n3, danh sách từ n3, luyện từ vựng n3, học từ vựng n3, câu đố từ vựng n3"
   },
   "vocabularyJlptN2": {
-    "title": "Danh sách và luyện từ vựng JLPT N2 - Học tiếng Nhật trung thượng cấp | Mondu",
+    "title": "Danh sách và luyện từ vựng JLPT N2 - Học tiếng Nhật trung thượng cấp",
     "titleShort": "Luyện tập Từ vựng JLPT N2",
     "description": "Luyện tập từ vựng JLPT N2 với các bài tập tương tác nâng cao và xem lại bộ từ. Nâng cao phản xạ từ vựng và nhận diện cách dùng từ ở mức độ cao.",
     "keywords": "từ vựng jlpt n2, danh sách từ n2, luyện từ vựng n2, học từ vựng n2, câu đố từ vựng n2"
   },
   "vocabularyJlptN1": {
-    "title": "Danh sách và luyện từ vựng JLPT N1 - Làm chủ từ vựng cao cấp | Mondu",
+    "title": "Danh sách và luyện từ vựng JLPT N1 - Làm chủ từ vựng cao cấp",
     "titleShort": "Luyện tập Từ vựng JLPT N1",
     "description": "Làm chủ từ vựng JLPT N1 với các bài tập chuyên sâu nâng cao, luyện tập theo bộ và quy trình ôn tập nhanh cho kỳ thi cấp độ cao nhất.",
     "keywords": "từ vựng jlpt n1, danh sách từ n1, luyện từ vựng n1, học từ vựng n1, câu đố từ vựng n1"
@@ -139,7 +139,7 @@
     "keywords": "làm chủ từ vựng, từ vựng tiếng nhật toàn diện, tất cả từ vựng jlpt"
   },
   "academy": {
-    "title": "Học viện - Các bài viết học tiếng Nhật | Mondu",
+    "title": "Học viện - Các bài viết học tiếng Nhật",
     "titleShort": "Học viện - Bài viết học tiếng Nhật",
     "description": "Đọc các bài hướng dẫn và bài viết toàn diện về học tiếng Nhật. Lời khuyên, mẹo và hiểu biết sâu sắc để làm chủ Hiragana, Katakana, Kanji và Từ vựng.",
     "keywords": "hướng dẫn học tiếng nhật, mẹo tiếng nhật, bài viết học tiếng nhật, học hiragana, học katakana, học kanji"
@@ -199,7 +199,7 @@
     "keywords": "thử nghiệm, học tập thay thế, phương pháp học mới"
   },
   "translate": {
-    "title": "Trình dịch Anh sang Nhật & Nhật sang Anh | Mondu",
+    "title": "Trình dịch Anh sang Nhật & Nhật sang Anh",
     "titleShort": "Dịch tiếng Nhật kèm Romaji",
     "description": "Trình dịch tiếng Nhật trực tuyến miễn phí cho văn bản tiếng Anh sang Nhật và Nhật sang Anh. Hỗ trợ phiên âm Romaji cho Hiragana, Katakana và Kanji.",
     "keywords": "dịch anh sang nhật, dịch nhật sang anh, trình dịch tiếng nhật miễn phí, dịch tiếng nhật có romaji, romaji tiếng nhật, phiên âm romaji"
@@ -273,67 +273,67 @@
     }
   },
   "hiraganaPractice": {
-    "title": "Luyện tập Hiragana - Học Hiragana nhanh | Mondu",
+    "title": "Luyện tập Hiragana - Học Hiragana nhanh",
     "titleShort": "Luyện tập Hiragana",
     "description": "Thực hành Hiragana tiếng Nhật với các bài tập và trò chơi tương tác. Học bảng hiragana, cải thiện tốc độ và tự tin hơn với phản hồi tức thì.",
     "keywords": "luyện tập hiragana, thực hành hiragana, học hiragana nhanh, câu đố hiragana"
   },
   "katakanaPractice": {
-    "title": "Luyện tập Katakana - Học Katakana nhanh | Mondu",
+    "title": "Luyện tập Katakana - Học Katakana nhanh",
     "titleShort": "Luyện tập Katakana",
     "description": "Thực hành Katakana tiếng Nhật với các bài tập và trò chơi tương tác. Làm chủ katakana nhanh chóng với theo dõi tiến trình.",
     "keywords": "luyện tập katakana, thực hành katakana, học katakana nhanh, câu đố katakana"
   },
   "kanjiPractice": {
-    "title": "Luyện tập Kanji - Học chữ Kanji theo cấp độ JLPT | Mondu",
+    "title": "Luyện tập Kanji - Học chữ Kanji theo cấp độ JLPT",
     "titleShort": "Luyện tập Kanji",
     "description": "Thực hành Kanji tiếng Nhật theo cấp độ JLPT với các buổi rèn luyện tương tác. Cải thiện nhận diện, âm đọc và lưu trữ thông tin tốt hơn.",
     "keywords": "luyện tập kanji, học kanji jlpt, luyện kanji theo cấp độ, câu đố chữ hán nhật"
   },
   "thamlet": {
-    "title": "Thamlet - Bộ thẻ Flashcard & Luyện tập tiếng Nhật | Mondu",
+    "title": "Thamlet - Bộ thẻ Flashcard & Luyện tập tiếng Nhật",
     "titleShort": "Thamlet Flashcards",
     "description": "Làm chủ từ vựng và Kanji tiếng Nhật cùng Thamlet phong cách Quizlet. Tự tạo bộ thẻ hoặc nhập từ Quizlet/Excel, học với thẻ 3D, ghép thẻ, làm bài kiểm tra và theo dõi tiến trình.",
     "keywords": "thamlet, flashcard tiếng nhật, bộ thẻ flashcard, quizlet tiếng nhật, học từ vựng tiếng nhật, ghép thẻ tiếng nhật, bài kiểm tra tiếng nhật"
   },
   "shadowing": {
-    "title": "Shadowing tiếng Nhật - Luyện phản xạ nghe nói & phát âm chuẩn | Mondu",
+    "title": "Shadowing tiếng Nhật - Luyện phản xạ nghe nói & phát âm chuẩn",
     "titleShort": "Luyện Shadowing",
     "description": "Luyện nói và ngữ điệu tiếng Nhật theo phương pháp Shadowing với video sinh động, phụ đề Furigana tương tác, chấm điểm phát âm bằng AI và ghi âm giọng nói.",
     "keywords": "shadowing tiếng nhật, luyện nghe nói tiếng nhật, phát âm tiếng nhật, kaiwa tiếng nhật, nghe hội thoại tiếng nhật, chấm điểm phát âm"
   },
   "howToUse": {
-    "title": "Hướng dẫn sử dụng Mondu - Cẩm nang học tiếng Nhật toàn diện | Mondu",
+    "title": "Hướng dẫn sử dụng Mondu - Cẩm nang học tiếng Nhật toàn diện",
     "titleShort": "Hướng dẫn sử dụng",
     "description": "Tìm hiểu cách sử dụng Mondu hiệu quả với cẩm nang hướng dẫn đầy đủ. Khám phá mọi tính năng: Hiragana, Katakana, Kanji, Từ vựng, Thamlet, Shadowing và mẹo học tiếng Nhật.",
     "keywords": "hướng dẫn sử dụng mondu, cẩm nang tiếng nhật, cách học hiragana, cách học kanji, hướng dẫn tự học tiếng nhật"
   },
   "kanaChart": {
-    "title": "Bảng chữ cái tiếng Nhật Hiragana & Katakana đầy đủ | Mondu",
+    "title": "Bảng chữ cái tiếng Nhật Hiragana & Katakana đầy đủ",
     "titleShort": "Bảng chữ cái Kana",
     "description": "Bảng tra cứu Hiragana và Katakana hoàn chỉnh gồm chữ cơ bản, âm đục (dakuon), âm ghép (yoon), phiên âm Romaji và âm thanh phát âm chuẩn.",
     "keywords": "bảng chữ cái tiếng nhật, bảng hiragana, bảng katakana, bảng kana đầy đủ, phát âm tiếng nhật, bảng chữ cái tiếng nhật có âm thanh"
   },
   "thamkanji": {
-    "title": "Tra cứu ThamKanji - Chi tiết chữ Kanji & Bộ thủ tiếng Nhật | Mondu",
+    "title": "Tra cứu ThamKanji - Chi tiết chữ Kanji & Bộ thủ tiếng Nhật",
     "titleShort": "Tra cứu ThamKanji",
     "description": "Tra cứu chi tiết chữ Kanji tiếng Nhật, âm Hán Việt, Onyomi, Kunyomi, số nét, thứ tự nét viết, giải nghĩa bộ thủ và từ ghép theo cấp độ JLPT.",
     "keywords": "tra cứu kanji, thamkanji, chữ hán tiếng nhật, âm hán việt, onyomi kunyomi, thứ tự nét viết kanji, bộ thủ kanji"
   },
   "curriculum": {
-    "title": "Lộ Trình Minna no Nihongo (Sơ Cấp N5 - N4) | Mondu",
+    "title": "Lộ Trình Minna no Nihongo (Sơ Cấp N5 - N4)",
     "titleShort": "Giáo án Minna no Nihongo",
     "description": "Lộ trình 50 bài học giáo trình Minna no Nihongo sơ cấp N5 - N4. Đầy đủ ngữ pháp, từ vựng, âm thanh phát âm và bài tập tương tác.",
     "keywords": "minna no nihongo, giáo trình tiếng nhật, giáo án tiếng nhật, lộ trình học n5 n4, ngữ pháp tiếng nhật sơ cấp, từ vựng minna"
   },
   "exercises": {
-    "title": "Bài tập trắc nghiệm JLPT N5 - N1 | Mondu",
+    "title": "Bài tập trắc nghiệm JLPT N5 - N1",
     "titleShort": "Bài tập JLPT",
     "description": "Luyện tập ngữ pháp, từ vựng và chữ Hán JLPT từ N5 đến N1 với bài trắc nghiệm có chấm điểm và giải thích chi tiết.",
     "keywords": "bài tập jlpt, trắc nghiệm jlpt, luyện thi jlpt, bài tập ngữ pháp tiếng nhật, bài tập từ vựng tiếng nhật, bài tập kanji"
   },
   "solutions": {
-    "title": "Đáp án chi tiết đề luyện thi tiếng Nhật | Mondu",
+    "title": "Đáp án chi tiết đề luyện thi tiếng Nhật",
     "titleShort": "Đáp án chi tiết",
     "description": "Xem đáp án và lời giải chi tiết cho các đề luyện thi tiếng Nhật để hiểu rõ từng câu và rút kinh nghiệm.",
     "keywords": "đáp án đề thi tiếng nhật, đáp án jlpt, giải chi tiết đề jlpt, đáp án chi tiết"
