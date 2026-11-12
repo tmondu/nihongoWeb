@@ -80,7 +80,6 @@ const sitemapConfig = {
       '/shadowing',
       '/exercises',
       '/solutions',
-      '/classroom',
       '/glossary',
       '/security',
     ];

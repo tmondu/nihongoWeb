@@ -325,5 +325,17 @@
     "titleShort": "Giáo án Minna no Nihongo",
     "description": "Lộ trình 50 bài học giáo trình Minna no Nihongo sơ cấp N5 - N4. Đầy đủ ngữ pháp, từ vựng, âm thanh phát âm và bài tập tương tác.",
     "keywords": "minna no nihongo, giáo trình tiếng nhật, giáo án tiếng nhật, lộ trình học n5 n4, ngữ pháp tiếng nhật sơ cấp, từ vựng minna"
+  },
+  "exercises": {
+    "title": "Bài tập trắc nghiệm JLPT N5 - N1 | Mondu",
+    "titleShort": "Bài tập JLPT",
+    "description": "Luyện tập ngữ pháp, từ vựng và chữ Hán JLPT từ N5 đến N1 với bài trắc nghiệm có chấm điểm và giải thích chi tiết.",
+    "keywords": "bài tập jlpt, trắc nghiệm jlpt, luyện thi jlpt, bài tập ngữ pháp tiếng nhật, bài tập từ vựng tiếng nhật, bài tập kanji"
+  },
+  "solutions": {
+    "title": "Đáp án chi tiết đề luyện thi tiếng Nhật | Mondu",
+    "titleShort": "Đáp án chi tiết",
+    "description": "Xem đáp án và lời giải chi tiết cho các đề luyện thi tiếng Nhật để hiểu rõ từng câu và rút kinh nghiệm.",
+    "keywords": "đáp án đề thi tiếng nhật, đáp án jlpt, giải chi tiết đề jlpt, đáp án chi tiết"
   }
 }

@@ -325,5 +325,17 @@
     "titleShort": "Curriculum",
     "description": "Complete 50-lesson Minna no Nihongo Japanese curriculum for N5 and N4 levels. Grammar explanations, vocabulary lists, audio, and interactive quizzes.",
     "keywords": "minna no nihongo, japanese curriculum, n5 n4 roadmap, elementary japanese lessons, japanese grammar lessons"
+  },
+  "exercises": {
+    "title": "JLPT N5 - N1 Practice Quizzes | Mondu",
+    "titleShort": "JLPT Quizzes",
+    "description": "Practice Japanese grammar, vocabulary and kanji from JLPT N5 to N1 with graded multiple-choice quizzes and detailed explanations.",
+    "keywords": "jlpt practice, jlpt quiz, jlpt multiple choice, japanese grammar exercises, japanese vocabulary exercises, kanji exercises"
+  },
+  "solutions": {
+    "title": "Detailed Answers for Japanese Practice Tests | Mondu",
+    "titleShort": "Detailed Answers",
+    "description": "See answers and detailed explanations for Japanese practice tests so you understand each question and learn from your mistakes.",
+    "keywords": "japanese test answers, jlpt answers, jlpt answer explanations, detailed answers"
   }
 }
