@@ -1,6 +1,9 @@
 'use client';
 
-import { ModernVocabContainer } from '@/features/Vocabulary';
+import {
+  ModernVocabContainer,
+  VocabTabsContainer,
+} from '@/features/Vocabulary';
 import type { VocabLevel } from '@/features/Vocabulary/types/study';
 
 type VocabMenuProps = {
@@ -9,6 +12,7 @@ type VocabMenuProps = {
 };
 
 const VocabMenu = ({ fixedCollection }: VocabMenuProps) => {
+  if (!fixedCollection) return <VocabTabsContainer />;
   return <ModernVocabContainer fixedLevel={fixedCollection} />;
 };
 

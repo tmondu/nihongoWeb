@@ -3,7 +3,11 @@
 // ============================================================================
 
 // Modern Study UI (new)
-export { ModernVocabContainer, VocabLevelHub } from './components/ModernVocab';
+export {
+  ModernVocabContainer,
+  VocabLevelHub,
+  VocabTabsContainer,
+} from './components/ModernVocab';
 
 // Facades (PRIMARY API - Use these in new code)
 export { useVocabSelection } from './facade';
