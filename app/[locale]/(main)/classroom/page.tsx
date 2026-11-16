@@ -2,19 +2,18 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Video,
   PlayCircle,
   BookOpen,
   Calendar,
-  RefreshCw,
   Search,
-  ChevronRight,
+  ArrowUpRight,
   Lock,
-  CheckCircle,
+  CheckCircle2,
   GraduationCap,
   FileText,
 } from 'lucide-react';
 import { Link } from '@/core/i18n/routing';
+import { cn } from '@/shared/utils/utils';
 
 type VideoType = 'grammar' | 'exam_review';
 
@@ -42,11 +41,11 @@ interface UserInfo {
 
 const LEVELS = [
   { id: 'all', label: 'Tất cả' },
-  { id: 'n5', label: 'JLPT N5' },
-  { id: 'n4', label: 'JLPT N4' },
-  { id: 'n3', label: 'JLPT N3' },
-  { id: 'n2', label: 'JLPT N2' },
-  { id: 'n1', label: 'JLPT N1' },
+  { id: 'n5', label: 'N5' },
+  { id: 'n4', label: 'N4' },
+  { id: 'n3', label: 'N3' },
+  { id: 'n2', label: 'N2' },
+  { id: 'n1', label: 'N1' },
 ];
 
 const VIDEO_TABS: {
@@ -58,36 +57,55 @@ const VIDEO_TABS: {
   {
     id: 'grammar',
     label: 'Ngữ pháp',
-    icon: <GraduationCap className='h-4 w-4' />,
+    icon: <GraduationCap className='size-4' strokeWidth={1.75} />,
     desc: 'Video các buổi học ngữ pháp trực tiếp',
   },
   {
     id: 'exam_review',
     label: 'Chữa đề',
-    icon: <FileText className='h-4 w-4' />,
+    icon: <FileText className='size-4' strokeWidth={1.75} />,
     desc: 'Video chữa đề thi, luyện tập thực chiến',
   },
 ];
 
-const getLevelBadgeClasses = (level: string, isLocked?: boolean) => {
-  if (isLocked) {
-    return 'border-amber-500/30 bg-amber-500/10 text-amber-400';
-  }
-  switch (level?.toLowerCase()) {
-    case 'n5':
-      return 'border-sky-500/30 bg-sky-500/15 text-sky-400 group-hover:border-sky-500/50 group-hover:bg-sky-500/25';
-    case 'n4':
-      return 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400 group-hover:border-emerald-500/50 group-hover:bg-emerald-500/25';
-    case 'n3':
-      return 'border-purple-500/30 bg-purple-500/15 text-purple-400 group-hover:border-purple-500/50 group-hover:bg-purple-500/25';
-    case 'n2':
-      return 'border-amber-500/30 bg-amber-500/15 text-amber-400 group-hover:border-amber-500/50 group-hover:bg-amber-500/25';
-    case 'n1':
-      return 'border-rose-500/30 bg-rose-500/15 text-rose-400 group-hover:border-rose-500/50 group-hover:bg-rose-500/25';
-    default:
-      return 'border-blue-500/30 bg-blue-500/15 text-blue-400 group-hover:border-blue-500/50 group-hover:bg-blue-500/25';
-  }
+// Nền đặc lấy từ biến theme của project, không dùng token shadcn (bg-card...)
+// vì project không định nghĩa chúng nên khung sẽ bị trong suốt.
+const SURFACE =
+  'border border-[var(--border-color)] bg-[var(--card-color)] shadow-[0_16px_32px_-20px_rgba(15,23,42,0.35)]';
+
+// Màu theo cấp độ, cùng bảng màu với các ô chọn cấp độ ở trang Từ vựng.
+const INK = 'border-[#16353a] text-[#16353a]';
+const LEVEL_TONE: Record<string, string> = {
+  n5: 'bg-[#2fb7ad]',
+  n4: 'bg-[#ffc93c]',
+  n3: 'bg-[#ff7a6b]',
+  n2: 'bg-[#6db7f2]',
+  n1: 'bg-[#b6dc5a]',
 };
+const toneOf = (level?: string) =>
+  LEVEL_TONE[level?.toLowerCase() ?? ''] ?? 'bg-[#ff9ec7]';
+
+function LessonSkeleton() {
+  return (
+    <div
+      className={cn(
+        'divide-y divide-[var(--border-color)] rounded-3xl',
+        SURFACE,
+      )}
+    >
+      {Array.from({ length: 5 }).map((_, i) => (
+        <div key={i} className='flex items-center gap-5 p-5 sm:p-6'>
+          <div className='h-8 w-10 animate-pulse rounded-lg bg-[var(--border-color)]' />
+          <div className='flex-1 space-y-2.5'>
+            <div className='h-3 w-24 animate-pulse rounded bg-[var(--border-color)]' />
+            <div className='h-4 w-2/3 animate-pulse rounded bg-[var(--border-color)]' />
+          </div>
+          <div className='hidden h-8 w-24 animate-pulse rounded-full bg-[var(--border-color)] sm:block' />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function ClassroomPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -170,87 +188,83 @@ export default function ClassroomPage() {
     });
   }, [lessons, activeTab, selectedLevel, searchQuery]);
 
-  // Count per tab (for badge)
-  const grammarCount = useMemo(
-    () => lessons.filter(l => l.video_type === 'grammar').length,
+  const tabCounts: Record<VideoType, number> = useMemo(
+    () => ({
+      grammar: lessons.filter(l => l.video_type === 'grammar').length,
+      exam_review: lessons.filter(l => l.video_type === 'exam_review').length,
+    }),
     [lessons],
   );
-  const examReviewCount = useMemo(
-    () => lessons.filter(l => l.video_type === 'exam_review').length,
-    [lessons],
-  );
-  const tabCounts: Record<VideoType, number> = {
-    grammar: grammarCount,
-    exam_review: examReviewCount,
-  };
 
   const activeTabInfo = VIDEO_TABS.find(t => t.id === activeTab)!;
 
   return (
-    <div className='mx-auto min-h-screen w-full max-w-6xl px-4 py-6 md:px-8'>
-      {/* Page Header */}
-      <div className='border-border/40 mb-8 border-b pb-6'>
-        <div className='flex flex-col gap-4 md:flex-row md:items-center md:justify-between'>
-          <div className='flex items-center gap-3.5'>
-            <div className='rounded-2xl border border-blue-500/20 bg-blue-500/10 p-3 text-blue-400'>
-              <Video className='h-8 w-8' />
-            </div>
-            <div>
-              <h1 className='text-foreground text-2xl font-bold tracking-tight md:text-3xl'>
-                Kho Bài Giảng &amp; Video Record
-              </h1>
-              <p className='text-muted-foreground mt-0.5 text-sm'>
-                Xem lại video các buổi học, hỗ trợ trực tiếp của Mondu!
-              </p>
-            </div>
-          </div>
-
-          {userInfo && (
-            <div className='flex items-center gap-2 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-4 py-2.5 text-xs'>
-              <div className='flex flex-col'>
-                <span className='text-muted-foreground text-[10px] font-semibold tracking-wider uppercase'>
-                  Cấp độ tài khoản
-                </span>
-                <span className='text-sm font-bold text-blue-400 uppercase'>
-                  {userInfo.is_admin
-                    ? 'Admin (Mọi cấp độ)'
-                    : `Khóa học ${userInfo.level || 'N5'}`}
-                </span>
-              </div>
-            </div>
-          )}
+    <div className='font-vietnamese mx-auto min-h-[100dvh] w-full max-w-6xl px-4 py-8 md:px-8 md:py-12'>
+      {/* Header: lệch trái, chữ tiêu đề không quá to */}
+      <header className='grid grid-cols-1 items-end gap-6 md:grid-cols-[1fr_auto]'>
+        <div>
+          <p className='text-xs font-medium tracking-wide text-[var(--secondary-color)] uppercase'>
+            Lớp học
+          </p>
+          <h1 className='mt-2 text-3xl font-bold tracking-tight text-[var(--foreground-color)] md:text-4xl'>
+            Kho bài giảng &amp; video record
+          </h1>
+          <p className='mt-2 max-w-[56ch] text-sm leading-relaxed text-[var(--secondary-color)]'>
+            Xem lại video các buổi học, hỗ trợ trực tiếp của Mondu.
+          </p>
         </div>
 
-        {/* Video Type Tabs */}
-        <div className='mt-6 flex items-center gap-2'>
+        {userInfo && (
+          <div className={cn('rounded-2xl px-5 py-3', SURFACE)}>
+            <p className='text-[11px] font-medium tracking-wide text-[var(--secondary-color)] uppercase'>
+              Cấp độ tài khoản
+            </p>
+            <p className='mt-0.5 font-mono text-sm font-bold text-[var(--main-color)] uppercase'>
+              {userInfo.is_admin
+                ? 'Admin · mọi cấp độ'
+                : `Khóa ${userInfo.level || 'N5'}`}
+            </p>
+          </div>
+        )}
+      </header>
+
+      {/* Điều khiển: loại video, cấp độ, tìm kiếm */}
+      <section className='mt-8 flex flex-col gap-4'>
+        <div
+          role='tablist'
+          aria-label='Loại video'
+          className={cn('inline-flex w-fit gap-1 rounded-2xl p-1.5', SURFACE)}
+        >
           {VIDEO_TABS.map(tab => {
             const isActive = activeTab === tab.id;
             const count = tabCounts[tab.id];
             return (
               <button
                 key={tab.id}
+                role='tab'
+                aria-selected={isActive}
                 onClick={() => {
                   setActiveTab(tab.id);
                   setSelectedLevel('all');
                   setSearchQuery('');
                 }}
-                className={`group flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-sm font-bold transition-all duration-200 ${
+                className={cn(
+                  'flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.98]',
                   isActive
-                    ? tab.id === 'exam_review'
-                      ? 'border-emerald-600 bg-emerald-600 text-white shadow-md shadow-emerald-600/25'
-                      : 'border-blue-600 bg-blue-600 text-white shadow-md shadow-blue-600/25'
-                    : 'border-border/60 bg-card/60 text-muted-foreground hover:border-border hover:bg-card hover:text-foreground'
-                }`}
+                    ? 'bg-[var(--main-color)] text-[var(--background-color)]'
+                    : 'text-[var(--secondary-color)] hover:bg-[var(--border-color)]/60 hover:text-[var(--foreground-color)]',
+                )}
               >
                 {tab.icon}
                 <span>{tab.label}</span>
                 {!loading && count > 0 && (
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[11px] font-bold transition-colors ${
+                    className={cn(
+                      'rounded-md px-1.5 py-0.5 font-mono text-[11px] font-semibold',
                       isActive
-                        ? 'bg-white/25 text-white'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
+                        ? 'bg-[var(--background-color)]/20'
+                        : 'bg-[var(--border-color)]',
+                    )}
                   >
                     {count}
                   </span>
@@ -260,226 +274,243 @@ export default function ClassroomPage() {
           })}
         </div>
 
-        {/* Tab description + Level Filters & Search */}
-        {!loading && (
-          <div className='mt-4 space-y-3'>
-            <p className='text-muted-foreground text-xs'>
-              {activeTabInfo.icon}{' '}
-              <span className='ml-1'>{activeTabInfo.desc}</span>
-              {activeTab === 'grammar' &&
-                !userInfo?.can_watch_video &&
-                !userInfo?.is_admin && (
-                  <span className='ml-2 font-medium text-amber-500 dark:text-amber-400'>
-                    {/* — Yêu cầu được giáo viên cấp quyền xem. */}
-                  </span>
-                )}
-              {activeTab === 'exam_review' && userInfo && (
-                <span className='ml-2 font-medium text-emerald-600 dark:text-emerald-400'>
-                  — Miễn phí
-                </span>
-              )}
-            </p>
+        <p className='text-xs text-[var(--secondary-color)]'>
+          {activeTabInfo.desc}
+          {activeTab === 'exam_review' && userInfo && (
+            <span className='ml-1.5 font-semibold text-[var(--main-color)]'>
+              · Miễn phí
+            </span>
+          )}
+        </p>
 
-            <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
-              {/* Level Tabs */}
-              <div className='flex max-w-full items-center gap-1.5 overflow-x-auto pb-1'>
-                {LEVELS.map(lvl => {
-                  const active = selectedLevel === lvl.id;
-                  return (
-                    <button
-                      key={lvl.id}
-                      onClick={() => setSelectedLevel(lvl.id)}
-                      className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all ${
-                        active
-                          ? activeTab === 'exam_review'
-                            ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                            : 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                          : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
-                      }`}
-                    >
-                      {lvl.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Search Input */}
-              <div className='relative w-full sm:max-w-xs'>
-                <Search className='text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2' />
-                <input
-                  type='text'
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  placeholder='Tìm kiếm bài học...'
-                  className='border-border/60 bg-card text-foreground placeholder:text-muted-foreground/60 w-full rounded-xl border py-2 pr-3 pl-9 text-xs focus:border-blue-500 focus:outline-none'
-                />
-              </div>
-            </div>
+        <div className='grid grid-cols-1 gap-3 md:grid-cols-[1fr_20rem] md:items-center'>
+          <div
+            role='group'
+            aria-label='Lọc theo cấp độ'
+            className='flex items-center gap-2 overflow-x-auto pb-1'
+          >
+            {LEVELS.map(lvl => {
+              const active = selectedLevel === lvl.id;
+              return (
+                <button
+                  key={lvl.id}
+                  onClick={() => setSelectedLevel(lvl.id)}
+                  className={cn(
+                    'rounded-full border px-4 py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 active:scale-[0.97]',
+                    active
+                      ? 'border-[var(--main-color)] bg-[var(--main-color)] text-[var(--background-color)]'
+                      : 'border-[var(--border-color)] bg-[var(--card-color)] text-[var(--secondary-color)] hover:border-[var(--main-color)] hover:text-[var(--foreground-color)]',
+                  )}
+                >
+                  {lvl.label}
+                </button>
+              );
+            })}
           </div>
-        )}
-      </div>
 
-      {/* Loading state */}
-      {loading && (
-        <div className='text-muted-foreground flex flex-col items-center justify-center gap-3 py-24'>
-          <RefreshCw className='h-8 w-8 animate-spin text-blue-500' />
-          <p className='text-sm font-medium'>Đang tải danh sách bài giảng...</p>
+          <label className='relative block'>
+            <span className='sr-only'>Tìm kiếm bài học</span>
+            <Search
+              className='pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-[var(--secondary-color)]'
+              strokeWidth={1.75}
+            />
+            <input
+              type='text'
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder='Tìm kiếm bài học...'
+              className='w-full rounded-2xl border border-[var(--border-color)] bg-[var(--card-color)] py-2.5 pr-4 pl-10 text-sm text-[var(--foreground-color)] placeholder:text-[var(--secondary-color)]/70 focus:border-[var(--main-color)] focus:outline-none'
+            />
+          </label>
         </div>
-      )}
+      </section>
 
-      {/* Normal State: List of Lesson Titles */}
-      {!loading && (
-        <>
-          {filteredLessons.length === 0 ? (
-            <div className='border-border/60 rounded-2xl border border-dashed py-20 text-center'>
-              <BookOpen className='text-muted-foreground/50 mx-auto mb-3 h-12 w-12' />
-              <h3 className='text-foreground text-base font-semibold'>
+      {/* Danh sách bài giảng */}
+      <section className='mt-8'>
+        {loading ? (
+          <LessonSkeleton />
+        ) : filteredLessons.length === 0 ? (
+          <div
+            className={cn(
+              'flex flex-col items-start gap-4 rounded-3xl p-8 sm:p-12',
+              SURFACE,
+            )}
+          >
+            <span className='flex size-12 items-center justify-center rounded-2xl bg-[var(--main-color)]/10 text-[var(--main-color)]'>
+              <BookOpen className='size-6' strokeWidth={1.75} />
+            </span>
+            <div>
+              <h3 className='text-lg font-bold text-[var(--foreground-color)]'>
                 Chưa có bài giảng nào
               </h3>
-              <p className='text-muted-foreground mt-1 text-xs'>
+              <p className='mt-1 max-w-[52ch] text-sm leading-relaxed text-[var(--secondary-color)]'>
                 {searchQuery
-                  ? 'Không tìm thấy bài giảng nào phù hợp với từ khóa.'
+                  ? 'Không tìm thấy bài giảng nào phù hợp với từ khóa. Thử từ khóa ngắn hơn hoặc xóa bộ lọc.'
                   : `Hiện tại chưa có video ${activeTab === 'grammar' ? 'ngữ pháp' : 'chữa đề'} nào cho cấp độ này.`}
               </p>
             </div>
-          ) : (
-            <div className='space-y-3'>
-              <div className='text-muted-foreground flex items-center justify-between px-1 text-xs'>
-                <span>
-                  {activeTab === 'grammar'
-                    ? 'Bài giảng ngữ pháp'
-                    : 'Video chữa đề'}
-                </span>
-                <span>{filteredLessons.length} bài giảng</span>
-              </div>
-
-              <div className='grid grid-cols-1 gap-3 sm:gap-4'>
-                {filteredLessons.map((item, index) => {
-                  const lessonNumber = item.order_num || index + 1;
-                  const isLocked = Boolean(item.is_locked);
-                  const isExamReview = item.video_type === 'exam_review';
-                  return (
-                    <Link
-                      key={item.id}
-                      href={`/classroom/${item.id}`}
-                      className={`group border-border/60 bg-card flex flex-col justify-between gap-4 rounded-2xl border p-4 shadow-sm transition-all duration-200 md:flex-row md:items-center md:p-5 ${
-                        isLocked
-                          ? 'opacity-85 hover:border-amber-500/40 hover:bg-amber-500/[0.02]'
-                          : isExamReview
-                            ? 'hover:-translate-y-0.5 hover:border-emerald-500/40 hover:bg-emerald-600/[0.03] hover:shadow-md'
-                            : 'hover:-translate-y-0.5 hover:border-blue-500/40 hover:bg-blue-600/[0.03] hover:shadow-md'
-                      }`}
-                    >
-                      <div className='flex min-w-0 items-start gap-3.5 sm:gap-4'>
-                        {/* Lesson number badge */}
-                        <div
-                          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border text-sm font-bold transition-all duration-200 ${
-                            isLocked
-                              ? 'border-amber-500/20 bg-amber-500/10 text-amber-400 group-hover:border-amber-500/40'
-                              : isExamReview
-                                ? 'border-border/60 bg-muted/60 text-muted-foreground group-hover:border-emerald-500/30 group-hover:bg-emerald-600 group-hover:text-white'
-                                : 'border-border/60 bg-muted/60 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
-                          }`}
-                        >
-                          {isLocked ? (
-                            <Lock className='h-4 w-4' />
-                          ) : (
-                            lessonNumber
-                          )}
-                        </div>
-
-                        {/* Title and metadata */}
-                        <div className='min-w-0 flex-1'>
-                          <div className='mb-1 flex flex-wrap items-center gap-2'>
-                            <span className='text-muted-foreground flex items-center gap-1.5 text-[11px] font-medium'>
-                              <Calendar className='h-3 w-3' />
-                              {new Date(item.created_at).toLocaleDateString(
-                                'vi-VN',
-                              )}
-                            </span>
-                            {!isLocked && item.is_completed ? (
-                              <span className='flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold text-emerald-400'>
-                                <CheckCircle className='h-2.5 w-2.5' /> Đã học
-                              </span>
-                            ) : !isLocked &&
-                              item.progress_percent &&
-                              item.progress_percent > 0 ? (
-                              <span className='flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-500/15 px-2 py-0.5 text-[10px] font-bold text-blue-400'>
-                                Đang học {item.progress_percent}%
-                              </span>
-                            ) : null}
-                            {isLocked && (
-                              <span className='flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-400 uppercase'>
-                                <Lock className='h-2.5 w-2.5' /> Cần cấp độ cao
-                                hơn
-                              </span>
-                            )}
-                          </div>
-
-                          <h2
-                            className={`text-foreground text-sm font-bold transition-colors md:text-base ${
-                              isLocked
-                                ? 'group-hover:text-amber-400'
-                                : isExamReview
-                                  ? 'group-hover:text-emerald-400'
-                                  : 'group-hover:text-blue-400'
-                            }`}
-                          >
-                            {item.title}
-                          </h2>
-
-                          {item.description && (
-                            <p className='text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed'>
-                              {item.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Right Section: Large Level Badge & Action Button */}
-                      <div className='flex shrink-0 items-center justify-between gap-3 sm:gap-4 md:justify-end'>
-                        {/* Large Level Badge */}
-                        <div
-                          className={`flex min-w-[52px] items-center justify-center rounded-xl border px-3.5 py-1.5 text-xs font-black tracking-wider uppercase shadow-xs transition-all sm:text-sm ${getLevelBadgeClasses(
-                            item.level,
-                            isLocked,
-                          )}`}
-                        >
-                          {item.level?.toUpperCase()}
-                        </div>
-
-                        {/* Action Button */}
-                        <div
-                          className={`inline-flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-xs font-semibold shadow-xs transition-all duration-200 ${
-                            isLocked
-                              ? 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-amber-500/30 group-hover:bg-amber-500/10 group-hover:text-amber-400'
-                              : isExamReview
-                                ? 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-emerald-500/30 group-hover:bg-emerald-600 group-hover:text-white'
-                                : 'border-border/60 bg-muted/40 text-muted-foreground group-hover:border-blue-500/30 group-hover:bg-blue-600 group-hover:text-white'
-                          }`}
-                        >
-                          {isLocked ? (
-                            <>
-                              <Lock className='h-4 w-4' />
-                              <span>Chưa mở khóa</span>
-                            </>
-                          ) : (
-                            <>
-                              <PlayCircle className='h-4 w-4' />
-                              <span>Xem bài giảng</span>
-                            </>
-                          )}
-                          <ChevronRight className='h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5' />
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
+            {(searchQuery || selectedLevel !== 'all') && (
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedLevel('all');
+                }}
+                className='rounded-xl border border-[var(--border-color)] px-4 py-2 text-sm font-semibold text-[var(--foreground-color)] transition-all hover:border-[var(--main-color)] active:scale-[0.98]'
+              >
+                Xóa bộ lọc
+              </button>
+            )}
+          </div>
+        ) : (
+          <>
+            <div className='mb-3 flex items-center justify-between px-1 text-xs text-[var(--secondary-color)]'>
+              <span>
+                {activeTab === 'grammar'
+                  ? 'Bài giảng ngữ pháp'
+                  : 'Video chữa đề'}
+              </span>
+              <span className='font-mono'>
+                {filteredLessons.length} bài giảng
+              </span>
             </div>
-          )}
-        </>
-      )}
+
+            <div
+              className={cn(
+                'divide-y divide-[var(--border-color)] overflow-hidden rounded-3xl',
+                SURFACE,
+              )}
+            >
+              {filteredLessons.map((item, index) => {
+                const lessonNumber = item.order_num || index + 1;
+                const isLocked = Boolean(item.is_locked);
+                const inProgress =
+                  !isLocked &&
+                  !item.is_completed &&
+                  (item.progress_percent ?? 0) > 0;
+
+                return (
+                  <Link
+                    key={item.id}
+                    href={`/classroom/${item.id}`}
+                    className={cn(
+                      'group grid grid-cols-[3.5rem_1fr] items-center gap-x-4 gap-y-3 p-5 transition-colors duration-200 sm:p-6 md:grid-cols-[4rem_1fr_auto] md:gap-x-6',
+                      'hover:bg-[var(--main-color)]/[0.06] active:bg-[var(--main-color)]/10',
+                      isLocked && 'opacity-80',
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        'flex size-14 items-center justify-center rounded-2xl border-[3px] font-mono text-xl font-extrabold tabular-nums transition-all duration-150 md:size-16 md:text-2xl',
+                        isLocked
+                          ? 'border-[var(--border-color)] bg-[var(--border-color)] text-[var(--secondary-color)]'
+                          : cn(
+                              INK,
+                              toneOf(item.level),
+                              'shadow-[-4px_5px_0_0_#16353a] group-hover:translate-x-[-2px] group-hover:translate-y-[3px] group-hover:shadow-[-2px_2px_0_0_#16353a]',
+                            ),
+                      )}
+                    >
+                      {isLocked ? (
+                        <Lock className='size-6' strokeWidth={1.75} />
+                      ) : (
+                        String(lessonNumber).padStart(2, '0')
+                      )}
+                    </span>
+
+                    <div className='min-w-0'>
+                      <div className='mb-1.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] font-medium text-[var(--secondary-color)]'>
+                        <span
+                          className={cn(
+                            'rounded-md border-2 px-2 py-0.5 font-mono font-extrabold uppercase',
+                            isLocked
+                              ? 'border-[var(--border-color)] text-[var(--secondary-color)]'
+                              : cn(INK, toneOf(item.level)),
+                          )}
+                        >
+                          {item.level}
+                        </span>
+                        <span className='flex items-center gap-1.5'>
+                          <Calendar className='size-3' strokeWidth={1.75} />
+                          {new Date(item.created_at).toLocaleDateString(
+                            'vi-VN',
+                          )}
+                        </span>
+                        {!isLocked && item.is_completed && (
+                          <span className='flex items-center gap-1 font-semibold text-emerald-500'>
+                            <CheckCircle2
+                              className='size-3.5'
+                              strokeWidth={2}
+                            />
+                            Đã học
+                          </span>
+                        )}
+                        {isLocked && (
+                          <span className='font-semibold text-amber-500'>
+                            Cần cấp độ cao hơn
+                          </span>
+                        )}
+                      </div>
+
+                      <h2 className='text-base font-bold text-[var(--foreground-color)] transition-colors group-hover:text-[var(--main-color)] md:text-lg'>
+                        {item.title}
+                      </h2>
+
+                      {item.description && (
+                        <p className='mt-1 line-clamp-2 max-w-[70ch] text-sm leading-relaxed text-[var(--secondary-color)]'>
+                          {item.description}
+                        </p>
+                      )}
+
+                      {inProgress && (
+                        <div className='mt-3 flex max-w-xs items-center gap-3'>
+                          <div className='h-1 flex-1 overflow-hidden rounded-full bg-[var(--border-color)]'>
+                            <div
+                              className='h-full rounded-full bg-[var(--main-color)]'
+                              style={{ width: `${item.progress_percent}%` }}
+                            />
+                          </div>
+                          <span className='font-mono text-[11px] text-[var(--secondary-color)] tabular-nums'>
+                            {item.progress_percent}%
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <span
+                      className={cn(
+                        'col-span-2 inline-flex items-center justify-between gap-2 rounded-xl border-2 px-4 py-2.5 text-sm font-extrabold transition-all duration-150 md:col-span-1 md:justify-center',
+                        isLocked
+                          ? 'border-[var(--border-color)] bg-[var(--border-color)] text-[var(--secondary-color)]'
+                          : cn(
+                              INK,
+                              toneOf(item.level),
+                              'shadow-[-3px_4px_0_0_#16353a] group-hover:translate-x-[-2px] group-hover:translate-y-[3px] group-hover:shadow-[-1px_1px_0_0_#16353a]',
+                            ),
+                      )}
+                    >
+                      {isLocked ? (
+                        <>
+                          <Lock className='size-4' strokeWidth={1.75} />
+                          Chưa mở khóa
+                        </>
+                      ) : (
+                        <>
+                          <PlayCircle className='size-4' strokeWidth={1.75} />
+                          {inProgress ? 'Học tiếp' : 'Xem bài giảng'}
+                        </>
+                      )}
+                      <ArrowUpRight
+                        className='size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5'
+                        strokeWidth={1.75}
+                      />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </section>
     </div>
   );
 }

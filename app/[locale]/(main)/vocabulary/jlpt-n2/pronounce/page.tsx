@@ -1,0 +1,80 @@
+import type { Metadata } from 'next';
+import { generatePageMetadata } from '@/core/i18n/metadata-helpers';
+import { CourseSchema } from '@/shared/ui-composite/SEO/CourseSchema';
+import { BreadcrumbSchema } from '@/shared/ui-composite/SEO/BreadcrumbSchema';
+import {
+  FAQSchema,
+  commonMonduFAQs,
+} from '@/shared/ui-composite/SEO/FAQSchema';
+import { LearningResourceSchema } from '@/shared/ui-composite/SEO/LearningResourceSchema';
+import { routing } from '@/core/i18n/routing';
+import { ModernVocabContainer } from '@/features/Vocabulary';
+
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }));
+}
+
+export const revalidate = 3600;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return await generatePageMetadata('vocabularyJlptN2', {
+    locale,
+    pathname: '/vocabulary/jlpt-n2/pronounce',
+  });
+}
+
+export default function VocabularyJlptN2PronouncePage() {
+  return (
+    <>
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: `https://www.mondu.online` },
+          {
+            name: 'Vocabulary',
+            url: `https://www.mondu.online/vocabulary`,
+          },
+          {
+            name: 'JLPT N2',
+            url: `https://www.mondu.online/vocabulary/jlpt-n2`,
+          },
+          {
+            name: 'Pronounce',
+            url: `https://www.mondu.online/vocabulary/jlpt-n2/pronounce`,
+          },
+        ]}
+      />
+      <CourseSchema
+        name='JLPT N2 Japanese Pronunciation Studio'
+        description='Practice speaking JLPT N2 Japanese vocabulary words with microphone voice recording, audio waveform, and feedback.'
+        url={`https://www.mondu.online/vocabulary/jlpt-n2/pronounce`}
+        educationalLevel='Upper Intermediate'
+        skillLevel='JLPT N2'
+        learningResourceType='Interactive Course'
+      />
+      <LearningResourceSchema
+        name='JLPT N2 Pronunciation Practice'
+        description='Interactive speech practice for JLPT N2 words with voice scoring.'
+        url={`https://www.mondu.online/vocabulary/jlpt-n2/pronounce`}
+        learningResourceType={['Interactive']}
+        educationalLevel={['Upper Intermediate']}
+        teaches='Japanese pronunciation and speaking confidence'
+        assesses='Voice recognition and pitch pronunciation'
+        timeRequired='PT20M'
+        isAccessibleForFree={true}
+        provider={{ name: 'Mondu', url: 'https://www.mondu.online' }}
+        educationalAlignment={{
+          alignmentType: 'educationalLevel',
+          educationalFramework: 'JLPT',
+          targetName: 'N2',
+        }}
+      />
+      <FAQSchema faqs={commonMonduFAQs} />
+      <ModernVocabContainer fixedLevel='n2' mode='speak' />
+    </>
+  );
+}

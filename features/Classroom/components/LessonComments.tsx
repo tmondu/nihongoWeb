@@ -75,14 +75,7 @@ function formatRelativeTime(dateString: string): string {
 }
 
 function getAvatarColor(email: string): string {
-  const colors = [
-    'from-blue-600 to-indigo-600 text-white',
-    'from-emerald-600 to-teal-600 text-white',
-    'from-purple-600 to-pink-600 text-white',
-    'from-amber-500 to-orange-600 text-white',
-    'from-rose-600 to-red-600 text-white',
-    'from-cyan-600 to-blue-600 text-white',
-  ];
+  const colors = ['bg-[var(--main-color)]/15 text-[var(--main-color)]'];
   let hash = 0;
   for (let i = 0; i < email.length; i++) {
     hash = email.charCodeAt(i) + ((hash << 5) - hash);
@@ -336,35 +329,35 @@ export default function LessonComments({
   return (
     <div
       className={cn(
-        'bg-card border-border/60 flex flex-col rounded-2xl border shadow-sm',
+        'flex flex-col rounded-3xl border border-[var(--border-color)] bg-[var(--card-color)] shadow-[0_16px_32px_-20px_rgba(15,23,42,0.35)]',
         className,
       )}
     >
       {/* Header */}
-      <div className='border-border/40 flex items-center justify-between border-b p-4 pb-3'>
+      <div className='flex items-center justify-between border-b border-[var(--border-color)] p-4 pb-3'>
         <div className='flex items-center gap-2.5'>
-          <div className='flex h-8 w-8 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400'>
+          <div className='flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--main-color)]/10 text-[var(--main-color)]'>
             <MessageSquare className='h-4 w-4' />
           </div>
           <div>
-            <h2 className='text-foreground text-sm font-bold'>
+            <h2 className='text-sm font-bold text-[var(--foreground-color)]'>
               Hỏi đáp & Thảo luận
             </h2>
-            <p className='text-muted-foreground text-[11px]'>
+            <p className='text-[11px] text-[var(--secondary-color)]'>
               Bình luận cùng cô giáo và các bạn học viên
             </p>
           </div>
         </div>
 
         <div className='flex items-center gap-2'>
-          <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold text-blue-400'>
+          <span className='rounded-full border border-[var(--main-color)]/20 bg-[var(--main-color)]/10 px-2.5 py-0.5 text-xs font-bold text-[var(--main-color)]'>
             {totalCommentsCount}
           </span>
           <button
             type='button'
             onClick={() => fetchComments(false)}
             title='Làm mới bình luận'
-            className='hover:bg-muted text-muted-foreground hover:text-foreground cursor-pointer rounded-lg p-1.5 transition-colors'
+            className='cursor-pointer rounded-lg p-1.5 text-[var(--secondary-color)] transition-colors hover:bg-[var(--border-color)] hover:text-[var(--foreground-color)]'
           >
             <RefreshCw className='h-3.5 w-3.5' />
           </button>
@@ -372,14 +365,14 @@ export default function LessonComments({
       </div>
 
       {/* Main Comment Input Box */}
-      <div className='border-border/40 border-b p-4'>
+      <div className='border-b border-[var(--border-color)] p-4'>
         <form onSubmit={handleSubmit} className='space-y-2.5'>
           {activeUser?.email && (
             <div className='flex items-center justify-between text-[11px]'>
-              <span className='text-muted-foreground flex items-center gap-1.5'>
+              <span className='flex items-center gap-1.5 text-[var(--secondary-color)]'>
                 <span className='h-1.5 w-1.5 rounded-full bg-emerald-500' />
                 Đang bình luận với tư cách:
-                <strong className='text-foreground font-semibold'>
+                <strong className='font-semibold text-[var(--foreground-color)]'>
                   &apos;
                   {formatUserDisplayName(
                     activeUser.email,
@@ -388,7 +381,7 @@ export default function LessonComments({
                   &apos;
                 </strong>
               </span>
-              <span className='bg-muted text-muted-foreground rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase'>
+              <span className='rounded-md bg-[var(--border-color)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--secondary-color)] uppercase'>
                 {activeUser.level || 'N5'}
               </span>
             </div>
@@ -403,7 +396,7 @@ export default function LessonComments({
               onKeyDown={handleKeyDown}
               placeholder=''
               maxLength={1500}
-              className='bg-muted/30 border-border/60 text-foreground focus:bg-background/80 w-full resize-none rounded-xl border p-3 text-xs leading-relaxed transition-all focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none'
+              className='w-full resize-none rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] p-3 text-xs leading-relaxed text-[var(--foreground-color)] transition-all focus:border-[var(--main-color)] focus:bg-[var(--card-color)] focus:ring-1 focus:ring-[var(--main-color)] focus:outline-none'
             />
           </div>
 
@@ -422,14 +415,14 @@ export default function LessonComments({
           )}
 
           <div className='flex items-center justify-between pt-1'>
-            <span className='text-muted-foreground/60 text-[10px]'>
+            <span className='text-[10px] text-[var(--secondary-color)]/60'>
               {content.length}/1500 ký tự
             </span>
 
             <button
               type='submit'
               disabled={submitting || !content.trim()}
-              className='inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-blue-500/20 transition-all hover:from-blue-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-50'
+              className='inline-flex cursor-pointer items-center gap-1.5 rounded-xl bg-[var(--main-color)] px-4 py-2 text-xs font-semibold text-[var(--background-color)] transition-all hover:opacity-90 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50'
             >
               {submitting ? (
                 <>
@@ -450,16 +443,16 @@ export default function LessonComments({
       {/* Comments List */}
       <div className='flex max-h-[600px] min-h-[300px] flex-col gap-3.5 overflow-y-auto p-4 pr-2'>
         {loading ? (
-          <div className='flex flex-1 flex-col items-center justify-center gap-2 py-12 text-slate-400'>
-            <RefreshCw className='h-5 w-5 animate-spin text-blue-400' />
+          <div className='flex flex-1 flex-col items-center justify-center gap-2 py-12 text-[var(--secondary-color)]'>
+            <RefreshCw className='h-5 w-5 animate-spin text-[var(--main-color)]' />
             <span className='text-xs'>Đang tải bình luận...</span>
           </div>
         ) : comments.length === 0 ? (
           <div className='flex flex-1 flex-col items-center justify-center gap-2 py-12 text-center'>
-            <p className='text-foreground text-xs font-semibold'>
+            <p className='text-xs font-semibold text-[var(--foreground-color)]'>
               Chưa có bình luận nào
             </p>
-            <p className='text-muted-foreground max-w-[240px] text-[11px] leading-relaxed'>
+            <p className='max-w-[240px] text-[11px] leading-relaxed text-[var(--secondary-color)]'>
               Hãy là người đầu tiên đặt câu hỏi hoặc chia sẻ cảm nghĩ về bài
               giảng này nhé!
             </p>
@@ -484,14 +477,14 @@ export default function LessonComments({
             return (
               <div
                 key={c.id}
-                className='bg-muted/20 hover:bg-muted/30 border-border/40 group relative flex flex-col gap-2.5 rounded-xl border p-3.5 transition-all'
+                className='group relative flex flex-col gap-2.5 rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] p-3.5 transition-all hover:bg-[var(--border-color)]/50'
               >
                 {/* Root Comment Header */}
                 <div className='flex items-start justify-between gap-2'>
                   <div className='flex items-center gap-2.5'>
                     <div
                       className={cn(
-                        'flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-[11px] font-bold shadow-sm',
+                        'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold',
                         avatarBg,
                       )}
                     >
@@ -499,18 +492,18 @@ export default function LessonComments({
                     </div>
 
                     <div className='flex flex-wrap items-center gap-1.5'>
-                      <span className='text-foreground text-xs font-semibold'>
+                      <span className='text-xs font-semibold text-[var(--foreground-color)]'>
                         {displayName}
                       </span>
 
                       {c.user.is_admin ? (
-                        <span className='inline-flex items-center gap-0.5 rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-500/20 to-orange-500/20 px-1.5 py-0.5 text-[9px] font-bold text-amber-300'>
+                        <span className='inline-flex items-center gap-0.5 rounded-full border border-amber-500/30 bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold text-amber-300'>
                           <ShieldCheck className='h-2.5 w-2.5' />
                           Giáo viên
                         </span>
                       ) : (
-                        <span className='text-muted-foreground inline-flex items-center gap-0.5 rounded-full border border-slate-700 bg-slate-800/60 px-1.5 py-0.5 text-[9px] font-medium'>
-                          <GraduationCap className='h-2.5 w-2.5 text-blue-400' />
+                        <span className='inline-flex items-center gap-0.5 rounded-full border border-[var(--border-color)] bg-[var(--background-color)] px-1.5 py-0.5 text-[9px] font-medium text-[var(--secondary-color)]'>
+                          <GraduationCap className='h-2.5 w-2.5 text-[var(--main-color)]' />
                           {c.user.level}
                         </span>
                       )}
@@ -518,7 +511,7 @@ export default function LessonComments({
                   </div>
 
                   <div className='flex items-center gap-1.5'>
-                    <span className='text-muted-foreground/70 flex items-center gap-1 text-[10px]'>
+                    <span className='flex items-center gap-1 text-[10px] text-[var(--secondary-color)]/70'>
                       <Clock className='h-2.5 w-2.5' />
                       {formatRelativeTime(c.created_at)}
                     </span>
@@ -528,7 +521,7 @@ export default function LessonComments({
                         type='button'
                         onClick={() => handleDelete(c.id)}
                         disabled={deletingId === c.id}
-                        className='text-muted-foreground/40 cursor-pointer p-1 opacity-0 transition-opacity group-hover:opacity-100 hover:text-rose-400 disabled:opacity-50'
+                        className='cursor-pointer p-1 text-[var(--secondary-color)]/40 opacity-0 transition-opacity group-hover:opacity-100 hover:text-rose-400 disabled:opacity-50'
                         title='Xóa bình luận này'
                       >
                         <Trash2 className='h-3 w-3' />
@@ -538,7 +531,7 @@ export default function LessonComments({
                 </div>
 
                 {/* Root Comment Content */}
-                <p className='text-foreground/90 pl-9.5 text-xs leading-relaxed break-words whitespace-pre-wrap'>
+                <p className='pl-9.5 text-xs leading-relaxed break-words whitespace-pre-wrap text-[var(--foreground-color)]/90'>
                   {c.content}
                 </p>
 
@@ -556,7 +549,7 @@ export default function LessonComments({
                         setReplyContent('');
                       }
                     }}
-                    className='text-muted-foreground inline-flex cursor-pointer items-center gap-1 text-[11px] font-semibold transition-colors hover:text-blue-400'
+                    className='inline-flex cursor-pointer items-center gap-1 text-[11px] font-semibold text-[var(--secondary-color)] transition-colors hover:text-[var(--main-color)]'
                   >
                     <CornerDownRight className='h-3 w-3' />
                     <span>Phản hồi</span>
@@ -565,13 +558,13 @@ export default function LessonComments({
 
                 {/* Inline Reply Composer (YouTube style) */}
                 {replyingToId === c.id && (
-                  <div className='mt-2 ml-9.5 rounded-xl border border-blue-500/30 bg-blue-950/20 p-3'>
-                    <div className='text-muted-foreground mb-2 flex items-center justify-between text-[11px]'>
+                  <div className='mt-2 ml-9.5 rounded-xl border border-[var(--main-color)]/30 bg-[var(--background-color)] p-3'>
+                    <div className='mb-2 flex items-center justify-between text-[11px] text-[var(--secondary-color)]'>
                       <span className='flex items-center gap-1.5'>
-                        <CornerDownRight className='h-3.5 w-3.5 text-blue-400' />
+                        <CornerDownRight className='h-3.5 w-3.5 text-[var(--main-color)]' />
                         <span>
                           Trả lời{' '}
-                          <strong className='text-foreground font-semibold'>
+                          <strong className='font-semibold text-[var(--foreground-color)]'>
                             @{replyTargetUser}
                           </strong>
                           :
@@ -584,7 +577,7 @@ export default function LessonComments({
                       onChange={e => setReplyContent(e.target.value)}
                       placeholder=''
                       maxLength={1500}
-                      className='bg-muted/40 border-border/60 text-foreground w-full resize-none rounded-lg border p-2.5 text-xs leading-relaxed transition-all focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none'
+                      className='w-full resize-none rounded-lg border border-[var(--border-color)] bg-[var(--background-color)] p-2.5 text-xs leading-relaxed text-[var(--foreground-color)] transition-all focus:border-[var(--main-color)] focus:ring-1 focus:ring-[var(--main-color)] focus:outline-none'
                       autoFocus
                     />
                     <div className='mt-2 flex items-center justify-end gap-2'>
@@ -594,7 +587,7 @@ export default function LessonComments({
                           setReplyingToId(null);
                           setReplyContent('');
                         }}
-                        className='cursor-pointer rounded-lg px-2.5 py-1 text-xs font-medium text-slate-400 hover:bg-slate-800'
+                        className='cursor-pointer rounded-lg px-2.5 py-1 text-xs font-medium text-[var(--secondary-color)] hover:bg-[var(--border-color)]'
                       >
                         Hủy
                       </button>
@@ -602,7 +595,7 @@ export default function LessonComments({
                         type='button'
                         disabled={replySubmitting || !replyContent.trim()}
                         onClick={() => handleReplySubmit(c.id)}
-                        className='inline-flex cursor-pointer items-center gap-1 rounded-lg bg-blue-600 px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-blue-500 disabled:opacity-50'
+                        className='inline-flex cursor-pointer items-center gap-1 rounded-lg bg-[var(--main-color)] px-3 py-1 text-xs font-semibold text-[var(--background-color)] hover:opacity-90 disabled:opacity-50'
                       >
                         {replySubmitting ? (
                           <RefreshCw className='h-3 w-3 animate-spin' />
@@ -621,7 +614,7 @@ export default function LessonComments({
                     <button
                       type='button'
                       onClick={() => toggleReplies(c.id)}
-                      className='inline-flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-blue-400 transition-colors hover:bg-blue-500/10'
+                      className='inline-flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold text-[var(--main-color)] transition-colors hover:bg-[var(--main-color)]/10'
                     >
                       {isRepliesExpanded ? (
                         <>
@@ -640,7 +633,7 @@ export default function LessonComments({
 
                 {/* YouTube Style Nested Replies List */}
                 {isRepliesExpanded && c.replies && c.replies.length > 0 && (
-                  <div className='mt-2 ml-9.5 space-y-2.5 border-l-2 border-slate-700/60 pl-3 sm:pl-3.5'>
+                  <div className='mt-2 ml-9.5 space-y-2.5 border-l-2 border-[var(--border-color)] pl-3 sm:pl-3.5'>
                     {c.replies.map(reply => {
                       const isReplyOwner =
                         activeUser?.id && reply.user_id === activeUser.id;
@@ -660,13 +653,13 @@ export default function LessonComments({
                       return (
                         <div
                           key={reply.id}
-                          className='group/reply hover:bg-muted/30 relative flex flex-col gap-1.5 rounded-lg p-2 transition-colors'
+                          className='group/reply relative flex flex-col gap-1.5 rounded-lg p-2 transition-colors hover:bg-[var(--border-color)]/50'
                         >
                           <div className='flex items-start justify-between gap-2'>
                             <div className='flex items-center gap-2'>
                               <div
                                 className={cn(
-                                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-[10px] font-bold shadow-sm',
+                                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
                                   replyAvatarBg,
                                 )}
                               >
@@ -674,17 +667,17 @@ export default function LessonComments({
                               </div>
 
                               <div className='flex flex-wrap items-center gap-1'>
-                                <span className='text-foreground text-xs font-semibold'>
+                                <span className='text-xs font-semibold text-[var(--foreground-color)]'>
                                   {replyDisplayName}
                                 </span>
 
                                 {reply.user.is_admin ? (
-                                  <span className='py-0.2 inline-flex items-center gap-0.5 rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-500/20 to-orange-500/20 px-1 text-[8px] font-bold text-amber-300'>
+                                  <span className='py-0.2 inline-flex items-center gap-0.5 rounded-full border border-amber-500/30 bg-amber-500/15 px-1 text-[8px] font-bold text-amber-300'>
                                     <ShieldCheck className='h-2 w-2' />
                                     Giáo viên
                                   </span>
                                 ) : (
-                                  <span className='text-muted-foreground py-0.2 inline-flex items-center gap-0.5 rounded-full border border-slate-700 bg-slate-800/60 px-1 text-[8px] font-medium'>
+                                  <span className='py-0.2 inline-flex items-center gap-0.5 rounded-full border border-[var(--border-color)] bg-[var(--background-color)] px-1 text-[8px] font-medium text-[var(--secondary-color)]'>
                                     {reply.user.level}
                                   </span>
                                 )}
@@ -692,7 +685,7 @@ export default function LessonComments({
                             </div>
 
                             <div className='flex items-center gap-1.5'>
-                              <span className='text-muted-foreground/70 flex items-center gap-1 text-[9px]'>
+                              <span className='flex items-center gap-1 text-[9px] text-[var(--secondary-color)]/70'>
                                 <Clock className='h-2.5 w-2.5' />
                                 {formatRelativeTime(reply.created_at)}
                               </span>
@@ -702,7 +695,7 @@ export default function LessonComments({
                                   type='button'
                                   onClick={() => handleDelete(reply.id, c.id)}
                                   disabled={deletingId === reply.id}
-                                  className='text-muted-foreground/40 cursor-pointer p-0.5 opacity-0 transition-opacity group-hover/reply:opacity-100 hover:text-rose-400 disabled:opacity-50'
+                                  className='cursor-pointer p-0.5 text-[var(--secondary-color)]/40 opacity-0 transition-opacity group-hover/reply:opacity-100 hover:text-rose-400 disabled:opacity-50'
                                   title='Xóa câu trả lời này'
                                 >
                                   <Trash2 className='h-2.5 w-2.5' />
@@ -711,7 +704,7 @@ export default function LessonComments({
                             </div>
                           </div>
 
-                          <p className='text-foreground/90 pl-8 text-xs leading-relaxed break-words whitespace-pre-wrap'>
+                          <p className='pl-8 text-xs leading-relaxed break-words whitespace-pre-wrap text-[var(--foreground-color)]/90'>
                             {reply.content}
                           </p>
 
@@ -723,7 +716,7 @@ export default function LessonComments({
                                 setReplyTargetUser(replyDisplayName);
                                 setReplyContent(`@${replyDisplayName} `);
                               }}
-                              className='text-muted-foreground inline-flex cursor-pointer items-center gap-1 text-[10px] font-medium transition-colors hover:text-blue-400'
+                              className='inline-flex cursor-pointer items-center gap-1 text-[10px] font-medium text-[var(--secondary-color)] transition-colors hover:text-[var(--main-color)]'
                             >
                               <CornerDownRight className='h-2.5 w-2.5' />
                               <span>Phản hồi</span>

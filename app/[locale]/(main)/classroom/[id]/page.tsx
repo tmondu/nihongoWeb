@@ -223,10 +223,10 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
   return (
     <div className='mx-auto min-h-screen w-full max-w-7xl px-4 py-6 md:px-8'>
       {/* Top Breadcrumb / Back Bar */}
-      <div className='border-border/40 mb-6 flex flex-wrap items-center justify-between gap-4 border-b pb-4'>
+      <div className='mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4'>
         <Link
           href='/classroom'
-          className='text-muted-foreground hover:text-foreground group inline-flex items-center gap-2 text-sm font-medium transition-colors'
+          className='group inline-flex items-center gap-2 text-sm font-medium text-[var(--secondary-color)] transition-colors hover:text-[var(--foreground-color)]'
         >
           <ArrowLeft className='h-4 w-4 transition-transform group-hover:-translate-x-1' />
           <span>Quay lại danh sách bài giảng</span>
@@ -234,10 +234,10 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
 
         {currentLesson && (
           <div className='flex items-center gap-2'>
-            <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold text-blue-400 uppercase'>
+            <span className='rounded-full border border-[var(--main-color)]/20 bg-[var(--main-color)]/10 px-2.5 py-0.5 text-xs font-bold text-[var(--main-color)] uppercase'>
               {currentLesson.level}
             </span>
-            <span className='text-muted-foreground text-xs'>
+            <span className='text-xs text-[var(--secondary-color)]'>
               {currentLesson.order_num
                 ? `Buổi ${currentLesson.order_num}`
                 : `Bài ${currentIndex + 1}`}
@@ -248,8 +248,8 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
 
       {/* Loading state */}
       {loading && (
-        <div className='text-muted-foreground flex flex-col items-center justify-center gap-3 py-24'>
-          <RefreshCw className='h-8 w-8 animate-spin text-blue-500' />
+        <div className='flex flex-col items-center justify-center gap-3 py-24 text-[var(--secondary-color)]'>
+          <RefreshCw className='h-8 w-8 animate-spin text-[var(--main-color)]' />
           <p className='text-sm font-medium'>Đang tải video bài giảng...</p>
         </div>
       )}
@@ -260,16 +260,16 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
           <div className='mb-4 rounded-full border border-amber-500/20 bg-amber-500/10 p-4 text-amber-400'>
             <Lock className='h-10 w-10' />
           </div>
-          <h2 className='text-foreground mb-2 text-xl font-bold'>
+          <h2 className='mb-2 text-xl font-bold text-[var(--foreground-color)]'>
             Vui lòng đăng nhập
           </h2>
-          <p className='text-muted-foreground mb-6 text-sm leading-relaxed'>
+          <p className='mb-6 text-sm leading-relaxed text-[var(--secondary-color)]'>
             Khu vực bài giảng chỉ dành riêng cho học viên của Mondu. Vui lòng
             đăng nhập vào tài khoản của bạn để tiếp tục học.
           </p>
           <button
             onClick={() => router.push('/profile')}
-            className='rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500'
+            className='rounded-xl bg-[var(--main-color)] px-6 py-2.5 text-sm font-medium text-[var(--background-color)] shadow-none transition-all hover:opacity-90'
           >
             Đăng nhập ngay
           </button>
@@ -282,21 +282,23 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
           <div className='mb-4 rounded-full border border-amber-500/20 bg-amber-500/10 p-4 text-amber-400'>
             <Lock className='h-10 w-10' />
           </div>
-          <h2 className='text-foreground mb-2 text-xl font-bold'>
+          <h2 className='mb-2 text-xl font-bold text-[var(--foreground-color)]'>
             Chưa có quyền xem video bài giảng
           </h2>
-          <p className='text-muted-foreground mb-4 text-sm leading-relaxed'>
+          <p className='mb-4 text-sm leading-relaxed text-[var(--secondary-color)]'>
             Tài khoản{' '}
-            <span className='text-foreground font-semibold'>{userEmail}</span>{' '}
+            <span className='font-semibold text-[var(--foreground-color)]'>
+              {userEmail}
+            </span>{' '}
             của bạn chưa được kích hoạt quyền xem video các buổi học.
           </p>
-          <div className='bg-muted/40 border-border/50 text-muted-foreground mb-6 w-full rounded-xl border p-3.5 text-left text-xs'>
+          <div className='mb-6 w-full rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] p-3.5 text-left text-xs text-[var(--secondary-color)]'>
             💡 <strong>Mẹo:</strong> Hãy liên hệ với giáo viên hoặc quản trị
             viên để được cấp quyền xem video nhé.
           </div>
           <button
             onClick={() => fetchLessons()}
-            className='border-border bg-muted/80 hover:bg-muted text-foreground flex items-center gap-2 rounded-xl border px-5 py-2 text-sm font-medium transition-all'
+            className='flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] px-5 py-2 text-sm font-medium text-[var(--foreground-color)] transition-all hover:bg-[var(--border-color)]'
           >
             <RefreshCw className='h-4 w-4' />
             Kiểm tra lại
@@ -313,33 +315,35 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
           <div className='mb-2 inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-xs font-bold text-rose-400 uppercase'>
             Yêu cầu cấp độ {requiredLevel}
           </div>
-          <h2 className='text-foreground mb-2 text-xl font-bold'>
+          <h2 className='mb-2 text-xl font-bold text-[var(--foreground-color)]'>
             Bài giảng yêu cầu cấp độ cao hơn
           </h2>
-          <p className='text-muted-foreground mb-4 text-sm leading-relaxed'>
+          <p className='mb-4 text-sm leading-relaxed text-[var(--secondary-color)]'>
             Bài giảng này thuộc chương trình học{' '}
-            <strong className='text-foreground font-semibold'>
+            <strong className='font-semibold text-[var(--foreground-color)]'>
               {requiredLevel}
             </strong>
             . Tài khoản của bạn hiện tại đang được đăng ký ở cấp độ{' '}
-            <strong className='font-semibold text-blue-400'>
+            <strong className='font-semibold text-[var(--main-color)]'>
               {currentUserLevel}
             </strong>
             .
           </p>
-          <div className='bg-muted/40 border-border/50 text-muted-foreground mb-6 w-full rounded-xl border p-3.5 text-left text-xs leading-relaxed'>
+          <div className='mb-6 w-full rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] p-3.5 text-left text-xs leading-relaxed text-[var(--secondary-color)]'>
             💡 <strong>Quy định xem bài giảng:</strong> Học viên có quyền truy
             cập các bài giảng thuộc cấp độ của mình và các cấp độ thấp hơn (ví
             dụ: N4 có thể xem N5, N4; N3 có thể xem N5, N4, N3).
             <br />
             Nếu bạn muốn đăng ký hoặc nâng cấp lên khóa{' '}
-            <strong className='text-foreground'>{requiredLevel}</strong>, vui
-            lòng liên hệ giáo viên để được hỗ trợ kích hoạt.
+            <strong className='text-[var(--foreground-color)]'>
+              {requiredLevel}
+            </strong>
+            , vui lòng liên hệ giáo viên để được hỗ trợ kích hoạt.
           </div>
           <div className='flex items-center gap-3'>
             <Link
               href='/classroom'
-              className='rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
+              className='rounded-xl bg-[var(--main-color)] px-5 py-2.5 text-sm font-semibold text-[var(--background-color)] shadow-none transition-all hover:opacity-90'
             >
               Quay lại danh sách bài giảng
             </Link>
@@ -351,17 +355,17 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
       {!loading && !authError && (
         <>
           {!currentLesson ? (
-            <div className='border-border/60 rounded-2xl border border-dashed py-20 text-center'>
-              <BookOpen className='text-muted-foreground/50 mx-auto mb-3 h-12 w-12' />
-              <h3 className='text-foreground text-base font-semibold'>
+            <div className='rounded-2xl border border-dashed border-[var(--border-color)] py-20 text-center'>
+              <BookOpen className='mx-auto mb-3 h-12 w-12 text-[var(--secondary-color)]/50' />
+              <h3 className='text-base font-semibold text-[var(--foreground-color)]'>
                 Không tìm thấy bài giảng
               </h3>
-              <p className='text-muted-foreground mt-1 text-xs'>
+              <p className='mt-1 text-xs text-[var(--secondary-color)]'>
                 Bài giảng bạn yêu cầu không tồn tại hoặc đã được gỡ bỏ.
               </p>
               <Link
                 href='/classroom'
-                className='mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
+                className='mt-5 inline-flex items-center gap-2 rounded-xl bg-[var(--main-color)] px-5 py-2.5 text-sm font-semibold text-[var(--background-color)] shadow-none transition-all hover:opacity-90'
               >
                 <ArrowLeft className='h-4 w-4' />
                 <span>Trở về danh sách bài giảng</span>
@@ -414,15 +418,15 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                   <div
                     ref={videoBoxRef}
                     className={cn(
-                      'border-border/60 relative w-full overflow-hidden rounded-2xl border bg-black shadow-2xl shadow-black/40 transition-all duration-300',
+                      'relative w-full overflow-hidden rounded-3xl border border-[var(--border-color)] bg-black shadow-[0_24px_48px_-24px_rgba(15,23,42,0.55)] transition-all duration-300',
                       aspectRatio === '9:16'
                         ? 'mx-auto aspect-[9/16] max-h-[85vh] max-w-[460px]'
                         : 'aspect-video w-full',
                     )}
                   >
                     {videoChecking ? (
-                      <div className='text-muted-foreground flex h-full w-full flex-col items-center justify-center gap-3 bg-black/60'>
-                        <RefreshCw className='h-7 w-7 animate-spin text-blue-500' />
+                      <div className='flex h-full w-full flex-col items-center justify-center gap-3 bg-black/60 text-white/70'>
+                        <RefreshCw className='h-7 w-7 animate-spin text-[var(--main-color)]' />
                         <p className='text-xs font-medium'>
                           Đang chuẩn bị bài giảng...
                         </p>
@@ -432,10 +436,10 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         <div className='mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-rose-500/20 bg-rose-500/10 text-rose-400 shadow-lg shadow-rose-500/10'>
                           <VideoOff className='h-7 w-7' />
                         </div>
-                        <h3 className='text-foreground text-base font-bold md:text-lg'>
+                        <h3 className='text-base font-bold text-white md:text-lg'>
                           Video bài giảng tạm thời không khả dụng
                         </h3>
-                        <p className='text-muted-foreground mt-1.5 max-w-md text-xs leading-relaxed md:text-sm'>
+                        <p className='mt-1.5 max-w-md text-xs leading-relaxed text-white/70 md:text-sm'>
                           {videoErrorReason === 'private_or_not_shared'
                             ? 'Tệp video Google Drive hiện chưa được cấp quyền xem công khai hoặc đã bị giới hạn truy cập.'
                             : 'Không thể tải video từ liên kết được cung cấp (tệp có thể đã bị xóa hoặc liên kết không chính xác).'}
@@ -446,14 +450,14 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                               currentLesson?.video_url &&
                               checkVideoStatus(currentLesson.video_url, true)
                             }
-                            className='inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-blue-600/20 transition-all hover:bg-blue-500'
+                            className='inline-flex items-center gap-2 rounded-xl bg-[var(--main-color)] px-4 py-2 text-xs font-semibold text-[var(--background-color)] shadow-none transition-all hover:opacity-90'
                           >
                             <RefreshCw className='h-3.5 w-3.5' />
                             <span>Thử kiểm tra lại</span>
                           </button>
                           <Link
                             href='/classroom'
-                            className='border-border/60 bg-muted/40 hover:bg-muted text-foreground inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-xs font-medium transition-all'
+                            className='inline-flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] px-4 py-2 text-xs font-medium text-[var(--foreground-color)] transition-all hover:bg-[var(--border-color)]'
                           >
                             <ArrowLeft className='h-3.5 w-3.5' />
                             <span>Xem bài giảng khác</span>
@@ -469,7 +473,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                         allowFullScreen
                       />
                     ) : (
-                      <div className='text-muted-foreground flex h-full w-full items-center justify-center'>
+                      <div className='flex h-full w-full items-center justify-center text-[var(--secondary-color)]'>
                         Không tìm thấy liên kết video hợp lệ.
                       </div>
                     )}
@@ -484,8 +488,8 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                     className={cn(
                       'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
                       aspectRatio === '9:16'
-                        ? 'border-blue-600 bg-blue-600 text-white'
-                        : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                        ? 'border-[var(--main-color)] bg-[var(--main-color)] text-[var(--background-color)]'
+                        : 'border-[var(--border-color)] bg-[var(--background-color)] text-[var(--secondary-color)] hover:text-[var(--foreground-color)]',
                     )}
                   >
                     <Smartphone className='h-3.5 w-3.5' />
@@ -497,8 +501,8 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                     className={cn(
                       'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all',
                       aspectRatio === '16:9'
-                        ? 'border-blue-600 bg-blue-600 text-white'
-                        : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                        ? 'border-[var(--main-color)] bg-[var(--main-color)] text-[var(--background-color)]'
+                        : 'border-[var(--border-color)] bg-[var(--background-color)] text-[var(--secondary-color)] hover:text-[var(--foreground-color)]',
                     )}
                   >
                     <Tv className='h-3.5 w-3.5' />
@@ -507,18 +511,18 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                 </div>
 
                 {/* Lesson Info Box - NO "Mở link gốc" */}
-                <div className='bg-card border-border/60 rounded-2xl border p-5 shadow-sm md:p-6'>
+                <div className='rounded-3xl border border-[var(--border-color)] bg-[var(--card-color)] p-5 shadow-[0_16px_32px_-20px_rgba(15,23,42,0.35)] md:p-6'>
                   <div className='mb-3 flex flex-wrap items-center justify-between gap-3'>
                     <div className='flex items-center gap-2'>
-                      <span className='rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-xs font-bold text-blue-400 uppercase'>
+                      <span className='rounded-full border border-[var(--main-color)]/20 bg-[var(--main-color)]/10 px-2.5 py-0.5 text-xs font-bold text-[var(--main-color)] uppercase'>
                         {currentLesson.level}
                       </span>
                       {currentLesson.order_num > 0 && (
-                        <span className='text-muted-foreground text-xs font-semibold'>
+                        <span className='text-xs font-semibold text-[var(--secondary-color)]'>
                           Buổi {currentLesson.order_num}
                         </span>
                       )}
-                      <span className='text-muted-foreground flex items-center gap-1 text-xs'>
+                      <span className='flex items-center gap-1 text-xs text-[var(--secondary-color)]'>
                         <Calendar className='h-3.5 w-3.5' />
                         {new Date(currentLesson.created_at).toLocaleDateString(
                           'vi-VN',
@@ -535,7 +539,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                             'flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold',
                             initialProgress.is_completed
                               ? 'border border-emerald-500/30 bg-emerald-500/15 text-emerald-400'
-                              : 'border border-blue-500/30 bg-blue-500/15 text-blue-400',
+                              : 'border border-[var(--main-color)]/30 bg-[var(--main-color)]/15 text-[var(--main-color)]',
                           )}
                         >
                           {initialProgress.is_completed ? (
@@ -552,22 +556,22 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                       )}
                   </div>
 
-                  <h1 className='text-foreground text-xl leading-snug font-bold md:text-2xl'>
+                  <h1 className='text-xl leading-snug font-bold text-[var(--foreground-color)] md:text-2xl'>
                     {currentLesson.title}
                   </h1>
 
                   {currentLesson.description && (
-                    <div className='border-border/40 text-muted-foreground mt-4 border-t pt-4 text-sm leading-relaxed whitespace-pre-wrap'>
+                    <div className='mt-4 border-t border-[var(--border-color)] pt-4 text-sm leading-relaxed whitespace-pre-wrap text-[var(--secondary-color)]'>
                       {currentLesson.description}
                     </div>
                   )}
 
                   {/* Previous / Next Lesson Navigation */}
-                  <div className='border-border/40 mt-6 flex flex-wrap items-center justify-between gap-3 border-t pt-4'>
+                  <div className='mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border-color)] pt-4'>
                     {prevLesson ? (
                       <Link
                         href={`/classroom/${prevLesson.id}`}
-                        className='bg-muted/40 hover:bg-muted border-border/60 text-foreground group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-medium transition-all'
+                        className='group inline-flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] px-3.5 py-2 text-xs font-medium text-[var(--foreground-color)] transition-all hover:bg-[var(--border-color)]'
                       >
                         <ChevronLeft className='h-4 w-4 transition-transform group-hover:-translate-x-0.5' />
                         <span className='max-w-[180px] truncate sm:max-w-[240px]'>
@@ -581,7 +585,7 @@ export default function LessonVideoPage({ params }: LessonVideoPageProps) {
                     {nextLesson && (
                       <Link
                         href={`/classroom/${nextLesson.id}`}
-                        className='bg-muted/40 hover:bg-muted border-border/60 text-foreground group inline-flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-medium transition-all'
+                        className='group inline-flex items-center gap-2 rounded-xl border border-[var(--border-color)] bg-[var(--background-color)] px-3.5 py-2 text-xs font-medium text-[var(--foreground-color)] transition-all hover:bg-[var(--border-color)]'
                       >
                         <span className='max-w-[180px] truncate sm:max-w-[240px]'>
                           Bài tiếp: {nextLesson.title}
