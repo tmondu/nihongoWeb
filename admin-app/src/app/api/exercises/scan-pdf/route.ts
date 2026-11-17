@@ -86,7 +86,7 @@ CRITICAL RULES FOR EXTRACTION:
    - If the question contains blanks like [ 18 ], preserve it as [ 18 ].
    - Preserve question number prefix like "【19】" or "[19]".
 3. Reading Passages: If there is a reading comprehension passage (Đoạn văn đọc hiểu) associated with questions, extract the passage text into 'passage' and title in 'passage_title'.
-4. Options: Extract exactly 4 choices into the 'options' array: [option1, option2, option3, option4].
+4. Options: Extract every choice (usually 4, but only 3 in some listening parts) into the 'options' array in order. Do not invent missing choices.
    - Remove leading choice numbers like 1, 2, 3, 4 or ①, ②, ③, ④ from the option text.
 5. Correct Answer: Determine and assign the most accurate correct answer: "A", "B", "C", or "D" (where A=1, B=2, C=3, D=4).
 6. Explanation: Provide a helpful, clear Vietnamese explanation detailing why the answer is correct and translating the sentence/word.
@@ -191,7 +191,8 @@ Return ONLY a valid JSON array of question objects without markdown wrapping cod
     // Format & validate questions
     const formattedQuestions = parsedQuestions.map((q, idx) => {
       let opts = Array.isArray(q.options) ? q.options.map(String) : [];
-      while (opts.length < 4) {
+      // Listening parts of JLPT have only 3 choices, so only pad up to 2.
+      while (opts.length < 2) {
         opts.push(`Phương án ${opts.length + 1}`);
       }
       if (opts.length > 4) opts = opts.slice(0, 4);

@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useMemo } from 'react';
-import { BookOpen } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
 import { PublicQuestion } from '@/shared/types/exercise';
+import { cn } from '@/shared/utils/utils';
 import { FormattedText } from './FormattedText';
 import { ExerciseWatermark } from './ExerciseWatermark';
+import { ExerciseImage } from './ExerciseImage';
 
 interface ExerciseA4PaperProps {
   title: string;
@@ -13,6 +14,10 @@ interface ExerciseA4PaperProps {
   questions: PublicQuestion[];
   answers: Record<string, string>;
   onSelectOption: (qKey: string, letter: string) => void;
+  /** Bấm lại đáp án đang chọn để bỏ khoanh. */
+  onClearOption?: (qKey: string) => void;
+  /** Bút đang chọn (đặt ở phiếu đáp án). */
+  penTool?: PenTool | null;
   printCleanMode?: boolean;
   activeQuestionIndex?: number;
 }
@@ -20,9 +25,18 @@ interface ExerciseA4PaperProps {
 const CIRCLE_OPTIONS = ['①', '②', '③', '④', '⑤', '⑥'];
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
+// Mực in và giấy: cố định, không đổi theo theme để luôn giống đề giấy.
+const INK = '#1d1d1b';
+const PAPER = '#fffdf7';
+// Độ "nặng" tối đa của một tờ khi gom các phần (Mondai) vào cùng trang.
+const PAGE_CAPACITY = 30;
+
+export type PenTool = 'hl' | 'ul' | 'er';
+
 interface MondaiSection {
   partName: string;
   passage?: string;
+  passageImage?: string;
   passageTitle?: string;
   questions: {
     question: PublicQuestion;
@@ -39,25 +53,49 @@ function extractQuestionNumber(
   questionText: string,
   fallbackIndex: number,
 ): { cleanText: string; displayNumber: string } {
-  // Check for leading [10], 【10】, (10), 10., Câu 10:
   const match = questionText.match(
     /^\[\s*(\d+|★|\*)\s*\]|^【\s*(\d+|★|\*)\s*】|^\(\s*(\d+)\s*\)|^(?:Câu|Bài)\s*(\d+)[:.]\s*|^(\d+)\.\s+/i,
   );
 
   if (match) {
     const num = match[1] || match[2] || match[3] || match[4] || match[5];
-    const cleanText = questionText.slice(match[0].length).trim();
     return {
-      displayNumber: `[${num}]`,
-      cleanText,
+      displayNumber: `${num}`,
+      cleanText: questionText.slice(match[0].length).trim(),
     };
   }
 
   return {
-    displayNumber: `[${fallbackIndex + 1}]`,
+    displayNumber: `${fallbackIndex + 1}`,
     cleanText: questionText,
   };
 }
+
+const sectionWeight = (s: MondaiSection) =>
+  3 +
+  s.questions.length * 3 +
+  Math.ceil((s.passage?.length ?? 0) / 55) +
+  (s.passageImage ? 12 : 0) +
+  s.questions.filter(({ question }) => question.question_image).length * 8;
+
+/** Nét khoanh tròn vẽ tay, mỗi lần nghiêng khác nhau. */
+const Ring: React.FC<{ seed: number }> = ({ seed }) => (
+  <svg
+    className='paper-ring pointer-events-none absolute top-1/2 left-1/2 -mt-[1.05em] -ml-[1.05em] size-[2.1em] overflow-visible print:hidden'
+    style={{ transform: `rotate(${((seed * 37) % 36) - 18}deg)` }}
+    viewBox='0 0 40 40'
+    aria-hidden='true'
+  >
+    <path
+      pathLength={1}
+      d='M20 4C30 3 37 11 36 21 35 31 27 37 18 36 9 35 3 28 4 19 5 10 13 5 24 5'
+      fill='none'
+      stroke='#c4372b'
+      strokeWidth={1.7}
+      strokeLinecap='round'
+    />
+  </svg>
+);
 
 export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
   title,
@@ -66,9 +104,15 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
   questions,
   answers,
   onSelectOption,
+  onClearOption,
+  penTool = null,
   printCleanMode = false,
   activeQuestionIndex,
 }) => {
+  const tool = penTool;
+  const [excluded, setExcluded] = useState<Set<string>>(new Set());
+  const [ringSeed, setRingSeed] = useState(1);
+
   // Group questions by Mondai / Part
   const sections = useMemo<MondaiSection[]>(() => {
     const map = new Map<string, MondaiSection>();
@@ -79,13 +123,16 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
         map.set(partName, {
           partName,
           passage: q.passage?.trim(),
+          passageImage: q.passage_image?.trim(),
           passageTitle: q.passage_title?.trim(),
           questions: [],
         });
       }
 
       const section = map.get(partName)!;
-      // If later questions have passage and section hasn't captured it yet
+      if (!section.passageImage && q.passage_image?.trim()) {
+        section.passageImage = q.passage_image.trim();
+      }
       if (!section.passage && q.passage?.trim()) {
         section.passage = q.passage.trim();
         section.passageTitle = q.passage_title?.trim();
@@ -97,10 +144,7 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
       );
 
       section.questions.push({
-        question: {
-          ...q,
-          question: cleanText,
-        },
+        question: { ...q, question: cleanText },
         globalIndex: idx,
         displayNumber,
       });
@@ -109,168 +153,266 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
     return Array.from(map.values());
   }, [questions]);
 
+  // Gom các phần vào từng tờ giấy (tờ đầu có thêm phần đầu đề).
+  const pages = useMemo<MondaiSection[][]>(() => {
+    const result: MondaiSection[][] = [];
+    let current: MondaiSection[] = [];
+    let load = 8;
+    sections.forEach(section => {
+      const w = sectionWeight(section);
+      if (current.length > 0 && load + w > PAGE_CAPACITY) {
+        result.push(current);
+        current = [];
+        load = 0;
+      }
+      current.push(section);
+      load += w;
+    });
+    if (current.length > 0) result.push(current);
+    return result;
+  }, [sections]);
+
+  const toggleExcluded = (key: string) =>
+    setExcluded(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+
+  // Bút dạ / gạch chân: bọc vùng đang chọn; tẩy: gỡ lớp bọc khi bấm vào.
+  const handlePaperMouseUp = () => {
+    if (tool !== 'hl' && tool !== 'ul') return;
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const host = range.commonAncestorContainer.parentElement;
+    if (!host?.closest('[data-paper-text]')) return;
+    const mark = document.createElement('span');
+    mark.setAttribute('data-pen', tool);
+    mark.className =
+      tool === 'hl'
+        ? 'bg-[rgba(255,214,51,0.55)]'
+        : 'underline decoration-[#c4372b] decoration-2 underline-offset-4';
+    try {
+      range.surroundContents(mark);
+    } catch {
+      // Vùng chọn cắt ngang nhiều thẻ: bỏ qua, không đánh dấu.
+    }
+    sel.removeAllRanges();
+  };
+
+  const handlePaperClick = (e: React.MouseEvent) => {
+    if (tool !== 'er') return;
+    const pen = (e.target as HTMLElement).closest('[data-pen]');
+    if (!pen || !pen.parentNode) return;
+    const parent = pen.parentNode;
+    while (pen.firstChild) parent.insertBefore(pen.firstChild, pen);
+    pen.remove();
+    parent.normalize();
+  };
+
   return (
-    <div
-      className='relative mx-auto w-full max-w-[860px] rounded-2xl border-2 border-(--border-color) bg-(--card-color) p-6 shadow-xl transition-all sm:p-10 md:p-12 print:max-w-none print:rounded-none print:border-none print:bg-white print:p-0 print:text-black print:shadow-none'
-      style={{
-        minHeight: '1120px',
-      }}
-    >
-      {/* Authentic Watermark */}
-      <ExerciseWatermark />
+    <div className='flex flex-col items-center gap-6 print:block'>
+      {pages.map((pageSections, pageIdx) => {
+        const isFirst = pageIdx === 0;
+        const isLast = pageIdx === pages.length - 1;
 
-      {/* Printable Exam Paper Header */}
-      <div className='relative z-10 space-y-4 border-b-2 border-(--border-color)/80 pb-6 print:border-neutral-900 print:pb-4'>
-        {/* Main Title */}
-        <div className='text-center'>
-          <h1 className='font-mixed text-xl font-extrabold tracking-wide text-rose-600 sm:text-2xl md:text-3xl print:text-xl print:text-black'>
-            {title.toUpperCase()}
-          </h1>
-          {timeLimitMinutes > 0 && (
-            <p className='font-vietnamese mt-1 text-xs font-semibold text-(--secondary-color) print:text-neutral-700'>
-              Thời gian làm bài: {timeLimitMinutes} phút • Tổng số:{' '}
-              {totalQuestions} câu
-            </p>
-          )}
-        </div>
+        return (
+          <article
+            key={pageIdx}
+            data-paper-text
+            onMouseUp={handlePaperMouseUp}
+            onClick={handlePaperClick}
+            className='paper-vi relative w-full max-w-[794px] px-6 pt-10 pb-20 shadow-[0_1px_2px_rgba(60,50,30,0.25),0_14px_30px_-14px_rgba(60,50,30,0.45)] sm:px-12 sm:pt-12 md:min-h-[1123px] md:px-[72px] md:pt-16 print:max-w-none print:break-after-page print:p-0 print:shadow-none'
+            style={{
+              background: PAPER,
+              color: INK,
+              lineHeight: 1.95,
+            }}
+          >
+            <ExerciseWatermark />
 
-        {/* Student Name and Test Info (Prominently visible in Print, subtle on Web) */}
-        <div className='font-vietnamese grid grid-cols-1 gap-2 pt-2 text-xs font-semibold sm:grid-cols-3 print:grid print:grid-cols-3 print:pt-1 print:text-[11px] print:text-neutral-900'>
-          <div className='flex items-center gap-1.5'>
-            <span>Họ và tên:</span>
-            <span className='flex-1 border-b border-dotted border-current opacity-70'></span>
-          </div>
-          <div className='flex items-center gap-1.5'>
-            <span>Lớp / Mã SV:</span>
-            <span className='flex-1 border-b border-dotted border-current opacity-70'></span>
-          </div>
-          <div className='flex items-center gap-1.5'>
-            <span>Điểm số:</span>
-            <span className='flex-1 border-b border-dotted border-current opacity-70'></span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Questions Body */}
-      <div className='relative z-10 mt-6 space-y-8 print:mt-4 print:space-y-6'>
-        {sections.map((section, sIdx) => {
-          return (
-            <section
-              key={sIdx}
-              className='space-y-5 print:break-inside-auto print:space-y-4'
-            >
-              {/* Mondai / Part Header Banner */}
-              <div className='rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2.5 text-blue-600 dark:text-blue-400 print:border-none print:bg-transparent print:p-0 print:text-blue-700'>
-                <h2 className='font-mixed text-sm leading-relaxed font-bold tracking-wide sm:text-base print:text-[13px]'>
-                  <FormattedText text={section.partName} />
-                </h2>
-              </div>
-
-              {/* Shared Reading Passage if present */}
-              {section.passage && (
-                <div className='rounded-2xl border-2 border-dashed border-(--border-color) bg-(--background-color)/60 p-4 sm:p-5 print:rounded-lg print:border print:border-neutral-300 print:bg-neutral-50/50 print:p-3'>
-                  <div className='font-vietnamese mb-2 flex items-center gap-2 text-xs font-bold text-(--main-color) print:text-black'>
-                    <BookOpen className='size-4 text-blue-500' />
-                    <span>{section.passageTitle || 'Đoạn văn đọc hiểu'}</span>
-                  </div>
-                  <div className='font-mixed text-sm leading-loose whitespace-pre-line text-(--main-color) sm:text-base print:text-xs print:leading-relaxed print:text-neutral-800'>
-                    <FormattedText text={section.passage} />
-                  </div>
+            {/* Đầu đề: chỉ ở tờ đầu */}
+            {isFirst && (
+              <div className='relative z-10 grid grid-cols-1 items-end gap-5 border-b-2 border-[#1d1d1b] pb-3.5 sm:grid-cols-[1fr_auto]'>
+                <div>
+                  <h1 className='text-xl leading-snug font-bold tracking-wide sm:text-[21px]'>
+                    <FormattedText text={title} paper />
+                  </h1>
+                  {timeLimitMinutes > 0 && (
+                    <p className='text-xs leading-normal tracking-wide text-[#55524b]'>
+                      Thời gian làm bài: {timeLimitMinutes} phút · Tổng số:{' '}
+                      {totalQuestions} câu
+                    </p>
+                  )}
                 </div>
-              )}
+                <div className='grid min-w-[220px] gap-2 text-xs leading-snug'>
+                  {['Họ và tên', 'Lớp / Mã SV'].map(label => (
+                    <div key={label} className='flex items-end gap-2'>
+                      <span>{label}</span>
+                      <span className='h-[18px] flex-1 border-b border-[#1d1d1b]' />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-              {/* Questions under this Mondai */}
-              <div className='space-y-4 sm:space-y-5 print:space-y-3.5'>
-                {section.questions.map(
-                  ({ question: q, globalIndex, displayNumber }) => {
-                    const qKey = String(q.id || globalIndex + 1);
-                    const selectedLetter = answers[qKey];
-                    const isCurrentFocus = activeQuestionIndex === globalIndex;
+            {isFirst && (
+              <div className='relative z-10 mt-4 border border-[#1d1d1b] px-4 py-2 text-[13px] leading-[1.8] print:hidden'>
+                <b className='mr-2 inline-block border border-[#1d1d1b] px-1.5 leading-normal'>
+                  Lưu ý
+                </b>
+                <FormattedText
+                  text='Bấm vào ①②③④ để khoanh đáp án, bấm lần nữa để bỏ khoanh. Bấm chuột phải vào một đáp án để gạch bỏ.'
+                  paper
+                />
+              </div>
+            )}
 
-                    return (
-                      <div
-                        key={qKey}
-                        id={`q-item-${globalIndex}`}
-                        className={`group relative scroll-mt-24 rounded-2xl p-3 transition-all sm:p-4 print:p-1 ${
-                          isCurrentFocus
-                            ? 'bg-(--main-color)/10 ring-2 ring-(--main-color)/40 print:bg-transparent print:ring-0'
-                            : 'hover:bg-(--background-color)/50 print:bg-transparent'
-                        }`}
-                        style={{
-                          breakInside: 'avoid',
-                          pageBreakInside: 'avoid',
-                        }}
-                      >
-                        {/* Question Text */}
-                        <div className='flex items-start gap-2.5 text-sm sm:text-base print:text-[13px]'>
-                          <span className='font-vietnamese shrink-0 font-extrabold text-(--main-color) print:text-black'>
+            <div className='relative z-10'>
+              {pageSections.map((section, sIdx) => (
+                <section
+                  key={section.partName}
+                  className={cn(
+                    'print:break-inside-auto',
+                    isFirst && sIdx === 0 ? 'mt-6' : 'mt-8 first:mt-0',
+                  )}
+                >
+                  {/* Tiêu đề phần (Mondai) */}
+                  <h2 className='mb-1.5 text-[15px] leading-relaxed font-bold tracking-wider'>
+                    <FormattedText text={section.partName} paper />
+                  </h2>
+
+                  {/* Đoạn văn / ảnh dùng chung */}
+                  {(section.passage || section.passageImage) && (
+                    <div className='my-3 border border-[#1d1d1b] px-5 py-3.5 text-[15.5px] leading-[2.05] whitespace-pre-line print:py-2'>
+                      {section.passageTitle && (
+                        <div className='mb-1 text-[13px] font-bold tracking-wider'>
+                          {section.passageTitle}
+                        </div>
+                      )}
+                      {section.passage && (
+                        <FormattedText text={section.passage} paper />
+                      )}
+                      {section.passageImage && (
+                        <ExerciseImage
+                          src={section.passageImage}
+                          alt={section.passageTitle || 'Hình đề bài'}
+                          className='mt-3'
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  {/* Các câu hỏi trong phần này */}
+                  {section.questions.map(
+                    ({ question: q, globalIndex, displayNumber }) => {
+                      const qKey = String(q.id || globalIndex + 1);
+                      const selectedLetter = answers[qKey];
+                      const isCurrentFocus =
+                        activeQuestionIndex === globalIndex;
+
+                      return (
+                        <div
+                          key={qKey}
+                          id={`q-item-${globalIndex}`}
+                          className='relative grid scroll-mt-24 grid-cols-[34px_minmax(0,1fr)] gap-x-1.5 py-2.5'
+                          style={{ breakInside: 'avoid' }}
+                        >
+                          <span
+                            className={cn(
+                              'mt-1 size-[26px] self-start border border-[#1d1d1b] text-center text-[13px] leading-6 font-semibold',
+                              isCurrentFocus && 'bg-[#1d1d1b] text-[#fffdf7]',
+                            )}
+                          >
                             {displayNumber}
                           </span>
-                          <div className='leading-relaxed font-bold text-(--main-color) print:text-black'>
-                            <FormattedText text={q.question} />
+
+                          <div className='min-w-0'>
+                            <p className='text-base whitespace-pre-line'>
+                              <FormattedText text={q.question} paper />
+                            </p>
+                            {q.question_image && (
+                              <ExerciseImage
+                                src={q.question_image}
+                                alt={`Hình câu ${displayNumber}`}
+                                className='mt-2 max-w-md'
+                              />
+                            )}
+
+                            <div className='mt-0.5 flex flex-wrap gap-x-7'>
+                              {q.options.map((optionText, optIdx) => {
+                                const letter = OPTION_LETTERS[optIdx] || 'A';
+                                const isSelected =
+                                  !printCleanMode && selectedLetter === letter;
+                                const exKey = `${qKey}:${letter}`;
+                                const isOut = excluded.has(exKey);
+
+                                return (
+                                  <button
+                                    key={letter}
+                                    type='button'
+                                    onClick={() => {
+                                      if (isSelected) {
+                                        onClearOption?.(qKey);
+                                      } else {
+                                        setRingSeed(s => s + 1);
+                                        onSelectOption(qKey, letter);
+                                      }
+                                    }}
+                                    onContextMenu={e => {
+                                      e.preventDefault();
+                                      toggleExcluded(exKey);
+                                    }}
+                                    className='inline-flex cursor-pointer items-baseline gap-1.5 px-0.5 text-left text-[15.5px] select-none focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-dashed'
+                                  >
+                                    <span className='paper-ja relative inline-block w-[1.3em] text-center'>
+                                      {CIRCLE_OPTIONS[optIdx] ||
+                                        `(${optIdx + 1})`}
+                                      {isSelected && (
+                                        <Ring seed={ringSeed + optIdx} />
+                                      )}
+                                    </span>
+                                    <span
+                                      className={cn(
+                                        // Đáp án đã khoanh: chữ đậm + vệt bút dạ đỏ dịu
+                                        isSelected &&
+                                          'bg-[linear-gradient(transparent_18%,rgba(255,158,199,0.5)_18%,rgba(255,158,199,0.5)_88%,transparent_88%)] px-1 font-semibold',
+                                        isOut &&
+                                          'line-through opacity-40 print:no-underline print:opacity-100',
+                                      )}
+                                    >
+                                      <FormattedText text={optionText} paper />
+                                    </span>
+                                  </button>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
+                      );
+                    },
+                  )}
+                </section>
+              ))}
 
-                        {/* Options Row / Grid */}
-                        <div className='mt-2.5 grid grid-cols-1 gap-2 pl-2 sm:grid-cols-2 lg:grid-cols-4 print:mt-1.5 print:grid-cols-4 print:gap-1.5 print:pl-0'>
-                          {q.options.map((optionText, optIdx) => {
-                            const letter = OPTION_LETTERS[optIdx] || 'A';
-                            const circleDigit =
-                              CIRCLE_OPTIONS[optIdx] || `(${optIdx + 1})`;
-                            const isSelected =
-                              !printCleanMode && selectedLetter === letter;
+              {isLast && (
+                <div className='mt-9 text-center text-sm tracking-[0.4em]'>
+                  — Hết —
+                  <p className='mt-2 text-[11px] tracking-normal text-[#55524b]'>
+                    Tài liệu được biên soạn bởi Phan Thắm SS
+                  </p>
+                </div>
+              )}
+            </div>
 
-                            return (
-                              <button
-                                key={letter}
-                                type='button'
-                                onClick={() => onSelectOption(qKey, letter)}
-                                className={`group/btn flex items-center gap-2 rounded-xl border px-3 py-2 text-left text-xs transition-all select-none sm:text-sm print:border-none print:p-0 print:text-[12px] ${
-                                  isSelected
-                                    ? 'border-(--main-color) bg-(--main-color)/15 font-bold text-(--main-color) shadow-xs ring-1 ring-(--main-color)/40 print:font-bold print:text-black'
-                                    : 'border-(--border-color)/70 bg-(--background-color)/50 text-(--secondary-color) hover:border-(--main-color)/60 hover:text-(--main-color) print:bg-transparent print:text-neutral-800'
-                                }`}
-                              >
-                                {/* Circled Digit: ①, ②, ③, ④ */}
-                                <span
-                                  className={`font-japanese flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-all sm:text-sm print:size-auto print:font-bold ${
-                                    isSelected
-                                      ? 'bg-(--main-color) text-(--background-color) print:bg-transparent print:text-black print:underline'
-                                      : 'text-(--secondary-color) group-hover/btn:text-(--main-color) print:text-black'
-                                  }`}
-                                >
-                                  {circleDigit}
-                                </span>
-
-                                {/* Option Text */}
-                                <span className='font-mixed truncate leading-snug'>
-                                  <FormattedText text={optionText} />
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  },
-                )}
-              </div>
-            </section>
-          );
-        })}
-      </div>
-
-      {/* Authentic A4 Document Footer */}
-      <div className='font-vietnamese relative z-10 mt-12 flex items-center justify-between border-t border-(--border-color)/60 pt-6 text-xs text-(--secondary-color) print:mt-8 print:border-neutral-300 print:pt-4 print:text-neutral-600'>
-        <div className='font-mono font-medium'>
-          Trang 1 / 1 • Tổng số: {totalQuestions} câu
-        </div>
-
-        {/* Branding Badge (Matching exactly user screenshot blue badge) */}
-        <div className='inline-flex items-center rounded-lg bg-[#0070c0] px-3 py-1 text-[11px] font-bold text-white shadow-xs print:bg-[#0070c0] print:text-white'>
-          Tài liệu được biên soạn bởi Phan Thắm SS
-        </div>
-      </div>
+            <div className='absolute inset-x-0 bottom-8 text-center text-[13px] text-[#55524b] print:bottom-2'>
+              - {pageIdx + 1} -
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 };

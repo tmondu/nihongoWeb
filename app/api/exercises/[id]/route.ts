@@ -63,7 +63,9 @@ export async function GET(
       part_name: q.part_name || 'Bài 1',
       passage_title: q.passage_title,
       passage: q.passage,
+      passage_image: q.passage_image,
       question: q.question,
+      question_image: q.question_image,
       options: q.options,
     }));
 

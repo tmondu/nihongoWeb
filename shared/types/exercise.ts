@@ -3,8 +3,10 @@ export interface ExerciseQuestion {
   part_name?: string; // e.g. "Bài 1", "Bài 2", "Mondai 1"
   passage_title?: string;
   passage?: string;
+  passage_image?: string; // image-only or image+text passage (tables, flyers)
   question: string;
-  options: string[]; // 4 options
+  question_image?: string; // image shown with the question
+  options: string[]; // 2-4 options (listening parts may have 3)
   correct_answer: string; // 'A' | 'B' | 'C' | 'D' or option text
   explanation?: string;
   explanation_image?: string; // Cloudflare R2 or public image URL
@@ -61,7 +63,9 @@ export interface QuestionResultItem {
   part_name?: string;
   passage_title?: string;
   passage?: string;
+  passage_image?: string;
   question: string;
+  question_image?: string;
   options: string[];
   user_answer: string;
   correct_answer: string;

@@ -6,36 +6,51 @@ interface FormattedTextProps {
   text: string;
   className?: string;
   highlightBlank?: string;
+  /** Giao diện tờ đề giấy: chữ Nhật dùng Mincho, chữ Việt dùng serif; ô trống và gạch chân kiểu in. */
+  paper?: boolean;
 }
 
 /**
- * Regex detecting Japanese characters:
- * Hiragana (\u3040-\u309f), Katakana (\u30a0-\u30ff), Kanji (\u4e00-\u9faf),
- * Japanese brackets / punctuation (「」『』【】・ー)
+ * Các khoảng ký tự được coi là chữ Nhật (dùng cho cả nhận diện lẫn tách đoạn):
+ * - Hiragana ぀-ゟ, Katakana ゠-ヿ và ㇰ-ㇿ
+ * - Kanji 一-龯, 㐀-䶿
+ * - Dấu câu CJK 　-〿 (「」『』【】〜、。 và khoảng trắng toàn chiều rộng)
+ * - Số khoanh tròn ①②③ ①-⓿
+ * - Dạng full/half-width ＀-￯ (（）＿！？ và katakana nửa chiều rộng)
+ * Hai nhóm sau trước đây bị coi là "tiếng Việt" nên rơi vào font Việt không có glyph.
  */
-const JAPANESE_CHAR_REGEX =
-  /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf\u3000-\u303f]/;
+const JA_RANGES = '぀-ゟ゠-ヿㇰ-ㇿ㐀-䶿一-龯　-〿①-⓿＀-￯';
+
+const JAPANESE_CHAR_REGEX = new RegExp(`[${JA_RANGES}]`);
+
+// Một "đoạn Nhật" gồm các ký tự Nhật, kể cả khi bị ngăn bằng dấu cách thường
+// (đề N5/N4 hay viết "まいあさ 新聞を よみます"), để không đổi font giữa các từ.
+const JAPANESE_RUN_SPLIT = new RegExp(
+  `([${JA_RANGES}]+(?:[ \\t]+[${JA_RANGES}]+)*)`,
+  'g',
+);
 
 /**
- * Intelligently separates and renders text segments with proper font styling
- * so Vietnamese uses Be Vietnam Pro and Japanese uses Zen Maru Gothic / Noto Sans JP.
+ * Tách đoạn chữ Nhật và chữ Việt/Latin rồi gán font riêng cho từng đoạn.
+ * - Mặc định: .font-japanese / .font-vietnamese (font người dùng chọn).
+ * - paper: .paper-ja (Mincho) / .paper-vi (serif có dấu tiếng Việt), định nghĩa trong globals.css.
  */
-function renderSegmentWithFont(str: string, keyPrefix: string) {
+function renderSegmentWithFont(str: string, keyPrefix: string, paper = false) {
   if (!str) return null;
 
-  // Split into tokens of Japanese sequences and non-Japanese sequences
-  const segments = str.split(
-    /([\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf\u3000-\u303f]+)/g,
-  );
+  const segments = str.split(JAPANESE_RUN_SPLIT);
 
   return segments.map((seg, sIdx) => {
     if (!seg) return null;
     const isJapanese = JAPANESE_CHAR_REGEX.test(seg);
 
+    let fontClass = isJapanese ? 'font-japanese' : 'font-vietnamese';
+    if (paper) fontClass = isJapanese ? 'paper-ja' : 'paper-vi';
+
     return (
       <span
         key={`${keyPrefix}-${sIdx}`}
-        className={isJapanese ? 'font-japanese' : 'font-vietnamese'}
+        className={fontClass}
         lang={isJapanese ? 'ja' : 'vi'}
       >
         {seg}
@@ -52,6 +67,7 @@ export const FormattedText: React.FC<FormattedTextProps> = ({
   text,
   className = '',
   highlightBlank,
+  paper = false,
 }) => {
   if (!text) return null;
 
@@ -61,11 +77,21 @@ export const FormattedText: React.FC<FormattedTextProps> = ({
   );
 
   return (
-    <span className={`font-mixed ${className}`}>
+    <span className={`${paper ? '' : 'font-mixed'} ${className}`}>
       {parts.map((part, index) => {
         const match = part.match(/\[\s*(\d+|★|\*)\s*\]|【\s*(\d+|★|\*)\s*】/);
         if (match) {
           const tagContent = (match[1] || match[2] || '').trim();
+          if (paper) {
+            return (
+              <span
+                key={index}
+                className='paper-vi mx-1 inline-block min-w-8 border border-current px-1.5 text-center text-[0.85em] leading-snug font-semibold'
+              >
+                {tagContent}
+              </span>
+            );
+          }
           const isActive =
             highlightBlank &&
             (highlightBlank === tagContent ||
@@ -104,19 +130,23 @@ export const FormattedText: React.FC<FormattedTextProps> = ({
                   return (
                     <span
                       key={uIdx}
-                      className='border-b-2 border-current pb-0.5 font-bold tracking-wide'
+                      className={
+                        paper
+                          ? 'underline decoration-1 underline-offset-4'
+                          : 'border-b-2 border-current pb-0.5 font-bold tracking-wide'
+                      }
                     >
-                      {renderSegmentWithFont(uSub, `u-${index}-${uIdx}`)}
+                      {renderSegmentWithFont(uSub, `u-${index}-${uIdx}`, paper)}
                     </span>
                   );
                 }
-                return renderSegmentWithFont(uSub, `p-${index}-${uIdx}`);
+                return renderSegmentWithFont(uSub, `p-${index}-${uIdx}`, paper);
               })}
             </span>
           );
         }
 
-        return renderSegmentWithFont(part, `part-${index}`);
+        return renderSegmentWithFont(part, `part-${index}`, paper);
       })}
     </span>
   );

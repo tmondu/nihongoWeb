@@ -3,7 +3,9 @@ export interface ExerciseQuestion {
   part_name?: string;
   passage_title?: string;
   passage?: string;
+  passage_image?: string;
   question: string;
+  question_image?: string;
   options: string[];
   correct_answer: string;
   explanation?: string;
@@ -54,6 +56,7 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
 
     let passageTitle: string | undefined = undefined;
     let passageContent: string | undefined = undefined;
+    let passageImage: string | undefined = undefined;
     let questionsText = trimmedSegment;
 
     const passageMatch = trimmedSegment.match(
@@ -62,7 +65,14 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
 
     if (passageMatch) {
       passageTitle = (passageMatch[1] || '').trim() || undefined;
-      passageContent = (passageMatch[2] || '').trim() || undefined;
+      const rawPassage = passageMatch[2] || '';
+      const passageImgMatch = rawPassage.match(
+        /^\s*PASSAGE_IMAGE[:\s]+(\S+)\s*$/im,
+      );
+      passageImage = passageImgMatch?.[1];
+      passageContent =
+        rawPassage.replace(/^\s*PASSAGE_IMAGE[:\s]+\S+\s*$/im, '').trim() ||
+        undefined;
       questionsText = (passageMatch[3] || '').trim();
     }
 
@@ -97,6 +107,7 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
       let correctAnswer = '';
       let explanation = '';
       let explanationImage = '';
+      let questionImage = '';
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -122,6 +133,14 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
         );
         if (explMatch) {
           explanation = explMatch[1].trim();
+          continue;
+        }
+
+        const qImgMatch = line.match(
+          /^(?:QUESTION_IMAGE|ẢNH ĐỀ|ANH DE)[:\s]+(\S+)/i,
+        );
+        if (qImgMatch) {
+          questionImage = qImgMatch[1].trim();
           continue;
         }
 
@@ -168,7 +187,9 @@ export function parseAikenFormat(text: string): ExerciseQuestion[] {
           part_name: currentPartName || 'Bài 1',
           passage_title: passageTitle,
           passage: passageContent,
+          passage_image: passageImage,
           question: questionText.trim(),
+          question_image: questionImage || undefined,
           options: options.slice(0, 4),
           correct_answer: normAnswer,
           explanation: explanation || undefined,
@@ -256,7 +277,13 @@ export function parseJsonFormat(jsonText: string): ExerciseQuestion[] {
         ? String(item.passage_title)
         : undefined,
       passage: item.passage ? String(item.passage) : undefined,
+      passage_image: item.passage_image
+        ? String(item.passage_image)
+        : undefined,
       question: String(item.question || ''),
+      question_image: item.question_image
+        ? String(item.question_image)
+        : undefined,
       options: Array.isArray(item.options) ? item.options.map(String) : [],
       correct_answer: String(item.correct_answer || 'A').toUpperCase(),
       explanation: item.explanation ? String(item.explanation) : undefined,
@@ -363,6 +390,7 @@ export function questionsToAiken(rawQuestions: unknown): string {
   const chunks: string[] = [];
   let currentPassage: string | null = null;
   let currentPassageTitle: string | null = null;
+  let currentPassageImage: string | null = null;
   let currentPart: string | null = null;
 
   for (let i = 0; i < questions.length; i++) {
@@ -388,14 +416,30 @@ export function questionsToAiken(rawQuestions: unknown): string {
         ? q.passage_title.trim()
         : null;
 
+    const qPassageImage =
+      typeof q.passage_image === 'string' && q.passage_image.trim().length > 0
+        ? q.passage_image.trim()
+        : null;
+
     // Check if passage changed
-    if (qPassage !== currentPassage || qPassageTitle !== currentPassageTitle) {
-      if (qPassage) {
+    if (
+      qPassage !== currentPassage ||
+      qPassageTitle !== currentPassageTitle ||
+      qPassageImage !== currentPassageImage
+    ) {
+      if (qPassage || qPassageImage) {
         const titlePart = qPassageTitle ? `: ${qPassageTitle}` : '';
-        chunks.push(`[PASSAGE${titlePart}]\n${qPassage}\n[/PASSAGE]`);
+        const body = [
+          qPassage,
+          qPassageImage && `PASSAGE_IMAGE: ${qPassageImage}`,
+        ]
+          .filter(Boolean)
+          .join('\n');
+        chunks.push(`[PASSAGE${titlePart}]\n${body}\n[/PASSAGE]`);
       }
       currentPassage = qPassage;
       currentPassageTitle = qPassageTitle;
+      currentPassageImage = qPassageImage;
     }
 
     const questionLines: string[] = [];
@@ -406,6 +450,9 @@ export function questionsToAiken(rawQuestions: unknown): string {
         : String(q.question || '').trim();
 
     questionLines.push(`Câu ${questionNum}: ${qText}`);
+    if (typeof q.question_image === 'string' && q.question_image.trim()) {
+      questionLines.push(`QUESTION_IMAGE: ${q.question_image.trim()}`);
+    }
 
     const letters = ['A', 'B', 'C', 'D'];
     const options = Array.isArray(q.options) ? q.options : [];

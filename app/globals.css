@@ -538,3 +538,35 @@ input:-webkit-autofill:active {
     margin-bottom: 1rem !important;
   }
 }
+
+/* Exercises: nét khoanh tay trên tờ đề A4 */
+.paper-ring path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: paper-ring-draw 0.28s ease-out forwards;
+}
+
+@keyframes paper-ring-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-ring path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Exercises: font tờ đề giấy. Đặt sau .font-japanese / [lang='ja'] (cùng !important) để thắng theo thứ tự. */
+.paper-ja,
+.paper-ja[lang='ja'] {
+  font-family:
+    'BIZ UDMincho', 'Yu Mincho', 'Hiragino Mincho ProN', 'Noto Serif JP',
+    'MS Mincho', serif !important;
+}
+
+.paper-vi {
+  font-family: 'Noto Serif', 'Times New Roman', Cambria, serif !important;
+}

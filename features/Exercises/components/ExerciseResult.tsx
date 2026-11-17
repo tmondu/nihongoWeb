@@ -27,6 +27,7 @@ import { useClick } from '@/shared/hooks/generic/useAudio';
 import { useAdminStatus } from '@/shared/hooks/generic/useAdminStatus';
 import { FormattedText } from './FormattedText';
 import { ExerciseWatermark } from './ExerciseWatermark';
+import { ExerciseImage } from './ExerciseImage';
 
 interface ExerciseResultProps {
   result: SubmitExerciseResponse;
@@ -78,7 +79,7 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
           </span>
         </div>
 
-        {q.passage && (
+        {(q.passage || q.passage_image) && (
           <button
             type='button'
             onClick={() => setShowPassage(!showPassage)}
@@ -96,7 +97,7 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
       </div>
 
       {/* Collapsible Passage Box */}
-      {q.passage && (showPassage || true) && (
+      {(q.passage || q.passage_image) && (showPassage || true) && (
         <div
           className={`my-3.5 rounded-2xl border border-(--border-color) bg-(--background-color) p-3.5 transition-all print:border-neutral-200 print:bg-neutral-50 print:p-2.5 ${
             !showPassage ? 'hidden print:block' : 'block'
@@ -107,7 +108,17 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
             <span>{q.passage_title || 'Bài đọc liên quan'}</span>
           </div>
           <div className='max-h-48 overflow-y-auto pr-1 text-xs leading-loose font-normal whitespace-pre-line text-(--secondary-color) sm:text-sm print:max-h-none print:text-xs print:text-neutral-800'>
-            <FormattedText text={q.passage} highlightBlank={String(idx + 1)} />
+            <FormattedText
+              text={q.passage ?? ''}
+              highlightBlank={String(idx + 1)}
+            />
+            {q.passage_image && (
+              <ExerciseImage
+                src={q.passage_image}
+                alt={q.passage_title || 'Hình đề bài'}
+                className='mt-2'
+              />
+            )}
           </div>
         </div>
       )}
@@ -116,6 +127,13 @@ const ReviewQuestionCard: React.FC<ReviewQuestionCardProps> = ({
         <p className='text-sm leading-relaxed font-semibold text-(--main-color) sm:text-base print:text-xs print:text-black'>
           <FormattedText text={q.question} />
         </p>
+        {q.question_image && (
+          <ExerciseImage
+            src={q.question_image}
+            alt={`Hình câu ${idx + 1}`}
+            className='mt-2.5 max-w-md'
+          />
+        )}
       </div>
 
       {/* Options */}

@@ -1,16 +1,11 @@
 'use client';
 
 import React from 'react';
-import {
-  Clock,
-  Printer,
-  Send,
-  ArrowUp,
-  SlidersHorizontal,
-  CheckCircle2,
-} from 'lucide-react';
+import { Printer, Send, ArrowUp } from 'lucide-react';
 import { PublicQuestion } from '@/shared/types/exercise';
 import { useClick } from '@/shared/hooks/generic/useAudio';
+import type { PenTool } from './ExerciseA4Paper';
+import { cn } from '@/shared/utils/utils';
 
 interface ExerciseA4SidebarProps {
   questions: PublicQuestion[];
@@ -19,13 +14,24 @@ interface ExerciseA4SidebarProps {
   timeLimitMinutes: number;
   onSubmitClick: () => void;
   onPrintClick: () => void;
-  viewMode: 'a4' | 'step';
-  onToggleViewMode: () => void;
   activeQuestionIndex?: number;
   onSelectQuestion?: (index: number) => void;
+  /** Tô đáp án trực tiếp trên phiếu; đồng bộ với tờ đề. */
+  onSelectOption?: (qKey: string, letter: string) => void;
+  onClearOption?: (qKey: string) => void;
+  penTool?: PenTool | null;
+  onPenToolChange?: (tool: PenTool | null) => void;
   isAdmin?: boolean;
 }
 
+const LETTERS = ['A', 'B', 'C', 'D'];
+const PEN_TOOLS: { id: PenTool; label: string }[] = [
+  { id: 'hl', label: 'Bút dạ' },
+  { id: 'ul', label: 'Gạch chân' },
+  { id: 'er', label: 'Tẩy' },
+];
+
+// Phiếu trả lời kiểu giấy: màu cố định giống tờ đề.
 export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
   questions,
   answers,
@@ -33,17 +39,17 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
   timeLimitMinutes,
   onSubmitClick,
   onPrintClick,
-  viewMode,
-  onToggleViewMode,
   activeQuestionIndex,
   onSelectQuestion,
+  onSelectOption,
+  onClearOption,
+  penTool = null,
+  onPenToolChange,
   isAdmin = false,
 }) => {
   const { playClick } = useClick();
   const totalQuestions = questions.length;
   const answeredCount = Object.keys(answers).length;
-  const progressPercent =
-    totalQuestions > 0 ? Math.round((answeredCount / totalQuestions) * 100) : 0;
 
   const formatTimer = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -53,113 +59,118 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
 
   const handleScrollToQuestion = (idx: number) => {
     playClick();
-    if (viewMode === 'step') {
-      onSelectQuestion?.(idx);
-      return;
-    }
-
-    const targetEl = document.getElementById(`q-item-${idx}`);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    onSelectQuestion?.(idx);
+    document
+      .getElementById(`q-item-${idx}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  const handleScrollToTop = () => {
+  const handleBubble = (qKey: string, letter: string) => {
     playClick();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (answers[qKey] === letter) onClearOption?.(qKey);
+    else onSelectOption?.(qKey, letter);
   };
 
   return (
-    <aside className='sticky top-6 space-y-4 select-none print:hidden'>
-      <div className='space-y-4 rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-lg'>
-        {/* Timer Card */}
+    <aside className='sticky top-6 space-y-3 select-none print:hidden'>
+      <div className='border border-[#1d1d1b] bg-[#fffdf7] text-[#1d1d1b] shadow-[0_10px_24px_-14px_rgba(60,50,30,0.5)]'>
+        <div className='flex items-center justify-between border-b-2 border-[#1d1d1b] px-3 py-2 text-xs font-semibold tracking-wider'>
+          <span className='paper-ja' lang='ja'>
+            解答用紙
+          </span>
+          <span className='font-mono tabular-nums'>
+            {answeredCount}/{totalQuestions}
+          </span>
+        </div>
+
         {timeLimitMinutes > 0 && (
           <div
-            className={`flex items-center justify-between rounded-2xl border p-3 font-mono font-bold transition-all ${
-              timeLeft < 120
-                ? 'animate-pulse border-red-500/40 bg-red-500/10 text-red-400'
-                : 'border-(--border-color) bg-(--background-color) text-(--main-color)'
-            }`}
+            className={cn(
+              'flex items-center justify-between border-b border-[#1d1d1b] px-3 py-1.5 font-mono text-sm font-semibold tabular-nums',
+              timeLeft <= 300 && 'bg-[#c4372b] text-[#fffdf7]',
+            )}
           >
-            <div className='flex items-center gap-2 text-xs'>
-              <Clock className='size-4 text-(--main-color)' />
-              <span>Thời gian còn:</span>
-            </div>
-            <span className='text-base tracking-wider'>
-              {formatTimer(timeLeft)}
+            <span className='font-vietnamese text-[11px] font-normal'>
+              Còn lại
             </span>
+            <span>{formatTimer(timeLeft)}</span>
           </div>
         )}
 
-        {/* Progress & Stats */}
-        <div className='space-y-2 rounded-2xl border border-(--border-color)/60 bg-(--background-color)/40 p-3.5'>
-          <div className='flex items-center justify-between text-xs font-semibold text-(--secondary-color)'>
-            <span>Tiến độ làm bài</span>
-            <span className='font-bold text-(--main-color)'>
-              {answeredCount}/{totalQuestions} câu ({progressPercent}%)
-            </span>
-          </div>
-          <div className='h-2 w-full overflow-hidden rounded-full bg-(--border-color)/40'>
-            <div
-              className='h-full rounded-full bg-(--main-color) transition-all duration-300'
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Quick Question Jump Palette */}
-        <div className='space-y-2'>
-          <div className='flex items-center justify-between text-xs font-bold text-(--secondary-color)'>
-            <span>Danh sách câu hỏi</span>
-            <span className='text-[11px] font-normal'>
-              (Bấm để chuyển nhanh)
-            </span>
-          </div>
-
-          <div className='max-h-[36vh] overflow-y-auto pr-1'>
-            <div className='grid grid-cols-5 gap-1.5'>
+        <div className='max-h-[52vh] overflow-y-auto'>
+          <table className='w-full border-collapse text-xs'>
+            <tbody>
               {questions.map((q, idx) => {
                 const qKey = String(q.id || idx + 1);
-                const isAnswered = Boolean(answers[qKey]);
                 const isCurrent = activeQuestionIndex === idx;
 
                 return (
-                  <button
-                    key={idx}
-                    type='button'
-                    onClick={() => handleScrollToQuestion(idx)}
-                    className={`flex size-8 items-center justify-center rounded-lg text-xs font-bold transition-all active:scale-90 ${
-                      isCurrent
-                        ? 'bg-(--main-color) text-(--background-color) shadow-md ring-2 ring-(--main-color)/40'
-                        : isAnswered
-                          ? 'border-2 border-(--main-color) bg-(--main-color)/20 font-bold text-(--main-color)'
-                          : 'border border-(--border-color) bg-(--background-color) text-(--secondary-color) hover:border-(--main-color)'
-                    }`}
-                    title={`Câu ${idx + 1}`}
+                  <tr
+                    key={qKey}
+                    className='border-b border-dotted border-[#b9b3a3]'
                   >
-                    {idx + 1}
-                  </button>
+                    <td className='w-9 border-r border-[#1d1d1b] p-0 text-center'>
+                      <button
+                        type='button'
+                        onClick={() => handleScrollToQuestion(idx)}
+                        title={`Đến câu ${idx + 1}`}
+                        className={cn(
+                          'font-vietnamese w-full py-1 font-semibold hover:bg-black/5',
+                          isCurrent &&
+                            'bg-[#1d1d1b] text-[#fffdf7] hover:bg-[#1d1d1b]',
+                        )}
+                      >
+                        {idx + 1}
+                      </button>
+                    </td>
+                    <td className='px-1 py-0.5 text-center'>
+                      {LETTERS.map((letter, i) => {
+                        const disabled = i >= q.options.length;
+                        const on = answers[qKey] === letter;
+                        return (
+                          <button
+                            key={letter}
+                            type='button'
+                            disabled={disabled}
+                            onClick={() => handleBubble(qKey, letter)}
+                            className={cn(
+                              'font-vietnamese mx-0.5 inline-block size-5 rounded-full border border-[#1d1d1b] text-[10px] leading-[18px]',
+                              on
+                                ? 'border-[#2a3140] bg-[#2a3140] text-white'
+                                : 'text-[#55524b] hover:bg-black/10',
+                              disabled &&
+                                'cursor-default opacity-25 hover:bg-transparent',
+                            )}
+                            aria-label={`Câu ${idx + 1}, đáp án ${i + 1}`}
+                            aria-pressed={on}
+                          >
+                            {i + 1}
+                          </button>
+                        );
+                      })}
+                    </td>
+                  </tr>
                 );
               })}
-            </div>
-          </div>
-
-          {/* Palette Status Legend */}
-          <div className='flex items-center justify-between border-t border-(--border-color)/50 pt-2 text-[10px] text-(--secondary-color)'>
-            <div className='flex items-center gap-1.5'>
-              <span className='size-2.5 rounded-sm border border-(--main-color) bg-(--main-color)/30' />
-              <span>Đã làm</span>
-            </div>
-            <div className='flex items-center gap-1.5'>
-              <span className='size-2.5 rounded-sm border border-(--border-color) bg-(--background-color)' />
-              <span>Chưa làm</span>
-            </div>
-          </div>
+            </tbody>
+          </table>
         </div>
 
-        {/* Action Controls */}
-        <div className='space-y-2 border-t border-(--border-color)/60 pt-3'>
-          {/* Print PDF Button (Only for Admin) */}
+        <div className='font-vietnamese space-y-2 border-t-2 border-[#1d1d1b] p-3'>
+          <button
+            type='button'
+            onClick={() => {
+              playClick();
+              onSubmitClick();
+            }}
+            className='flex w-full items-center justify-center gap-2 border border-[#1d1d1b] bg-[#1d1d1b] py-2.5 text-xs font-bold text-[#fffdf7] transition-transform active:translate-y-px'
+          >
+            <Send className='size-3.5' />
+            <span>
+              Nộp bài ({answeredCount}/{totalQuestions})
+            </span>
+          </button>
+
           {isAdmin && (
             <button
               type='button'
@@ -167,60 +178,54 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
                 playClick();
                 onPrintClick();
               }}
-              className='flex w-full items-center justify-center gap-2 rounded-2xl border border-(--border-color) bg-(--background-color) py-2.5 text-xs font-bold text-(--main-color) shadow-xs transition-all hover:border-(--main-color) hover:bg-(--main-color)/10 active:scale-95'
+              className='flex w-full items-center justify-center gap-2 border border-[#1d1d1b] py-2 text-xs font-semibold hover:bg-black/5'
             >
-              <Printer className='size-4 text-blue-500' />
-              <span>In đề thi / Xuất PDF (Admin)</span>
+              <Printer className='size-3.5' />
+              <span>In đề / Xuất PDF</span>
             </button>
           )}
 
-          {/* View Mode Toggle */}
           <button
             type='button'
             onClick={() => {
               playClick();
-              onToggleViewMode();
+              // Trang cuộn trong khung của layout, không phải window.
+              const container = document.querySelector(
+                '[data-scroll-restoration-id="container"]',
+              );
+              (container ?? window).scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className='flex w-full items-center justify-center gap-2 rounded-2xl border border-(--border-color) bg-(--background-color) py-2 text-xs font-semibold text-(--secondary-color) transition-all hover:text-(--main-color) active:scale-95'
+            className='flex w-full items-center justify-center gap-1.5 text-[11px] text-[#55524b] hover:text-[#1d1d1b]'
           >
-            <SlidersHorizontal className='size-3.5' />
-            <span>
-              {viewMode === 'a4'
-                ? 'Đổi sang xem từng câu'
-                : 'Đổi sang dạng Đề A4'}
-            </span>
+            <ArrowUp className='size-3' />
+            <span>Lên đầu đề thi</span>
           </button>
-
-          {/* Submit Test Button */}
-          <button
-            type='button'
-            onClick={() => {
-              playClick();
-              onSubmitClick();
-            }}
-            className='flex w-full items-center justify-center gap-2 rounded-2xl bg-(--main-color) py-3 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
-          >
-            {answeredCount === totalQuestions ? (
-              <CheckCircle2 className='size-4' />
-            ) : (
-              <Send className='size-4' />
-            )}
-            <span>
-              Nộp bài ({answeredCount}/{totalQuestions})
-            </span>
-          </button>
-
-          {/* Scroll to Top (Only in A4 scroll mode) */}
-          {viewMode === 'a4' && (
+        </div>
+        {/* Bút của thí sinh: nằm cuối phiếu, dưới nút Lên đầu đề thi */}
+        <div
+          role='group'
+          aria-label='Công cụ bút'
+          className='font-vietnamese flex divide-x divide-[#1d1d1b]/40 border-t border-[#1d1d1b]'
+        >
+          {PEN_TOOLS.map(({ id, label }) => (
             <button
+              key={id}
               type='button'
-              onClick={handleScrollToTop}
-              className='flex w-full items-center justify-center gap-1.5 py-1 text-[11px] font-medium text-(--secondary-color) transition-colors hover:text-(--main-color)'
+              aria-pressed={penTool === id}
+              onClick={() => {
+                playClick();
+                onPenToolChange?.(penTool === id ? null : id);
+              }}
+              className={cn(
+                'flex-1 py-2 text-[11px] font-semibold transition-colors',
+                penTool === id
+                  ? 'bg-[#1d1d1b] text-[#fffdf7]'
+                  : 'hover:bg-black/5',
+              )}
             >
-              <ArrowUp className='size-3' />
-              <span>Lên đầu đề thi</span>
+              {label}
             </button>
-          )}
+          ))}
         </div>
       </div>
     </aside>
