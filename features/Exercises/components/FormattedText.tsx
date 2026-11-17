@@ -8,6 +8,8 @@ interface FormattedTextProps {
   highlightBlank?: string;
   /** Giao diện tờ đề giấy: chữ Nhật dùng Mincho, chữ Việt dùng serif; ô trống và gạch chân kiểu in. */
   paper?: boolean;
+  /** Hiện phiên âm trên chữ Hán viết theo cú pháp [漢字:かな]. Mặc định bật. */
+  showFurigana?: boolean;
 }
 
 /**
@@ -30,14 +32,64 @@ const JAPANESE_RUN_SPLIT = new RegExp(
   'g',
 );
 
+// Furigana viết trực tiếp trong văn bản: [漢字:かんじ] (cùng cú pháp với Curriculum).
+// Phần chữ Hán không được chứa số hay ★ để không bị nhầm với ô trống [ 18 ].
+const FURIGANA_TOKEN = new RegExp(
+  '\\[([^\\[\\]:\\n]+):([^\\[\\]\\n]+)\\]',
+  'g',
+);
+
 /**
  * Tách đoạn chữ Nhật và chữ Việt/Latin rồi gán font riêng cho từng đoạn.
  * - Mặc định: .font-japanese / .font-vietnamese (font người dùng chọn).
  * - paper: .paper-ja (Mincho) / .paper-vi (serif có dấu tiếng Việt), định nghĩa trong globals.css.
  */
-function renderSegmentWithFont(str: string, keyPrefix: string, paper = false) {
+function renderSegmentWithFont(
+  str: string,
+  keyPrefix: string,
+  paper = false,
+  showFurigana = true,
+) {
   if (!str) return null;
 
+  // Tách các cụm [漢字:かな] ra trước: [text, kanji, kana, text, kanji, kana, ..., text]
+  const pieces = str.split(FURIGANA_TOKEN);
+  if (pieces.length > 1) {
+    const out: React.ReactNode[] = [];
+    for (let i = 0; i < pieces.length; i += 3) {
+      out.push(
+        ...[renderPlainSegments(pieces[i], `${keyPrefix}-t${i}`, paper)].flat(),
+      );
+      if (i + 2 < pieces.length) {
+        const kanji = pieces[i + 1];
+        const kana = pieces[i + 2];
+        const fontClass = paper ? 'paper-ja' : 'font-japanese';
+        out.push(
+          showFurigana ? (
+            <ruby key={`${keyPrefix}-r${i}`} lang='ja' className={fontClass}>
+              {kanji}
+              <rp>(</rp>
+              <rt className='text-[0.5em] font-normal tracking-normal select-none'>
+                {kana}
+              </rt>
+              <rp>)</rp>
+            </ruby>
+          ) : (
+            <span key={`${keyPrefix}-r${i}`} lang='ja' className={fontClass}>
+              {kanji}
+            </span>
+          ),
+        );
+      }
+    }
+    return out;
+  }
+
+  return renderPlainSegments(str, keyPrefix, paper);
+}
+
+function renderPlainSegments(str: string, keyPrefix: string, paper: boolean) {
+  if (!str) return null;
   const segments = str.split(JAPANESE_RUN_SPLIT);
 
   return segments.map((seg, sIdx) => {
@@ -68,6 +120,7 @@ export const FormattedText: React.FC<FormattedTextProps> = ({
   className = '',
   highlightBlank,
   paper = false,
+  showFurigana = true,
 }) => {
   if (!text) return null;
 
@@ -136,17 +189,32 @@ export const FormattedText: React.FC<FormattedTextProps> = ({
                           : 'border-b-2 border-current pb-0.5 font-bold tracking-wide'
                       }
                     >
-                      {renderSegmentWithFont(uSub, `u-${index}-${uIdx}`, paper)}
+                      {renderSegmentWithFont(
+                        uSub,
+                        `u-${index}-${uIdx}`,
+                        paper,
+                        showFurigana,
+                      )}
                     </span>
                   );
                 }
-                return renderSegmentWithFont(uSub, `p-${index}-${uIdx}`, paper);
+                return renderSegmentWithFont(
+                  uSub,
+                  `p-${index}-${uIdx}`,
+                  paper,
+                  showFurigana,
+                );
               })}
             </span>
           );
         }
 
-        return renderSegmentWithFont(part, `part-${index}`, paper);
+        return renderSegmentWithFont(
+          part,
+          `part-${index}`,
+          paper,
+          showFurigana,
+        );
       })}
     </span>
   );

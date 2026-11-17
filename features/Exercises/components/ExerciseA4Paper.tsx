@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { PublicQuestion } from '@/shared/types/exercise';
+import { PublicQuestion, QuestionResultItem } from '@/shared/types/exercise';
 import { cn } from '@/shared/utils/utils';
 import { FormattedText } from './FormattedText';
 import { ExerciseWatermark } from './ExerciseWatermark';
@@ -13,7 +13,14 @@ interface ExerciseA4PaperProps {
   totalQuestions: number;
   questions: PublicQuestion[];
   answers: Record<string, string>;
-  onSelectOption: (qKey: string, letter: string) => void;
+  onSelectOption?: (qKey: string, letter: string) => void;
+  /** Có kết quả chấm: tờ đề chuyển sang chế độ "bài đã chấm" bằng mực đỏ, không làm bài được nữa. */
+  /** Hiện phiên âm (furigana) trên chữ Hán. */
+  showFurigana?: boolean;
+  /** Các câu chưa làm cần tô đỏ ô số (sau khi bấm Nộp bài). */
+  flaggedQuestions?: Set<string>;
+  results?: QuestionResultItem[];
+  summary?: { score: number; total: number; passed: boolean };
   /** Bấm lại đáp án đang chọn để bỏ khoanh. */
   onClearOption?: (qKey: string) => void;
   /** Bút đang chọn (đặt ở phiếu đáp án). */
@@ -78,8 +85,20 @@ const sectionWeight = (s: MondaiSection) =>
   (s.passageImage ? 12 : 0) +
   s.questions.filter(({ question }) => question.question_image).length * 8;
 
+const RING_PATH =
+  'M20 4C30 3 37 11 36 21 35 31 27 37 18 36 9 35 3 28 4 19 5 10 13 5 24 5';
+const CROSS_PATH = 'M8 8L32 33M33 7L9 34';
+const RED = '#c4372b';
+const PENCIL = '#2a3140';
+// Chỉ dùng cho chữ số của điểm số (ASCII), nên không lo thiếu glyph tiếng Việt.
+const HAND_FONT =
+  "'Caveat', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive";
+
 /** Nét khoanh tròn vẽ tay, mỗi lần nghiêng khác nhau. */
-const Ring: React.FC<{ seed: number }> = ({ seed }) => (
+const Ring: React.FC<{ seed: number; color?: string }> = ({
+  seed,
+  color = RED,
+}) => (
   <svg
     className='paper-ring pointer-events-none absolute top-1/2 left-1/2 -mt-[1.05em] -ml-[1.05em] size-[2.1em] overflow-visible print:hidden'
     style={{ transform: `rotate(${((seed * 37) % 36) - 18}deg)` }}
@@ -88,9 +107,9 @@ const Ring: React.FC<{ seed: number }> = ({ seed }) => (
   >
     <path
       pathLength={1}
-      d='M20 4C30 3 37 11 36 21 35 31 27 37 18 36 9 35 3 28 4 19 5 10 13 5 24 5'
+      d={RING_PATH}
       fill='none'
-      stroke='#c4372b'
+      stroke={color}
       strokeWidth={1.7}
       strokeLinecap='round'
     />
@@ -104,12 +123,21 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
   questions,
   answers,
   onSelectOption,
+  showFurigana = true,
+  flaggedQuestions,
+  results,
+  summary,
   onClearOption,
   penTool = null,
   printCleanMode = false,
   activeQuestionIndex,
 }) => {
   const tool = penTool;
+  const graded = Boolean(results);
+  const resultByKey = useMemo(
+    () => new Map((results ?? []).map(r => [String(r.id), r])),
+    [results],
+  );
   const [excluded, setExcluded] = useState<Set<string>>(new Set());
   const [ringSeed, setRingSeed] = useState(1);
 
@@ -238,7 +266,11 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
               <div className='relative z-10 grid grid-cols-1 items-end gap-5 border-b-2 border-[#1d1d1b] pb-3.5 sm:grid-cols-[1fr_auto]'>
                 <div>
                   <h1 className='text-xl leading-snug font-bold tracking-wide sm:text-[21px]'>
-                    <FormattedText text={title} paper />
+                    <FormattedText
+                      text={title}
+                      paper
+                      showFurigana={showFurigana}
+                    />
                   </h1>
                   {timeLimitMinutes > 0 && (
                     <p className='text-xs leading-normal tracking-wide text-[#55524b]'>
@@ -247,18 +279,40 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                     </p>
                   )}
                 </div>
-                <div className='grid min-w-[220px] gap-2 text-xs leading-snug'>
-                  {['Họ và tên', 'Lớp / Mã SV'].map(label => (
-                    <div key={label} className='flex items-end gap-2'>
-                      <span>{label}</span>
-                      <span className='h-[18px] flex-1 border-b border-[#1d1d1b]' />
+                {graded && summary ? (
+                  <div
+                    className='mx-auto -rotate-6 text-center sm:mx-0'
+                    style={{ color: RED }}
+                  >
+                    <div
+                      className='rounded-[50%] px-7 py-3 leading-none'
+                      style={{ border: `3px solid ${RED}` }}
+                    >
+                      <span
+                        className='block text-4xl font-bold sm:text-5xl'
+                        style={{ fontFamily: HAND_FONT }}
+                      >
+                        {summary.score}/{summary.total}
+                      </span>
+                      <span className='mt-1 block text-sm italic'>
+                        {summary.passed ? 'Đạt' : 'Chưa đạt'}
+                      </span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ) : (
+                  <div className='grid min-w-[220px] gap-2 text-xs leading-snug'>
+                    {['Họ và tên', 'Lớp / Mã SV'].map(label => (
+                      <div key={label} className='flex items-end gap-2'>
+                        <span>{label}</span>
+                        <span className='h-[18px] flex-1 border-b border-[#1d1d1b]' />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
-            {isFirst && (
+            {isFirst && !graded && (
               <div className='relative z-10 mt-4 border border-[#1d1d1b] px-4 py-2 text-[13px] leading-[1.8] print:hidden'>
                 <b className='mr-2 inline-block border border-[#1d1d1b] px-1.5 leading-normal'>
                   Lưu ý
@@ -266,6 +320,7 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                 <FormattedText
                   text='Bấm vào ①②③④ để khoanh đáp án, bấm lần nữa để bỏ khoanh. Bấm chuột phải vào một đáp án để gạch bỏ.'
                   paper
+                  showFurigana={showFurigana}
                 />
               </div>
             )}
@@ -281,7 +336,11 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                 >
                   {/* Tiêu đề phần (Mondai) */}
                   <h2 className='mb-1.5 text-[15px] leading-relaxed font-bold tracking-wider'>
-                    <FormattedText text={section.partName} paper />
+                    <FormattedText
+                      text={section.partName}
+                      paper
+                      showFurigana={showFurigana}
+                    />
                   </h2>
 
                   {/* Đoạn văn / ảnh dùng chung */}
@@ -289,16 +348,29 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                     <div className='my-3 border border-[#1d1d1b] px-5 py-3.5 text-[15.5px] leading-[2.05] whitespace-pre-line print:py-2'>
                       {section.passageTitle && (
                         <div className='mb-1 text-[13px] font-bold tracking-wider'>
-                          {section.passageTitle}
+                          <FormattedText
+                            text={section.passageTitle}
+                            paper
+                            showFurigana={showFurigana}
+                          />
                         </div>
                       )}
                       {section.passage && (
-                        <FormattedText text={section.passage} paper />
+                        <FormattedText
+                          text={section.passage}
+                          paper
+                          showFurigana={showFurigana}
+                        />
                       )}
                       {section.passageImage && (
                         <ExerciseImage
                           src={section.passageImage}
-                          alt={section.passageTitle || 'Hình đề bài'}
+                          alt={
+                            section.passageTitle?.replace(
+                              /\[([^[\]:]+):[^\]]+\]/g,
+                              '$1',
+                            ) || 'Hình đề bài'
+                          }
                           className='mt-3'
                         />
                       )}
@@ -310,6 +382,8 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                     ({ question: q, globalIndex, displayNumber }) => {
                       const qKey = String(q.id || globalIndex + 1);
                       const selectedLetter = answers[qKey];
+                      const r = resultByKey.get(qKey);
+                      const keyLetter = r?.correct_answer?.trim().toUpperCase();
                       const isCurrentFocus =
                         activeQuestionIndex === globalIndex;
 
@@ -320,10 +394,30 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                           className='relative grid scroll-mt-24 grid-cols-[34px_minmax(0,1fr)] gap-x-1.5 py-2.5'
                           style={{ breakInside: 'avoid' }}
                         >
+                          {/* Dấu chấm của giáo viên ở lề trái */}
+                          {r && (
+                            <svg
+                              className='paper-ring pointer-events-none absolute -top-0.5 -left-[22px] size-7 overflow-visible sm:-left-9 sm:size-9 md:-left-12 md:size-11'
+                              viewBox='0 0 40 40'
+                              role='img'
+                              aria-label={r.is_correct ? 'Đúng' : 'Sai'}
+                            >
+                              <path
+                                pathLength={1}
+                                d={r.is_correct ? RING_PATH : CROSS_PATH}
+                                fill='none'
+                                stroke={RED}
+                                strokeWidth={3}
+                                strokeLinecap='round'
+                              />
+                            </svg>
+                          )}
                           <span
                             className={cn(
                               'mt-1 size-[26px] self-start border border-[#1d1d1b] text-center text-[13px] leading-6 font-semibold',
                               isCurrentFocus && 'bg-[#1d1d1b] text-[#fffdf7]',
+                              flaggedQuestions?.has(qKey) &&
+                                'border-[#c4372b] bg-[#c4372b] text-[#fffdf7]',
                             )}
                           >
                             {displayNumber}
@@ -331,7 +425,11 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
 
                           <div className='min-w-0'>
                             <p className='text-base whitespace-pre-line'>
-                              <FormattedText text={q.question} paper />
+                              <FormattedText
+                                text={q.question}
+                                paper
+                                showFurigana={showFurigana}
+                              />
                             </p>
                             {q.question_image && (
                               <ExerciseImage
@@ -346,6 +444,9 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                                 const letter = OPTION_LETTERS[optIdx] || 'A';
                                 const isSelected =
                                   !printCleanMode && selectedLetter === letter;
+                                const isKey = graded && keyLetter === letter;
+                                const isWrongPick =
+                                  graded && isSelected && !r?.is_correct;
                                 const exKey = `${qKey}:${letter}`;
                                 const isOut = excluded.has(exKey);
 
@@ -353,42 +454,95 @@ export const ExerciseA4Paper: React.FC<ExerciseA4PaperProps> = ({
                                   <button
                                     key={letter}
                                     type='button'
+                                    disabled={graded}
                                     onClick={() => {
                                       if (isSelected) {
                                         onClearOption?.(qKey);
                                       } else {
                                         setRingSeed(s => s + 1);
-                                        onSelectOption(qKey, letter);
+                                        onSelectOption?.(qKey, letter);
                                       }
                                     }}
                                     onContextMenu={e => {
                                       e.preventDefault();
                                       toggleExcluded(exKey);
                                     }}
-                                    className='inline-flex cursor-pointer items-baseline gap-1.5 px-0.5 text-left text-[15.5px] select-none focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-dashed'
+                                    className={cn(
+                                      'inline-flex items-baseline gap-1.5 px-0.5 text-left text-[15.5px] select-none focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-dashed',
+                                      graded
+                                        ? 'cursor-default'
+                                        : 'cursor-pointer',
+                                    )}
                                   >
                                     <span className='paper-ja relative inline-block w-[1.3em] text-center'>
                                       {CIRCLE_OPTIONS[optIdx] ||
                                         `(${optIdx + 1})`}
                                       {isSelected && (
-                                        <Ring seed={ringSeed + optIdx} />
+                                        <Ring
+                                          seed={ringSeed + optIdx}
+                                          color={graded ? PENCIL : RED}
+                                        />
+                                      )}
+                                      {/* Đáp án đúng khi chọn sai: giáo viên khoanh đỏ */}
+                                      {isKey && !r?.is_correct && (
+                                        <Ring seed={optIdx + 7} />
                                       )}
                                     </span>
                                     <span
                                       className={cn(
                                         // Đáp án đã khoanh: chữ đậm + vệt bút dạ đỏ dịu
                                         isSelected &&
+                                          !graded &&
                                           'bg-[linear-gradient(transparent_18%,rgba(255,158,199,0.5)_18%,rgba(255,158,199,0.5)_88%,transparent_88%)] px-1 font-semibold',
+                                        isSelected && graded && 'font-semibold',
+                                        isWrongPick &&
+                                          'line-through decoration-[#c4372b] decoration-2',
                                         isOut &&
                                           'line-through opacity-40 print:no-underline print:opacity-100',
                                       )}
                                     >
-                                      <FormattedText text={optionText} paper />
+                                      <FormattedText
+                                        text={optionText}
+                                        paper
+                                        showFurigana={showFurigana}
+                                      />
                                     </span>
                                   </button>
                                 );
                               })}
                             </div>
+
+                            {/* Ghi chú đỏ của giáo viên */}
+                            {r && (
+                              <div
+                                className='mt-1.5 text-[14.5px] leading-snug italic'
+                                style={{ color: RED }}
+                              >
+                                {!r.is_correct && (
+                                  <span className='mr-2 font-semibold not-italic'>
+                                    {r.user_answer ? '' : 'Chưa làm · '}
+                                    Đáp án đúng:{' '}
+                                    {CIRCLE_OPTIONS[
+                                      OPTION_LETTERS.indexOf(keyLetter ?? '')
+                                    ] ?? keyLetter}
+                                  </span>
+                                )}
+                                {r.explanation && (
+                                  <FormattedText
+                                    text={r.explanation}
+                                    paper
+                                    showFurigana={showFurigana}
+                                  />
+                                )}
+                                {r.explanation_image && (
+                                  <ExerciseImage
+                                    src={r.explanation_image}
+                                    alt={`Ảnh giải thích câu ${displayNumber}`}
+                                    className='mt-2 max-w-md'
+                                  />
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       );

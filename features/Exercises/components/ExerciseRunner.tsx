@@ -58,6 +58,9 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
   const [isMobilePaletteOpen, setIsMobilePaletteOpen] = useState(false);
   const [result, setResult] = useState<SubmitExerciseResponse | null>(null);
   const [penTool, setPenTool] = useState<PenTool | null>(null);
+  const [showFurigana, setShowFurigana] = useState(true);
+  // Sau khi bấm Nộp bài mà còn câu chưa làm: đánh dấu đỏ các ô số câu đó.
+  const [flagUnanswered, setFlagUnanswered] = useState(false);
 
   const startTimeRef = useRef<number>(Date.now());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -171,6 +174,18 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
     }));
   };
 
+  const unansweredIdx = questions
+    .map((q, i) => (answers[String(q.id || i + 1)] ? -1 : i))
+    .filter(i => i >= 0);
+  const flaggedQuestions = flagUnanswered
+    ? new Set(unansweredIdx.map(i => String(questions[i].id || i + 1)))
+    : undefined;
+
+  const openConfirm = () => {
+    if (unansweredIdx.length > 0) setFlagUnanswered(true);
+    setIsConfirmOpen(true);
+  };
+
   // Bỏ khoanh (bấm lại đáp án đang chọn)
   const handleClearOption = (qKey: string) => {
     playClick();
@@ -205,6 +220,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
           onRetry={() => {
             setResult(null);
             setAnswers({});
+            setFlagUnanswered(false);
             setCurrentIndex(0);
             setTimeLeft(timeLimitMinutes * 60);
             startTimeRef.current = Date.now();
@@ -272,7 +288,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               type='button'
               onClick={() => {
                 playClick();
-                setIsConfirmOpen(true);
+                openConfirm();
               }}
               className='flex items-center gap-2 bg-[#1d1d1b] px-4 text-xs font-bold text-[#fffdf7] transition-opacity hover:opacity-90 active:translate-y-px sm:px-5'
             >
@@ -294,6 +310,8 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               onSelectOption={handleSelectOption}
               onClearOption={handleClearOption}
               penTool={penTool}
+              showFurigana={showFurigana}
+              flaggedQuestions={flaggedQuestions}
               printCleanMode={printCleanMode}
               activeQuestionIndex={currentIndex}
             />
@@ -306,7 +324,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               answers={answers}
               timeLeft={timeLeft}
               timeLimitMinutes={timeLimitMinutes}
-              onSubmitClick={() => setIsConfirmOpen(true)}
+              onSubmitClick={openConfirm}
               onPrintClick={() => setIsPrintDialogOpen(true)}
               activeQuestionIndex={currentIndex}
               onSelectQuestion={idx => setCurrentIndex(idx)}
@@ -314,6 +332,9 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               onClearOption={handleClearOption}
               penTool={penTool}
               onPenToolChange={setPenTool}
+              showFurigana={showFurigana}
+              onToggleFurigana={() => setShowFurigana(v => !v)}
+              flaggedQuestions={flaggedQuestions}
               isAdmin={isAdmin}
             />
           </div>
@@ -358,7 +379,7 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
               type='button'
               onClick={() => {
                 playClick();
-                setIsConfirmOpen(true);
+                openConfirm();
               }}
               className='inline-flex items-center gap-1.5 rounded-xl bg-(--main-color) px-4 py-2 text-xs font-bold text-(--background-color) shadow-md'
             >
@@ -413,7 +434,9 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                       className={`flex size-10 items-center justify-center rounded-xl text-xs font-bold transition-all ${
                         isAnswered
                           ? 'border-2 border-(--main-color) bg-(--main-color)/20 text-(--main-color)'
-                          : 'border border-(--border-color) bg-(--background-color) text-(--secondary-color)'
+                          : flaggedQuestions?.has(qKey)
+                            ? 'border-2 border-red-600 bg-red-600 text-white'
+                            : 'border border-(--border-color) bg-(--background-color) text-(--secondary-color)'
                       }`}
                     >
                       {idx + 1}
@@ -484,10 +507,25 @@ export const ExerciseRunner: React.FC<ExerciseRunnerProps> = ({
                 onClick={() => {
                   playClick();
                   setIsConfirmOpen(false);
+                  const first = unansweredIdx[0];
+                  if (first !== undefined) {
+                    setCurrentIndex(first);
+                    // Chờ hộp thoại đóng rồi mới cuộn tới câu chưa làm đầu tiên
+                    setTimeout(() => {
+                      document
+                        .getElementById(`q-item-${first}`)
+                        ?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'center',
+                        });
+                    }, 150);
+                  }
                 }}
                 className='rounded-2xl border border-(--border-color) bg-(--background-color) px-4 py-2 text-xs font-semibold text-(--secondary-color) hover:text-(--main-color)'
               >
-                Làm tiếp
+                {unansweredIdx.length > 0
+                  ? 'Làm tiếp, đến câu chưa làm'
+                  : 'Làm tiếp'}
               </button>
               <button
                 type='button'

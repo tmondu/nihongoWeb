@@ -21,6 +21,9 @@ interface ExerciseA4SidebarProps {
   onClearOption?: (qKey: string) => void;
   penTool?: PenTool | null;
   onPenToolChange?: (tool: PenTool | null) => void;
+  showFurigana?: boolean;
+  flaggedQuestions?: Set<string>;
+  onToggleFurigana?: () => void;
   isAdmin?: boolean;
 }
 
@@ -45,6 +48,9 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
   onClearOption,
   penTool = null,
   onPenToolChange,
+  showFurigana = true,
+  flaggedQuestions,
+  onToggleFurigana,
   isAdmin = false,
 }) => {
   const { playClick } = useClick();
@@ -118,6 +124,8 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
                           'font-vietnamese w-full py-1 font-semibold hover:bg-black/5',
                           isCurrent &&
                             'bg-[#1d1d1b] text-[#fffdf7] hover:bg-[#1d1d1b]',
+                          flaggedQuestions?.has(qKey) &&
+                            'bg-[#c4372b] text-[#fffdf7] hover:bg-[#c4372b]',
                         )}
                       >
                         {idx + 1}
@@ -155,6 +163,15 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
             </tbody>
           </table>
         </div>
+
+        {flaggedQuestions && flaggedQuestions.size > 0 && (
+          <p
+            role='status'
+            className='font-vietnamese border-t border-[#c4372b] bg-[#c4372b]/10 px-3 py-1.5 text-[11px] font-semibold text-[#c4372b]'
+          >
+            Còn {flaggedQuestions.size} câu chưa làm (ô số màu đỏ)
+          </p>
+        )}
 
         <div className='font-vietnamese space-y-2 border-t-2 border-[#1d1d1b] p-3'>
           <button
@@ -227,6 +244,36 @@ export const ExerciseA4Sidebar: React.FC<ExerciseA4SidebarProps> = ({
             </button>
           ))}
         </div>
+
+        {onToggleFurigana && (
+          <button
+            type='button'
+            role='switch'
+            aria-checked={showFurigana}
+            onClick={() => {
+              playClick();
+              onToggleFurigana();
+            }}
+            className='font-vietnamese flex w-full items-center justify-between border-t border-[#1d1d1b] px-3 py-2 text-[11px] font-semibold transition-colors hover:bg-black/5'
+          >
+            <span>
+              Phiên âm <span lang='ja'>ふりがな</span>
+            </span>
+            <span
+              className={cn(
+                'relative h-4 w-7 rounded-full transition-colors',
+                showFurigana ? 'bg-[#1d1d1b]' : 'bg-[#cfc9bd]',
+              )}
+            >
+              <span
+                className={cn(
+                  'absolute top-0.5 left-0.5 size-3 rounded-full bg-[#fffdf7] transition-transform',
+                  showFurigana && 'translate-x-3',
+                )}
+              />
+            </span>
+          </button>
+        )}
       </div>
     </aside>
   );
