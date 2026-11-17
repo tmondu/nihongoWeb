@@ -20,13 +20,14 @@ interface ExerciseListProps {
   initialExercises: ExerciseItem[];
 }
 
+// Màu theo cấp độ: cùng bảng màu với các ô cấp độ ở trang Từ vựng.
 const LEVELS = [
-  { id: 'all', label: 'Tất cả' },
-  { id: 'n5', label: 'JLPT N5' },
-  { id: 'n4', label: 'JLPT N4' },
-  { id: 'n3', label: 'JLPT N3' },
-  { id: 'n2', label: 'JLPT N2' },
-  { id: 'n1', label: 'JLPT N1' },
+  { id: 'all', label: 'Tất cả', tone: 'bg-[#fffdf7]' },
+  { id: 'n5', label: 'JLPT N5', tone: 'bg-[#2fb7ad]' },
+  { id: 'n4', label: 'JLPT N4', tone: 'bg-[#ffc93c]' },
+  { id: 'n3', label: 'JLPT N3', tone: 'bg-[#ff7a6b]' },
+  { id: 'n2', label: 'JLPT N2', tone: 'bg-[#6db7f2]' },
+  { id: 'n1', label: 'JLPT N1', tone: 'bg-[#b6dc5a]' },
 ];
 
 export const ExerciseList: React.FC<ExerciseListProps> = ({
@@ -76,21 +77,22 @@ export const ExerciseList: React.FC<ExerciseListProps> = ({
       {/* Search and Filters */}
       <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
         {/* Level Tag Filters */}
-        <div className='flex flex-wrap items-center gap-1.5 overflow-x-auto pb-1 text-xs'>
+        <div className='flex flex-wrap items-center gap-2.5 overflow-x-auto px-1 pt-0.5 pb-2 text-xs'>
           {LEVELS.map(lvl => {
             const active = selectedLevel === lvl.id;
             return (
               <button
                 key={lvl.id}
                 type='button'
+                aria-pressed={active}
                 onClick={() => {
                   playClick();
                   setSelectedLevel(lvl.id);
                 }}
-                className={`rounded-full px-3.5 py-1.5 font-semibold transition-all ${
+                className={`rounded-xl border-2 border-[#16353a] px-4 py-1.5 font-extrabold text-[#16353a] transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#16353a] ${lvl.tone} ${
                   active
-                    ? 'bg-(--main-color) text-(--background-color)'
-                    : 'border border-(--border-color) bg-(--card-color) text-(--secondary-color) hover:text-(--main-color)'
+                    ? 'translate-x-[-3px] translate-y-[3px] shadow-none'
+                    : 'shadow-[-3px_3px_0_0_#16353a] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[-2px_2px_0_0_#16353a] active:translate-x-[-3px] active:translate-y-[3px] active:shadow-none'
                 }`}
               >
                 {lvl.label}
