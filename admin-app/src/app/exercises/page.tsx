@@ -1165,6 +1165,36 @@ export default function AdminExercisesPage() {
                   className='w-full rounded-xl border border-[#262630] bg-[#16161c] px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none'
                 />
               </div>
+
+              {/* Công khai / Bản nháp */}
+              <div className='flex items-center justify-between gap-4 rounded-xl border border-[#262630] bg-[#16161c] px-4 py-3 sm:col-span-3'>
+                <div>
+                  <p className='text-sm font-semibold text-white'>
+                    {formIsPublished ? 'Công khai' : 'Bản nháp'}
+                  </p>
+                  <p className='text-xs text-slate-400'>
+                    {formIsPublished
+                      ? 'Học viên thấy và làm được bài này trên trang Bài tập.'
+                      : 'Chỉ admin thấy. Học viên chưa thấy bài này.'}
+                  </p>
+                </div>
+                <button
+                  type='button'
+                  role='switch'
+                  aria-checked={formIsPublished}
+                  aria-label='Công khai bài tập'
+                  onClick={() => setFormIsPublished(prev => !prev)}
+                  className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${
+                    formIsPublished ? 'bg-emerald-500' : 'bg-[#2a2a34]'
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow transition-transform ${
+                      formIsPublished ? 'translate-x-5' : ''
+                    }`}
+                  />
+                </button>
+              </div>
             </div>
 
             {/* Sub-tabs chọn phương thức tạo câu hỏi */}
