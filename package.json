@@ -7,7 +7,7 @@
     "predev": "node scripts/generate-commit-info.mjs",
     "dev": "next dev --turbo",
     "dev:admin": "npm --prefix admin-app run dev",
-    "build": "node scripts/generate-commit-info.mjs && next build",
+    "build": "node scripts/generate-commit-info.mjs && next build --webpack",
     "precheck": "node scripts/generate-commit-info.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
