@@ -14,6 +14,7 @@ interface ExerciseItem {
   total_questions: number;
   total_submissions?: number;
   user_best_score?: number | null;
+  created_at?: string;
 }
 
 interface ExerciseListProps {
@@ -65,10 +66,10 @@ export const ExerciseList: React.FC<ExerciseListProps> = ({
       const pA = levelPriority[a.level?.toLowerCase()] ?? 99;
       const pB = levelPriority[b.level?.toLowerCase()] ?? 99;
       if (pA !== pB) return pA - pB;
-      return a.title.localeCompare(b.title, undefined, {
-        numeric: true,
-        sensitivity: 'base',
-      });
+      const tA = new Date(a.created_at ?? 0).getTime() || 0;
+      const tB = new Date(b.created_at ?? 0).getTime() || 0;
+      if (tA !== tB) return tA - tB;
+      return Number(a.id) - Number(b.id);
     });
   }, [exercises, selectedLevel, searchQuery]);
 
