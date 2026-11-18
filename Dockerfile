@@ -17,7 +17,8 @@ COPY . .
 
 # Generate static assets and types
 RUN npm run i18n:check
-RUN npm run build
+# Google Fonts is fetched at build time and Railway's network is flaky: retry up to 3 times.
+RUN for i in 1 2 3; do npm run build && exit 0; echo "build attempt $i failed, retrying..."; sleep 10; done; exit 1
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
