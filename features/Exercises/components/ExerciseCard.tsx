@@ -16,15 +16,31 @@ interface ExerciseCardProps {
   };
 }
 
+// Cùng bảng màu với các tag cấp độ ở ExerciseList.
+const LEVEL_TONES: Record<string, string> = {
+  n5: 'bg-[#2fb7ad]',
+  n4: 'bg-[#ffc93c]',
+  n3: 'bg-[#ff7a6b]',
+  n2: 'bg-[#6db7f2]',
+  n1: 'bg-[#b6dc5a]',
+};
+
 export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
   const { playClick } = useClick();
+  const tone = LEVEL_TONES[exercise.level?.toLowerCase()];
 
   return (
     <div className='group relative flex flex-col justify-between rounded-3xl border-2 border-(--border-color) bg-(--card-color) p-5 shadow-sm transition-all duration-250 hover:-translate-y-1 hover:border-(--main-color) hover:shadow-md'>
       <div>
         {/* Header: Level & Record badge */}
         <div className='flex items-center justify-between gap-2'>
-          <span className='inline-flex items-center rounded-full bg-(--main-color)/15 px-3 py-0.5 text-xs font-bold tracking-wide text-(--main-color) uppercase'>
+          <span
+            className={`inline-flex items-center rounded-full px-3 py-0.5 text-xs font-bold tracking-wide uppercase ${
+              tone
+                ? `${tone} border-2 border-[#16353a] text-[#16353a]`
+                : 'bg-(--main-color)/15 text-(--main-color)'
+            }`}
+          >
             JLPT {exercise.level}
           </span>
 
@@ -80,7 +96,11 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
         <Link
           href={`/exercises/${exercise.id}`}
           onClick={playClick}
-          className='flex w-full items-center justify-between rounded-2xl bg-(--main-color) px-4 py-2.5 text-xs font-bold text-(--background-color) shadow-md transition-all hover:opacity-90 active:scale-95'
+          className={`flex w-full items-center justify-between rounded-2xl px-4 py-2.5 text-xs font-bold transition-all active:scale-95 ${
+            tone
+              ? `${tone} border-2 border-[#16353a] text-[#16353a] shadow-[-3px_3px_0_0_#16353a] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[-2px_2px_0_0_#16353a] active:translate-x-[-3px] active:translate-y-[3px] active:shadow-none`
+              : 'bg-(--main-color) text-(--background-color) shadow-md hover:opacity-90'
+          }`}
         >
           <span className='flex items-center gap-2'>
             <Play className='size-3.5 fill-current' />

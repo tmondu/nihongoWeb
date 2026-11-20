@@ -244,74 +244,20 @@ const mainNavItems: NavItem[] = [
     isSubItem: true,
   },
   {
-    href: '/thamlet',
-    labelKey: 'thamlet',
-    icon: Layers,
-  },
-  {
-    href: '/shadowing',
-    labelKey: 'shadowing',
-    icon: Mic,
-  },
-  {
-    href: '/reader',
-    labelKey: 'reader',
-    icon: BookMarked,
-  },
-  {
-    href: '/classroom',
-    labelKey: 'classroom',
-    icon: Video,
-  },
-  {
-    href: '/giao-trinh',
-    labelKey: 'curriculum',
-    icon: BookOpen,
-  },
-  {
-    href: '/assessment',
-    labelKey: 'assessment',
-    icon: FileCheck,
-  },
-  {
     href: '/exercises',
-    labelKey: 'exercises',
+    labelKey: 'practice',
     icon: ClipboardCheck,
     subItems: [
       {
+        href: '/assessment',
+        labelKey: 'assessment',
+        icon: FileCheck,
+        isSubItem: true,
+      },
+      {
         href: '/exercises',
-        labelKey: 'exercisesByGrammar',
+        labelKey: 'exercises',
         icon: BookOpen,
-        isSubItem: true,
-      },
-      {
-        href: '/exercises?level=n5',
-        labelKey: 'exercisesN5',
-        charIcon: 'N5',
-        isSubItem: true,
-      },
-      {
-        href: '/exercises?level=n4',
-        labelKey: 'exercisesN4',
-        charIcon: 'N4',
-        isSubItem: true,
-      },
-      {
-        href: '/exercises?level=n3',
-        labelKey: 'exercisesN3',
-        charIcon: 'N3',
-        isSubItem: true,
-      },
-      {
-        href: '/exercises?level=n2',
-        labelKey: 'exercisesN2',
-        charIcon: 'N2',
-        isSubItem: true,
-      },
-      {
-        href: '/exercises?level=n1',
-        labelKey: 'exercisesN1',
-        charIcon: 'N1',
         isSubItem: true,
       },
       {
@@ -320,27 +266,82 @@ const mainNavItems: NavItem[] = [
         icon: FileCheck,
         isSubItem: true,
       },
+      {
+        href: '/solutions',
+        labelKey: 'solutions',
+        icon: FileCheck,
+        isSubItem: true,
+      },
     ],
   },
   {
-    href: '/solutions',
-    labelKey: 'solutions',
-    icon: FileCheck,
+    href: '/classroom',
+    labelKey: 'classroomGroup',
+    icon: Video,
+    subItems: [
+      {
+        href: '/giao-trinh',
+        labelKey: 'curriculum',
+        icon: BookOpen,
+        isSubItem: true,
+      },
+      {
+        href: '/classroom',
+        labelKey: 'classroom',
+        icon: Video,
+        isSubItem: true,
+      },
+    ],
   },
   {
     href: '/translate',
-    labelKey: 'translate',
+    labelKey: 'tools',
     icon: Languages,
-  },
-  {
-    href: '/conjugate',
-    labelKey: 'conjugate',
-    icon: Repeat,
+    subItems: [
+      {
+        href: '/translate',
+        labelKey: 'translate',
+        icon: Languages,
+        isSubItem: true,
+      },
+      {
+        href: '/conjugate',
+        labelKey: 'conjugate',
+        icon: Repeat,
+        isSubItem: true,
+      },
+      {
+        href: '/reader',
+        labelKey: 'reader',
+        icon: BookMarked,
+        isSubItem: true,
+      },
+      {
+        href: '/anki-converter',
+        labelKey: 'converter',
+        icon: Package,
+        isSubItem: true,
+      },
+    ],
   },
   {
     href: '/experiments',
-    labelKey: 'experiments',
+    labelKey: 'entertainment',
     icon: Gamepad2,
+    subItems: [
+      {
+        href: '/thamlet',
+        labelKey: 'thamlet',
+        icon: Layers,
+        isSubItem: true,
+      },
+      {
+        href: '/experiments',
+        labelKey: 'experiments',
+        icon: Gamepad2,
+        isSubItem: true,
+      },
+    ],
   },
   {
     href: '/preferences',
@@ -365,12 +366,15 @@ const staticSecondaryNavSections: NavSection[] = [
   //   ],
   //   collapsible: true,
   // },
-  {
-    titleKey: 'tools',
-    items: [{ href: '/anki-converter', labelKey: 'converter', icon: Package }],
-    collapsible: true,
-  },
 ];
+
+/** Groups whose children are listed inline when the desktop sidebar is expanded. */
+const INLINE_GROUPS = new Set([
+  'practice',
+  'classroomGroup',
+  'tools',
+  'entertainment',
+]);
 
 // Base experiments section (without dynamic experiments)
 const baseExperimentsSection: NavSection = {
@@ -1201,6 +1205,12 @@ const Sidebar = () => {
     return pathWithoutLocale === href;
   };
 
+  // Parent lights up when any child page is open (Kanji keeps its own logic: children are listed flat).
+  const isItemActive = (item: NavItem) =>
+    isActive(item.href) ||
+    (item.href !== '/kanji' &&
+      Boolean(item.subItems?.some(sub => isActive(sub.href))));
+
   const toggleDesktopSidebarCollapse = () => {
     playClick();
     setIsDesktopSidebarCollapsed(prev => !prev);
@@ -1309,7 +1319,7 @@ const Sidebar = () => {
                   {mainNavItems
                     .filter(item => !item.isSubItem && !item.isMobileOnly)
                     .map(item => {
-                      const active = isActive(item.href);
+                      const active = isItemActive(item);
                       const hasSub = item.subItems && item.subItems.length > 0;
                       return (
                         <div key={item.href} className='space-y-1'>
@@ -1567,23 +1577,44 @@ const Sidebar = () => {
               'lg:flex lg:w-full lg:flex-col lg:gap-1',
             )}
           >
-            {mainNavItems.map(item => (
-              <NavLink
-                key={item.href}
-                item={item}
-                label={getMenuLabel(item.labelKey)}
-                isActive={isActive(item.href)}
-                checkIsActive={isActive}
-                onClick={playClick}
-                variant='main'
-                useSlidingIndicator={true}
-                isDesktopCollapsed={isDesktopSidebarCollapsed}
-                animateIconWhenInactive={
-                  !hasVisitedPreferences && item.href === '/preferences'
-                }
-                className={item.href === '/profile' ? 'lg:hidden' : undefined}
-              />
-            ))}
+            {mainNavItems.map(item =>
+              !isDesktopSidebarCollapsed && INLINE_GROUPS.has(item.labelKey) ? (
+                <div key={item.href} className='flex w-full flex-col gap-1'>
+                  <SectionHeader
+                    title={getMenuLabel(item.labelKey)}
+                    icon={item.icon ?? Layers}
+                  />
+                  {item.subItems!.map(sub => (
+                    <NavLink
+                      key={`${item.href}>${sub.href}`}
+                      item={sub}
+                      label={getMenuLabel(sub.labelKey)}
+                      isActive={isActive(sub.href)}
+                      onClick={playClick}
+                      variant='main'
+                      useSlidingIndicator={true}
+                      isDesktopCollapsed={false}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <NavLink
+                  key={item.href}
+                  item={item}
+                  label={getMenuLabel(item.labelKey)}
+                  isActive={isItemActive(item)}
+                  checkIsActive={isActive}
+                  onClick={playClick}
+                  variant='main'
+                  useSlidingIndicator={true}
+                  isDesktopCollapsed={isDesktopSidebarCollapsed}
+                  animateIconWhenInactive={
+                    !hasVisitedPreferences && item.href === '/preferences'
+                  }
+                  className={item.href === '/profile' ? 'lg:hidden' : undefined}
+                />
+              ),
+            )}
           </div>
 
           {/* Secondary Navigation Sections */}

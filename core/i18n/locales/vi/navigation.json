@@ -53,7 +53,10 @@
     "exercisesN2": "Đề N2",
     "exercisesN1": "Đề N1",
     "jlptExams": "Đề thi JLPT",
-    "assessment": "Test đầu vào"
+    "assessment": "Test đầu vào",
+    "practice": "Luyện đề",
+    "classroomGroup": "Lớp học",
+    "entertainment": "Giải trí"
   },
   "breadcrumbs": {
     "home": "Trang chủ",

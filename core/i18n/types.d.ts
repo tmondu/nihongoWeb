@@ -105,9 +105,33 @@ export interface NavigationTranslations {
     reader: string;
     classroom: string;
     curriculum: string;
-    assessment: string;
     exercises: string;
     solutions: string;
+    personalRoadmap: string;
+    vocabN5: string;
+    vocabN4: string;
+    vocabN3: string;
+    vocabN2: string;
+    vocabN1: string;
+    kaiwaTopics: string;
+    grammar: string;
+    grammarN5: string;
+    grammarN4: string;
+    grammarN3: string;
+    grammarN2: string;
+    grammarN1: string;
+    grammarKaiwa: string;
+    exercisesByGrammar: string;
+    exercisesN5: string;
+    exercisesN4: string;
+    exercisesN3: string;
+    exercisesN2: string;
+    exercisesN1: string;
+    jlptExams: string;
+    assessment: string;
+    practice: string;
+    classroomGroup: string;
+    entertainment: string;
   };
   breadcrumbs: {
     home: string;
@@ -1058,6 +1082,18 @@ export interface MetadataTranslations {
     keywords: string;
   };
   curriculum: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  exercises: {
+    title: string;
+    titleShort: string;
+    description: string;
+    keywords: string;
+  };
+  solutions: {
     title: string;
     titleShort: string;
     description: string;

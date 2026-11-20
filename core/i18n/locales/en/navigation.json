@@ -53,7 +53,10 @@
     "exercisesN2": "N2 Drills",
     "exercisesN1": "N1 Drills",
     "jlptExams": "JLPT Exams",
-    "assessment": "Placement Test"
+    "assessment": "Placement Test",
+    "practice": "Practice",
+    "classroomGroup": "Classroom",
+    "entertainment": "Entertainment"
   },
   "breadcrumbs": {
     "home": "Home",
