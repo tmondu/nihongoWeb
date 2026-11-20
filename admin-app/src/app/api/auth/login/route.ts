@@ -6,7 +6,12 @@ export async function POST(request: NextRequest) {
     const { username, password } = await request.json();
 
     const expectedUser = process.env.ADMIN_USERNAME || 'admin';
-    const expectedPass = process.env.ADMIN_PASSWORD || 'admin';
+    const expectedPass = process.env.ADMIN_PASSWORD;
+
+    // Không còn mặc định admin/admin: thiếu ADMIN_PASSWORD thì từ chối
+    if (!expectedPass) {
+      return NextResponse.json({ error: 'Lỗi máy chủ' }, { status: 500 });
+    }
 
     if (username === expectedUser && password === expectedPass) {
       await setAdminSession(username);
